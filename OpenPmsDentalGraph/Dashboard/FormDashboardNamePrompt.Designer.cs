@@ -32,9 +32,9 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(100, 17);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Tab Name:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -43,9 +43,9 @@
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(300, 36);
+			this.butCancel.Location = new System.Drawing.Point(304, 43);
 			this.butCancel.Name = "butCancel";
-			this.butCancel.Size = new System.Drawing.Size(75, 23);
+			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
 			this.butCancel.Text = "Cancel";
 			this.butCancel.UseVisualStyleBackColor = true;
@@ -54,9 +54,9 @@
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.butOk.Location = new System.Drawing.Point(219, 36);
+			this.butOk.Location = new System.Drawing.Point(221, 43);
 			this.butOk.Name = "butOk";
-			this.butOk.Size = new System.Drawing.Size(75, 23);
+			this.butOk.Size = new System.Drawing.Size(75, 24);
 			this.butOk.TabIndex = 1;
 			this.butOk.Text = "OK";
 			this.butOk.UseVisualStyleBackColor = true;
@@ -65,9 +65,9 @@
 			// 
 			this.textBoxTabName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxTabName.Location = new System.Drawing.Point(118, 8);
+			this.textBoxTabName.Location = new System.Drawing.Point(82, 8);
 			this.textBoxTabName.Name = "textBoxTabName";
-			this.textBoxTabName.Size = new System.Drawing.Size(257, 20);
+			this.textBoxTabName.Size = new System.Drawing.Size(297, 23);
 			this.textBoxTabName.TabIndex = 0;
 			// 
 			// FormDashboardNamePrompt
@@ -76,7 +76,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.CancelButton = this.butCancel;
-			this.ClientSize = new System.Drawing.Size(387, 71);
+			this.ClientSize = new System.Drawing.Size(387, 75);
 			this.Controls.Add(this.textBoxTabName);
 			this.Controls.Add(this.butOk);
 			this.Controls.Add(this.butCancel);

@@ -125,7 +125,7 @@
 			chartArea4.ShadowOffset = 5;
 			this.chart1.ChartAreas.Add(chartArea3);
 			this.chart1.ChartAreas.Add(chartArea4);
-			this.chart1.Location = new System.Drawing.Point(0, 53);
+			this.chart1.Location = new System.Drawing.Point(8, 70);
 			this.chart1.Name = "chart1";
 			series3.ChartArea = "Default";
 			series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -174,7 +174,7 @@
 			// 
 			this.comboGroupBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboGroupBy.FormattingEnabled = true;
-			this.comboGroupBy.Location = new System.Drawing.Point(10, 16);
+			this.comboGroupBy.Location = new System.Drawing.Point(8, 23);
 			this.comboGroupBy.Name = "comboGroupBy";
 			this.comboGroupBy.Size = new System.Drawing.Size(82, 21);
 			this.comboGroupBy.TabIndex = 3;
@@ -182,11 +182,11 @@
 			// 
 			// checkShowDailyLabels
 			// 
-			this.checkShowDailyLabels.AutoSize = true;
-			this.checkShowDailyLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowDailyLabels.Location = new System.Drawing.Point(6, 18);
+			this.checkShowDailyLabels.AutoSize = false;
+			this.checkShowDailyLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowDailyLabels.Location = new System.Drawing.Point(8, 25);
 			this.checkShowDailyLabels.Name = "checkShowDailyLabels";
-			this.checkShowDailyLabels.Size = new System.Drawing.Size(113, 17);
+			this.checkShowDailyLabels.Size = new System.Drawing.Size(125, 18);
 			this.checkShowDailyLabels.TabIndex = 5;
 			this.checkShowDailyLabels.Text = "Show Daily Labels";
 			this.checkShowDailyLabels.UseVisualStyleBackColor = true;
@@ -195,12 +195,12 @@
 			// checkShowGroupLabels
 			// 
 			this.checkShowGroupLabels.AutoSize = false;
-			this.checkShowGroupLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkShowGroupLabels.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShowGroupLabels.Checked = true;
 			this.checkShowGroupLabels.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowGroupLabels.Location = new System.Drawing.Point(134, 18);
+			this.checkShowGroupLabels.Location = new System.Drawing.Point(139, 25);
 			this.checkShowGroupLabels.Name = "checkShowGroupLabels";
-			this.checkShowGroupLabels.Size = new System.Drawing.Size(125, 22);
+			this.checkShowGroupLabels.Size = new System.Drawing.Size(132, 18);
 			this.checkShowGroupLabels.TabIndex = 6;
 			this.checkShowGroupLabels.Text = "Show Group Labels";
 			this.checkShowGroupLabels.UseVisualStyleBackColor = true;
@@ -208,14 +208,14 @@
 			// 
 			// numberDailyLabelDensity
 			// 
-			this.numberDailyLabelDensity.Location = new System.Drawing.Point(370, 16);
+			this.numberDailyLabelDensity.Location = new System.Drawing.Point(409, 23);
 			this.numberDailyLabelDensity.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             0});
 			this.numberDailyLabelDensity.Name = "numberDailyLabelDensity";
-			this.numberDailyLabelDensity.Size = new System.Drawing.Size(41, 20);
+			this.numberDailyLabelDensity.Size = new System.Drawing.Size(40, 23);
 			this.numberDailyLabelDensity.TabIndex = 7;
 			this.numberDailyLabelDensity.Value = new decimal(new int[] {
             20,
@@ -227,27 +227,28 @@
 			// label2
 			// 
 			this.label2.AutoSize = false;
-			this.label2.Location = new System.Drawing.Point(259, 20);
+			this.label2.Location = new System.Drawing.Point(287, 23);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(110, 21);
+			this.label2.Size = new System.Drawing.Size(116, 23);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Daily Label Density:";
 			// 
 			// dateTimeFrom
 			// 
 			this.dateTimeFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimeFrom.Location = new System.Drawing.Point(48, 16);
+			this.dateTimeFrom.Location = new System.Drawing.Point(58, 23);
 			this.dateTimeFrom.Name = "dateTimeFrom";
-			this.dateTimeFrom.Size = new System.Drawing.Size(113, 20);
+			this.dateTimeFrom.Size = new System.Drawing.Size(112, 23);
 			this.dateTimeFrom.TabIndex = 9;
 			this.dateTimeFrom.ValueChanged += new System.EventHandler(this.dateTimeFilter_ValueChanged);
 			// 
 			// dateTimeTo
 			// 
 			this.dateTimeTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimeTo.Location = new System.Drawing.Point(200, 16);
+			this.dateTimeTo.Location = new System.Drawing.Point(220, 23);
 			this.dateTimeTo.Name = "dateTimeTo";
-			this.dateTimeTo.Size = new System.Drawing.Size(113, 20);
+			this.dateTimeTo.Size = new System.Drawing.Size(112, 23);
 			this.dateTimeTo.TabIndex = 11;
 			this.dateTimeTo.ValueChanged += new System.EventHandler(this.dateTimeFilter_ValueChanged);
 			// 
@@ -257,9 +258,9 @@
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.dateTimeTo);
 			this.groupBox2.Controls.Add(this.dateTimeFrom);
-			this.groupBox2.Location = new System.Drawing.Point(530, 3);
+			this.groupBox2.Location = new System.Drawing.Point(579, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(321, 44);
+			this.groupBox2.Size = new System.Drawing.Size(340, 54);
 			this.groupBox2.TabIndex = 17;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Filter Dates";
@@ -267,27 +268,29 @@
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(9, 20);
+			this.label5.Location = new System.Drawing.Point(8, 23);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(38, 21);
+			this.label5.Size = new System.Drawing.Size(44, 23);
 			this.label5.TabIndex = 10;
 			this.label5.Text = "From:";
 			// 
 			// label6
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(171, 20);
+			this.label6.AutoSize = false;
+			this.label6.Location = new System.Drawing.Point(186, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(23, 13);
+			this.label6.Size = new System.Drawing.Size(28, 23);
 			this.label6.TabIndex = 12;
 			this.label6.Text = "To:";
 			// 
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.comboGroupBy);
-			this.groupBox3.Location = new System.Drawing.Point(3, 3);
+			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(98, 44);
+			this.groupBox3.Size = new System.Drawing.Size(98, 54);
 			this.groupBox3.TabIndex = 18;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Group By";
@@ -298,9 +301,9 @@
 			this.groupBox1.Controls.Add(this.checkShowGroupLabels);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.numberDailyLabelDensity);
-			this.groupBox1.Location = new System.Drawing.Point(107, 3);
+			this.groupBox1.Location = new System.Drawing.Point(114, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(417, 44);
+			this.groupBox1.Size = new System.Drawing.Size(457, 54);
 			this.groupBox1.TabIndex = 18;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "View";
@@ -314,7 +317,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.chart1);
 			this.Name = "IncomeChart";
-			this.Size = new System.Drawing.Size(992, 468);
+			this.Size = new System.Drawing.Size(1008, 490);
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numberDailyLabelDensity)).EndInit();
 			this.groupBox2.ResumeLayout(false);

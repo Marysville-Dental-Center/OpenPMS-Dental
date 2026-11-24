@@ -48,19 +48,19 @@
 			// 
 			// checkIsHidden
 			// 
-			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkIsHidden.Location = new System.Drawing.Point(12, 5);
+			this.checkIsHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkIsHidden.Location = new System.Drawing.Point(8, 8);
 			this.checkIsHidden.Name = "checkIsHidden";
-			this.checkIsHidden.Size = new System.Drawing.Size(103, 16);
+			this.checkIsHidden.Size = new System.Drawing.Size(81, 18);
 			this.checkIsHidden.TabIndex = 33;
 			this.checkIsHidden.Text = "Is Hidden";
-			this.checkIsHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIsHidden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsHidden.UseVisualStyleBackColor = true;
 			// 
 			// butPassword
 			// 
 			this.butPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPassword.Location = new System.Drawing.Point(12, 513);
+			this.butPassword.Location = new System.Drawing.Point(8, 519);
 			this.butPassword.Name = "butPassword";
 			this.butPassword.Size = new System.Drawing.Size(103, 24);
 			this.butPassword.TabIndex = 25;
@@ -69,15 +69,15 @@
 			// 
 			// textUserName
 			// 
-			this.textUserName.Location = new System.Drawing.Point(22, 10);
+			this.textUserName.Location = new System.Drawing.Point(8, 8);
 			this.textUserName.Name = "textUserName";
-			this.textUserName.Size = new System.Drawing.Size(198, 20);
+			this.textUserName.Size = new System.Drawing.Size(197, 23);
 			this.textUserName.TabIndex = 0;
 			// 
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(442, 513);
+			this.butOK.Location = new System.Drawing.Point(444, 519);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 20;
@@ -87,7 +87,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(523, 513);
+			this.butCancel.Location = new System.Drawing.Point(527, 519);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 19;
@@ -98,7 +98,7 @@
 			// 
 			this.listUserGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listUserGroup.Location = new System.Drawing.Point(23, 36);
+			this.listUserGroup.Location = new System.Drawing.Point(8, 35);
 			this.listUserGroup.Name = "listUserGroup";
 			this.listUserGroup.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listUserGroup.Size = new System.Drawing.Size(197, 407);
@@ -107,7 +107,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(12, 59);
+			this.label3.Location = new System.Drawing.Point(12, 62);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(80, 60);
 			this.label3.TabIndex = 23;
@@ -116,7 +116,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 33);
+			this.label1.Location = new System.Drawing.Point(12, 36);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(80, 20);
 			this.label1.TabIndex = 21;
@@ -130,9 +130,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl.Controls.Add(this.tabUser);
 			this.tabControl.Controls.Add(this.tabAlertSubs);
-			this.tabControl.Location = new System.Drawing.Point(15, 27);
+			this.tabControl.Location = new System.Drawing.Point(8, 34);
 			this.tabControl.Name = "tabControl";
-			this.tabControl.Size = new System.Drawing.Size(583, 480);
+			this.tabControl.Size = new System.Drawing.Size(594, 473);
 			this.tabControl.TabIndex = 34;
 			// 
 			// tabUser
@@ -147,25 +147,25 @@
 			this.tabUser.Location = new System.Drawing.Point(2, 21);
 			this.tabUser.Name = "tabUser";
 			this.tabUser.Padding = new System.Windows.Forms.Padding(3);
-			this.tabUser.Size = new System.Drawing.Size(579, 457);
+			this.tabUser.Size = new System.Drawing.Size(590, 450);
 			this.tabUser.TabIndex = 0;
 			this.tabUser.Text = "User";
 			// 
 			// butPickDomainUser
 			// 
-			this.butPickDomainUser.Location = new System.Drawing.Point(532, 10);
+			this.butPickDomainUser.Location = new System.Drawing.Point(559, 8);
 			this.butPickDomainUser.Name = "butPickDomainUser";
-			this.butPickDomainUser.Size = new System.Drawing.Size(23, 21);
+			this.butPickDomainUser.Size = new System.Drawing.Size(23, 23);
 			this.butPickDomainUser.TabIndex = 172;
 			this.butPickDomainUser.Text = "...";
 			this.butPickDomainUser.Click += new System.EventHandler(this.butPickDomainUser_Click);
 			// 
 			// textDomainUser
 			// 
-			this.textDomainUser.Location = new System.Drawing.Point(346, 10);
+			this.textDomainUser.Location = new System.Drawing.Point(373, 8);
 			this.textDomainUser.Name = "textDomainUser";
 			this.textDomainUser.ReadOnly = true;
-			this.textDomainUser.Size = new System.Drawing.Size(180, 20);
+			this.textDomainUser.Size = new System.Drawing.Size(180, 23);
 			this.textDomainUser.TabIndex = 171;
 			// 
 			// securityTreeUser
@@ -174,21 +174,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.securityTreeUser.BackColor = System.Drawing.Color.Transparent;
-			this.securityTreeUser.Location = new System.Drawing.Point(226, 36);
+			this.securityTreeUser.Location = new System.Drawing.Point(213, 35);
 			this.securityTreeUser.Name = "securityTreeUser";
 			this.securityTreeUser.ReadOnly = true;
-			this.securityTreeUser.Size = new System.Drawing.Size(333, 410);
+			this.securityTreeUser.Size = new System.Drawing.Size(369, 407);
 			this.securityTreeUser.TabIndex = 176;
 			// 
 			// labelDomainUser
 			// 
-			this.labelDomainUser.Location = new System.Drawing.Point(226, 10);
+			this.labelDomainUser.Location = new System.Drawing.Point(260, 8);
 			this.labelDomainUser.Name = "labelDomainUser";
-			this.labelDomainUser.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-			this.labelDomainUser.Size = new System.Drawing.Size(114, 20);
+			this.labelDomainUser.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.labelDomainUser.Size = new System.Drawing.Size(107, 23);
 			this.labelDomainUser.TabIndex = 170;
 			this.labelDomainUser.Text = "Domain User";
-			this.labelDomainUser.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelDomainUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// tabAlertSubs
 			// 
@@ -198,7 +198,7 @@
 			this.tabAlertSubs.Location = new System.Drawing.Point(2, 21);
 			this.tabAlertSubs.Name = "tabAlertSubs";
 			this.tabAlertSubs.Padding = new System.Windows.Forms.Padding(3);
-			this.tabAlertSubs.Size = new System.Drawing.Size(579, 457);
+			this.tabAlertSubs.Size = new System.Drawing.Size(590, 450);
 			this.tabAlertSubs.TabIndex = 1;
 			this.tabAlertSubs.Text = "Alert Subs";
 			// 
@@ -206,17 +206,17 @@
 			// 
 			this.listAlertSubMulti.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listAlertSubMulti.Location = new System.Drawing.Point(162, 24);
+			this.listAlertSubMulti.Location = new System.Drawing.Point(8, 27);
 			this.listAlertSubMulti.Name = "listAlertSubMulti";
 			this.listAlertSubMulti.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listAlertSubMulti.Size = new System.Drawing.Size(250, 420);
+			this.listAlertSubMulti.Size = new System.Drawing.Size(250, 415);
 			this.listAlertSubMulti.TabIndex = 170;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(162, 1);
+			this.label7.Location = new System.Drawing.Point(8, 8);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(167, 20);
+			this.label7.Size = new System.Drawing.Size(250, 17);
 			this.label7.TabIndex = 169;
 			this.label7.Text = "User Alert Subscriptions";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -224,7 +224,7 @@
 			// butUnlock
 			// 
 			this.butUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUnlock.Location = new System.Drawing.Point(136, 513);
+			this.butUnlock.Location = new System.Drawing.Point(119, 519);
 			this.butUnlock.Name = "butUnlock";
 			this.butUnlock.Size = new System.Drawing.Size(103, 24);
 			this.butUnlock.TabIndex = 169;

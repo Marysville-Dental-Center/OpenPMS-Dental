@@ -65,16 +65,16 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.dashboardTabControl);
-			this.splitContainer1.Size = new System.Drawing.Size(1061, 495);
+			this.splitContainer1.Size = new System.Drawing.Size(1061, 493);
 			this.splitContainer1.SplitterDistance = 140;
 			this.splitContainer1.TabIndex = 1;
 			// 
 			// butSaveChanges
 			// 
 			this.butSaveChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSaveChanges.Location = new System.Drawing.Point(24, 469);
+			this.butSaveChanges.Location = new System.Drawing.Point(8, 461);
 			this.butSaveChanges.Name = "butSaveChanges";
-			this.butSaveChanges.Size = new System.Drawing.Size(96, 23);
+			this.butSaveChanges.Size = new System.Drawing.Size(124, 24);
 			this.butSaveChanges.TabIndex = 3;
 			this.butSaveChanges.Text = "Save Changes";
 			this.butSaveChanges.UseVisualStyleBackColor = true;
@@ -82,18 +82,18 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(3, 330);
+			this.label2.Location = new System.Drawing.Point(8, 313);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(134, 15);
+			this.label2.Size = new System.Drawing.Size(124, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Graph Types:";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelHelp
 			// 
-			this.labelHelp.Location = new System.Drawing.Point(4, 4);
+			this.labelHelp.Location = new System.Drawing.Point(8, 8);
 			this.labelHelp.Name = "labelHelp";
-			this.labelHelp.Size = new System.Drawing.Size(138, 326);
+			this.labelHelp.Size = new System.Drawing.Size(124, 297);
 			this.labelHelp.TabIndex = 1;
 			// 
 			// listItems
@@ -101,10 +101,10 @@
 			this.listItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listItems.FormattingEnabled = true;
-			this.listItems.Location = new System.Drawing.Point(3, 346);
+			this.listItems.Location = new System.Drawing.Point(8, 332);
 			this.listItems.MinimumSize = new System.Drawing.Size(4, 100);
 			this.listItems.Name = "listItems";
-			this.listItems.Size = new System.Drawing.Size(139, 121);
+			this.listItems.Size = new System.Drawing.Size(124, 121);
 			this.listItems.TabIndex = 0;
 			this.listItems.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listItems_MouseDown);
 			// 

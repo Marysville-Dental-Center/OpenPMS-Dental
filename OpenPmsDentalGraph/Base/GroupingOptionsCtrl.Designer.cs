@@ -33,18 +33,18 @@
 			// 
 			this.groupBox1.Controls.Add(this.radioGroupClinics);
 			this.groupBox1.Controls.Add(this.radioGroupProvs);
-			this.groupBox1.Location = new System.Drawing.Point(5, 0);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(99, 57);
+			this.groupBox1.Size = new System.Drawing.Size(92, 71);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Group By";
 			// 
 			// radioGroupClinics
 			// 
-			this.radioGroupClinics.Location = new System.Drawing.Point(6, 34);
+			this.radioGroupClinics.Location = new System.Drawing.Point(8, 45);
 			this.radioGroupClinics.Name = "radioGroupClinics";
-			this.radioGroupClinics.Size = new System.Drawing.Size(89, 17);
+			this.radioGroupClinics.Size = new System.Drawing.Size(61, 18);
 			this.radioGroupClinics.TabIndex = 2;
 			this.radioGroupClinics.Text = "Clinic";
 			this.radioGroupClinics.UseVisualStyleBackColor = true;
@@ -53,9 +53,9 @@
 			// radioGroupProvs
 			// 
 			this.radioGroupProvs.Checked = true;
-			this.radioGroupProvs.Location = new System.Drawing.Point(6, 17);
+			this.radioGroupProvs.Location = new System.Drawing.Point(8, 23);
 			this.radioGroupProvs.Name = "radioGroupProvs";
-			this.radioGroupProvs.Size = new System.Drawing.Size(89, 17);
+			this.radioGroupProvs.Size = new System.Drawing.Size(75, 18);
 			this.radioGroupProvs.TabIndex = 0;
 			this.radioGroupProvs.TabStop = true;
 			this.radioGroupProvs.Text = "Provider";
@@ -67,7 +67,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "GroupingOptionsCtrl";
-			this.Size = new System.Drawing.Size(108, 63);
+			this.Size = new System.Drawing.Size(108, 87);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -15,6 +15,7 @@ import argparse
 import collections
 import importlib.util
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -48,6 +49,8 @@ class Hand:
         g.MULTI_PICKERS.clear()
         g.MULTI_PICKERS.update(getattr(designer, "multi_pickers", ()))
         g.MULTI_PICKERS.update(g.multi_pickers_in_code(fit_tools.repo_root(), window.split(".")[-1]))
+        g.PLAIN_WINDOW[0] = g.is_plain_window(fit_tools.repo_root(), designer.rel, window.split(".")[-1])
+        g.plain_client_root(tree)
         self.by_name = {}
         for n in g.walk(tree):
             if n is not tree and n.name:
@@ -60,6 +63,7 @@ class Hand:
         self.sized = set()  # the controls the script gave a size
         self.why = {}
         self.containers = []
+        self.extra = []  # UI-12 slice 12: rows of other properties (splitter())
 
     # -- nodes ---------------------------------------------------------------------------------------------------------------------------
     def n(self, name):
@@ -100,9 +104,18 @@ class Hand:
         n = self.n(name)
         if n.check_align and n.check_align != "MiddleLeft" and n.check_align != "TopLeft":
             n.new_check_align = "MiddleLeft"
+            if g.box_left_text_align(n):
+                n.new_text_align = g.box_left_text_align(n)  # UI-12 slice 12 fix round: a plain window's stock box draws its TextAlign
         if n.name in self.designer.rtl:
             n.rtl = True
         self.touched[id(n)] = n
+
+    def splitter(self, name, distance, why="the first panel as tall (or wide) as the settings it holds"):
+        """UI-12 slice 12: a split container's SplitterDistance (a hand row; the applier edits the line's digits)."""
+        m = re.search(r"this\.%s\.SplitterDistance ?= ?(\d+);" % re.escape(name), self.designer.text)
+        old = m.group(1) if m else "(none)"
+        if old != str(distance):
+            self.extra.append((name, "SplitterDistance", old, str(distance), RULE + why))
 
     def lw(self, name):
         """The width a label needs for its text on one line (snapped up to the grid): the widest of its designer text and the texts the code
@@ -277,6 +290,7 @@ class Hand:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "aligned, not right to left (which mirrors it)"))
             elif n.rtl:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "the box on the left of its text (not right to left)"))
+        out.extend(self.extra)
         return out
 
     def check(self):
@@ -427,8 +441,13 @@ class Box:
         return hh
 
 
-def load_script(window_simple):
+def load_script(window_simple, window=None):
+    """hand/<class>.py; UI-12 slice 12: hand/<namespace>.<class>.py first when it exists (two exes' Form1: xCrudGenerator.Form1.py,
+    DocumentationBuilder.Form1.py)."""
     p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hand", window_simple + ".py")
+    if window and os.path.exists(os.path.join(os.path.dirname(p), window + ".py")):
+        p = os.path.join(os.path.dirname(p), window + ".py")
+        window_simple = window.replace(".", "_")
     spec = importlib.util.spec_from_file_location("hand_" + window_simple, p)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -457,13 +476,13 @@ def run(tree_path, window_simple, part=None):
         tree.parent = None
         window = full_name(part_class)
         window_simple = window.split(".")[-1]
-    wf = fit_tools.window_files(root, [window], declared=True)
+    wf = g.window_files(root, [window])
     designer = g.Designer(root, wf[window][0])
     for n in g.walk(tree):
         if n is not tree and n.name in designer.name_to_field and n.name not in designer.declared:
             n.name = designer.name_to_field[n.name]
     hand = Hand(window, tree, designer)
-    mod = load_script(window_simple)
+    mod = load_script(window_simple, window)
     mod.layout(hand)
     return hand, designer
 

@@ -43,17 +43,17 @@ namespace DocumentationBuilder {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(23, 25);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(558, 41);
+			this.label1.Size = new System.Drawing.Size(596, 34);
 			this.label1.TabIndex = 0;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// butBuild
 			// 
-			this.butBuild.Location = new System.Drawing.Point(26, 301);
+			this.butBuild.Location = new System.Drawing.Point(230, 291);
 			this.butBuild.Name = "butBuild";
-			this.butBuild.Size = new System.Drawing.Size(151, 28);
+			this.butBuild.Size = new System.Drawing.Size(151, 24);
 			this.butBuild.TabIndex = 1;
 			this.butBuild.Text = "Build OD Documentation";
 			this.butBuild.UseVisualStyleBackColor = true;
@@ -61,9 +61,9 @@ namespace DocumentationBuilder {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(23, 84);
+			this.label2.Location = new System.Drawing.Point(8, 50);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(558, 41);
+			this.label2.Size = new System.Drawing.Size(596, 34);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "Step 1: Build the release of OpenPmsDental and UnitTests. This generates OpenPmsDentalBus" +
     "iness.xml etc. which contain all the xml Summaries that we will then pull from. " +
@@ -71,72 +71,76 @@ namespace DocumentationBuilder {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(23, 129);
+			this.label3.Location = new System.Drawing.Point(8, 92);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(558, 45);
+			this.label3.Size = new System.Drawing.Size(596, 50);
 			this.label3.TabIndex = 3;
 			this.label3.Text = resources.GetString("label3.Text");
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(23, 246);
+			this.label4.Location = new System.Drawing.Point(8, 231);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(558, 18);
+			this.label4.Size = new System.Drawing.Size(596, 18);
 			this.label4.TabIndex = 4;
 			this.label4.Text = "Step 5: Click one of the Build buttons below.";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(23, 194);
+			this.label6.Location = new System.Drawing.Point(8, 173);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(185, 19);
+			this.label6.Size = new System.Drawing.Size(200, 23);
 			this.label6.TabIndex = 6;
 			this.label6.Text = "Step 3: Specify the version:";
 			// 
 			// textVersion
 			// 
-			this.textVersion.Location = new System.Drawing.Point(209, 191);
+			this.textVersion.Location = new System.Drawing.Point(214, 173);
 			this.textVersion.Name = "textVersion";
-			this.textVersion.Size = new System.Drawing.Size(59, 20);
+			this.textVersion.Size = new System.Drawing.Size(60, 23);
 			this.textVersion.TabIndex = 7;
 			// 
 			// textConnStr
 			// 
-			this.textConnStr.Location = new System.Drawing.Point(26, 158);
+			this.textConnStr.Location = new System.Drawing.Point(8, 146);
 			this.textConnStr.Name = "textConnStr";
 			this.textConnStr.ReadOnly = true;
-			this.textConnStr.Size = new System.Drawing.Size(541, 20);
+			this.textConnStr.Size = new System.Drawing.Size(596, 23);
 			this.textConnStr.TabIndex = 8;
 			// 
 			// textPrevVersion
 			// 
-			this.textPrevVersion.Location = new System.Drawing.Point(209, 219);
+			this.textPrevVersion.Location = new System.Drawing.Point(214, 200);
 			this.textPrevVersion.Name = "textPrevVersion";
-			this.textPrevVersion.Size = new System.Drawing.Size(59, 20);
+			this.textPrevVersion.Size = new System.Drawing.Size(60, 23);
 			this.textPrevVersion.TabIndex = 12;
 			// 
 			// labelPrevVersion
 			// 
-			this.labelPrevVersion.Location = new System.Drawing.Point(23, 222);
+			this.labelPrevVersion.Location = new System.Drawing.Point(8, 200);
+			this.labelPrevVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelPrevVersion.Name = "labelPrevVersion";
-			this.labelPrevVersion.Size = new System.Drawing.Size(186, 19);
+			this.labelPrevVersion.Size = new System.Drawing.Size(200, 23);
 			this.labelPrevVersion.TabIndex = 11;
 			this.labelPrevVersion.Text = "Step 4: Specify the previous version:";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(23, 342);
+			this.label5.Location = new System.Drawing.Point(8, 323);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(558, 33);
+			this.label5.Size = new System.Drawing.Size(596, 34);
 			this.label5.TabIndex = 14;
 			this.label5.Text = "The output file is DocumentationBuilder/UnitTestsDocumentation.xml.\r\nApproximate " +
     "time to complete is 5 seconds on a fast computer";
 			// 
 			// butBuildUnitTest
 			// 
-			this.butBuildUnitTest.Location = new System.Drawing.Point(26, 376);
+			this.butBuildUnitTest.Location = new System.Drawing.Point(215, 361);
 			this.butBuildUnitTest.Name = "butBuildUnitTest";
-			this.butBuildUnitTest.Size = new System.Drawing.Size(182, 28);
+			this.butBuildUnitTest.Size = new System.Drawing.Size(182, 24);
 			this.butBuildUnitTest.TabIndex = 13;
 			this.butBuildUnitTest.Text = "Build Unit Test Documentation";
 			this.butBuildUnitTest.UseVisualStyleBackColor = true;
@@ -144,9 +148,10 @@ namespace DocumentationBuilder {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(23, 269);
+			this.label7.Location = new System.Drawing.Point(8, 253);
+			this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(558, 33);
+			this.label7.Size = new System.Drawing.Size(596, 34);
 			this.label7.TabIndex = 15;
 			this.label7.Text = "The output file is DocumentationBuilder/OpenDentalDocumentation.xml, which will b" +
     "e automatically launched when done.  Approximate time to complete is 20 seconds " +
@@ -154,19 +159,19 @@ namespace DocumentationBuilder {
 			// 
 			// labelPrefDocumentation
 			// 
-			this.labelPrefDocumentation.Location = new System.Drawing.Point(23, 417);
+			this.labelPrefDocumentation.Location = new System.Drawing.Point(8, 393);
 			this.labelPrefDocumentation.Name = "labelPrefDocumentation";
-			this.labelPrefDocumentation.Size = new System.Drawing.Size(558, 45);
+			this.labelPrefDocumentation.Size = new System.Drawing.Size(596, 34);
 			this.labelPrefDocumentation.TabIndex = 17;
 			this.labelPrefDocumentation.Text = "Approximate time to complete is 3 seconds on a fast computer\r\nThen, manually copy" +
     " Pref(version).html to unversioned\\ODHelpFaqSite\\ODHelpFaqSite\\PreferenceTable\\";
-			this.labelPrefDocumentation.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			this.labelPrefDocumentation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// buttonPrefDocumentation
 			// 
-			this.buttonPrefDocumentation.Location = new System.Drawing.Point(26, 464);
+			this.buttonPrefDocumentation.Location = new System.Drawing.Point(225, 431);
 			this.buttonPrefDocumentation.Name = "buttonPrefDocumentation";
-			this.buttonPrefDocumentation.Size = new System.Drawing.Size(161, 28);
+			this.buttonPrefDocumentation.Size = new System.Drawing.Size(161, 24);
 			this.buttonPrefDocumentation.TabIndex = 16;
 			this.buttonPrefDocumentation.Text = "Build Pref Documentation";
 			this.buttonPrefDocumentation.UseVisualStyleBackColor = true;

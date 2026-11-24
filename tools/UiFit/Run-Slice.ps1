@@ -17,7 +17,8 @@ The steps, in order (-Steps picks some; the default is all of them):
 Everything goes to -Work (default %TEMP%\ui12-slice-<Slice>): the trees, the plans, the galleries (before-100, before-150, after-100,
 after-150) and the test results. The script commits nothing and shows no window; the slice looks at the galleries, fixes, and commits.
 The lane (odbuild.ps1) is -BuildScript or $env:OPMS_ODBUILD; the test runner is -TestScript, $env:OPMS_RUN_TESTS, or od-tools/run-tests.ps1
-in the repository's common git folder. Exit 98 from the lane (busy) is retried. -Print shows the commands without running them.
+in the repository's common git folder. -BuildProjects names the projects the before and after steps build (UI-12 slice 12: the plain exes'
+windows are read from their own build folders, so their projects are built too). Exit 98 from the lane (busy) is retried. -Print shows the commands without running them.
 .EXAMPLE
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/UiFit/Run-Slice.ps1 -Slice 2 -Batch 1 -BuildScript <odbuild.ps1>
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/UiFit/Run-Slice.ps1 -Slice 2 -Steps after,replan,snapshot
@@ -33,6 +34,7 @@ param(
 	[string]$TestScript = $env:OPMS_RUN_TESTS,
 	[string]$Platform = 'x64',
 	[int]$WaitMinutes = 20,
+	[string]$BuildProjects = 'OpenPmsDental,UiRefreshTests',
 	[switch]$Print
 )
 $ErrorActionPreference = 'Stop'
@@ -67,10 +69,10 @@ function Invoke-Python([string[]]$Arguments) {
 }
 
 function Invoke-Build {
-	if ($Print) { Write-Host "   lane: -Projects OpenPmsDental,UiRefreshTests -ScopedRestore -Platform $Platform"; return }
+	if ($Print) { Write-Host "   lane: -Projects $BuildProjects -ScopedRestore -Platform $Platform"; return }
 	if ($BuildScript -eq '' -or $null -eq $BuildScript -or -not (Test-Path $BuildScript)) { throw 'No lane: pass -BuildScript or set OPMS_ODBUILD.' }
 	while ($true) {
-		& powershell -NoProfile -ExecutionPolicy Bypass -File $BuildScript -Root $Root -WaitMinutes $WaitMinutes -Projects OpenPmsDental,UiRefreshTests -ScopedRestore -Platform $Platform
+		& powershell -NoProfile -ExecutionPolicy Bypass -File $BuildScript -Root $Root -WaitMinutes $WaitMinutes -Projects $BuildProjects -ScopedRestore -Platform $Platform
 		if ($LASTEXITCODE -eq 98) { Write-Host 'lane busy: again'; continue }
 		if ($LASTEXITCODE -ne 0) { throw "build failed ($LASTEXITCODE)" }
 		break

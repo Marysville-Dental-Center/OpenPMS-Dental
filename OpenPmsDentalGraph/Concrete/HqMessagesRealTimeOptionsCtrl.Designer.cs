@@ -32,9 +32,9 @@
 			// 
 			// radioCustomer
 			// 
-			this.radioCustomer.Location = new System.Drawing.Point(11, 21);
+			this.radioCustomer.Location = new System.Drawing.Point(8, 23);
 			this.radioCustomer.Name = "radioCustomer";
-			this.radioCustomer.Size = new System.Drawing.Size(106, 17);
+			this.radioCustomer.Size = new System.Drawing.Size(83, 18);
 			this.radioCustomer.TabIndex = 0;
 			this.radioCustomer.TabStop = true;
 			this.radioCustomer.Text = "Customer";
@@ -43,9 +43,9 @@
 			// 
 			// radioMsgType
 			// 
-			this.radioMsgType.Location = new System.Drawing.Point(11, 43);
+			this.radioMsgType.Location = new System.Drawing.Point(8, 45);
 			this.radioMsgType.Name = "radioMsgType";
-			this.radioMsgType.Size = new System.Drawing.Size(106, 17);
+			this.radioMsgType.Size = new System.Drawing.Size(79, 18);
 			this.radioMsgType.TabIndex = 1;
 			this.radioMsgType.TabStop = true;
 			this.radioMsgType.Text = "MsgType";
@@ -54,9 +54,9 @@
 			// 
 			// radioCountryCode
 			// 
-			this.radioCountryCode.Location = new System.Drawing.Point(123, 43);
+			this.radioCountryCode.Location = new System.Drawing.Point(93, 45);
 			this.radioCountryCode.Name = "radioCountryCode";
-			this.radioCountryCode.Size = new System.Drawing.Size(106, 17);
+			this.radioCountryCode.Size = new System.Drawing.Size(105, 18);
 			this.radioCountryCode.TabIndex = 3;
 			this.radioCountryCode.TabStop = true;
 			this.radioCountryCode.Text = "Country Code";
@@ -68,9 +68,9 @@
 			this.groupBox1.Controls.Add(this.radioCustomer);
 			this.groupBox1.Controls.Add(this.radioMsgType);
 			this.groupBox1.Controls.Add(this.radioCountryCode);
-			this.groupBox1.Location = new System.Drawing.Point(9, 4);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(244, 73);
+			this.groupBox1.Size = new System.Drawing.Size(253, 71);
 			this.groupBox1.TabIndex = 4;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Group By";
@@ -80,7 +80,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox1);
 			this.Name = "HqMessagesRealTimeOptionsCtrl";
-			this.Size = new System.Drawing.Size(269, 83);
+			this.Size = new System.Drawing.Size(269, 87);
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

@@ -71,7 +71,7 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(361, 321);
+			this.butCancel.Location = new System.Drawing.Point(381, 346);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
@@ -81,7 +81,7 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(361, 280);
+			this.butOK.Location = new System.Drawing.Point(298, 346);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 1;
@@ -90,43 +90,43 @@ namespace CentralManager{
 			// 
 			// listUser
 			// 
-			this.listUser.Location = new System.Drawing.Point(31, 31);
+			this.listUser.Location = new System.Drawing.Point(8, 27);
 			this.listUser.Name = "listUser";
-			this.listUser.Size = new System.Drawing.Size(141, 316);
+			this.listUser.Size = new System.Drawing.Size(180, 343);
 			this.listUser.TabIndex = 2;
 			this.listUser.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listUser_MouseUp);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30, 10);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 18);
+			this.label1.Size = new System.Drawing.Size(180, 17);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "User";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(188, 10);
+			this.label2.Location = new System.Drawing.Point(196, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(122, 18);
+			this.label2.Size = new System.Drawing.Size(260, 17);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Password";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(189, 31);
+			this.textPassword.Location = new System.Drawing.Point(196, 27);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(215, 20);
+			this.textPassword.Size = new System.Drawing.Size(260, 23);
 			this.textPassword.TabIndex = 0;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(31, 31);
+			this.textUser.Location = new System.Drawing.Point(8, 27);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(141, 20);
+			this.textUser.Size = new System.Drawing.Size(180, 23);
 			this.textUser.TabIndex = 8;
 			this.textUser.Visible = false;
 			// 

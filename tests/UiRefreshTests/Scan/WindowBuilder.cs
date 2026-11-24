@@ -9,6 +9,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -68,10 +69,13 @@ namespace UiRefreshTests.Scan {
 		public float Scale=1f;
 
 		///<summary>Lays a LayoutManager window out at a simulated Windows scale, as FormODBase.OnLoad does after a DPI change. Other windows
-		///are not scaled by LayoutManager and stay as built.</summary>
+		///are not scaled by LayoutManager: a plain window (a plain exe's or the graph's Form, or a plain library's UserControl in its test form)
+		///has its bounds scaled as Windows' DPI autoscale does on a 150% screen (see ScalePlainBounds); other windows stay as built.</summary>
 		public void LayOutAt(float scale) {
+			float scaleBefore=Scale;
 			Scale=scale;
 			if(LayoutManager==null) {
+				ScalePlainBounds(scale/scaleBefore);
 				return;
 			}
 			LayoutManager.SetScaleMS(scale);
@@ -89,6 +93,55 @@ namespace UiRefreshTests.Scan {
 			if(panelClient!=null && (panelClient.Width<sizeClient.Width || panelClient.Height<sizeClient.Height)) {
 				panelClient.Size=new Size(Math.Max(panelClient.Width,sizeClient.Width),Math.Max(panelClient.Height,sizeClient.Height));
 				LayoutManager.LayoutControlBoundsAndFonts(panelClient);
+			}
+		}
+
+		///<summary>UI-12 slice 12 fix round: a plain window has no LayoutManager. On a 150% screen Windows' DPI autoscale (the form's
+		///AutoScaleMode) scales its bounds and its fonts; off screen that does not run, so the gallery drew a plain window's fonts at 150%
+		///(GridStyleGallery.ScaleFontsAsWindowsDoes) in its 100% bounds, and the plain windows were left out of the 150% galleries. Here the
+		///bounds are scaled by the factor (Control.Scale: the form's client size, or the hosted UserControl's size, and every child's location
+		///and size, docking and anchoring kept); the fonts stay to the gallery's font pass, as for the program's windows.</summary>
+		private void ScalePlainBounds(float factor) {
+			if(factor==1f || Root==null || ScanType==null) {
+				return;
+			}
+			if(ScanType.Kind!=BuildKind.PlainWindow && ScanType.Kind!=BuildKind.UserControlPlain) {
+				return;
+			}
+			if(Root is Form form) {
+				//Windows keeps a window within its largest track size (the screen and the frame); the picture draws the client area at its
+				//whole scaled size, as on a screen large enough for the window (as LayOutAt does for the program's client panel).
+				form.MaximumSize=Size.Empty;
+				Size sizeClient=new Size((int)Math.Round(form.ClientSize.Width*factor),(int)Math.Round(form.ClientSize.Height*factor));
+				form.Scale(new SizeF(factor,factor));
+				if(form.ClientSize!=sizeClient) {
+					form.ClientSize=sizeClient;
+				}
+				return;
+			}
+			Size sizeRoot=new Size((int)Math.Round(Root.Width*factor),(int)Math.Round(Root.Height*factor));
+			//The UserControl's own Resize handler may need the run-time state the harness does not make (GraphQuantityOverTime's chart area:
+			//a NullReferenceException in SetXAxisLabelDensity stopped the scale half way): it is off while the bounds change.
+			FieldInfo fieldResize=typeof(Control).GetField("s_resizeEvent",BindingFlags.Static|BindingFlags.NonPublic)
+				??typeof(Control).GetField("EventResize",BindingFlags.Static|BindingFlags.NonPublic);
+			PropertyInfo propertyEvents=typeof(Component).GetProperty("Events",BindingFlags.Instance|BindingFlags.NonPublic);
+			EventHandlerList eventHandlerList=propertyEvents?.GetValue(Root) as EventHandlerList;
+			object keyResize=fieldResize?.GetValue(null);
+			Delegate delegateResize=(eventHandlerList!=null && keyResize!=null) ? eventHandlerList[keyResize] : null;
+			if(delegateResize!=null) {
+				eventHandlerList.RemoveHandler(keyResize,delegateResize);
+			}
+			try {
+				Root.Scale(new SizeF(factor,factor));
+				Root.Size=sizeRoot;
+			}
+			finally {
+				if(delegateResize!=null) {
+					eventHandlerList.AddHandler(keyResize,delegateResize);
+				}
+			}
+			if(Form!=null && Form!=Root && (Form.ClientSize.Width<Root.Right || Form.ClientSize.Height<Root.Bottom)) {
+				Form.ClientSize=new Size(Math.Max(Form.ClientSize.Width,Root.Right),Math.Max(Form.ClientSize.Height,Root.Bottom));
 			}
 		}
 

@@ -1726,6 +1726,15 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   findings): 10 new layout scripts and 9 changed (margins at 8, one right edge, lists of one height, empty bands closed, FormTaskListEdit's
   Date label on its box's centre), the allocator windows' stock buttons UI.Button, GridRulesTests' label-centre rule (slice 9 on; 14 older
   labels for the lead); re-plans unchanged, slice 9 106; gallery and audit updated ("Slice 9, fix round").
+  Slice 12 (UI-12-12, branches `ui/ui12-12-1` and the review's fix round `ui/ui12-12-2`, the final slice: the lead's `slice12-files.tsv`, the plain exes' windows and the
+  OpenPmsDentalGraph files): 42 windows on the grid, none skipped (38 with a layout script, shared steps in `hand/_s12.py`); the tools and
+  GridRulesTests handle a plain Form (the same numbers; the input frame rule skipped, `GridRulesTests.IsPlain`, tested; the tree's root is the
+  client area; Windows' check box lead 22; designer code in a window's own `.cs`; `SplitterDistance` hand rows for the graph's settings
+  panels); the 44 System-style controls take the Standard style; re-plans 239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 unchanged;
+  fix round: the review's 12 findings fixed (OK on the bar, whole strip buttons, stock box texts after the box, one date picker width, the
+  CRUD check boxes one list, the harness scales a plain window at 150%); gallery G-UI3-ui12-12 (42 windows, the 9 densest at 150%), audit
+  `UI-12-audit-12.md`
+  (UI-12.md section 7, "Slice 12").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

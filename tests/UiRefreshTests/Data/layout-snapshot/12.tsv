@@ -1,0 +1,588 @@
+# The layout snapshot of the UI refresh (docs/specs/ui-refresh-plan.md section 3.7, docs/port-notes/UI-0b.md): every designer
+# control's Location, Size and ClientSize as InitializeComponent sets them, "." for the window or UserControl itself. Written by
+# LayoutSnapshotTests with OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1; the test fails on any change that Data/fit-fixes.tsv does not list.
+# One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).
+file	control	location	size	client_size
+CentralManager/FormCentralChooseDatabase.cs	groupServer	8,8	344,187	
+CentralManager/FormCentralChooseDatabase.cs	textURI	8,64	328,23	
+CentralManager/FormCentralChooseDatabase.cs	textUser2	8,110	328,23	
+CentralManager/FormCentralChooseDatabase.cs	textPassword2	8,156	328,23	
+CentralManager/FormCentralChooseDatabase.cs	label10	8,137	328,17	
+CentralManager/FormCentralChooseDatabase.cs	label11	8,91	328,17	
+CentralManager/FormCentralChooseDatabase.cs	label9	8,45	328,17	
+CentralManager/FormCentralChooseDatabase.cs	label6	8,23	328,18	
+CentralManager/FormCentralChooseDatabase.cs	butCancel	277,207	75,24	
+CentralManager/FormCentralChooseDatabase.cs	butOK	194,207	75,24	
+CentralManager/FormCentralChooseDatabase.cs	checkAutoLogin	8,210	159,18	
+CentralManager/FormCentralChooseDatabase.cs	.			360,239
+CentralManager/FormCentralConnectionEdit.designer.cs	butOK	522,366	75,24	
+CentralManager/FormCentralConnectionEdit.designer.cs	butCancel	605,366	75,24	
+CentralManager/FormCentralConnectionEdit.designer.cs	textServiceURI	127,23	524,20	
+CentralManager/FormCentralConnectionEdit.designer.cs	label2	45,23	76,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	butDelete	8,366	75,24	
+CentralManager/FormCentralConnectionEdit.designer.cs	textServerName	127,23	192,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	label4	41,23	80,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	textDatabaseName	127,50	192,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	label5	61,50	60,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	textMySqlUser	127,77	192,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	label6	49,77	72,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	textMySqlPassword	127,104	192,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	label7	21,104	100,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	groupBox1	8,8	672,135	
+CentralManager/FormCentralConnectionEdit.designer.cs	groupBox2	8,170	672,76	
+CentralManager/FormCentralConnectionEdit.designer.cs	checkWebServiceIsEcw	127,50	142,18	
+CentralManager/FormCentralConnectionEdit.designer.cs	textNote	135,276	524,78	
+CentralManager/FormCentralConnectionEdit.designer.cs	label9	89,276	40,23	
+CentralManager/FormCentralConnectionEdit.designer.cs	label10	8,151	111,17	
+CentralManager/FormCentralConnectionEdit.designer.cs	checkClinicBreakdown	135,254	210,18	
+CentralManager/FormCentralConnectionEdit.designer.cs	.			688,398
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	label1	8,8	108,23	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	textDescription	122,8	236,23	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	butOK	940,534	75,24	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	gridMain	8,39	496,483	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	butDelete	8,534	83,24	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	butAdd	512,254	81,24	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	butRemove	512,282	81,24	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	label2	364,8	244,23	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	gridAvail	602,39	496,483	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	butCancel	1023,534	75,24	
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	.			1106,566
+CentralManager/FormCentralConnectionGroups.Designer.cs	gridMain	8,39	358,374	
+CentralManager/FormCentralConnectionGroups.Designer.cs	butClose	374,389	75,24	
+CentralManager/FormCentralConnectionGroups.Designer.cs	butAdd	374,39	75,24	
+CentralManager/FormCentralConnectionGroups.Designer.cs	comboConnectionGroup	8,8	168,23	
+CentralManager/FormCentralConnectionGroups.Designer.cs	label1	182,8	144,23	
+CentralManager/FormCentralConnectionGroups.Designer.cs	.			457,421
+CentralManager/FormCentralConnections.Designer.cs	label1	384,8	53,23	
+CentralManager/FormCentralConnections.Designer.cs	textSearch	443,8	192,23	
+CentralManager/FormCentralConnections.Designer.cs	comboConnectionGroups	130,8	192,23	
+CentralManager/FormCentralConnections.Designer.cs	label3	8,8	116,23	
+CentralManager/FormCentralConnections.Designer.cs	groupOrdering	643,71	208,111	
+CentralManager/FormCentralConnections.Designer.cs	label2	91,79	96,24	
+CentralManager/FormCentralConnections.Designer.cs	butAlphabetize	8,79	77,24	
+CentralManager/FormCentralConnections.Designer.cs	butUp	8,23	77,24	
+CentralManager/FormCentralConnections.Designer.cs	butDown	8,51	77,24	
+CentralManager/FormCentralConnections.Designer.cs	butAdd	643,39	75,24	
+CentralManager/FormCentralConnections.Designer.cs	gridMain	8,39	627,436	
+CentralManager/FormCentralConnections.Designer.cs	butOK	693,451	75,24	
+CentralManager/FormCentralConnections.Designer.cs	butCancel	776,451	75,24	
+CentralManager/FormCentralConnections.Designer.cs	checkUseDynamicMode	8,85	192,34	
+CentralManager/FormCentralConnections.Designer.cs	checkIsAutoLogon	8,63	147,18	
+CentralManager/FormCentralConnections.Designer.cs	groupPrefs	643,190	208,127	
+CentralManager/FormCentralConnections.Designer.cs	label5	8,41	192,18	
+CentralManager/FormCentralConnections.Designer.cs	label4	8,23	192,18	
+CentralManager/FormCentralConnections.Designer.cs	.			859,483
+CentralManager/FormCentralGroupPermEdit.Designer.cs	groupBox1	8,39	459,119	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	textDate	50,23	100,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	textDays	50,50	48,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	label1	8,23	36,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	label2	8,50	36,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	label3	8,77	443,34	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	textName	58,8	409,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	label10	8,8	44,23	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	butCancel	392,197	75,24	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	butOK	309,197	75,24	
+CentralManager/FormCentralGroupPermEdit.Designer.cs	.			475,229
+CentralManager/FormCentralLogOn.cs	butCancel	381,346	75,24	
+CentralManager/FormCentralLogOn.cs	butOK	298,346	75,24	
+CentralManager/FormCentralLogOn.cs	listUser	8,27	180,343	
+CentralManager/FormCentralLogOn.cs	label1	8,8	180,17	
+CentralManager/FormCentralLogOn.cs	label2	196,8	260,17	
+CentralManager/FormCentralLogOn.cs	textPassword	196,27	260,23	
+CentralManager/FormCentralLogOn.cs	textUser	8,27	180,23	
+CentralManager/FormCentralLogOn.cs	.			464,378
+CentralManager/FormCentralManager.Designer.cs	textConnSearch	90,23	156,23	
+CentralManager/FormCentralManager.Designer.cs	mainMenu	0,0	1834,24	
+CentralManager/FormCentralManager.Designer.cs	label1	8,32	84,23	
+CentralManager/FormCentralManager.Designer.cs	comboConnectionGroups	98,32	168,23	
+CentralManager/FormCentralManager.Designer.cs	label6	28,77	56,23	
+CentralManager/FormCentralManager.Designer.cs	label4	40,50	44,23	
+CentralManager/FormCentralManager.Designer.cs	label5	8,23	76,23	
+CentralManager/FormCentralManager.Designer.cs	textProviderSearch	90,77	137,23	
+CentralManager/FormCentralManager.Designer.cs	textClinicSearch	90,50	156,23	
+CentralManager/FormCentralManager.Designer.cs	gridMainRightClickMenu		114,26	
+CentralManager/FormCentralManager.Designer.cs	toolStripMenuItem1		113,22	
+CentralManager/FormCentralManager.Designer.cs	labelVersion	8,86	258,23	
+CentralManager/FormCentralManager.Designer.cs	gridConns	8,148	703,797	
+CentralManager/FormCentralManager.Designer.cs	butFilter	233,77	56,23	
+CentralManager/FormCentralManager.Designer.cs	butRefreshStatuses	161,59	105,23	
+CentralManager/FormCentralManager.Designer.cs	labelFetch	1624,693	112,23	
+CentralManager/FormCentralManager.Designer.cs	checkLimit	1605,671	201,18	
+CentralManager/FormCentralManager.Designer.cs	butSearchPats	1742,693	84,23	
+CentralManager/FormCentralManager.Designer.cs	groupBox2	1597,148	229,515	
+CentralManager/FormCentralManager.Designer.cs	textClinicPatSearch	147,418	74,23	
+CentralManager/FormCentralManager.Designer.cs	label18	97,418	44,23	
+CentralManager/FormCentralManager.Designer.cs	checkGuarantors	8,445	149,18	
+CentralManager/FormCentralManager.Designer.cs	textConnPatSearch	147,391	74,23	
+CentralManager/FormCentralManager.Designer.cs	label14	65,391	76,23	
+CentralManager/FormCentralManager.Designer.cs	textCountry	147,364	74,23	
+CentralManager/FormCentralManager.Designer.cs	labelCountry	85,364	56,23	
+CentralManager/FormCentralManager.Designer.cs	textEmail	147,337	74,23	
+CentralManager/FormCentralManager.Designer.cs	labelEmail	93,337	48,23	
+CentralManager/FormCentralManager.Designer.cs	textSubscriberID	147,310	74,23	
+CentralManager/FormCentralManager.Designer.cs	label13	61,310	80,23	
+CentralManager/FormCentralManager.Designer.cs	textBirthdate	147,283	74,23	
+CentralManager/FormCentralManager.Designer.cs	label2	81,283	60,23	
+CentralManager/FormCentralManager.Designer.cs	checkHideArchived	8,489	161,18	
+CentralManager/FormCentralManager.Designer.cs	textChartNumber	147,256	74,23	
+CentralManager/FormCentralManager.Designer.cs	textSSN	147,202	74,23	
+CentralManager/FormCentralManager.Designer.cs	label12	109,202	32,23	
+CentralManager/FormCentralManager.Designer.cs	label10	53,256	88,23	
+CentralManager/FormCentralManager.Designer.cs	textPatNum	147,229	74,23	
+CentralManager/FormCentralManager.Designer.cs	label9	45,229	96,23	
+CentralManager/FormCentralManager.Designer.cs	textState	147,175	74,23	
+CentralManager/FormCentralManager.Designer.cs	label8	101,175	40,23	
+CentralManager/FormCentralManager.Designer.cs	textCity	147,148	74,23	
+CentralManager/FormCentralManager.Designer.cs	label7	109,148	32,23	
+CentralManager/FormCentralManager.Designer.cs	checkHideInactive	8,467	145,18	
+CentralManager/FormCentralManager.Designer.cs	label3	8,23	202,15	
+CentralManager/FormCentralManager.Designer.cs	textAddress	147,121	74,23	
+CentralManager/FormCentralManager.Designer.cs	label11	85,121	56,23	
+CentralManager/FormCentralManager.Designer.cs	textPhone	147,94	74,23	
+CentralManager/FormCentralManager.Designer.cs	label15	65,94	76,23	
+CentralManager/FormCentralManager.Designer.cs	textFName	147,67	74,23	
+CentralManager/FormCentralManager.Designer.cs	label16	73,67	68,23	
+CentralManager/FormCentralManager.Designer.cs	textLName	147,40	74,23	
+CentralManager/FormCentralManager.Designer.cs	label17	73,40	68,23	
+CentralManager/FormCentralManager.Designer.cs	gridPats	719,148	870,797	
+CentralManager/FormCentralManager.Designer.cs	groupBox1	282,32	297,108	
+CentralManager/FormCentralManager.Designer.cs	.			1834,953
+CentralManager/FormCentralPasswordChange.designer.cs	butOK	282,181	75,24	
+CentralManager/FormCentralPasswordChange.designer.cs	butCancel	365,181	75,24	
+CentralManager/FormCentralPasswordChange.designer.cs	textPassword	102,93	338,23	
+CentralManager/FormCentralPasswordChange.designer.cs	label4	8,93	88,23	
+CentralManager/FormCentralPasswordChange.designer.cs	label1	8,8	432,50	
+CentralManager/FormCentralPasswordChange.designer.cs	label2	8,66	88,23	
+CentralManager/FormCentralPasswordChange.designer.cs	textAccessCode	102,66	338,23	
+CentralManager/FormCentralPasswordChange.designer.cs	.			448,213
+CentralManager/FormCentralPasswordCheck.designer.cs	butOK	204,72	75,24	
+CentralManager/FormCentralPasswordCheck.designer.cs	butCancel	287,72	75,24	
+CentralManager/FormCentralPasswordCheck.designer.cs	textPassword	106,8	256,23	
+CentralManager/FormCentralPasswordCheck.designer.cs	label4	8,8	92,23	
+CentralManager/FormCentralPasswordCheck.designer.cs	.			370,104
+CentralManager/FormCentralPatientSearch.Designer.cs	gridPats	8,8	499,651	
+CentralManager/FormCentralPatientSearch.Designer.cs	groupBox2	515,8	220,488	
+CentralManager/FormCentralPatientSearch.Designer.cs	checkGuarantors	8,418	149,18	
+CentralManager/FormCentralPatientSearch.Designer.cs	textConn	137,391	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label14	55,391	76,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textCountry	137,364	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	labelCountry	75,364	56,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textEmail	137,337	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	labelEmail	83,337	48,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textSubscriberID	137,310	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label13	51,310	80,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textBirthdate	137,283	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label2	71,283	60,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	checkHideArchived	8,462	161,18	
+CentralManager/FormCentralPatientSearch.Designer.cs	textChartNumber	137,256	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textSSN	137,202	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label12	99,202	32,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label10	43,256	88,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textPatNum	137,229	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label9	35,229	96,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textState	137,175	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label8	91,175	40,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textCity	137,148	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label7	99,148	32,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	checkHideInactive	8,440	145,18	
+CentralManager/FormCentralPatientSearch.Designer.cs	label6	8,23	202,15	
+CentralManager/FormCentralPatientSearch.Designer.cs	textAddress	137,121	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label5	75,121	56,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textPhone	137,94	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label4	55,94	76,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textFName	137,67	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label3	63,67	68,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	textLName	137,40	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	label1	63,40	68,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	butSearch	660,526	75,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	checkLimit	523,504	201,18	
+CentralManager/FormCentralPatientSearch.Designer.cs	labelFetch	542,526	112,23	
+CentralManager/FormCentralPatientSearch.Designer.cs	butClose	660,635	75,24	
+CentralManager/FormCentralPatientSearch.Designer.cs	buttonOK	577,635	75,24	
+CentralManager/FormCentralPatientSearch.Designer.cs	.			743,667
+CentralManager/FormCentralPatientTransfer.Designer.cs	gridPatients	8,27	471,418	
+CentralManager/FormCentralPatientTransfer.Designer.cs	gridDatabasesTo	487,27	471,418	
+CentralManager/FormCentralPatientTransfer.Designer.cs	labelSourceDb	8,8	471,17	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butTransfer	967,421	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butClose	967,457	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butAddPatients	8,457	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butAddDatabases	487,457	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butRemovePats	91,457	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	butRemoveDb	570,457	75,24	
+CentralManager/FormCentralPatientTransfer.Designer.cs	.			1050,489
+CentralManager/FormCentralProdInc.Designer.cs	butOK	315,309	75,24	
+CentralManager/FormCentralProdInc.Designer.cs	butCancel	398,309	75,24	
+CentralManager/FormCentralProdInc.Designer.cs	groupBox3	139,156	334,115	
+CentralManager/FormCentralProdInc.Designer.cs	label5	8,67	318,18	
+CentralManager/FormCentralProdInc.Designer.cs	radioWriteoffProc	8,45	147,18	
+CentralManager/FormCentralProdInc.Designer.cs	radioWriteoffPay	8,23	194,18	
+CentralManager/FormCentralProdInc.Designer.cs	groupBox2	8,39	465,109	
+CentralManager/FormCentralProdInc.Designer.cs	butRight	244,23	45,24	
+CentralManager/FormCentralProdInc.Designer.cs	butThis	137,23	101,24	
+CentralManager/FormCentralProdInc.Designer.cs	label2	8,51	72,23	
+CentralManager/FormCentralProdInc.Designer.cs	textDateFrom	86,51	100,23	
+CentralManager/FormCentralProdInc.Designer.cs	textDateTo	86,78	100,23	
+CentralManager/FormCentralProdInc.Designer.cs	label3	8,78	72,23	
+CentralManager/FormCentralProdInc.Designer.cs	butLeft	86,23	45,24	
+CentralManager/FormCentralProdInc.Designer.cs	textToday	94,8	100,23	
+CentralManager/FormCentralProdInc.Designer.cs	label4	8,8	80,23	
+CentralManager/FormCentralProdInc.Designer.cs	groupBox1	8,156	123,115	
+CentralManager/FormCentralProdInc.Designer.cs	radioProvider	8,89	75,18	
+CentralManager/FormCentralProdInc.Designer.cs	radioAnnual	8,67	69,18	
+CentralManager/FormCentralProdInc.Designer.cs	radioDaily	8,23	57,18	
+CentralManager/FormCentralProdInc.Designer.cs	radioMonthly	8,45	76,18	
+CentralManager/FormCentralProdInc.Designer.cs	checkShowUnearned	147,279	124,18	
+CentralManager/FormCentralProdInc.Designer.cs	.			481,341
+CentralManager/FormCentralSecurity.Designer.cs	groupBox1	8,500	399,249	
+CentralManager/FormCentralSecurity.Designer.cs	label1	8,23	383,98	
+CentralManager/FormCentralSecurity.Designer.cs	label6	8,223	383,18	
+CentralManager/FormCentralSecurity.Designer.cs	checkAdmin	8,179	143,18	
+CentralManager/FormCentralSecurity.Designer.cs	checkEnable	8,201	188,18	
+CentralManager/FormCentralSecurity.Designer.cs	label4	8,152	36,23	
+CentralManager/FormCentralSecurity.Designer.cs	label3	8,125	36,23	
+CentralManager/FormCentralSecurity.Designer.cs	textDays	50,152	46,23	
+CentralManager/FormCentralSecurity.Designer.cs	textDate	50,125	100,23	
+CentralManager/FormCentralSecurity.Designer.cs	label2	102,152	116,23	
+CentralManager/FormCentralSecurity.Designer.cs	textSyncCode	8,42	122,23	
+CentralManager/FormCentralSecurity.Designer.cs	label5	8,23	257,17	
+CentralManager/FormCentralSecurity.Designer.cs	groupBox2	415,500	273,249	
+CentralManager/FormCentralSecurity.Designer.cs	butPushBoth	8,167	75,24	
+CentralManager/FormCentralSecurity.Designer.cs	label8	89,134	176,34	
+CentralManager/FormCentralSecurity.Designer.cs	label7	8,69	257,34	
+CentralManager/FormCentralSecurity.Designer.cs	butPushLocks	8,139	75,24	
+CentralManager/FormCentralSecurity.Designer.cs	butPushUsers	8,111	75,24	
+CentralManager/FormCentralSecurity.Designer.cs	userControlSecurityTabs	8,8	968,484	
+CentralManager/FormCentralSecurity.Designer.cs	butOK	818,725	75,24	
+CentralManager/FormCentralSecurity.Designer.cs	butClose	901,725	75,24	
+CentralManager/FormCentralSecurity.Designer.cs	textDomainLoginPath	94,45	178,23	
+CentralManager/FormCentralSecurity.Designer.cs	labelDomainPath	8,45	80,23	
+CentralManager/FormCentralSecurity.Designer.cs	groupBox3	696,500	280,76	
+CentralManager/FormCentralSecurity.Designer.cs	checkDomainLoginEnabled	94,23	147,18	
+CentralManager/FormCentralSecurity.Designer.cs	.			984,757
+CentralManager/FormCentralUserEdit.Designer.cs	checkIsHidden	8,8	81,18	
+CentralManager/FormCentralUserEdit.Designer.cs	butPassword	8,519	103,24	
+CentralManager/FormCentralUserEdit.Designer.cs	textUserName	8,8	197,23	
+CentralManager/FormCentralUserEdit.Designer.cs	butOK	444,519	75,24	
+CentralManager/FormCentralUserEdit.Designer.cs	butCancel	527,519	75,24	
+CentralManager/FormCentralUserEdit.Designer.cs	listUserGroup	8,35	197,407	
+CentralManager/FormCentralUserEdit.Designer.cs	label3	12,62	80,60	
+CentralManager/FormCentralUserEdit.Designer.cs	label1	12,36	80,20	
+CentralManager/FormCentralUserEdit.Designer.cs	tabControl	8,34	594,473	
+CentralManager/FormCentralUserEdit.Designer.cs	tabUser	2,21	590,450	
+CentralManager/FormCentralUserEdit.Designer.cs	butPickDomainUser	559,8	23,23	
+CentralManager/FormCentralUserEdit.Designer.cs	textDomainUser	373,8	180,23	
+CentralManager/FormCentralUserEdit.Designer.cs	securityTreeUser	213,35	369,407	
+CentralManager/FormCentralUserEdit.Designer.cs	labelDomainUser	260,8	107,23	
+CentralManager/FormCentralUserEdit.Designer.cs	tabAlertSubs	2,21	590,450	
+CentralManager/FormCentralUserEdit.Designer.cs	listAlertSubMulti	8,27	250,415	
+CentralManager/FormCentralUserEdit.Designer.cs	label7	8,8	250,17	
+CentralManager/FormCentralUserEdit.Designer.cs	butUnlock	119,519	103,24	
+CentralManager/FormCentralUserEdit.Designer.cs	.			610,551
+CentralManager/FormCentralUserGroupEdit.Designer.cs	butDelete	8,122	88,24	
+CentralManager/FormCentralUserGroupEdit.Designer.cs	textDescription	86,8	322,23	
+CentralManager/FormCentralUserGroupEdit.Designer.cs	label1	8,8	72,23	
+CentralManager/FormCentralUserGroupEdit.Designer.cs	butOK	250,122	75,24	
+CentralManager/FormCentralUserGroupEdit.Designer.cs	butCancel	333,122	75,24	
+CentralManager/FormCentralUserGroupEdit.Designer.cs	.			416,154
+CentralManager/FormCentralUserGroups.Designer.cs	butAddGroup	208,8	80,24	
+CentralManager/FormCentralUserGroups.Designer.cs	listGroups	8,8	192,364	
+CentralManager/FormCentralUserGroups.Designer.cs	butClose	208,348	80,24	
+CentralManager/FormCentralUserGroups.Designer.cs	.			296,380
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	checkShow	118,89	60,18	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	textCurrent	118,35	297,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	labelCurrent	8,35	104,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	textUserName	118,8	297,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	label3	8,8	104,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	textPassword	118,62	297,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	butOK	257,142	75,24	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	butCancel	340,142	75,24	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	label1	8,62	104,23	
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	.			423,174
+CentralManager/FormCentralUserSettings.Designer.cs	checkAutoLogin	50,35	159,18	
+CentralManager/FormCentralUserSettings.Designer.cs	label3	8,8	36,23	
+CentralManager/FormCentralUserSettings.Designer.cs	textUserName	50,8	236,23	
+CentralManager/FormCentralUserSettings.Designer.cs	labelAutoLogin	50,57	236,34	
+CentralManager/FormCentralUserSettings.Designer.cs	butOK	128,113	75,24	
+CentralManager/FormCentralUserSettings.Designer.cs	butCancel	211,113	75,24	
+CentralManager/FormCentralUserSettings.Designer.cs	.			294,145
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	butRepair	395,116	75,24	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	textDatabase	82,35	388,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	label1	8,35	68,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	label2	8,8	68,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	textComputerName	82,8	388,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	label3	8,62	68,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	textUser	82,62	388,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	label4	8,89	68,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	textPassword	82,89	388,23	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	butCheck	312,116	75,24	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	textResults	8,148	462,303	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	butCopy	8,463	75,24	
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	.			478,495
+DocumentationBuilder/Form1.Designer.cs	label1	8,8	596,34	
+DocumentationBuilder/Form1.Designer.cs	butBuild	230,291	151,24	
+DocumentationBuilder/Form1.Designer.cs	label2	8,50	596,34	
+DocumentationBuilder/Form1.Designer.cs	label3	8,92	596,50	
+DocumentationBuilder/Form1.Designer.cs	label4	8,231	596,18	
+DocumentationBuilder/Form1.Designer.cs	label6	8,173	200,23	
+DocumentationBuilder/Form1.Designer.cs	textVersion	214,173	60,23	
+DocumentationBuilder/Form1.Designer.cs	textConnStr	8,146	596,23	
+DocumentationBuilder/Form1.Designer.cs	textPrevVersion	214,200	60,23	
+DocumentationBuilder/Form1.Designer.cs	labelPrevVersion	8,200	200,23	
+DocumentationBuilder/Form1.Designer.cs	label5	8,323	596,34	
+DocumentationBuilder/Form1.Designer.cs	butBuildUnitTest	215,361	182,24	
+DocumentationBuilder/Form1.Designer.cs	label7	8,253	596,34	
+DocumentationBuilder/Form1.Designer.cs	labelPrefDocumentation	8,393	596,34	
+DocumentationBuilder/Form1.Designer.cs	buttonPrefDocumentation	225,431	161,24	
+DocumentationBuilder/Form1.Designer.cs	.			612,508
+MySQLManager/FormMySQLManager.Designer.cs	groupConnection	8,8	608,147	
+MySQLManager/FormMySQLManager.Designer.cs	butConnect	525,115	75,24	
+MySQLManager/FormMySQLManager.Designer.cs	textPort	8,88	72,23	
+MySQLManager/FormMySQLManager.Designer.cs	label5	8,69	292,17	
+MySQLManager/FormMySQLManager.Designer.cs	textServer	8,42	292,23	
+MySQLManager/FormMySQLManager.Designer.cs	textUser	308,42	292,23	
+MySQLManager/FormMySQLManager.Designer.cs	label1	8,23	292,17	
+MySQLManager/FormMySQLManager.Designer.cs	textPassword	308,88	292,23	
+MySQLManager/FormMySQLManager.Designer.cs	label2	308,69	292,17	
+MySQLManager/FormMySQLManager.Designer.cs	label3	308,23	292,17	
+MySQLManager/FormMySQLManager.Designer.cs	butClose	541,466	75,24	
+MySQLManager/FormMySQLManager.Designer.cs	butAdd	251,182	75,24	
+MySQLManager/FormMySQLManager.Designer.cs	butEdit	251,210	75,24	
+MySQLManager/FormMySQLManager.Designer.cs	butDrop	251,238	75,24	
+MySQLManager/FormMySQLManager.Designer.cs	listBoxUsers	8,182	235,308	
+MySQLManager/FormMySQLManager.Designer.cs	label4	8,163	40,17	
+MySQLManager/FormMySQLManager.Designer.cs	.			624,498
+MySQLManager/FormMySQLUserEdit.Designer.cs	butOK	242,213	75,24	
+MySQLManager/FormMySQLUserEdit.Designer.cs	textUser	122,8	278,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	textPassword	122,35	278,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	label3	8,8	108,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	butCancel	325,213	75,24	
+MySQLManager/FormMySQLUserEdit.Designer.cs	textRetypePassword	122,62	278,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	label5	8,35	108,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	label6	8,62	108,23	
+MySQLManager/FormMySQLUserEdit.Designer.cs	groupBox1	122,93	130,71	
+MySQLManager/FormMySQLUserEdit.Designer.cs	radioLow	8,45	53,18	
+MySQLManager/FormMySQLUserEdit.Designer.cs	radioFull	8,23	50,18	
+MySQLManager/FormMySQLUserEdit.Designer.cs	.			408,245
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	chart1	8,70	992,412	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	comboGroupBy	8,23	82,21	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	checkShowDailyLabels	8,25	125,18	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	checkShowGroupLabels	139,25	132,18	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	numberDailyLabelDensity	409,23	40,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label2	287,23	116,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	dateTimeFrom	58,23	112,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	dateTimeTo	220,23	112,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox2	579,8	340,54	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label5	8,23	44,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label6	186,23	28,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox3	8,8	98,54	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox1	114,8	457,54	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	.		1008,490	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	chart1	0,0	789,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboGroupBy	86,77	137,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	dateTimeFrom	98,50	127,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label3	8,50	84,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label4	8,77	84,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	dateTimeTo	98,77	127,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	groupBoxBreakdown	488,39	261,135	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	radBreakdownNone	8,72	60,18	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboBreakdownBy	136,45	117,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	numericTop	74,45	56,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	radBreakdownAll	8,23	45,18	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	radBreakdownTop	8,47	51,18	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	groupBox2	247,39	233,135	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label2	8,23	84,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboQuickRange	98,23	127,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label1	8,77	72,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	groupBox1	8,39	231,135	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label7	8,104	72,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboLegendDock	86,104	137,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label6	8,50	72,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label5	8,23	72,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboQuantityType	86,23	137,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	comboChartType	86,50	137,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	splitContainerMain	0,0	900,463	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	textChartTitle	94,8	655,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label8	8,8	80,23	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	splitContainerChart	0,0	900,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	chartLegend1	0,0	110,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	panelChart	0,0	789,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	pictureBoxLoading	0,0	789,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	.		900,463	
+OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	groupBox1	8,8	92,71	
+OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	radioGroupClinics	8,45	61,18	
+OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	radioGroupProvs	8,23	75,18	
+OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	.		108,87	
+OpenPmsDentalGraph/Base/Legend.designer.cs	panelDraw	68,0	106,22	
+OpenPmsDentalGraph/Base/Legend.designer.cs	butScrollEnd	36,1	30,21	
+OpenPmsDentalGraph/Base/Legend.designer.cs	butScrollStart	1,1	30,21	
+OpenPmsDentalGraph/Base/Legend.designer.cs	tableLayoutPanel1	0,0	242,22	
+OpenPmsDentalGraph/Base/Legend.designer.cs	panel1	0,0	68,22	
+OpenPmsDentalGraph/Base/Legend.designer.cs	butScrollUpStep	35,1	30,21	
+OpenPmsDentalGraph/Base/Legend.designer.cs	panel2	174,0	68,22	
+OpenPmsDentalGraph/Base/Legend.designer.cs	butScrollDownStep	3,1	30,21	
+OpenPmsDentalGraph/Base/Legend.designer.cs	.		242,22	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	groupBox3	8,8	429,147	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	comboBrokenProcType	121,45	216,23	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	label3	121,94	204,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	label2	121,72	272,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	label1	121,23	300,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	comboAdjType	121,116	216,23	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	radioRunAdjs	8,94	98,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	radioRunApts	8,72	107,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	radioRunProcs	8,23	90,18	
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	.		445,163	
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	splitContainer	0,0	788,410	
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	splitContainerOptions	0,0	788,87	
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	groupingOptionsCtrl1	0,0	108,87	
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	graph	0,0	788,349	
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	.		788,410	
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	radioCustomer	8,23	83,18	
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	radioMsgType	8,45	79,18	
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	radioCountryCode	93,45	105,18	
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	groupBox1	8,8	253,71	
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	.		269,87	
+OpenPmsDentalGraph/Concrete/IncomeGraphOptionsCtrl.Designer.cs	groupBox2	8,8	210,71	
+OpenPmsDentalGraph/Concrete/IncomeGraphOptionsCtrl.Designer.cs	checkIncludeInsuranceClaimPayments	8,45	171,18	
+OpenPmsDentalGraph/Concrete/IncomeGraphOptionsCtrl.Designer.cs	checkIncludePaySplits	8,23	81,18	
+OpenPmsDentalGraph/Concrete/IncomeGraphOptionsCtrl.Designer.cs	.		226,87	
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	groupBox1	8,8	327,49	
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	checkIncludeAdjustments	134,23	98,18	
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	checkIncludeCompletedProcs	8,23	122,18	
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	checkIncludeWriteoffs	236,23	79,18	
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	.		343,65	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	panelPrint	259,0	118,46	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butRefresh	8,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butPrintPreview	44,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butEdit	80,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	panelEditCell	105,0	154,46	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDrag	116,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteCell	80,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteRow	44,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	butDeleteColumn	8,8	30,30	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	pictureBox	3,3	371,139	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	contextMenuStripRight		182,158	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	deleteColumnToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	deleteRowToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	deleteCellContentsToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	refreshToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	printToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	editToolStripMenuItem		181,22	
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	.		377,145	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	splitContainer	0,0	411,196	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	splitContainerAddRow	0,0	411,196	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	splitContainerAddColumn	0,0	411,159	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	tableLayoutPanel	0,0	364,159	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	dashboardCell	1,1	362,157	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	butAddColumn	0,0	46,159	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	butAddRow	0,0	411,36	
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	.		411,196	
+OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	tabControl	0,0	222,127	
+OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	butPrintPage	142,0	77,23	
+OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	.		222,127	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	splitContainer	0,0	812,500	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	labelChanges	79,5	574,18	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butPrintPreview	3,0	28,28	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butCancel	729,2	75,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butOk	646,2	75,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	.			812,500
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	splitContainer1	0,27	1061,493	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	butSaveChanges	8,461	124,24	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	label2	8,313	124,17	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	labelHelp	8,8	124,297	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	listItems	8,332	124,121	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	dashboardTabControl	2,2	914,491	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	menuStrip	0,0	142,24	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	setupToolStripMenuItem		49,20	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	refreshDataToolStripMenuItem		85,20	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	menuItemDefaultGraphs		97,20	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	addPracticeDefaultToolStripMenuItem		184,22	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	addClinicDefaultToolStripMenuItem		184,22	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	addProviderDefaultToolStripMenuItem		184,22	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	menuItemResetAR		127,20	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	.			1061,520
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	label1	8,8	68,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	butCancel	304,43	75,24	
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	butOk	221,43	75,24	
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	textBoxTabName	82,8	297,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	.			387,75
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	splitContainer	0,0	831,645	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	butExport	404,31	83,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	butPrint	404,58	83,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	groupChartPosition	278,8	110,81	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textXPos	34,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textYPos	34,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	label1	8,50	20,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	label2	8,23	20,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	checkLandscape	493,60	87,18	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	groupMargins	143,8	127,81	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textMarginWidth	66,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textMarginHeight	66,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	label4	8,50	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	label5	8,23	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	groupChartSize	8,8	127,81	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textWidth	66,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textHeight	66,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	labelHeight	8,50	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	labelWidth	8,23	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	splitContainer1	0,0	831,547	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	printPreviewControl	0,0	831,529	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	butClose	748,0	75,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	.			831,645
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	splitContainer	0,0	831,645	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butExport	400,31	83,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butPrint	400,58	83,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	groupBox3	278,8	106,81	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textXPos	34,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textYPos	34,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	label1	8,50	20,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	label2	8,23	20,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	checkLandscape	489,60	87,18	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	groupBox2	143,8	127,81	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textMarginWidth	66,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textMarginHeight	66,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	label4	8,50	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	label5	8,23	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	groupBox1	8,8	127,81	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textWidth	66,23	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textHeight	66,50	53,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	labelHeight	8,50	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	labelWidth	8,23	52,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	splitContainer1	0,0	831,547	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	printPreviewControl	0,0	831,529	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butClose	748,0	75,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	.			831,645
+OpenPmsDentalHL7/FormDebug.Designer.cs	label1	8,8	498,18	
+OpenPmsDentalHL7/FormDebug.Designer.cs	butStart	371,329	135,24	
+OpenPmsDentalHL7/FormDebug.Designer.cs	textOutput	8,134	498,183	
+OpenPmsDentalHL7/FormDebug.Designer.cs	textServerName	122,57	384,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	textDatabaseName	122,84	384,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	label2	8,57	108,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	label3	8,84	108,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	label4	8,30	108,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	textHL7Name	122,30	384,23	
+OpenPmsDentalHL7/FormDebug.Designer.cs	label5	8,115	52,17	
+OpenPmsDentalHL7/FormDebug.Designer.cs	.			514,361
+xCrudGenerator/Form1.Designer.cs	label1	266,8	804,34	
+xCrudGenerator/Form1.Designer.cs	butRun	94,177	98,23	
+xCrudGenerator/Form1.Designer.cs	textDb	94,35	128,23	
+xCrudGenerator/Form1.Designer.cs	label3	8,35	80,23	
+xCrudGenerator/Form1.Designer.cs	label2	181,212	72,17	
+xCrudGenerator/Form1.Designer.cs	label4	8,150	149,17	
+xCrudGenerator/Form1.Designer.cs	label5	8,104	149,17	
+xCrudGenerator/Form1.Designer.cs	comboType	8,123	149,23	
+xCrudGenerator/Form1.Designer.cs	butSnippet	8,23	96,23	
+xCrudGenerator/Form1.Designer.cs	textSnippet	181,231	972,495	
+xCrudGenerator/Form1.Designer.cs	label6	8,50	149,50	
+xCrudGenerator/Form1.Designer.cs	listClass	8,169	149,337	
+xCrudGenerator/Form1.Designer.cs	checkRun	8,111	52,18	
+xCrudGenerator/Form1.Designer.cs	checkRunSchema	8,89	157,18	
+xCrudGenerator/Form1.Designer.cs	label10	266,46	804,18	
+xCrudGenerator/Form1.Designer.cs	checkRunQueries	8,155	250,18	
+xCrudGenerator/Form1.Designer.cs	checkAddToConvertScript	8,133	183,18	
+xCrudGenerator/Form1.Designer.cs	labelPortNum	8,8	80,23	
+xCrudGenerator/Form1.Designer.cs	textPortNum	94,8	64,23	
+xCrudGenerator/Form1.Designer.cs	butPd	1078,8	75,23	
+xCrudGenerator/Form1.Designer.cs	textPassword	94,62	128,23	
+xCrudGenerator/Form1.Designer.cs	label7	8,62	80,23	
+xCrudGenerator/Form1.Designer.cs	groupBox1	8,212	165,514	
+xCrudGenerator/Form1.Designer.cs	.			1161,734

@@ -85,13 +85,13 @@
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.splitContainer1);
 			this.splitContainer.Size = new System.Drawing.Size(831, 645);
-			this.splitContainer.SplitterDistance = 89;
+			this.splitContainer.SplitterDistance = 97;
 			this.splitContainer.SplitterWidth = 1;
 			this.splitContainer.TabIndex = 1;
 			// 
 			// butExport
 			// 
-			this.butExport.Location = new System.Drawing.Point(466, 26);
+			this.butExport.Location = new System.Drawing.Point(404, 31);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(83, 23);
 			this.butExport.TabIndex = 3;
@@ -101,7 +101,7 @@
 			// 
 			// butPrint
 			// 
-			this.butPrint.Location = new System.Drawing.Point(466, 53);
+			this.butPrint.Location = new System.Drawing.Point(404, 58);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(83, 23);
 			this.butPrint.TabIndex = 4;
@@ -115,9 +115,9 @@
 			this.groupChartPosition.Controls.Add(this.textYPos);
 			this.groupChartPosition.Controls.Add(this.label1);
 			this.groupChartPosition.Controls.Add(this.label2);
-			this.groupChartPosition.Location = new System.Drawing.Point(311, 6);
+			this.groupChartPosition.Location = new System.Drawing.Point(278, 8);
 			this.groupChartPosition.Name = "groupChartPosition";
-			this.groupChartPosition.Size = new System.Drawing.Size(142, 72);
+			this.groupChartPosition.Size = new System.Drawing.Size(110, 81);
 			this.groupChartPosition.TabIndex = 2;
 			this.groupChartPosition.TabStop = false;
 			this.groupChartPosition.Text = "Image Position";
@@ -125,9 +125,9 @@
 			// textXPos
 			// 
 			this.textXPos.AutoSize = false;
-			this.textXPos.Location = new System.Drawing.Point(76, 19);
+			this.textXPos.Location = new System.Drawing.Point(34, 23);
 			this.textXPos.Name = "textXPos";
-			this.textXPos.Size = new System.Drawing.Size(53, 20);
+			this.textXPos.Size = new System.Drawing.Size(53, 23);
 			this.textXPos.TabIndex = 0;
 			this.textXPos.Text = "0";
 			this.textXPos.TextChanged += new System.EventHandler(this.refresh_Event);
@@ -135,27 +135,27 @@
 			// textYPos
 			// 
 			this.textYPos.AutoSize = false;
-			this.textYPos.Location = new System.Drawing.Point(76, 41);
+			this.textYPos.Location = new System.Drawing.Point(34, 50);
 			this.textYPos.Name = "textYPos";
-			this.textYPos.Size = new System.Drawing.Size(53, 20);
+			this.textYPos.Size = new System.Drawing.Size(53, 23);
 			this.textYPos.TabIndex = 1;
 			this.textYPos.Text = "0";
 			this.textYPos.TextChanged += new System.EventHandler(this.refresh_Event);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 44);
+			this.label1.Location = new System.Drawing.Point(8, 50);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(68, 15);
+			this.label1.Size = new System.Drawing.Size(20, 23);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "y:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(7, 22);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(68, 15);
+			this.label2.Size = new System.Drawing.Size(20, 23);
 			this.label2.TabIndex = 4;
 			this.label2.Text = "x:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -164,9 +164,9 @@
 			// 
 			this.checkLandscape.Checked = true;
 			this.checkLandscape.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLandscape.Location = new System.Drawing.Point(555, 59);
+			this.checkLandscape.Location = new System.Drawing.Point(493, 60);
 			this.checkLandscape.Name = "checkLandscape";
-			this.checkLandscape.Size = new System.Drawing.Size(142, 17);
+			this.checkLandscape.Size = new System.Drawing.Size(87, 18);
 			this.checkLandscape.TabIndex = 5;
 			this.checkLandscape.Text = "Landscape";
 			this.checkLandscape.UseVisualStyleBackColor = true;
@@ -178,9 +178,9 @@
 			this.groupMargins.Controls.Add(this.textMarginHeight);
 			this.groupMargins.Controls.Add(this.label4);
 			this.groupMargins.Controls.Add(this.label5);
-			this.groupMargins.Location = new System.Drawing.Point(164, 6);
+			this.groupMargins.Location = new System.Drawing.Point(143, 8);
 			this.groupMargins.Name = "groupMargins";
-			this.groupMargins.Size = new System.Drawing.Size(141, 72);
+			this.groupMargins.Size = new System.Drawing.Size(127, 81);
 			this.groupMargins.TabIndex = 1;
 			this.groupMargins.TabStop = false;
 			this.groupMargins.Text = "Margins";
@@ -188,9 +188,9 @@
 			// textMarginWidth
 			// 
 			this.textMarginWidth.AutoSize = false;
-			this.textMarginWidth.Location = new System.Drawing.Point(76, 19);
+			this.textMarginWidth.Location = new System.Drawing.Point(66, 23);
 			this.textMarginWidth.Name = "textMarginWidth";
-			this.textMarginWidth.Size = new System.Drawing.Size(53, 20);
+			this.textMarginWidth.Size = new System.Drawing.Size(53, 23);
 			this.textMarginWidth.TabIndex = 0;
 			this.textMarginWidth.Text = "20";
 			this.textMarginWidth.TextChanged += new System.EventHandler(this.refresh_Event);
@@ -198,27 +198,27 @@
 			// textMarginHeight
 			// 
 			this.textMarginHeight.AutoSize = false;
-			this.textMarginHeight.Location = new System.Drawing.Point(76, 41);
+			this.textMarginHeight.Location = new System.Drawing.Point(66, 50);
 			this.textMarginHeight.Name = "textMarginHeight";
-			this.textMarginHeight.Size = new System.Drawing.Size(53, 20);
+			this.textMarginHeight.Size = new System.Drawing.Size(53, 23);
 			this.textMarginHeight.TabIndex = 1;
 			this.textMarginHeight.Text = "20";
 			this.textMarginHeight.TextChanged += new System.EventHandler(this.refresh_Event);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(7, 44);
+			this.label4.Location = new System.Drawing.Point(8, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(68, 15);
+			this.label4.Size = new System.Drawing.Size(52, 23);
 			this.label4.TabIndex = 3;
 			this.label4.Text = "Height:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(7, 22);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(68, 15);
+			this.label5.Size = new System.Drawing.Size(52, 23);
 			this.label5.TabIndex = 4;
 			this.label5.Text = "Width:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -229,9 +229,9 @@
 			this.groupChartSize.Controls.Add(this.textHeight);
 			this.groupChartSize.Controls.Add(this.labelHeight);
 			this.groupChartSize.Controls.Add(this.labelWidth);
-			this.groupChartSize.Location = new System.Drawing.Point(10, 6);
+			this.groupChartSize.Location = new System.Drawing.Point(8, 8);
 			this.groupChartSize.Name = "groupChartSize";
-			this.groupChartSize.Size = new System.Drawing.Size(142, 72);
+			this.groupChartSize.Size = new System.Drawing.Size(127, 81);
 			this.groupChartSize.TabIndex = 0;
 			this.groupChartSize.TabStop = false;
 			this.groupChartSize.Text = "Image Size";
@@ -239,35 +239,35 @@
 			// textWidth
 			// 
 			this.textWidth.AutoSize = false;
-			this.textWidth.Location = new System.Drawing.Point(76, 19);
+			this.textWidth.Location = new System.Drawing.Point(66, 23);
 			this.textWidth.Name = "textWidth";
-			this.textWidth.Size = new System.Drawing.Size(53, 20);
+			this.textWidth.Size = new System.Drawing.Size(53, 23);
 			this.textWidth.TabIndex = 2;
 			this.textWidth.TextChanged += new System.EventHandler(this.refresh_Event);
 			// 
 			// textHeight
 			// 
 			this.textHeight.AutoSize = false;
-			this.textHeight.Location = new System.Drawing.Point(76, 41);
+			this.textHeight.Location = new System.Drawing.Point(66, 50);
 			this.textHeight.Name = "textHeight";
-			this.textHeight.Size = new System.Drawing.Size(53, 20);
+			this.textHeight.Size = new System.Drawing.Size(53, 23);
 			this.textHeight.TabIndex = 3;
 			this.textHeight.TextChanged += new System.EventHandler(this.refresh_Event);
 			// 
 			// labelHeight
 			// 
-			this.labelHeight.Location = new System.Drawing.Point(7, 44);
+			this.labelHeight.Location = new System.Drawing.Point(8, 50);
 			this.labelHeight.Name = "labelHeight";
-			this.labelHeight.Size = new System.Drawing.Size(68, 15);
+			this.labelHeight.Size = new System.Drawing.Size(52, 23);
 			this.labelHeight.TabIndex = 1;
 			this.labelHeight.Text = "Height:";
 			this.labelHeight.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelWidth
 			// 
-			this.labelWidth.Location = new System.Drawing.Point(7, 22);
+			this.labelWidth.Location = new System.Drawing.Point(8, 23);
 			this.labelWidth.Name = "labelWidth";
-			this.labelWidth.Size = new System.Drawing.Size(68, 15);
+			this.labelWidth.Size = new System.Drawing.Size(52, 23);
 			this.labelWidth.TabIndex = 0;
 			this.labelWidth.Text = "Width:";
 			this.labelWidth.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -289,8 +289,8 @@
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.butClose);
-			this.splitContainer1.Size = new System.Drawing.Size(831, 555);
-			this.splitContainer1.SplitterDistance = 529;
+			this.splitContainer1.Size = new System.Drawing.Size(831, 547);
+			this.splitContainer1.SplitterDistance = 521;
 			this.splitContainer1.SplitterWidth = 1;
 			this.splitContainer1.TabIndex = 0;
 			// 
@@ -306,7 +306,7 @@
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butClose.Location = new System.Drawing.Point(744, 0);
+			this.butClose.Location = new System.Drawing.Point(748, 0);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 23);
 			this.butClose.TabIndex = 0;

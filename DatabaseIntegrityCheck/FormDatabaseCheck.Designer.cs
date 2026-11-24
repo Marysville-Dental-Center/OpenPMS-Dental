@@ -42,9 +42,9 @@ namespace DatabaseIntegrityCheck {
 			// 
 			// butRepair
 			// 
-			this.butRepair.Location = new System.Drawing.Point(286, 126);
+			this.butRepair.Location = new System.Drawing.Point(395, 116);
 			this.butRepair.Name = "butRepair";
-			this.butRepair.Size = new System.Drawing.Size(75, 28);
+			this.butRepair.Size = new System.Drawing.Size(75, 24);
 			this.butRepair.TabIndex = 6;
 			this.butRepair.Text = "Repair";
 			this.butRepair.UseVisualStyleBackColor = true;
@@ -52,75 +52,75 @@ namespace DatabaseIntegrityCheck {
 			// 
 			// textDatabase
 			// 
-			this.textDatabase.Location = new System.Drawing.Point(161, 46);
+			this.textDatabase.Location = new System.Drawing.Point(82, 35);
 			this.textDatabase.Name = "textDatabase";
-			this.textDatabase.Size = new System.Drawing.Size(200, 20);
+			this.textDatabase.Size = new System.Drawing.Size(388, 23);
 			this.textDatabase.TabIndex = 2;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(42, 46);
+			this.label1.Location = new System.Drawing.Point(8, 35);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(118, 20);
+			this.label1.Size = new System.Drawing.Size(68, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Database";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(42, 19);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(118, 20);
+			this.label2.Size = new System.Drawing.Size(68, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Computer";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textComputerName
 			// 
-			this.textComputerName.Location = new System.Drawing.Point(161, 19);
+			this.textComputerName.Location = new System.Drawing.Point(82, 8);
 			this.textComputerName.Name = "textComputerName";
-			this.textComputerName.Size = new System.Drawing.Size(200, 20);
+			this.textComputerName.Size = new System.Drawing.Size(388, 23);
 			this.textComputerName.TabIndex = 1;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(42, 73);
+			this.label3.Location = new System.Drawing.Point(8, 62);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(118, 20);
+			this.label3.Size = new System.Drawing.Size(68, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Username";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(161, 73);
+			this.textUser.Location = new System.Drawing.Point(82, 62);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(200, 20);
+			this.textUser.Size = new System.Drawing.Size(388, 23);
 			this.textUser.TabIndex = 3;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(42, 100);
+			this.label4.Location = new System.Drawing.Point(8, 89);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(118, 20);
+			this.label4.Size = new System.Drawing.Size(68, 23);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Password";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(161, 100);
+			this.textPassword.Location = new System.Drawing.Point(82, 89);
 			this.textPassword.Name = "textPassword";
-			this.textPassword.Size = new System.Drawing.Size(200, 20);
+			this.textPassword.Size = new System.Drawing.Size(388, 23);
 			this.textPassword.TabIndex = 4;
 			this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
 			this.textPassword.Leave += new System.EventHandler(this.textPassword_Leave);
 			// 
 			// butCheck
 			// 
-			this.butCheck.Location = new System.Drawing.Point(205, 126);
+			this.butCheck.Location = new System.Drawing.Point(312, 116);
 			this.butCheck.Name = "butCheck";
-			this.butCheck.Size = new System.Drawing.Size(75, 28);
+			this.butCheck.Size = new System.Drawing.Size(75, 24);
 			this.butCheck.TabIndex = 5;
 			this.butCheck.Text = "Check";
 			this.butCheck.UseVisualStyleBackColor = true;
@@ -132,19 +132,19 @@ namespace DatabaseIntegrityCheck {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textResults.BackColor = System.Drawing.SystemColors.Window;
-			this.textResults.Location = new System.Drawing.Point(29, 156);
+			this.textResults.Location = new System.Drawing.Point(8, 148);
 			this.textResults.Multiline = true;
 			this.textResults.Name = "textResults";
 			this.textResults.ReadOnly = true;
 			this.textResults.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textResults.Size = new System.Drawing.Size(425, 299);
+			this.textResults.Size = new System.Drawing.Size(462, 303);
 			this.textResults.TabIndex = 7;
 			// 
 			// butCopy
 			// 
-			this.butCopy.Location = new System.Drawing.Point(29, 461);
+			this.butCopy.Location = new System.Drawing.Point(8, 463);
 			this.butCopy.Name = "butCopy";
-			this.butCopy.Size = new System.Drawing.Size(75, 28);
+			this.butCopy.Size = new System.Drawing.Size(75, 24);
 			this.butCopy.TabIndex = 8;
 			this.butCopy.Text = "Copy Text";
 			this.butCopy.UseVisualStyleBackColor = true;

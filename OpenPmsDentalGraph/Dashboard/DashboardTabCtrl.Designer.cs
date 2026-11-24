@@ -45,9 +45,9 @@
 			// 
 			this.butPrintPage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrintPage.BackColor = System.Drawing.SystemColors.Control;
-			this.butPrintPage.Location = new System.Drawing.Point(142, 1);
+			this.butPrintPage.Location = new System.Drawing.Point(142, 0);
 			this.butPrintPage.Name = "butPrintPage";
-			this.butPrintPage.Size = new System.Drawing.Size(77, 21);
+			this.butPrintPage.Size = new System.Drawing.Size(77, 23);
 			this.butPrintPage.TabIndex = 9;
 			this.butPrintPage.Text = "Print Page";
 			this.butPrintPage.TextAlign = System.Drawing.ContentAlignment.TopCenter;

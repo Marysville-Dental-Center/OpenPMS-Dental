@@ -122,6 +122,11 @@ namespace UiRefreshTests {
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
 							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
+								//UI-12 slice 12: two windows of one class name in the list (xCrudGenerator's and DocumentationBuilder's Form1) are named
+								//<namespace>-<class>, so one picture does not overwrite the other.
+								if(arrayWindows.Select(x => x.Split('#')[0]).Distinct().Count(x => x.Substring(x.LastIndexOf('.')+1)==window.Substring(window.LastIndexOf('.')+1))>1) {
+									name=window.Replace('.','-');
+								}
 								if(state!="") {
 									name+="-"+state;
 								}

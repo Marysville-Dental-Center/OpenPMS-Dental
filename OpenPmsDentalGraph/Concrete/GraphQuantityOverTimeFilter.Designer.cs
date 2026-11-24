@@ -53,7 +53,7 @@
 			// 
 			this.splitContainer.Panel2.Controls.Add(this.graph);
 			this.splitContainer.Size = new System.Drawing.Size(788, 410);
-			this.splitContainer.SplitterDistance = 60;
+			this.splitContainer.SplitterDistance = 87;
 			this.splitContainer.SplitterWidth = 1;
 			this.splitContainer.TabIndex = 9;
 			// 
@@ -67,16 +67,16 @@
 			// splitContainerOptions.Panel1
 			// 
 			this.splitContainerOptions.Panel1.Controls.Add(this.groupingOptionsCtrl1);
-			this.splitContainerOptions.Size = new System.Drawing.Size(788, 60);
-			this.splitContainerOptions.SplitterDistance = 120;
+			this.splitContainerOptions.Size = new System.Drawing.Size(788, 87);
+			this.splitContainerOptions.SplitterDistance = 108;
 			this.splitContainerOptions.TabIndex = 0;
 			// 
 			// groupingOptionsCtrl1
 			// 
 			this.groupingOptionsCtrl1.CurGrouping = OpenPmsDentalGraph.GroupingOptionsCtrl.Grouping.provider;
-			this.groupingOptionsCtrl1.Location = new System.Drawing.Point(5, 0);
+			this.groupingOptionsCtrl1.Location = new System.Drawing.Point(0, 0);
 			this.groupingOptionsCtrl1.Name = "groupingOptionsCtrl1";
-			this.groupingOptionsCtrl1.Size = new System.Drawing.Size(112, 60);
+			this.groupingOptionsCtrl1.Size = new System.Drawing.Size(108, 87);
 			this.groupingOptionsCtrl1.TabIndex = 0;
 			this.groupingOptionsCtrl1.InputsChanged += new System.EventHandler(this.OnFormInputsChanged);
 			// 

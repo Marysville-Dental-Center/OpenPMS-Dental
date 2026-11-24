@@ -41,9 +41,9 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(233, 214);
+			this.butOK.Location = new System.Drawing.Point(242, 213);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 23);
+			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 25;
 			this.butOK.Text = "&OK";
 			this.butOK.UseVisualStyleBackColor = true;
@@ -51,26 +51,26 @@
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(148, 33);
+			this.textUser.Location = new System.Drawing.Point(122, 8);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(211, 20);
+			this.textUser.Size = new System.Drawing.Size(278, 23);
 			this.textUser.TabIndex = 1;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(148, 59);
+			this.textPassword.Location = new System.Drawing.Point(122, 35);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(211, 20);
+			this.textPassword.Size = new System.Drawing.Size(278, 23);
 			this.textPassword.TabIndex = 10;
 			this.textPassword.UseSystemPasswordChar = true;
 			this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(29, 35);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 18);
+			this.label3.Size = new System.Drawing.Size(108, 23);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "MySQL Username";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -78,9 +78,9 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(314, 214);
+			this.butCancel.Location = new System.Drawing.Point(325, 213);
 			this.butCancel.Name = "butCancel";
-			this.butCancel.Size = new System.Drawing.Size(75, 23);
+			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 30;
 			this.butCancel.Text = "&Cancel";
 			this.butCancel.UseVisualStyleBackColor = true;
@@ -88,27 +88,27 @@
 			// 
 			// textRetypePassword
 			// 
-			this.textRetypePassword.Location = new System.Drawing.Point(148, 85);
+			this.textRetypePassword.Location = new System.Drawing.Point(122, 62);
 			this.textRetypePassword.Name = "textRetypePassword";
 			this.textRetypePassword.PasswordChar = '*';
-			this.textRetypePassword.Size = new System.Drawing.Size(211, 20);
+			this.textRetypePassword.Size = new System.Drawing.Size(278, 23);
 			this.textRetypePassword.TabIndex = 15;
 			this.textRetypePassword.UseSystemPasswordChar = true;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(32, 61);
+			this.label5.Location = new System.Drawing.Point(8, 35);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(113, 18);
+			this.label5.Size = new System.Drawing.Size(108, 23);
 			this.label5.TabIndex = 40;
 			this.label5.Text = "Password";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(32, 85);
+			this.label6.Location = new System.Drawing.Point(8, 62);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(113, 18);
+			this.label6.Size = new System.Drawing.Size(108, 23);
 			this.label6.TabIndex = 41;
 			this.label6.Text = "Retype Password";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -117,18 +117,18 @@
 			// 
 			this.groupBox1.Controls.Add(this.radioLow);
 			this.groupBox1.Controls.Add(this.radioFull);
-			this.groupBox1.Location = new System.Drawing.Point(119, 120);
+			this.groupBox1.Location = new System.Drawing.Point(122, 93);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(130, 70);
+			this.groupBox1.Size = new System.Drawing.Size(130, 71);
 			this.groupBox1.TabIndex = 20;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Permission Level";
 			// 
 			// radioLow
 			// 
-			this.radioLow.Location = new System.Drawing.Point(29, 42);
+			this.radioLow.Location = new System.Drawing.Point(8, 45);
 			this.radioLow.Name = "radioLow";
-			this.radioLow.Size = new System.Drawing.Size(86, 22);
+			this.radioLow.Size = new System.Drawing.Size(53, 18);
 			this.radioLow.TabIndex = 45;
 			this.radioLow.Text = "Low";
 			this.radioLow.UseVisualStyleBackColor = true;
@@ -136,9 +136,9 @@
 			// radioFull
 			// 
 			this.radioFull.Checked = true;
-			this.radioFull.Location = new System.Drawing.Point(29, 19);
+			this.radioFull.Location = new System.Drawing.Point(8, 23);
 			this.radioFull.Name = "radioFull";
-			this.radioFull.Size = new System.Drawing.Size(86, 22);
+			this.radioFull.Size = new System.Drawing.Size(50, 18);
 			this.radioFull.TabIndex = 44;
 			this.radioFull.TabStop = true;
 			this.radioFull.Text = "Full";

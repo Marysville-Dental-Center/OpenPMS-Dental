@@ -1,0 +1,6 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+CentralManager.FormCentralUserEdit	overlap	label1 tabControl	UI-12 slice 12: the Name label stands under the tab control as on main (drawn before the tabs were added; no code shows or moves it); the tab control covers it
+CentralManager.FormCentralUserEdit	overlap	label3 tabControl	UI-12 slice 12: the User Group label stands under the tab control as on main (the same)
+CentralManager.FormCentralSecurity	hidden-frame	securityTreeUser textXpos	UI-12 slice 12: UserControlSecurityTree (its own designer, OpenPmsDental) keeps its hidden textXpos outside its client area, as in the windows of the earlier slices that host it

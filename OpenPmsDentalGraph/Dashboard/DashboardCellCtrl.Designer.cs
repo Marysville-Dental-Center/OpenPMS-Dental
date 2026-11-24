@@ -61,9 +61,9 @@
 			this.panelPrint.Controls.Add(this.butRefresh);
 			this.panelPrint.Controls.Add(this.butPrintPreview);
 			this.panelPrint.Controls.Add(this.butEdit);
-			this.panelPrint.Location = new System.Drawing.Point(271, 0);
+			this.panelPrint.Location = new System.Drawing.Point(259, 0);
 			this.panelPrint.Name = "panelPrint";
-			this.panelPrint.Size = new System.Drawing.Size(103, 30);
+			this.panelPrint.Size = new System.Drawing.Size(118, 46);
 			this.panelPrint.TabIndex = 20;
 			// 
 			// butRefresh
@@ -71,7 +71,7 @@
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRefresh.BackColor = System.Drawing.SystemColors.Control;
 			this.butRefresh.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Sync",16,16);
-			this.butRefresh.Location = new System.Drawing.Point(1, 0);
+			this.butRefresh.Location = new System.Drawing.Point(8, 8);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(30, 30);
 			this.butRefresh.TabIndex = 9;
@@ -85,7 +85,7 @@
 			this.butPrintPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrintPreview.BackColor = System.Drawing.SystemColors.Control;
 			this.butPrintPreview.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Preview",16,16);
-			this.butPrintPreview.Location = new System.Drawing.Point(37, 0);
+			this.butPrintPreview.Location = new System.Drawing.Point(44, 8);
 			this.butPrintPreview.Name = "butPrintPreview";
 			this.butPrintPreview.Size = new System.Drawing.Size(30, 30);
 			this.butPrintPreview.TabIndex = 8;
@@ -100,7 +100,7 @@
 			this.butEdit.BackColor = System.Drawing.SystemColors.Control;
 			this.butEdit.Enabled = false;
 			this.butEdit.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Edit",16,16);
-			this.butEdit.Location = new System.Drawing.Point(73, 0);
+			this.butEdit.Location = new System.Drawing.Point(80, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(30, 30);
 			this.butEdit.TabIndex = 3;
@@ -118,9 +118,9 @@
 			this.panelEditCell.Controls.Add(this.butDeleteCell);
 			this.panelEditCell.Controls.Add(this.butDeleteRow);
 			this.panelEditCell.Controls.Add(this.butDeleteColumn);
-			this.panelEditCell.Location = new System.Drawing.Point(130, 0);
+			this.panelEditCell.Location = new System.Drawing.Point(105, 0);
 			this.panelEditCell.Name = "panelEditCell";
-			this.panelEditCell.Size = new System.Drawing.Size(136, 30);
+			this.panelEditCell.Size = new System.Drawing.Size(154, 46);
 			this.panelEditCell.TabIndex = 21;
 			// 
 			// butDrag
@@ -130,7 +130,7 @@
 			this.butDrag.Cursor = System.Windows.Forms.Cursors.SizeAll;
 			this.butDrag.Enabled = false;
 			this.butDrag.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Move",16,16);
-			this.butDrag.Location = new System.Drawing.Point(106, 0);
+			this.butDrag.Location = new System.Drawing.Point(116, 8);
 			this.butDrag.Name = "butDrag";
 			this.butDrag.Size = new System.Drawing.Size(30, 30);
 			this.butDrag.TabIndex = 4;
@@ -147,7 +147,7 @@
 			this.butDeleteCell.BackColor = System.Drawing.SystemColors.Control;
 			this.butDeleteCell.Enabled = false;
 			this.butDeleteCell.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","DeleteX",18,18);
-			this.butDeleteCell.Location = new System.Drawing.Point(70, 0);
+			this.butDeleteCell.Location = new System.Drawing.Point(80, 8);
 			this.butDeleteCell.Name = "butDeleteCell";
 			this.butDeleteCell.Size = new System.Drawing.Size(30, 30);
 			this.butDeleteCell.TabIndex = 2;
@@ -163,7 +163,7 @@
 			this.butDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteRow.BackColor = System.Drawing.SystemColors.Control;
 			this.butDeleteRow.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableDeleteRow",16,16);
-			this.butDeleteRow.Location = new System.Drawing.Point(34, 0);
+			this.butDeleteRow.Location = new System.Drawing.Point(44, 8);
 			this.butDeleteRow.Name = "butDeleteRow";
 			this.butDeleteRow.Size = new System.Drawing.Size(30, 30);
 			this.butDeleteRow.TabIndex = 1;
@@ -179,7 +179,7 @@
 			this.butDeleteColumn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDeleteColumn.BackColor = System.Drawing.SystemColors.Control;
 			this.butDeleteColumn.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TableDeleteColumn",16,16);
-			this.butDeleteColumn.Location = new System.Drawing.Point(0, 0);
+			this.butDeleteColumn.Location = new System.Drawing.Point(8, 8);
 			this.butDeleteColumn.Name = "butDeleteColumn";
 			this.butDeleteColumn.Size = new System.Drawing.Size(30, 30);
 			this.butDeleteColumn.TabIndex = 0;

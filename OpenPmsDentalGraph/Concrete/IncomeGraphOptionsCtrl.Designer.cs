@@ -33,38 +33,38 @@
 			// 
 			this.groupBox2.Controls.Add(this.checkIncludeInsuranceClaimPayments);
 			this.groupBox2.Controls.Add(this.checkIncludePaySplits);
-			this.groupBox2.Location = new System.Drawing.Point(0, 0);
+			this.groupBox2.Location = new System.Drawing.Point(8, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(214, 56);
+			this.groupBox2.Size = new System.Drawing.Size(210, 71);
 			this.groupBox2.TabIndex = 8;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Included Income Sources";
 			// 
 			// checkIncludeInsuranceClaimPayments
 			// 
-			this.checkIncludeInsuranceClaimPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeInsuranceClaimPayments.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeInsuranceClaimPayments.Checked = true;
 			this.checkIncludeInsuranceClaimPayments.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludeInsuranceClaimPayments.Location = new System.Drawing.Point(6, 35);
+			this.checkIncludeInsuranceClaimPayments.Location = new System.Drawing.Point(8, 45);
 			this.checkIncludeInsuranceClaimPayments.Name = "checkIncludeInsuranceClaimPayments";
-			this.checkIncludeInsuranceClaimPayments.Size = new System.Drawing.Size(199, 21);
+			this.checkIncludeInsuranceClaimPayments.Size = new System.Drawing.Size(171, 18);
 			this.checkIncludeInsuranceClaimPayments.TabIndex = 3;
 			this.checkIncludeInsuranceClaimPayments.Text = "Insurance Claim Payments";
-			this.checkIncludeInsuranceClaimPayments.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludeInsuranceClaimPayments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludeInsuranceClaimPayments.UseVisualStyleBackColor = true;
 			this.checkIncludeInsuranceClaimPayments.Click += new System.EventHandler(this.OnIncomeGraphInputsChanged);
 			// 
 			// checkIncludePaySplits
 			// 
-			this.checkIncludePaySplits.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludePaySplits.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludePaySplits.Checked = true;
 			this.checkIncludePaySplits.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkIncludePaySplits.Location = new System.Drawing.Point(6, 14);
+			this.checkIncludePaySplits.Location = new System.Drawing.Point(8, 23);
 			this.checkIncludePaySplits.Name = "checkIncludePaySplits";
-			this.checkIncludePaySplits.Size = new System.Drawing.Size(199, 21);
+			this.checkIncludePaySplits.Size = new System.Drawing.Size(81, 18);
 			this.checkIncludePaySplits.TabIndex = 5;
 			this.checkIncludePaySplits.Text = "Pay Splits";
-			this.checkIncludePaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIncludePaySplits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIncludePaySplits.UseVisualStyleBackColor = true;
 			this.checkIncludePaySplits.Click += new System.EventHandler(this.OnIncomeGraphInputsChanged);
 			// 
@@ -73,7 +73,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox2);
 			this.Name = "IncomeGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(226, 67);
+			this.Size = new System.Drawing.Size(226, 87);
 			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
 

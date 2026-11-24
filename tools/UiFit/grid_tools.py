@@ -277,6 +277,46 @@ def bottom_anchored_high(tree, designer):
     return out
 
 
+def window_files(root, windows):
+    """fit_tools.window_files, and (UI-12 slice 12) for a window with no designer file of its name, the .cs file of its name that holds its
+    InitializeComponent (the Central Manager's FormCentralChooseDatabase and FormCentralLogOn keep their designer code in the window's own
+    file), else the designer file of its assembly's folder that declares the class. Only for such windows: a window with a designer file finds the same files as before."""
+    wf = fit_tools.window_files(root, windows)
+    missing = [w for w in windows if not wf.get(w)]
+    if missing:
+        saved = fit_tools.ALLOW_CODE_FILES
+        fit_tools.ALLOW_CODE_FILES = True
+        try:
+            by_name = fit_tools.code_files_with_designer_code(root)
+            for w in missing:
+                simple = w.split(".")[-1].split("@")[0]
+                wf[w] = by_name.get(simple.lower(), [])
+                if not wf[w]:
+                    # A designer file named otherwise than its class (MySQLManager's FormMySQLUserManager in FormMySQLManager.Designer.cs).
+                    wf[w] = [f for f in fit_tools.files_declaring(root, fit_tools.designer_files(root), simple)
+                             if f.lower().startswith(w.split(".")[0].lower() + "/")]
+        finally:
+            fit_tools.ALLOW_CODE_FILES = saved
+    return wf
+
+
+def without_initialize_component(text):
+    """The code without the body of InitializeComponent (UI-12 slice 12): in a window whose designer code is in its own .cs file, the
+    designer's Location and Size lines are not code that positions controls at run time."""
+    m = re.search(r"void\s+InitializeComponent\s*\(\s*\)\s*\{", text)
+    if not m:
+        return text
+    depth = 0
+    for i in range(m.end() - 1, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[:m.end()] + text[i:]
+    return text
+
+
 def code_files_for(root, simple):
     """The .cs files (not designer files) that declare (partial) class simple."""
     try:
@@ -303,7 +343,7 @@ def runtime_positioned(root, simple, names):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(without_initialize_component(fh.read().decode("latin-1")))
     code = "\n".join(texts)
     if not code:
         return found
@@ -347,7 +387,7 @@ def runtime_window_sized(root, simple):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(without_initialize_component(fh.read().decode("latin-1")))
     code = "\n".join(texts)
     code = re.sub(r'(?m)^((?:[^"\n/]|"(?:[^"\\\n]|\\.)*"|/(?!/))*)//[^\n]*', r"\1", code)
     out = []
@@ -381,7 +421,24 @@ def check_width(n, text_room=None):
     """The width a check box or radio button needs for its box and its text on one line."""
     # UI.CheckBox and, from round 3, the stock radio button (UiRadioLook) put the text 16 px from the left; the stock check box 18 px.
     lead = GRID["check_box"] + GRID["check_text"] if n.type in ("OpenPmsDental.UI.CheckBox",) + RADIO_TYPES else 18
+    if PLAIN_WINDOW[0] and n.type in ("System.Windows.Forms.CheckBox",) + RADIO_TYPES:
+        # UI-12 slice 12: in a plain window (no FormODBase, no UiRadioLook) the stock check box and radio button draw as Windows draws
+        # them: their preferred width is the text + 22 to 25 (the box, its gap and the focus margins; GridRulesTests wraps the text in
+        # the width less what the preferred width adds), so the lead is 22 (the text + 24).
+        lead = 22
     return lead + n.text_w + 2 if n.text_w else n.w
+
+
+def box_left_text_align(n):
+    """UI-12 slice 12 fix round: the TextAlign a check box or radio button turned box-left needs, or None. In a plain window the stock
+    check box and radio button draw their TextAlign: one that had its box on the right with its text right-aligned (MiddleRight) kept that
+    alignment and drew its text 23 to 27 px after the box instead of about 16 (FormCentralConnections' Automatically Log On, GraphQuantity
+    OverTime's All, Top and None). Its text goes to the left of its bounds with the box: MiddleRight -> MiddleLeft (TopRight -> TopLeft).
+    UI.CheckBox and the program windows' radio look (UiRadioLook) draw their text after the box whatever the TextAlign: no row."""
+    if not PLAIN_WINDOW[0] or n.type not in ("System.Windows.Forms.CheckBox",) + RADIO_TYPES:
+        return None
+    ta = n.text_align or ""
+    return ta[:-len("Right")] + "Left" if ta.endswith("Right") else None
 
 
 def wrapped_lines(text_w, room):
@@ -1547,6 +1604,8 @@ class Planner:
         MULTI_PICKERS.clear()
         MULTI_PICKERS.update(designer.multi_pickers)
         MULTI_PICKERS.update(multi_pickers_in_code(self.root, simple))
+        PLAIN_WINDOW[0] = is_plain_window(self.root, designer.rel, simple)
+        plain_client_root(tree)
         for n in walk(tree):
             if "ComboBoxClinicPicker" in n.type and n.name not in NO_LABEL_PICKERS and not n.text_w:
                 # A tree of a build before slice 1 (GridDump wrote no label width for a clinic picker): its box was drawn after main's fixed
@@ -1669,6 +1728,9 @@ class Planner:
                 n.rule.setdefault("CheckAlign", "check box: the box on the left of its text (its bounds kept)")
                 if n.fixed:
                     self.add(designer, window, n.name, "CheckAlign", n.check_align, "MiddleLeft", n.rule["CheckAlign"])
+                    if box_left_text_align(n):
+                        self.add(designer, window, n.name, "TextAlign", n.text_align, box_left_text_align(n),
+                                 "check box: its text from the box (a stock box draws its TextAlign)")
         # Rows of the plan.
         for n in walk(tree):
             if not n.editable or n.fixed:
@@ -1705,6 +1767,9 @@ class Planner:
                 self.add(designer, window, n.name, "AutoSize", "true", "false", "a size set by the grid")
             if n.new_check_align:
                 self.add(designer, window, n.name, "CheckAlign", n.check_align, n.new_check_align, n.rule["CheckAlign"])
+                if n.new_check_align == "MiddleLeft" and box_left_text_align(n):
+                    self.add(designer, window, n.name, "TextAlign", n.text_align, box_left_text_align(n),
+                             "check box: its text from the box (a stock box draws its TextAlign)")
             if n.new_text_align and n.type in LABEL_TYPES:
                 self.add(designer, window, n.name, "TextAlign", n.text_align, n.new_text_align, n.rule["TextAlign"])
                 # Slice 1 fix round 9: a label drawn right to left (RightToLeft.Yes) mirrors its TextAlign: MiddleRight would draw its text at
@@ -2262,6 +2327,32 @@ SIMULATE = False
 CLINIC_LABEL_W = {"Clinic": 43, "Clinics": 48}
 NO_LABEL_PICKERS = set()  # this window's clinic pickers with ShowLabel = false
 MULTI_PICKERS = set()  # this window's clinic pickers with IsMultiSelect = true (the label "Clinics")
+PLAIN_WINDOW = [False]  # UI-12 slice 12: the window being planned is a plain window (is_plain_window)
+# The plain exes' and plain libraries' folders (tests/UiRefreshTests/Scan/WindowBuilder.cs, ArrayPlainExes and ArrayPlainLibraries).
+PLAIN_FOLDERS = ("CentralManager", "DatabaseIntegrityCheck", "DocumentationBuilder", "MySQLManager", "OpenPmsDentalDbSettings",
+                 "OpenPmsDentalHL7", "RdlDesign", "ServiceManager", "UpdateFileCopier", "xCrudGenerator", "OpenPmsDentalGraph")
+
+
+def plain_client_root(tree):
+    """UI-12 slice 12: the root of a plain window's tree is the Form itself, whose bounds take Windows' frame and title bar (FormODBase's
+    root is its client panel): the planner lays out the client area, so the root is as large as the form's ClientSize."""
+    if PLAIN_WINDOW[0] and tree is not None and tree.cw > 0 and tree.ch > 0 and (tree.cw, tree.ch) != (tree.w, tree.h):
+        tree.w, tree.h = tree.cw, tree.ch
+        tree.nw, tree.nh = tree.cw, tree.ch
+
+
+def is_plain_window(root, designer_rel, simple):
+    """UI-12 slice 12: a plain window, a Form that is not a FormODBase or a UserControl of a plain exe or library (GridRulesTests.IsPlain):
+    its designer is in a plain exe's or library's folder and no code file of the class derives it from FormODBase (the Central Manager's
+    FormCentralSecurity and FormCentralReportSetup are FormODBase windows)."""
+    if designer_rel.replace("\\", "/").split("/")[0] not in PLAIN_FOLDERS:
+        return False
+    files = code_files_for(root, simple) + [designer_rel]
+    for f in files:
+        with open(os.path.join(root, f), "rb") as fh:
+            if re.search(r"class\s+%s\s*:\s*(OpenPmsDental\.)?FormODBase\b" % re.escape(simple), fh.read().decode("latin-1")):
+                return False
+    return True
 
 
 def clinic_label_w(i):
@@ -2304,7 +2395,7 @@ def cmd_plan(args):
     if args.windows:
         windows = set(args.windows.split(","))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()), declared=True)
+    wf = window_files(root, list(trees.keys()))
     planner = Planner(root)
     scope_file = os.path.join(root, args.scope_file)
     if os.path.exists(scope_file):
@@ -2438,6 +2529,15 @@ def apply_row(text, control, prop, new):
         if m:
             return text[:m.start(2)] + new + text[m.end(2):], None
         return insert_before_name_line(text, control, "this.%s.AutoSize = %s;" % (control, new))
+    if prop == "SplitterDistance":
+        # A hand row only (UI-12 slice 12: the graph's split containers, whose first panel holds the settings the scripts lay out; the
+        # SplitterPanel's size comes from it): the digits of the line.
+        pat = re.compile(r"(%sSplitterDistance ?= ?)(\d+)(;)" % re.escape(target))
+        ms = list(pat.finditer(text))
+        if len(ms) == 1:
+            m = ms[0]
+            return text[:m.start(2)] + new + text[m.end(2):], None
+        return text, "SplitterDistance line found %d times" % len(ms)
     if prop == "RightToLeft":
         pat = re.compile(r"(%sRightToLeft ?= ?System\.Windows\.Forms\.RightToLeft\.)(\w+)(;)" % re.escape(target))
         m = pat.search(text)
@@ -2567,7 +2667,7 @@ def cmd_anchors(args):
     windows = set(args.windows.split(",")) if args.windows else set(
         r["window"] for r in slice_data.read_dicts(slice_data.resolve(root, args.windows_file)))
     trees = load_tree(args.tree, windows)
-    wf = fit_tools.window_files(root, list(trees.keys()), declared=True)
+    wf = window_files(root, list(trees.keys()))
     found = 0
     for w in sorted(trees):
         files = wf.get(w) or []
