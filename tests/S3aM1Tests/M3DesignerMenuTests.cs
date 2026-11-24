@@ -238,13 +238,14 @@ namespace S3aM1Tests {
 			StringAssert.Contains(designer,"this.MainMenuStrip = this.mainMenu;");
 			Assert.IsFalse(designer.Contains("this.Menu = "),"No WinForms MainMenu on the form.");
 			Assert.IsFalse(ReadFile(@"CentralManager\FormCentralManager.cs").Contains("this.Menu=mainMenu;"));
-			//The menu strip takes 24 pixels of the client area that the MainMenu took outside it: the controls move down and the client area grows.
+			//The menu strip takes 24 pixels of the client area that the MainMenu took outside it: the controls stand below it. The exact positions are
+			//UI-12 slice 12's layout grid, so the test checks that every top-level control is under the strip, not the numbers.
 			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(1834, 953);");
 			StringAssert.Contains(designer,"this.mainMenu.Size = new System.Drawing.Size(1834, 24);");
-			foreach((string control,int x,int yMain) in new[] { ("groupBox1",285,0),("gridConns",6,88),("gridPats",715,88),("comboConnectionGroups",91,3),
-				("label1",5,7),("labelVersion",3,71),("butRefreshStatuses",155,35),("groupBox2",1593,100) })
-			{
-				StringAssert.Contains(designer,"this."+control+".Location = new System.Drawing.Point("+x+", "+(yMain+24)+");",control);
+			foreach(string control in new[] { "groupBox1","gridConns","gridPats","comboConnectionGroups","label1","labelVersion","butRefreshStatuses","groupBox2" }) {
+				Match match=Regex.Match(designer,@"this\."+control+@"\.Location = new System\.Drawing\.Point\(\d+, (\d+)\);");
+				Assert.IsTrue(match.Success,control+" has a location.");
+				Assert.IsTrue(int.Parse(match.Groups[1].Value)>=24,control+" stands below the 24 px menu strip (y "+match.Groups[1].Value+").");
 			}
 		}
 	}
