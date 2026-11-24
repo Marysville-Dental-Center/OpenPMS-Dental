@@ -34,12 +34,14 @@ namespace OpenPmsDental {
 			//All x values are relative to the form's size, so no scaling is needed.
 			//The y value of the top most control is based on a percentage of the form's height.
 			//The y position of each subsequent control is based on the height and location of the previous control.
+			//UI-12 slice 16: with the grid's gaps: a section gap under the welcome, the caption gap over the list, a sibling gap under it, the item gap
+			//over Done (the controls touched or stood 23 px apart).
 			LayoutManager.MoveLocation(labelWelcome,new Point((Size.Width/2)-(labelWelcome.Width/2),Convert.ToInt32(Size.Height*0.22f)));
 			LayoutManager
-				.MoveLocation(labelForms,new Point((Size.Width/2)-(labelForms.Width/2),labelWelcome.Location.Y+labelWelcome.Height+LayoutManager.Scale(23)));
-			LayoutManager.MoveLocation(listForms,new Point((Size.Width/2)-(listForms.Width/2),labelForms.Location.Y+labelForms.Height+LayoutManager.Scale(3)));
-			LayoutManager.MoveLocation(labelThankYou,new Point((Size.Width/2)-(labelThankYou.Width/2),listForms.Location.Y+listForms.Height));
-			LayoutManager.MoveLocation(butDone,new Point((Size.Width/2)-(butDone.Width/2),labelThankYou.Location.Y+labelThankYou.Height));
+				.MoveLocation(labelForms,new Point((Size.Width/2)-(labelForms.Width/2),labelWelcome.Location.Y+labelWelcome.Height+LayoutManager.Scale(UiGrid.SECTION_GAP)));
+			LayoutManager.MoveLocation(listForms,new Point((Size.Width/2)-(listForms.Width/2),labelForms.Location.Y+labelForms.Height+LayoutManager.Scale(UiGrid.CAPTION_GAP)));
+			LayoutManager.MoveLocation(labelThankYou,new Point((Size.Width/2)-(labelThankYou.Width/2),listForms.Location.Y+listForms.Height+LayoutManager.Scale(UiGrid.SIBLING_GAP)));
+			LayoutManager.MoveLocation(butDone,new Point((Size.Width/2)-(butDone.Width/2),labelThankYou.Location.Y+labelThankYou.Height+LayoutManager.Scale(UiGrid.ITEM_GAP)));
 			LayoutManager.MoveLocation(labelConnection,new Point((Size.Width/2)-(labelConnection.Width/2),labelConnection.Location.Y));
 			labelConnection.Visible=false;
 			_listSheets=new List<Sheet>();

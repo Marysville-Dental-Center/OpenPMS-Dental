@@ -73,8 +73,11 @@ namespace OpenPmsDental{
 			if(LayoutManager==null) {
 				return;//UI-2b: InitializeLayoutManager maps the designer fonts to Segoe UI, which lays the window out before LayoutManager is set
 			}
-			LayoutManager.MoveHeight(Preview2,ClientRectangle.Height);
-			LayoutManager.MoveWidth(Preview2,ClientRectangle.Width-160);
+			//UI-12 slice 16: the preview keeps the grid's padding on the left, top and bottom and stands UiGrid.SIBLING_GAP before the page
+			//buttons' column (anchored to the bottom right, UiGrid.PAD from the edges); the claim form inside it is drawn as before.
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			int right=Math.Min(butBack.Left,butPrint.Left)-LayoutManager.Scale(UiGrid.SIBLING_GAP);
+			LayoutManager.Move(Preview2,new Rectangle(pad,pad,right-pad,ClientRectangle.Height-2*pad));
 			//butClose.Location=new Point(ClientRectangle.Width-100,ClientRectangle.Height-70);
 			//butPrint.Location=new Point(ClientRectangle.Width-100,ClientRectangle.Height-140);
 		}

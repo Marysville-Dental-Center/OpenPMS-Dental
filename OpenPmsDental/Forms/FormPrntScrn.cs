@@ -61,9 +61,13 @@ namespace OpenPmsDental{
 		}
 		
 		private void FormPrntScrn_Layout(object sender, System.Windows.Forms.LayoutEventArgs e) {
-				printPreviewControl2.Location=new Point(0,0);
-				printPreviewControl2.Height=ClientSize.Height-43;
-				printPreviewControl2.Width=ClientSize.Width;	
+				//UI-12 slice 16: the preview keeps the grid's padding on every side and stands a section gap over the bottom bar (anchored to the
+				//bottom right, UiGrid.PAD from the edges); the screenshot inside it is drawn by the preview as before.
+				if(LayoutManager==null) {
+					return;
+				}
+				int pad=LayoutManager.Scale(UiGrid.PAD);
+				LayoutManager.Move(printPreviewControl2,new Rectangle(pad,pad,ClientSize.Width-2*pad,butPrint.Top-LayoutManager.Scale(UiGrid.SECTION_GAP)-pad));
 				_docWidth=811;//for cropping will use later
 				_docHeight=776;//for cropping will use later
 				_leftBound=(ClientSize.Width-_docWidth)/2;//for cropping will use later

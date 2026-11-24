@@ -66,8 +66,7 @@ namespace OpenPmsDental{
 			}
 			LayoutToolBar();
 			ToolBarMain.Buttons["FullPage"].IsTogglePushed=true;
-			LayoutManager.MoveLocation(previewContr,new Point(0,ToolBarMain.Bottom));
-			LayoutManager.MoveSize(previewContr,new Size(ClientRectangle.Width,ClientRectangle.Height-ToolBarMain.Height-panelSig.Height));
+			LayoutPreview();
 			if(PrintDocumentCur==null) {//Sheets
 				//TODO:Implement ODprintout pattern - MigraDoc
 				//Just signing the TP, there is no way to print a Treat' Plan from the Sign TP window, so suppress the printer dialogs.
@@ -191,14 +190,16 @@ namespace OpenPmsDental{
 			if(!SheetSignatureSigners.IsChangeUserBox(sheetField) || !butSave.Enabled) {
 				return;
 			}
-			int xPos=signatureBoxWrapper.Location.X-LayoutManager.Scale(155);
+			//UI-12 slice 16: the button and the signer's name end UiGrid.LABEL_GAP before the box, as its caption does: the button under the
+			//caption's two lines (41 px), the name UiGrid.CAPTION_GAP under the button.
+			int xRight=signatureBoxWrapper.Location.X-LayoutManager.Scale(UiGrid.LABEL_GAP);
 			OpenPmsDental.UI.Button butChangeUser=new OpenPmsDental.UI.Button();
 			butChangeUser.Text=Lan.g(this,"Change User");
-			butChangeUser.Size=new Size(LayoutManager.Scale(95),LayoutManager.Scale(22));
-			butChangeUser.Location=new Point(xPos+LayoutManager.Scale(55),signatureBoxWrapper.Location.Y+LayoutManager.Scale(44));
+			butChangeUser.Size=new Size(LayoutManager.Scale(95),LayoutManager.Scale(24));
+			butChangeUser.Location=new Point(xRight-butChangeUser.Width,signatureBoxWrapper.Location.Y+LayoutManager.Scale(41));
 			Label labelSigner=new Label();
-			labelSigner.Location=new Point(xPos,signatureBoxWrapper.Location.Y+LayoutManager.Scale(67));
 			labelSigner.Size=new Size(LayoutManager.Scale(150),LayoutManager.Scale(17));
+			labelSigner.Location=new Point(xRight-labelSigner.Width,butChangeUser.Bottom+LayoutManager.Scale(UiGrid.CAPTION_GAP));
 			labelSigner.TextAlign=ContentAlignment.MiddleRight;
 			butChangeUser.Click+=(sender,e) => ChangeSigBoxUser(sheetField,signatureBoxWrapper,labelSigner);
 			LayoutManager.Add(butChangeUser,panelSig);
@@ -261,8 +262,14 @@ namespace OpenPmsDental{
 			if(LayoutManager==null) {
 				return;//UI-2b: InitializeLayoutManager maps the designer fonts to Segoe UI, which lays the window out before LayoutManager is set
 			}
-			LayoutManager.MoveWidth(previewContr,ClientSize.Width);
-			LayoutManager.MoveHeight(previewContr,ClientSize.Height-panelSig.Height-ToolBarMain.Height);
+			LayoutPreview();
+		}
+
+		///<summary>UI-12 slice 16: the preview between the toolbar and the signature panel with the grid's padding on every side (it stood edge to
+		///edge); the treatment plan inside it is drawn by the preview as before.</summary>
+		private void LayoutPreview() {
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			LayoutManager.Move(previewContr,new Rectangle(pad,ToolBarMain.Bottom+pad,ClientSize.Width-2*pad,ClientSize.Height-ToolBarMain.Bottom-panelSig.Height-2*pad));
 		}
 
 		/*//I don't think we need this:

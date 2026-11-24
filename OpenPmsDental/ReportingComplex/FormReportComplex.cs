@@ -65,7 +65,7 @@ namespace OpenPmsDental.ReportingComplex {
 				SetDefaultZoom();
 				printPreviewControl2.Document=_printout.PrintDoc;
 			}
-			LayoutManager.Move(printPreviewControl2,new Rectangle(0,ToolBarMain.Bottom,ClientSize.Width,ClientSize.Height-ToolBarMain.Bottom-LayoutManager.Scale(28)));
+			LayoutPreview();
 			//Otherwise, it will not lay out properly when primary monitor is not at 100%
     }
 
@@ -103,8 +103,18 @@ namespace OpenPmsDental.ReportingComplex {
 		}
 
 		private void FormReportComplex_SizeChanged(object sender, EventArgs e){
+			LayoutPreview();
+		}
+
+		///<summary>UI-12 slice 16: the preview under the toolbar with the grid's padding on every side (it stood edge to edge over a 28 px empty
+		///band); the report inside it is drawn by the preview as before.</summary>
+		private void LayoutPreview(){
+			if(LayoutManager==null) {
+				return;
+			}
+			int pad=LayoutManager.Scale(UiGrid.PAD);
 			LayoutManager.Move(printPreviewControl2,new Rectangle(
-				0,ToolBarMain.Bottom,ClientSize.Width,ClientSize.Height-ToolBarMain.Bottom-LayoutManager.Scale(28)));
+				pad,ToolBarMain.Bottom+pad,ClientSize.Width-2*pad,ClientSize.Height-ToolBarMain.Bottom-2*pad));
 		}
 		
 		private bool ResetODprintout(){
