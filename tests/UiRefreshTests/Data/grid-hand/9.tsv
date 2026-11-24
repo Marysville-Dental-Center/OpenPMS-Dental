@@ -233,3 +233,7 @@ OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAlloca
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAllocationCheck.designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck	label6	Size	24,23	60,23	by hand (layout script): on the grid
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAllocationCheck.designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck	dateTimePicker1	Location	924,139	938,142	by hand (layout script): on the grid
 OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAllocationCheck.designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck	dateTimePicker1	Size	88,23	125,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormProgramProperty.designer.cs	OpenPmsDental.FormProgramProperty	textProperty	Size	320,23	322,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormProgramProperty.designer.cs	OpenPmsDental.FormProgramProperty	textValue	Size	320,23	322,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	OpenPmsDental.FormSupplyAdjust	textChange	Size	72,23	73,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	OpenPmsDental.FormSupplyAdjust	labelChangeNote	Location	193,64	194,64	by hand (layout script): on the grid

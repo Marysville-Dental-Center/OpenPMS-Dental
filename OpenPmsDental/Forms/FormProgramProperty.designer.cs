@@ -66,14 +66,14 @@ namespace OpenPmsDental {
 			this.textProperty.Location = new System.Drawing.Point(162, 8);
 			this.textProperty.Name = "textProperty";
 			this.textProperty.ReadOnly = true;
-			this.textProperty.Size = new System.Drawing.Size(320, 23);
+			this.textProperty.Size = new System.Drawing.Size(322, 23);
 			this.textProperty.TabIndex = 2;
 			// 
 			// textValue
 			// 
 			this.textValue.Location = new System.Drawing.Point(162, 35);
 			this.textValue.Name = "textValue";
-			this.textValue.Size = new System.Drawing.Size(320, 23);
+			this.textValue.Size = new System.Drawing.Size(322, 23);
 			this.textValue.TabIndex = 3;
 			// 
 			// label2

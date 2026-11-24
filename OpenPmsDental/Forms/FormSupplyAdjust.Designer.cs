@@ -83,12 +83,12 @@ namespace OpenPmsDental {
 			this.textChange.MaxVal = 1000000D;
 			this.textChange.MinVal = -1000000D;
 			this.textChange.Name = "textChange";
-			this.textChange.Size = new System.Drawing.Size(72, 23);
+			this.textChange.Size = new System.Drawing.Size(73, 23);
 			this.textChange.TabIndex = 5;
 			//
 			// labelChangeNote
 			//
-			this.labelChangeNote.Location = new System.Drawing.Point(193, 64);
+			this.labelChangeNote.Location = new System.Drawing.Point(194, 64);
 			this.labelChangeNote.Name = "labelChangeNote";
 			this.labelChangeNote.Size = new System.Drawing.Size(225, 18);
 			this.labelChangeNote.TabIndex = 6;
