@@ -255,7 +255,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bOK
             // 
-            this.bOK.Location = new System.Drawing.Point(210, 275);
+            this.bOK.Location = new System.Drawing.Point(210, 286);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 1;
@@ -266,7 +266,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.bCancel.CausesValidation = false;
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(298, 275);
+            this.bCancel.Location = new System.Drawing.Point(291, 286);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 2;
@@ -277,10 +277,10 @@ namespace fyiReporting.RdlDesign
             this.tabControl1.Controls.Add(this.tpGeneral);
             this.tabControl1.Controls.Add(this.tpToolbar);
             this.tabControl1.Controls.Add(this.tpDesktop);
-            this.tabControl1.Location = new System.Drawing.Point(3, 3);
+            this.tabControl1.Location = new System.Drawing.Point(8, 8);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(466, 269);
+            this.tabControl1.Size = new System.Drawing.Size(519, 270);
             this.tabControl1.TabIndex = 0;
             // 
             // tpGeneral
@@ -302,10 +302,10 @@ namespace fyiReporting.RdlDesign
             // 
             // cbTabInterface
             // 
-            this.cbTabInterface.AutoSize = true;
-            this.cbTabInterface.Location = new System.Drawing.Point(14, 189);
+            this.cbTabInterface.AutoSize = false;
+            this.cbTabInterface.Location = new System.Drawing.Point(78, 140);
             this.cbTabInterface.Name = "cbTabInterface";
-            this.cbTabInterface.Size = new System.Drawing.Size(133, 17);
+            this.cbTabInterface.Size = new System.Drawing.Size(145, 18);
             this.cbTabInterface.TabIndex = 7;
             this.cbTabInterface.Text = "Show tabbed interface";
             this.cbTabInterface.UseVisualStyleBackColor = true;
@@ -313,27 +313,27 @@ namespace fyiReporting.RdlDesign
             // 
             // cbOutline
             // 
-            this.cbOutline.AutoSize = true;
-            this.cbOutline.Location = new System.Drawing.Point(14, 146);
+            this.cbOutline.AutoSize = false;
+            this.cbOutline.Location = new System.Drawing.Point(78, 118);
             this.cbOutline.Name = "cbOutline";
-            this.cbOutline.Size = new System.Drawing.Size(172, 17);
+            this.cbOutline.Size = new System.Drawing.Size(195, 18);
             this.cbOutline.TabIndex = 6;
             this.cbOutline.Text = "Outline report items in Designer";
             this.cbOutline.UseVisualStyleBackColor = true;
             // 
             // cbEditLines
             // 
-            this.cbEditLines.AutoSize = true;
-            this.cbEditLines.Location = new System.Drawing.Point(14, 105);
+            this.cbEditLines.AutoSize = false;
+            this.cbEditLines.Location = new System.Drawing.Point(78, 96);
             this.cbEditLines.Name = "cbEditLines";
-            this.cbEditLines.Size = new System.Drawing.Size(175, 17);
+            this.cbEditLines.Size = new System.Drawing.Size(189, 18);
             this.cbEditLines.TabIndex = 5;
             this.cbEditLines.Text = "Show line numbers in RDL Text";
             this.cbEditLines.UseVisualStyleBackColor = true;
             // 
             // tbHelpUrl
             // 
-            this.tbHelpUrl.Location = new System.Drawing.Point(27, 60);
+            this.tbHelpUrl.Location = new System.Drawing.Point(8, 69);
             this.tbHelpUrl.Name = "tbHelpUrl";
             this.tbHelpUrl.Size = new System.Drawing.Size(404, 20);
             this.tbHelpUrl.TabIndex = 4;
@@ -341,7 +341,7 @@ namespace fyiReporting.RdlDesign
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(11, 40);
+            this.label3.Location = new System.Drawing.Point(8, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(404, 23);
             this.label3.TabIndex = 3;
@@ -349,24 +349,25 @@ namespace fyiReporting.RdlDesign
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(100, 15);
+            this.label2.Location = new System.Drawing.Point(116, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 23);
+            this.label2.Size = new System.Drawing.Size(178, 32);
             this.label2.TabIndex = 2;
             this.label2.Text = "items in most recently used lists.";
             // 
             // tbRecentFilesMax
             // 
-            this.tbRecentFilesMax.Location = new System.Drawing.Point(58, 11);
+            this.tbRecentFilesMax.Location = new System.Drawing.Point(78, 12);
             this.tbRecentFilesMax.Name = "tbRecentFilesMax";
-            this.tbRecentFilesMax.Size = new System.Drawing.Size(31, 20);
+            this.tbRecentFilesMax.Size = new System.Drawing.Size(32, 23);
             this.tbRecentFilesMax.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(11, 13);
+            this.label1.Location = new System.Drawing.Point(20, 8);
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 23);
+            this.label1.Size = new System.Drawing.Size(52, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Display";
             // 
@@ -383,14 +384,14 @@ namespace fyiReporting.RdlDesign
             this.tpToolbar.Controls.Add(this.lbOperation);
             this.tpToolbar.Location = new System.Drawing.Point(4, 22);
             this.tpToolbar.Name = "tpToolbar";
-            this.tpToolbar.Size = new System.Drawing.Size(458, 243);
+            this.tpToolbar.Size = new System.Drawing.Size(458, 242);
             this.tpToolbar.TabIndex = 1;
             this.tpToolbar.Tag = "toolbar";
             this.tpToolbar.Text = "Toolbar";
             // 
             // bRemove
             // 
-            this.bRemove.Location = new System.Drawing.Point(179, 74);
+            this.bRemove.Location = new System.Drawing.Point(179, 62);
             this.bRemove.Name = "bRemove";
             this.bRemove.Size = new System.Drawing.Size(23, 23);
             this.bRemove.TabIndex = 2;
@@ -399,7 +400,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bReset
             // 
-            this.bReset.Location = new System.Drawing.Point(374, 104);
+            this.bReset.Location = new System.Drawing.Point(374, 89);
             this.bReset.Name = "bReset";
             this.bReset.Size = new System.Drawing.Size(53, 23);
             this.bReset.TabIndex = 6;
@@ -408,7 +409,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bDown
             // 
-            this.bDown.Location = new System.Drawing.Point(374, 65);
+            this.bDown.Location = new System.Drawing.Point(374, 62);
             this.bDown.Name = "bDown";
             this.bDown.Size = new System.Drawing.Size(53, 23);
             this.bDown.TabIndex = 5;
@@ -426,7 +427,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bCopyItem
             // 
-            this.bCopyItem.Location = new System.Drawing.Point(179, 40);
+            this.bCopyItem.Location = new System.Drawing.Point(179, 35);
             this.bCopyItem.Name = "bCopyItem";
             this.bCopyItem.Size = new System.Drawing.Size(23, 23);
             this.bCopyItem.TabIndex = 1;
@@ -451,14 +452,14 @@ namespace fyiReporting.RdlDesign
             // 
             // lbToolbar
             // 
-            this.lbToolbar.Location = new System.Drawing.Point(213, 33);
+            this.lbToolbar.Location = new System.Drawing.Point(213, 35);
             this.lbToolbar.Name = "lbToolbar";
             this.lbToolbar.Size = new System.Drawing.Size(152, 199);
             this.lbToolbar.TabIndex = 3;
             // 
             // lbOperation
             // 
-            this.lbOperation.Location = new System.Drawing.Point(14, 33);
+            this.lbOperation.Location = new System.Drawing.Point(14, 35);
             this.lbOperation.Name = "lbOperation";
             this.lbOperation.Size = new System.Drawing.Size(152, 199);
             this.lbOperation.TabIndex = 0;
@@ -475,82 +476,84 @@ namespace fyiReporting.RdlDesign
             this.tpDesktop.Controls.Add(this.label6);
             this.tpDesktop.Location = new System.Drawing.Point(4, 22);
             this.tpDesktop.Name = "tpDesktop";
-            this.tpDesktop.Size = new System.Drawing.Size(458, 243);
+            this.tpDesktop.Size = new System.Drawing.Size(511, 241);
             this.tpDesktop.TabIndex = 2;
             this.tpDesktop.Tag = "desktop";
             this.tpDesktop.Text = "Desktop Server";
             // 
             // bBrowse
             // 
-            this.bBrowse.Location = new System.Drawing.Point(411, 102);
+            this.bBrowse.Location = new System.Drawing.Point(420, 99);
             this.bBrowse.Name = "bBrowse";
-            this.bBrowse.Size = new System.Drawing.Size(26, 19);
+            this.bBrowse.Size = new System.Drawing.Size(26, 23);
             this.bBrowse.TabIndex = 2;
             this.bBrowse.Text = "...";
             this.bBrowse.Click += new System.EventHandler(this.bBrowse_Click);
             // 
             // tbDirectory
             // 
-            this.tbDirectory.Location = new System.Drawing.Point(68, 100);
+            this.tbDirectory.Location = new System.Drawing.Point(78, 99);
             this.tbDirectory.Name = "tbDirectory";
-            this.tbDirectory.Size = new System.Drawing.Size(334, 20);
+            this.tbDirectory.Size = new System.Drawing.Size(336, 23);
             this.tbDirectory.TabIndex = 1;
             this.tbDirectory.Text = "textBox1";
             this.tbDirectory.TextChanged += new System.EventHandler(this.Desktop_Changed);
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(13, 101);
+            this.label9.Location = new System.Drawing.Point(8, 99);
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(58, 23);
+            this.label9.Size = new System.Drawing.Size(64, 23);
             this.label9.TabIndex = 5;
             this.label9.Text = "Directory:";
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(33, 156);
+            this.label8.Location = new System.Drawing.Point(78, 148);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(425, 26);
+            this.label8.Size = new System.Drawing.Size(425, 47);
             this.label8.TabIndex = 4;
             this.label8.Text = "Important: Desktop server is not intended to be used as a production web server. " +
                 " Use an ASP enabled server for anything other than local desktop use.";
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(10, 6);
+            this.label7.Location = new System.Drawing.Point(8, 8);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(435, 60);
+            this.label7.Size = new System.Drawing.Size(435, 62);
             this.label7.TabIndex = 3;
             this.label7.Text = resources.GetString("label7.Text");
             // 
             // ckLocal
             // 
-            this.ckLocal.Location = new System.Drawing.Point(15, 131);
+            this.ckLocal.Location = new System.Drawing.Point(78, 126);
             this.ckLocal.Name = "ckLocal";
-            this.ckLocal.Size = new System.Drawing.Size(195, 24);
+            this.ckLocal.Size = new System.Drawing.Size(194, 18);
             this.ckLocal.TabIndex = 3;
             this.ckLocal.Text = "Restrict access to local machine";
             this.ckLocal.CheckedChanged += new System.EventHandler(this.Desktop_Changed);
             // 
             // tbPort
             // 
-            this.tbPort.Location = new System.Drawing.Point(44, 66);
+            this.tbPort.Location = new System.Drawing.Point(78, 72);
             this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(50, 20);
+            this.tbPort.Size = new System.Drawing.Size(48, 23);
             this.tbPort.TabIndex = 0;
             this.tbPort.TextChanged += new System.EventHandler(this.Desktop_Changed);
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(10, 68);
+            this.label6.Location = new System.Drawing.Point(36, 72);
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(33, 23);
+            this.label6.Size = new System.Drawing.Size(36, 23);
             this.label6.TabIndex = 0;
             this.label6.Text = "Port";
             // 
             // bApply
             // 
-            this.bApply.Location = new System.Drawing.Point(386, 275);
+            this.bApply.Location = new System.Drawing.Point(372, 286);
             this.bApply.Name = "bApply";
             this.bApply.Size = new System.Drawing.Size(75, 23);
             this.bApply.TabIndex = 3;
@@ -562,7 +565,7 @@ namespace fyiReporting.RdlDesign
             this.AcceptButton = this.bOK;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this.bCancel;
-            this.ClientSize = new System.Drawing.Size(466, 304);
+            this.ClientSize = new System.Drawing.Size(519, 304);
             this.Controls.Add(this.bApply);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.bCancel);

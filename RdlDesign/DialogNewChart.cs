@@ -248,7 +248,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bOK
 			// 
-			this.bOK.Location = new System.Drawing.Point(272, 392);
+			this.bOK.Location = new System.Drawing.Point(272, 361);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 13;
 			this.bOK.Text = "OK";
@@ -257,23 +257,24 @@ namespace fyiReporting.RdlDesign
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(368, 392);
+			this.bCancel.Location = new System.Drawing.Point(353, 361);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 14;
 			this.bCancel.Text = "Cancel";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 16);
+			this.label1.Location = new System.Drawing.Point(24, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(48, 23);
+			this.label1.Size = new System.Drawing.Size(52, 23);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "DataSet";
 			// 
 			// cbDataSets
 			// 
 			this.cbDataSets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDataSets.Location = new System.Drawing.Point(80, 16);
+			this.cbDataSets.Location = new System.Drawing.Point(82, 8);
 			this.cbDataSets.Name = "cbDataSets";
 			this.cbDataSets.Size = new System.Drawing.Size(360, 21);
 			this.cbDataSets.TabIndex = 0;
@@ -281,14 +282,14 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 80);
+			this.label2.Location = new System.Drawing.Point(16, 62);
 			this.label2.Name = "label2";
 			this.label2.TabIndex = 13;
 			this.label2.Text = "DataSet Fields";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(224, 80);
+			this.label3.Location = new System.Drawing.Point(224, 62);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(184, 23);
 			this.label3.TabIndex = 14;
@@ -296,7 +297,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lbFields
 			// 
-			this.lbFields.Location = new System.Drawing.Point(16, 104);
+			this.lbFields.Location = new System.Drawing.Point(16, 89);
 			this.lbFields.Name = "lbFields";
 			this.lbFields.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.lbFields.Size = new System.Drawing.Size(152, 225);
@@ -304,14 +305,14 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lbChartCategories
 			// 
-			this.lbChartCategories.Location = new System.Drawing.Point(232, 104);
+			this.lbChartCategories.Location = new System.Drawing.Point(224, 89);
 			this.lbChartCategories.Name = "lbChartCategories";
 			this.lbChartCategories.Size = new System.Drawing.Size(152, 94);
 			this.lbChartCategories.TabIndex = 3;
 			// 
 			// bCategoryUp
 			// 
-			this.bCategoryUp.Location = new System.Drawing.Point(392, 104);
+			this.bCategoryUp.Location = new System.Drawing.Point(412, 89);
 			this.bCategoryUp.Name = "bCategoryUp";
 			this.bCategoryUp.Size = new System.Drawing.Size(48, 28);
 			this.bCategoryUp.TabIndex = 4;
@@ -320,7 +321,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bCategoryDown
 			// 
-			this.bCategoryDown.Location = new System.Drawing.Point(392, 136);
+			this.bCategoryDown.Location = new System.Drawing.Point(412, 121);
 			this.bCategoryDown.Name = "bCategoryDown";
 			this.bCategoryDown.Size = new System.Drawing.Size(48, 28);
 			this.bCategoryDown.TabIndex = 5;
@@ -329,7 +330,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bCategory
 			// 
-			this.bCategory.Location = new System.Drawing.Point(184, 112);
+			this.bCategory.Location = new System.Drawing.Point(184, 89);
 			this.bCategory.Name = "bCategory";
 			this.bCategory.Size = new System.Drawing.Size(32, 28);
 			this.bCategory.TabIndex = 2;
@@ -338,7 +339,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSeries
 			// 
-			this.bSeries.Location = new System.Drawing.Point(184, 240);
+			this.bSeries.Location = new System.Drawing.Point(184, 121);
 			this.bSeries.Name = "bSeries";
 			this.bSeries.Size = new System.Drawing.Size(32, 28);
 			this.bSeries.TabIndex = 7;
@@ -347,14 +348,14 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lbChartSeries
 			// 
-			this.lbChartSeries.Location = new System.Drawing.Point(232, 232);
+			this.lbChartSeries.Location = new System.Drawing.Point(224, 214);
 			this.lbChartSeries.Name = "lbChartSeries";
 			this.lbChartSeries.Size = new System.Drawing.Size(152, 94);
 			this.lbChartSeries.TabIndex = 8;
 			// 
 			// bCategoryDelete
 			// 
-			this.bCategoryDelete.Location = new System.Drawing.Point(392, 168);
+			this.bCategoryDelete.Location = new System.Drawing.Point(412, 153);
 			this.bCategoryDelete.Name = "bCategoryDelete";
 			this.bCategoryDelete.Size = new System.Drawing.Size(50, 28);
 			this.bCategoryDelete.TabIndex = 6;
@@ -363,7 +364,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSeriesDelete
 			// 
-			this.bSeriesDelete.Location = new System.Drawing.Point(392, 296);
+			this.bSeriesDelete.Location = new System.Drawing.Point(412, 246);
 			this.bSeriesDelete.Name = "bSeriesDelete";
 			this.bSeriesDelete.Size = new System.Drawing.Size(50, 28);
 			this.bSeriesDelete.TabIndex = 11;
@@ -372,7 +373,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSeriesDown
 			// 
-			this.bSeriesDown.Location = new System.Drawing.Point(392, 264);
+			this.bSeriesDown.Location = new System.Drawing.Point(412, 214);
 			this.bSeriesDown.Name = "bSeriesDown";
 			this.bSeriesDown.Size = new System.Drawing.Size(48, 28);
 			this.bSeriesDown.TabIndex = 10;
@@ -381,24 +382,25 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bSeriesUp
 			// 
-			this.bSeriesUp.Location = new System.Drawing.Point(392, 232);
+			this.bSeriesUp.Location = new System.Drawing.Point(412, 187);
 			this.bSeriesUp.Name = "bSeriesUp";
-			this.bSeriesUp.Size = new System.Drawing.Size(48, 28);
+			this.bSeriesUp.Size = new System.Drawing.Size(48, 23);
 			this.bSeriesUp.TabIndex = 9;
 			this.bSeriesUp.Text = "Up";
 			this.bSeriesUp.Click += new System.EventHandler(this.bSeriesUp_Click);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(224, 208);
+			this.label4.Location = new System.Drawing.Point(330, 187);
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(184, 23);
+			this.label4.Size = new System.Drawing.Size(76, 23);
 			this.label4.TabIndex = 31;
 			this.label4.Text = "Chart Series";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(16, 344);
+			this.label5.Location = new System.Drawing.Point(16, 318);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(120, 23);
 			this.label5.TabIndex = 32;
@@ -406,7 +408,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbChartData
 			// 
-			this.cbChartData.Location = new System.Drawing.Point(16, 360);
+			this.cbChartData.Location = new System.Drawing.Point(16, 334);
 			this.cbChartData.Name = "cbChartData";
 			this.cbChartData.Size = new System.Drawing.Size(368, 21);
 			this.cbChartData.TabIndex = 12;
@@ -415,16 +417,17 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(232, 48);
+			this.label6.Location = new System.Drawing.Point(246, 35);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(64, 23);
+			this.label6.Size = new System.Drawing.Size(60, 23);
 			this.label6.TabIndex = 36;
 			this.label6.Text = "Sub-type";
 			// 
 			// cbSubType
 			// 
 			this.cbSubType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbSubType.Location = new System.Drawing.Point(312, 48);
+			this.cbSubType.Location = new System.Drawing.Point(312, 35);
 			this.cbSubType.Name = "cbSubType";
 			this.cbSubType.Size = new System.Drawing.Size(80, 21);
 			this.cbSubType.TabIndex = 35;
@@ -439,17 +442,18 @@ namespace fyiReporting.RdlDesign
 															 "Doughnut",
 															 "Line",
 															 "Pie"});
-			this.cbChartType.Location = new System.Drawing.Point(96, 48);
+			this.cbChartType.Location = new System.Drawing.Point(82, 35);
 			this.cbChartType.Name = "cbChartType";
-			this.cbChartType.Size = new System.Drawing.Size(121, 21);
+			this.cbChartType.Size = new System.Drawing.Size(120, 23);
 			this.cbChartType.TabIndex = 34;
 			this.cbChartType.SelectedIndexChanged += new System.EventHandler(this.cbChartType_SelectedIndexChanged);
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(16, 48);
+			this.label7.Location = new System.Drawing.Point(8, 35);
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(72, 16);
+			this.label7.Size = new System.Drawing.Size(68, 23);
 			this.label7.TabIndex = 33;
 			this.label7.Text = "Chart Type";
 			// 

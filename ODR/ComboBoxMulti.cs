@@ -63,7 +63,7 @@ namespace ODR
 			// 
 			this.dropButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.dropButton.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ChevronDown",17,19);
-			this.dropButton.Location = new System.Drawing.Point(102, 1);
+			this.dropButton.Location = new System.Drawing.Point(109, 10);
 			this.dropButton.Name = "dropButton";
 			this.dropButton.Size = new System.Drawing.Size(17, 19);
 			this.dropButton.TabIndex = 1;
@@ -74,7 +74,7 @@ namespace ODR
 			// 
 			this.textMain.BackColor = System.Drawing.Color.White;
 			this.textMain.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textMain.Location = new System.Drawing.Point(3, 4);
+			this.textMain.Location = new System.Drawing.Point(8, 11);
 			this.textMain.Name = "textMain";
 			this.textMain.ReadOnly = true;
 			this.textMain.Size = new System.Drawing.Size(95, 13);
@@ -87,7 +87,7 @@ namespace ODR
 			this.Controls.Add(this.textMain);
 			this.Controls.Add(this.dropButton);
 			this.Name = "ComboBoxMulti";
-			this.Size = new System.Drawing.Size(120, 21);
+			this.Size = new System.Drawing.Size(134, 39);
 			this.Load += new System.EventHandler(this.ComboBoxMulti_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ComboBoxMulti_Paint);
 			this.Leave += new System.EventHandler(this.ComboBoxMulti_Leave);

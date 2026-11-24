@@ -208,16 +208,16 @@ namespace fyiReporting.RdlDesign
 			this.gbPosition.Controls.Add(this.label5);
 			this.gbPosition.Controls.Add(this.label9);
 			this.gbPosition.Controls.Add(this.tbZIndex);
-			this.gbPosition.Location = new System.Drawing.Point(24, 48);
+			this.gbPosition.Location = new System.Drawing.Point(24, 39);
 			this.gbPosition.Name = "gbPosition";
-			this.gbPosition.Size = new System.Drawing.Size(384, 112);
+			this.gbPosition.Size = new System.Drawing.Size(384, 108);
 			this.gbPosition.TabIndex = 14;
 			this.gbPosition.TabStop = false;
 			this.gbPosition.Text = "Position";
 			// 
 			// tbHeight
 			// 
-			this.tbHeight.Location = new System.Drawing.Point(224, 48);
+			this.tbHeight.Location = new System.Drawing.Point(224, 50);
 			this.tbHeight.Name = "tbHeight";
 			this.tbHeight.Size = new System.Drawing.Size(72, 20);
 			this.tbHeight.TabIndex = 5;
@@ -226,15 +226,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(168, 48);
+			this.label7.Location = new System.Drawing.Point(170, 50);
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(48, 16);
+			this.label7.Size = new System.Drawing.Size(48, 23);
 			this.label7.TabIndex = 4;
 			this.label7.Text = "Height";
 			// 
 			// tbWidth
 			// 
-			this.tbWidth.Location = new System.Drawing.Point(72, 48);
+			this.tbWidth.Location = new System.Drawing.Point(72, 50);
 			this.tbWidth.Name = "tbWidth";
 			this.tbWidth.Size = new System.Drawing.Size(72, 20);
 			this.tbWidth.TabIndex = 3;
@@ -243,15 +244,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(16, 48);
+			this.label8.Location = new System.Drawing.Point(22, 50);
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(48, 16);
+			this.label8.Size = new System.Drawing.Size(44, 23);
 			this.label8.TabIndex = 4;
 			this.label8.Text = "Width";
 			// 
 			// tbTop
 			// 
-			this.tbTop.Location = new System.Drawing.Point(224, 16);
+			this.tbTop.Location = new System.Drawing.Point(224, 23);
 			this.tbTop.Name = "tbTop";
 			this.tbTop.Size = new System.Drawing.Size(72, 20);
 			this.tbTop.TabIndex = 2;
@@ -260,15 +262,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(168, 16);
+			this.label6.Location = new System.Drawing.Point(186, 23);
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(48, 16);
+			this.label6.Size = new System.Drawing.Size(32, 23);
 			this.label6.TabIndex = 1;
 			this.label6.Text = "Top";
 			// 
 			// tbLeft
 			// 
-			this.tbLeft.Location = new System.Drawing.Point(72, 16);
+			this.tbLeft.Location = new System.Drawing.Point(72, 23);
 			this.tbLeft.Name = "tbLeft";
 			this.tbLeft.Size = new System.Drawing.Size(72, 20);
 			this.tbLeft.TabIndex = 0;
@@ -277,23 +280,25 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(16, 16);
+			this.label5.Location = new System.Drawing.Point(34, 23);
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(48, 16);
+			this.label5.Size = new System.Drawing.Size(32, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Left";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(16, 80);
+			this.label9.Location = new System.Drawing.Point(14, 77);
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(48, 23);
+			this.label9.Size = new System.Drawing.Size(52, 23);
 			this.label9.TabIndex = 15;
 			this.label9.Text = "Z Index";
 			// 
 			// tbZIndex
 			// 
-			this.tbZIndex.Location = new System.Drawing.Point(72, 80);
+			this.tbZIndex.Location = new System.Drawing.Point(72, 77);
 			this.tbZIndex.Name = "tbZIndex";
 			this.tbZIndex.Size = new System.Drawing.Size(72, 20);
 			this.tbZIndex.TabIndex = 6;
@@ -301,15 +306,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(24, 15);
+			this.label1.Location = new System.Drawing.Point(46, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(48, 23);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 15;
 			this.label1.Text = "Name";
 			// 
 			// tbName
 			// 
-			this.tbName.Location = new System.Drawing.Point(80, 16);
+			this.tbName.Location = new System.Drawing.Point(96, 8);
 			this.tbName.Name = "tbName";
 			this.tbName.Size = new System.Drawing.Size(128, 20);
 			this.tbName.TabIndex = 0;
@@ -319,15 +325,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lblColSpan
 			// 
-			this.lblColSpan.Location = new System.Drawing.Point(232, 16);
+			this.lblColSpan.Location = new System.Drawing.Point(240, 8);
+			this.lblColSpan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lblColSpan.Name = "lblColSpan";
-			this.lblColSpan.Size = new System.Drawing.Size(115, 23);
+			this.lblColSpan.Size = new System.Drawing.Size(120, 23);
 			this.lblColSpan.TabIndex = 16;
 			this.lblColSpan.Text = "Span Table Columns";
 			// 
 			// tbColSpan
 			// 
-			this.tbColSpan.Location = new System.Drawing.Point(360, 16);
+			this.tbColSpan.Location = new System.Drawing.Point(366, 8);
 			this.tbColSpan.Maximum = new System.Decimal(new int[] {
 																	  1000,
 																	  0,
