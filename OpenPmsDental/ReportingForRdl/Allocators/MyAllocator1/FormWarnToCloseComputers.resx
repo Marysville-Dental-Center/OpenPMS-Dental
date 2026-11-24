@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblMessage.Text" xml:space="preserve">
-    <value>You are about to begin a Database Critical task.  It is strongly advised that you close all running opendental programs connected to this database.  If you do not close the programs and users continue adding data to the database you may have irreversible data corruption. </value>
+    <value>You are about to begin a Database Critical task.  It is strongly advised that you close all running Open PMS programs connected to this database.  If you do not close the programs and users continue adding data to the database you may have irreversible data corruption. </value>
   </data>
 </root>

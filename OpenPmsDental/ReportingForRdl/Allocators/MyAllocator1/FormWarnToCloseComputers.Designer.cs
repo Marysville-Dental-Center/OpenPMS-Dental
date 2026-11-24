@@ -105,7 +105,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(368, 34);
 			this.label2.TabIndex = 5;
-			this.label2.Text = "Close Other OD Programs Now!!";
+			this.label2.Text = "Close Other Open PMS Programs Now!!";
 			// 
 			// progressRingWait
 			// 

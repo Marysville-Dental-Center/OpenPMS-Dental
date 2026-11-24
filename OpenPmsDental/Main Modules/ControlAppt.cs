@@ -293,7 +293,7 @@ namespace OpenPmsDental {
 					patNum=_patient.PatNum.ToString();
 				}
 				ODException odException=new ODException($"Patnum: {patNum}\r\n" 
-				+$"OD Version: {Application.ProductVersion}\r\n"
+				+$"Open PMS Version: {Application.ProductVersion}\r\n"
 				+$"Missing ToolStripItem: {name}");
 				throw odException;
 			}
