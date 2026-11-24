@@ -107,9 +107,9 @@ OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butPrint	409,680	81,24
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butEmail	498,680	81,24	
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butToKiosk	498,596	81,24	
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butPDF	409,652	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butAddField	587,624	81,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butReduceFontSize	587,652	98,24	
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butFontAbout	691,652	24,24	
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butAddField	587,624	108,24	
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butReduceFontSize	587,652	108,24	
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	butFontAbout	701,652	24,24	
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	.			887,712
 OpenPmsDental/Forms/FormTPsign.designer.cs	textTypeSigPractice	651,91	331,23	
 OpenPmsDental/Forms/FormTPsign.designer.cs	labelTypeSigPractice	497,91	148,23	

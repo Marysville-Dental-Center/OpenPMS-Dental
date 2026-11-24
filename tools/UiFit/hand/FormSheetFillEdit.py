@@ -47,9 +47,10 @@ def layout(h):
     h.set("butChangePat", cols[2], rows[1], 81, B)
     h.set("butRestore", cols[2], rows[2], 81, B)
     h.set("butEmail", cols[2], rows[3], 81, B)
-    h.set("butAddField", cols[3], rows[1], 81, B)
-    h.set("butReduceFontSize", cols[3], rows[2], 98, B)
-    h.set("butFontAbout", cols[3] + 98 + s.ITEM, rows[2], 24, B)
+    w3 = 108  # the last column one width: Reduce Font Size with the button padding at 150%
+    h.set("butAddField", cols[3], rows[1], w3, B)
+    h.set("butReduceFontSize", cols[3], rows[2], w3, B)
+    h.set("butFontAbout", cols[3] + w3 + s.ITEM, rows[2], 24, B)
     xr = W - s.PAD - 81
     h.set("butDelete", xr, rows[1], 81, B)
     h.set("butSave", xr, rows[2], 81, B)

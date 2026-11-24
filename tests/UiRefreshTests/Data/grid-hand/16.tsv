@@ -122,12 +122,14 @@ OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdi
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butEmail	Size	81,23	81,24	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butAddField	Location	621,616	587,624	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butReduceFontSize	Location	621,646	587,652	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butFontAbout	Location	722,646	691,652	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butFontAbout	Location	722,646	701,652	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butDelete	Location	794,616	798,624	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butSave	Location	794,646	798,652	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butOK	Location	794,676	798,680	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	panelScroll	Location	3,3	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	panelScroll	Size	879,580	871,571	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butAddField	Size	81,24	108,24	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	butReduceFontSize	Size	98,24	108,24	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	panelControls	Location	867,0	857,0	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	panelControls	Size	125,745	135,745	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	panel1	Location	0,0	8,8	by hand (layout script): on the grid

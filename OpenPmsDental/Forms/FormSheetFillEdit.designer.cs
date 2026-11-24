@@ -326,7 +326,7 @@ namespace OpenPmsDental{
 			this.butAddField.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butAddField.Location = new System.Drawing.Point(587, 624);
 			this.butAddField.Name = "butAddField";
-			this.butAddField.Size = new System.Drawing.Size(81, 24);
+			this.butAddField.Size = new System.Drawing.Size(108, 24);
 			this.butAddField.TabIndex = 97;
 			this.butAddField.TabStop = false;
 			this.butAddField.Text = "Add Field";
@@ -343,7 +343,7 @@ namespace OpenPmsDental{
 			this.butReduceFontSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butReduceFontSize.Location = new System.Drawing.Point(587, 652);
 			this.butReduceFontSize.Name = "butReduceFontSize";
-			this.butReduceFontSize.Size = new System.Drawing.Size(98, 24);
+			this.butReduceFontSize.Size = new System.Drawing.Size(108, 24);
 			this.butReduceFontSize.TabIndex = 108;
 			this.butReduceFontSize.TabStop = false;
 			this.butReduceFontSize.Text = "Reduce Font Size";
@@ -354,7 +354,7 @@ namespace OpenPmsDental{
 			// 
 			this.butFontAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butFontAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.butFontAbout.Location = new System.Drawing.Point(691, 652);
+			this.butFontAbout.Location = new System.Drawing.Point(701, 652);
 			this.butFontAbout.Name = "butFontAbout";
 			this.butFontAbout.Size = new System.Drawing.Size(24, 24);
 			this.butFontAbout.TabIndex = 109;
