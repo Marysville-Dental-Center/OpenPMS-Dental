@@ -1715,6 +1715,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   ownership by the declared class (C# and Python, with tests); RdlDesigner and ComboBoxMulti skipped with their reasons; re-plans
   239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 / 166 unchanged; gallery `G-UI3-ui12-13`, audit `UI-12-audit-13.md` (UI-12.md
   section 7, "Slice 13").
+  Fix round (`ui/ui12-13-2`): the review's ten findings (Balancing captions and boxes, grid widths, group margins, check box columns,
+  FormSheetDefEdit drawn with Load's visibility, the report designer's dialogs drawn at 150% as their AutoScale scales them;
+  PropertyDialog's pages are not scaled by the exe at 150%: an owner question).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
