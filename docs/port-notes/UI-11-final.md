@@ -26,19 +26,23 @@ A finding that stays is a row of `tests/UiRefreshTests/Data/sweep-known.tsv` (wi
 row the sweep no longer finds. `OPMS_UI_SWEEP_OUT=<file>` writes every finding of a run (`<W>/sweep-before.tsv` on `main`,
 `<W>/sweep-after.tsv` on the branch).
 
-**What it found on `main`** (`e4eeb6760`): 35 look findings in 17 windows and 124 windows not on the grid's list. On the branch: 24 look
-findings in 15 windows and the same 124, each a row of `sweep-known.tsv` with its reason (148 rows).
+**What it found on `main`** (`e4eeb6760`): 35 look findings in 17 windows and 124 windows not on the grid's list. On the branch: 17 look
+findings in 14 windows and the same 124, each a row of `sweep-known.tsv` with its reason (141 rows).
 
 - Fixed: the report viewer library's two dialogs, `DialogMessages` (the report's warnings) and `DataSourcePassword` (a data source's pass
   phrase), drew in Windows' look in the program and in the report designer: the library references no CodeBase, so UI-PLAIN-2 did not reach
   it. Now `RdlViewer.ActionAttachLook` (set by the program in `LayoutManagerForms.SetLooksScale`, by the report designer in its `Main` with
   its own copy of the looks) is called by both constructors (`ReportViewerDialogs_TakeTheLookFromTheHost`). The harness now builds them by
   their constructor (`WindowBuilder`'s list, with the program's hook set), so the sweep and the gallery show them as the program does.
+- Fixed in the harness (fix round): the program's `OpenPmsDental.MsgBoxCopyPaste`, whose own `InitializeComponent` is empty and whose base
+  class's constructor (`CodeBase.MsgBoxCopyPaste`) makes the text box and buttons and attaches the look. The harness built it without the
+  base constructor, so the sweep found Windows' look on it and the gallery and the reference set drew it in the old look, though the office
+  sees the new one (as `MsgBoxCopyPaste@CodeBase` shows). It is now in `WindowBuilder`'s list of windows built by their constructor (a
+  synthetic message; no database or files), its seven look rows left `sweep-known.tsv`, and its picture was drawn again (section 3).
 - Kept with a reason (the rest of the 35): the old drawn table's scroll corner and the time pattern built on it (`ContrTable`,
   `TableTimeBar` in FormApptTypeEdit, FormProcCodeEdit, FormProcCodeNoteEdit: content, as `colour-literals.tsv` says), ToolBarOD's unused
   designer colour (FormClaimsSend), the popups and covers that paint themselves (FormFrame, FormSnap, FormSplash, FormComboPicker,
-  ToolTipOD, ModuleSwitchBlurOverlay, FormPopupFade's own grey), the screening tooth (content), and `OpenPmsDental.MsgBoxCopyPaste`, whose
-  base class's constructor attaches the look (the harness skips base constructors).
+  ToolTipOD, ModuleSwitchBlurOverlay, FormPopupFade's own grey) and the screening tooth (content).
 - Not on the grid's list, each with UI-12's reason (UI-12.md's "Skipped" tables, quoted in `sweep-known.tsv`) or its own: the shared
   controls (GridOD, ToolBarOD, TabControl, the pickers), the windows UI-12 left with their reasons (the main window, the modules with panels
   laid over one another, the editors and document viewers, the plain progress windows, the report designer's property pages), and the
@@ -101,6 +105,10 @@ are: an approval is the owner's, not a baseline):
   compares its pictures with it (`New-UiGallery.ps1 -Before .git/od-tools/test-results/ui-baseline-final`, or the hashes). Drawn again
   with a Targeted x64 UiRefreshTests run and `OPMS_UI_FIT_GALLERY=<folder>`, `OPMS_UI_FIT_GALLERY_FONT=program`,
   `OPMS_UI_FIT_GALLERY_WINDOWS=@all`; then `OPMS_UI_FIT_GALLERY_SCALE=1.5` with `OPMS_UI_FIT_GALLERY_WINDOWS=@densest`.
+  Fix round: `windows-100/MsgBoxCopyPaste.png` was drawn again (the same run with
+  `OPMS_UI_FIT_GALLERY_WINDOWS=OpenPmsDental.MsgBoxCopyPaste,CodeBase.MsgBoxCopyPaste@CodeBase`) once the harness builds it by its
+  constructor (section 1); the product code is still `f20ec8b71`'s, so its row keeps that commit (704x672, was 718x683). The
+  `@CodeBase` picture drawn in the same run has the same bytes as the set's, so the run draws as the first one did.
 - **The layout snapshot** (`Data/layout-snapshot/`, the designer bounds `LayoutSnapshotTests` compares with): written again from this
   branch (`OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1`); it equals the committed files but for FormLanguageAndRegion's rows (section 2).
 - **Needs a connected desktop session** (WPF draws nothing in this disconnected one, `ControlPictures.RendersWpf()` is false, and the
@@ -123,9 +131,11 @@ toolbar button, toolbars from the keyboard, Tab in the WPF windows, radio button
 
 `.git/od-tools/test-results/G-UI3-ui11final` (zip beside it): every window the harness builds at 100%, before (`main` at `e4eeb6760`,
 built x64, drawn in the same session) and after (the branch, the build of `f20ec8b71`), and the densest tenth at 150% (after only):
-1,129 pictures, 4 changed, 1,022 the same, 103 only after. The changed ones are the windows this package changes: FormInsPayFix and
-FormLanguageAndRegion (the framed description boxes; the second 12 px taller), and the report viewer's DialogMessages and
-DataSourcePassword (the program's frame, background, buttons and inputs). The sweep's findings that stay are in `sweep-known.tsv`; their
+1,129 pictures, 5 changed, 1,021 the same, 103 only after. The changed ones are the windows this package changes: FormInsPayFix and
+FormLanguageAndRegion (the framed description boxes; the second 12 px taller), the report viewer's DialogMessages and
+DataSourcePassword (the program's frame, background, buttons and inputs), and the program's MsgBoxCopyPaste (fix round: `main`'s harness
+drew it without its base constructor, in the old look; now as the office sees it, the program's frame, the framed text box and the button
+look). The sweep's findings that stay are in `sweep-known.tsv`; their
 windows are in the gallery as they are (the same before and after). Audit: [UI-11-final-audit.md](UI-11-final-audit.md). Raw pictures,
 the sweep's records and work files: `<W>` (`before-100`, `after-100` (the first after run), `final-100`, `final-150`, `sweep-before.tsv`,
 `sweep-final.tsv`).
@@ -142,7 +152,8 @@ tools/New-UiGallery.ps1 -Before <W>/gal-before -After <W>/gal-after -Name G-UI3 
 New: `FinalSweepTests` (the sweep: `Sweep_EveryWindow_NoClassicLookLeft`, `Sweep_EveryWindow_IsOnTheGridList`;
 `ReportViewerDialogs_TakeTheLookFromTheHost`), `WpfFocusTests.RadioButton_Group_IsOneTabStop_TheCheckedOne`, WindowChecksTests'
 `UiHarnessTests.Baseline_OneCommit_EveryPictureOnce` (the reference set's record). Changed: the real Tab walk passes the radio button group
-once; `PlainLookTests` counts five windows built by their constructor (the report viewer's two dialogs added to `WindowBuilder`'s list).
+once; `PlainLookTests` counts six windows built by their constructor (the report viewer's two dialogs and, in the fix round, the
+program's MsgBoxCopyPaste added to `WindowBuilder`'s list).
 FitGallery: the window lists `@all` and `@densest`.
 
 Full x64 build through the lane at `f20ec8b71` (the last code change; the commits after it are data and notes): 0 errors. Targeted x64 run
