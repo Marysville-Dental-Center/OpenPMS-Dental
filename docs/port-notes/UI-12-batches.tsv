@@ -41,7 +41,6 @@ batch	kind	rank	designer_file	window	controls	group
 2	small		OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	10	OpenPmsDental.FormWikiEdit
 2	small		OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	6	OpenPmsDental.FormOpenDental
 2	small		OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	OpenPmsDental.ReportingComplex.FormReportComplex	2	OpenPmsDental.ReportingComplex.FormReportComplex
-2	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator	1	OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator
 2	small		OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	OpenPmsDental.FormReportCustom	2	OpenPmsDental.FormReportCustom
 2	small		OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	OpenPmsDental.FormReportForRdl	2	OpenPmsDental.FormReportForRdl
 2	small		OpenPmsDental/Tables Old Grids/ContrTable.cs	OpenPmsDental.contrtable	4	OpenPmsDental.contrtable
