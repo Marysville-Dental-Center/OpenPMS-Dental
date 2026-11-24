@@ -539,3 +539,8 @@ OpenPmsDental/Forms/FormSupplyOrderEdit.Designer.cs	OpenPmsDental.FormSupplyOrde
 OpenPmsDental/Forms/FormSupplyOrderEdit.Designer.cs	OpenPmsDental.FormSupplyOrderEdit	butSave	Location	632,318	640,318	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	listType	Size	106,43	104,43	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butRecordNew	Size	105,23	108,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	label7	Location	229,250	229,238	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	label7	Size	278,73	278,50	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	.	ClientSize	599,369	599,334	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butDelete	Location	8,335	8,300	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butSave	Location	516,335	516,300	by hand (layout script): on the grid

@@ -1,6 +1,7 @@
 """FormSigElementDefEdit on the grid (UI-12 slice 10, layout script on the planner's tree). The Type list (106) and the Text box (104) under it
 ended 2 px apart, and Record New (105) 3 px short of Windows Recorder (108) over it: the list as wide as the box, Record New as wide as
-Windows Recorder."""
+Windows Recorder. The empty label7 (no text in the designer or the code, as on main) held a 47 px empty band over Delete and Save: it spans
+the Light rows, the bar 12 px under Light Color (369 -> 334 high; the code does not size the window)."""
 import importlib.util
 import os
 
@@ -12,3 +13,7 @@ _spec.loader.exec_module(s)
 def layout(h):
     h.set("listType", None, None, h.n("textSigText").nw, None)
     h.set("butRecordNew", None, None, h.n("butRecord").nw, None)
+    r, c = h.n("textLightRow"), h.n("butColor")
+    h.set("label7", None, r.ny, None, c.ny + c.nh - r.ny)
+    s.size(h, h.n(".").nw, c.ny + c.nh + 12 + h.n("butSave").nh + 8)
+    s.bar(h, left=("butDelete",), right_=("butSave",))

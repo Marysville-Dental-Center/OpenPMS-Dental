@@ -128,3 +128,22 @@ their place).
 - **FormProcNoteAppend** (150%): final pass: nothing (no text cut or covered, the same edges as at 100%).
 - **FormProcCodeNoteEdit** (150%): final pass: nothing (no text cut or covered, the same edges as at 100%).
 - **FormPerioGraphicalSetup** (150%): final pass: nothing (no text cut or covered, the same edges as at 100%).
+
+## Fix round (the lead's review, branch `ui/ui12-10-2`)
+
+The lead's 14 findings (UI-12.md section 7, "Slice 10, fix round"): 12 fixed by the windows' scripts, 2 shown not real
+(FormPayPlanChargeEdit's date-and-time boxes, FormPerioGraphicalSetup's label column). The review measures the empty band under a
+window's content, so six windows now end at their content and are smaller than on `main` (this audit's earlier "a window never shrinks
+below main" gives way to it). Pass `work/f2` and `work/f2-150` (the whole filter built, `OpenPmsDental.dll` `AA81E793...` in both bins,
+GridRulesTests with the new runtime text and the layout snapshot green): 9 pictures changed at 100% and 5 at 150% against the final pass
+(byte compare), each opened; the others byte-identical. Nothing found.
+
+- **FormPrintTrojan**: the three icon buttons 45 px at 8, 59, 110; the hidden page counter 72 px (its runtime text "Page: 12\12" checked by GridRulesTests). Nothing.
+- **FormWikiListEdit** (100% and 150%): L and R span the 72 px button column (8..79), the column's buttons and the groups' edges on one line. Nothing.
+- **FormSupplyOrderEdit** (100% and 150%): both date boxes 100 px, the note 6 px after Date Placed on one line, the window 723 wide. Nothing.
+- **FormSigElementDefEdit** (100% and 150%): the Type list and the Text box end on one edge; Windows Recorder and Record New one width. Found: a 47 px empty band over Delete and Save (the empty `label7`, 73 px tall, kept over the bar); fixed by its script (the label on the Light rows, the bar 12 px under Light Color, the window 334 high); `work/f3` opened: nothing.
+- **FormRxAlertEdit**: the default-alert note ends on the label column's edge (316); Delete and Save 12 px under the check box. Nothing.
+- **FormRepeatChargeEditMulti** (100% and 150%): Run 12 px under the last note, on the right padding. Nothing.
+- **FormTranslationEdit**: Save 12 px under Comments. Nothing.
+- **FormReplicationEdit** (100% and 150%): Delete and Save 12 px under the Temp Tables note. Nothing.
+- **FormTrackNextSetup**: the group 8 px around its content on both sides, Save on the right padding. Nothing.

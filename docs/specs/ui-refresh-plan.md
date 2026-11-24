@@ -1693,7 +1693,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   grew back at main's size, overlapping bars and rows, columns, cut notes), 67 files skipped with their reasons (the plain exes, the graph
   project, fyiReporting, the WPF frame, the tooth chart, PrintPanel, DashApptGrid, FormInstallAllocator_Provider, ...); FormWikiDrafts',
   FormWikiHistory's and FormPrintTrojan's code layout on UiGrid; 8 runtime texts, 7 known findings; gallery G-UI3-ui12-10 (86 windows,
-  14 at 150%), audit `UI-12-audit-10.md` (UI-12.md section 7, "Slice 10 (batch 2 and 6)").
+  14 at 150%), audit `UI-12-audit-10.md` (UI-12.md section 7, "Slice 10 (batch 2 and 6)"). Fix round (`ui/ui12-10-2`, the lead's 14
+  findings): 12 fixed (83 scripts; FormPrintTrojan's page counter sized for its runtime text, now a `grid-runtime-texts` row; six
+  windows end at their content), 2 shown not real (FormPayPlanChargeEdit's date-and-time boxes, FormPerioGraphicalSetup's label
+  width); UI-12.md section 7, "Slice 10, fix round".
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
