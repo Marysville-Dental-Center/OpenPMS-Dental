@@ -70,3 +70,36 @@ covered text, overlaps, margins, columns, gaps, crowding, empty bands, control l
 | FormUpdateSetup | ok | Rows on the two columns (the window's boxes are 20 px tall: its pitch 24), the group from the padding, the Recopy note and button on one row. |
 | FormXDRSetup | ok | The group from the padding with its rows on the window's columns; Import and Clear on the bar's line. |
 | UserControlSetupWizPractice | ok | One label column and one field column, the address group on them, the Default Provider list on the right column, the note and Advanced on the right padding. |
+
+## Pass 3 (`<W>/f3-100`; the pictures that changed, by byte compare)
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| FormProcCodes | ok | The right column 250 wide, the colour legend's names whole; three columns, one bottom edge. |
+| FormFeeSchedTools (and its five pages) | ok | The clinic pickers' boxes on the field column and edge; the Global Updates notes left-aligned. |
+| FormQuickBooksOnlineSetup | ok | Relay Port's box on its caption's row; the status text inside the group. |
+| FormSheetFieldStatic | ok | The list down to the section gap over the bar. |
+| FormTestLatency | fixed | GridRulesTests `padding` and `frame`: the Average group's "ms." units past its content edge in the narrower group: the rows on one label column from the content edge. |
+| FormEduResourceEdit, FormPatListElementEditEHR2014 | ok | Changed bytes, no layout change (drawing noise): nothing found. |
+| FormEhrLabImageEdit | fixed | (The re-plan, not the picture) the planner moved the splitter panels inside the container and grew the window 16 x 16 a pass: back to main's 784 x 589 by a script. |
+
+## Pass 4 (`<W>/f4-100`, `<W>/f4-150`)
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| FormTestLatency | fixed | Three equal groups, the units inside; the Latency note centred in the Speed note's height while the Speed note stood at the top: both at the top. |
+| FormEhrLabImageEdit | ok | Main's size, the container on the padding to the section gap over Save, the panels where the container puts them, the grid and preview 8 px inside. |
+| FormDoseSpotPropertyEdit | ok | New script: the label column from the padding, the buttons on the right padding, the boxes up to them. |
+| FormProcCodes-150 | ok | Text, edges and gaps at 150%: nothing cut; the colour legend whole. The grid's title font is the harness's at 150% (every slice's grids). |
+| FormFeeSchedTools-150, FormFeeSchedTools-copycode-150 | ok | Rows, pickers, the note's four lines at 150%: nothing found. The tab strip's captions draw in the harness's unscaled font at 150% (every slice's tab controls). |
+| FormQuickBooksOnlineSetup-150 | ok | The two notes, the status row and the list captions at 150%: nothing cut. |
+| FormSheetFieldStatic-150 | ok | Font group, rows, the insert note at 150%: nothing found. |
+| FormUpdateSetup-150 | ok | The two-line captions, the group, the Recopy note at 150%: nothing found. |
+
+## Pass 5 (`<W>/f5-100`, the final build)
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| FormTestLatency | ok | Both notes at the top of their groups, the boxes on one row, the units inside the Average group, the Test buttons on one line: nothing found. |
+
+The pass finds nothing: every after picture of the slice has been opened, and every one changed since its last opening has been opened again.
