@@ -31,7 +31,6 @@ namespace OpenPmsDental{
 			// textBoxDescript
 			// 
 			this.textBoxDescript.BackColor = System.Drawing.SystemColors.Window;
-			this.textBoxDescript.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBoxDescript.Location = new System.Drawing.Point(8, 8);
 			this.textBoxDescript.Multiline = true;
 			this.textBoxDescript.Name = "textBoxDescript";

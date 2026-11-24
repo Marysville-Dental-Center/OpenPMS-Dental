@@ -51,6 +51,10 @@ How to use the CheckBox control:
 			//next radio button of its group, checking it (OnKeyDown); the shared focus ring shows only with keyboard cues (section 3.6).
 			Focusable=true;
 			IsTabStop=true;
+			//UI-11-final (docs/port-notes/UI-11-final.md): a group of radio buttons (the radio buttons of one parent) is one tab stop, as in WinForms:
+			//the checked one, else the first in tab order; the arrow keys move inside the group (OnKeyDown).
+			Loaded+=(sender,e) => UpdateGroupTabStops(Parent);
+			IsVisibleChanged+=(sender,e) => UpdateGroupTabStops(Parent);
 			SetColors();
 		}
 
@@ -126,53 +130,60 @@ How to use the CheckBox control:
 				if(_checked==value){
 					return; //no change
 				}
-				_checked=value;
-				if(!value){//unchecking. This can only happen programmatically
-					ellipseSmallBlack.Visibility=Visibility.Collapsed;
-					SetColors();
-					return;
-				}
-				//everything below here is for checking it.
-				ellipseSmallBlack.Visibility=Visibility.Visible;
+				SetCheckedAndUncheckSiblings(value);
+				//UI-11-final: the group's one tab stop follows the checked radio button.
+				UpdateGroupTabStops(Parent);
+			}
+		}
+
+		///<summary>Sets the checked state; checking unchecks the other radio buttons of the same parent.</summary>
+		private void SetCheckedAndUncheckSiblings(bool value){
+			_checked=value;
+			if(!value){//unchecking. This can only happen programmatically
+				ellipseSmallBlack.Visibility=Visibility.Collapsed;
 				SetColors();
-				//uncheck all other radio buttons that are siblings
-				if(DesignerProperties.GetIsInDesignMode(this)){
-					return;
-				}
-				//List<RadioButton> listRadioButtons=new List<RadioButton>();
-				//Type typeParent=Parent.GetType();//UI.Panel, UI.GroupBox, or UserControl
-				//Type typeBase=typeParent.BaseType;//ItemsControl
-				//Type typeBase2=typeBase.BaseType;//FrameworkElement
-				if(Parent is ItemsControl itemsControl){//UI.Panel or UI.GroupBox
-					ItemCollection itemCollection=itemsControl.Items;
-					for(int i=0;i<itemCollection.Count;i++){
-						if(itemCollection[i]==this){
-							continue;
-						}
-						if(itemCollection[i] is RadioButton radioButton){
-							radioButton.Checked=false;
-						}
-					}
-					return;
-				}
-				UIElementCollection uIElementCollection=null;
-				if(Parent is System.Windows.Controls.Grid grid){
-					//grids are always used as the content of FrmODBase, and this code will make it work for all grids
-					uIElementCollection=grid.Children;
-				}
-				if(Parent is WrapPanel wrapPanel){//used in EForms layout
-					uIElementCollection=wrapPanel.Children;
-				}
-				if(uIElementCollection==null){
-					return;
-				}
-				for(int i=0;i<uIElementCollection.Count;i++){
-					if(uIElementCollection[i]==this){
+				return;
+			}
+			//everything below here is for checking it.
+			ellipseSmallBlack.Visibility=Visibility.Visible;
+			SetColors();
+			//uncheck all other radio buttons that are siblings
+			if(DesignerProperties.GetIsInDesignMode(this)){
+				return;
+			}
+			//List<RadioButton> listRadioButtons=new List<RadioButton>();
+			//Type typeParent=Parent.GetType();//UI.Panel, UI.GroupBox, or UserControl
+			//Type typeBase=typeParent.BaseType;//ItemsControl
+			//Type typeBase2=typeBase.BaseType;//FrameworkElement
+			if(Parent is ItemsControl itemsControl){//UI.Panel or UI.GroupBox
+				ItemCollection itemCollection=itemsControl.Items;
+				for(int i=0;i<itemCollection.Count;i++){
+					if(itemCollection[i]==this){
 						continue;
 					}
-					if(uIElementCollection[i] is RadioButton radioButton){
+					if(itemCollection[i] is RadioButton radioButton){
 						radioButton.Checked=false;
 					}
+				}
+				return;
+			}
+			UIElementCollection uIElementCollection=null;
+			if(Parent is System.Windows.Controls.Grid grid){
+				//grids are always used as the content of FrmODBase, and this code will make it work for all grids
+				uIElementCollection=grid.Children;
+			}
+			if(Parent is WrapPanel wrapPanel){//used in EForms layout
+				uIElementCollection=wrapPanel.Children;
+			}
+			if(uIElementCollection==null){
+				return;
+			}
+			for(int i=0;i<uIElementCollection.Count;i++){
+				if(uIElementCollection[i]==this){
+					continue;
+				}
+				if(uIElementCollection[i] is RadioButton radioButton){
+					radioButton.Checked=false;
 				}
 			}
 		}
@@ -273,28 +284,53 @@ How to use the CheckBox control:
 
 		///<summary>The enabled, visible radio buttons of this one's parent (the group Checked unchecks), in their order there.</summary>
 		private List<RadioButton> GetGroup(){
+			return GetRadioButtons(Parent).Where(x => x.IsEnabled && x.Visibility==Visibility.Visible).ToList();
+		}
+
+		///<summary>Every radio button of the parent (a UI.Panel, UI.GroupBox or other ItemsControl, a Grid or another panel), in its order there.</summary>
+		private static List<RadioButton> GetRadioButtons(DependencyObject dependencyObjectParent){
 			List<RadioButton> listRadioButtons=new List<RadioButton>();
 			System.Collections.IEnumerable enumerable=null;
-			if(Parent is ItemsControl itemsControl){
+			if(dependencyObjectParent is ItemsControl itemsControl){
 				enumerable=itemsControl.Items;
 			}
-			else if(Parent is System.Windows.Controls.Panel panel){
+			else if(dependencyObjectParent is System.Windows.Controls.Panel panel){
 				enumerable=panel.Children;
 			}
 			if(enumerable==null){
 				return listRadioButtons;
 			}
 			foreach(object item in enumerable){
-				if(item is RadioButton radioButton && radioButton.IsEnabled && radioButton.Visibility==Visibility.Visible){
+				if(item is RadioButton radioButton){
 					listRadioButtons.Add(radioButton);
 				}
 			}
 			return listRadioButtons;
 		}
 
+		///<summary>UI-11-final: makes the radio buttons of the parent one tab stop, as WinForms does: the checked one when it is enabled and visible,
+		///else the first enabled, visible one in tab order (TabIndex, then the parent's order); the others are no tab stops. A parent with no such
+		///radio button leaves every one a tab stop. UiTabOrder orders the radio buttons whether or not they are the stop, and calls this again once
+		///the indexes are set.</summary>
+		public static void UpdateGroupTabStops(DependencyObject dependencyObjectParent){
+			if(dependencyObjectParent==null){
+				return;
+			}
+			List<RadioButton> listRadioButtons=GetRadioButtons(dependencyObjectParent);
+			List<RadioButton> listCandidates=listRadioButtons.Where(x => x.IsEnabled && x.Visibility==Visibility.Visible).ToList();
+			RadioButton radioButtonStop=listCandidates.FirstOrDefault(x => x.Checked);
+			if(radioButtonStop==null){
+				radioButtonStop=listCandidates.OrderBy(x => KeyboardNavigation.GetTabIndex(x)).ThenBy(x => listCandidates.IndexOf(x)).FirstOrDefault();
+			}
+			for(int i=0;i<listRadioButtons.Count;i++){
+				listRadioButtons[i].IsTabStop=radioButtonStop==null || listRadioButtons[i]==radioButtonStop;
+			}
+		}
+
 		private void RadioButton_IsEnabledChanged(object sender,DependencyPropertyChangedEventArgs e) {
 			//This is nice because it gets hit when changing the property in the designer.
 			SetColors();
+			UpdateGroupTabStops(Parent);
 		}
 
 		private void grid_MouseMove(object sender,MouseEventArgs e) {
