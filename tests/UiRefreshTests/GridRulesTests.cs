@@ -692,11 +692,12 @@ namespace UiRefreshTests {
 			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)
 				&& (IsAnyButton(x) || (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom))).ToList();
 			//The bottom-anchored rows of labels, fields and check boxes stacked on the bar (8 px or less over it: FormConfirmationSetup's two status
-			//rows) are one bottom block with it; a button or a list over the bar is content (FormReconcileAllergy's Remove Selected).
+			//rows; a second row of bar buttons on the first's columns: FormRpTreatmentFinder) are one bottom block with it; another button or a
+			//list over the bar is content (FormReconcileAllergy's Remove Selected).
 			while(true) {
 				int yTop=listBar.Min(x => x.Top);
 				List<Control> listMore=listKids.Where(x => !listBar.Contains(x) && (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
-					&& !IsAnyButton(x) && x.Height<=30
+					&& x.Height<=30 && (!IsAnyButton(x) || listBar.Any(y => IsAnyButton(y) && (Math.Abs(y.Left-x.Left)<=1 || Math.Abs(y.Right-x.Right)<=1)))
 					&& yTop-x.Bottom>=0 && yTop-x.Bottom<=UiGrid.SIBLING_GAP).ToList();
 				if(listMore.Count==0) {
 					break;

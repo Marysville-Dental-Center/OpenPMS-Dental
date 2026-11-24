@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			// butOK
 			//
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(594, 424);
+			this.butOK.Location = new System.Drawing.Point(594, 416);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 9;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// butCancel
 			//
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(677, 424);
+			this.butCancel.Location = new System.Drawing.Point(677, 416);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 10;
@@ -168,7 +168,7 @@ namespace OpenPmsDental {
 			//
 			// FormMaterialsUsed
 			//
-			this.ClientSize = new System.Drawing.Size(760, 456);
+			this.ClientSize = new System.Drawing.Size(760, 448);
 			this.Controls.Add(this.butCancel);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.labelReadOnly);

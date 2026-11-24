@@ -471,10 +471,12 @@ def bar_section_gap(hand):
     bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row)
                                             and (c.kind == "button" or c.anchored_bottom_only))]
     # the bottom-anchored rows of labels, fields and check boxes stacked on the bar (8 px or less over it: FormConfirmationSetup's two
-    # status rows) move with it: one bottom block (a button or a list over the bar is content: FormReconcileAllergy's Remove Selected)
+    # status rows; a second row of bar buttons on the first's columns: FormRpTreatmentFinder) move with it: one bottom block (another
+    # button or a list over the bar is content: FormReconcileAllergy's Remove Selected)
     while True:
         y_top = min(c.ny for c in bar)
-        more = [c for c in shown if c not in bar and c.anchored_bottom_only and c.kind != "button" and c.nh <= 30
+        more = [c for c in shown if c not in bar and c.anchored_bottom_only and c.nh <= 30
+                and (c.kind != "button" or any(b.kind == "button" and (abs(b.nx - c.nx) <= 1 or abs(b.nx + b.nw - c.nx - c.nw) <= 1) for b in bar))
                 and 0 <= y_top - (c.ny + c.nh) <= GRID["sibling_gap"]]
         if not more:
             break
