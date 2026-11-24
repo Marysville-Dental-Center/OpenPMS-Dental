@@ -101,9 +101,14 @@ namespace UiRefreshTests.Toolbars {
 						Size size=contextMenuStrip.GetPreferredSize(Size.Empty);
 						contextMenuStrip.Size=size;
 						contextMenuStrip.CreateControl();
+						//The button pressed while its drop-down is open, as ShowOverflowMenu sets it.
+						ODToolBarButton toolBarButtonOverflow=(ODToolBarButton)typeof(ToolBarOD).GetField("_toolBarButtonOverflow",
+							System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(toolBarOD);
+						toolBarButtonOverflow.State=OpenPmsDental.UI.ToolBarButtonState.Pressed;
+						using(Bitmap bitmapPressed=ToolBarPictureTests.Draw(toolBarOD))
 						using(Bitmap bitmapMenu=new Bitmap(size.Width,size.Height,PixelFormat.Format24bppRgb)) {
 							contextMenuStrip.DrawToBitmap(bitmapMenu,new Rectangle(0,0,size.Width,size.Height));
-							using(Bitmap bitmapOpen=Compose(bitmapAfter,bitmapMenu,toolBarOD.BoundsOverflow.Right)) {
+							using(Bitmap bitmapOpen=Compose(bitmapPressed,bitmapMenu,toolBarOD.BoundsOverflow.Right)) {
 								Save(folder,name+"-after-open.png",bitmapOpen,listWritten);
 							}
 						}
@@ -135,8 +140,12 @@ namespace UiRefreshTests.Toolbars {
 					contextMenu.Arrange(new System.Windows.Rect(0,0,widthMenu,heightMenu));
 					contextMenu.UpdateLayout();
 				}
+				//The button pressed while its drop-down is open, as ShowOverflowMenu sets it.
+				typeof(WpfControls.UI.ToolBarButton).GetMethod("SetMenuOpen",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)
+					.Invoke(toolBar.ToolBarButtonOverflow,new object[] { true });
+				using(Bitmap bitmapPressed=ControlPictures.RenderWpf(toolBar,width96,ToolBarModel.HEIGHT_TOOLBAR,scale))
 				using(Bitmap bitmapMenu=ControlPictures.RenderWpf(contextMenu,widthMenu,heightMenu,scale))
-				using(Bitmap bitmapOpen=Compose(bitmapAfter,bitmapMenu,bitmapAfter.Width)) {
+				using(Bitmap bitmapOpen=Compose(bitmapPressed,bitmapMenu,bitmapAfter.Width)) {
 					Save(folder,name+"-after-open.png",bitmapOpen,listWritten);
 				}
 			}

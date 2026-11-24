@@ -1805,6 +1805,20 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   as FormODBase does, the report designer's main window with a report open in the look (flat MDI area in the token, merged caption
   buttons, bottom tabs, toolbar buttons, status panels); gallery G-UI3-uiplain2 drawn again (151 pictures). UI-PLAIN.md section 9.
 
+**UI-OVF: toolbar overflow and WPF keyboard focus (the lead's open items, 2026-11-24)**
+- Why: a toolbar cut off what did not fit at its right edge (UI-6, `Data/toolbar-overflow.tsv`), and the WPF buttons could not take the
+  keyboard focus (UI-4a left it, section 3.6 "Focus, for every focusable self-drawn control"). Note: [UI-OVF.md](../port-notes/UI-OVF.md);
+  audit: `UI-OVF-audit.md`.
+- Status (2026-11-24, branch `ui/uiovf-1`): ToolBarOD, the WPF toolbar and the stock tool strips put the buttons that do not fit into a »
+  overflow button at the right end (the tool button's shapes, two Fluent chevrons) whose drop-down has each of them (text, icon, enabled and
+  checked state, click, a drop-down button's own menu as sub-menu); ToolBarOD is usable from the keyboard with keyboard cues (arrows,
+  Home/End, Enter/Space, Down, the focus ring) and tells screen readers about its buttons and the overflow button ("More buttons");
+  `toolbar-overflow.tsv` now lists the buttons in the overflow button (reachable, not lost). The WPF Button, CheckBox, RadioButton and
+  toolbar buttons are tab stops with the shared focus ring on keyboard cues; Enter/Space press a focused button (handled, so a Frm's own
+  Enter does not run too), Space toggles a check box, Space and the arrows check radio buttons; a Frm without a tab order of its own tabs
+  in reading order (`UiTabOrder`, after the first focus is set); Esc and Enter defaults unchanged. Tests in UiRefreshTests
+  (`ToolBarOverflowTests`, `WpfFocusTests`, `ToolBarFitTests`); gallery G-UI3-uiovf (the WPF pictures need a connected session).
+
 ---
 
 ## 8. Galleries and the owner's approval
