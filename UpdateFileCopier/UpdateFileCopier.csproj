@@ -163,4 +163,50 @@
       <Link>CodeBase\UI\Icons\IconData.g.cs</Link>
     </Compile>
   </ItemGroup>
+  <!--
+    UI-PLAIN (docs/port-notes/UI-PLAIN.md): the copier's window and MsgBoxCopyPaste call CodeBase.UiPlainWindow.Attach, the look of the
+    program's windows (the window background token, the program's button, the inputs' frame, the Fluent scroll bars): the shared looks and
+    the painters they draw with are linked files too.
+  -->
+  <ItemGroup>
+    <Compile Include="..\CodeBase\UI\UiControlPaint.cs">
+      <Link>CodeBase\UI\UiControlPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiScrollPaint.cs">
+      <Link>CodeBase\UI\UiScrollPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiSliderPaint.cs">
+      <Link>CodeBase\UI\UiSliderPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiListPaint.cs">
+      <Link>CodeBase\UI\UiListPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiInputFrame.cs">
+      <Link>CodeBase\UI\UiInputFrame.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiLooks.cs">
+      <Link>CodeBase\UI\UiLooks.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiRadioLook.cs">
+      <Link>CodeBase\UI\UiRadioLook.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiScrollLook.cs">
+      <Link>CodeBase\UI\UiScrollLook.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTrackBarLook.cs">
+      <Link>CodeBase\UI\UiTrackBarLook.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiUpDownLook.cs">
+      <Link>CodeBase\UI\UiUpDownLook.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTabPaint.cs">
+      <Link>CodeBase\UI\UiTabPaint.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiTabLook.cs">
+      <Link>CodeBase\UI\UiTabLook.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiPlainWindow.cs">
+      <Link>CodeBase\UI\UiPlainWindow.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ namespace OpenPmsDentalGraph {
 
 		public FormDashboardNamePrompt(string tabName,ValidateTabNameArgs validateTabNameArgs) {
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			textBoxTabName.Text=tabName;
 			_validateTabNameArgs=validateTabNameArgs;
 		}

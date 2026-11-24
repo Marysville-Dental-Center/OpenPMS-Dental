@@ -1,5 +1,5 @@
 // The source scans of the UI refresh's package UI-1 (docs/specs/ui-refresh-plan.md, sections 2.1, 3.2 and 9; docs/port-notes/UI-1.md):
-// 1. Coverage: every file in OpenPmsDental\UI, WpfControlsOD\UI and WpfControlsOD\Themes has exactly one row in
+// 1. Coverage: every file in OpenPmsDental\UI, CodeBase\UI, WpfControlsOD\UI and WpfControlsOD\Themes has exactly one row in
 //    tests\UiRefreshTests\Data\coverage.tsv with the package that restyles it or the reason it keeps its look, and every row matches a file, so a
 //    new control or a new shared dictionary cannot slip through.
 // 2. Colour literals: no new Color.FromArgb, Color.FromRgb or hex colour in the shared controls (OpenPmsDental\UI,
@@ -25,15 +25,19 @@ namespace NoHqTests {
 		public const string VARIABLE_WRITE_COLOUR_LITERALS="OPMS_UI_COLOUR_LITERALS_WRITE";
 		public const string PATH_COVERAGE=@"tests\UiRefreshTests\Data\coverage.tsv";
 		public const string PATH_COLOUR_LITERALS=@"tests\UiRefreshTests\Data\colour-literals.tsv";
-		///<summary>The folders whose every file needs a row in coverage.tsv (section 2.1).</summary>
-		public static readonly string[] ArrayCoverageFolders=new string[] { @"OpenPmsDental\UI",@"WpfControlsOD\UI",@"WpfControlsOD\Themes" };
+		///<summary>The folders whose every file needs a row in coverage.tsv (section 2.1). UI-PLAIN: CodeBase\UI too, where the shared looks moved.</summary>
+		public static readonly string[] ArrayCoverageFolders=new string[] { @"OpenPmsDental\UI",@"CodeBase\UI",@"WpfControlsOD\UI",
+			@"WpfControlsOD\Themes" };
 		///<summary>Where new colour literals are not allowed (section 9): a folder or a file. GridScreenLook is the screen look GridOD and GridOld
-		///draw with since UI-5, so it is scanned like GridOD.</summary>
+		///draw with since UI-5, so it is scanned like GridOD. UI-PLAIN: the shared looks moved from OpenPmsDental\UI to CodeBase\UI stay
+		///scanned.</summary>
 		public static readonly string[] ArrayColourScopes=new string[] { @"OpenPmsDental\UI",@"OpenPmsDentalBusiness\UI\GridOD.cs",
-			@"OpenPmsDentalBusiness\UI\GridScreenLook.cs",@"WpfControlsOD\UI\Controls" };
+			@"OpenPmsDentalBusiness\UI\GridScreenLook.cs",@"WpfControlsOD\UI\Controls",
+			@"CodeBase\UI\UiInputFrame.cs",@"CodeBase\UI\UiLooks.cs",@"CodeBase\UI\UiRadioLook.cs",@"CodeBase\UI\UiScrollLook.cs",
+			@"CodeBase\UI\UiTrackBarLook.cs",@"CodeBase\UI\UiUpDownLook.cs",@"CodeBase\UI\UiPlainWindow.cs",@"CodeBase\UI\UiTabLook.cs" };
 		///<summary>The packages of section 7 a coverage row may name.</summary>
 		public static readonly string[] ArrayPackages=new string[] { "UI-1","UI-2a","UI-2b","UI-3","UI-4a","UI-4b","UI-4c","UI-5","UI-6","UI-7a","UI-7b",
-			"UI-8","UI-9a","UI-9b","UI-10","UI-11","UI-12","UI-13" };
+			"UI-8","UI-9a","UI-9b","UI-10","UI-11","UI-12","UI-13","UI-PLAIN" };
 		///<summary>The reasons a coverage row may give instead of packages.</summary>
 		public static readonly string[] ArrayReasons=new string[] { "keeps","no-drawing" };
 		///<summary>UiTheme's partial files that RdlDesign may link: Windows Forms, System.Drawing and Microsoft.Win32 only. The WPF part is the other.

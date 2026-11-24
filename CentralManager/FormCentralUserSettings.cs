@@ -16,6 +16,7 @@ namespace CentralManager {
 
 		public FormCentralUserSettings(string uri,bool usingAutoLogin) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_uri=uri;
 			UsingAutoLogin=usingAutoLogin;
 		}

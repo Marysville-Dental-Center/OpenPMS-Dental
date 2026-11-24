@@ -14,6 +14,7 @@ namespace CentralManager {
 
 		public FormCentralGroupPermEdit(GroupPermission perm) {
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_permCur=perm.Copy();
 		}
 

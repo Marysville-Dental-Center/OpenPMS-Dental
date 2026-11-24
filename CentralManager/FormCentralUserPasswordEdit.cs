@@ -19,6 +19,7 @@ namespace CentralManager {
 
 		public FormCentralUserPasswordEdit(bool isCreate,string userName) {
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_isCreate=isCreate;
 			textUserName.Text=userName;
 		}

@@ -1,7 +1,9 @@
 // UI-13 (docs/port-notes/UI-13.md; the owner, 2026-11-22: "Overall make sure you modernize all element types"): the shared looks of the stock
 // Windows Forms element types that UI-4 to UI-12 left in their Windows-classic picture, attached to every control of a window by
-// UiInputFrame.AttachOne (FormODBase and LayoutManagerForms call it), never per window. Each keeps the control's behaviour, values, events and
-// texts; only its picture changes, in the UiTheme tokens:
+// UiInputFrame.AttachOne (FormODBase and LayoutManagerForms call it, and UiPlainWindow for the plain windows), never per window. Each keeps the
+// control's behaviour, values, events and texts; only its picture changes, in the UiTheme tokens. UI-PLAIN (docs/port-notes/UI-PLAIN.md) moved
+// them from OpenPmsDental/UI to CodeBase, so the plain exes' windows get them too; the program gives them its window scale and zoom
+// (FuncGetScaleWindow, FuncGetZoom, set by LayoutManagerForms):
 // - every scroll bar (UiScrollLook) and the track bar (UiTrackBarLook), in their own files;
 // - the stock button (System.Windows.Forms.Button, not the program's UI.Button): the program's button look (UiControlPaint.DrawButton: flat
 //   SurfaceRaised, 1 px Stroke, 4 px corners, ButtonHover and ButtonPressed), or, when it carries its own colour (a colour swatch, the time
@@ -14,7 +16,9 @@
 // - the stock month calendar and the date picker's drop-down calendar: the token colours where Windows draws them without a theme;
 // - the tree view and list view: Windows 11's Explorer theme (SetWindowTheme), the hover and selection Windows 11's own file lists use;
 // - the stock data grid view: the grid's tokens (header SurfaceSubtle, lines Gridline, selection AccentSubtle) where it has Windows' defaults;
-// - the link label: Accent links where it has Windows' default blue.
+// - the link label: Accent links where it has Windows' default blue;
+// - UI-PLAIN: the stock group box (the plain windows' 36): the program's group box (UI.GroupBox: 6 px corners, 1 px Stroke, the title inside
+//   the box at its top left), UiGroupBoxLook; the stock tab control with its tabs on top: the program's tab control (UiTabLook, its own file).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
@@ -22,12 +26,17 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Attaches UI-13's shared looks of the stock element types to one control.</summary>
 	public static class UiLooks {
-		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
+		///<summary>The scale of the program's window (a FormODBase: its dpi times the program's zoom) that holds the control, or 0 when the control
+		///is not in one. Set by the program (LayoutManagerForms); null in the plain exes, whose windows are not FormODBase.</summary>
+		public static Func<Control,float> FuncGetScaleWindow;
+		///<summary>The program's zoom (ComputerPrefs' Zoom/100; 1 without a database). Set by the program (LayoutManagerForms); null in the plain
+		///exes, which have no zoom (1).</summary>
+		public static Func<float> FuncGetZoom;
+		private static readonly PropertyInfo _propertyInfoShowKeyboardCues=typeof(Control).GetProperty("ShowKeyboardCues",BindingFlags.Instance|BindingFlags.NonPublic);
 		///<summary>The data grid views whose frame the look paints (its Paint handler is attached once).</summary>
 		private static readonly ConditionalWeakTable<DataGridView,object> _tableDataGridViews=new ConditionalWeakTable<DataGridView,object>();
 		///<summary>True leaves the stock types as Windows draws them (no UI-13 look is attached): only the gallery harness sets it, for the before
@@ -81,6 +90,12 @@ namespace OpenPmsDental.UI {
 			if(control is DateTimePicker dateTimePicker) {
 				SetDateTimePickerLook(dateTimePicker);
 			}
+			if(UiGroupBoxLook.IsDrawn(control)) {
+				UiGroupBoxLook.Attach(control);
+			}
+			if(UiTabLook.IsDrawn(control)) {
+				UiTabLook.Attach(control);
+			}
 		}
 
 		///<summary>A stock month calendar's colours in the tokens where it has Windows' defaults: the title Accent with TextOnAccent, the days Text
@@ -124,19 +139,37 @@ namespace OpenPmsDental.UI {
 		}
 
 		///<summary>The scale of the looks for the control being painted: its window's scale when the window is a FormODBase (FormODBase sets its
-		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom), else the control's own dpi
-		///(DeviceDpi/96) times the zoom. Never under 1.</summary>
+		///LayoutManager from the monitor's dpi, SetScaleMS, and LayoutManager.ScaleMy multiplies the program's zoom; FuncGetScaleWindow), else the
+		///control's own dpi (DeviceDpi/96) times the zoom (GetZoom), without the zoom in a plain window (UiPlainWindow.Attach). Never under 1.</summary>
 		public static float GetScale(Control control) {
 			float scaleWindow=0;
 			int deviceDpi=96;
+			float zoom=GetZoom();
 			if(control!=null) {
 				deviceDpi=control.DeviceDpi;
-				if(control.FindForm() is FormODBase formODBase) {
-					scaleWindow=formODBase.GetScaleMy();
+				Func<Control,float> funcGetScaleWindow=FuncGetScaleWindow;
+				if(funcGetScaleWindow!=null) {
+					scaleWindow=funcGetScaleWindow(control);
+				}
+				if(scaleWindow<=0 && zoom!=1f && UiPlainWindow.IsAttached(control.FindForm())) {
+					//UI-PLAIN fix round: a plain window inside the program (MsgBoxCopyPaste, the progress windows, the dashboard's dialogs) is not
+					//zoomed by any LayoutManager, so its looks draw at the control's dpi alone, as its input frames do (UiInputFrame.GetScale): with
+					//ComputerPrefs' Zoom above 100% they drew oversized check boxes, radio circles and corners on 100% controls.
+					zoom=1f;
 				}
 			}
-			//The parameterless LayoutManager has no dpi of its own (its MS scale is 1): its ScaleMy is the program's zoom alone.
-			return GetScale(scaleWindow,deviceDpi,_layoutManager.ScaleMy());
+			return GetScale(scaleWindow,deviceDpi,zoom);
+		}
+
+		///<summary>The program's zoom (FuncGetZoom: ComputerPrefs' Zoom/100, the zoom of a LayoutManager without a dpi of its own), 1 in a plain
+		///exe. Never 0.</summary>
+		public static float GetZoom() {
+			Func<float> funcGetZoom=FuncGetZoom;
+			float zoom=funcGetZoom==null ? 1f : funcGetZoom();
+			if(zoom<=0) {
+				return 1f;
+			}
+			return zoom;
 		}
 
 		///<summary>The scale from its parts: the window's scale (dpi times zoom) when there is one (above 0), else deviceDpi/96 times zoom. Never
@@ -151,16 +184,34 @@ namespace OpenPmsDental.UI {
 			return Math.Max(1f,Math.Max(1f,deviceDpi/96f)*zoom);
 		}
 
-		///<summary>The colour behind a control: its own when opaque, else its parent's, else the window colour.</summary>
+		///<summary>UI-PLAIN: the mnemonic flag of a control's text as Windows Forms draws it: no prefix when the control does not use mnemonics, the
+		///access key's underline hidden until Windows shows the keyboard cues (the Alt key; Control.ShowKeyboardCues), as Windows draws a stock
+		///button, check box, label or group box. The looks drew the underline always (the plain windows' &amp;OK and &amp;Cancel).</summary>
+		public static TextFormatFlags GetPrefixFlags(Control control,bool useMnemonic) {
+			if(!useMnemonic) {
+				return TextFormatFlags.NoPrefix;
+			}
+			try {
+				if(_propertyInfoShowKeyboardCues!=null && !(bool)_propertyInfoShowKeyboardCues.GetValue(control)) {
+					return TextFormatFlags.HidePrefix;
+				}
+			}
+			catch(Exception) {
+				//The underline shows, as Windows shows it when the cues are on.
+			}
+			return TextFormatFlags.Default;
+		}
+
+		///<summary>The colour behind a control: its own when opaque, else the first opaque colour up its parents, else the classic window grey.</summary>
 		public static Color GetBackColor(Control control) {
-			Color color=control.BackColor;
-			if(color.A<255) {
-				color=control.Parent?.BackColor ?? SystemColors.Control;
+			//UI-PLAIN fix round: up the parents until an opaque colour (it stopped at the parent: a group box in the transparent GraphIncome took
+			//the classic grey, though GraphIncome stands on the window's colour).
+			for(Control controlBack=control;controlBack!=null;controlBack=controlBack.Parent) {
+				if(controlBack.BackColor.A==255) {
+					return controlBack.BackColor;
+				}
 			}
-			if(color.A<255) {
-				color=SystemColors.Control;
-			}
-			return color;
+			return SystemColors.Control;
 		}
 
 		#region Tree view, list view, data grid view, link label
@@ -270,6 +321,10 @@ namespace OpenPmsDental.UI {
 	///<summary>The stock button (System.Windows.Forms.Button, not UI.Button) in the program's button look, or as a rounded colour swatch when it
 	///carries its own colour. Painted in the button's Paint event, after Windows Forms has drawn it.</summary>
 	public class UiButtonLook {
+		///<summary>The AcceptButtons that keep the plain look, as "FormName.buttonName": the ones the owner turns down in gallery G-UI3 (section 3.6).
+		///Empty until those answers. UI-PLAIN fix round: moved here from UI.Button, so the stock buttons of the plain windows (UiButtonLook) and the
+		///program's buttons follow one list.</summary>
+		private static readonly string[] _arrayAcceptButtonsPlain=new string[0];
 		private static readonly ConditionalWeakTable<Control,UiButtonLook> _table=new ConditionalWeakTable<Control,UiButtonLook>();
 		private static readonly PropertyInfo _propertyInfoShowFocusCues=typeof(Control).GetProperty("ShowFocusCues",BindingFlags.Instance|BindingFlags.NonPublic);
 		private readonly System.Windows.Forms.Button _button;
@@ -290,6 +345,18 @@ namespace OpenPmsDental.UI {
 			button.MouseLeave+=(sender,e) => { _isHover=false; _isPressed=false; _button.Invalidate(); };
 			button.MouseDown+=(sender,e) => { if(e.Button==MouseButtons.Left) { _isPressed=true; _button.Invalidate(); } };
 			button.MouseUp+=(sender,e) => { _isPressed=false; _button.Invalidate(); };
+		}
+
+		///<summary>True when the button is its form's AcceptButton, which draws as the default button (section 3.6: filled Accent with the text in
+		///TextOnAccent), unless it is on the list of AcceptButtons the owner keeps plain. Only the look: Enter is handled by the form as before.
+		///UI.Button.IsPrimary and the stock button's look (PaintButton) both ask here.</summary>
+		public static bool IsPrimary(Control button) {
+			Form form=button?.FindForm();
+			if(form==null || form.AcceptButton==null || !ReferenceEquals(form.AcceptButton,button)) {
+				return false;
+			}
+			string name=form.GetType().Name+"."+button.Name;
+			return Array.IndexOf(_arrayAcceptButtonsPlain,name)==-1;
 		}
 
 		///<summary>True for a stock button drawn by Windows Forms (not FlatStyle.System, which Windows draws) and not the program's own UI.Button.
@@ -399,10 +466,12 @@ namespace OpenPmsDental.UI {
 				colorText=button.ForeColor;
 			}
 			else {
-				EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary:false,isFocused,scale);
+				//UI-PLAIN fix round: the window's AcceptButton filled Accent, as UI.Button draws it (it was always plain), its text in TextOnAccent.
+				bool isPrimary=IsPrimary(button);
+				EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary,isFocused,scale);
 				int argbFore=button.ForeColor.ToArgb();
 				bool isDefaultFore=argbFore==SystemColors.ControlText.ToArgb() || argbFore==Color.Black.ToArgb();
-				colorText=(isDefaultFore || buttonState==EnumUiButtonState.Disabled) ? UiTheme.GetColor(uiColorText) : button.ForeColor;
+				colorText=(isDefaultFore || isPrimary || buttonState==EnumUiButtonState.Disabled) ? UiTheme.GetColor(uiColorText) : button.ForeColor;
 			}
 			Rectangle rectangleContent=Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,scale),-UiTheme.ScaleI(UiTheme.SPACE_2,scale));
 			if(button.BackgroundImage!=null) {
@@ -419,6 +488,12 @@ namespace OpenPmsDental.UI {
 					}
 					g.DrawImage(button.BackgroundImage,GetAligned(rectangleBack,sizeImage,ContentAlignment.MiddleCenter));
 				}
+			}
+			if(button.Image!=null && !string.IsNullOrEmpty(button.Text) && button.TextImageRelation!=TextImageRelation.Overlay) {
+				//UI-PLAIN: the image beside, above or below the text (TextImageRelation) as Windows Forms lays them out (the dashboard's Add Col
+				//and Add Row: the text over its icon, the text before its icon); the look drew them where each alignment alone put them.
+				PaintImageAndText(g,button,rectangleContent,colorText,colorParent,scale);
+				return;
 			}
 			if(button.Image!=null) {
 				Rectangle rectangleImage=GetAligned(rectangleContent,button.Image.Size,button.ImageAlign);
@@ -448,6 +523,94 @@ namespace OpenPmsDental.UI {
 			TextRenderer.DrawText(g,button.Text,button.Font,rectangleContent,colorText,textFormatFlags);
 		}
 
+		///<summary>UI-PLAIN: a button's image and text with a TextImageRelation other than Overlay, as one block: the image and the text side by side
+		///(ImageBeforeText, TextBeforeImage) or one over the other (ImageAboveText, TextAboveImage), the gap between them the icon-text gap, the
+		///text wrapped in the content's width when they stand one over the other. The block stands where both alignments put it on an axis where
+		///they agree, else centred on that axis (Windows Forms' own drawing of the dashboard's buttons: Add Row, image MiddleLeft and text
+		///MiddleRight, is centred; Add Col, image TopCenter and text BottomCenter, is centred).</summary>
+		public static void PaintImageAndText(Graphics g,System.Windows.Forms.Button button,Rectangle rectangleContent,Color colorText,Color colorParent,float scale) {
+			Size sizeImage=button.Image.Size;
+			int gap=UiTheme.ScaleI(UiTheme.GAP_ICON_TEXT,scale);
+			TextImageRelation textImageRelation=button.TextImageRelation;
+			bool isVertical=textImageRelation==TextImageRelation.ImageAboveText || textImageRelation==TextImageRelation.TextAboveImage;
+			bool isImageFirst=textImageRelation==TextImageRelation.ImageBeforeText || textImageRelation==TextImageRelation.ImageAboveText;
+			TextFormatFlags textFormatFlagsMeasure=UiLooks.GetPrefixFlags(button,button.UseMnemonic);
+			Size sizeText;
+			if(isVertical) {
+				textFormatFlagsMeasure|=TextFormatFlags.WordBreak;
+				sizeText=TextRenderer.MeasureText(g,button.Text,button.Font,new Size(Math.Max(1,rectangleContent.Width),int.MaxValue),textFormatFlagsMeasure);
+				sizeText=new Size(Math.Min(sizeText.Width,rectangleContent.Width),sizeText.Height);
+			}
+			else {
+				textFormatFlagsMeasure|=TextFormatFlags.SingleLine;
+				sizeText=TextRenderer.MeasureText(g,button.Text,button.Font,new Size(int.MaxValue,int.MaxValue),textFormatFlagsMeasure);
+				sizeText=new Size(Math.Min(sizeText.Width,Math.Max(0,rectangleContent.Width-sizeImage.Width-gap)),sizeText.Height);
+			}
+			Size sizeBlock=isVertical ? new Size(Math.Max(sizeImage.Width,sizeText.Width),sizeImage.Height+gap+sizeText.Height)
+				: new Size(sizeImage.Width+gap+sizeText.Width,Math.Max(sizeImage.Height,sizeText.Height));
+			Rectangle rectangleBlock=GetAligned(rectangleContent,sizeBlock,GetBlockAlign(button.ImageAlign,button.TextAlign));
+			Rectangle rectangleImage;
+			Rectangle rectangleText;
+			if(isVertical) {
+				int yImage=isImageFirst ? rectangleBlock.Y : rectangleBlock.Bottom-sizeImage.Height;
+				int yText=isImageFirst ? rectangleBlock.Y+sizeImage.Height+gap : rectangleBlock.Y;
+				rectangleImage=new Rectangle(rectangleBlock.X+(rectangleBlock.Width-sizeImage.Width)/2,yImage,sizeImage.Width,sizeImage.Height);
+				rectangleText=new Rectangle(rectangleBlock.X,yText,rectangleBlock.Width,sizeText.Height);
+			}
+			else {
+				int xImage=isImageFirst ? rectangleBlock.X : rectangleBlock.Right-sizeImage.Width;
+				int xText=isImageFirst ? rectangleBlock.X+sizeImage.Width+gap : rectangleBlock.X;
+				rectangleImage=new Rectangle(xImage,rectangleBlock.Y+(rectangleBlock.Height-sizeImage.Height)/2,sizeImage.Width,sizeImage.Height);
+				rectangleText=new Rectangle(xText,rectangleBlock.Y,sizeText.Width,rectangleBlock.Height);
+			}
+			if(button.Enabled) {
+				g.DrawImage(button.Image,rectangleImage);
+			}
+			else {
+				ControlPaint.DrawImageDisabled(g,button.Image,rectangleImage.X,rectangleImage.Y,colorParent);
+			}
+			TextFormatFlags textFormatFlags=TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|UiLooks.GetPrefixFlags(button,button.UseMnemonic)
+				|(isVertical ? TextFormatFlags.WordBreak : TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
+			TextRenderer.DrawText(g,button.Text,button.Font,rectangleText,colorText,textFormatFlags);
+		}
+
+		///<summary>Where a button's image and text stand as one block: on each axis the side both alignments name, else the centre.</summary>
+		public static ContentAlignment GetBlockAlign(ContentAlignment contentAlignmentImage,ContentAlignment contentAlignmentText) {
+			int columnImage=GetColumn(contentAlignmentImage);
+			int columnText=GetColumn(contentAlignmentText);
+			int rowImage=GetRow(contentAlignmentImage);
+			int rowText=GetRow(contentAlignmentText);
+			int column=columnImage==columnText ? columnImage : 1;
+			int row=rowImage==rowText ? rowImage : 1;
+			ContentAlignment[,] arrayAlignments=new ContentAlignment[,] {
+				{ ContentAlignment.TopLeft,ContentAlignment.TopCenter,ContentAlignment.TopRight },
+				{ ContentAlignment.MiddleLeft,ContentAlignment.MiddleCenter,ContentAlignment.MiddleRight },
+				{ ContentAlignment.BottomLeft,ContentAlignment.BottomCenter,ContentAlignment.BottomRight } };
+			return arrayAlignments[row,column];
+		}
+
+		///<summary>0 left, 1 centre, 2 right.</summary>
+		private static int GetColumn(ContentAlignment contentAlignment) {
+			if(contentAlignment==ContentAlignment.TopLeft || contentAlignment==ContentAlignment.MiddleLeft || contentAlignment==ContentAlignment.BottomLeft) {
+				return 0;
+			}
+			if(contentAlignment==ContentAlignment.TopRight || contentAlignment==ContentAlignment.MiddleRight || contentAlignment==ContentAlignment.BottomRight) {
+				return 2;
+			}
+			return 1;
+		}
+
+		///<summary>0 top, 1 middle, 2 bottom.</summary>
+		private static int GetRow(ContentAlignment contentAlignment) {
+			if(contentAlignment==ContentAlignment.TopLeft || contentAlignment==ContentAlignment.TopCenter || contentAlignment==ContentAlignment.TopRight) {
+				return 0;
+			}
+			if(contentAlignment==ContentAlignment.BottomLeft || contentAlignment==ContentAlignment.BottomCenter || contentAlignment==ContentAlignment.BottomRight) {
+				return 2;
+			}
+			return 1;
+		}
+
 		///<summary>The text flags of a stock button's caption in its content rectangle: wrapped (WordBreak) only when the rectangle holds two lines
 		///of its font, else one line (SingleLine), so a caption wider than a one-line button is never broken onto a line its bottom edge cuts.
 		///</summary>
@@ -459,9 +622,7 @@ namespace OpenPmsDental.UI {
 			else {
 				textFormatFlags|=TextFormatFlags.SingleLine;
 			}
-			if(!button.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(button,button.UseMnemonic);
 			return textFormatFlags;
 		}
 
@@ -565,9 +726,7 @@ namespace OpenPmsDental.UI {
 			}
 			EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary:false,isFocused:false,scale);
 			TextFormatFlags textFormatFlags=UiButtonLook.GetTextFlags(label.TextAlign)|TextFormatFlags.WordBreak;
-			if(!label.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(label,label.UseMnemonic);
 			TextRenderer.DrawText(g,label.Text,label.Font,rectangle,UiTheme.GetColor(uiColorText),textFormatFlags);
 		}
 	}
@@ -577,7 +736,6 @@ namespace OpenPmsDental.UI {
 	///at the program's zoom, where the label puts its text. Painted in the label's Paint event.</summary>
 	public class UiCaptionLook {
 		private static readonly ConditionalWeakTable<Control,UiCaptionLook> _table=new ConditionalWeakTable<Control,UiCaptionLook>();
-		private static readonly LayoutManagerForms _layoutManager=new LayoutManagerForms();
 
 		private UiCaptionLook(Label label) {
 			label.Paint+=(sender,e) => {
@@ -609,10 +767,7 @@ namespace OpenPmsDental.UI {
 
 		///<summary>The title font: UiTheme.FontTitle at the program's zoom, as GridOD makes its title font (the dpi is Windows').</summary>
 		public static Font GetFontTitle() {
-			float zoom=_layoutManager.ScaleMyFont();
-			if(zoom<=0) {
-				zoom=1f;
-			}
+			float zoom=UiLooks.GetZoom();
 			return new Font(UiTheme.FontTitle.FontFamily,UiTheme.FontTitle.SizeInPoints*zoom,UiTheme.FontTitle.Style);
 		}
 
@@ -623,9 +778,7 @@ namespace OpenPmsDental.UI {
 				return;
 			}
 			TextFormatFlags textFormatFlags=UiButtonLook.GetTextFlags(label.TextAlign)|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis;
-			if(!label.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(label,label.UseMnemonic);
 			using(Font font=GetFontTitle()) {
 				TextRenderer.DrawText(g,label.Text,font,Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,UiLooks.GetScale(label)),0),UiTheme.GetColor(EnumUiColor.TextOnAccent),
 					textFormatFlags);
@@ -765,9 +918,7 @@ namespace OpenPmsDental.UI {
 				top=rectangle.Y+(int)Math.Round(rectangle.Height/2f-sizeBox/2f,0);
 				textFormatFlags|=TextFormatFlags.VerticalCenter;
 			}
-			if(!checkBox.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(checkBox,checkBox.UseMnemonic);
 			int sizeDrawn=sizeBox+UiTheme.GetLineWidth(scale);
 			Rectangle rectangleBox=new Rectangle(rectangle.X,top,sizeDrawn,sizeDrawn);
 			Rectangle rectangleText=new Rectangle(rectangle.X+sizeBox+gap,rectangle.Y,Math.Max(0,rectangle.Width-sizeBox-gap),rectangle.Height);
@@ -1024,5 +1175,69 @@ namespace OpenPmsDental.UI {
 
 		[DllImport("user32.dll")]
 		private static extern int ReleaseDC(IntPtr hWnd,IntPtr hDC);
+	}
+
+	///<summary>UI-PLAIN: the stock group box (System.Windows.Forms.GroupBox, not the program's UI.GroupBox) drawn like the program's group box
+	///(UI.GroupBox, UI-4a, section 3.6): the parent's colour behind 6 px corners, the box's colour inside, a 1 px Stroke outline over the whole
+	///box, the title in Text at the top left inside the box (5 px in, 1 px down, at the look's scale). Painted in its Paint event, over what
+	///Windows Forms drew; the box's children, size, place, title and behaviour stay.</summary>
+	public class UiGroupBoxLook {
+		private static readonly ConditionalWeakTable<Control,UiGroupBoxLook> _table=new ConditionalWeakTable<Control,UiGroupBoxLook>();
+
+		private UiGroupBoxLook(System.Windows.Forms.GroupBox groupBox) {
+			groupBox.Paint+=(sender,e) => {
+				try {
+					PaintGroupBox(e.Graphics,(System.Windows.Forms.GroupBox)sender);
+				}
+				catch(Exception) {
+					//The look is only a picture: Windows Forms' own drawing stays.
+				}
+			};
+			//Windows Forms draws a group box only where it changed; the look's outline runs along the whole box.
+			groupBox.Resize+=(sender,e) => ((Control)sender).Invalidate();
+		}
+
+		///<summary>True for a stock group box drawn by Windows Forms (not FlatStyle.System, which Windows draws) that its owner does not paint.
+		///</summary>
+		public static bool IsDrawn(Control control) {
+			if(control==null || control.GetType()!=typeof(System.Windows.Forms.GroupBox)) {
+				return false;
+			}
+			if(((System.Windows.Forms.GroupBox)control).FlatStyle==FlatStyle.System) {
+				return false;
+			}
+			return !UiButtonLook.IsPaintedByOwner(control);
+		}
+
+		public static void Attach(Control control) {
+			if(!IsDrawn(control) || _table.TryGetValue(control,out _)) {
+				return;
+			}
+			_table.Add(control,new UiGroupBoxLook((System.Windows.Forms.GroupBox)control));
+		}
+
+		public static bool IsAttached(Control control) {
+			return control!=null && _table.TryGetValue(control,out _);
+		}
+
+		public static void PaintGroupBox(Graphics g,System.Windows.Forms.GroupBox groupBox) {
+			float scale=UiLooks.GetScale(groupBox);
+			Rectangle rectangle=new Rectangle(0,0,groupBox.Width,groupBox.Height);
+			Color colorParent=groupBox.Parent==null ? SystemColors.Control : UiLooks.GetBackColor(groupBox.Parent);
+			using(SolidBrush brushParent=new SolidBrush(colorParent)) {
+				g.FillRectangle(brushParent,rectangle);
+			}
+			UiControlPaint.Fill(g,UiLooks.GetBackColor(groupBox),rectangle,UiTheme.CORNER_CONTAINER,scale);
+			UiControlPaint.Outline(g,EnumUiColor.Stroke,rectangle,UiTheme.GetLineWidth(scale),UiTheme.CORNER_CONTAINER,scale);
+			if(string.IsNullOrEmpty(groupBox.Text)) {
+				return;
+			}
+			Color colorText=groupBox.Enabled ? UiTheme.GetColor(EnumUiColor.Text) : UiTheme.GetColor(EnumUiColor.TextDisabled);
+			Point pointText=new Point(UiTheme.ScaleI(5,scale),1);
+			TextFormatFlags textFormatFlags=TextFormatFlags.Left|TextFormatFlags.Top|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis
+				|UiLooks.GetPrefixFlags(groupBox,useMnemonic:true);
+			Rectangle rectangleText=new Rectangle(pointText.X,pointText.Y,Math.Max(0,groupBox.Width-pointText.X*2),groupBox.Font.Height+2);
+			TextRenderer.DrawText(g,groupBox.Text,groupBox.Font,rectangleText,colorText,textFormatFlags);
+		}
 	}
 }

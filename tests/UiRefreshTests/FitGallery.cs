@@ -81,7 +81,8 @@ namespace UiRefreshTests {
 				if(isVisualStyles && !visualStylesScope.IsActive) {
 					listFailed.Add("Windows' visual styles could not be activated.");
 				}
-				OpenPmsDental.UI.UiLooks.IsOffForGallery=isLooksOff;
+				CodeBase.UiLooks.IsOffForGallery=isLooksOff;
+				WindowBuilder.IsBuildingByConstructor=true;//UI-PLAIN fix round: OpenPmsDentalDbSettings' windows with their controls
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
@@ -176,7 +177,8 @@ namespace UiRefreshTests {
 			});
 			DesignSheetWindows.IsPrintingWithoutChildren=false;
 			DesignSheetWindows.PaintDpiScale=1f;
-			OpenPmsDental.UI.UiLooks.IsOffForGallery=false;
+			CodeBase.UiLooks.IsOffForGallery=false;
+			WindowBuilder.IsBuildingByConstructor=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
 		}
@@ -277,6 +279,15 @@ namespace UiRefreshTests {
 				//Permissions page (InitializeOnStartup sets Visible by the mode, never both); the first page shows the display mode. UI-12 slice 4
 				//fix round: the page alone too (its permission mode is the state "permission").
 				SetReportSetupMode(root,isPermissionMode:state=="permission");
+			}
+			if(window=="OpenPmsDentalGraph.DashboardTabCtrl" && FindByName(root,"tabControl") is System.Windows.Forms.TabControl tabControlDashboard
+				&& tabControlDashboard.TabCount==0)
+			{
+				//UI-PLAIN: the dashboard adds a page per saved dashboard tab from the database (its Load); the picture shows two synthetic ones, the
+				//first selected, so the stock tab control's look (UiTabLook) shows.
+				tabControlDashboard.TabPages.Add(new System.Windows.Forms.TabPage("Production"));
+				tabControlDashboard.TabPages.Add(new System.Windows.Forms.TabPage("Appointments"));
+				tabControlDashboard.SelectedIndex=0;
 			}
 			if(window=="CentralManager.FormCentralReportSetup") {
 				//UI-12 slice 4 fix round: both callers open it in permission mode (FormCentralManager, FormCentralSecurity).
@@ -529,6 +540,10 @@ namespace UiRefreshTests {
 				//UI-12 slice 8 fix round: the rows the constructor makes from the code groups FillSampleCache puts in the cache.
 				return root;
 			}
+			if(window=="OpenPmsDentalGraph.DashboardTabCtrl" && state=="setup") {
+				SetDashboardSetupMode(root);
+				return root;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
 		}
 
@@ -660,6 +675,23 @@ namespace UiRefreshTests {
 			}
 			DefaultFontOverride.Set(TextFitFontOption.Segoe9,1f);
 			UiTheme.SetFontForTest(UiFontOption.UI2b);
+		}
+
+		///<summary>UI-PLAIN fix round: the dashboard in its setup mode (the state "setup"), as IsEditMode makes it for dashboard tabs from the
+		///database: the two synthetic tabs with the delete X (ImageIndex 1, the second under the mouse: 2) and the "Add Tab" tab with the add icon
+		///(ImageIndex 0) at the end. IsEditMode gives the tab control its ImageList; it adds the "Add Tab" tab and the X only to tabs that hold a
+		///dashboard panel, so the builder adds them to the synthetic ones as it would.</summary>
+		public static void SetDashboardSetupMode(Control root) {
+			if(!(FindByName(root,"tabControl") is System.Windows.Forms.TabControl tabControl)) {
+				throw new InvalidOperationException("DashboardTabCtrl has no tabControl.");
+			}
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Production"));
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage("Appointments"));
+			root.GetType().GetProperty("IsEditMode").SetValue(root,true);
+			tabControl.TabPages.Add(new System.Windows.Forms.TabPage { ImageIndex=0,BackColor=SystemColors.Control,Text="Add Tab" });
+			tabControl.TabPages[0].ImageIndex=1;
+			tabControl.TabPages[1].ImageIndex=2;
+			tabControl.SelectedIndex=0;
 		}
 
 		private static Control FindByName(Control root,string name) {

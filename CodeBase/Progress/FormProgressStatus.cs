@@ -19,6 +19,7 @@ namespace CodeBase {
 			string startingMessage="",ProgressBarStyle progStyle=ProgressBarStyle.Marquee)
 		{
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			labelMsg.Text=startingMessage;
 			progressBar.Style=progStyle;
 			if(!hasMinimize) {
@@ -97,7 +98,7 @@ namespace CodeBase {
 		}
 
 		private void labelMinimize_MouseLeave(object sender,EventArgs e) {
-			labelMinimize.BackColor=System.Drawing.SystemColors.ControlLight;
+			labelMinimize.BackColor=BackColor;//the window's colour (UI-PLAIN: the background token, was ControlLight as the window)
 		}
 
 		private void butCopyToClipboard_Click(object sender,EventArgs e) {

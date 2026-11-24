@@ -1,5 +1,5 @@
-# The UI refresh's coverage table (docs/specs/ui-refresh-plan.md section 2.1): every file in OpenPmsDental/UI, WpfControlsOD/UI and
-# WpfControlsOD/Themes has a row here with the package that restyles it, or the reason it keeps its look. NoHqTests' UiCoverageTests fails when a
+# The UI refresh's coverage table (docs/specs/ui-refresh-plan.md section 2.1): every file in OpenPmsDental/UI, CodeBase/UI (UI-PLAIN),
+# WpfControlsOD/UI and WpfControlsOD/Themes has a row here with the package that restyles it, or the reason it keeps its look. NoHqTests' UiCoverageTests fails when a
 # file has no row, when a file matches more than one row, or when a row matches no file, so a new control or a new shared dictionary cannot slip
 # through. Package UI-1 wrote its first version from section 2.1.
 # files: the file's path relative to the repository root, with forward slashes and without its extensions (a designer, .resx, .xaml and .xaml.cs
@@ -13,12 +13,24 @@ OpenPmsDental/UI/GroupBox	UI-4a	the group box
 OpenPmsDental/UI/PanelOD	UI-4a	the panel
 OpenPmsDental/UI/ToolTipOD	UI-4a	the tooltip
 OpenPmsDental/UI/ComboBox	UI-4b	the combo box
-OpenPmsDental/UI/UiInputFrame	UI-12,UI-13	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne); fix round 2: the themed date picker's whole drop button covered (DTM_GETDATETIMEPICKERINFO), its value in the Text token, a disabled picker's box in the disabled grey
-OpenPmsDental/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left); UI-13: a circle on the right drawn there in the same look
-OpenPmsDental/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
-OpenPmsDental/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
-OpenPmsDental/UI/UiTrackBarLook	UI-13	the stock track bar painted over in UiSliderPaint's Fluent slider look (ControlChart's procedure date slider)
-OpenPmsDental/UI/UiLooks	UI-13	the shared looks of the other stock element types: stock buttons and colour swatches, stock check boxes, grey label blocks, grid-title labels, divider panels, progress bars, flat panel and picture borders, tree and list views (Explorer theme), data grid views, link labels
+CodeBase/UI/UiInputFrame	UI-12,UI-13,UI-PLAIN	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne); fix round 2: the themed date picker's whole drop button covered (DTM_GETDATETIMEPICKERINFO), its value in the Text token, a disabled picker's box in the disabled grey; UI-PLAIN: moved to CodeBase, attached to the plain windows by UiPlainWindow
+CodeBase/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left); UI-13: a circle on the right drawn there in the same look
+CodeBase/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
+CodeBase/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
+CodeBase/UI/UiTrackBarLook	UI-13	the stock track bar painted over in UiSliderPaint's Fluent slider look (ControlChart's procedure date slider)
+CodeBase/UI/UiLooks	UI-13,UI-PLAIN	the shared looks of the other stock element types: stock buttons and colour swatches, stock check boxes, grey label blocks, grid-title labels, divider panels, progress bars, flat panel and picture borders, tree and list views (Explorer theme), data grid views, link labels; UI-PLAIN: moved to CodeBase (the plain windows), the stock group box drawn like UI.GroupBox (UiGroupBoxLook), the stock tab control attached (UiTabLook)
+CodeBase/UI/UiPlainWindow	UI-PLAIN	the plain windows (a Form that is not a FormODBase: the plain exes', the graph's dashboard dialogs, the CodeBase progress windows and message box) in the program's look: the window background token and every shared look on their controls, now and when their code adds controls
+CodeBase/UI/UiTabLook	UI-PLAIN	the stock tab control with its tabs on top (the dashboard's) painted over in the program's tab look (UiTabPaint), its pages on the colour behind it
+CodeBase/UI/UiTheme*	UI-1,UI-2a,UI-6	the tokens: colours, per-thread pens and brushes, sizes, the font roles, the token renderer of the stock menus and tool strips, the WPF brushes
+CodeBase/UI/Icons/*	UI-7a	the icon renderer (Fluent UI System Icons drawn as vectors) and the path data the icon script generates
+CodeBase/UI/UiControlPaint	UI-4a	the shapes the self-drawn controls paint with: fills, outlines, the focus ring, the button's chrome, the check box's box and radio circle
+CodeBase/UI/UiListPaint	UI-4b	the combo box's box, a list's border and a list item
+CodeBase/UI/UiTabPaint	UI-4b	the tab strip, the page border, a tab header and the splitter
+CodeBase/UI/UiCalendarPaint	UI-4b	the calendar's and date pickers' days and chevrons
+CodeBase/UI/UiDialogPaint	UI-4c	the dialog parts: the progress bar, the colour picker's swatch
+CodeBase/UI/UiSliderPaint	UI-4c,UI-13	the imaging and appointment chrome's handles and cells; UI-13: the Fluent slider of the stock track bar
+CodeBase/UI/UiScrollPaint	UI-13	the Fluent scroll bar look every scroll bar is painted in
+CodeBase/UI/UiGrid	UI-12	the layout grid's numbers for code that places controls itself (draws nothing)
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers

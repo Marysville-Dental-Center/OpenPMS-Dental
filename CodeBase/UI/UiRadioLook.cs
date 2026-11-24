@@ -8,11 +8,11 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints a stock radio button like the program's check box: the circle where UI.CheckBox puts its box, the text after it.</summary>
 	public class UiRadioLook : NativeWindow {
 		#region Fields
@@ -79,6 +79,11 @@ namespace OpenPmsDental.UI {
 			int top=rectangle.Y;
 			StringFormat stringFormat=new StringFormat();
 			stringFormat.Alignment=StringAlignment.Near;
+			//UI-PLAIN fix round: the access key as Windows draws it (FormDbSettings' "Client &certificate"): the "&" never shows, the underline only
+			//with the keyboard cues (UiLooks.GetPrefixFlags); the look drew the "&" as written.
+			TextFormatFlags textFormatFlagsPrefix=UiLooks.GetPrefixFlags(radioButton,radioButton.UseMnemonic);
+			stringFormat.HotkeyPrefix=textFormatFlagsPrefix==TextFormatFlags.NoPrefix ? HotkeyPrefix.None
+				: (textFormatFlagsPrefix==TextFormatFlags.HidePrefix ? HotkeyPrefix.Hide : HotkeyPrefix.Show);
 			bool isCircleRight=radioButton.CheckAlign==ContentAlignment.MiddleRight || radioButton.CheckAlign==ContentAlignment.TopRight;
 			if(isCircleRight) {
 				stringFormat.Alignment=StringAlignment.Far;

@@ -362,8 +362,15 @@ namespace UiRefreshTests.Scan {
 						builtWindow.Root=builtWindow.Form;
 						break;
 					case BuildKind.PlainWindow:
+						if(IsBuiltByItsConstructor(scanType.Type)) {
+							//UI-PLAIN fix round: its controls are made in its constructor, which calls Attach itself.
+							builtWindow.Form=CreateByItsConstructor(scanType.Type);
+							builtWindow.Root=builtWindow.Form;
+							break;
+						}
 						builtWindow.Form=(Form)CreateBare(scanType.Type,typeof(Form));
 						builtWindow.Root=builtWindow.Form;
+						AttachPlainLookAsTheConstructorDoes(builtWindow.Form);
 						break;
 					case BuildKind.UserControlAdd:
 					case BuildKind.UserControlAddUnscaled:
@@ -378,6 +385,9 @@ namespace UiRefreshTests.Scan {
 						formPlain.ClientSize=userControlPlain.Size;
 						builtWindow.Form=formPlain;
 						formPlain.Controls.Add(userControlPlain);
+						//UI-PLAIN: the plain windows that host these controls (the graph's dashboard dialogs) and the program's windows give them the
+						//look; the test form does what a plain host's constructor does.
+						CodeBase.UiPlainWindow.Attach(formPlain);
 						break;
 				}
 			}
@@ -386,6 +396,54 @@ namespace UiRefreshTests.Scan {
 				throw;
 			}
 			return builtWindow;
+		}
+
+		///<summary>UI-PLAIN fix round: the plain windows that have no InitializeComponent and make their controls in their constructor
+		///(OpenPmsDentalDbSettings' two windows), with the synthetic arguments the builder passes: their constructors only keep them and build the
+		///controls (no file, database or network; FormDbSettings reads its file in Load, which the builder does not raise).</summary>
+		private static readonly Dictionary<string,object[]> _dictBuiltByConstructor=new Dictionary<string,object[]> {
+			{ "OpenPmsDentalDbSettings.FormDbSettings",new object[] { "",null,null } },
+			{ "OpenPmsDentalDbSettings.FormSecretPrompt",new object[] { "Password of the client certificate file:" } },
+		};
+
+		///<summary>True while the gallery (FitGallery) and PlainLookTests build: the windows of _dictBuiltByConstructor are made by their
+		///constructor. Off, the scans build them as before (InitializeComponent, which they do not have: an empty window), so the recorded
+		///scans do not change.</summary>
+		public static bool IsBuildingByConstructor;
+
+		///<summary>True for a plain window the builder makes with its own constructor (_dictBuiltByConstructor, IsBuildingByConstructor).</summary>
+		public static bool IsBuiltByItsConstructor(Type type) {
+			return IsBuildingByConstructor && _dictBuiltByConstructor.ContainsKey(type.FullName);
+		}
+
+		///<summary>The window made by its public constructor with the synthetic arguments of _dictBuiltByConstructor.</summary>
+		public static Form CreateByItsConstructor(Type type) {
+			object[] arrayArgs=_dictBuiltByConstructor[type.FullName];
+			ConstructorInfo constructorInfo=type.GetConstructors(BindingFlags.Instance|BindingFlags.Public).First(x => x.GetParameters().Length==arrayArgs.Length);
+			try {
+				return (Form)constructorInfo.Invoke(arrayArgs);
+			}
+			catch(TargetInvocationException targetInvocationException) {
+				throw Unwrap(targetInvocationException);
+			}
+		}
+
+		///<summary>UI-PLAIN: the builder runs a plain window's InitializeComponent, not its constructor; when the window's own constructor calls
+		///CodeBase.UiPlainWindow.Attach (its IL), the builder calls it too, as it calls InitializeLayoutManager for a program window. A plain
+		///window whose constructor does not call it is built without the look (and fails PlainLookTests). UpdateFileCopier references no CodeBase
+		///and compiles the looks in as linked files: its window calls its own copy, which the builder calls then (off with the gallery's
+		///UiLooks.IsOffForGallery too).</summary>
+		public static bool AttachPlainLookAsTheConstructorDoes(Form form) {
+			Type typePlainWindow=form.GetType().Assembly.GetType(typeof(CodeBase.UiPlainWindow).FullName)??typeof(CodeBase.UiPlainWindow);
+			MethodInfo methodInfoAttach=typePlainWindow.GetMethod(nameof(CodeBase.UiPlainWindow.Attach),new Type[] { typeof(Form) });
+			if(methodInfoAttach==null || !ConstructorCalls(form.GetType(),methodInfoAttach)) {
+				return false;
+			}
+			if(CodeBase.UiLooks.IsOffForGallery) {
+				return true;
+			}
+			methodInfoAttach.Invoke(null,new object[] { form });
+			return true;
 		}
 
 		///<summary>Hosts a UserControl in a bare test FormODBase the way the program adds it, and lays it out at 100%.</summary>

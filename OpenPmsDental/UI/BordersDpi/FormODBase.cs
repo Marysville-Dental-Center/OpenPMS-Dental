@@ -125,6 +125,12 @@ namespace OpenPmsDental {
 		#endregion Designer
 
 		#region Constructor
+		///<summary>UI-PLAIN: the shared looks (CodeBase's UiLooks) take this window's scale and the program's zoom from the program before any
+		///window paints them.</summary>
+		static FormODBase() {
+			LayoutManagerForms.SetLooksScale();
+		}
+
 		public FormODBase() {
 			#region Designer Properties
 			//these properties show as default values in the extended designer UIs

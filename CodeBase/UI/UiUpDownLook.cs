@@ -9,9 +9,8 @@ using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints the arrow buttons of a stock up-down box like the combo box's drop area: a light fill and the Fluent chevrons.</summary>
 	public class UiUpDownLook : NativeWindow {
 		#region Fields

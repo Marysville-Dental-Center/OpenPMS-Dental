@@ -6,6 +6,7 @@ namespace OpenPmsDentalGraph {
 		private IODGraphPrinter _printer=null;
 		public FormDashboardEditCell(Control dockControl,bool allowSave) {
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			if(dockControl is IODGraphPrinter) {
 				_printer=(IODGraphPrinter)dockControl;
 			}

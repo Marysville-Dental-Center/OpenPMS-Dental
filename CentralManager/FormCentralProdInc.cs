@@ -30,6 +30,7 @@ namespace CentralManager {
 
 		public FormCentralProdInc() {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			Lan.F(this);
 		}
 

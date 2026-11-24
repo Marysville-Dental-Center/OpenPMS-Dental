@@ -371,16 +371,16 @@ namespace UiRefreshTests {
 				using(NumericUpDown numericUpDown=new NumericUpDown())
 				{
 					Assert.AreEqual(BorderStyle.Fixed3D,odTextBoxSingle.BorderStyle,"An ODtextBox's border is the RichTextBox's 3-D one.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxSingle),"A single-line ODtextBox with a border draws the input frame.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxMulti),"A multi-line ODtextBox draws the input frame.");
-					Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(odTextBoxBorderless),"A borderless ODtextBox has no frame.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(richTextBoxSingle),"A single-line RichTextBox with a border draws the input frame.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(textBox3D),"A single-line TextBox with a 3-D border draws the input frame.");
-					Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(textBoxSingleLine),"A single-line TextBox with a single line keeps the one-line rule.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(textBoxMulti),"A multi-line TextBox with a border draws the input frame.");
-					Assert.IsTrue(OpenPmsDental.UI.UiInputFrame.IsFramed(numericUpDown),"An up-down box draws the input frame.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(odTextBoxSingle),"A single-line ODtextBox with a border draws the input frame.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(odTextBoxMulti),"A multi-line ODtextBox draws the input frame.");
+					Assert.IsFalse(CodeBase.UiInputFrame.IsFramed(odTextBoxBorderless),"A borderless ODtextBox has no frame.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(richTextBoxSingle),"A single-line RichTextBox with a border draws the input frame.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(textBox3D),"A single-line TextBox with a 3-D border draws the input frame.");
+					Assert.IsFalse(CodeBase.UiInputFrame.IsFramed(textBoxSingleLine),"A single-line TextBox with a single line keeps the one-line rule.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(textBoxMulti),"A multi-line TextBox with a border draws the input frame.");
+					Assert.IsTrue(CodeBase.UiInputFrame.IsFramed(numericUpDown),"An up-down box draws the input frame.");
 					foreach(Control control in numericUpDown.Controls) {
-						Assert.IsFalse(OpenPmsDental.UI.UiInputFrame.IsFramed(control),"The parts of an up-down box have their box's frame.");
+						Assert.IsFalse(CodeBase.UiInputFrame.IsFramed(control),"The parts of an up-down box have their box's frame.");
 					}
 				}
 			});
@@ -558,10 +558,10 @@ namespace UiRefreshTests {
 				//UI-12 slices 12 and 13: no input frame in a plain window: IsPlain, or (the caller) any window that is no FormODBase (the report
 				//designer's dialogs and controls, ODR's): FormODBase's LayoutManager attaches the frame, so those keep the stock text boxes.
 				foreach(Control control in listKids.Where(x => !isPlain && x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
-					if(control is TextBox textBox && (!textBox.Multiline || OpenPmsDental.UI.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
+					if(control is TextBox textBox && (!textBox.Multiline || CodeBase.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
 						continue;
 					}
-					if(!OpenPmsDental.UI.UiInputFrame.IsFramed(control) || (root.FindForm()!=null && !OpenPmsDental.UI.UiInputFrame.IsAttached(control))) {
+					if(!CodeBase.UiInputFrame.IsFramed(control) || (root.FindForm()!=null && !CodeBase.UiInputFrame.IsAttached(control))) {
 						listFindings.Add(window+"\tunframed\t"+control.Name);
 					}
 				}

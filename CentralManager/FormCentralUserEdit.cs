@@ -18,6 +18,7 @@ namespace CentralManager {
 
 		public FormCentralUserEdit(Userod user) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			UserCur=user.Copy();
 		}		
 

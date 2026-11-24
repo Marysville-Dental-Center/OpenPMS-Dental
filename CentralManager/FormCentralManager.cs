@@ -53,6 +53,7 @@ namespace CentralManager {
 		public FormCentralManager() {
 			Userods.SetIsCacheAllowed(false);
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			UTF8Encoding enc=new UTF8Encoding();
 			EncryptionKey=enc.GetBytes("mQlEGebnokhGFEFV");
 			//S3a-M3: mainMenu is a MenuStrip, the form's MainMenuStrip (designer), in place of the WinForms MainMenu that was set here.

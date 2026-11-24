@@ -39,6 +39,7 @@ namespace OpenPmsDentalGraph {
 		///It would be great if this could be replaced with sheets sometime in the future.</summary>
 		public FormPrintImage(DashboardPanelCtrl dashPanel) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_dashPanel=dashPanel;
 		}
 

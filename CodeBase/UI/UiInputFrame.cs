@@ -18,9 +18,8 @@ using System.Drawing.Drawing2D;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using CodeBase;
 
-namespace OpenPmsDental.UI {
+namespace CodeBase {
 	///<summary>Paints the combo box's frame over a stock single-line input (TextBox, NumericUpDown, DateTimePicker, ComboBox).</summary>
 	public class UiInputFrame : NativeWindow {
 		#region Fields
@@ -151,6 +150,9 @@ namespace OpenPmsDental.UI {
 			if(colorParent.A<255) {
 				colorParent=SystemColors.Control;
 			}
+			if(IsFaceDrawn(control)) {
+				PaintComboFace(g,GetInnerRectangle(rectangle,control),(System.Windows.Forms.ComboBox)control,colorBack);
+			}
 			GraphicsState graphicsState=g.Save();
 			try {
 				g.SmoothingMode=SmoothingMode.AntiAlias;
@@ -192,6 +194,35 @@ namespace OpenPmsDental.UI {
 				g.Restore(graphicsState);
 			}
 		}
+		///<summary>UI-PLAIN fix round: true for an enabled stock DropDownList combo box that Windows draws. Windows draws its face as a read-only
+		///button (its theme's grey, (240,240,240), light blue under the mouse, the text in the highlight with focus), a grey box with the frame's
+		///white chevron strip beside the white text boxes; the program's ComboBox is white with the text in the Text token. So the frame paints that
+		///face too (PaintComboFace). A disabled one keeps Windows' grey (the disabled inputs' grey); an owner-drawn one its owner's drawing; high
+		///contrast and right to left Windows' drawing.</summary>
+		public static bool IsFaceDrawn(Control control) {
+			if(control==null || control.GetType()!=typeof(System.Windows.Forms.ComboBox)) {
+				return false;
+			}
+			System.Windows.Forms.ComboBox comboBox=(System.Windows.Forms.ComboBox)control;
+			return comboBox.DropDownStyle==ComboBoxStyle.DropDownList && comboBox.DrawMode==DrawMode.Normal && comboBox.Enabled
+				&& comboBox.RightToLeft!=RightToLeft.Yes && !SystemInformation.HighContrast;
+		}
+
+		///<summary>UI-PLAIN fix round: a DropDownList combo box's face, as the program's ComboBox draws it: the input fill (colorBack, the frame's
+		///fill and the text boxes' white) over the part the frame leaves, and the selected item's text in the Text token, left and centred top to
+		///bottom where Windows puts it, cut with an ellipsis in front of the chevron. The focus shows as the frame's Accent line, not Windows'
+		///highlight.</summary>
+		public static void PaintComboFace(Graphics g,Rectangle rectangleInner,System.Windows.Forms.ComboBox comboBox,Color colorBack) {
+			if(rectangleInner.Width<=0 || rectangleInner.Height<=0) {
+				return;
+			}
+			using(SolidBrush brush=new SolidBrush(colorBack)) {
+				g.FillRectangle(brush,rectangleInner);
+			}
+			TextRenderer.DrawText(g,comboBox.Text,comboBox.Font,rectangleInner,UiTheme.GetColor(EnumUiColor.Text),colorBack,
+				TextFormatFlags.Left|TextFormatFlags.VerticalCenter|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis|TextFormatFlags.NoPrefix);
+		}
+
 		///<summary>The part of the control the frame leaves as Windows drew it: inside the edge, less a date picker's or combo box's drop button,
 		///which the frame covers with the chevron. A date picker's button is the one Windows reports (DTM_GETDATETIMEPICKERINFO: with Windows'
 		///visual styles it is wider than a scroll bar), covered from 1 px left of it; otherwise (a combo box, or a picker that does not answer the

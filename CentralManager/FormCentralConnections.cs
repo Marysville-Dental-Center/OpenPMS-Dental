@@ -19,6 +19,7 @@ namespace CentralManager {
 
 		public FormCentralConnections(){
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 		}
 
 		private void FormCentralConnections_Load(object sender,EventArgs e) {
