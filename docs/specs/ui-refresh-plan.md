@@ -1698,6 +1698,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   2 earlier-slice fixes), audit `UI-12-audit-8.md` (UI-12.md section 7, "Slice 8 (batch 4)"); fix round `ui/ui12-8-2` (the lead's 17 findings: FormInsHistSetup's
   code rows on `UiGrid`, the last stock GroupBox, equal gaps for spare height, edges; the gallery fills radio texts and draws
   FormInsHistSetup with rows; UI-12.md "Slice 8, fix round").
+  Slice 12 (UI-12-12, branch `ui/ui12-12-1`, the final slice: the lead's `slice12-files.tsv`, the plain exes' windows and the
+  OpenPmsDentalGraph files): 42 windows on the grid, none skipped (37 with a layout script, shared steps in `hand/_s12.py`); the tools and
+  GridRulesTests handle a plain Form (the same numbers; the input frame rule skipped, `GridRulesTests.IsPlain`, tested; the tree's root is the
+  client area; Windows' check box lead 22; designer code in a window's own `.cs`; `SplitterDistance` hand rows for the graph's settings
+  panels); the 44 System-style controls take the Standard style; re-plans 239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 unchanged;
+  gallery G-UI3-ui12-12 (42 windows, FormCentralSecurity at 150%: the harness cannot scale a plain window), audit `UI-12-audit-12.md`
+  (UI-12.md section 7, "Slice 12").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
