@@ -32,3 +32,6 @@ def layout(h):
             dy = (h.H - n.nh) // 2 if n.nh < h.H else 0
             h.set(a, None, y + dy)
         y += hh + 4
+    # Fix round: the code captions the compare string up to "Communication Preference" (grid-runtime-texts/11.tsv, 153 px; the designer's
+    # "Compare string" 89): the label right-aligned before its box as wide as that text (it fits the label column: the field column stays).
+    s.label_before(h, "labelCompareString", "textCompareString")

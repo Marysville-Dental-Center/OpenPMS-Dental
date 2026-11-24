@@ -86,7 +86,7 @@ namespace OpenPmsDental{
 			//
 			// labelClassesInOD
 			//
-			this.labelClassesInOD.Location = new System.Drawing.Point(14, 507);
+			this.labelClassesInOD.Location = new System.Drawing.Point(14, 523);
 			this.labelClassesInOD.Name = "labelClassesInOD";
 			this.labelClassesInOD.Size = new System.Drawing.Size(141, 32);
 			this.labelClassesInOD.TabIndex = 85;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			//
 			// labelIncomeAccountsInOD
 			//
-			this.labelIncomeAccountsInOD.Location = new System.Drawing.Point(11, 395);
+			this.labelIncomeAccountsInOD.Location = new System.Drawing.Point(11, 403);
 			this.labelIncomeAccountsInOD.Name = "labelIncomeAccountsInOD";
 			this.labelIncomeAccountsInOD.Size = new System.Drawing.Size(144, 47);
 			this.labelIncomeAccountsInOD.TabIndex = 83;
@@ -306,27 +306,27 @@ namespace OpenPmsDental{
 			// labelDepositAccountsAvailable
 			//
 			this.labelDepositAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDepositAccountsAvailable.Location = new System.Drawing.Point(667, 283);
+			this.labelDepositAccountsAvailable.Location = new System.Drawing.Point(658, 283);
 			this.labelDepositAccountsAvailable.Name = "labelDepositAccountsAvailable";
-			this.labelDepositAccountsAvailable.Size = new System.Drawing.Size(136, 47);
+			this.labelDepositAccountsAvailable.Size = new System.Drawing.Size(145, 47);
 			this.labelDepositAccountsAvailable.TabIndex = 98;
 			this.labelDepositAccountsAvailable.Text = "Deposit accounts available in QuickBooks Online.";
 			//
 			// labelIncomeAccountsAvailable
 			//
 			this.labelIncomeAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelIncomeAccountsAvailable.Location = new System.Drawing.Point(667, 395);
+			this.labelIncomeAccountsAvailable.Location = new System.Drawing.Point(658, 403);
 			this.labelIncomeAccountsAvailable.Name = "labelIncomeAccountsAvailable";
-			this.labelIncomeAccountsAvailable.Size = new System.Drawing.Size(136, 47);
+			this.labelIncomeAccountsAvailable.Size = new System.Drawing.Size(145, 47);
 			this.labelIncomeAccountsAvailable.TabIndex = 99;
 			this.labelIncomeAccountsAvailable.Text = "Income accounts available in QuickBooks Online.";
 			//
 			// labelClassesAvailable
 			//
 			this.labelClassesAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClassesAvailable.Location = new System.Drawing.Point(667, 507);
+			this.labelClassesAvailable.Location = new System.Drawing.Point(658, 523);
 			this.labelClassesAvailable.Name = "labelClassesAvailable";
-			this.labelClassesAvailable.Size = new System.Drawing.Size(136, 32);
+			this.labelClassesAvailable.Size = new System.Drawing.Size(145, 32);
 			this.labelClassesAvailable.TabIndex = 100;
 			this.labelClassesAvailable.Text = "Classes available in QuickBooks Online.";
 			//
@@ -334,7 +334,7 @@ namespace OpenPmsDental{
 			//
 			this.butRemoveIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRemoveIncomeAccount.Location = new System.Drawing.Point(390, 447);
+			this.butRemoveIncomeAccount.Location = new System.Drawing.Point(390, 455);
 			this.butRemoveIncomeAccount.Name = "butRemoveIncomeAccount";
 			this.butRemoveIncomeAccount.Size = new System.Drawing.Size(35, 24);
 			this.butRemoveIncomeAccount.TabIndex = 8;
@@ -345,7 +345,7 @@ namespace OpenPmsDental{
 			this.butAddIncomeAccount.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butAddIncomeAccount.Location = new System.Drawing.Point(390, 419);
+			this.butAddIncomeAccount.Location = new System.Drawing.Point(390, 427);
 			this.butAddIncomeAccount.Name = "butAddIncomeAccount";
 			this.butAddIncomeAccount.Size = new System.Drawing.Size(35, 24);
 			this.butAddIncomeAccount.TabIndex = 7;
@@ -355,7 +355,7 @@ namespace OpenPmsDental{
 			//
 			this.butRemoveClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRemoveClass.Location = new System.Drawing.Point(390, 559);
+			this.butRemoveClass.Location = new System.Drawing.Point(390, 575);
 			this.butRemoveClass.Name = "butRemoveClass";
 			this.butRemoveClass.Size = new System.Drawing.Size(35, 24);
 			this.butRemoveClass.TabIndex = 12;
@@ -366,7 +366,7 @@ namespace OpenPmsDental{
 			this.butAddClass.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butAddClass.Location = new System.Drawing.Point(390, 531);
+			this.butAddClass.Location = new System.Drawing.Point(390, 547);
 			this.butAddClass.Name = "butAddClass";
 			this.butAddClass.Size = new System.Drawing.Size(35, 24);
 			this.butAddClass.TabIndex = 11;
@@ -386,14 +386,14 @@ namespace OpenPmsDental{
 			this.listBoxDepositAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxDepositAccountsAvailable.Location = new System.Drawing.Point(433, 283);
 			this.listBoxDepositAccountsAvailable.Name = "listBoxDepositAccountsAvailable";
-			this.listBoxDepositAccountsAvailable.Size = new System.Drawing.Size(230, 108);
+			this.listBoxDepositAccountsAvailable.Size = new System.Drawing.Size(221, 108);
 			this.listBoxDepositAccountsAvailable.TabIndex = 5;
 			//
 			// listBoxIncomeAccountsInOD
 			//
 			this.listBoxIncomeAccountsInOD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxIncomeAccountsInOD.Location = new System.Drawing.Point(161, 395);
+			this.listBoxIncomeAccountsInOD.Location = new System.Drawing.Point(161, 403);
 			this.listBoxIncomeAccountsInOD.Name = "listBoxIncomeAccountsInOD";
 			this.listBoxIncomeAccountsInOD.Size = new System.Drawing.Size(221, 108);
 			this.listBoxIncomeAccountsInOD.TabIndex = 6;
@@ -401,16 +401,16 @@ namespace OpenPmsDental{
 			// listBoxIncomeAccountsAvailable
 			//
 			this.listBoxIncomeAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxIncomeAccountsAvailable.Location = new System.Drawing.Point(433, 395);
+			this.listBoxIncomeAccountsAvailable.Location = new System.Drawing.Point(433, 403);
 			this.listBoxIncomeAccountsAvailable.Name = "listBoxIncomeAccountsAvailable";
-			this.listBoxIncomeAccountsAvailable.Size = new System.Drawing.Size(230, 108);
+			this.listBoxIncomeAccountsAvailable.Size = new System.Drawing.Size(221, 108);
 			this.listBoxIncomeAccountsAvailable.TabIndex = 9;
 			//
 			// listBoxClassRefsInOD
 			//
 			this.listBoxClassRefsInOD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxClassRefsInOD.Location = new System.Drawing.Point(161, 507);
+			this.listBoxClassRefsInOD.Location = new System.Drawing.Point(161, 523);
 			this.listBoxClassRefsInOD.Name = "listBoxClassRefsInOD";
 			this.listBoxClassRefsInOD.Size = new System.Drawing.Size(221, 108);
 			this.listBoxClassRefsInOD.TabIndex = 10;
@@ -418,9 +418,9 @@ namespace OpenPmsDental{
 			// listBoxClassRefsAvailable
 			//
 			this.listBoxClassRefsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxClassRefsAvailable.Location = new System.Drawing.Point(433, 507);
+			this.listBoxClassRefsAvailable.Location = new System.Drawing.Point(433, 523);
 			this.listBoxClassRefsAvailable.Name = "listBoxClassRefsAvailable";
-			this.listBoxClassRefsAvailable.Size = new System.Drawing.Size(230, 108);
+			this.listBoxClassRefsAvailable.Size = new System.Drawing.Size(221, 108);
 			this.listBoxClassRefsAvailable.TabIndex = 13;
 			//
 			// FormQuickBooksOnlineSetup

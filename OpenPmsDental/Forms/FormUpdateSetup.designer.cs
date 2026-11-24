@@ -206,7 +206,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelRecopy.Location = new System.Drawing.Point(8, 263);
 			this.labelRecopy.Name = "labelRecopy";
-			this.labelRecopy.Size = new System.Drawing.Size(235, 50);
+			this.labelRecopy.Size = new System.Drawing.Size(235, 66);
 			this.labelRecopy.TabIndex = 53;
 			this.labelRecopy.Text = "Copies all files from the local installation directory to the shared Update Files" +
     " folder and puts a zipped copy into the database.\r\n";

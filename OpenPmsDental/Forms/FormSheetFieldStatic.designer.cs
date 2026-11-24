@@ -72,12 +72,12 @@ namespace OpenPmsDental{
 			// 
 			// labelTextW
 			// 
-			this.labelTextW.Location = new System.Drawing.Point(231, 563);
+			this.labelTextW.Location = new System.Drawing.Point(200, 563);
 			this.labelTextW.Name = "labelTextW";
-			this.labelTextW.Size = new System.Drawing.Size(52, 23);
+			this.labelTextW.Size = new System.Drawing.Size(83, 23);
 			this.labelTextW.TabIndex = 104;
 			this.labelTextW.Text = "TextW: ";
-			this.labelTextW.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTextW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label1
 			// 
@@ -340,12 +340,12 @@ namespace OpenPmsDental{
 			// 
 			// labelTextH
 			// 
-			this.labelTextH.Location = new System.Drawing.Point(235, 590);
+			this.labelTextH.Location = new System.Drawing.Point(200, 590);
 			this.labelTextH.Name = "labelTextH";
-			this.labelTextH.Size = new System.Drawing.Size(48, 23);
+			this.labelTextH.Size = new System.Drawing.Size(83, 23);
 			this.labelTextH.TabIndex = 238;
 			this.labelTextH.Text = "TextH: ";
-			this.labelTextH.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTextH.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// checkIncludeInMobile
 			// 

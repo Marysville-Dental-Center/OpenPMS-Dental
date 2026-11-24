@@ -217,12 +217,12 @@ namespace OpenPmsDental {
 			// 
 			// labelResponses
 			// 
-			this.labelResponses.Location = new System.Drawing.Point(68, 142);
+			this.labelResponses.Location = new System.Drawing.Point(8, 146);
 			this.labelResponses.Name = "labelResponses";
-			this.labelResponses.Size = new System.Drawing.Size(112, 23);
+			this.labelResponses.Size = new System.Drawing.Size(172, 34);
 			this.labelResponses.TabIndex = 123;
 			this.labelResponses.Text = "Possible responses";
-			this.labelResponses.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelResponses.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// butDelete
 			// 

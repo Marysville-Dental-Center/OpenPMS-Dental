@@ -9,6 +9,10 @@ import os
 _spec = importlib.util.spec_from_file_location("_s11", os.path.join(os.path.dirname(os.path.abspath(__file__)), "_s11.py"))
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
+import grid_tools as gt  # noqa: E402
+
+RECOPY_DB = r"Recopy all of the files from C:\Program Files (x86)\Open PMS - Dental\ into a special place in the database for future use in" \
+    r" updating other computers."
 
 
 def layout(h):
@@ -48,7 +52,10 @@ def layout(h):
     t = h.n("textUpdateTime")
     h.set("butChangeTime", x + t.nw + 6, y, None, h.H)
     y += h.H + 4
-    r = h.n("labelRecopy")
+    # Fix round: with the A to Z folder not local, Load gives the note a longer text (grid-runtime-texts/11.tsv, 796 px on one line, four
+    # lines at the note's width): the note as tall as the wrap of the longest of its texts.
+    rw = x - 6 - 8
+    rh = max(h.note_h("labelRecopy", rw), gt.measured_lines(RECOPY_DB, max(h.runtime_widths("labelRecopy")), rw) * 16 + 2)
     h.text_align("labelRecopy", "TopRight")
-    h.set("labelRecopy", 8, y + 3, x - 6 - 8, h.note_h("labelRecopy", x - 6 - 8))
+    h.set("labelRecopy", 8, y + 3, rw, rh)
     h.set("butRecopy", x, y, None, 24)
