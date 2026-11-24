@@ -37,8 +37,6 @@ namespace xCrudGenerator {
 			this.label6 = new System.Windows.Forms.Label();
 			this.listClass = new System.Windows.Forms.ListBox();
 			this.checkRun = new System.Windows.Forms.CheckBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
 			this.checkRunSchema = new System.Windows.Forms.CheckBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.checkRunQueries = new System.Windows.Forms.CheckBox();
@@ -54,15 +52,15 @@ namespace xCrudGenerator {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(298, 8);
+			this.label1.Location = new System.Drawing.Point(266, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(772, 34);
+			this.label1.Size = new System.Drawing.Size(804, 34);
 			this.label1.TabIndex = 0;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// butRun
 			// 
-			this.butRun.Location = new System.Drawing.Point(154, 177);
+			this.butRun.Location = new System.Drawing.Point(94, 177);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(98, 23);
 			this.butRun.TabIndex = 1;
@@ -72,7 +70,7 @@ namespace xCrudGenerator {
 			// 
 			// textDb
 			// 
-			this.textDb.Location = new System.Drawing.Point(154, 35);
+			this.textDb.Location = new System.Drawing.Point(94, 35);
 			this.textDb.Name = "textDb";
 			this.textDb.Size = new System.Drawing.Size(128, 23);
 			this.textDb.TabIndex = 5;
@@ -82,7 +80,7 @@ namespace xCrudGenerator {
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(140, 23);
+			this.label3.Size = new System.Drawing.Size(80, 23);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Database";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -168,43 +166,27 @@ namespace xCrudGenerator {
 			// 
 			this.checkRun.Checked = true;
 			this.checkRun.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkRun.Location = new System.Drawing.Point(154, 111);
+			this.checkRun.Location = new System.Drawing.Point(8, 111);
 			this.checkRun.Name = "checkRun";
-			this.checkRun.Size = new System.Drawing.Size(16, 18);
+			this.checkRun.Size = new System.Drawing.Size(52, 18);
 			this.checkRun.TabIndex = 19;
+			this.checkRun.Text = "Run";
 			this.checkRun.UseVisualStyleBackColor = true;
-			// 
-			// label8
-			// 
-			this.label8.Location = new System.Drawing.Point(8, 111);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(140, 18);
-			this.label8.TabIndex = 21;
-			this.label8.Text = "Run";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-			// 
-			// label9
-			// 
-			this.label9.Location = new System.Drawing.Point(8, 89);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(140, 18);
-			this.label9.TabIndex = 22;
-			this.label9.Text = "Schema (no db needed)";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkRunSchema
 			// 
-			this.checkRunSchema.Location = new System.Drawing.Point(154, 89);
+			this.checkRunSchema.Location = new System.Drawing.Point(8, 89);
 			this.checkRunSchema.Name = "checkRunSchema";
-			this.checkRunSchema.Size = new System.Drawing.Size(16, 18);
+			this.checkRunSchema.Size = new System.Drawing.Size(157, 18);
 			this.checkRunSchema.TabIndex = 23;
+			this.checkRunSchema.Text = "Schema (no db needed)";
 			this.checkRunSchema.UseVisualStyleBackColor = true;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(298, 46);
+			this.label10.Location = new System.Drawing.Point(266, 46);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(772, 18);
+			this.label10.Size = new System.Drawing.Size(804, 18);
 			this.label10.TabIndex = 24;
 			this.label10.Text = "This CrudGenerator project MUST be set to compile each time it\'s run even if chan" +
     "ges were only to OpenPmsDentalBusiness.";
@@ -237,14 +219,14 @@ namespace xCrudGenerator {
 			// 
 			this.labelPortNum.Location = new System.Drawing.Point(8, 8);
 			this.labelPortNum.Name = "labelPortNum";
-			this.labelPortNum.Size = new System.Drawing.Size(140, 23);
+			this.labelPortNum.Size = new System.Drawing.Size(80, 23);
 			this.labelPortNum.TabIndex = 30;
 			this.labelPortNum.Text = "Port Number";
 			this.labelPortNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPortNum
 			// 
-			this.textPortNum.Location = new System.Drawing.Point(154, 8);
+			this.textPortNum.Location = new System.Drawing.Point(94, 8);
 			this.textPortNum.Name = "textPortNum";
 			this.textPortNum.Size = new System.Drawing.Size(64, 23);
 			this.textPortNum.TabIndex = 29;
@@ -263,7 +245,7 @@ namespace xCrudGenerator {
 			// textPassword
 			// 
 			this.textPassword.AutoSize = false;
-			this.textPassword.Location = new System.Drawing.Point(154, 62);
+			this.textPassword.Location = new System.Drawing.Point(94, 62);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
 			this.textPassword.Size = new System.Drawing.Size(128, 23);
@@ -274,7 +256,7 @@ namespace xCrudGenerator {
 			// 
 			this.label7.Location = new System.Drawing.Point(8, 62);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(140, 23);
+			this.label7.Size = new System.Drawing.Size(80, 23);
 			this.label7.TabIndex = 33;
 			this.label7.Text = "Password";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -309,8 +291,6 @@ namespace xCrudGenerator {
 			this.Controls.Add(this.checkRunQueries);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.checkRunSchema);
-			this.Controls.Add(this.label9);
-			this.Controls.Add(this.label8);
 			this.Controls.Add(this.checkRun);
 			this.Controls.Add(this.textSnippet);
 			this.Controls.Add(this.label2);
@@ -344,8 +324,6 @@ namespace xCrudGenerator {
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.ListBox listClass;
 		private System.Windows.Forms.CheckBox checkRun;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.CheckBox checkRunSchema;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.CheckBox checkRunQueries;

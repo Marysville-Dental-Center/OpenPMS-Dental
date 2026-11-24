@@ -1,7 +1,8 @@
 """xCrudGenerator's Form1 on the grid (UI-12 slice 12, layout script on the planner's tree; hand/<namespace>.<class>.py). The planner grew
 the window 20 px and left the settings in three margins: back to main's 1161 x 734. The settings column from the padding: Port Number,
-Database and Password rows, then Schema (no db needed) and Run with their text-less check boxes on the field column, the two convert
-script check boxes as a list, Run CRUD Gen on the field column; the two notes beside the column (the band gap) up to the sibling gap before
+Database and Password rows, then the four check boxes as one list, box on the left from the padding (Schema (no db needed) and Run were
+text-less boxes on the field column after their labels label9 and label8: they take the labels' texts and the labels go, by
+<W>/crud_form1.py after the rows; review finding 11), Run CRUD Gen on the field column; the two notes beside the column (the band gap) up to the sibling gap before
 Jordan's Pd on the right padding; under all of it the snippet group and the Snippets caption and box side by side down to the bottom
 padding."""
 import importlib.util
@@ -16,17 +17,15 @@ def layout(h):
     s.size(h, 1161, 734)
     R = 1161 - s.PAD
     B = 734 - s.PAD
-    fx = s.col_x(h, ["labelPortNum", "label3", "label7", "label9", "label8"])
+    fx = s.col_x(h, ["labelPortNum", "label3", "label7"])
     s.row(h, "labelPortNum", "textPortNum", s.PAD, fx)
     s.row(h, "label3", "textDb", s.PAD + 27, fx)
     yb = s.row(h, "label7", "textPassword", s.PAD + 54, fx)
     y = yb + s.ROWGAP
     for lab, chk in (("label9", "checkRunSchema"), ("label8", "checkRun")):
-        # Check box rows (the list pitch): the label as tall as the check box, centred on it.
-        h.set(lab, s.PAD, y, fx - s.LGAP - s.PAD, h.CH)
-        h.text_align(lab, "MiddleRight")
+        # The box takes its label's text (crud_form1.py): as wide as a stock box with that text (the text + 24, grid_tools.check_width).
         h.check_left(chk)
-        h.set(chk, fx, y, 16, h.CH)
+        h.set(chk, s.PAD, y, h.n(lab).text_w + 24, h.CH)
         y += h.CH + s.ROWGAP
     for chk in ("checkAddToConvertScript", "checkRunQueries"):
         h.check_left(chk)

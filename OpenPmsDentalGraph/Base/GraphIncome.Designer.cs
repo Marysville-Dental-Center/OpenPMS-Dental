@@ -248,7 +248,7 @@
 			this.dateTimeTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
 			this.dateTimeTo.Location = new System.Drawing.Point(220, 23);
 			this.dateTimeTo.Name = "dateTimeTo";
-			this.dateTimeTo.Size = new System.Drawing.Size(93, 23);
+			this.dateTimeTo.Size = new System.Drawing.Size(112, 23);
 			this.dateTimeTo.TabIndex = 11;
 			this.dateTimeTo.ValueChanged += new System.EventHandler(this.dateTimeFilter_ValueChanged);
 			// 
@@ -260,7 +260,7 @@
 			this.groupBox2.Controls.Add(this.dateTimeFrom);
 			this.groupBox2.Location = new System.Drawing.Point(579, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(321, 54);
+			this.groupBox2.Size = new System.Drawing.Size(340, 54);
 			this.groupBox2.TabIndex = 17;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Filter Dates";
