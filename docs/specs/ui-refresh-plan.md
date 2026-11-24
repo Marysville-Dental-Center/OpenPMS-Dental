@@ -1782,7 +1782,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   and claim form editors, the kiosk, the signing window and the big tooth chart with the grid's padding around the surface the code
   draws (their layout code on UiGrid's numbers, 24 layout scripts); the date and colour pickers and the code range filter on the grid;
   the harness builds ODDatePicker, ToothChartWrapper and ComboBoxClinicPicker; 13 known rows with their reasons; gallery
-  `G-UI3-ui12-16`, audit `UI-12-audit-16.md` (UI-12.md section 7, "Slice 16").
+  `G-UI3-ui12-16`, audit `UI-12-audit-16.md` (UI-12.md section 7, "Slice 16"). Review fix round `ui/ui12-16-2`: ten findings fixed
+  (the big tooth chart back to main's Dock Fill, owner question on a margin; the search group, the calendar column, the claim form's note,
+  the statement's page buttons, the imaging note, the sheet's button column; the missing imaging and Change User pictures).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

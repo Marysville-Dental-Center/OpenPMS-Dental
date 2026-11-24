@@ -25,3 +25,23 @@ Unchanged pictures (35): the controls with nothing to lay out and the windows wh
 FormCareCreditWeb, FormErx and FormWebView, the hidden tooth chart of FormToothChartingBig, FormPopupFade's centred message): their
 changes are in the designer and the layout snapshot, not visible off screen. No text is cut in any picture; no control covers another
 but the rows of `grid-known/16.tsv`.
+
+## Fix round (`ui/ui12-16-2`)
+
+Each changed or new after picture opened (`<W>/f1-100`, `<W>/f1-150`, `<W>/f2-100`, `<W>/f2-150`, `<W>/img-100`).
+
+| Picture | Before the fix round | Now |
+|---|---|---|
+| ControlAppt (and 150%) | the column beside the pinboard with three right edges (79, 75, 114) | Day/Week, Clear and Advanced + Search one 120 px column, 8 px before the pinboard |
+| ControlAppt-search (and 150%) | the group 219 px in the 227 px column, the View combo, fields and Waiting header showing in an 8 px strip beside it and the tabs 5 px under it | the group the column's width and down to the tabs' bottom; nothing shows beside or under it |
+| ControlImages-note (and new 150%) | a 17 px empty band under the boxes; at 150% the boxes cut by the unscaled 114 px | the panel ends on its boxes at 100% and 150% |
+| FormClaimFormEdit-internal (and 150%) | the note cut after three of its five lines | all five lines; the position rows and the list 27 px higher |
+| FormRpStatement | the arrows and page count 48 px left of centre | centred in the window |
+| FormSheetFillEdit, -buttons (and 150%) | Add Field 81 px and Reduce Font Size 98 px in one column, the latter's text 1-2 px from its edges at 150% | both 108 px, `?` 6 px after; the text with the button padding at 150% |
+| FormTPsign-changeuser (new, and 150%) | (no picture) | Change User 6 px before each box under its caption, the signer's name under it right-aligned, ending where the typed row starts |
+| FormToothChartingBig | the chart inset 8 px (not visible: the chart draws blank off screen) | main's Dock Fill again; the picture as main's |
+| ControlVideoPlayer-sample (new) | a blank 150 x 150 | the recorded clip with the bar: scrub bar and trim marks, the buttons 6 px apart, the time and trim text; the status message ends in an ellipsis at this 884 px width (the control's own trimming) |
+| ControlCameraSession-live, -recording (new) | a blank 284 x 261 | the header line, the live picture, the slot list and the bottom bar; recording adds the REC line at the live picture's top right and Stop recording in the bar |
+| FormImageViewer-sample (new) | a blank picture | the info line with the grid's padding over the image |
+
+No text is cut and no control covers another in these pictures.
