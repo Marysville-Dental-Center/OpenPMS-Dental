@@ -244,7 +244,7 @@ OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	butOK	761,475	75,24
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listInsuranceTypes	206,214	204,249	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkAllClaimPayGroups	631,192	161,20	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listClaimPayGroups	631,214	205,249	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkUnearned	516,28	119,20	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkUnearned	514,28	117,20	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkReportDisplayUnearnedTP	8,315	190,36	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkShowOnlinePatientPaymentsSeparately	8,355	190,36	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkShowMerchantFees	8,395	190,20	

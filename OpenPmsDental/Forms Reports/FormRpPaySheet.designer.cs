@@ -238,9 +238,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkUnearned.Checked = true;
 			this.checkUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkUnearned.Location = new System.Drawing.Point(516, 28);
+			this.checkUnearned.Location = new System.Drawing.Point(514, 28);
 			this.checkUnearned.Name = "checkUnearned";
-			this.checkUnearned.Size = new System.Drawing.Size(119, 20);
+			this.checkUnearned.Size = new System.Drawing.Size(117, 20);
 			this.checkUnearned.TabIndex = 59;
 			this.checkUnearned.Text = "Include Unearned";
 			// 
