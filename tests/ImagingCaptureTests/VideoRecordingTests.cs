@@ -160,6 +160,93 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void Trimmer_WritesOnlyTheTrim_FromTheFrameShownAtTheStart_AndLeavesNoPartialFile() {
+			string folder=Path.Combine(Path.GetTempPath(),"opms-trim-"+Guid.NewGuid().ToString("N"));
+			Directory.CreateDirectory(folder);
+			string path=Path.Combine(folder,"source.mp4");
+			try {
+				//30 frames at 10 fps (3 s): red rises with the second (0, 1, 2), so each frame says which second it is from.
+				Mp4Writer writer;
+				try {
+					writer=Mp4Writer.Create(path,320,240,10);
+				}
+				catch(MfException ex) {
+					Assert.Inconclusive("No H.264 encoder here: "+ex.Message);
+					return;
+				}
+				using(writer) {
+					byte[] arrayPixels=new byte[320*240*4];
+					for(int i=0;i<30;i++) {
+						for(int p=0;p<arrayPixels.Length;p+=4) {
+							arrayPixels[p]=40;
+							arrayPixels[p+1]=40;
+							arrayPixels[p+2]=(byte)(20+100*(i/10));
+							arrayPixels[p+3]=255;
+						}
+						writer.WriteFrame(arrayPixels,320*4,i*1000000L,1000000L);
+					}
+					writer.Finish();
+				}
+				//1.05 s to 2 s: the frame shown at 1.05 s is from the second second, and the frame that starts at 2 s is left out.
+				string pathOut=Path.Combine(folder,"trimmed.mp4");
+				int durationOutMs;
+				VideoTrimmer.WriteTrimmed(path,pathOut,1050,2000,out durationOutMs);
+				Assert.IsTrue(Math.Abs(durationOutMs-950)<=60,"Written length "+durationOutMs+" ms");
+				Assert.IsFalse(File.Exists(pathOut+".partial"));
+				int durationMs;
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(pathOut,0,out durationMs)) {
+					Assert.AreEqual(320,bitmap.Width);
+					Assert.AreEqual(240,bitmap.Height);
+					int red=bitmap.GetPixel(160,120).R;
+					Assert.IsTrue(red>90 && red<150,"The first frame is the one shown at 1.05 s (second second): red "+red);
+				}
+				Assert.IsTrue(Math.Abs(durationMs-950)<=150,"Length of the trimmed file "+durationMs+" ms");
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(pathOut,60000,out durationMs)) {
+					int red=bitmap.GetPixel(160,120).R;
+					Assert.IsTrue(red<180,"Nothing from the third second: red "+red);
+				}
+				//No end: to the end of the video; the third second is there.
+				VideoTrimmer.WriteTrimmed(path,pathOut,2000,0,out durationOutMs);
+				Assert.IsTrue(Math.Abs(durationOutMs-1000)<=60,"Written length to the end "+durationOutMs+" ms");
+				using(Bitmap bitmap=VideoFrameReader.ReadFrame(pathOut,0,out durationMs)) {
+					int red=bitmap.GetPixel(160,120).R;
+					Assert.IsTrue(red>180,"From the third second: red "+red);
+				}
+				//A start past the end counts as 0, as the player does: the whole video.
+				VideoTrimmer.WriteTrimmed(path,pathOut,5000,6000,out durationOutMs);
+				Assert.IsTrue(Math.Abs(durationOutMs-3000)<=60,"Whole video "+durationOutMs+" ms");
+				//The target in use: the rename fails, the earlier file stays, and no partial file is left.
+				long lengthBefore=new FileInfo(pathOut).Length;
+				bool isThrown=false;
+				using(FileStream fileStream=new FileStream(pathOut,FileMode.Open,FileAccess.Read,FileShare.None)) {
+					try {
+						VideoTrimmer.WriteTrimmed(path,pathOut,0,1000,out durationOutMs);
+					}
+					catch(Exception ex) when(ex is IOException || ex is UnauthorizedAccessException) {//Windows says "access denied" for a file in use
+						isThrown=true;
+					}
+				}
+				Assert.IsTrue(isThrown,"A target in use is reported.");
+				Assert.AreEqual(lengthBefore,new FileInfo(pathOut).Length);
+				Assert.IsFalse(File.Exists(pathOut+".partial"));
+				//A cancel stops it the same way.
+				isThrown=false;
+				try {
+					VideoTrimmer.WriteTrimmed(path,pathOut,0,0,out durationOutMs,() => true);
+				}
+				catch(OperationCanceledException) {
+					isThrown=true;
+				}
+				Assert.IsTrue(isThrown,"Cancelled.");
+				Assert.AreEqual(lengthBefore,new FileInfo(pathOut).Length);
+				Assert.IsFalse(File.Exists(pathOut+".partial"));
+			}
+			finally {
+				Directory.Delete(folder,true);
+			}
+		}
+
+		[TestMethod]
 		public void FrameReader_ReadsAFrameAtFullSize_RightWayUp_AtThePosition() {
 			string folder=Path.Combine(Path.GetTempPath(),"opms-frame-"+Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(folder);
