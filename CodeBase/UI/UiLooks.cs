@@ -202,16 +202,16 @@ namespace CodeBase {
 			return TextFormatFlags.Default;
 		}
 
-		///<summary>The colour behind a control: its own when opaque, else its parent's, else the window colour.</summary>
+		///<summary>The colour behind a control: its own when opaque, else the first opaque colour up its parents, else the classic window grey.</summary>
 		public static Color GetBackColor(Control control) {
-			Color color=control.BackColor;
-			if(color.A<255) {
-				color=control.Parent?.BackColor ?? SystemColors.Control;
+			//UI-PLAIN fix round: up the parents until an opaque colour (it stopped at the parent: a group box in the transparent GraphIncome took
+			//the classic grey, though GraphIncome stands on the window's colour).
+			for(Control controlBack=control;controlBack!=null;controlBack=controlBack.Parent) {
+				if(controlBack.BackColor.A==255) {
+					return controlBack.BackColor;
+				}
 			}
-			if(color.A<255) {
-				color=SystemColors.Control;
-			}
-			return color;
+			return SystemColors.Control;
 		}
 
 		#region Tree view, list view, data grid view, link label
