@@ -143,9 +143,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(415, 47);
+			this.label1.Size = new System.Drawing.Size(423, 47);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "We must charge sales tax based on the physical office address.  The address is on" +
     "ly entered here when the physical address and billing address are in different s" +

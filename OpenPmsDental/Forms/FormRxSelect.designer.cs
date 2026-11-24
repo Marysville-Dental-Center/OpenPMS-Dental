@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			// labelInstructions
 			// 
 			this.labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInstructions.Location = new System.Drawing.Point(8, 647);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 644);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(470, 18);
+			this.labelInstructions.Size = new System.Drawing.Size(468, 18);
 			this.labelInstructions.TabIndex = 15;
 			this.labelInstructions.Text = "Please select a Prescription from the list or click Blank to start with a blank p" +
     "rescription.";
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butBlank
 			// 
 			this.butBlank.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butBlank.Location = new System.Drawing.Point(435, 640);
+			this.butBlank.Location = new System.Drawing.Point(482, 640);
 			this.butBlank.Name = "butBlank";
 			this.butBlank.Size = new System.Drawing.Size(75, 26);
 			this.butBlank.TabIndex = 0;
@@ -75,9 +75,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(738, 611);
+			this.gridMain.Size = new System.Drawing.Size(742, 620);
 			this.gridMain.TabIndex = 16;
 			this.gridMain.Title = "Prescriptions";
 			this.gridMain.TranslationName = "TableRxSetup";
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkControlledOnly);
 			this.groupBox1.Controls.Add(this.textDisp);
 			this.groupBox1.Controls.Add(this.textDrug);
-			this.groupBox1.Location = new System.Drawing.Point(756, 8);
+			this.groupBox1.Location = new System.Drawing.Point(758, 8);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(176, 173);
 			this.groupBox1.TabIndex = 0;

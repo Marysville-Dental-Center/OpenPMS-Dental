@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(527, 224);
+			this.butOK.Location = new System.Drawing.Point(526, 212);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 0;
@@ -56,9 +56,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 32);
+			this.gridMain.Location = new System.Drawing.Point(8, 32);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(590, 180);
+			this.gridMain.Size = new System.Drawing.Size(593, 168);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Payment Plans";
 			this.gridMain.TranslationName = "TablePaymentPlans";
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(8, 224);
+			this.butNone.Location = new System.Drawing.Point(8, 212);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 26);
 			this.butNone.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			// labelExpl
 			// 
-			this.labelExpl.Location = new System.Drawing.Point(12, 10);
+			this.labelExpl.Location = new System.Drawing.Point(8, 10);
 			this.labelExpl.Name = "labelExpl";
 			this.labelExpl.Size = new System.Drawing.Size(410, 16);
 			this.labelExpl.TabIndex = 5;
@@ -88,7 +88,7 @@ namespace OpenPmsDental {
 			// checkShowActiveOnly
 			// 
 			this.checkShowActiveOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkShowActiveOnly.Location = new System.Drawing.Point(463, 8);
+			this.checkShowActiveOnly.Location = new System.Drawing.Point(483, 8);
 			this.checkShowActiveOnly.Name = "checkShowActiveOnly";
 			this.checkShowActiveOnly.Size = new System.Drawing.Size(118, 20);
 			this.checkShowActiveOnly.TabIndex = 6;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// 
 			// FormPayPlanSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(610, 258);
+			this.ClientSize = new System.Drawing.Size(609, 246);
 			this.Controls.Add(this.checkShowActiveOnly);
 			this.Controls.Add(this.labelExpl);
 			this.Controls.Add(this.butNone);

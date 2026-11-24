@@ -44,7 +44,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(378, 35);
+			this.label2.Location = new System.Drawing.Point(395, 35);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(48, 23);
 			this.label2.TabIndex = 22;
@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			// comboCourse
 			// 
 			this.comboCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboCourse.Location = new System.Drawing.Point(432, 35);
+			this.comboCourse.Location = new System.Drawing.Point(449, 35);
 			this.comboCourse.Name = "comboCourse";
 			this.comboCourse.Size = new System.Drawing.Size(232, 23);
 			this.comboCourse.TabIndex = 21;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(386, 8);
+			this.label1.Location = new System.Drawing.Point(403, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(40, 23);
 			this.label1.TabIndex = 20;
@@ -73,7 +73,7 @@ namespace OpenPmsDental {
 			// comboClass
 			// 
 			this.comboClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClass.Location = new System.Drawing.Point(432, 8);
+			this.comboClass.Location = new System.Drawing.Point(449, 8);
 			this.comboClass.Name = "comboClass";
 			this.comboClass.Size = new System.Drawing.Size(232, 23);
 			this.comboClass.TabIndex = 19;
@@ -84,9 +84,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(329, 637);
+			this.gridMain.Size = new System.Drawing.Size(336, 645);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Student Requirements";
 			this.gridMain.TranslationName = "TableReqStudentMany";

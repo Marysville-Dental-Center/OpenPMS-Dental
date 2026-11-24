@@ -1,0 +1,13 @@
+# UI-12 slice 1 (fix round 8): texts a grid window's code gives a label or check box at run time, other than its designer text (UI-12.md
+# section 2, "Labels whose text the code sets"). The layout scripts size the control for the widest of its texts (grid_hand.py's Hand.lw reads
+# the width); GridRulesTests sets each text in the laid-out window and fails when it is cut or its width here is stale. text: \n is a line
+# break (the width is then the widest line's). width: px on one line at Segoe UI 9, 96 dpi (TextRenderer, the Label's flags).
+window	control	text	width	why
+OpenPmsDental.FormWikiListEdit	labelSearch	Advanced Search	98	UI-12 slice 10: the search caption in advanced search (FormWikiListEdit.cs)
+OpenPmsDental.FormRxAlertEdit	labelName	If the patient already has this Problem	206	UI-12 slice 10: a problem alert (FormRxAlertEdit.cs, Load)
+OpenPmsDental.FormRxAlertEdit	labelName	If the patient already has this Allergy	198	UI-12 slice 10: an allergy alert (FormRxAlertEdit.cs, Load)
+OpenPmsDental.FormRxAlertEdit	labelName	If the patient is already taking this medication	247	UI-12 slice 10: a medication alert (FormRxAlertEdit.cs, Load)
+OpenPmsDental.FormProcTools	checkRecallTypes	Recall Types - Resets the recall types and triggers to default. Replaces any T Codes with CDA Codes.	529	UI-12 slice 10: the Canadian recall types tool (FormProcTools.cs, Load)
+OpenPmsDental.FormProcTools	checkCodeImport	CDA Codes - Add any missing CDA codes from a licensed code file that you supply. Existing codes are not changed.	616	UI-12 slice 10: the Canadian code import (FormProcTools.cs, Load)
+OpenPmsDental.FormPerioGraphicalSetup	label4	Recession	59	UI-12 slice 10: the gingival margin row shown as recession (FormPerioGraphicalSetup.cs)
+OpenPmsDental.FormRxSelect	labelInstructions	Please select a Prescription from the list.	218	UI-12 slice 10: the instructions in selection mode (FormRxSelect.cs, Load)

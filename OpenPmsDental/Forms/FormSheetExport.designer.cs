@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// butExport
 			// 
 			this.butExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butExport.Location = new System.Drawing.Point(405, 80);
+			this.butExport.Location = new System.Drawing.Point(409, 41);
 			this.butExport.Name = "butExport";
 			this.butExport.Size = new System.Drawing.Size(75, 24);
 			this.butExport.TabIndex = 2;
@@ -43,18 +43,18 @@ namespace OpenPmsDental{
 			this.gridCustomSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridCustomSheet.Location = new System.Drawing.Point(12, 41);
+			this.gridCustomSheet.Location = new System.Drawing.Point(8, 41);
 			this.gridCustomSheet.Name = "gridCustomSheet";
-			this.gridCustomSheet.Size = new System.Drawing.Size(376, 583);
+			this.gridCustomSheet.Size = new System.Drawing.Size(393, 589);
 			this.gridCustomSheet.TabIndex = 1;
 			this.gridCustomSheet.Title = "Custom Sheet";
 			this.gridCustomSheet.TranslationName = "TableSheet";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(376, 31);
+			this.label1.Size = new System.Drawing.Size(476, 31);
 			this.label1.TabIndex = 29;
 			this.label1.Text = "Select a sheet to export to an xml file, then click the Export button.";
 			// 

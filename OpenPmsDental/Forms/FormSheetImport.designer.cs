@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(8, 682);
+			this.label1.Location = new System.Drawing.Point(8, 683);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(411, 18);
 			this.label1.TabIndex = 6;
@@ -55,10 +55,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(27, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridMain.Size = new System.Drawing.Size(772, 648);
+			this.gridMain.Size = new System.Drawing.Size(806, 660);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Sheet Import";
 			this.gridMain.TranslationName = "FormSheetImport";
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// 
 			// pictureBoxSecondaryInsuranceBack
 			// 
-			this.pictureBoxSecondaryInsuranceBack.Location = new System.Drawing.Point(815, 506);
+			this.pictureBoxSecondaryInsuranceBack.Location = new System.Drawing.Point(822, 506);
 			this.pictureBoxSecondaryInsuranceBack.Name = "pictureBoxSecondaryInsuranceBack";
 			this.pictureBoxSecondaryInsuranceBack.Size = new System.Drawing.Size(216, 162);
 			this.pictureBoxSecondaryInsuranceBack.TabIndex = 8;
@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			// 
 			// pictureBoxSecondaryInsuranceFront
 			// 
-			this.pictureBoxSecondaryInsuranceFront.Location = new System.Drawing.Point(815, 340);
+			this.pictureBoxSecondaryInsuranceFront.Location = new System.Drawing.Point(822, 340);
 			this.pictureBoxSecondaryInsuranceFront.Name = "pictureBoxSecondaryInsuranceFront";
 			this.pictureBoxSecondaryInsuranceFront.Size = new System.Drawing.Size(216, 162);
 			this.pictureBoxSecondaryInsuranceFront.TabIndex = 9;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// pictureBoxPrimaryInsuranceBack
 			// 
-			this.pictureBoxPrimaryInsuranceBack.Location = new System.Drawing.Point(815, 174);
+			this.pictureBoxPrimaryInsuranceBack.Location = new System.Drawing.Point(822, 174);
 			this.pictureBoxPrimaryInsuranceBack.Name = "pictureBoxPrimaryInsuranceBack";
 			this.pictureBoxPrimaryInsuranceBack.Size = new System.Drawing.Size(216, 162);
 			this.pictureBoxPrimaryInsuranceBack.TabIndex = 10;
@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			// 
 			// pictureBoxPrimaryInsuranceFront
 			// 
-			this.pictureBoxPrimaryInsuranceFront.Location = new System.Drawing.Point(815, 8);
+			this.pictureBoxPrimaryInsuranceFront.Location = new System.Drawing.Point(822, 8);
 			this.pictureBoxPrimaryInsuranceFront.Name = "pictureBoxPrimaryInsuranceFront";
 			this.pictureBoxPrimaryInsuranceFront.Size = new System.Drawing.Size(216, 162);
 			this.pictureBoxPrimaryInsuranceFront.TabIndex = 11;

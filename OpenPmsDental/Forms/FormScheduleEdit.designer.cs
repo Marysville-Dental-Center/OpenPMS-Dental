@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			this.listBoxOps.Location = new System.Drawing.Point(348, 57);
 			this.listBoxOps.Name = "listBoxOps";
 			this.listBoxOps.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxOps.Size = new System.Drawing.Size(243, 349);
+			this.listBoxOps.Size = new System.Drawing.Size(255, 349);
 			this.listBoxOps.TabIndex = 27;
 			// 
 			// labelOps
@@ -133,7 +133,7 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "Headquarters";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(54, 179);
+			this.comboClinic.Location = new System.Drawing.Point(62, 179);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(235, 23);
 			this.comboClinic.TabIndex = 94;

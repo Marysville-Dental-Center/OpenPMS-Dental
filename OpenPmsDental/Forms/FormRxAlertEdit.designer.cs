@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.textMessage.Location = new System.Drawing.Point(322, 123);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
-			this.textMessage.Size = new System.Drawing.Size(308, 91);
+			this.textMessage.Size = new System.Drawing.Size(359, 91);
 			this.textMessage.TabIndex = 8;
 			// 
 			// labelMessage
@@ -90,7 +90,7 @@ namespace OpenPmsDental{
 			this.textName.Location = new System.Drawing.Point(322, 8);
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(308, 20);
+			this.textName.Size = new System.Drawing.Size(359, 23);
 			this.textName.TabIndex = 10;
 			// 
 			// textRxName
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			this.textRxName.Location = new System.Drawing.Point(314, 23);
 			this.textRxName.Name = "textRxName";
 			this.textRxName.ReadOnly = true;
-			this.textRxName.Size = new System.Drawing.Size(308, 20);
+			this.textRxName.Size = new System.Drawing.Size(359, 23);
 			this.textRxName.TabIndex = 12;
 			// 
 			// labelRx
@@ -125,7 +125,7 @@ namespace OpenPmsDental{
 			this.groupBox.Controls.Add(this.labelRx);
 			this.groupBox.Location = new System.Drawing.Point(8, 39);
 			this.groupBox.Name = "groupBox";
-			this.groupBox.Size = new System.Drawing.Size(636, 54);
+			this.groupBox.Size = new System.Drawing.Size(681, 54);
 			this.groupBox.TabIndex = 16;
 			this.groupBox.TabStop = false;
 			this.groupBox.Text = "And then,";

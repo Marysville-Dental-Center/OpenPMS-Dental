@@ -83,9 +83,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.comboClassTo);
 			this.groupBox1.Controls.Add(this.comboCourseTo);
 			this.groupBox1.Controls.Add(this.label4);
-			this.groupBox1.Location = new System.Drawing.Point(465, 127);
+			this.groupBox1.Location = new System.Drawing.Point(466, 127);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(319, 108);
+			this.groupBox1.Size = new System.Drawing.Size(319, 111);
 			this.groupBox1.TabIndex = 19;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Copy Requirements To";
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCopy.Location = new System.Drawing.Point(230, 77);
 			this.butCopy.Name = "butCopy";
-			this.butCopy.Size = new System.Drawing.Size(81, 23);
+			this.butCopy.Size = new System.Drawing.Size(81, 26);
 			this.butCopy.TabIndex = 24;
 			this.butCopy.Text = "Copy";
 			this.butCopy.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@ namespace OpenPmsDental {
 			this.groupBox3.Controls.Add(this.comboCourseFrom);
 			this.groupBox3.Controls.Add(this.butAdd);
 			this.groupBox3.Controls.Add(this.label2);
-			this.groupBox3.Location = new System.Drawing.Point(465, 8);
+			this.groupBox3.Location = new System.Drawing.Point(466, 8);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(319, 111);
 			this.groupBox3.TabIndex = 21;
@@ -164,9 +164,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(433, 556);
+			this.gridMain.Size = new System.Drawing.Size(450, 563);
 			this.gridMain.TabIndex = 13;
 			this.gridMain.Title = "Requirements Needed";
 			this.gridMain.TranslationName = "TableRequirementsNeeded";

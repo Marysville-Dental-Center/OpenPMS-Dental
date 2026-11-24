@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using CodeBase;
 using OpenPmsDental.UI;
 using OpenPmsDentalBusiness;
 
@@ -37,9 +38,13 @@ namespace OpenPmsDental {
 
 		private void ResizeControls() {
 			//assuming gridMain, textNumbers do not change width or location.
-			int xDivider=(ClientSize.Width-gridMain.Width)/2;
+			//UI-12: the text box starts UiGrid.ITEM_GAP after the grid's right edge (it was the grid's width + 6, as if the grid stood at 0, so the
+			//box covered the grid's right 6 px) and the two boxes end UiGrid.PAD before the window's right edge.
+			int xLeft=gridMain.Right+LayoutManager.Scale(UiGrid.ITEM_GAP);
+			int widthBoth=ClientSize.Width-LayoutManager.Scale(UiGrid.PAD)-xLeft;
+			int xDivider=widthBoth/2;
 			//textContent
-			LayoutManager.MoveLocation(textContent,new Point(gridMain.Width+6,textContent.Location.Y));
+			LayoutManager.MoveLocation(textContent,new Point(xLeft,textContent.Location.Y));
 			LayoutManager.MoveSize(textContent,new Size(xDivider,gridMain.Height));
 			if(textContent.Width<=60) {
 				LayoutManager.MoveSize(textContent,new Size(61,gridMain.Height));
@@ -49,7 +54,7 @@ namespace OpenPmsDental {
 			}
 			//webViewWiki
 			LayoutManager.MoveLocation(webViewWiki,new Point(textContent.Location.X+xDivider,webViewWiki.Location.Y));
-			LayoutManager.MoveSize(webViewWiki,new Size(xDivider-15,gridMain.Height));
+			LayoutManager.MoveSize(webViewWiki,new Size(widthBoth-xDivider,gridMain.Height));
 		}
 
 		private void LoadWikiPage(WikiPageHist wikiPageHist) {

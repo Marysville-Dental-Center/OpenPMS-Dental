@@ -42,10 +42,10 @@ namespace OpenPmsDental {
 			this.gridUserProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridUserProperties.Location = new System.Drawing.Point(12, 8);
+			this.gridUserProperties.Location = new System.Drawing.Point(8, 8);
 			this.gridUserProperties.Name = "gridUserProperties";
 			this.gridUserProperties.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridUserProperties.Size = new System.Drawing.Size(249, 397);
+			this.gridUserProperties.Size = new System.Drawing.Size(257, 406);
 			this.gridUserProperties.TabIndex = 4;
 			this.gridUserProperties.Title = "Additional User Properties";
 			this.gridUserProperties.TranslationName = "TableUserPrefProperties";

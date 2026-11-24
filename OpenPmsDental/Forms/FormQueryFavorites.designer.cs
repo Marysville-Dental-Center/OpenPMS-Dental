@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(1046, 652);
+			this.butOK.Location = new System.Drawing.Point(1001, 624);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(368, 584);
+			this.butAdd.Location = new System.Drawing.Point(364, 576);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 24);
 			this.butAdd.TabIndex = 34;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 584);
+			this.butDelete.Location = new System.Drawing.Point(8, 576);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 24);
 			this.butDelete.TabIndex = 35;
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEdit.Location = new System.Drawing.Point(280, 584);
+			this.butEdit.Location = new System.Drawing.Point(276, 576);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(82, 24);
 			this.butEdit.TabIndex = 36;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(8, 64);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(443, 516);
+			this.gridMain.Size = new System.Drawing.Size(438, 500);
 			this.gridMain.TabIndex = 38;
 			this.gridMain.TitleVisible = false;
 			this.gridMain.TranslationName = "TableQueryFavorites";
@@ -106,9 +106,9 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label5.Location = new System.Drawing.Point(8, 12);
+			this.label5.Location = new System.Drawing.Point(8, 8);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(173, 16);
+			this.label5.Size = new System.Drawing.Size(173, 25);
 			this.label5.TabIndex = 163;
 			this.label5.Text = "Search:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -117,13 +117,13 @@ namespace OpenPmsDental {
 			// 
 			this.textSearch.Location = new System.Drawing.Point(8, 37);
 			this.textSearch.Name = "textSearch";
-			this.textSearch.Size = new System.Drawing.Size(443, 20);
+			this.textSearch.Size = new System.Drawing.Size(438, 23);
 			this.textSearch.TabIndex = 162;
 			this.textSearch.TextChanged += new System.EventHandler(this.textSearch_TextChanged);
 			// 
 			// butShowHide
 			// 
-			this.butShowHide.Location = new System.Drawing.Point(368, 8);
+			this.butShowHide.Location = new System.Drawing.Point(364, 8);
 			this.butShowHide.Name = "butShowHide";
 			this.butShowHide.Size = new System.Drawing.Size(82, 25);
 			this.butShowHide.TabIndex = 40;
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			this.textQuery.Name = "textQuery";
 			this.textQuery.ReadOnly = true;
 			this.textQuery.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textQuery.Size = new System.Drawing.Size(616, 568);
+			this.textQuery.Size = new System.Drawing.Size(597, 568);
 			this.textQuery.TabIndex = 0;
 			this.textQuery.WordWrap = false;
 			// 
@@ -172,7 +172,7 @@ namespace OpenPmsDental {
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(1113, 632);
+			this.splitContainer.Size = new System.Drawing.Size(1068, 608);
 			this.splitContainer.SplitterDistance = 454;
 			this.splitContainer.SplitterWidth = 1;
 			this.splitContainer.TabIndex = 40;
@@ -186,24 +186,24 @@ namespace OpenPmsDental {
 			this.splitterPanel1.Controls.Add(this.butAdd);
 			this.splitterPanel1.Controls.Add(this.butDelete);
 			this.splitterPanel1.Controls.Add(this.gridMain);
-			this.splitterPanel1.Location = new System.Drawing.Point(8, 8);
+			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
 			this.splitterPanel1.Name = "splitterPanel1";
-			this.splitterPanel1.Size = new System.Drawing.Size(459, 616);
+			this.splitterPanel1.Size = new System.Drawing.Size(454, 608);
 			this.splitterPanel1.TabIndex = 13;
 			// 
 			// splitterPanel2
 			// 
 			this.splitterPanel2.Controls.Add(this.checkWrapText);
 			this.splitterPanel2.Controls.Add(this.textQuery);
-			this.splitterPanel2.Location = new System.Drawing.Point(473, 8);
+			this.splitterPanel2.Location = new System.Drawing.Point(455, 0);
 			this.splitterPanel2.Name = "splitterPanel2";
-			this.splitterPanel2.Size = new System.Drawing.Size(632, 616);
+			this.splitterPanel2.Size = new System.Drawing.Size(613, 608);
 			this.splitterPanel2.TabIndex = 14;
 			// 
 			// FormQueryFavorites
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(1129, 684);
+			this.ClientSize = new System.Drawing.Size(1084, 656);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.butOK);
 			this.MaximizeBox = false;

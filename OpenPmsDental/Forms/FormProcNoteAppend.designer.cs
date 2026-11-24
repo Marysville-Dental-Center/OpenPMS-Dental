@@ -94,7 +94,7 @@ namespace OpenPmsDental{
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textNotes.ReadOnly = true;
 			this.textNotes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textNotes.Size = new System.Drawing.Size(450, 164);
+			this.textNotes.Size = new System.Drawing.Size(454, 164);
 			this.textNotes.TabIndex = 110;
 			this.textNotes.Text = "";
 			// 
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			this.textAppended.Name = "textAppended";
 			this.textAppended.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textAppended.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textAppended.Size = new System.Drawing.Size(450, 108);
+			this.textAppended.Size = new System.Drawing.Size(454, 108);
 			this.textAppended.TabIndex = 115;
 			this.textAppended.Text = "";
 			// 

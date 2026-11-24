@@ -41,19 +41,19 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 42);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(852, 642);
+			this.gridMain.Size = new System.Drawing.Size(851, 646);
 			this.gridMain.TabIndex = 143;
 			this.gridMain.Title = "Non-CPOE Radiology Orders";
 			this.gridMain.TranslationName = "TableRadiologyOrders";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(962, 32);
+			this.label1.Size = new System.Drawing.Size(958, 32);
 			this.label1.TabIndex = 145;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.butSelected);
 			this.groupBox1.Controls.Add(this.butAll);
-			this.groupBox1.Location = new System.Drawing.Point(870, 42);
+			this.groupBox1.Location = new System.Drawing.Point(867, 42);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(99, 83);
 			this.groupBox1.TabIndex = 147;
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// FormRadOrderList
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(982, 696);
+			this.ClientSize = new System.Drawing.Size(974, 696);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.gridMain);

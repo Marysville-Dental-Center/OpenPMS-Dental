@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeAll = true;
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(240, 8);
+			this.comboClinic.Location = new System.Drawing.Point(245, 8);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(307, 23);
 			this.comboClinic.TabIndex = 1;
@@ -62,9 +62,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(536, 452);
+			this.gridMain.Size = new System.Drawing.Size(544, 463);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Fees";
 			this.gridMain.TranslationName = "TableFees";

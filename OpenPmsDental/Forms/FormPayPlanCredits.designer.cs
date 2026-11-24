@@ -53,10 +53,10 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 36);
+			this.gridMain.Location = new System.Drawing.Point(8, 36);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(749, 432);
+			this.gridMain.Size = new System.Drawing.Size(744, 430);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Available Procedures                                                 Payment Plan" +
     " Credits              ";
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(860, 486);
+			this.butSave.Location = new System.Drawing.Point(854, 478);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			this.groupCreditInfo.Controls.Add(this.label2);
 			this.groupCreditInfo.Controls.Add(this.textAmt);
 			this.groupCreditInfo.Controls.Add(this.label1);
-			this.groupCreditInfo.Location = new System.Drawing.Point(766, 28);
+			this.groupCreditInfo.Location = new System.Drawing.Point(760, 28);
 			this.groupCreditInfo.Name = "groupCreditInfo";
 			this.groupCreditInfo.Size = new System.Drawing.Size(169, 244);
 			this.groupCreditInfo.TabIndex = 1;
@@ -206,7 +206,7 @@ namespace OpenPmsDental {
 			// 
 			this.butClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClear.Location = new System.Drawing.Point(810, 280);
+			this.butClear.Location = new System.Drawing.Point(804, 280);
 			this.butClear.Name = "butClear";
 			this.butClear.Size = new System.Drawing.Size(73, 23);
 			this.butClear.TabIndex = 4;
@@ -217,9 +217,9 @@ namespace OpenPmsDental {
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label7.Location = new System.Drawing.Point(409, 480);
+			this.label7.Location = new System.Drawing.Point(518, 478);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(237, 20);
+			this.label7.Size = new System.Drawing.Size(132, 23);
 			this.label7.TabIndex = 29;
 			this.label7.Text = "Total Credits Attached:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			// textTotal
 			// 
 			this.textTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.textTotal.Location = new System.Drawing.Point(646, 481);
+			this.textTotal.Location = new System.Drawing.Point(656, 478);
 			this.textTotal.MaxVal = 100000000D;
 			this.textTotal.MinVal = -100000000D;
 			this.textTotal.Name = "textTotal";
@@ -237,7 +237,7 @@ namespace OpenPmsDental {
 			// 
 			// checkHideUnattached
 			// 
-			this.checkHideUnattached.Location = new System.Drawing.Point(93, 10);
+			this.checkHideUnattached.Location = new System.Drawing.Point(89, 10);
 			this.checkHideUnattached.Name = "checkHideUnattached";
 			this.checkHideUnattached.Size = new System.Drawing.Size(179, 20);
 			this.checkHideUnattached.TabIndex = 30;
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			// 
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(12, 8);
+			this.butPrint.Location = new System.Drawing.Point(8, 8);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 24);
 			this.butPrint.TabIndex = 31;
@@ -258,7 +258,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(766, 307);
+			this.label3.Location = new System.Drawing.Point(760, 307);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(166, 32);
 			this.label3.TabIndex = 32;
@@ -267,7 +267,7 @@ namespace OpenPmsDental {
 			// 
 			// checkShowImplicit
 			// 
-			this.checkShowImplicit.Location = new System.Drawing.Point(278, 10);
+			this.checkShowImplicit.Location = new System.Drawing.Point(274, 10);
 			this.checkShowImplicit.Name = "checkShowImplicit";
 			this.checkShowImplicit.Size = new System.Drawing.Size(320, 20);
 			this.checkShowImplicit.TabIndex = 33;
@@ -277,7 +277,7 @@ namespace OpenPmsDental {
 			// FormPayPlanCredits
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(943, 518);
+			this.ClientSize = new System.Drawing.Size(937, 510);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkShowImplicit);
 			this.Controls.Add(this.label3);

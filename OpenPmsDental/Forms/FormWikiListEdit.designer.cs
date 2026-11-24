@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox3.Controls.Add(this.butHistory);
 			this.groupBox3.Controls.Add(this.butRenameList);
-			this.groupBox3.Location = new System.Drawing.Point(867, 36);
+			this.groupBox3.Location = new System.Drawing.Point(857, 36);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(87, 83);
 			this.groupBox3.TabIndex = 6;
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox2.Controls.Add(this.butAddItem);
-			this.groupBox2.Location = new System.Drawing.Point(867, 274);
+			this.groupBox2.Location = new System.Drawing.Point(857, 274);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(87, 55);
 			this.groupBox2.TabIndex = 8;
@@ -103,16 +103,16 @@ namespace OpenPmsDental{
 			// 
 			// labelSearch
 			// 
-			this.labelSearch.Location = new System.Drawing.Point(130, 8);
+			this.labelSearch.Location = new System.Drawing.Point(8, 8);
 			this.labelSearch.Name = "labelSearch";
-			this.labelSearch.Size = new System.Drawing.Size(48, 23);
+			this.labelSearch.Size = new System.Drawing.Size(104, 23);
 			this.labelSearch.TabIndex = 38;
 			this.labelSearch.Text = "Search";
 			this.labelSearch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textSearch
 			// 
-			this.textSearch.Location = new System.Drawing.Point(184, 8);
+			this.textSearch.Location = new System.Drawing.Point(118, 8);
 			this.textSearch.Name = "textSearch";
 			this.textSearch.Size = new System.Drawing.Size(216, 23);
 			this.textSearch.TabIndex = 0;
@@ -137,7 +137,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butColumnInsert);
 			this.groupBox1.Controls.Add(this.butColumnRight);
 			this.groupBox1.Controls.Add(this.butColumnLeft);
-			this.groupBox1.Location = new System.Drawing.Point(867, 127);
+			this.groupBox1.Location = new System.Drawing.Point(857, 127);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(87, 139);
 			this.groupBox1.TabIndex = 7;
@@ -191,7 +191,7 @@ namespace OpenPmsDental{
 			// 
 			// checkBoxIncludeHiddenColumns
 			// 
-			this.checkBoxIncludeHiddenColumns.Location = new System.Drawing.Point(706, 9);
+			this.checkBoxIncludeHiddenColumns.Location = new System.Drawing.Point(640, 9);
 			this.checkBoxIncludeHiddenColumns.Name = "checkBoxIncludeHiddenColumns";
 			this.checkBoxIncludeHiddenColumns.Size = new System.Drawing.Size(157, 20);
 			this.checkBoxIncludeHiddenColumns.TabIndex = 35;
@@ -208,16 +208,16 @@ namespace OpenPmsDental{
 			this.gridMain.HasAutoWrappedHeaders = true;
 			this.gridMain.HasMultilineHeaders = true;
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(843, 540);
+			this.gridMain.Size = new System.Drawing.Size(841, 549);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 
 			// butAdvSearch
 			// 
-			this.butAdvSearch.Location = new System.Drawing.Point(406, 8);
+			this.butAdvSearch.Location = new System.Drawing.Point(340, 8);
 			this.butAdvSearch.Name = "butAdvSearch";
 			this.butAdvSearch.Size = new System.Drawing.Size(75, 23);
 			this.butAdvSearch.TabIndex = 1;
@@ -227,7 +227,7 @@ namespace OpenPmsDental{
 			// 
 			// butClearAdvSearch
 			// 
-			this.butClearAdvSearch.Location = new System.Drawing.Point(487, 8);
+			this.butClearAdvSearch.Location = new System.Drawing.Point(421, 8);
 			this.butClearAdvSearch.Name = "butClearAdvSearch";
 			this.butClearAdvSearch.Size = new System.Drawing.Size(75, 23);
 			this.butClearAdvSearch.TabIndex = 2;
@@ -238,7 +238,7 @@ namespace OpenPmsDental{
 			// radioButHighlight
 			// 
 			this.radioButHighlight.Checked = true;
-			this.radioButHighlight.Location = new System.Drawing.Point(568, 9);
+			this.radioButHighlight.Location = new System.Drawing.Point(502, 9);
 			this.radioButHighlight.Name = "radioButHighlight";
 			this.radioButHighlight.Size = new System.Drawing.Size(75, 20);
 			this.radioButHighlight.TabIndex = 3;
@@ -249,7 +249,7 @@ namespace OpenPmsDental{
 			// 
 			// radioButFilter
 			// 
-			this.radioButFilter.Location = new System.Drawing.Point(649, 9);
+			this.radioButFilter.Location = new System.Drawing.Point(583, 9);
 			this.radioButFilter.Name = "radioButFilter";
 			this.radioButFilter.Size = new System.Drawing.Size(51, 20);
 			this.radioButFilter.TabIndex = 4;
@@ -259,7 +259,7 @@ namespace OpenPmsDental{
 			// 
 			// FormWikiListEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(962, 628);
+			this.ClientSize = new System.Drawing.Size(952, 628);
 			this.Controls.Add(this.radioButFilter);
 			this.Controls.Add(this.checkBoxIncludeHiddenColumns);
 			this.Controls.Add(this.radioButHighlight);

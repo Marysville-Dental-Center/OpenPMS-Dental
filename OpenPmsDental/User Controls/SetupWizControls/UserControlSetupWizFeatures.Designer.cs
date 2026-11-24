@@ -52,9 +52,9 @@
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.labelExplanation);
-			this.groupBox1.Location = new System.Drawing.Point(337, 87);
+			this.groupBox1.Location = new System.Drawing.Point(259, 37);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(542, 229);
+			this.groupBox1.Size = new System.Drawing.Size(663, 229);
 			this.groupBox1.TabIndex = 109;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Feature Information";
@@ -64,9 +64,9 @@
 			this.labelExplanation.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.labelExplanation.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelExplanation.ImageKey = "(none)";
-			this.labelExplanation.Location = new System.Drawing.Point(3, 16);
+			this.labelExplanation.Location = new System.Drawing.Point(8, 23);
 			this.labelExplanation.Name = "labelExplanation";
-			this.labelExplanation.Size = new System.Drawing.Size(536, 210);
+			this.labelExplanation.Size = new System.Drawing.Size(647, 198);
 			this.labelExplanation.TabIndex = 106;
 			this.labelExplanation.Text = "Click on an info icon to view information about the item clicked.";
 			this.labelExplanation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -80,15 +80,15 @@
 			this.panelInfo.Controls.Add(this.labelInfoInsurance);
 			this.panelInfo.Controls.Add(this.labelInfoCapitation);
 			this.panelInfo.Controls.Add(this.labelInfoMedicaid);
-			this.panelInfo.Location = new System.Drawing.Point(293, 39);
+			this.panelInfo.Location = new System.Drawing.Point(215, 37);
 			this.panelInfo.Name = "panelInfo";
-			this.panelInfo.Size = new System.Drawing.Size(36, 358);
+			this.panelInfo.Size = new System.Drawing.Size(36, 180);
 			this.panelInfo.TabIndex = 108;
 			// 
 			// labelInfoMedIns
 			// 
 			this.labelInfoMedIns.ImageIndex = 0;
-			this.labelInfoMedIns.Location = new System.Drawing.Point(8, 118);
+			this.labelInfoMedIns.Location = new System.Drawing.Point(8, 128);
 			this.labelInfoMedIns.Name = "labelInfoMedIns";
 			this.labelInfoMedIns.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoMedIns.TabIndex = 100;
@@ -99,7 +99,7 @@
 			// labelInfoEHR
 			// 
 			this.labelInfoEHR.ImageIndex = 0;
-			this.labelInfoEHR.Location = new System.Drawing.Point(8, 140);
+			this.labelInfoEHR.Location = new System.Drawing.Point(8, 152);
 			this.labelInfoEHR.Name = "labelInfoEHR";
 			this.labelInfoEHR.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoEHR.TabIndex = 101;
@@ -110,7 +110,7 @@
 			// labelInfoClinical
 			// 
 			this.labelInfoClinical.ImageIndex = 0;
-			this.labelInfoClinical.Location = new System.Drawing.Point(8, 74);
+			this.labelInfoClinical.Location = new System.Drawing.Point(8, 80);
 			this.labelInfoClinical.Name = "labelInfoClinical";
 			this.labelInfoClinical.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoClinical.TabIndex = 96;
@@ -121,7 +121,7 @@
 			// labelInfoClinics
 			// 
 			this.labelInfoClinics.ImageIndex = 0;
-			this.labelInfoClinics.Location = new System.Drawing.Point(8, 96);
+			this.labelInfoClinics.Location = new System.Drawing.Point(8, 104);
 			this.labelInfoClinics.Name = "labelInfoClinics";
 			this.labelInfoClinics.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoClinics.TabIndex = 98;
@@ -134,7 +134,7 @@
 			// labelInfoInsurance
 			// 
 			this.labelInfoInsurance.ImageIndex = 0;
-			this.labelInfoInsurance.Location = new System.Drawing.Point(8, 52);
+			this.labelInfoInsurance.Location = new System.Drawing.Point(8, 56);
 			this.labelInfoInsurance.Name = "labelInfoInsurance";
 			this.labelInfoInsurance.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoInsurance.TabIndex = 95;
@@ -157,7 +157,7 @@
 			// labelInfoMedicaid
 			// 
 			this.labelInfoMedicaid.ImageIndex = 0;
-			this.labelInfoMedicaid.Location = new System.Drawing.Point(8, 30);
+			this.labelInfoMedicaid.Location = new System.Drawing.Point(8, 32);
 			this.labelInfoMedicaid.Name = "labelInfoMedicaid";
 			this.labelInfoMedicaid.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoMedicaid.TabIndex = 91;
@@ -167,7 +167,7 @@
 			// 
 			// labelFieldType
 			// 
-			this.labelFieldType.Location = new System.Drawing.Point(28, 8);
+			this.labelFieldType.Location = new System.Drawing.Point(8, 8);
 			this.labelFieldType.Name = "labelFieldType";
 			this.labelFieldType.Size = new System.Drawing.Size(469, 29);
 			this.labelFieldType.TabIndex = 89;
@@ -178,7 +178,7 @@
 			// checkEhr
 			// 
 			this.checkEhr.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkEhr.Location = new System.Drawing.Point(8, 183);
+			this.checkEhr.Location = new System.Drawing.Point(8, 189);
 			this.checkEhr.Name = "checkEhr";
 			this.checkEhr.Size = new System.Drawing.Size(45, 20);
 			this.checkEhr.TabIndex = 32;
@@ -188,7 +188,7 @@
 			// checkMedicalIns
 			// 
 			this.checkMedicalIns.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkMedicalIns.Location = new System.Drawing.Point(8, 159);
+			this.checkMedicalIns.Location = new System.Drawing.Point(8, 165);
 			this.checkMedicalIns.Name = "checkMedicalIns";
 			this.checkMedicalIns.Size = new System.Drawing.Size(121, 20);
 			this.checkMedicalIns.TabIndex = 31;
@@ -197,7 +197,7 @@
 			// checkInsurance
 			// 
 			this.checkInsurance.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkInsurance.Location = new System.Drawing.Point(8, 87);
+			this.checkInsurance.Location = new System.Drawing.Point(8, 93);
 			this.checkInsurance.Name = "checkInsurance";
 			this.checkInsurance.Size = new System.Drawing.Size(92, 20);
 			this.checkInsurance.TabIndex = 29;
@@ -206,7 +206,7 @@
 			// checkNoClinics
 			// 
 			this.checkNoClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkNoClinics.Location = new System.Drawing.Point(8, 135);
+			this.checkNoClinics.Location = new System.Drawing.Point(8, 141);
 			this.checkNoClinics.Name = "checkNoClinics";
 			this.checkNoClinics.Size = new System.Drawing.Size(198, 20);
 			this.checkNoClinics.TabIndex = 26;
@@ -215,7 +215,7 @@
 			// checkClinical
 			// 
 			this.checkClinical.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkClinical.Location = new System.Drawing.Point(8, 111);
+			this.checkClinical.Location = new System.Drawing.Point(8, 117);
 			this.checkClinical.Name = "checkClinical";
 			this.checkClinical.Size = new System.Drawing.Size(209, 20);
 			this.checkClinical.TabIndex = 23;
@@ -224,7 +224,7 @@
 			// checkMedicaid
 			// 
 			this.checkMedicaid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkMedicaid.Location = new System.Drawing.Point(8, 63);
+			this.checkMedicaid.Location = new System.Drawing.Point(8, 69);
 			this.checkMedicaid.Name = "checkMedicaid";
 			this.checkMedicaid.Size = new System.Drawing.Size(73, 20);
 			this.checkMedicaid.TabIndex = 21;
@@ -233,7 +233,7 @@
 			// checkCapitation
 			// 
 			this.checkCapitation.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkCapitation.Location = new System.Drawing.Point(8, 39);
+			this.checkCapitation.Location = new System.Drawing.Point(8, 45);
 			this.checkCapitation.Name = "checkCapitation";
 			this.checkCapitation.Size = new System.Drawing.Size(79, 20);
 			this.checkCapitation.TabIndex = 20;
@@ -243,7 +243,7 @@
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(845, 401);
+			this.butAdvanced.Location = new System.Drawing.Point(840, 325);
 			this.butAdvanced.Name = "butAdvanced";
 			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
 			this.butAdvanced.TabIndex = 111;
@@ -253,7 +253,7 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(631, 324);
+			this.label1.Location = new System.Drawing.Point(626, 274);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(296, 47);
 			this.label1.TabIndex = 110;

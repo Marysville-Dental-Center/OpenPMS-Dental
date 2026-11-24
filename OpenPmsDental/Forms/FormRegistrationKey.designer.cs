@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			//
 			// labelLicenseAgree
 			// 
-			this.labelLicenseAgree.Location = new System.Drawing.Point(12, 8);
+			this.labelLicenseAgree.Location = new System.Drawing.Point(8, 8);
 			this.labelLicenseAgree.Name = "labelLicenseAgree";
 			this.labelLicenseAgree.Size = new System.Drawing.Size(150, 17);
 			this.labelLicenseAgree.TabIndex = 6;
@@ -54,9 +54,9 @@ namespace OpenPmsDental {
 			this.richTextAgreement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.richTextAgreement.Location = new System.Drawing.Point(168, 28);
+			this.richTextAgreement.Location = new System.Drawing.Point(166, 27);
 			this.richTextAgreement.Name = "richTextAgreement";
-			this.richTextAgreement.Size = new System.Drawing.Size(583, 359);
+			this.richTextAgreement.Size = new System.Drawing.Size(589, 369);
 			this.richTextAgreement.TabIndex = 8;
 			this.richTextAgreement.Text = "";
 			// 
@@ -75,9 +75,9 @@ namespace OpenPmsDental {
 			this.listBoxRegistration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxRegistration.Location = new System.Drawing.Point(12, 27);
+			this.listBoxRegistration.Location = new System.Drawing.Point(8, 27);
 			this.listBoxRegistration.Name = "listBoxRegistration";
-			this.listBoxRegistration.Size = new System.Drawing.Size(150, 358);
+			this.listBoxRegistration.Size = new System.Drawing.Size(150, 369);
 			this.listBoxRegistration.TabIndex = 9;
 			this.listBoxRegistration.SelectedIndexChanged += new System.EventHandler(this.listRegistration_SelectedIndexChanged);
 			// 

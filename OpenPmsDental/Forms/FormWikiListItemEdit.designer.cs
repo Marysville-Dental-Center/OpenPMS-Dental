@@ -70,10 +70,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.EditableAcceptsCR = true;
 			this.gridMain.HScrollVisible = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(620, 623);
+			this.gridMain.Size = new System.Drawing.Size(628, 625);
 			this.gridMain.TabIndex = 26;
 			this.gridMain.CellLeave += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellLeave);
 			this.gridMain.CellEnter += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellEnter);

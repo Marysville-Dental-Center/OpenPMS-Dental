@@ -44,9 +44,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(304, 443);
+			this.gridMain.Size = new System.Drawing.Size(320, 461);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "States";
 			this.gridMain.TranslationName = "FormStateAbbrs";

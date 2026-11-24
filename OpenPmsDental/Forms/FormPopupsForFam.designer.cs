@@ -33,9 +33,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(24, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(630, 325);
+			this.gridMain.Size = new System.Drawing.Size(663, 339);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Popups";
 			this.gridMain.TranslationName = "TablePopups";
@@ -57,9 +57,9 @@ namespace OpenPmsDental{
 			// 
 			this.checkDeleted.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkDeleted.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkDeleted.Location = new System.Drawing.Point(381, 363);
+			this.checkDeleted.Location = new System.Drawing.Point(571, 361);
 			this.checkDeleted.Name = "checkDeleted";
-			this.checkDeleted.Size = new System.Drawing.Size(192, 20);
+			this.checkDeleted.Size = new System.Drawing.Size(100, 20);
 			this.checkDeleted.TabIndex = 21;
 			this.checkDeleted.Text = "Show Deleted";
 			this.checkDeleted.CheckedChanged += new System.EventHandler(this.checkDeleted_CheckedChanged);

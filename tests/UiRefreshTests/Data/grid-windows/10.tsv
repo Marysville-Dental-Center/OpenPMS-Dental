@@ -80,11 +80,9 @@ OpenPmsDental.FormXConnectValidation	10	tool	UI-12-10 batch 2
 OpenPmsDental.FormXWeb	10	tool	UI-12-10 batch 2
 OpenPmsDental.FormXchargeTokenTool	10	tool	UI-12-10 batch 2
 OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	10	tool	UI-12-10 batch 2
-OpenPmsDental.DashApptGrid	10	tool	UI-12-10 batch 2
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizDefinitions	10	tool	UI-12-10 batch 2
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizEmployee	10	tool	UI-12-10 batch 2
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	10	tool	UI-12-10 batch 2
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeeSched	10	tool	UI-12-10 batch 2
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizProvider	10	tool	UI-12-10 batch 2
-CodeBase.PrintPanel	10	tool	UI-12-10 batch 2
 OpenPmsDental.FormPrintTrojan	10	tool	UI-12-10 batch 2

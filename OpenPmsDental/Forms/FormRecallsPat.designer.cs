@@ -32,7 +32,7 @@ namespace OpenPmsDental{
 			// 
 			this.butPerio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPerio.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPerio.Location = new System.Drawing.Point(263, 407);
+			this.butPerio.Location = new System.Drawing.Point(89, 407);
 			this.butPerio.Name = "butPerio";
 			this.butPerio.Size = new System.Drawing.Size(83, 24);
 			this.butPerio.TabIndex = 35;
@@ -56,10 +56,10 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridMain.Size = new System.Drawing.Size(811, 370);
+			this.gridMain.Size = new System.Drawing.Size(832, 387);
 			this.gridMain.TabIndex = 33;
 			this.gridMain.Title = "Recalls";
 			this.gridMain.TranslationName = "TableRecallsPat";

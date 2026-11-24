@@ -41,9 +41,9 @@ namespace OpenPmsDental {
 			//
 			this.labelIntro.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelIntro.Location = new System.Drawing.Point(12, 8);
+			this.labelIntro.Location = new System.Drawing.Point(8, 8);
 			this.labelIntro.Name = "labelIntro";
-			this.labelIntro.Size = new System.Drawing.Size(1088, 32);
+			this.labelIntro.Size = new System.Drawing.Size(1084, 32);
 			this.labelIntro.TabIndex = 0;
 			this.labelIntro.Text = "The first successful connection to an SSH server stores its host key. A server that later presents another key is refused before the user name and password are sent, and the key it presented shows under Changed Key Refused.";
 			//
@@ -52,9 +52,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 42);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1076, 340);
+			this.gridMain.Size = new System.Drawing.Size(1084, 385);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "SSH Host Keys";
 			this.gridMain.TranslationName = "TableSshHostKeys";
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// labelServer
 			//
 			this.labelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelServer.Location = new System.Drawing.Point(95, 386);
+			this.labelServer.Location = new System.Drawing.Point(95, 435);
 			this.labelServer.Name = "labelServer";
 			this.labelServer.Size = new System.Drawing.Size(44, 23);
 			this.labelServer.TabIndex = 2;
@@ -73,16 +73,16 @@ namespace OpenPmsDental {
 			// textServer
 			//
 			this.textServer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textServer.Location = new System.Drawing.Point(145, 386);
+			this.textServer.Location = new System.Drawing.Point(145, 435);
 			this.textServer.Name = "textServer";
 			this.textServer.ReadOnly = true;
-			this.textServer.Size = new System.Drawing.Size(300, 20);
+			this.textServer.Size = new System.Drawing.Size(300, 23);
 			this.textServer.TabIndex = 3;
 			//
 			// labelStoredKey
 			//
 			this.labelStoredKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelStoredKey.Location = new System.Drawing.Point(43, 413);
+			this.labelStoredKey.Location = new System.Drawing.Point(43, 462);
 			this.labelStoredKey.Name = "labelStoredKey";
 			this.labelStoredKey.Size = new System.Drawing.Size(96, 23);
 			this.labelStoredKey.TabIndex = 4;
@@ -93,16 +93,16 @@ namespace OpenPmsDental {
 			//
 			this.textStoredKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textStoredKey.Location = new System.Drawing.Point(145, 413);
+			this.textStoredKey.Location = new System.Drawing.Point(145, 462);
 			this.textStoredKey.Name = "textStoredKey";
 			this.textStoredKey.ReadOnly = true;
-			this.textStoredKey.Size = new System.Drawing.Size(688, 23);
+			this.textStoredKey.Size = new System.Drawing.Size(705, 23);
 			this.textStoredKey.TabIndex = 5;
 			//
 			// labelRefusedKey
 			//
 			this.labelRefusedKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelRefusedKey.Location = new System.Drawing.Point(31, 440);
+			this.labelRefusedKey.Location = new System.Drawing.Point(31, 489);
 			this.labelRefusedKey.Name = "labelRefusedKey";
 			this.labelRefusedKey.Size = new System.Drawing.Size(108, 23);
 			this.labelRefusedKey.TabIndex = 6;
@@ -113,16 +113,16 @@ namespace OpenPmsDental {
 			//
 			this.textRefusedKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textRefusedKey.Location = new System.Drawing.Point(145, 440);
+			this.textRefusedKey.Location = new System.Drawing.Point(145, 489);
 			this.textRefusedKey.Name = "textRefusedKey";
 			this.textRefusedKey.ReadOnly = true;
-			this.textRefusedKey.Size = new System.Drawing.Size(688, 23);
+			this.textRefusedKey.Size = new System.Drawing.Size(705, 23);
 			this.textRefusedKey.TabIndex = 7;
 			//
 			// butAccept
 			//
 			this.butAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butAccept.Location = new System.Drawing.Point(839, 440);
+			this.butAccept.Location = new System.Drawing.Point(856, 489);
 			this.butAccept.Name = "butAccept";
 			this.butAccept.Size = new System.Drawing.Size(130, 23);
 			this.butAccept.TabIndex = 8;
@@ -132,7 +132,7 @@ namespace OpenPmsDental {
 			// butRemove
 			//
 			this.butRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRemove.Location = new System.Drawing.Point(975, 440);
+			this.butRemove.Location = new System.Drawing.Point(992, 489);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(100, 23);
 			this.butRemove.TabIndex = 9;
@@ -152,7 +152,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(1025, 524);
+			this.butClose.Location = new System.Drawing.Point(1017, 524);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 11;
@@ -161,7 +161,7 @@ namespace OpenPmsDental {
 			//
 			// FormSshHostKeys
 			//
-			this.ClientSize = new System.Drawing.Size(1108, 556);
+			this.ClientSize = new System.Drawing.Size(1100, 556);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butRefresh);
 			this.Controls.Add(this.butRemove);

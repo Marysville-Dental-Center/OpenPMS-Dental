@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			this.gridODSubscribers.Location = new System.Drawing.Point(8, 8);
 			this.gridODSubscribers.Name = "gridODSubscribers";
 			this.gridODSubscribers.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridODSubscribers.Size = new System.Drawing.Size(322, 472);
+			this.gridODSubscribers.Size = new System.Drawing.Size(328, 478);
 			this.gridODSubscribers.TabIndex = 2;
 			// 
 			// FormTaskSubscribers

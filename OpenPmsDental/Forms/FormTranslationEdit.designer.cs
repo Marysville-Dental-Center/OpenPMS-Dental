@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.textEnglish.Multiline = true;
 			this.textEnglish.Name = "textEnglish";
 			this.textEnglish.ReadOnly = true;
-			this.textEnglish.Size = new System.Drawing.Size(672, 130);
+			this.textEnglish.Size = new System.Drawing.Size(721, 130);
 			this.textEnglish.TabIndex = 0;
 			this.textEnglish.TabStop = false;
 			// 
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			this.textTranslation.Location = new System.Drawing.Point(127, 142);
 			this.textTranslation.Multiline = true;
 			this.textTranslation.Name = "textTranslation";
-			this.textTranslation.Size = new System.Drawing.Size(672, 130);
+			this.textTranslation.Size = new System.Drawing.Size(721, 130);
 			this.textTranslation.TabIndex = 1;
 			// 
 			// label4
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			this.textComments.Location = new System.Drawing.Point(127, 410);
 			this.textComments.Multiline = true;
 			this.textComments.Name = "textComments";
-			this.textComments.Size = new System.Drawing.Size(672, 130);
+			this.textComments.Size = new System.Drawing.Size(721, 130);
 			this.textComments.TabIndex = 2;
 			// 
 			// textOtherTranslation
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.textOtherTranslation.Multiline = true;
 			this.textOtherTranslation.Name = "textOtherTranslation";
 			this.textOtherTranslation.ReadOnly = true;
-			this.textOtherTranslation.Size = new System.Drawing.Size(672, 130);
+			this.textOtherTranslation.Size = new System.Drawing.Size(721, 130);
 			this.textOtherTranslation.TabIndex = 0;
 			this.textOtherTranslation.TabStop = false;
 			// 

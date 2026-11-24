@@ -30,7 +30,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(438, 18);
 			this.label1.TabIndex = 2;
@@ -39,7 +39,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(858, 375);
+			this.butSave.Location = new System.Drawing.Point(858, 372);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 2;
@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			// checkSimple
 			// 
 			this.checkSimple.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkSimple.Location = new System.Drawing.Point(8, 374);
+			this.checkSimple.Location = new System.Drawing.Point(8, 372);
 			this.checkSimple.Name = "checkSimple";
 			this.checkSimple.Size = new System.Drawing.Size(440, 24);
 			this.checkSimple.TabIndex = 33;
@@ -58,9 +58,9 @@ namespace OpenPmsDental {
 			// 
 			// gridPrinters
 			// 
-			this.gridPrinters.Location = new System.Drawing.Point(12, 28);
+			this.gridPrinters.Location = new System.Drawing.Point(8, 28);
 			this.gridPrinters.Name = "gridPrinters";
-			this.gridPrinters.Size = new System.Drawing.Size(917, 334);
+			this.gridPrinters.Size = new System.Drawing.Size(925, 332);
 			this.gridPrinters.TabIndex = 42;
 			this.gridPrinters.Title = "Print Situations";
 			this.gridPrinters.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridPrinters_CellDoubleClick);
@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			// FormPrinterSetup
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(941, 407);
+			this.ClientSize = new System.Drawing.Size(941, 404);
 			this.Controls.Add(this.gridPrinters);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.label1);

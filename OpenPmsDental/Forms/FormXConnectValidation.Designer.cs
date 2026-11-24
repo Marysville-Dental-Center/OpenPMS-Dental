@@ -27,9 +27,9 @@ namespace OpenPmsDental {
 			//
 			this.labelHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelHeader.Location = new System.Drawing.Point(12, 8);
+			this.labelHeader.Location = new System.Drawing.Point(8, 8);
 			this.labelHeader.Name = "labelHeader";
-			this.labelHeader.Size = new System.Drawing.Size(860, 34);
+			this.labelHeader.Size = new System.Drawing.Size(868, 34);
 			this.labelHeader.TabIndex = 0;
 			this.labelHeader.Text = "Claim";
 			//
@@ -38,9 +38,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 44);
+			this.gridMain.Location = new System.Drawing.Point(8, 44);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(860, 380);
+			this.gridMain.Size = new System.Drawing.Size(868, 385);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "DentalXChange Validation";
 			this.gridMain.TranslationName = "TableXConnectValidation";

@@ -33,15 +33,15 @@ namespace OpenPmsDental{
 			// 
 			// labelNotAuthorized
 			// 
-			this.labelNotAuthorized.Location = new System.Drawing.Point(174, 8);
+			this.labelNotAuthorized.Location = new System.Drawing.Point(170, 8);
 			this.labelNotAuthorized.Name = "labelNotAuthorized";
-			this.labelNotAuthorized.Size = new System.Drawing.Size(887, 27);
+			this.labelNotAuthorized.Size = new System.Drawing.Size(976, 24);
 			this.labelNotAuthorized.TabIndex = 85;
 			this.labelNotAuthorized.Text = "This wiki page is locked and cannot be edited without the WikiAdmin permission.";
 			// 
 			// butRevert
 			// 
-			this.butRevert.Location = new System.Drawing.Point(93, 9);
+			this.butRevert.Location = new System.Drawing.Point(89, 8);
 			this.butRevert.Name = "butRevert";
 			this.butRevert.Size = new System.Drawing.Size(75, 24);
 			this.butRevert.TabIndex = 84;
@@ -52,10 +52,10 @@ namespace OpenPmsDental{
 			// 
 			this.textContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.textContent.Location = new System.Drawing.Point(266, 42);
+			this.textContent.Location = new System.Drawing.Point(262, 40);
 			this.textContent.Name = "textContent";
 			this.textContent.ReadOnly = true;
-			this.textContent.Size = new System.Drawing.Size(435, 584);
+			this.textContent.Size = new System.Drawing.Size(442, 590);
 			this.textContent.TabIndex = 7;
 			this.textContent.Text = "";
 			// 
@@ -63,10 +63,10 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 42);
+			this.gridMain.Location = new System.Drawing.Point(8, 40);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(248, 584);
+			this.gridMain.Size = new System.Drawing.Size(248, 590);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Page History";
 			this.gridMain.TranslationName = "TableWikiHistory";
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			// butCompare
 			// 
-			this.butCompare.Location = new System.Drawing.Point(12, 9);
+			this.butCompare.Location = new System.Drawing.Point(8, 8);
 			this.butCompare.Name = "butCompare";
 			this.butCompare.Size = new System.Drawing.Size(75, 24);
 			this.butCompare.TabIndex = 86;
@@ -90,9 +90,9 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewWiki.IsContextMenuEnabled = false;
-			this.webViewWiki.Location = new System.Drawing.Point(707, 42);
+			this.webViewWiki.Location = new System.Drawing.Point(704, 40);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(435, 584);
+			this.webViewWiki.Size = new System.Drawing.Size(442, 590);
 			this.webViewWiki.TabIndex = 87;
 			// 
 			// FormWikiHistory

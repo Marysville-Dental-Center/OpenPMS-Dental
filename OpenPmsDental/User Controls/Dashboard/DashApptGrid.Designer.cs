@@ -45,7 +45,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.gridMain);
 			this.Name = "DashApptGrid";
-			this.Size = new System.Drawing.Size(905, 414);
+			this.Size = new System.Drawing.Size(897, 398);
 			this.Load += new System.EventHandler(this.DashApptGrid_Load);
 			this.SizeChanged += new System.EventHandler(this.DashApptGrid_SizeChanged);
 			this.ResumeLayout(false);

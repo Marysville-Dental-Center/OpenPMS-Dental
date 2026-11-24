@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid.Location = new System.Drawing.Point(18, 8);
+			this.grid.Location = new System.Drawing.Point(8, 8);
 			this.grid.Name = "grid";
-			this.grid.Size = new System.Drawing.Size(196, 482);
+			this.grid.Size = new System.Drawing.Size(210, 495);
 			this.grid.TabIndex = 1;
 			this.grid.Title = "Existing Reconciles";
 			this.grid.TranslationName = "TableReconciles";

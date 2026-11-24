@@ -52,9 +52,9 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.textDaysPast);
 			this.groupBox3.Controls.Add(this.label14);
 			this.groupBox3.Controls.Add(this.label15);
-			this.groupBox3.Location = new System.Drawing.Point(29, 8);
+			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(296, 81);
+			this.groupBox3.Size = new System.Drawing.Size(360, 81);
 			this.groupBox3.TabIndex = 55;
 			this.groupBox3.Text = "Default Dates";
 			// 

@@ -39,11 +39,11 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.textNumbers.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.textNumbers.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(117)))), ((int)(((byte)(133)))));
-			this.textNumbers.Location = new System.Drawing.Point(266, 12);
+			this.textNumbers.Location = new System.Drawing.Point(262, 8);
 			this.textNumbers.Multiline = true;
 			this.textNumbers.Name = "textNumbers";
 			this.textNumbers.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNumbers.Size = new System.Drawing.Size(46, 614);
+			this.textNumbers.Size = new System.Drawing.Size(46, 622);
 			this.textNumbers.TabIndex = 83;
 			this.textNumbers.Text = "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\n11\r\n12\r\n13\r\n188\r\n288";
 			this.textNumbers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -52,9 +52,9 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 8);
+			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(248, 614);
+			this.gridMain.Size = new System.Drawing.Size(248, 622);
 			this.gridMain.TabIndex = 5;
 			this.gridMain.Title = "Drafts";
 			this.gridMain.TranslationName = "TableWikiDrafts";
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEdit.Location = new System.Drawing.Point(1069, 8);
+			this.butEdit.Location = new System.Drawing.Point(1071, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(75, 24);
 			this.butEdit.TabIndex = 84;
@@ -78,13 +78,13 @@ namespace OpenPmsDental {
 			this.textContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.textContent.ContextMenuStripWiki = null;
-			this.textContent.Location = new System.Drawing.Point(294, 12);
+			this.textContent.Location = new System.Drawing.Point(290, 8);
 			this.textContent.Name = "textContent";
 			this.textContent.ReadOnly = true;
 			this.textContent.SelectedText = "";
 			this.textContent.SelectionLength = 0;
 			this.textContent.SelectionStart = 0;
-			this.textContent.Size = new System.Drawing.Size(347, 614);
+			this.textContent.Size = new System.Drawing.Size(384, 622);
 			this.textContent.TabIndex = 82;
 			// 
 			// webViewWiki
@@ -94,9 +94,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewWiki.IsContextMenuEnabled = false;
-			this.webViewWiki.Location = new System.Drawing.Point(647, 12);
+			this.webViewWiki.Location = new System.Drawing.Point(678, 8);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(414, 614);
+			this.webViewWiki.Size = new System.Drawing.Size(384, 622);
 			this.webViewWiki.TabIndex = 6;
 			// 
 			// butDelete
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(1069, 36);
+			this.butDelete.Location = new System.Drawing.Point(1071, 36);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 85;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// butCompare
 			// 
 			this.butCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCompare.Location = new System.Drawing.Point(1069, 64);
+			this.butCompare.Location = new System.Drawing.Point(1071, 64);
 			this.butCompare.Name = "butCompare";
 			this.butCompare.Size = new System.Drawing.Size(75, 24);
 			this.butCompare.TabIndex = 86;
@@ -124,7 +124,7 @@ namespace OpenPmsDental {
 			// labelNotAuthorized
 			// 
 			this.labelNotAuthorized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNotAuthorized.Location = new System.Drawing.Point(1064, 92);
+			this.labelNotAuthorized.Location = new System.Drawing.Point(1062, 96);
 			this.labelNotAuthorized.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelNotAuthorized.Name = "labelNotAuthorized";
 			this.labelNotAuthorized.Size = new System.Drawing.Size(84, 96);
@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 			// 
 			// FormWikiDrafts
 			// 
-			this.ClientSize = new System.Drawing.Size(1157, 638);
+			this.ClientSize = new System.Drawing.Size(1154, 638);
 			this.Controls.Add(this.labelNotAuthorized);
 			this.Controls.Add(this.butCompare);
 			this.Controls.Add(this.butDelete);

@@ -33,7 +33,7 @@ namespace OpenPmsDental {
 			// comboBoxClinic
 			// 
 			this.comboBoxClinic.IncludeAll = true;
-			this.comboBoxClinic.Location = new System.Drawing.Point(26, 8);
+			this.comboBoxClinic.Location = new System.Drawing.Point(8, 8);
 			this.comboBoxClinic.Name = "comboBoxClinic";
 			this.comboBoxClinic.Size = new System.Drawing.Size(203, 23);
 			this.comboBoxClinic.TabIndex = 208;
@@ -41,9 +41,9 @@ namespace OpenPmsDental {
 			// 
 			// gridPayPlanTemplates
 			// 
-			this.gridPayPlanTemplates.Location = new System.Drawing.Point(26, 35);
+			this.gridPayPlanTemplates.Location = new System.Drawing.Point(8, 35);
 			this.gridPayPlanTemplates.Name = "gridPayPlanTemplates";
-			this.gridPayPlanTemplates.Size = new System.Drawing.Size(900, 401);
+			this.gridPayPlanTemplates.Size = new System.Drawing.Size(956, 437);
 			this.gridPayPlanTemplates.TabIndex = 4;
 			this.gridPayPlanTemplates.Title = "Pay Plan Templates";
 			this.gridPayPlanTemplates.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridPayPlanTemplates_CellDoubleClick);
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAddTemplate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTemplate.Location = new System.Drawing.Point(853, 8);
+			this.butAddTemplate.Location = new System.Drawing.Point(891, 8);
 			this.butAddTemplate.Name = "butAddTemplate";
 			this.butAddTemplate.Size = new System.Drawing.Size(73, 23);
 			this.butAddTemplate.TabIndex = 209;
@@ -74,7 +74,7 @@ namespace OpenPmsDental {
 			// checkShowHidden
 			// 
 			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShowHidden.Location = new System.Drawing.Point(235, 9);
+			this.checkShowHidden.Location = new System.Drawing.Point(217, 9);
 			this.checkShowHidden.Name = "checkShowHidden";
 			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 210;

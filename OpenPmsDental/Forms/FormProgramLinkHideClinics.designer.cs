@@ -37,7 +37,7 @@ namespace OpenPmsDental {
 			// 
 			// labelHidden
 			// 
-			this.labelHidden.Location = new System.Drawing.Point(12, 66);
+			this.labelHidden.Location = new System.Drawing.Point(8, 66);
 			this.labelHidden.Name = "labelHidden";
 			this.labelHidden.Size = new System.Drawing.Size(180, 18);
 			this.labelHidden.TabIndex = 37;
@@ -48,10 +48,10 @@ namespace OpenPmsDental {
 			// 
 			this.listboxHiddenClinics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listboxHiddenClinics.Location = new System.Drawing.Point(12, 88);
+			this.listboxHiddenClinics.Location = new System.Drawing.Point(8, 88);
 			this.listboxHiddenClinics.Name = "listboxHiddenClinics";
 			this.listboxHiddenClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listboxHiddenClinics.Size = new System.Drawing.Size(180, 368);
+			this.listboxHiddenClinics.Size = new System.Drawing.Size(180, 374);
 			this.listboxHiddenClinics.TabIndex = 38;
 			this.listboxHiddenClinics.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListboxHiddenClinics_MouseClick);
 			// 
@@ -59,16 +59,16 @@ namespace OpenPmsDental {
 			// 
 			this.listboxVisibleClinics.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.listboxVisibleClinics.Location = new System.Drawing.Point(260, 88);
+			this.listboxVisibleClinics.Location = new System.Drawing.Point(263, 88);
 			this.listboxVisibleClinics.Name = "listboxVisibleClinics";
 			this.listboxVisibleClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listboxVisibleClinics.Size = new System.Drawing.Size(180, 368);
+			this.listboxVisibleClinics.Size = new System.Drawing.Size(180, 374);
 			this.listboxVisibleClinics.TabIndex = 42;
 			this.listboxVisibleClinics.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ListboxVisibleClinics_MouseClick);
 			// 
 			// labelVisible
 			// 
-			this.labelVisible.Location = new System.Drawing.Point(260, 66);
+			this.labelVisible.Location = new System.Drawing.Point(263, 66);
 			this.labelVisible.Name = "labelVisible";
 			this.labelVisible.Size = new System.Drawing.Size(180, 18);
 			this.labelVisible.TabIndex = 41;
@@ -78,7 +78,7 @@ namespace OpenPmsDental {
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(204, 188);
+			this.butLeft.Location = new System.Drawing.Point(203, 188);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(44, 24);
 			this.butLeft.TabIndex = 40;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(204, 160);
+			this.butRight.Location = new System.Drawing.Point(203, 160);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(44, 24);
 			this.butRight.TabIndex = 39;
@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// labelClinicStateWarning
 			// 
 			this.labelClinicStateWarning.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelClinicStateWarning.Location = new System.Drawing.Point(12, 43);
+			this.labelClinicStateWarning.Location = new System.Drawing.Point(8, 43);
 			this.labelClinicStateWarning.Name = "labelClinicStateWarning";
 			this.labelClinicStateWarning.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.labelClinicStateWarning.Size = new System.Drawing.Size(310, 17);
@@ -106,10 +106,10 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.ForeColor = System.Drawing.Color.Black;
-			this.label3.Location = new System.Drawing.Point(12, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
 			this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.label3.Size = new System.Drawing.Size(439, 32);
+			this.label3.Size = new System.Drawing.Size(435, 32);
 			this.label3.TabIndex = 78;
 			this.label3.Text = "Program Link button will be hidden for clinics on the left, and visible for clini" +
     "cs on the right.";
@@ -117,7 +117,7 @@ namespace OpenPmsDental {
 			// checkOrderAlphabetical
 			// 
 			this.checkOrderAlphabetical.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkOrderAlphabetical.Location = new System.Drawing.Point(328, 42);
+			this.checkOrderAlphabetical.Location = new System.Drawing.Point(320, 42);
 			this.checkOrderAlphabetical.Name = "checkOrderAlphabetical";
 			this.checkOrderAlphabetical.Size = new System.Drawing.Size(123, 20);
 			this.checkOrderAlphabetical.TabIndex = 79;
@@ -127,7 +127,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(376, 490);
+			this.butSave.Location = new System.Drawing.Point(368, 474);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 80;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// FormProgramLinkHideClinics
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(459, 522);
+			this.ClientSize = new System.Drawing.Size(451, 506);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkOrderAlphabetical);
 			this.Controls.Add(this.label3);

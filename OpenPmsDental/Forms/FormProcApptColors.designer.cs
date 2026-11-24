@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(16, 72);
+			this.gridMain.Location = new System.Drawing.Point(8, 72);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(285, 300);
+			this.gridMain.Size = new System.Drawing.Size(304, 312);
 			this.gridMain.TabIndex = 11;
 			this.gridMain.Title = "Proc Code Ranges";
 			this.gridMain.TranslationName = "FormProcApptColors";
@@ -65,9 +65,9 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(288, 62);
+			this.label1.Size = new System.Drawing.Size(304, 62);
 			this.label1.TabIndex = 16;
 			this.label1.Text = "Changes made here are only applied when saving individual appointments. To sync c" +
     "olors for all existing appointments, run the Appt Procs tool in Database Mainten" +

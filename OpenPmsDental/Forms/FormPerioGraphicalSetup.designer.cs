@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(256, 77);
+			this.label9.Location = new System.Drawing.Point(323, 77);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(76, 23);
 			this.label9.TabIndex = 67;
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColorProbingRed.BackColor = System.Drawing.Color.Red;
 			this.butColorProbingRed.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorProbingRed.Location = new System.Drawing.Point(338, 77);
+			this.butColorProbingRed.Location = new System.Drawing.Point(405, 77);
 			this.butColorProbingRed.Name = "butColorProbingRed";
 			this.butColorProbingRed.Size = new System.Drawing.Size(22, 23);
 			this.butColorProbingRed.TabIndex = 66;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(276, 50);
+			this.label8.Location = new System.Drawing.Point(343, 50);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(56, 23);
 			this.label8.TabIndex = 65;
@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColorProbing.BackColor = System.Drawing.Color.Green;
 			this.butColorProbing.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorProbing.Location = new System.Drawing.Point(338, 50);
+			this.butColorProbing.Location = new System.Drawing.Point(405, 50);
 			this.butColorProbing.Name = "butColorProbing";
 			this.butColorProbing.Size = new System.Drawing.Size(22, 23);
 			this.butColorProbing.TabIndex = 64;
@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(200, 23);
+			this.label6.Location = new System.Drawing.Point(267, 23);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(132, 23);
 			this.label6.TabIndex = 61;
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			this.butColorMGJ.BackColor = System.Drawing.Color.DarkOrange;
 			this.butColorMGJ.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.butColorMGJ.Location = new System.Drawing.Point(338, 23);
+			this.butColorMGJ.Location = new System.Drawing.Point(405, 23);
 			this.butColorMGJ.Name = "butColorMGJ";
 			this.butColorMGJ.Size = new System.Drawing.Size(22, 23);
 			this.butColorMGJ.TabIndex = 59;

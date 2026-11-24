@@ -37,7 +37,7 @@
 			this.printPanel.Location = new System.Drawing.Point(8,35);
 			this.printPanel.Name = "printPanel";
 			this.printPanel.Origin = new System.Drawing.Point(0,0);
-			this.printPanel.Size = new System.Drawing.Size(650,620);
+			this.printPanel.Size = new System.Drawing.Size(650,623);
 			this.printPanel.TabIndex = 0;
 			// 
 			// labPageNum
@@ -54,10 +54,10 @@
 			// vScroll
 			// 
 			this.vScroll.LargeChange = 30;
-			this.vScroll.Location = new System.Drawing.Point(663,33);
+			this.vScroll.Location = new System.Drawing.Point(663,35);
 			this.vScroll.Minimum = 1;
 			this.vScroll.Name = "vScroll";
-			this.vScroll.Size = new System.Drawing.Size(20,620);
+			this.vScroll.Size = new System.Drawing.Size(20,623);
 			this.vScroll.TabIndex = 5;
 			this.vScroll.Value = 1;
 			this.vScroll.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScroll_Scroll);

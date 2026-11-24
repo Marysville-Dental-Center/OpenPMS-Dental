@@ -43,10 +43,10 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridProduction.HasMultilineHeaders = true;
-			this.gridProduction.Location = new System.Drawing.Point(12, 8);
+			this.gridProduction.Location = new System.Drawing.Point(8, 8);
 			this.gridProduction.Name = "gridProduction";
 			this.gridProduction.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProduction.Size = new System.Drawing.Size(556, 378);
+			this.gridProduction.Size = new System.Drawing.Size(564, 380);
 			this.gridProduction.TabIndex = 141;
 			this.gridProduction.Title = "Production";
 			this.gridProduction.TranslationName = "TableProdSelect";

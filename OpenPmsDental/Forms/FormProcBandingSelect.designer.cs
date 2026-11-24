@@ -44,7 +44,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridTpBandingProcs.Location = new System.Drawing.Point(8, 8);
 			this.gridTpBandingProcs.Name = "gridTpBandingProcs";
-			this.gridTpBandingProcs.Size = new System.Drawing.Size(538, 375);
+			this.gridTpBandingProcs.Size = new System.Drawing.Size(545, 379);
 			this.gridTpBandingProcs.TabIndex = 140;
 			this.gridTpBandingProcs.Title = "Treatment Planned Banding Procedures";
 			this.gridTpBandingProcs.TranslationName = "TableBandingProcs";

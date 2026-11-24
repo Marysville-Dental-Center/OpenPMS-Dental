@@ -34,9 +34,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 36);
+			this.gridMain.Location = new System.Drawing.Point(8, 36);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(650, 401);
+			this.gridMain.Size = new System.Drawing.Size(658, 406);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "Attachments";
 			this.gridMain.TranslationName = "TableTaskAttachments";
@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(12, 8);
+			this.butAdd.Location = new System.Drawing.Point(8, 8);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 151;

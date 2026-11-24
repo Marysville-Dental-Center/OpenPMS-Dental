@@ -36,7 +36,7 @@
 			this.gridMain.HScrollVisible = true;
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(781, 367);
+			this.gridMain.Size = new System.Drawing.Size(787, 354);
 			this.gridMain.TabIndex = 10;
 			this.gridMain.Title = "Results";
 			this.gridMain.TranslationName = "FormPatientListResults";
@@ -44,7 +44,7 @@
 			// butPrint
 			// 
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butPrint.Location = new System.Drawing.Point(795, 8);
+			this.butPrint.Location = new System.Drawing.Point(803, 339);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(75, 23);
 			this.butPrint.TabIndex = 20;
@@ -55,7 +55,7 @@
 			// FormPatListResultsEHR2014
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(886, 383);
+			this.ClientSize = new System.Drawing.Size(886, 370);
 			this.Controls.Add(this.butPrint);
 			this.Controls.Add(this.gridMain);
 			this.Name = "FormPatListResultsEHR2014";

@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			// 
 			// checkMulti
 			// 
-			this.checkMulti.Location = new System.Drawing.Point(8, 496);
+			this.checkMulti.Location = new System.Drawing.Point(8, 532);
 			this.checkMulti.Name = "checkMulti";
 			this.checkMulti.Size = new System.Drawing.Size(151, 20);
 			this.checkMulti.TabIndex = 1;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 137);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(572, 355);
+			this.gridMain.Size = new System.Drawing.Size(668, 381);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.TitleVisible = false;
 			this.gridMain.WrapText = false;
