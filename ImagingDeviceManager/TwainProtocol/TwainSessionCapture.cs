@@ -183,6 +183,80 @@ namespace ImagingDeviceManager.TwainProtocol {
 			return TwainCustomCapOutcome.Refused;
 		}
 
+		///<summary>Called on the TWAIN thread with the TWDE_ code of each device event the source reports (MSG_DEVICEEVENT, then
+		///DAT_DEVICEEVENT / MSG_GET). Null: device events are read and dropped.</summary>
+		internal Action<uint> ActionDeviceEvent { get; set; }
+
+		///<summary>CAP_DEVICEEVENT MSG_SET in state 4 with the TWDE_ codes to report (twain-contract 1.3 section 10.6). No MSG_QUERYSUPPORT: a
+		///source without device events (any 1.2 build) answers TWCC_CAPUNSUPPORTED or TWCC_BADVALUE, and the feature then counts as absent.
+		///TWRC_CHECKSTATUS (some codes left out) counts as set. Returns true when the source took it.</summary>
+		internal bool SetDeviceEvents(ushort[] arrayCodes) {
+			if(State!=4 || arrayCodes==null || arrayCodes.Length==0) {
+				return false;
+			}
+			const int offsetItems=6;//TW_ARRAY: ItemType (UINT16), NumItems (UINT32), then the items (pack 2)
+			IntPtr hContainer=_memory.Allocate((uint)(offsetItems+2*arrayCodes.Length));
+			if(hContainer==IntPtr.Zero) {
+				Log("Device events not asked for: out of memory.");
+				return false;
+			}
+			IntPtr pCapability=Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TW_CAPABILITY)));
+			ushort rc;
+			try {
+				IntPtr pContainer=_memory.Lock(hContainer);
+				if(pContainer==IntPtr.Zero) {
+					return false;
+				}
+				Marshal.WriteInt16(pContainer,0,(short)Tw.TWTY_UINT16);
+				Marshal.WriteInt32(pContainer,2,arrayCodes.Length);
+				for(int i=0;i<arrayCodes.Length;i++) {
+					Marshal.WriteInt16(pContainer,offsetItems+2*i,(short)arrayCodes[i]);
+				}
+				_memory.Unlock(hContainer);
+				TW_CAPABILITY twCapability=new TW_CAPABILITY { Cap=Tw.CAP_DEVICEEVENT,ConType=Tw.TWON_ARRAY,hContainer=hContainer };
+				Marshal.StructureToPtr(twCapability,pCapability,false);
+				rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_CAPABILITY,Tw.MSG_SET,pCapability);
+			}
+			finally {
+				Marshal.FreeHGlobal(pCapability);
+				_memory.Free(hContainer);
+			}
+			if(rc==Tw.TWRC_SUCCESS || rc==Tw.TWRC_CHECKSTATUS) {
+				Log("\""+SourceName+"\" reports device events ("+string.Join(", ",arrayCodes)+(rc==Tw.TWRC_CHECKSTATUS ? "; some left out" : "")+").");
+				return true;
+			}
+			Log("\""+SourceName+"\" does not report device events (CAP_DEVICEEVENT: "+(rc==Tw.TWRC_FAILURE ? "condition code "+ToHex(LastConditionCode)
+				: "return code "+rc)+"); the session shows the TWAIN states only.");
+			return false;
+		}
+
+		///<summary>After MSG_DEVICEEVENT: DAT_DEVICEEVENT / MSG_GET, and ActionDeviceEvent with its Event field (the first member of
+		///TW_DEVICEEVENT; the rest, battery and flash details, is not used). Never throws; a failure is logged.</summary>
+		internal void ReadDeviceEvent() {
+			const int sizeDeviceEvent=512;//TW_DEVICEEVENT is 294 bytes; zeroed room to spare
+			IntPtr pDeviceEvent=Marshal.AllocHGlobal(sizeDeviceEvent);
+			try {
+				for(int offset=0;offset<sizeDeviceEvent;offset+=4) {
+					Marshal.WriteInt32(pDeviceEvent,offset,0);
+				}
+				ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_DEVICEEVENT,Tw.MSG_GET,pDeviceEvent);
+				if(rc!=Tw.TWRC_SUCCESS) {
+					Log("\""+SourceName+"\" sent MSG_DEVICEEVENT, but DAT_DEVICEEVENT failed ("+(rc==Tw.TWRC_FAILURE ? "condition code "+ToHex(LastConditionCode)
+						: "return code "+rc)+").");
+					return;
+				}
+				uint code=(uint)Marshal.ReadInt32(pDeviceEvent,0);
+				Log("Device event "+code+" from \""+SourceName+"\".");
+				ActionDeviceEvent?.Invoke(code);
+			}
+			catch(Exception ex) {
+				Log("Device event not read: "+ex.Message);
+			}
+			finally {
+				Marshal.FreeHGlobal(pDeviceEvent);
+			}
+		}
+
 		///<summary>The TW_IDENTITY of the open source, or null below state 4.</summary>
 		internal TW_IDENTITY? GetOpenSourceIdentity() {
 			if(State<4 || _pSourceIdentity==IntPtr.Zero) {

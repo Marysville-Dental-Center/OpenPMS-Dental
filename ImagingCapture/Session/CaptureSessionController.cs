@@ -1085,6 +1085,11 @@ namespace ImagingCapture.Session {
 					+"expose again and to end the series.");
 				PlaySound(CaptureSound.NotReceived);
 			}
+			if(status.DeviceEvent!=null) {
+				ShowDeviceEvent(record,status.DeviceEvent.Value);
+				NotifyChanged();//the window repaints from Changed only
+				return;
+			}
 			bool isSavedShowing=record.CountSaved>0 && IndicatorState==CaptureIndicatorState.Saved;
 			switch(status.State) {
 				case TwainCaptureState.Enabling:
@@ -1167,6 +1172,37 @@ namespace ImagingCapture.Session {
 			return _hashSetSkipped.Contains(idx) ? CaptureSessionText.OnlySkippedLeftContinuous : null;
 		}
 
+		///<summary>A device event of the running enable ([Device.N] DeviceEvents=1, twain-contract 1.3 section 10.6). Offline and removed show
+		///an error, but stop nothing: the source decides what happens to the enable, and images already saved stay. Ready and captured change the
+		///waiting and receiving texts, never while the session is stopping, paused after a failed save, or after an unreadable layout.</summary>
+		private void ShowDeviceEvent(CaptureEnableRecord record,ushort code) {
+			if(code==TwainDeviceEvent.Offline || code==TwainDeviceEvent.Removed) {
+				bool isRemoved=code==TwainDeviceEvent.Removed;
+				Log("The source reports the sensor "+(isRemoved ? "removed" : "offline")+" (device event).");
+				record.IsSensorReady=false;
+				if(Phase!=CaptureSessionPhase.Stopping) {
+					SetIndicator(CaptureIndicatorState.Error,isRemoved ? CaptureSessionText.SensorRemoved : CaptureSessionText.SensorOffline);
+				}
+				return;
+			}
+			if(record.LayoutUnusableText!=null || _isPausedBySaveFailure || Phase==CaptureSessionPhase.Stopping) {
+				return;
+			}
+			if(code==TwainDeviceEvent.Ready) {
+				record.IsSensorReady=true;
+				if(IndicatorState!=CaptureIndicatorState.Saved && IndicatorState!=CaptureIndicatorState.Receiving) {
+					ShowWaitingForExposure(record);//also after offline: the sensor is back
+				}
+				return;
+			}
+			if(code==TwainDeviceEvent.ImageCaptured) {
+				record.IsSensorReady=false;
+				if(GetNoSlotLeftText(record)==null) {//with no slot left, the error that the image goes to unassigned captures stays
+					SetIndicator(CaptureIndicatorState.Receiving,CaptureSessionText.ExposureCaptured);
+				}
+			}
+		}
+
 		///<summary>The indicator while record's enable waits for an exposure (design 7.3 step 3): where its next image goes, or, when it has no
 		///slot left for it (GetNoSlotLeftText), that its images go to unassigned captures, in a state that never invites an exposure.</summary>
 		private void ShowWaitingForExposure(CaptureEnableRecord record) {
@@ -1179,12 +1215,16 @@ namespace ImagingCapture.Session {
 				SetIndicator(CaptureIndicatorState.Error,textNoSlotLeft);
 				return;
 			}
-			SetIndicator(CaptureIndicatorState.WaitingForExposure,CaptureSessionText.WaitingForExposure+": "+GetEnableTargetText(record));
+			SetIndicator(CaptureIndicatorState.WaitingForExposure,(record?.IsSensorReady==true ? CaptureSessionText.SensorReady : CaptureSessionText.WaitingForExposure)
+				+": "+GetEnableTargetText(record));
 		}
 
 		private void OnImageAcquired(ITwainCaptureSession session,AcquiredImage image) {
 			if(image==null) {
 				return;
+			}
+			if(image.Tag is CaptureEnableRecord recordOfImage) {
+				recordOfImage.IsSensorReady=false;//an image came: "ready" is said again only by the source's next event
 			}
 			if(session==_session && Phase!=CaptureSessionPhase.Finished) {
 				NoteActivity();

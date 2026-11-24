@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -164,6 +165,15 @@ namespace ImagingDeviceManager.Tests {
 		///exposure of ListExposures arrives ContinuousIntervalMs after the previous one with its own MSG_XFERREADY, MSG_ENDXFER returns 0 after
 		///each image, and the source stays enabled until MSG_DISABLEDS (or End).</summary>
 		public bool SupportsContinuous;
+		///<summary>twain-contract 1.3 section 10.6: CAP_DEVICEEVENT can be set (a TW_ARRAY of TWTY_UINT16), and each enable then reports, before
+		///anything else, the codes of ListDeviceEventsOnEnable that were selected (MSG_DEVICEEVENT, read with DAT_DEVICEEVENT). False: a 1.2
+		///source, which answers TWCC_CAPUNSUPPORTED.</summary>
+		public bool SupportsDeviceEvents;
+		public List<uint> ListDeviceEventsOnEnable=new List<uint>();
+		///<summary>The codes the host selected with CAP_DEVICEEVENT, in its order.</summary>
+		public List<ushort> ListDeviceEventsSelected=new List<ushort>();
+		private readonly Queue<uint> _queueDeviceEvents=new Queue<uint>();
+		private uint _deviceEventCurrent;
 		public int ContinuousIntervalMs=20;
 		///<summary>Not contract behaviour: in continuous mode, after each MSG_ENDXFER that returns 0, one MSG_XFERREADY arrives with nothing
 		///pending.</summary>
@@ -305,6 +315,7 @@ namespace ImagingDeviceManager.Tests {
 					case Tw.DAT_EVENT: return ProcessEvent(data);
 					case Tw.DAT_PENDINGXFERS: return PendingXfers(msg,data);
 					case Tw.DAT_SETUPMEMXFER: return SetupMemXfer(data);
+					case Tw.DAT_DEVICEEVENT: return DeviceEvent(msg,data);
 				}
 			}
 			if(dg==Tw.DG_IMAGE) {
@@ -544,6 +555,27 @@ namespace ImagingDeviceManager.Tests {
 			}
 			TW_CAPABILITY capability=(TW_CAPABILITY)Marshal.PtrToStructure(data,typeof(TW_CAPABILITY));
 			ushort cap=capability.Cap;
+			if(cap==Tw.CAP_DEVICEEVENT && SupportsDeviceEvents) {
+				if(msg!=Tw.MSG_SET) {
+					return Fail(Tw.TWCC_CAPBADOPERATION);
+				}
+				if(State!=4) {
+					return Fail(Tw.TWCC_SEQERROR);
+				}
+				if(capability.ConType!=Tw.TWON_ARRAY || capability.hContainer==IntPtr.Zero) {
+					return Fail(Tw.TWCC_BADVALUE);
+				}
+				IntPtr pContainer=NativeMethods.GlobalLock(capability.hContainer);
+				ListDeviceEventsSelected.Clear();
+				if(Marshal.ReadInt16(pContainer,0)==(short)Tw.TWTY_UINT16) {
+					int count=Marshal.ReadInt32(pContainer,2);
+					for(int i=0;i<count;i++) {
+						ListDeviceEventsSelected.Add((ushort)Marshal.ReadInt16(pContainer,6+2*i));
+					}
+				}
+				NativeMethods.GlobalUnlock(capability.hContainer);
+				return Tw.TWRC_SUCCESS;
+			}
 			if(cap==IcapSupportedExtImageInfo) {
 				return SupportedExtImageInfo(msg,data,capability);
 			}
@@ -798,6 +830,10 @@ namespace ImagingDeviceManager.Tests {
 				}
 				//Every enable starts a new session with a fresh notification state and no end reason (sections 5 and 8).
 				State=5;
+				_queueDeviceEvents.Clear();
+				foreach(uint code in ListDeviceEventsOnEnable.Where(x => ListDeviceEventsSelected.Contains((ushort)x))) {
+					_queueDeviceEvents.Enqueue(code);
+				}
 				_isRunning=true;
 				_listUndelivered.Clear();
 				_notificationPending=Tw.MSG_NULL;
@@ -956,11 +992,32 @@ namespace ImagingDeviceManager.Tests {
 			return Fail(code);
 		}
 
+		///<summary>DAT_DEVICEEVENT / MSG_GET: the event just reported with MSG_DEVICEEVENT (its Event field; the rest stays zero).</summary>
+		private ushort DeviceEvent(ushort msg,IntPtr data) {
+			if(!SupportsDeviceEvents || msg!=Tw.MSG_GET) {
+				return Fail(Tw.TWCC_BADPROTOCOL);
+			}
+			if(_deviceEventCurrent==0) {
+				return Fail(Tw.TWCC_SEQERROR);
+			}
+			Marshal.WriteInt32(data,0,(int)_deviceEventCurrent);
+			_deviceEventCurrent=0;
+			return Tw.TWRC_SUCCESS;
+		}
+
 		///<summary>Returns a pending notification (section 5), whatever message the host passes.</summary>
 		private ushort ProcessEvent(IntPtr data) {
 			TW_EVENT twEvent=(TW_EVENT)Marshal.PtrToStructure(data,typeof(TW_EVENT));
 			twEvent.TWMessage=Tw.MSG_NULL;
 			ushort rc=Tw.TWRC_NOTDSEVENT;
+			if(_queueDeviceEvents.Count>0 && State>=5) {
+				//Device events come first (section 10.6); the notification waits for the next message.
+				_deviceEventCurrent=_queueDeviceEvents.Dequeue();
+				twEvent.TWMessage=Tw.MSG_DEVICEEVENT;
+				Marshal.StructureToPtr(twEvent,data,false);
+				_dsm?.WakeHostNow();
+				return Tw.TWRC_DSEVENT;
+			}
 			if(_isSpuriousPending && State==5) {
 				_isSpuriousPending=false;
 				twEvent.TWMessage=Tw.MSG_XFERREADY;//Nothing is offered: the state stays 5 and the pending count 0.

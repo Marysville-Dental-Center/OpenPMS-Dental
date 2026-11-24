@@ -20,6 +20,8 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public const ushort DAT_IDENTITY=0x0003;
 		public const ushort DAT_PARENT=0x0004;
 		public const ushort DAT_PENDINGXFERS=0x0005;
+		///<summary>DAT_DEVICEEVENT, MSG_GET after MSG_DEVICEEVENT (TWAIN 2.4 p.7-47). twain-contract 1.3 section 10.6.</summary>
+		public const ushort DAT_DEVICEEVENT=0x000D;
 		public const ushort DAT_SETUPMEMXFER=0x0006;
 		public const ushort DAT_STATUS=0x0008;
 		public const ushort DAT_USERINTERFACE=0x0009;
@@ -118,6 +120,13 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public const ushort CAP_INDICATORS=0x100b;
 		public const ushort CAP_UICONTROLLABLE=0x100e;
 		public const ushort CAP_DEVICEONLINE=0x100f;
+		///<summary>CAP_DEVICEEVENT: a TW_ARRAY of TWTY_UINT16 TWDE_ codes the source should report (MSG_SET in state 4).</summary>
+		public const ushort CAP_DEVICEEVENT=0x1022;
+		///<summary>TWDE_ device events (TWAIN 2.4 p.7-47) that twain-contract 1.3 reports.</summary>
+		public const ushort TWDE_DEVICEOFFLINE=7;
+		public const ushort TWDE_DEVICEREADY=8;
+		public const ushort TWDE_DEVICEREMOVED=9;
+		public const ushort TWDE_IMAGECAPTURED=10;
 		public const ushort CAP_DUPLEXENABLED=0x1013;
 		public const ushort ICAP_XRESOLUTION=0x1118;
 		public const ushort ICAP_YRESOLUTION=0x1119;

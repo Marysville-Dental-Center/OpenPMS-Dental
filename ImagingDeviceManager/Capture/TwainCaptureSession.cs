@@ -457,6 +457,22 @@ namespace ImagingDeviceManager.Capture {
 			_eventClosed.Set();
 		}
 
+		///<summary>A device event from the source, on the worker thread: raised as a status of the running enable with the state unchanged.
+		///Codes other than the four asked for are logged and dropped.</summary>
+		private void RaiseDeviceEvent(uint code) {
+			if(code!=Tw.TWDE_DEVICEREADY && code!=Tw.TWDE_IMAGECAPTURED && code!=Tw.TWDE_DEVICEOFFLINE && code!=Tw.TWDE_DEVICEREMOVED) {
+				Log("Device event "+code+" is not one this session asked for; ignored.");
+				return;
+			}
+			EnableContext context=_enable;
+			int enableId=context?.Id??0;
+			TwainCaptureState state=(TwainCaptureState)_state;
+			TwainCaptureStatus status=new TwainCaptureStatus { State=state,EnableId=enableId,Text=GetStateText(state),
+				IsSafeDisableInEffect=context!=null && context.IsSafeDisableInEffect,LayoutUnusableText=context?.LayoutUnusableTextRunning,
+				DeviceEvent=(ushort)code };
+			Raise(StatusChanged,status,"StatusChanged");
+		}
+
 		private void SetState(TwainCaptureState state,int enableId) {
 			_state=(int)state;
 			EnableContext context=_enable;
@@ -529,6 +545,7 @@ namespace ImagingDeviceManager.Capture {
 					IsSourceNameExact=_options.IsSourceNameExact,
 				};
 				_session.Logged+=Log;
+				_session.ActionDeviceEvent=RaiseDeviceEvent;
 				_session.WaitingForSourceChanged+=OnWaitingForSourceChanged;
 				_session.SourceRefusedByGate+=x => isGateRefused=true;
 				Log("Opening \""+command.ProductName+"\" (device "+_options.ImagingDeviceNum+", "+_options.SessionMode+", Bits="+_options.Bits
@@ -794,6 +811,10 @@ namespace ImagingDeviceManager.Capture {
 			}
 			if(_options.NoActivateCap!=null) {
 				_session.SetCustomCapability(_options.NoActivateCap.Value,true,"NoActivateCap");
+			}
+			if(_options.DeviceEvents) {
+				//twain-contract 1.3: set again before each enable (harmless); a 1.2 source refuses it and nothing changes
+				_session.SetDeviceEvents(new[] { Tw.TWDE_DEVICEREADY,Tw.TWDE_IMAGECAPTURED,Tw.TWDE_DEVICEOFFLINE,Tw.TWDE_DEVICEREMOVED });
 			}
 			if(_options.SessionMode==TwainSessionMode.Continuous && !context.IsRedelivery) {
 				if(_options.ContinuousCap==null) {

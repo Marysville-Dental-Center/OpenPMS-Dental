@@ -46,6 +46,10 @@ namespace ImagingDeviceManager.Capture {
 		public ushort? RedeliverCap { get; set; }
 		///<summary>[Device.N] NoActivateCap (hex): set TRUE before each enable, so the sensor software's window does not take activation (W16).</summary>
 		public ushort? NoActivateCap { get; set; }
+		///<summary>[Device.N] DeviceEvents, default 0. 1: ask the source for device events before each enable (CAP_DEVICEEVENT, twain-contract 1.3
+		///section 10.6: sensor ready, exposure captured, offline, removed), so the session window shows the sensor's real state. A source
+		///without them (1.2) is left as it is. Not gated: it changes what the window says, never an image.</summary>
+		public bool DeviceEvents { get; set; }
 		///<summary>[Twain] Allow16Bit, default 1 (owner decision 2026-11-01): more than 8 bits (14 or 16) are allowed on this computer. The key keeps
 		///its name for compatibility; 0 is the computer's kill switch and forces 8 bits everywhere, and so does a value that is not 0 or 1 (a
 		///warning).</summary>
@@ -101,6 +105,7 @@ namespace ImagingDeviceManager.Capture {
 				options.ContinuousCap=ReadCapability(config,section,"ContinuousCap",options.ListWarnings);
 				options.RedeliverCap=ReadCapability(config,section,"RedeliverCap",options.ListWarnings);
 				options.NoActivateCap=ReadCapability(config,section,"NoActivateCap",options.ListWarnings);
+				options.DeviceEvents=config.GetBool(section,"DeviceEvents",false);
 				foreach(int code in config.GetHexList(section,"RefusedDisableCodes")) {
 					if(code>0 && code<=ushort.MaxValue && !options.RefusedDisableCodes.Contains((ushort)code)) {
 						options.RefusedDisableCodes.Add((ushort)code);
@@ -197,6 +202,7 @@ namespace ImagingDeviceManager.Capture {
 				new SidecarField(device+"ContinuousCap",hex(ContinuousCap)),
 				new SidecarField(device+"RedeliverCap",hex(RedeliverCap)),
 				new SidecarField(device+"NoActivateCap",hex(NoActivateCap)),
+				new SidecarField(device+"DeviceEvents",DeviceEvents ? "1" : "0"),
 				new SidecarField("Twain.Allow16Bit",Allow16Bit ? "1" : "0"),
 				new SidecarField("Twain.RestrictSources",RestrictSources ? "1" : "0"),
 				new SidecarField("Twain.AllowedSources",string.Join("|",AllowedSources)),

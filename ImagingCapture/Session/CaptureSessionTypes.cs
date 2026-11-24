@@ -89,6 +89,9 @@ namespace ImagingCapture.Session {
 	///<summary>One enable the controller posted: the target it was for, fixed when it started, so that its images are placed there whatever
 	///the target is by the time they arrive (design 7.11). It is the TwainEnableRequest.Tag, so it comes back on every image and the Ended.</summary>
 	public sealed class CaptureEnableRecord {
+		///<summary>The source's last device event for this enable was TWDE_DEVICEREADY (twain-contract 1.3): the waiting text then says the
+		///sensor is ready. Cleared by an exposure, offline or removed.</summary>
+		public bool IsSensorReady;
 		public int EnableId { get; set; }
 		///<summary>The index of the target slot in MountSlots.ListMountItems, or -1 in single-target mode.</summary>
 		public int IdxTarget { get; set; }

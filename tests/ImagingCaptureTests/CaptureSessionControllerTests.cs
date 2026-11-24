@@ -592,6 +592,39 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void DeviceEvents_ReadyCapturedOfflineRemoved_ShowWhatTheSensorSoftwareReports() {
+			_harness.Started();
+			_harness.Status(TwainCaptureState.WaitingForImage);
+			Assert.AreEqual(CaptureSessionText.WaitingForExposure+": 1 of 3: Max R, #1,2,3",Controller.IndicatorText,"No event yet: no claim the sensor is ready.");
+			int versionBefore=Controller.Version;
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.Ready);
+			_harness.Dispatcher.RunPending();
+			Assert.AreEqual(CaptureSessionText.SensorReady+": 1 of 3: Max R, #1,2,3",Controller.IndicatorText);
+			Assert.IsTrue(Controller.Version>versionBefore,"The window repaints from Changed only.");
+			Assert.AreEqual(CaptureIndicatorState.WaitingForExposure,Controller.IndicatorState);
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.ImageCaptured);
+			_harness.Dispatcher.RunPending();
+			Assert.AreEqual(CaptureSessionText.ExposureCaptured,Controller.IndicatorText);
+			Assert.AreEqual(CaptureIndicatorState.Receiving,Controller.IndicatorState);
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.Offline);
+			_harness.Dispatcher.RunPending();
+			Assert.AreEqual(CaptureSessionText.SensorOffline,Controller.IndicatorText);
+			Assert.AreEqual(CaptureIndicatorState.Error,Controller.IndicatorState);
+			Assert.AreEqual(0,_harness.Twain.ListDisables.Count,"Offline stops nothing: the source decides.");
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.Ready);
+			_harness.Dispatcher.RunPending();
+			Assert.AreEqual(CaptureSessionText.SensorReady+": 1 of 3: Max R, #1,2,3",Controller.IndicatorText,"Back after offline.");
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.Removed);
+			_harness.Dispatcher.RunPending();
+			Assert.AreEqual(CaptureSessionText.SensorRemoved,Controller.IndicatorText);
+			//A plain status after the exposure clears the ready claim: waiting again says only that the software is open.
+			_harness.Twain.RaiseDeviceEvent(TwainDeviceEvent.ImageCaptured);
+			_harness.Dispatcher.RunPending();
+			_harness.Status(TwainCaptureState.WaitingForImage);
+			StringAssert.StartsWith(Controller.IndicatorText,CaptureSessionText.WaitingForExposure+":");
+		}
+
+		[TestMethod]
 		public void Continuous_AfterTheFirstImage_TheIndicatorAndTheMiniMapNameTheSlotTheNextImageGoesTo() {
 			_harness.Setup.Options.SessionMode=TwainSessionMode.Continuous;
 			_harness.Started();

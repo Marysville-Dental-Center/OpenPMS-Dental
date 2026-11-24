@@ -98,9 +98,24 @@ namespace ImagingCapture.Metadata {
 		public int? Rotate { get; set; }
 		///<summary>flip: none, h, v or both (lowercase), applied after the rotation. Kept as sent (lowercased) when it is another string.</summary>
 		public string Flip { get; set; }
+		///<summary>invert (twain-contract 1.3): the image's grey values were swapped. Null when missing or not true/false.</summary>
+		public bool? Invert { get; set; }
+		///<summary>levels (1.3): [low, high], 0-255; below low went to black, above high to white. Null when missing or unreadable.</summary>
+		public int? LevelsLow { get; set; }
+		public int? LevelsHigh { get; set; }
+		///<summary>relief (1.3): 0-4, 0 = off.</summary>
+		public int? Relief { get; set; }
+		///<summary>sharpen (1.3): 0-5, 0 = off.</summary>
+		public int? Sharpen { get; set; }
+		///<summary>gamma (1.3): 0.1-5.0, 1.0 = unchanged.</summary>
+		public double? Gamma { get; set; }
+		///<summary>Members of adjustments this version does not know, in document order. Each makes the adjustments not neutral.</summary>
+		public List<string> ListUnknownKeys { get; set; }=new List<string>();
 		///<summary>rotate is missing, null or 0, and flip is missing, null or "none". A value that cannot be read counts as not neutral.</summary>
 		public bool IsOrientationNeutral { get; set; }=true;
-		///<summary>IsOrientationNeutral, and brightness and contrast are each missing, null or 50.</summary>
+		///<summary>IsOrientationNeutral, brightness and contrast each missing, null or 50, invert missing, null or false, levels missing, null
+		///or [0, 255], relief and sharpen missing, null or 0, gamma missing, null or 1.0, and no member this version does not know. A value
+		///that cannot be read counts as not neutral.</summary>
 		public bool IsNeutral { get; set; }=true;
 	}
 

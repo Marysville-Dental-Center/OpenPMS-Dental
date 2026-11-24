@@ -215,10 +215,81 @@ namespace ImagingCapture.Metadata {
 					isFlipNeutral=false;
 				}
 			}
+			//twain-contract 1.3 adds invert, levels, relief, sharpen and gamma. Each is neutral when missing, null or at its unchanged value; any
+			//other value, one that cannot be read, or a member this version does not know means the image was processed in a way the fork
+			//cannot tell apart from a real change, so it counts as adjusted (and a warning says which).
+			bool isInvertNeutral=true;
+			JsonValue jsonValueInvert=jsonValue.Get("invert");
+			if(jsonValueInvert!=null && jsonValueInvert.Kind!=JsonKind.Null) {
+				if(jsonValueInvert.Kind==JsonKind.Bool) {
+					adjustments.Invert=jsonValueInvert.Bool;
+					isInvertNeutral=!jsonValueInvert.Bool;
+				}
+				else {
+					captureMetadata.ListWarnings.Add("adjustments.invert is not true or false.");
+					isInvertNeutral=false;
+				}
+			}
+			bool isLevelsNeutral=true;
+			JsonValue jsonValueLevels=jsonValue.Get("levels");
+			if(jsonValueLevels!=null && jsonValueLevels.Kind!=JsonKind.Null) {
+				int low;
+				int high;
+				if(jsonValueLevels.Kind==JsonKind.Array && jsonValueLevels.ListItems.Count==2 && jsonValueLevels.ListItems[0].TryGetInt(out low)
+					&& jsonValueLevels.ListItems[1].TryGetInt(out high))
+				{
+					adjustments.LevelsLow=low;
+					adjustments.LevelsHigh=high;
+					isLevelsNeutral=low==0 && high==255;
+					if(low<0 || low>=high || high>255) {
+						captureMetadata.ListWarnings.Add("adjustments.levels is not [low, high] with 0 <= low < high <= 255.");
+					}
+				}
+				else {
+					captureMetadata.ListWarnings.Add("adjustments.levels is not [low, high] with whole numbers.");
+					isLevelsNeutral=false;
+				}
+			}
+			bool isReliefNeutral;
+			bool isSharpenNeutral;
+			adjustments.Relief=ReadAdjustmentInt(jsonValue,"relief",0,captureMetadata,out isReliefNeutral);
+			adjustments.Sharpen=ReadAdjustmentInt(jsonValue,"sharpen",0,captureMetadata,out isSharpenNeutral);
+			if(adjustments.Relief!=null && (adjustments.Relief<0 || adjustments.Relief>4)) {
+				captureMetadata.ListWarnings.Add("adjustments.relief is not 0-4.");
+			}
+			if(adjustments.Sharpen!=null && (adjustments.Sharpen<0 || adjustments.Sharpen>5)) {
+				captureMetadata.ListWarnings.Add("adjustments.sharpen is not 0-5.");
+			}
+			bool isGammaNeutral=true;
+			JsonValue jsonValueGamma=jsonValue.Get("gamma");
+			if(jsonValueGamma!=null && jsonValueGamma.Kind!=JsonKind.Null) {
+				double gamma;
+				if(jsonValueGamma.TryGetDouble(out gamma)) {
+					adjustments.Gamma=gamma;
+					isGammaNeutral=Math.Abs(gamma-1.0)<1e-9;
+					if(gamma<0.1 || gamma>5.0) {
+						captureMetadata.ListWarnings.Add("adjustments.gamma is not 0.1-5.0.");
+					}
+				}
+				else {
+					captureMetadata.ListWarnings.Add("adjustments.gamma is not a number.");
+					isGammaNeutral=false;
+				}
+			}
+			foreach(KeyValuePair<string,JsonValue> keyValuePair in jsonValue.ListMembers) {
+				if(Array.IndexOf(_arrayAdjustmentKeys,keyValuePair.Key)<0 && !adjustments.ListUnknownKeys.Contains(keyValuePair.Key)) {
+					adjustments.ListUnknownKeys.Add(keyValuePair.Key);
+					captureMetadata.ListWarnings.Add("adjustments."+keyValuePair.Key+" is not known to this version: the image counts as adjusted.");
+				}
+			}
 			adjustments.IsOrientationNeutral=isRotateNeutral && isFlipNeutral;
-			adjustments.IsNeutral=adjustments.IsOrientationNeutral && isBrightnessNeutral && isContrastNeutral;
+			adjustments.IsNeutral=adjustments.IsOrientationNeutral && isBrightnessNeutral && isContrastNeutral && isInvertNeutral && isLevelsNeutral
+				&& isReliefNeutral && isSharpenNeutral && isGammaNeutral && adjustments.ListUnknownKeys.Count==0;
 			captureMetadata.Adjustments=adjustments;
 		}
+
+		///<summary>The adjustments members this version reads (twain-contract 1.2 and 1.3), compared as written (ordinal).</summary>
+		private static readonly string[] _arrayAdjustmentKeys={ "brightness","contrast","rotate","flip","invert","levels","relief","sharpen","gamma" };
 
 		///<summary>A whole-number adjustment. isNeutral is true when the member is missing or null or equals neutralValue, and false for any
 		///other value, including one that is not a whole number.</summary>

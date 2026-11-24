@@ -210,6 +210,46 @@ namespace ImagingDeviceManager.Tests {
 		}
 
 		[TestMethod]
+		public void DeviceEvents_On_ReportedAsStatusesOfTheEnable_InOrder() {
+			Helper.SupportsDeviceEvents=true;
+			Helper.ListDeviceEventsOnEnable.AddRange(new uint[] { TwainDeviceEvent.Ready,TwainDeviceEvent.ImageCaptured,TwainDeviceEvent.Offline,
+				TwainDeviceEvent.Removed,11 });
+			Options.DeviceEvents=true;
+			_harness.OpenOrFail();
+			int enableId=EnableOne();
+			TwainCaptureEnded ended=_harness.WaitForEnded(enableId);
+			Assert.AreEqual(TwainCaptureEndReason.Completed,ended.Reason,"Device events change nothing about the enable.");
+			CollectionAssert.AreEqual(new ushort[] { 7,8,9,10 },Helper.ListDeviceEventsSelected.OrderBy(x => x).ToArray(),"The four asked for.");
+			List<TwainCaptureStatus> listEvents=_harness.Statuses.Where(x => x.DeviceEvent!=null).ToList();
+			CollectionAssert.AreEqual(new ushort[] { TwainDeviceEvent.Ready,TwainDeviceEvent.ImageCaptured,TwainDeviceEvent.Offline,
+				TwainDeviceEvent.Removed },listEvents.Select(x => x.DeviceEvent.Value).ToArray(),"11 was not selected, so the source never sends it.");
+			Assert.IsTrue(listEvents.All(x => x.EnableId==enableId),"Each belongs to the running enable.");
+			Assert.AreEqual(1,_harness.ListImages.Count);
+		}
+
+		[TestMethod]
+		public void DeviceEvents_On_Contract12Source_RefusesTheCapability_NothingElseChanges() {
+			Helper.SupportsDeviceEvents=false;//any 1.2 build: TWCC_CAPUNSUPPORTED
+			Options.DeviceEvents=true;
+			_harness.OpenOrFail();
+			TwainCaptureEnded ended=_harness.WaitForEnded(EnableOne());
+			Assert.AreEqual(TwainCaptureEndReason.Completed,ended.Reason);
+			Assert.AreEqual(1,_harness.ListImages.Count);
+			Assert.IsFalse(_harness.Statuses.Any(x => x.DeviceEvent!=null));
+			Assert.IsTrue(_harness.HasLog("does not report device events"),_harness.LogText);
+		}
+
+		[TestMethod]
+		public void DeviceEvents_Off_NeverAskedFor() {
+			Helper.SupportsDeviceEvents=true;
+			Helper.ListDeviceEventsOnEnable.Add(TwainDeviceEvent.Ready);
+			_harness.OpenOrFail();
+			_harness.WaitForEnded(EnableOne());
+			Assert.AreEqual(0,Helper.ListDeviceEventsSelected.Count);
+			Assert.IsFalse(_harness.Statuses.Any(x => x.DeviceEvent!=null));
+		}
+
+		[TestMethod]
 		public void PerSlot_ExtraImages_FlaggedExtra() {
 			Helper.Mode=FakeHelperMode.Multi;//A source setting that overrides CAP_XFERCOUNT=1.
 			Helper.ListExposures.Add(SessionHarness.Exposure(9));

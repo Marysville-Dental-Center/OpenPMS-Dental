@@ -15,6 +15,12 @@ namespace ImagingCapture.Session {
 		///<summary>Design 7.5, after a successful MSG_ENABLEDS. Never "armed": the fork does not know that.</summary>
 		public const string WaitingForExposure="Sensor software open, waiting for exposure";
 		public const string Receiving="Receiving the image";
+		///<summary>Device events (twain-contract 1.3, [Device.N] DeviceEvents=1): what the sensor software itself reports, never the fork's
+		///own inference (design 7.5).</summary>
+		public const string SensorReady="Sensor ready, waiting for exposure";
+		public const string ExposureCaptured="Exposure captured, receiving the image";
+		public const string SensorOffline="The sensor software reports the sensor offline. Check its cable. Images already saved are kept.";
+		public const string SensorRemoved="The sensor was unplugged. Plug it in again. Images already saved are kept.";
 		public const string Stopping="Stopping the sensor software";
 		public const string WaitingForSource="Waiting for the sensor software to finish";
 		public const string Disabled="Disabled.";

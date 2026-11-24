@@ -521,3 +521,24 @@ A 14-bit image whose values are not right-justified 14-bit values (some above 16
 - Reassign to another patient: also the 8-bit copy, as an unmounted document with no tooth numbers, with a typed reason.
 - The 16-bit original and its sidecar move to `Capture\quarantine-resolved` with the copy's DocNum and window in the sidecar. A 16-bit journal copy is copied to `Capture\quarantine-resolved\journal` before its 8-bit copy is filed, because the journal removes old copies; when that copy cannot be made (for example another file of that name is there), nothing is filed. The audit entry says "8-bit copy of a 16-bit capture", and the window's result says the document is an 8-bit copy and where the original is kept. Nothing is deleted, and neither folder is emptied automatically.
 - A Test capture image (taken of the phantom, without the session's conditions) is never filed to a patient, neither by Assign nor by Reassign; discard it from Unassigned captures when it is not needed.
+
+## 15. Sensor source 1.3: continuous mode, device events, device online (opt-in)
+
+A sensor source that implements twain-contract 1.3 offers three features the capture session can use. Each is off until set, and a source
+of an earlier version (the clinic runs 1.2 until the 1.3 build is packaged) refuses them: the session logs it and works as before. Set them
+in Capture settings (Setup permission), and only after the 1.3 build passed its acceptance steps on the test computer (section 5).
+
+| Key | Set it to | What it does |
+|---|---|---|
+| `[Device.N] SessionMode` | `Continuous` | With `ContinuousCap`, the sensor stays armed between the slots of a series: no restart of the sensor software per slot. Gated. |
+| `[Device.N] ContinuousCap` | `0x8001` (from the contract) | The continuous-mode capability. Without it, `Continuous` runs per slot. Gated. |
+| `[Device.N] DeviceEvents` | `1` | The session window shows what the sensor software reports: "Sensor ready", "Exposure captured", and an error when the sensor goes offline or is unplugged. Text only, not gated. |
+
+**Device online.** The session always asks the source whether the sensor is connected before it starts (`CAP_DEVICEONLINE`). With a 1.3
+source whose installation setting `[Sensor] UsbDevice` names the sensor's USB instance ID, the answer is a real check, and an unplugged
+sensor shows "Sensor not connected" instead of opening the sensor software. Without that setting, and with 1.2, the answer is always yes.
+
+**The source's own settings in 1.3** (its own INI file, set on the computer, not in Open PMS - Dental): `[Capture] HdMode=caries`
+delivers the vendor's caries enhancement instead of its HD rendering, and `[Adjust]` has five more adjustments (Invert, Levels, Relief,
+Sharpen, Gamma). They apply to 8-bit images only. When any adjustment was applied, the image's metadata lists it and Open PMS - Dental
+treats the image as adjusted; leave them at their defaults for diagnostic captures, as for the 1.2 adjustments (section 2).

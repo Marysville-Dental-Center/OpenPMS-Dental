@@ -342,6 +342,68 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void Adjustments_Contract13Keys_NeutralValuesStayNeutral() {
+			//twain-contract 1.3 always writes all nine keys, the ones not applied at their neutral values.
+			CaptureMetadata captureMetadata=Parse(@"""adjustments"":{""brightness"":50,""contrast"":50,""rotate"":90,""flip"":""none"",""invert"":false,"
+				+@"""levels"":[0,255],""relief"":0,""sharpen"":0,""gamma"":1.0}");
+			Assert.IsFalse(captureMetadata.Adjustments.IsNeutral,"rotate 90");
+			Assert.AreEqual(0,captureMetadata.ListWarnings.Count,string.Join("; ",captureMetadata.ListWarnings));
+			CaptureMetadataAdjustments adjustments=Parse(@"""adjustments"":{""brightness"":50,""contrast"":50,""rotate"":0,""flip"":""none"",""invert"":false,"
+				+@"""levels"":[0,255],""relief"":0,""sharpen"":0,""gamma"":1}").Adjustments;
+			Assert.IsTrue(adjustments.IsNeutral);
+			Assert.AreEqual(false,adjustments.Invert);
+			Assert.AreEqual(0,adjustments.LevelsLow);
+			Assert.AreEqual(255,adjustments.LevelsHigh);
+			Assert.AreEqual(0,adjustments.Relief);
+			Assert.AreEqual(0,adjustments.Sharpen);
+			Assert.AreEqual(1.0,adjustments.Gamma);
+		}
+
+		[TestMethod]
+		public void Adjustments_Contract13Keys_EachNonNeutralValueCounts() {
+			string[] arrayMembers={ @"""invert"":true",@"""levels"":[20,230]",@"""levels"":[0,254]",@"""relief"":1",@"""sharpen"":3",@"""gamma"":0.8",
+				@"""gamma"":2.5" };
+			foreach(string member in arrayMembers) {
+				CaptureMetadata captureMetadata=Parse(@"""adjustments"":{""brightness"":50,""contrast"":50,""rotate"":0,""flip"":""none"","+member+"}");
+				Assert.IsFalse(captureMetadata.Adjustments.IsNeutral,member);
+				Assert.IsTrue(captureMetadata.Adjustments.IsOrientationNeutral,member+": not an orientation change");
+				Assert.IsFalse(captureMetadata.HasOrientationAdjustment,member);
+				Assert.AreEqual(0,captureMetadata.ListWarnings.Count,member+": "+string.Join("; ",captureMetadata.ListWarnings));
+			}
+			Assert.AreEqual(0.8,Parse(@"""adjustments"":{""gamma"":0.8}").Adjustments.Gamma);
+			Assert.AreEqual(230,Parse(@"""adjustments"":{""levels"":[20,230]}").Adjustments.LevelsHigh);
+		}
+
+		[TestMethod]
+		public void Adjustments_Contract13Keys_UnreadableValuesCountAsAdjusted_WithAWarning() {
+			string[] arrayMembers={ @"""invert"":""yes""",@"""invert"":1",@"""levels"":""0,255""",@"""levels"":[0]",@"""levels"":[0,255,1]",
+				@"""levels"":[0.5,255]",@"""relief"":""1""",@"""sharpen"":1.5",@"""gamma"":""0.8""",@"""gamma"":true" };
+			foreach(string member in arrayMembers) {
+				CaptureMetadata captureMetadata=Parse(@"""adjustments"":{"+member+"}");
+				Assert.IsFalse(captureMetadata.Adjustments.IsNeutral,member);
+				Assert.AreEqual(1,captureMetadata.ListWarnings.Count,member+": "+string.Join("; ",captureMetadata.ListWarnings));
+			}
+			//Out of range but readable: kept, with a warning, and not neutral.
+			foreach(string member in new[] { @"""levels"":[200,100]",@"""relief"":7",@"""sharpen"":-1",@"""gamma"":9" }) {
+				CaptureMetadata captureMetadata=Parse(@"""adjustments"":{"+member+"}");
+				Assert.IsFalse(captureMetadata.Adjustments.IsNeutral,member);
+				Assert.AreEqual(1,captureMetadata.ListWarnings.Count,member+": "+string.Join("; ",captureMetadata.ListWarnings));
+			}
+		}
+
+		[TestMethod]
+		public void Adjustments_UnknownKey_CountsAsAdjusted_WithAWarning() {
+			CaptureMetadata captureMetadata=Parse(@"""adjustments"":{""brightness"":50,""contrast"":50,""rotate"":0,""flip"":""none"",""colormap"":0,"
+				+@"""Gamma"":1.0}");
+			Assert.IsFalse(captureMetadata.Adjustments.IsNeutral,"A key this version does not know may be a change it cannot tell.");
+			Assert.IsTrue(captureMetadata.Adjustments.IsOrientationNeutral);
+			CollectionAssert.AreEqual(new[] { "colormap","Gamma" },captureMetadata.Adjustments.ListUnknownKeys,"Names compare as written.");
+			Assert.AreEqual(2,captureMetadata.ListWarnings.Count(x => x.Contains("not known to this version")));
+			//null members of known keys stay neutral, as before
+			Assert.IsTrue(Parse(@"""adjustments"":{""invert"":null,""levels"":null,""relief"":null,""sharpen"":null,""gamma"":null}").Adjustments.IsNeutral);
+		}
+
+		[TestMethod]
 		public void Rendering_UnknownValueKeptWithWarning() {
 			CaptureMetadata captureMetadata=Parse(@"""rendering"":""something-new""");
 			Assert.AreEqual("something-new",captureMetadata.Rendering);
