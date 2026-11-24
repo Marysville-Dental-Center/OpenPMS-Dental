@@ -67,11 +67,26 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		{
 			InitializeComponent();
 			InitializeLayoutManager();
-			//UI-12F: LayoutManager scales the window (FormODBase allows no MinimumSize or MaximumSize in the designer), so its size limits, the
-			//designer's 525 x 166 and 1000 x 800 at 96 dpi, are set scaled here.
-			MinimumSize=new System.Drawing.Size(LayoutManager.Scale(525),LayoutManager.Scale(166));
-			MaximumSize=new System.Drawing.Size(LayoutManager.Scale(1000),LayoutManager.Scale(800));
+		}
 
+		protected override void OnLoad(EventArgs e) {
+			//FormODBase.OnLoad applies the screen's dpi to LayoutManager and sizes the window to its scaled layout; the size limits follow it.
+			base.OnLoad(e);
+			SetSizeLimitsScaled();
+		}
+
+		///<summary>UI-12F: LayoutManager scales the window (FormODBase allows no MinimumSize or MaximumSize in the designer), so its size limits,
+		///525 x 166 and 1000 x 800 at 96 dpi, are set here in LayoutManager's scale (the screen's dpi and the zoom). Call it after FormODBase.OnLoad
+		///has applied the screen's dpi: in the constructor LayoutManager's scale is still 96 dpi's. The limits always contain the window's current
+		///size, so they never resize the window LayoutManager sized.</summary>
+		public void SetSizeLimitsScaled() {
+			if(LayoutManager==null) {
+				return;
+			}
+			Size sizeMin=new Size(Math.Min(LayoutManager.Scale(525),Width),Math.Min(LayoutManager.Scale(166),Height));
+			Size sizeMax=new Size(Math.Max(LayoutManager.Scale(1000),Width),Math.Max(LayoutManager.Scale(800),Height));
+			MaximumSize=sizeMax;
+			MinimumSize=sizeMin;
 		}
 		#region Public Methods and Properties
 		/// <summary>

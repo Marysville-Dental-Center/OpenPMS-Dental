@@ -42,7 +42,7 @@
 			// lblMessage
 			// 
 			this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblMessage.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMessage.ForeColor = System.Drawing.Color.Maroon;
 			this.lblMessage.Location = new System.Drawing.Point(8, 8);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -54,7 +54,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
 			this.label1.Location = new System.Drawing.Point(260, 255);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -88,7 +88,7 @@
 			// 
 			// panel1
 			// 
-			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.imageAnimator1);
 			this.panel1.Location = new System.Drawing.Point(8, 177);
@@ -98,7 +98,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Font = new System.Drawing.Font("Arial Black", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.Maroon;
 			this.label2.Location = new System.Drawing.Point(64, 8);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -109,7 +109,7 @@
 			// 
 			// imageAnimator1
 			// 
-			this.imageAnimator1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.imageAnimator1.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.imageAnimator1.Location = new System.Drawing.Point(8, 8);
 			this.imageAnimator1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
 			this.imageAnimator1.Name = "imageAnimator1";
@@ -126,7 +126,7 @@
 			this.Controls.Add(this.butYes);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.lblMessage);
-			this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ForeColor = System.Drawing.Color.Maroon;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "FormWarnToCloseComputers";

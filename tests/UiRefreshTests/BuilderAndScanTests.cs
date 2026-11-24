@@ -80,6 +80,47 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-12F fix round: FormProgressViewer's size limits are set in LayoutManager's scale once FormODBase.OnLoad has applied the
+		///screen's dpi (in the constructor the scale is still 96 dpi's), and they always contain the window LayoutManager sized: at 175% the
+		///scaled window (596 px client at 96 dpi, 1043 px) is wider than the 1000 px limit at 96 dpi.</summary>
+		[TestMethod]
+		public void FormProgressViewer_SizeLimitsFollowTheScreensDpi() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				ScanType scanType=WindowBuilder.GetScanTypes().Single(x => x.Type.Name=="FormProgressViewer");
+				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+					FormProgressViewer formProgressViewer=(FormProgressViewer)builtWindow.Form;
+					LayoutManagerForms layoutManager=builtWindow.LayoutManager;
+					Assert.AreEqual(Size.Empty,formProgressViewer.MinimumSize,"No limits in the constructor (LayoutManager's scale is 96 dpi's there).");
+					Assert.AreEqual(Size.Empty,formProgressViewer.MaximumSize);
+					foreach(float scale in new float[] { 1f,1.5f,1.75f,2.5f }) {
+						layoutManager.SetScaleMS(scale);
+						//As FormODBase.OnLoad sizes the window: the scaled client size plus its borders.
+						int widthBorder=(int)Math.Round(8+(5*(scale-1)),MidpointRounding.AwayFromZero);
+						Size sizeWindow=new Size(layoutManager.Scale(layoutManager.SizeClientOriginal.Width)+widthBorder*2,
+							layoutManager.Scale(layoutManager.SizeClientOriginal.Height)+widthBorder+layoutManager.GetHeightTitleBar());
+						formProgressViewer.MinimumSize=Size.Empty;
+						formProgressViewer.MaximumSize=Size.Empty;
+						formProgressViewer.Size=sizeWindow;
+						formProgressViewer.SetSizeLimitsScaled();
+						Assert.AreEqual(sizeWindow,formProgressViewer.Size,"The limits never resize the window at "+scale);
+						Assert.IsTrue(formProgressViewer.MinimumSize.Width<=sizeWindow.Width && formProgressViewer.MinimumSize.Height<=sizeWindow.Height,
+							"The minimum contains the window at "+scale);
+						Assert.IsTrue(formProgressViewer.MaximumSize.Width>=sizeWindow.Width && formProgressViewer.MaximumSize.Height>=sizeWindow.Height,
+							"The maximum contains the window at "+scale);
+						Assert.AreEqual(Math.Max(layoutManager.Scale(1000),sizeWindow.Width),formProgressViewer.MaximumSize.Width,"Scaled at "+scale);
+						Assert.AreEqual(Math.Max(layoutManager.Scale(800),sizeWindow.Height),formProgressViewer.MaximumSize.Height,"Scaled at "+scale);
+						Assert.AreEqual(Math.Min(layoutManager.Scale(525),sizeWindow.Width),formProgressViewer.MinimumSize.Width,"Scaled at "+scale);
+						Assert.AreEqual(Math.Min(layoutManager.Scale(166),sizeWindow.Height),formProgressViewer.MinimumSize.Height,"Scaled at "+scale);
+						if(scale>=1.75f) {
+							Assert.IsTrue(sizeWindow.Width>1000,"The case the limits at 96 dpi broke: the window wider than 1000 at "+scale);
+						}
+					}
+				}
+			});
+		}
+
 		///<summary>UI-12 slice 2 continuation: a base class's designer runs only when its constructor calls it, as in the program. SetupWizControl
 		///has a designer (a title and a description label) but no constructor, so the setup wizard's pages never have those labels; FormODBase
 		///windows' own designers still run.</summary>
