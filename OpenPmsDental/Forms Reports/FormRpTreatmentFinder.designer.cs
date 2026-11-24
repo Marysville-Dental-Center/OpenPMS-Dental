@@ -320,7 +320,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 185);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1063, 467);
+			this.gridMain.Size = new System.Drawing.Size(1063, 459);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Treatment Finder";
 			this.gridMain.TranslationName = "TableTreatmentFinder";
@@ -331,7 +331,7 @@ namespace OpenPmsDental {
 			// 
 			this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.buttonExport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonExport.Location = new System.Drawing.Point(8, 692);
+			this.buttonExport.Location = new System.Drawing.Point(8, 684);
 			this.buttonExport.Name = "buttonExport";
 			this.buttonExport.Size = new System.Drawing.Size(119, 24);
 			this.buttonExport.TabIndex = 3;
@@ -367,7 +367,7 @@ namespace OpenPmsDental {
 			this.butLabelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabelPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabelPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabelPreview.Location = new System.Drawing.Point(133, 692);
+			this.butLabelPreview.Location = new System.Drawing.Point(133, 684);
 			this.butLabelPreview.Name = "butLabelPreview";
 			this.butLabelPreview.Size = new System.Drawing.Size(119, 24);
 			this.butLabelPreview.TabIndex = 5;
@@ -378,7 +378,7 @@ namespace OpenPmsDental {
 			// 
 			this.butGotoAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butGotoAccount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGotoAccount.Location = new System.Drawing.Point(787, 692);
+			this.butGotoAccount.Location = new System.Drawing.Point(787, 684);
 			this.butGotoAccount.Name = "butGotoAccount";
 			this.butGotoAccount.Size = new System.Drawing.Size(96, 24);
 			this.butGotoAccount.TabIndex = 8;
@@ -401,7 +401,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(544, 692);
+			this.butPrint.Location = new System.Drawing.Point(544, 684);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(87, 24);
 			this.butPrint.TabIndex = 6;
@@ -421,7 +421,7 @@ namespace OpenPmsDental {
 			// 
 			// FormRpTreatmentFinder
 			// 
-			this.ClientSize = new System.Drawing.Size(1079, 724);
+			this.ClientSize = new System.Drawing.Size(1079, 716);
 			this.Controls.Add(this.buttonExport);
 			this.Controls.Add(this.butLettersPreview);
 			this.Controls.Add(this.butLabelSingle);

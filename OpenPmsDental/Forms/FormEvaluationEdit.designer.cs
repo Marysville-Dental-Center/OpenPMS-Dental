@@ -150,7 +150,7 @@ namespace OpenPmsDental{
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label7.Location = new System.Drawing.Point(173, 476);
+			this.label7.Location = new System.Drawing.Point(173, 468);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(84, 23);
 			this.label7.TabIndex = 142;
@@ -160,7 +160,7 @@ namespace OpenPmsDental{
 			// textGradeShowingOverride
 			// 
 			this.textGradeShowingOverride.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowingOverride.Location = new System.Drawing.Point(329, 476);
+			this.textGradeShowingOverride.Location = new System.Drawing.Point(329, 468);
 			this.textGradeShowingOverride.MaxLength = 255;
 			this.textGradeShowingOverride.Name = "textGradeShowingOverride";
 			this.textGradeShowingOverride.Size = new System.Drawing.Size(60, 23);
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// textGradeShowing
 			// 
 			this.textGradeShowing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textGradeShowing.Location = new System.Drawing.Point(263, 476);
+			this.textGradeShowing.Location = new System.Drawing.Point(263, 468);
 			this.textGradeShowing.MaxLength = 255;
 			this.textGradeShowing.Name = "textGradeShowing";
 			this.textGradeShowing.ReadOnly = true;
@@ -212,7 +212,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridGrades.Location = new System.Drawing.Point(520, 89);
 			this.gridGrades.Name = "gridGrades";
-			this.gridGrades.Size = new System.Drawing.Size(314, 342);
+			this.gridGrades.Size = new System.Drawing.Size(314, 340);
 			this.gridGrades.TabIndex = 150;
 			this.gridGrades.Title = "Grading Scale";
 			this.gridGrades.TranslationName = "FormEvaluationDefEdit";
@@ -241,7 +241,7 @@ namespace OpenPmsDental{
 			this.gridCriterion.Location = new System.Drawing.Point(8, 89);
 			this.gridCriterion.Name = "gridCriterion";
 			this.gridCriterion.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridCriterion.Size = new System.Drawing.Size(504, 342);
+			this.gridCriterion.Size = new System.Drawing.Size(504, 340);
 			this.gridCriterion.TabIndex = 143;
 			this.gridCriterion.Title = "Criterion";
 			this.gridCriterion.TranslationName = "FormEvaluationDefEdit";
@@ -252,7 +252,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(759, 476);
+			this.butSave.Location = new System.Drawing.Point(759, 468);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -264,7 +264,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 476);
+			this.butDelete.Location = new System.Drawing.Point(8, 468);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 151;
@@ -274,7 +274,7 @@ namespace OpenPmsDental{
 			// FormEvaluationEdit
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(842, 508);
+			this.ClientSize = new System.Drawing.Size(842, 500);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.gridGrades);
 			this.Controls.Add(this.textGradeNumber);

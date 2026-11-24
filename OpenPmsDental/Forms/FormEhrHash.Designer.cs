@@ -43,7 +43,7 @@
 			// butGererate
 			// 
 			this.butGererate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butGererate.Location = new System.Drawing.Point(8, 254);
+			this.butGererate.Location = new System.Drawing.Point(8, 250);
 			this.butGererate.Name = "butGererate";
 			this.butGererate.Size = new System.Drawing.Size(104, 23);
 			this.butGererate.TabIndex = 2;
@@ -63,7 +63,7 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(118, 254);
+			this.label2.Location = new System.Drawing.Point(118, 250);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(88, 23);
 			this.label2.TabIndex = 4;
@@ -88,13 +88,13 @@
 			this.textMessage.Location = new System.Drawing.Point(8, 27);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
-			this.textMessage.Size = new System.Drawing.Size(545, 184);
+			this.textMessage.Size = new System.Drawing.Size(545, 180);
 			this.textMessage.TabIndex = 0;
 			// 
 			// butTransmit
 			// 
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransmit.Location = new System.Drawing.Point(478, 254);
+			this.butTransmit.Location = new System.Drawing.Point(478, 250);
 			this.butTransmit.Name = "butTransmit";
 			this.butTransmit.Size = new System.Drawing.Size(75, 23);
 			this.butTransmit.TabIndex = 6;
@@ -105,7 +105,7 @@
 			// FormEhrHash
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(561, 285);
+			this.ClientSize = new System.Drawing.Size(561, 281);
 			this.Controls.Add(this.butTransmit);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);

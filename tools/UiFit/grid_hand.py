@@ -470,6 +470,14 @@ def bar_section_gap(hand):
     y_row = min(c.ny for c in row)
     bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row)
                                             and (c.kind == "button" or c.anchored_bottom_only))]
+    # the bottom-anchored rows stacked on the bar (a row gap or less over it: FormConfirmationSetup's two status rows, FormFeesForIns'
+    # Change rows) move with it: one bottom block
+    while True:
+        y_top = min(c.ny for c in bar)
+        more = [c for c in shown if c not in bar and c.anchored_bottom_only and 0 <= y_top - (c.ny + c.nh) <= GRID["sibling_gap"]]
+        if not more:
+            break
+        bar += more
     # a control the bar's row shares with content (a field row with Save beside it, a list or group beside a column of buttons that ends
     # at the window's bottom): no bottom bar of its own
     if any(c not in bar and any(over(c, b) for b in bar) for c in shown):

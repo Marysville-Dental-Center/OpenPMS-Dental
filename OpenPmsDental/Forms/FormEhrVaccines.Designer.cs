@@ -34,7 +34,7 @@
 			// butSubmitImmunization
 			// 
 			this.butSubmitImmunization.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSubmitImmunization.Location = new System.Drawing.Point(569, 493);
+			this.butSubmitImmunization.Location = new System.Drawing.Point(569, 485);
 			this.butSubmitImmunization.Name = "butSubmitImmunization";
 			this.butSubmitImmunization.Size = new System.Drawing.Size(86, 23);
 			this.butSubmitImmunization.TabIndex = 3;
@@ -67,7 +67,7 @@
 			// label45
 			// 
 			this.label45.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label45.Location = new System.Drawing.Point(8, 496);
+			this.label45.Location = new System.Drawing.Point(8, 488);
 			this.label45.Name = "label45";
 			this.label45.Size = new System.Drawing.Size(212, 17);
 			this.label45.TabIndex = 130;
@@ -96,7 +96,7 @@
             "??",
             "Yes",
             "No"});
-			this.listVacShareOk.Location = new System.Drawing.Point(226, 496);
+			this.listVacShareOk.Location = new System.Drawing.Point(226, 488);
 			this.listVacShareOk.MultiColumn = true;
 			this.listVacShareOk.Name = "listVacShareOk";
 			this.listVacShareOk.Size = new System.Drawing.Size(95, 17);
@@ -106,7 +106,7 @@
 			// FormEhrVaccines
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(663, 524);
+			this.ClientSize = new System.Drawing.Size(663, 516);
 			this.Controls.Add(this.listVacShareOk);
 			this.Controls.Add(this.label45);
 			this.Controls.Add(this.butExport);

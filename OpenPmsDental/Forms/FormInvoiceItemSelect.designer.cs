@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(638, 570);
+			this.butOK.Location = new System.Drawing.Point(638, 566);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			// FormInvoiceItemSelect
 			// 
-			this.ClientSize = new System.Drawing.Size(721, 604);
+			this.ClientSize = new System.Drawing.Size(721, 600);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.butOK);
 			this.Controls.Add(this.butNone);

@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSend.BackColor = System.Drawing.SystemColors.Control;
-			this.butSend.Location = new System.Drawing.Point(770, 660);
+			this.butSend.Location = new System.Drawing.Point(770, 656);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(110, 24);
 			this.butSend.TabIndex = 0;
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(89, 660);
+			this.butNone.Location = new System.Drawing.Point(89, 656);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 24);
 			this.butNone.TabIndex = 23;
@@ -81,7 +81,7 @@ namespace OpenPmsDental {
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(8, 660);
+			this.butAll.Location = new System.Drawing.Point(8, 656);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 24);
 			this.butAll.TabIndex = 22;
@@ -289,7 +289,7 @@ namespace OpenPmsDental {
 			this.butPrintList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrintList.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrintList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrintList.Location = new System.Drawing.Point(170, 660);
+			this.butPrintList.Location = new System.Drawing.Point(170, 656);
 			this.butPrintList.Name = "butPrintList";
 			this.butPrintList.Size = new System.Drawing.Size(88, 24);
 			this.butPrintList.TabIndex = 42;
@@ -299,7 +299,7 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(264, 660);
+			this.label5.Location = new System.Drawing.Point(264, 656);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(308, 24);
 			this.label5.TabIndex = 43;
@@ -350,7 +350,7 @@ namespace OpenPmsDental {
 			// FormBilling
 			// 
 			this.AcceptButton = this.butSend;
-			this.ClientSize = new System.Drawing.Size(888, 692);
+			this.ClientSize = new System.Drawing.Size(888, 688);
 			this.Controls.Add(this.butSend);
 			this.Controls.Add(this.butDefaults);
 			this.Controls.Add(this.comboEmailFrom);

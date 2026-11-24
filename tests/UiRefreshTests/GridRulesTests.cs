@@ -691,6 +691,16 @@ namespace UiRefreshTests {
 			int yRow=listRow.Min(x => x.Top);
 			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)
 				&& (IsAnyButton(x) || (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom))).ToList();
+			//The bottom-anchored rows stacked on the bar (8 px or less over it: FormConfirmationSetup's two status rows) are one bottom block with it.
+			while(true) {
+				int yTop=listBar.Min(x => x.Top);
+				List<Control> listMore=listKids.Where(x => !listBar.Contains(x) && (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+					&& yTop-x.Bottom>=0 && yTop-x.Bottom<=UiGrid.SIBLING_GAP).ToList();
+				if(listMore.Count==0) {
+					break;
+				}
+				listBar.AddRange(listMore);
+			}
 			//A row the bar shares with other controls (FormDisplayFieldEdit's Column Width row with Save beside it, a list or group beside a column
 			//of buttons that ends at the window's bottom: FormCounties, FormRpOutstandingIns) is no bottom bar.
 			if(listKids.Any(x => !listBar.Contains(x) && listBar.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4))) {

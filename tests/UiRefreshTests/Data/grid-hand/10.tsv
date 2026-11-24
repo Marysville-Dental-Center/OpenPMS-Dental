@@ -567,7 +567,3 @@ OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigEleme
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	label6	Location	90,265	90,290	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	OpenPmsDental.FormSigElementDefEdit	butColor	Location	168,265	168,290	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQueryFavorites.designer.cs	OpenPmsDental.FormQueryFavorites	splitContainer	Size	1068,608	1068,604	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	textInvalid	Location	196,503	196,512	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	labelInvalid	Location	138,503	138,512	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	butCheck	Location	8,502	8,511	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	OpenPmsDental.FormXchargeTokenTool	.	ClientSize	725,534	725,543	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

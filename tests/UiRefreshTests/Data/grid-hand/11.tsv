@@ -423,7 +423,3 @@ OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	OpenPmsDental.FormQuic
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	OpenPmsDental.FormQuickBooksOnlineSetup	labelClassesAvailable	Size	136,32	145,32	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	OpenPmsDental.FormQuickBooksOnlineSetup	butAddClass	Location	390,531	390,547	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	OpenPmsDental.FormQuickBooksOnlineSetup	butRemoveClass	Location	390,559	390,575	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	OpenPmsDental.FormConfirmationSetup	butSave	Location	781,531	781,539	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	OpenPmsDental.FormConfirmationSetup	comboStatusTextMessagedConfirm	Location	226,531	226,539	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	OpenPmsDental.FormConfirmationSetup	label6	Location	8,531	8,539	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	OpenPmsDental.FormConfirmationSetup	.	ClientSize	864,563	864,571	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

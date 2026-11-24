@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(104, 526);
+			this.label2.Location = new System.Drawing.Point(104, 518);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(440, 31);
 			this.label2.TabIndex = 63;
@@ -93,7 +93,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Controls.Add(this.butSynch);
-			this.groupBox1.Location = new System.Drawing.Point(8, 565);
+			this.groupBox1.Location = new System.Drawing.Point(8, 557);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(887, 93);
 			this.groupBox1.TabIndex = 66;
@@ -205,7 +205,7 @@ namespace OpenPmsDental{
 			// 
 			this.butTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butTest.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butTest.Location = new System.Drawing.Point(8, 522);
+			this.butTest.Location = new System.Drawing.Point(8, 514);
 			this.butTest.Name = "butTest";
 			this.butTest.Size = new System.Drawing.Size(90, 24);
 			this.butTest.TabIndex = 62;
@@ -237,7 +237,7 @@ namespace OpenPmsDental{
 			// 
 			// FormReplicationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(903, 666);
+			this.ClientSize = new System.Drawing.Size(903, 658);
 			this.Controls.Add(this.groupBoxReplicationFailure);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label2);

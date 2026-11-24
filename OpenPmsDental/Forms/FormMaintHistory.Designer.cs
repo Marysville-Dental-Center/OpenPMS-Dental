@@ -107,7 +107,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridValues.Location = new System.Drawing.Point(8, 399);
 			this.gridValues.Name = "gridValues";
-			this.gridValues.Size = new System.Drawing.Size(996, 193);
+			this.gridValues.Size = new System.Drawing.Size(996, 197);
 			this.gridValues.TabIndex = 7;
 			this.gridValues.Title = "Checklist and Results";
 			this.gridValues.TranslationName = "TableMaintHistoryValues";

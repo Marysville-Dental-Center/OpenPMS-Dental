@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			this.textNote.Location = new System.Drawing.Point(8, 523);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
-			this.textNote.Size = new System.Drawing.Size(576, 107);
+			this.textNote.Size = new System.Drawing.Size(576, 111);
 			this.textNote.TabIndex = 14;
 			// 
 			// groupBox2
@@ -122,7 +122,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridBen.Location = new System.Drawing.Point(600, 426);
 			this.gridBen.Name = "gridBen";
-			this.gridBen.Size = new System.Drawing.Size(366, 204);
+			this.gridBen.Size = new System.Drawing.Size(366, 208);
 			this.gridBen.TabIndex = 118;
 			this.gridBen.Title = "Current Benefits";
 			this.gridBen.TranslationName = "FormEtrans270Edit";

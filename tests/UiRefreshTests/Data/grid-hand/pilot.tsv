@@ -1828,5 +1828,4 @@ OpenPmsDental/Forms/FormApptViewEdit.designer.cs	OpenPmsDental.FormApptViewEdit	
 OpenPmsDental/Forms/FormApptViewEdit.designer.cs	OpenPmsDental.FormApptViewEdit	butDelete	Location	8,693	8,697	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormApptViewEdit.designer.cs	OpenPmsDental.FormApptViewEdit	.	ClientSize	1092,725	1092,729	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormHL7DefEdit.designer.cs	OpenPmsDental.FormHL7DefEdit	gridMain	Size	876,343	876,339	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormInsBenefits.designer.cs	OpenPmsDental.FormInsBenefits	textSubscNote	Size	568,98	568,94	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormMedLabEdit.designer.cs	OpenPmsDental.FormMedLabEdit	gridFacilities	Size	958,132	958,124	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormMedLabEdit.designer.cs	OpenPmsDental.FormMedLabEdit	gridResults	Size	958,343	958,339	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

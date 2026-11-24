@@ -35,7 +35,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(781, 539);
+			this.butSave.Location = new System.Drawing.Point(781, 531);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 97;
@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// 
 			this.comboStatusTextMessagedConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboStatusTextMessagedConfirm.Location = new System.Drawing.Point(226, 539);
+			this.comboStatusTextMessagedConfirm.Location = new System.Drawing.Point(226, 531);
 			this.comboStatusTextMessagedConfirm.Name = "comboStatusTextMessagedConfirm";
 			this.comboStatusTextMessagedConfirm.Size = new System.Drawing.Size(233, 23);
 			this.comboStatusTextMessagedConfirm.TabIndex = 91;
@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label6.Location = new System.Drawing.Point(8, 539);
+			this.label6.Location = new System.Drawing.Point(8, 531);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(212, 23);
 			this.label6.TabIndex = 89;
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			// 
 			// FormConfirmationSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(864, 571);
+			this.ClientSize = new System.Drawing.Size(864, 563);
 			this.Controls.Add(this.checkGroupFamilies);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.gridMain);

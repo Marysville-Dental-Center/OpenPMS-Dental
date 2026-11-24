@@ -384,7 +384,7 @@ namespace OpenPmsDental {
 			// butAudit
 			// 
 			this.butAudit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAudit.Location = new System.Drawing.Point(94, 658);
+			this.butAudit.Location = new System.Drawing.Point(94, 654);
 			this.butAudit.Name = "butAudit";
 			this.butAudit.Size = new System.Drawing.Size(75, 24);
 			this.butAudit.TabIndex = 160;
@@ -518,7 +518,7 @@ namespace OpenPmsDental {
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSend.Location = new System.Drawing.Point(513, 658);
+			this.butSend.Location = new System.Drawing.Point(513, 654);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 142;
@@ -528,7 +528,7 @@ namespace OpenPmsDental {
 			// labelReply
 			// 
 			this.labelReply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelReply.Location = new System.Drawing.Point(675, 658);
+			this.labelReply.Location = new System.Drawing.Point(675, 654);
 			this.labelReply.Name = "labelReply";
 			this.labelReply.Size = new System.Drawing.Size(136, 24);
 			this.labelReply.TabIndex = 141;
@@ -538,7 +538,7 @@ namespace OpenPmsDental {
 			// butReply
 			// 
 			this.butReply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butReply.Location = new System.Drawing.Point(594, 658);
+			this.butReply.Location = new System.Drawing.Point(594, 654);
 			this.butReply.Name = "butReply";
 			this.butReply.Size = new System.Drawing.Size(75, 24);
 			this.butReply.TabIndex = 140;
@@ -592,7 +592,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 658);
+			this.butDelete.Location = new System.Drawing.Point(8, 654);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 124;
@@ -698,7 +698,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSave.Location = new System.Drawing.Point(919, 658);
+			this.butSave.Location = new System.Drawing.Point(919, 654);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 4;
@@ -810,7 +810,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelTaskChanged.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelTaskChanged.ForeColor = System.Drawing.Color.Red;
-			this.labelTaskChanged.Location = new System.Drawing.Point(256, 658);
+			this.labelTaskChanged.Location = new System.Drawing.Point(256, 654);
 			this.labelTaskChanged.Name = "labelTaskChanged";
 			this.labelTaskChanged.Size = new System.Drawing.Size(160, 24);
 			this.labelTaskChanged.TabIndex = 173;
@@ -821,7 +821,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRefresh.Location = new System.Drawing.Point(422, 658);
+			this.butRefresh.Location = new System.Drawing.Point(422, 654);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 24);
 			this.butRefresh.TabIndex = 174;
@@ -949,7 +949,7 @@ namespace OpenPmsDental {
 			// butSubscribers
 			// 
 			this.butSubscribers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSubscribers.Location = new System.Drawing.Point(175, 658);
+			this.butSubscribers.Location = new System.Drawing.Point(175, 654);
 			this.butSubscribers.Name = "butSubscribers";
 			this.butSubscribers.Size = new System.Drawing.Size(75, 24);
 			this.butSubscribers.TabIndex = 185;
@@ -960,7 +960,7 @@ namespace OpenPmsDental {
 			// 
 			// FormTaskEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(1002, 690);
+			this.ClientSize = new System.Drawing.Size(1002, 686);
 			this.Controls.Add(this.butSubscribers);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.comboCategory);

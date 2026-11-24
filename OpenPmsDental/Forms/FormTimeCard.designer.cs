@@ -226,7 +226,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 114);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(963, 464);
+			this.gridMain.Size = new System.Drawing.Size(963, 460);
 			this.gridMain.TabIndex = 13;
 			this.gridMain.Title = "Time Card";
 			this.gridMain.TranslationName = "TableTimeCard";
@@ -236,7 +236,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcDaily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcDaily.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcDaily.Location = new System.Drawing.Point(240, 668);
+			this.butCalcDaily.Location = new System.Drawing.Point(240, 664);
 			this.butCalcDaily.Name = "butCalcDaily";
 			this.butCalcDaily.Size = new System.Drawing.Size(90, 24);
 			this.butCalcDaily.TabIndex = 23;
@@ -248,7 +248,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(802, 668);
+			this.butPrint.Location = new System.Drawing.Point(802, 664);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(86, 24);
 			this.butPrint.TabIndex = 19;
@@ -259,7 +259,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCalcWeekOT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butCalcWeekOT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCalcWeekOT.Location = new System.Drawing.Point(144, 668);
+			this.butCalcWeekOT.Location = new System.Drawing.Point(144, 664);
 			this.butCalcWeekOT.Name = "butCalcWeekOT";
 			this.butCalcWeekOT.Size = new System.Drawing.Size(90, 24);
 			this.butCalcWeekOT.TabIndex = 18;
@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 			this.butAdj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdj.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdj.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdj.Location = new System.Drawing.Point(8, 668);
+			this.butAdj.Location = new System.Drawing.Point(8, 664);
 			this.butAdj.Name = "butAdj";
 			this.butAdj.Size = new System.Drawing.Size(130, 24);
 			this.butAdj.TabIndex = 15;
@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSave.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butSave.Location = new System.Drawing.Point(896, 668);
+			this.butSave.Location = new System.Drawing.Point(896, 664);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 0;
@@ -363,7 +363,7 @@ namespace OpenPmsDental {
 			// FormTimeCard
 			//
 			this.CancelButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(979, 700);
+			this.ClientSize = new System.Drawing.Size(979, 696);
 			this.Controls.Add(this.groupTotalsFormat);
 			this.Controls.Add(this.gridTotals);
 			this.Controls.Add(this.groupEmployee);
