@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			this.listFields.IntegralHeight = false;
 			this.listFields.Location = new System.Drawing.Point(657, 8);
 			this.listFields.Name = "listFields";
-			this.listFields.Size = new System.Drawing.Size(201, 640);
+			this.listFields.Size = new System.Drawing.Size(201, 653);
 			this.listFields.TabIndex = 0;
 			this.listFields.TabStop = false;
 			this.listFields.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListFields_MouseDown);

@@ -232,7 +232,7 @@ namespace OpenPmsDental{
 			//
 			// textRelayPort
 			//
-			this.textRelayPort.Location = new System.Drawing.Point(153, 172);
+			this.textRelayPort.Location = new System.Drawing.Point(153, 167);
 			this.textRelayPort.Name = "textRelayPort";
 			this.textRelayPort.Size = new System.Drawing.Size(60, 20);
 			this.textRelayPort.TabIndex = 6;
@@ -260,7 +260,7 @@ namespace OpenPmsDental{
 			this.labelStatusValue.Location = new System.Drawing.Point(153, 208);
 			this.labelStatusValue.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.labelStatusValue.Name = "labelStatusValue";
-			this.labelStatusValue.Size = new System.Drawing.Size(431, 54);
+			this.labelStatusValue.Size = new System.Drawing.Size(431, 50);
 			this.labelStatusValue.TabIndex = 109;
 			this.labelStatusValue.Text = "Not connected";
 			//

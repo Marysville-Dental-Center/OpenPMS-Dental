@@ -3,7 +3,7 @@ the window from main's 1014 x 696 to 1150 x 900 (the three Fee groups 348 wide a
 under the search group), put the fee schedule group combos (stacked on the clinic pickers, shown in their place by Show Fee Schedule
 Groups; the code moved them to the literal (14, 96), now to the clinic picker's place) beside the fee schedule combos, and left the fee
 schedule combos 47 px narrower than the clinic and provider combos. Three columns: the search group over the Procedure Codes group on the
-left (173 wide, the buttons' group on the bottom padding), the grid in the middle from the top to the bottom padding, and a 229 px right
+left (173 wide, the buttons' group on the bottom padding), the grid in the middle from the top to the bottom padding, and a 250 px right
 column ending on the right padding: the Compare caption, the three Fee groups (one height; each caption 2 px over its box; the combos one
 width, their pick buttons 6 px after them), the Fee Colors group (swatches and their names on two rows and two columns), Fee Scheds and
 Fee Tools, and the bottom bar's row with Fees as of and OK. The window grows 71 px taller (1014 x 767) for the Fee groups at the row
@@ -17,7 +17,7 @@ _spec.loader.exec_module(s)
 
 WW, WH = 1014, 767
 LEFT_W = 173
-COL_W = 229
+COL_W = 250
 CAP = 17
 
 
@@ -94,14 +94,17 @@ def layout(h):
     yr = yb - 4 - 24
     h.set("butEditFeeSched", cx, yr, None, 24)
     h.set("butTools", cx + h.n("butEditFeeSched").nw + 8, yr, None, 24)
-    # Fee Colors: two rows of a swatch and its name, two columns
-    half = (COL_W - 16) // 2
+    # Fee Colors: two rows of a swatch and its name, two columns (the second after the first's longer name)
+    sww = h.n("butColorDefault").nw
+    lw1 = max(h.lw("label19"), h.lw("label22"))
+    x2 = 8 + sww + 6 + lw1 + 8
+    lw2 = COL_W - 8 - x2 - sww - 6
     for sw, lab, col, row in (("butColorDefault", "label19", 0, 0), ("butColorClinic", "label21", 1, 0),
                               ("butColorProvider", "label22", 0, 1), ("butColorClinicProv", "label20", 1, 1)):
-        x = 8 + col * half
+        x = x2 if col else 8
         yy = 23 + row * (h.H + 4)
         h.set(sw, x, yy, None, h.H)
         h.text_align(lab, "MiddleLeft")
-        h.set(lab, x + h.n(sw).nw + 6, yy, half - h.n(sw).nw - 6 - (0 if col else 4), h.H)
+        h.set(lab, x + sww + 6, yy, lw2 if col else lw1, h.H)
     ch = 23 + 2 * h.H + 4 + 8
     h.set("groupBox5", cx, yr - 8 - ch, COL_W, ch)

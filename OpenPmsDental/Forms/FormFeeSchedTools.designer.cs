@@ -141,9 +141,9 @@ namespace OpenPmsDental {
 			this.comboClinicTo.HqDescription = "Default";
 			this.comboClinicTo.IncludeUnassigned = true;
 			this.comboClinicTo.IsMultiSelect = true;
-			this.comboClinicTo.Location = new System.Drawing.Point(96, 50);
+			this.comboClinicTo.Location = new System.Drawing.Point(83, 50);
 			this.comboClinicTo.Name = "comboClinicTo";
-			this.comboClinicTo.Size = new System.Drawing.Size(300, 23);
+			this.comboClinicTo.Size = new System.Drawing.Size(313, 23);
 			this.comboClinicTo.TabIndex = 2;
 			// 
 			// groupBox7
@@ -184,9 +184,9 @@ namespace OpenPmsDental {
 			// 
 			this.comboClinic.HqDescription = "Default";
 			this.comboClinic.IncludeUnassigned = true;
-			this.comboClinic.Location = new System.Drawing.Point(106, 50);
+			this.comboClinic.Location = new System.Drawing.Point(98, 50);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(299, 23);
+			this.comboClinic.Size = new System.Drawing.Size(307, 23);
 			this.comboClinic.TabIndex = 2;
 			// 
 			// comboFeeSched
@@ -276,7 +276,7 @@ namespace OpenPmsDental {
 			this.label9.Text = "Only for offices that run reports after updating fee schedules and before selecti" +
     "ng patients. Recalculates treatment planned estimates, write-offs, ortho cases, " +
     "and discount plan amounts.";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			// 
 			// butUpdateWriteoffs
 			// 
@@ -301,10 +301,10 @@ namespace OpenPmsDental {
 			// 
 			this.label4.Location = new System.Drawing.Point(8, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(208, 18);
+			this.label4.Size = new System.Drawing.Size(447, 18);
 			this.label4.TabIndex = 5;
 			this.label4.Text = "Update fees for all patients";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// butUpdate
 			// 

@@ -1,6 +1,6 @@
 """FormSheetFieldStatic on the grid (UI-12 slice 11, layout script on the planner's tree). The planner kept main's 18 px left margin for the
 text box, a 19 px gutter to the field list and the list 3 px short of the right padding. The text box from the padding to 8 px before the
-list; the list ending on the right padding; the insert note's right edge on the text box's."""
+list; the list ending on the right padding and down to the section gap over the bar; the insert note's right edge on the text box's."""
 import importlib.util
 import os
 
@@ -11,9 +11,9 @@ _spec.loader.exec_module(s)
 
 def layout(h):
     R = s.W(h) - 8
-    s.bar(h, left=("butDelete",), right=("butSave",))
+    yb = s.bar(h, left=("butDelete",), right=("butSave",))
     lst = h.n("listFields")
-    h.set("listFields", None, None, R - lst.nx, None)
+    h.set("listFields", None, None, R - lst.nx, yb - s.SECTION - lst.ny)
     h.set("textFieldValue", 8, None, lst.nx - 8 - 8, None)
     n = h.n("label1")
     h.set("label1", lst.nx - 8 - n.nw, None)

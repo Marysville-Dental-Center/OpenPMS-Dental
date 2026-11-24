@@ -56,14 +56,14 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 47);
+			this.label1.Size = new System.Drawing.Size(170, 50);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Roundtrip time for a very small query to the database.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textLatency
 			// 
-			this.textLatency.Location = new System.Drawing.Point(8, 72);
+			this.textLatency.Location = new System.Drawing.Point(8, 79);
 			this.textLatency.Name = "textLatency";
 			this.textLatency.ReadOnly = true;
 			this.textLatency.Size = new System.Drawing.Size(56, 23);
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(70, 75);
+			this.label2.Location = new System.Drawing.Point(70, 82);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(53, 17);
 			this.label2.TabIndex = 7;
@@ -82,7 +82,7 @@ namespace OpenPmsDental{
 			// butLatency
 			// 
 			this.butLatency.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butLatency.Location = new System.Drawing.Point(8, 99);
+			this.butLatency.Location = new System.Drawing.Point(8, 165);
 			this.butLatency.Name = "butLatency";
 			this.butLatency.Size = new System.Drawing.Size(70, 24);
 			this.butLatency.TabIndex = 4;
@@ -95,9 +95,9 @@ namespace OpenPmsDental{
 			this.groupBox1.Controls.Add(this.butLatency);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.textLatency);
-			this.groupBox1.Location = new System.Drawing.Point(12, 8);
+			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(157, 197);
+			this.groupBox1.Size = new System.Drawing.Size(186, 197);
 			this.groupBox1.TabIndex = 8;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Latency";
@@ -108,9 +108,9 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.butSpeed);
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Controls.Add(this.textSpeed);
-			this.groupBox2.Location = new System.Drawing.Point(177, 8);
+			this.groupBox2.Location = new System.Drawing.Point(202, 8);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(157, 197);
+			this.groupBox2.Size = new System.Drawing.Size(186, 197);
 			this.groupBox2.TabIndex = 9;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Speed";
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// 
 			this.label3.Location = new System.Drawing.Point(8, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(132, 52);
+			this.label3.Size = new System.Drawing.Size(170, 50);
 			this.label3.TabIndex = 5;
 			this.label3.Text = "For a larger database query.  The latency time is already subtracted.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// butSpeed
 			// 
 			this.butSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSpeed.Location = new System.Drawing.Point(8, 104);
+			this.butSpeed.Location = new System.Drawing.Point(8, 165);
 			this.butSpeed.Name = "butSpeed";
 			this.butSpeed.Size = new System.Drawing.Size(70, 24);
 			this.butSpeed.TabIndex = 4;
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(70, 80);
+			this.label4.Location = new System.Drawing.Point(70, 82);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(53, 17);
 			this.label4.TabIndex = 7;
@@ -145,7 +145,7 @@ namespace OpenPmsDental{
 			// 
 			// textSpeed
 			// 
-			this.textSpeed.Location = new System.Drawing.Point(8, 77);
+			this.textSpeed.Location = new System.Drawing.Point(8, 79);
 			this.textSpeed.Name = "textSpeed";
 			this.textSpeed.ReadOnly = true;
 			this.textSpeed.Size = new System.Drawing.Size(56, 23);
@@ -156,7 +156,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelAverageExplain.Location = new System.Drawing.Point(8, 23);
 			this.labelAverageExplain.Name = "labelAverageExplain";
-			this.labelAverageExplain.Size = new System.Drawing.Size(200, 32);
+			this.labelAverageExplain.Size = new System.Drawing.Size(172, 34);
 			this.labelAverageExplain.TabIndex = 0;
 			this.labelAverageExplain.Text = "Average of several round trips of the same small query.";
 			// 
@@ -285,9 +285,9 @@ namespace OpenPmsDental{
 			this.groupBoxAverage.Controls.Add(this.textAverageMax);
 			this.groupBoxAverage.Controls.Add(this.labelAverageMaxMs);
 			this.groupBoxAverage.Controls.Add(this.butAverage);
-			this.groupBoxAverage.Location = new System.Drawing.Point(342, 8);
+			this.groupBoxAverage.Location = new System.Drawing.Point(396, 8);
 			this.groupBoxAverage.Name = "groupBoxAverage";
-			this.groupBoxAverage.Size = new System.Drawing.Size(216, 197);
+			this.groupBoxAverage.Size = new System.Drawing.Size(188, 197);
 			this.groupBoxAverage.TabIndex = 10;
 			this.groupBoxAverage.TabStop = false;
 			this.groupBoxAverage.Text = "Average latency";

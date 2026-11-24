@@ -12,13 +12,11 @@ _spec = importlib.util.spec_from_file_location("_s11", os.path.join(os.path.dirn
 s = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(s)
 
-PICKER_LABEL = 35  # a ComboBoxClinicPicker's own caption before its box
-
-
 def group_row(h, sched, clinic, group, label, pick_sched, pick_group):
     f = h.n(sched)
     c = h.n(clinic)
-    h.set(clinic, f.nx - PICKER_LABEL, None, PICKER_LABEL + f.nw, h.H)
+    lw = h.clinic_w(clinic)
+    h.set(clinic, f.nx - lw, None, lw + f.nw, h.H)
     h.set(group, f.nx, c.ny, f.nw, h.H)
     s.label_before(h, label, group)
     h.set(pick_group, h.n(pick_sched).nx, c.ny, None, h.H)
@@ -52,6 +50,9 @@ def layout(h):
     h.set("comboGlobalUpdateClinics", 8, None)
     for name in ("label4", "butUpdate", "butUpdateWriteoffs"):
         h.set(name, 8, None)
+    h.text_align("label4", "MiddleLeft")
+    h.set("label4", None, None, inner, None)
+    h.text_align("label9", "TopLeft")
     note_then(h, "label9", inner, ("butUpdateWriteoffs",), "groupGlobalUpdateFees")
     note_then(h, "labelCopyCodeExplain", inner, ("labelCodeFrom", "textCodeFrom", "butPickCodeFrom", "labelCodeTo", "textCodeTo",
                                                   "butPickCodeTo", "radioCopyCodeAllScheds", "radioCopyCodeOneSched", "butCopyCode"),
