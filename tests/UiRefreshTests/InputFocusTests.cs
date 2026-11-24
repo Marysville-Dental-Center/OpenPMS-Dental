@@ -109,14 +109,15 @@ namespace UiRefreshTests {
 			}
 			listFailures.AddRange(paintProbe.ListFlashes);
 			bool[] maskFrame=GetFrameMask(control,width,height);
-			//Focused and unfocused: the same pixels but in the focus line's rows (a date picker's value: Windows highlights its field when focused).
+			//Focused and unfocused: the same pixels but in the focus line's rows (a date picker's value and a combo box's text field: Windows highlights
+			//its field or selection when focused, inside the frame; only the frame's own area is compared for them).
 			int rowFocusLine=height-2;
 			int countMoved=0;
 			string firstMoved="";
 			for(int y=0;y<rowFocusLine;y++) {
 				for(int x=0;x<width;x++) {
 					int i=y*width+x;
-					if(control is DateTimePicker && !maskFrame[i]) {
+					if((control is DateTimePicker || control is System.Windows.Forms.ComboBox) && !maskFrame[i]) {
 						continue;
 					}
 					if(pixelsUnfocused[i]!=pixelsFocused[i]) {
