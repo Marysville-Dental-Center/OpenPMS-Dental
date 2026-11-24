@@ -439,6 +439,10 @@ namespace UiRefreshTests {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				//UI-12 slice 14: the windows made in their constructor (the message box, the database settings, the imaging windows built in code)
+				//are checked as the gallery builds them, with their controls.
+				bool isBuildingBefore=WindowBuilder.IsBuildingByConstructor;
+				WindowBuilder.IsBuildingByConstructor=true;
 				foreach(GridWindow gridWindow in listWindows) {
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==gridWindow.Window);
 					if(scanType==null) {
@@ -466,6 +470,7 @@ namespace UiRefreshTests {
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}
 				}
+				WindowBuilder.IsBuildingByConstructor=isBuildingBefore;
 			});
 			if(!string.IsNullOrEmpty(pathBarGaps)) {
 				File.WriteAllLines(pathBarGaps,listBarGaps);

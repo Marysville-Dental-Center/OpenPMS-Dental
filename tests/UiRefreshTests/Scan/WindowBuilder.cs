@@ -372,6 +372,16 @@ namespace UiRefreshTests.Scan {
 				switch(scanType.Kind) {
 					case BuildKind.LayoutManagerWindow:
 						FormODBase formODBase;
+						if(IsBuiltByItsFactory(scanType.Type)) {
+							//UI-12 slice 14: its controls are made in its constructor, which calls InitializeLayoutManager itself.
+							formODBase=_dictBuiltByFactory[scanType.Type.FullName]();
+							builtWindow.Form=formODBase;
+							builtWindow.Root=formODBase;
+							builtWindow.LayoutManager=GetLayoutManager(formODBase);
+							SetPanelClientAsOnLoad(formODBase,builtWindow.LayoutManager);
+							builtWindow.LayOutAt(1f);
+							break;
+						}
 						//UI-12 slice 13: the preferences an InitializeComponent reads, and the sample objects seven windows' handlers read (Scan\SampleData).
 						using(SampleData.PrefsForInitializeComponent(scanType.Type)) {
 							formODBase=(FormODBase)CreateBare(scanType.Type,typeof(FormODBase));
@@ -454,6 +464,23 @@ namespace UiRefreshTests.Scan {
 		///<summary>True for a plain window the builder makes with its own constructor (_dictBuiltByConstructor, IsBuildingByConstructor).</summary>
 		public static bool IsBuiltByItsConstructor(Type type) {
 			return IsBuildingByConstructor && _dictBuiltByConstructor.ContainsKey(type.FullName);
+		}
+
+		///<summary>UI-12 slice 14: the program's windows that make their controls in code (no InitializeComponent; the imaging upgrades), made by
+		///their constructor with synthetic arguments while IsBuildingByConstructor is set (the gallery, the sweep and GridRulesTests): a made-up
+		///camera with no device, the Universal tooth numbers with no tooth picked, the adjustments window with no image. Their constructors build
+		///the controls and call InitializeLayoutManager; nothing reads the database or a device before Load, which the builder does not raise.</summary>
+		private static readonly Dictionary<string,Func<FormODBase>> _dictBuiltByFactory=new Dictionary<string,Func<FormODBase>> {
+			{ "OpenPmsDental.FormCameraSettings",() => new FormCameraSettings(new List<ImagingCapture.Uvc.UvcDeviceInfo>(),null,null,false,
+				new ImagingCapture.Camera.CameraConfig(),new ImagingCapture.Photo.PhotoSessionConfig { IsFreezeFirst=true,VideoLimitSeconds=90 },
+				new List<string> { "Camera button: still pin (learned).","Foot pedal: F8 takes a photo." },0,(Func<ImagingCapture.UI.CaptureLearnMode,List<string>>)null) },
+			{ "OpenPmsDental.FormToothPicker",() => new FormToothPicker("",null,OpenPmsDentalBusiness.ToothNumberingNomenclature.Universal) },
+			{ "OpenPmsDental.FormImageEnhance",() => new FormImageEnhance() },
+		};
+
+		///<summary>UI-12 slice 14: true for a program window the builder makes with its own constructor (_dictBuiltByFactory).</summary>
+		public static bool IsBuiltByItsFactory(Type type) {
+			return IsBuildingByConstructor && _dictBuiltByFactory.ContainsKey(type.FullName);
 		}
 
 		///<summary>The window made by its public constructor with the synthetic arguments of _dictBuiltByConstructor.</summary>
