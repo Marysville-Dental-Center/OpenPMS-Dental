@@ -101,6 +101,43 @@ namespace NoHqTests {
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));
 		}
 
+		///<summary>UI-BRAND-2 (the owner's answer 1): QuickBooks authorizes the program under the application name it connects with, so every
+		///connection (the 32-bit helper's module, the in-process and late-bound bridges, and the tests' reference copy of today's code) gives the
+		///product name, "Open PMS - Dental". The office's QuickBooks administrator allows the program once more under that name.</summary>
+		[TestMethod]
+		public void QuickBooks_ConnectsUnderTheProductName() {
+			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
+			Regex regexConnect=new Regex(@"SessionManager\.OpenConnection\(\s*""""\s*,\s*""([^""]*)""\s*\)");
+			string[] arrayFiles=new string[] { @"OpenPmsDentalHelper32\QuickBooks\QuickBooksModule.cs",@"WpfControlsOD\Bridges\QuickBooksInProcess.cs",
+				@"WpfControlsOD\Bridges\QuickBooksLateBound.cs",@"tests\Helper32Tests\QuickBooks\QuickBooksToday.cs" };
+			Assert.AreEqual("Open PMS - Dental",CodeBase.VendorDirect.ProductIdentity.ProductName);
+			foreach(string file in arrayFiles) {
+				string path=Path.Combine(pathRoot,file);
+				Assert.IsTrue(File.Exists(path),path+" is missing.");
+				List<string> listNames=regexConnect.Matches(File.ReadAllText(path)).Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+				CollectionAssert.AreEqual(new List<string> { CodeBase.VendorDirect.ProductIdentity.ProductName },listNames,
+					file+" connects to QuickBooks under: "+string.Join(" | ",listNames));
+			}
+		}
+
+		///<summary>UI-BRAND-2 (the owner's answer 6): the Preferences window's info pop-ups send the office to no page of Open Dental's site, and the
+		///help text of the hidden checkSubmitExceptions says that nothing is sent.</summary>
+		[TestMethod]
+		public void PrefInfos_LinkToNoOpenDentalPage_AndSendNothing() {
+			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
+			string text=File.ReadAllText(Path.Combine(pathRoot,"OpenPmsDental","Resources","PrefInfos.xml"));
+			List<string> listLinks=_regexUrl.Matches(text).Cast<Match>().Select(x => x.Value).Where(x => _regexBrand.IsMatch(x)).ToList();
+			Assert.AreEqual(0,listLinks.Count,"Links to Open Dental's site: "+string.Join(" | ",listLinks));
+			Assert.IsFalse(text.IndexOf("opendental.com",StringComparison.OrdinalIgnoreCase)>=0,"PrefInfos.xml still names opendental.com.");
+			Match match=Regex.Match(text,@"<ControlName>checkSubmitExceptions</ControlName>\s*<ControlText>[^<]*</ControlText>\s*<Details>([^<]*)</Details>");
+			Assert.IsTrue(match.Success,"The help text of checkSubmitExceptions is missing.");
+			StringAssert.StartsWith(match.Groups[1].Value,"Nothing is sent.");
+			Assert.IsFalse(_regexBrand.IsMatch(match.Groups[1].Value),match.Groups[1].Value);
+			List<KeptRow> listRows=ReadKeptRows(pathRoot,new List<string>());
+			Assert.IsFalse(listRows.Any(x => x.File=="OpenPmsDental/Resources/PrefInfos.xml" && x.Text.Contains("opendental.com")),
+				"brand-kept.tsv still keeps a link of PrefInfos.xml.");
+		}
+
 		///<summary>The C# lexer sees every kind of literal and nothing in comments, character literals or preprocessor lines, and leaves the
 		///designers' category attributes out.</summary>
 		[TestMethod]

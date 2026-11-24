@@ -118,7 +118,7 @@ namespace OpenPmsDental.Bridges {
 			RequestMsgSet=SessionManager.CreateMsgSetRequest("US",majorVer,minorVer);
 			RequestMsgSet.Attributes.OnError=EnumValue("roeContinue");
 			//Connect to QuickBooks and begin a session
-			SessionManager.OpenConnection("","Open Dental");
+			SessionManager.OpenConnection("","Open PMS - Dental");
 			ConnectionOpen=true;
 			SessionManager.BeginSession(companyPath,EnumValue("omDontCare"));
 			SessionBegun=true;

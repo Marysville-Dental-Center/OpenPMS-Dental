@@ -68,7 +68,7 @@ namespace OpenPmsDentalHelper32.QuickBooks {
 			RequestMsgSet=SessionManager.CreateMsgSetRequest("US",majorVer,minorVer);
 			RequestMsgSet.Attributes.OnError=ENRqOnError.roeContinue;
 			//Connect to QuickBooks and begin a session
-			SessionManager.OpenConnection("","Open Dental");
+			SessionManager.OpenConnection("","Open PMS - Dental");
 			ConnectionOpen=true;
 			SessionManager.BeginSession(companyPath,ENOpenMode.omDontCare);
 			SessionBegun=true;
