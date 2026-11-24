@@ -1598,10 +1598,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   FormWarnToCloseComputers' frame animator (both pictures and the `ImageAnimator` control removed). No other busy picture was found (WPF
   has none; the marquee progress bars are progress bars). `ProgressRingTests` and the sweep's busy-gif rule fail on an animated GIF.
   Note: [UI-LOAD.md](../port-notes/UI-LOAD.md); gallery G-UI3-uiload (4 pictures, 4 changed), audit `UI-LOAD-audit.md`.
-- Status UI-BRAND (2026-11-24, branch `ui/uibrand-1`, the owner's "We're no longer called OD"): the 9 texts in which the program
+- Status UI-BRAND (2026-11-24, branch `ui/uibrand-2`, the owner's "We're no longer called OD"): the 9 texts in which the program
   called itself OD or Open Dental say Open PMS (Text lines and literals only; the X-Charge labels reworded to fit); every other literal
-  that names OD or Open Dental is kept with its reason in `NoHqTests/Data/brand-kept.tsv`, which `BrandTests` checks. Five questions
-  for the owner (QuickBooks' application name, two program property keys, Practice by Numbers' link, `OpenDentImages`, vendor fields).
+  that names OD or Open Dental, and every help text of the Preferences info pop-ups (`PrefInfos.xml`, embedded and shown), is kept
+  with its reason in `NoHqTests/Data/brand-kept.tsv` (363 hits in 260 rows), which `BrandTests` checks. Six questions for the owner
+  (QuickBooks' application name, two program property keys, Practice by Numbers' link, `OpenDentImages`, vendor fields, the 54 links
+  to Open Dental's site and the Open Dental mentions in the Preferences pop-ups).
   Note: [UI-BRAND.md](../port-notes/UI-BRAND.md); gallery G-UI3-uibrand (4 pictures, 4 changed), audit `UI-BRAND-audit.md`.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**

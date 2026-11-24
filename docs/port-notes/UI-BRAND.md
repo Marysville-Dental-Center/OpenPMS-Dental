@@ -7,14 +7,19 @@ short. Gallery G-UI3-uibrand, audit [UI-BRAND-audit.md](UI-BRAND-audit.md).
 ## 1. The scan
 
 Every string literal of the shipped sources was read: C# literals (regular, verbatim, interpolated, raw), `.resx` strings, XAML attribute
-values and texts, and the setup script and pages (`installer/`). Left out: tests, developer tools (xCrudGenerator, DocumentationBuilder,
-PluginExample, tools), documentation, `db/`, third-party and build input. A hit is a literal with "OD" as a word (case-sensitive) or "Open
+values and texts, the setup script and pages (`installer/`), and the help texts of `OpenPmsDental/Resources/PrefInfos.xml` (its
+`ControlText` and `Details` texts, each link read on its own). `PrefInfos.xml` is an embedded string resource
+(`OpenPmsDental/Properties/Resources.resx`, `Properties.Resources.PrefInfos`): `FormPreferences` reads it and `FormWebBrowserPrefs`
+shows each `Details` text as the info pop-up of the Preferences window. Of the files that `OpenPmsDental` and `OpenPmsDentalBusiness`
+embed as string resources, only `PrefInfos.xml` and `THIRD-PARTY-NOTICES.txt` (attribution) name OD or Open Dental.
+Left out: tests, developer tools (xCrudGenerator, DocumentationBuilder, PluginExample, tools), documentation, `db/`, third-party and build input. A hit is a literal with "OD" as a word (case-sensitive) or "Open
 Dental", "OpenDental", "Open-Dental" in any case.
 
-- At the branch point: **675 hits**, 397 with OD and 278 with Open Dental. 362 of the OD hits are the designers' `[Category("OD")]`
+- At the branch point: **734 hits**, 397 with OD and 337 with Open Dental (59 of them in `PrefInfos.xml`: 54 links to
+  opendental.com and 5 texts). 362 of the OD hits are the designers' `[Category("OD")]`
   attributes (the Visual Studio property grid's category of the program's own controls; developer-only), left out by rule.
 - Each other hit was decided by its context. **9 texts in 6 files** were the program naming itself (section 2) and changed.
-- The rest stay: **304 hits in 253 rows** of `NoHqTests/Data/brand-kept.tsv`, each with its reason (section 3).
+- The rest stay: **363 hits in 260 rows** of `NoHqTests/Data/brand-kept.tsv`, each with its reason (section 3).
 
 ## 2. What changed
 
@@ -47,20 +52,21 @@ writes it). Rows by reason:
 | 56 | Origin notes: adoption of an Open Dental database, schema parity steps, data written by Open Dental, features that were Open Dental's hosted ones |
 | 35 | Open Dental's database conversion history (`ConvertDatabases*`): stored values, preference names, program property keys |
 | 25 | Code identifiers: `FormOpenDental` (class, Lans category, plug-in hooks, log names), settings names |
-| 18 | Open Dental's own Windows service (OpenDentalService), which this program does not ship: its alerts, setup and errors name it correctly |
+| 21 | Open Dental's own Windows service (OpenDentalService), which this program does not ship: its alerts, setup and errors name it correctly (3 of them Preferences pop-up texts) |
 | 18 | File, folder and service names on disk (`OpenDentalServerConfig.xml`, `OpenDentalService.exe`, ...) |
 | 14 | HL7 fields (sending application, assigning authority, MSH) |
 | 12 | Open Dental hosted services and programs (eConnector, eServices, mobile apps) named in alert and log descriptions |
-| 9 | Open Dental HQ-only code and texts, never reached in an office |
+| 10 | Open Dental HQ-only code and texts, never reached in an office (one: the help text of the hidden `checkSubmitExceptions`, section 4) |
+| 2 | The 54 links of the Preferences pop-ups to Open Dental's online manual (52) and unit test documentation (2): flagged, section 4 |
 | 8 | GPL attribution and copyright notices (About box, `SharedAssemblyInfo.cs`, setup) |
 | 8 | Developer-only texts (logs, developer exceptions, designer descriptions, development paths) |
 | 7 | Vendor bridge fields (DemandForce, Sirona, Vipersoft, Oryx, EHG, CallFire, Canadian certificate names) |
 | 5 | Setup script comments |
 | 5 | Generated settings names and the default Middle Tier URL path |
 | 5 | The database name: the default database is still called `opendental` |
-| 28 | Others, one to three rows each: QuickBooks' application name, program property keys, a preference name, the Practice by Numbers link (section 4), the About box's matching of Open Dental's stored preference defaults, Open Dental's host names (the block list), DICOM, X12 and NewCrop codes "OD", Infobutton and Direct protocol fields, the Credential Manager key, the Middle Tier URL path, ServiceManager's "(Open Dental)" mark of a legacy service, the EHR test message, the sheet import compatibility note |
+| 29 | Others, one to three rows each: QuickBooks' application name, the Open Dental Cloud note of a Preferences pop-up, program property keys, a preference name, the Practice by Numbers link (section 4), the About box's matching of Open Dental's stored preference defaults, Open Dental's host names (the block list), DICOM, X12 and NewCrop codes "OD", Infobutton and Direct protocol fields, the Credential Manager key, the Middle Tier URL path, ServiceManager's "(Open Dental)" mark of a legacy service, the EHR test message, the sheet import compatibility note |
 
-Also out of the scan: `OpenPmsDental/Resources/PrefInfos.xml` (read only by DocumentationBuilder, not shipped); the `OpenDent`
+Also out of the scan: the `OpenDent`
 prefix and the `OpenDentImages` folder name (section 5).
 
 ## 4. Links that send the office to Open Dental (flagged)
@@ -68,8 +74,13 @@ prefix and the `OpenDentImages` folder name (section 5).
 - **Practice by Numbers** (`WpfControlsOD/Bridges/PracticeByNumbers.cs`): its button opens
   `http://www.opendental.com/manual/portalpracticebynumbers.html`, Open Dental's manual page. Kept; the owner decides where it should
   point (no page of ours exists yet).
-- `PrefInfos.xml` links every preference to Open Dental's manual and says errors are "sent to Open Dental headquarters"; it is not
-  shipped (DocumentationBuilder only).
+- **The Preferences window's info pop-ups** (`PrefInfos.xml`, embedded, shown by `FormWebBrowserPrefs`): **54 links** to Open Dental's
+  site, 52 to its online manual (`opendental.com/manual/...`, e.g. "See Report Server", "see Auto Ortho") and 2 to its unit test
+  documentation (`opendental.com/resources/UnitTestsDocumentation.xml`), shown as if they were this program's help. Their texts also
+  name Open Dental's service ("Open Dental Service", "OpenDentalService"), "Open Dental Cloud users", and, for the
+  `SendUnhandledExceptionsToHQ` option, "Unhandled Exception errors will automatically be sent to Open Dental headquarters"; that
+  option's check box (`checkSubmitExceptions` in `UserControlMainWindowMisc`) is hidden and nothing is sent, so that pop-up never shows.
+  Kept as they are; question 6 for the owner.
 - Open Dental's email templates of `ConvertDatabases6` (logos on opendental.com) and the slave-monitor message of `ConvertDatabases7`
   are conversion history: only a database that went through those Open Dental versions carries the templates, and this program never
   runs those conversions.
@@ -90,6 +101,10 @@ prefix and the `OpenDentImages` folder name (section 5).
 5. Protocol fields that name the program to a vendor were kept as they are (Infobutton requester "Open Dental Software, version...",
    Direct MDN reporting agent "OpenDental", DemandForce `managementSystemName`, CallFire campaign name, Sirona and Vipersoft station
    names). Change any of them?
+6. **The Preferences window's info pop-ups** (section 4) send the office to Open Dental's online manual through 54 links (52 manual
+   pages, 2 to its unit test documentation) and name Open Dental's service and Open Dental Cloud. Strip the links (keep the texts),
+   point them to pages of ours once they exist, or keep them? And the help text of the hidden `checkSubmitExceptions` ("errors will
+   automatically be sent to Open Dental headquarters"): reword it to say nothing is sent, or leave it, since the check box never shows?
 
 ## 6. Translations
 
@@ -101,12 +116,15 @@ error text are not translated.
 
 ## 7. The test
 
-`NoHqTests/BrandTests.cs` reads the same files with the same rules (its own C# lexer, the resx and XAML readers):
+`NoHqTests/BrandTests.cs` reads the same files with the same rules (its own C# lexer, the resx and XAML readers, and the `PrefInfos.xml`
+reader, which reads each link of a help text on its own and the text without its links, so a kept link never keeps the words around it):
 
 - `EveryLiteralThatNamesOdOrOpenDental_IsKeptWithAReason`: a literal that names OD or Open Dental and is not kept fails.
 - `EveryKeptRow_IsStillInTheSource`: a kept row that no literal has any more fails (cut the list).
 - `EveryKeptRow_HasAReason_AndIsListedOnce`: no row without a reason, no row twice, each row names the brand.
 - `Lexer_FindsLiteralsOfEveryKind_AndSkipsCommentsAndCategories`: the lexer's own check.
+- `PrefInfosLexer_ReadsHelpTextsAndLinksApart`: the `PrefInfos.xml` reader's own check, and that the file is still an embedded string
+  resource that the scan reads.
 
 A new text where the program calls itself OD or Open Dental therefore fails NoHqTests: say "Open PMS" (or "Open PMS - Dental"), or, when
 the text is not the program naming itself, add a row with its reason.
