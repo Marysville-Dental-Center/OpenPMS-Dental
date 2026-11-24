@@ -121,7 +121,7 @@ python tools/UiFit/element_inventory.py            (--check compares)
 powershell -File <lane> -Root . -WaitMinutes 20 -Projects OpenPmsDental,UiRefreshTests,NoHqTests,xCentralManager,xMySQLManager,xDatabaseIntegrityCheck,xDocumentationBuilder,xCrudGenerator,OpenPmsDentalHL7,OpenPmsDentalGraph,ServiceManager,UpdateFileCopier,OpenPmsDentalDbSettings
 powershell -File <W>/ugal.ps1 -Name after-100b -Scale 1 -Windows all       (the 50 windows; -LooksOff for the looks-off check)
 powershell -File <W>/ugal.ps1 -Name after-150 -Scale 1.5 -Windows dense
-rem main's pictures: git switch --detach 2268b57b0, the FitGallery sample hunk applied (<scratchpad>/fitgallery-sample.patch), the same build
+rem main's pictures: git switch --detach 2268b57b0, the FitGallery sample hunk applied (<W>/fitgallery-sample.patch), the same build
 rem and ugal.ps1 -Name main-100 / main-150, then git checkout the file, git switch ui/uiplain-1, git submodule update, build again
 powershell -File tools/New-UiGallery.ps1 -Before <W>/../gal-before -After <W>/../gal-after -Name G-UI3 -Out .git/od-tools/test-results/G-UI3-uiplain
 ```
@@ -136,4 +136,8 @@ powershell -File tools/New-UiGallery.ps1 -Before <W>/../gal-before -After <W>/..
 - UI-13.md and UI-12.md name `OpenPmsDental/UI/Ui*Look` paths in their history; the files are in `CodeBase/UI` now (coverage.tsv and the
   inventory say so).
 
-**Results** (the whole filter built x64 through the lane: 0 errors): see the status line at the end of this note.
+**Results** (`uiplain-final.txt`; the whole filter `OpenDental.Local.slnf` built x64 through the lane: 0 errors): `UiRefreshTests` 296
+passed, 49 skipped (opt-in), 0 failed (PlainLookTests, ElementInventoryTests, GridRulesTests, the layout snapshot); `WindowChecksTests` 30
+passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped); `PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The
+gallery runs (`<W>/tests-*.txt`): UiRefreshTests 297 passed each on the final code. `tools/Test-NoEolFlips.ps1 -Base 2268b57b0`: 0 flips.
+`element_inventory.py --check`: matches (180 rows: 131 in the new look, 27 kept with a reason, 22 drawing nothing).
