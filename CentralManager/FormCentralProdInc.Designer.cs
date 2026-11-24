@@ -76,9 +76,9 @@ namespace CentralManager {
 			this.groupBox3.Controls.Add(this.label5);
 			this.groupBox3.Controls.Add(this.radioWriteoffProc);
 			this.groupBox3.Controls.Add(this.radioWriteoffPay);
-			this.groupBox3.Location = new System.Drawing.Point(164, 156);
+			this.groupBox3.Location = new System.Drawing.Point(139, 156);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(291, 92);
+			this.groupBox3.Size = new System.Drawing.Size(334, 115);
 			this.groupBox3.TabIndex = 51;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Show Insurance Write-offs";
@@ -87,7 +87,7 @@ namespace CentralManager {
 			// 
 			this.label5.Location = new System.Drawing.Point(8, 67);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(275, 17);
+			this.label5.Size = new System.Drawing.Size(318, 18);
 			this.label5.TabIndex = 2;
 			this.label5.Text = "(this is discussed in the PPO section of the manual)";
 			// 
@@ -124,9 +124,9 @@ namespace CentralManager {
 			this.groupBox2.Controls.Add(this.textDateTo);
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.butLeft);
-			this.groupBox2.Location = new System.Drawing.Point(85, 39);
+			this.groupBox2.Location = new System.Drawing.Point(8, 39);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(281, 109);
+			this.groupBox2.Size = new System.Drawing.Size(465, 109);
 			this.groupBox2.TabIndex = 50;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Date Range";
@@ -134,7 +134,7 @@ namespace CentralManager {
 			// butRight
 			// 
 			this.butRight.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRight.Location = new System.Drawing.Point(199, 23);
+			this.butRight.Location = new System.Drawing.Point(244, 23);
 			this.butRight.Name = "butRight";
 			this.butRight.Size = new System.Drawing.Size(45, 24);
 			this.butRight.TabIndex = 46;
@@ -142,7 +142,7 @@ namespace CentralManager {
 			// 
 			// butThis
 			// 
-			this.butThis.Location = new System.Drawing.Point(92, 23);
+			this.butThis.Location = new System.Drawing.Point(137, 23);
 			this.butThis.Name = "butThis";
 			this.butThis.Size = new System.Drawing.Size(101, 24);
 			this.butThis.TabIndex = 45;
@@ -151,32 +151,32 @@ namespace CentralManager {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(49, 51);
+			this.label2.Location = new System.Drawing.Point(8, 51);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(40, 23);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 37;
 			this.label2.Text = "From";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textDateFrom
 			// 
-			this.textDateFrom.Location = new System.Drawing.Point(95, 51);
+			this.textDateFrom.Location = new System.Drawing.Point(86, 51);
 			this.textDateFrom.Name = "textDateFrom";
-			this.textDateFrom.Size = new System.Drawing.Size(100, 20);
+			this.textDateFrom.Size = new System.Drawing.Size(100, 23);
 			this.textDateFrom.TabIndex = 43;
 			// 
 			// textDateTo
 			// 
-			this.textDateTo.Location = new System.Drawing.Point(95, 78);
+			this.textDateTo.Location = new System.Drawing.Point(86, 78);
 			this.textDateTo.Name = "textDateTo";
-			this.textDateTo.Size = new System.Drawing.Size(100, 20);
+			this.textDateTo.Size = new System.Drawing.Size(100, 23);
 			this.textDateTo.TabIndex = 44;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(65, 78);
+			this.label3.Location = new System.Drawing.Point(8, 78);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(24, 23);
+			this.label3.Size = new System.Drawing.Size(72, 23);
 			this.label3.TabIndex = 39;
 			this.label3.Text = "To";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -184,7 +184,7 @@ namespace CentralManager {
 			// butLeft
 			// 
 			this.butLeft.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butLeft.Location = new System.Drawing.Point(41, 23);
+			this.butLeft.Location = new System.Drawing.Point(86, 23);
 			this.butLeft.Name = "butLeft";
 			this.butLeft.Size = new System.Drawing.Size(45, 24);
 			this.butLeft.TabIndex = 44;
@@ -192,15 +192,15 @@ namespace CentralManager {
 			// 
 			// textToday
 			// 
-			this.textToday.Location = new System.Drawing.Point(180, 8);
+			this.textToday.Location = new System.Drawing.Point(94, 8);
 			this.textToday.Name = "textToday";
 			this.textToday.ReadOnly = true;
-			this.textToday.Size = new System.Drawing.Size(100, 20);
+			this.textToday.Size = new System.Drawing.Size(100, 23);
 			this.textToday.TabIndex = 49;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(94, 8);
+			this.label4.Location = new System.Drawing.Point(8, 8);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(80, 23);
 			this.label4.TabIndex = 48;
@@ -213,7 +213,7 @@ namespace CentralManager {
 			this.groupBox1.Controls.Add(this.radioAnnual);
 			this.groupBox1.Controls.Add(this.radioDaily);
 			this.groupBox1.Controls.Add(this.radioMonthly);
-			this.groupBox1.Location = new System.Drawing.Point(35, 156);
+			this.groupBox1.Location = new System.Drawing.Point(8, 156);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(123, 115);
 			this.groupBox1.TabIndex = 47;
@@ -262,7 +262,7 @@ namespace CentralManager {
 			// 
 			this.checkShowUnearned.Checked = true;
 			this.checkShowUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkShowUnearned.Location = new System.Drawing.Point(164, 256);
+			this.checkShowUnearned.Location = new System.Drawing.Point(147, 279);
 			this.checkShowUnearned.Name = "checkShowUnearned";
 			this.checkShowUnearned.Size = new System.Drawing.Size(122, 18);
 			this.checkShowUnearned.TabIndex = 53;

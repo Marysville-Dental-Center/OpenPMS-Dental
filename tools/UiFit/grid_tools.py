@@ -2510,6 +2510,15 @@ def apply_row(text, control, prop, new):
         if m:
             return text[:m.start(2)] + new + text[m.end(2):], None
         return insert_before_name_line(text, control, "this.%s.AutoSize = %s;" % (control, new))
+    if prop == "SplitterDistance":
+        # A hand row only (UI-12 slice 12: the graph's split containers, whose first panel holds the settings the scripts lay out; the
+        # SplitterPanel's size comes from it): the digits of the line.
+        pat = re.compile(r"(%sSplitterDistance ?= ?)(\d+)(;)" % re.escape(target))
+        ms = list(pat.finditer(text))
+        if len(ms) == 1:
+            m = ms[0]
+            return text[:m.start(2)] + new + text[m.end(2):], None
+        return text, "SplitterDistance line found %d times" % len(ms)
     if prop == "RightToLeft":
         pat = re.compile(r"(%sRightToLeft ?= ?System\.Windows\.Forms\.RightToLeft\.)(\w+)(;)" % re.escape(target))
         m = pat.search(text)

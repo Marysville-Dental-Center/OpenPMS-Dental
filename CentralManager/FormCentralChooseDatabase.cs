@@ -89,16 +89,16 @@ namespace OpenPmsDental {
 			this.groupServer.Controls.Add(this.label6);
 			this.groupServer.Location = new System.Drawing.Point(8,8);
 			this.groupServer.Name = "groupServer";
-			this.groupServer.Size = new System.Drawing.Size(344,188);
+			this.groupServer.Size = new System.Drawing.Size(344,187);
 			this.groupServer.TabIndex = 2;
 			this.groupServer.TabStop = false;
 			this.groupServer.Text = "Connect to Middle Tier";
 			// 
 			// textURI
 			// 
-			this.textURI.Location = new System.Drawing.Point(8,63);
+			this.textURI.Location = new System.Drawing.Point(8,64);
 			this.textURI.Name = "textURI";
-			this.textURI.Size = new System.Drawing.Size(308,23);
+			this.textURI.Size = new System.Drawing.Size(328,23);
 			this.textURI.TabIndex = 7;
 			// 
 			// textUser2
@@ -106,15 +106,15 @@ namespace OpenPmsDental {
 			this.textUser2.AutoSize = false;
 			this.textUser2.Location = new System.Drawing.Point(8,110);
 			this.textUser2.Name = "textUser2";
-			this.textUser2.Size = new System.Drawing.Size(308,23);
+			this.textUser2.Size = new System.Drawing.Size(328,23);
 			this.textUser2.TabIndex = 8;
 			// 
 			// textPassword2
 			// 
-			this.textPassword2.Location = new System.Drawing.Point(8,157);
+			this.textPassword2.Location = new System.Drawing.Point(8,156);
 			this.textPassword2.Name = "textPassword2";
 			this.textPassword2.PasswordChar = '*';
-			this.textPassword2.Size = new System.Drawing.Size(308,23);
+			this.textPassword2.Size = new System.Drawing.Size(328,23);
 			this.textPassword2.TabIndex = 9;
 			this.textPassword2.UseSystemPasswordChar = true;
 			// 
@@ -122,25 +122,25 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(8,137);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(281,18);
+			this.label10.Size = new System.Drawing.Size(328,17);
 			this.label10.TabIndex = 11;
 			this.label10.Text = "Password";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(8,90);
+			this.label11.Location = new System.Drawing.Point(8,91);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(295,18);
+			this.label11.Size = new System.Drawing.Size(328,17);
 			this.label11.TabIndex = 14;
 			this.label11.Text = "Open PMS - Dental User (not MySQL user)";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(8,43);
+			this.label9.Location = new System.Drawing.Point(8,45);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(283,18);
+			this.label9.Size = new System.Drawing.Size(328,17);
 			this.label9.TabIndex = 9;
 			this.label9.Text = "URI";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -149,7 +149,7 @@ namespace OpenPmsDental {
 			// 
 			this.label6.Location = new System.Drawing.Point(8,23);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(300,18);
+			this.label6.Size = new System.Drawing.Size(328,18);
 			this.label6.TabIndex = 0;
 			this.label6.Text = "Read the manual to learn how to install the middle tier.";
 			// 
@@ -177,10 +177,10 @@ namespace OpenPmsDental {
 			// checkAutoLogin
 			// 
 			this.checkAutoLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkAutoLogin.AutoSize = true;
-			this.checkAutoLogin.Location = new System.Drawing.Point(8,213);
+			this.checkAutoLogin.AutoSize = false;
+			this.checkAutoLogin.Location = new System.Drawing.Point(8,211);
 			this.checkAutoLogin.Name = "checkAutoLogin";
-			this.checkAutoLogin.Size = new System.Drawing.Size(136,17);
+			this.checkAutoLogin.Size = new System.Drawing.Size(157,18);
 			this.checkAutoLogin.TabIndex = 14;
 			this.checkAutoLogin.Text = "Log me in automatically";
 			this.checkAutoLogin.UseVisualStyleBackColor = true;

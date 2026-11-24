@@ -45,22 +45,22 @@
 			this.groupBox1.Controls.Add(this.label3);
 			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(459, 117);
+			this.groupBox1.Size = new System.Drawing.Size(459, 119);
 			this.groupBox1.TabIndex = 58;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Only if newer than";
 			// 
 			// textDate
 			// 
-			this.textDate.Location = new System.Drawing.Point(137, 23);
+			this.textDate.Location = new System.Drawing.Point(50, 23);
 			this.textDate.Name = "textDate";
-			this.textDate.Size = new System.Drawing.Size(100, 20);
+			this.textDate.Size = new System.Drawing.Size(100, 23);
 			this.textDate.TabIndex = 50;
 			this.textDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textDate_KeyDown);
 			// 
 			// textDays
 			// 
-			this.textDays.Location = new System.Drawing.Point(137, 50);
+			this.textDays.Location = new System.Drawing.Point(50, 50);
 			this.textDays.Name = "textDays";
 			this.textDays.Size = new System.Drawing.Size(48, 23);
 			this.textDays.TabIndex = 0;
@@ -68,7 +68,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(95, 23);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(36, 23);
 			this.label1.TabIndex = 46;
@@ -77,7 +77,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(95, 50);
+			this.label2.Location = new System.Drawing.Point(8, 50);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 47;
@@ -86,27 +86,27 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(87, 77);
+			this.label3.Location = new System.Drawing.Point(8, 77);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(320, 32);
+			this.label3.Size = new System.Drawing.Size(443, 34);
 			this.label3.TabIndex = 52;
 			this.label3.Text = "For instance, if you set days to 1, then user will only have permission if the da" +
     "te of the item is today";
 			// 
 			// textName
 			// 
-			this.textName.Location = new System.Drawing.Point(145, 8);
+			this.textName.Location = new System.Drawing.Point(58, 8);
 			this.textName.MaxLength = 100;
 			this.textName.Name = "textName";
 			this.textName.ReadOnly = true;
-			this.textName.Size = new System.Drawing.Size(260, 20);
+			this.textName.Size = new System.Drawing.Size(409, 23);
 			this.textName.TabIndex = 56;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(103, 8);
+			this.label10.Location = new System.Drawing.Point(8, 8);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(36, 23);
+			this.label10.Size = new System.Drawing.Size(44, 23);
 			this.label10.TabIndex = 57;
 			this.label10.Text = "Type";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

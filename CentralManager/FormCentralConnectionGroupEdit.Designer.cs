@@ -67,10 +67,10 @@
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 39);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(465, 457);
+			this.gridMain.Size = new System.Drawing.Size(496, 483);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Connections for this Group";
 			this.gridMain.TranslationName = "TableConnections";
@@ -91,7 +91,7 @@
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(489, 203);
+			this.butAdd.Location = new System.Drawing.Point(512, 254);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(81, 24);
 			this.butAdd.TabIndex = 219;
@@ -102,7 +102,7 @@
 			// 
 			this.butRemove.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butRemove.Location = new System.Drawing.Point(489, 231);
+			this.butRemove.Location = new System.Drawing.Point(512, 282);
 			this.butRemove.Name = "butRemove";
 			this.butRemove.Size = new System.Drawing.Size(81, 24);
 			this.butRemove.TabIndex = 220;
@@ -113,6 +113,7 @@
 			// label2
 			// 
 			this.label2.Location = new System.Drawing.Point(364, 8);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(244, 23);
 			this.label2.TabIndex = 221;
@@ -122,10 +123,10 @@
 			// 
 			this.gridAvail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridAvail.Location = new System.Drawing.Point(584, 35);
+			this.gridAvail.Location = new System.Drawing.Point(602, 39);
 			this.gridAvail.Name = "gridAvail";
 			this.gridAvail.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAvail.Size = new System.Drawing.Size(465, 457);
+			this.gridAvail.Size = new System.Drawing.Size(496, 483);
 			this.gridAvail.TabIndex = 222;
 			this.gridAvail.Title = "Available Connections";
 			this.gridAvail.TranslationName = "TableConnections";

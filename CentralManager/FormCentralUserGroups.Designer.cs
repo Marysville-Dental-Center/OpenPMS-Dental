@@ -34,7 +34,7 @@
 			this.butAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddGroup.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddGroup.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddGroup.Location = new System.Drawing.Point(201, 8);
+			this.butAddGroup.Location = new System.Drawing.Point(208, 8);
 			this.butAddGroup.Name = "butAddGroup";
 			this.butAddGroup.Size = new System.Drawing.Size(80, 24);
 			this.butAddGroup.TabIndex = 5;
@@ -44,16 +44,16 @@
 			// listGroups
 			// 
 			this.listGroups.FormattingEnabled = true;
-			this.listGroups.Location = new System.Drawing.Point(12, 8);
+			this.listGroups.Location = new System.Drawing.Point(8, 8);
 			this.listGroups.Name = "listGroups";
-			this.listGroups.Size = new System.Drawing.Size(183, 355);
+			this.listGroups.Size = new System.Drawing.Size(192, 364);
 			this.listGroups.TabIndex = 4;
 			this.listGroups.DoubleClick += new System.EventHandler(this.listGroups_DoubleClick);
 			// 
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(208, 375);
+			this.butClose.Location = new System.Drawing.Point(208, 348);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(80, 24);
 			this.butClose.TabIndex = 3;
@@ -64,7 +64,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(296, 407);
+			this.ClientSize = new System.Drawing.Size(296, 380);
 			this.Controls.Add(this.butAddGroup);
 			this.Controls.Add(this.listGroups);
 			this.Controls.Add(this.butClose);

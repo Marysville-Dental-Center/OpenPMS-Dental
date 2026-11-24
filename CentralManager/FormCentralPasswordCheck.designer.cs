@@ -32,9 +32,9 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(204,68);
+			this.butOK.Location = new System.Drawing.Point(204,72);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75,28);
+			this.butOK.Size = new System.Drawing.Size(75,24);
 			this.butOK.TabIndex = 3;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -42,24 +42,24 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(287,68);
+			this.butCancel.Location = new System.Drawing.Point(287,72);
 			this.butCancel.Name = "butCancel";
-			this.butCancel.Size = new System.Drawing.Size(75,28);
+			this.butCancel.Size = new System.Drawing.Size(75,24);
 			this.butCancel.TabIndex = 2;
 			this.butCancel.Text = "&Cancel";
 			this.butCancel.Click += new System.EventHandler(this.butCancel_Click);
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(126,8);
+			this.textPassword.Location = new System.Drawing.Point(106,8);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(192,23);
+			this.textPassword.Size = new System.Drawing.Size(256,23);
 			this.textPassword.TabIndex = 0;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(28,8);
+			this.label4.Location = new System.Drawing.Point(8,8);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(92,23);
 			this.label4.TabIndex = 207;

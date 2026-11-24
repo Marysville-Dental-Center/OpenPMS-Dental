@@ -35,9 +35,9 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(282,177);
+			this.butOK.Location = new System.Drawing.Point(282,181);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75,28);
+			this.butOK.Size = new System.Drawing.Size(75,24);
 			this.butOK.TabIndex = 3;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -45,23 +45,23 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(365,177);
+			this.butCancel.Location = new System.Drawing.Point(365,181);
 			this.butCancel.Name = "butCancel";
-			this.butCancel.Size = new System.Drawing.Size(75,28);
+			this.butCancel.Size = new System.Drawing.Size(75,24);
 			this.butCancel.TabIndex = 2;
 			this.butCancel.Text = "&Cancel";
 			this.butCancel.Click += new System.EventHandler(this.butCancel_Click);
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(132,84);
+			this.textPassword.Location = new System.Drawing.Point(102,93);
 			this.textPassword.Name = "textPassword";
-			this.textPassword.Size = new System.Drawing.Size(192,23);
+			this.textPassword.Size = new System.Drawing.Size(338,23);
 			this.textPassword.TabIndex = 0;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(38,84);
+			this.label4.Location = new System.Drawing.Point(8,93);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(88,23);
 			this.label4.TabIndex = 207;
@@ -70,9 +70,9 @@ namespace CentralManager{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(30,8);
+			this.label1.Location = new System.Drawing.Point(8,8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(380,47);
+			this.label1.Size = new System.Drawing.Size(432,50);
 			this.label1.TabIndex = 208;
 			this.label1.Text = "Only the administrator should change the password.  If you are not the administra" +
     "tor, click Cancel.  If you are the administrator, you will need the access code " +
@@ -81,18 +81,18 @@ namespace CentralManager{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(46,57);
+			this.label2.Location = new System.Drawing.Point(8,66);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80,23);
+			this.label2.Size = new System.Drawing.Size(88,23);
 			this.label2.TabIndex = 210;
 			this.label2.Text = "Access Code";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAccessCode
 			// 
-			this.textAccessCode.Location = new System.Drawing.Point(132,57);
+			this.textAccessCode.Location = new System.Drawing.Point(102,66);
 			this.textAccessCode.Name = "textAccessCode";
-			this.textAccessCode.Size = new System.Drawing.Size(192,23);
+			this.textAccessCode.Size = new System.Drawing.Size(338,23);
 			this.textAccessCode.TabIndex = 209;
 			// 
 			// FormCentralPasswordChange

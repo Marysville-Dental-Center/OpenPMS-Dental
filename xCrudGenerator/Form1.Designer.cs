@@ -54,15 +54,15 @@ namespace xCrudGenerator {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(301, 8);
+			this.label1.Location = new System.Drawing.Point(298, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(421, 47);
+			this.label1.Size = new System.Drawing.Size(772, 34);
 			this.label1.TabIndex = 0;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 
 			// butRun
 			// 
-			this.butRun.Location = new System.Drawing.Point(155, 160);
+			this.butRun.Location = new System.Drawing.Point(154, 187);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(98, 23);
 			this.butRun.TabIndex = 1;
@@ -72,7 +72,7 @@ namespace xCrudGenerator {
 			// 
 			// textDb
 			// 
-			this.textDb.Location = new System.Drawing.Point(105, 35);
+			this.textDb.Location = new System.Drawing.Point(154, 35);
 			this.textDb.Name = "textDb";
 			this.textDb.Size = new System.Drawing.Size(128, 23);
 			this.textDb.TabIndex = 5;
@@ -80,9 +80,9 @@ namespace xCrudGenerator {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(39, 35);
+			this.label3.Location = new System.Drawing.Point(8, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(60, 23);
+			this.label3.Size = new System.Drawing.Size(140, 23);
 			this.label3.TabIndex = 7;
 			this.label3.Text = "Database";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -90,27 +90,27 @@ namespace xCrudGenerator {
 			// label2
 			// 
 			this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label2.Location = new System.Drawing.Point(172, 187);
+			this.label2.Location = new System.Drawing.Point(181, 222);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(163, 17);
+			this.label2.Size = new System.Drawing.Size(72, 17);
 			this.label2.TabIndex = 9;
 			this.label2.Text = "Snippets";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(8, 145);
+			this.label4.Location = new System.Drawing.Point(8, 150);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(125, 17);
+			this.label4.Size = new System.Drawing.Size(149, 17);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Class";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 99);
+			this.label5.Location = new System.Drawing.Point(8, 104);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(125, 17);
+			this.label5.Size = new System.Drawing.Size(149, 17);
 			this.label5.TabIndex = 12;
 			this.label5.Text = "Type";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -119,10 +119,10 @@ namespace xCrudGenerator {
 			// 
 			this.comboType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboType.FormattingEnabled = true;
-			this.comboType.Location = new System.Drawing.Point(8, 118);
+			this.comboType.Location = new System.Drawing.Point(8, 123);
 			this.comboType.MaxDropDownItems = 100;
 			this.comboType.Name = "comboType";
-			this.comboType.Size = new System.Drawing.Size(144, 21);
+			this.comboType.Size = new System.Drawing.Size(149, 23);
 			this.comboType.TabIndex = 11;
 			// 
 			// butSnippet
@@ -138,11 +138,11 @@ namespace xCrudGenerator {
 			// textSnippet
 			// 
 			this.textSnippet.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textSnippet.Location = new System.Drawing.Point(179, 206);
+			this.textSnippet.Location = new System.Drawing.Point(181, 241);
 			this.textSnippet.Multiline = true;
 			this.textSnippet.Name = "textSnippet";
 			this.textSnippet.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textSnippet.Size = new System.Drawing.Size(974, 529);
+			this.textSnippet.Size = new System.Drawing.Size(972, 485);
 			this.textSnippet.TabIndex = 14;
 			this.textSnippet.WordWrap = false;
 			// 
@@ -150,7 +150,7 @@ namespace xCrudGenerator {
 			// 
 			this.label6.Location = new System.Drawing.Point(8, 50);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(147, 47);
+			this.label6.Size = new System.Drawing.Size(149, 50);
 			this.label6.TabIndex = 15;
 			this.label6.Text = "A copy of the snippet will automatically be placed on the clipboard";
 			// 
@@ -159,33 +159,33 @@ namespace xCrudGenerator {
 			this.listClass.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listClass.FormattingEnabled = true;
-			this.listClass.Location = new System.Drawing.Point(8, 164);
+			this.listClass.Location = new System.Drawing.Point(8, 169);
 			this.listClass.Name = "listClass";
-			this.listClass.Size = new System.Drawing.Size(144, 368);
+			this.listClass.Size = new System.Drawing.Size(149, 327);
 			this.listClass.TabIndex = 16;
 			// 
 			// checkRun
 			// 
 			this.checkRun.Checked = true;
 			this.checkRun.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkRun.Location = new System.Drawing.Point(237, 27);
+			this.checkRun.Location = new System.Drawing.Point(154, 118);
 			this.checkRun.Name = "checkRun";
-			this.checkRun.Size = new System.Drawing.Size(39, 17);
+			this.checkRun.Size = new System.Drawing.Size(16, 18);
 			this.checkRun.TabIndex = 19;
 			this.checkRun.UseVisualStyleBackColor = true;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(237, 8);
+			this.label8.Location = new System.Drawing.Point(8, 116);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(48, 17);
+			this.label8.Size = new System.Drawing.Size(140, 23);
 			this.label8.TabIndex = 21;
 			this.label8.Text = "Run";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(18, 89);
+			this.label9.Location = new System.Drawing.Point(8, 89);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(140, 23);
 			this.label9.TabIndex = 22;
@@ -194,17 +194,17 @@ namespace xCrudGenerator {
 			// 
 			// checkRunSchema
 			// 
-			this.checkRunSchema.Location = new System.Drawing.Point(164, 92);
+			this.checkRunSchema.Location = new System.Drawing.Point(154, 91);
 			this.checkRunSchema.Name = "checkRunSchema";
-			this.checkRunSchema.Size = new System.Drawing.Size(39, 17);
+			this.checkRunSchema.Size = new System.Drawing.Size(16, 18);
 			this.checkRunSchema.TabIndex = 23;
 			this.checkRunSchema.UseVisualStyleBackColor = true;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(308, 62);
+			this.label10.Location = new System.Drawing.Point(298, 46);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(421, 33);
+			this.label10.Size = new System.Drawing.Size(772, 18);
 			this.label10.TabIndex = 24;
 			this.label10.Text = "This CrudGenerator project MUST be set to compile each time it\'s run even if chan" +
     "ges were only to OpenPmsDentalBusiness.";
@@ -212,12 +212,12 @@ namespace xCrudGenerator {
 			// checkRunQueries
 			// 
 			this.checkRunQueries.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkRunQueries.Location = new System.Drawing.Point(8, 138);
+			this.checkRunQueries.Location = new System.Drawing.Point(8, 165);
 			this.checkRunQueries.Name = "checkRunQueries";
 			this.checkRunQueries.Size = new System.Drawing.Size(240, 18);
 			this.checkRunQueries.TabIndex = 26;
 			this.checkRunQueries.Text = "Run queries generated for convert script";
-			this.checkRunQueries.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkRunQueries.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkRunQueries.UseVisualStyleBackColor = true;
 			// 
 			// checkAddToConvertScript
@@ -225,34 +225,34 @@ namespace xCrudGenerator {
 			this.checkAddToConvertScript.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkAddToConvertScript.Checked = true;
 			this.checkAddToConvertScript.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAddToConvertScript.Location = new System.Drawing.Point(8, 116);
+			this.checkAddToConvertScript.Location = new System.Drawing.Point(8, 143);
 			this.checkAddToConvertScript.Name = "checkAddToConvertScript";
 			this.checkAddToConvertScript.Size = new System.Drawing.Size(181, 18);
 			this.checkAddToConvertScript.TabIndex = 27;
 			this.checkAddToConvertScript.Text = "Add queries to convert script";
-			this.checkAddToConvertScript.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkAddToConvertScript.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkAddToConvertScript.UseVisualStyleBackColor = true;
 			// 
 			// labelPortNum
 			// 
-			this.labelPortNum.Location = new System.Drawing.Point(19, 8);
+			this.labelPortNum.Location = new System.Drawing.Point(8, 8);
 			this.labelPortNum.Name = "labelPortNum";
-			this.labelPortNum.Size = new System.Drawing.Size(80, 23);
+			this.labelPortNum.Size = new System.Drawing.Size(140, 23);
 			this.labelPortNum.TabIndex = 30;
 			this.labelPortNum.Text = "Port Number";
 			this.labelPortNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPortNum
 			// 
-			this.textPortNum.Location = new System.Drawing.Point(105, 8);
+			this.textPortNum.Location = new System.Drawing.Point(154, 8);
 			this.textPortNum.Name = "textPortNum";
-			this.textPortNum.Size = new System.Drawing.Size(64, 20);
+			this.textPortNum.Size = new System.Drawing.Size(64, 23);
 			this.textPortNum.TabIndex = 29;
 			this.textPortNum.Text = "3306";
 			// 
 			// butPd
 			// 
-			this.butPd.Location = new System.Drawing.Point(1050, 8);
+			this.butPd.Location = new System.Drawing.Point(1078, 8);
 			this.butPd.Name = "butPd";
 			this.butPd.Size = new System.Drawing.Size(75, 23);
 			this.butPd.TabIndex = 31;
@@ -263,7 +263,7 @@ namespace xCrudGenerator {
 			// textPassword
 			// 
 			this.textPassword.AutoSize = false;
-			this.textPassword.Location = new System.Drawing.Point(164, 62);
+			this.textPassword.Location = new System.Drawing.Point(154, 62);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
 			this.textPassword.Size = new System.Drawing.Size(128, 23);
@@ -272,9 +272,9 @@ namespace xCrudGenerator {
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(94, 62);
+			this.label7.Location = new System.Drawing.Point(8, 62);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(64, 23);
+			this.label7.Size = new System.Drawing.Size(140, 23);
 			this.label7.TabIndex = 33;
 			this.label7.Text = "Password";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -287,9 +287,9 @@ namespace xCrudGenerator {
 			this.groupBox1.Controls.Add(this.listClass);
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Location = new System.Drawing.Point(8, 206);
+			this.groupBox1.Location = new System.Drawing.Point(8, 222);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(165, 540);
+			this.groupBox1.Size = new System.Drawing.Size(165, 504);
 			this.groupBox1.TabIndex = 34;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Create Snippet Tool";
@@ -298,7 +298,7 @@ namespace xCrudGenerator {
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(1161, 754);
+			this.ClientSize = new System.Drawing.Size(1161, 734);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textPassword);

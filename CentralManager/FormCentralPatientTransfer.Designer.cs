@@ -39,10 +39,10 @@
 			this.gridPatients.AllowSortingByColumn = true;
 			this.gridPatients.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridPatients.Location = new System.Drawing.Point(12, 22);
+			this.gridPatients.Location = new System.Drawing.Point(8, 27);
 			this.gridPatients.Name = "gridPatients";
 			this.gridPatients.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridPatients.Size = new System.Drawing.Size(450, 369);
+			this.gridPatients.Size = new System.Drawing.Size(471, 418);
 			this.gridPatients.TabIndex = 6;
 			this.gridPatients.Title = "Patients to Export";
 			this.gridPatients.TranslationName = "";
@@ -52,10 +52,10 @@
 			this.gridDatabasesTo.AllowSortingByColumn = true;
 			this.gridDatabasesTo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridDatabasesTo.Location = new System.Drawing.Point(485, 32);
+			this.gridDatabasesTo.Location = new System.Drawing.Point(487, 27);
 			this.gridDatabasesTo.Name = "gridDatabasesTo";
 			this.gridDatabasesTo.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridDatabasesTo.Size = new System.Drawing.Size(450, 369);
+			this.gridDatabasesTo.Size = new System.Drawing.Size(471, 418);
 			this.gridDatabasesTo.TabIndex = 7;
 			this.gridDatabasesTo.Title = "Database to Export patients to";
 			this.gridDatabasesTo.TranslationName = "";
@@ -63,17 +63,17 @@
 			// labelSourceDb
 			// 
 			this.labelSourceDb.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelSourceDb.Location = new System.Drawing.Point(12, 8);
+			this.labelSourceDb.Location = new System.Drawing.Point(8, 8);
 			this.labelSourceDb.Name = "labelSourceDb";
-			this.labelSourceDb.Size = new System.Drawing.Size(453, 12);
+			this.labelSourceDb.Size = new System.Drawing.Size(471, 17);
 			this.labelSourceDb.TabIndex = 228;
 			this.labelSourceDb.Text = "Source database:   ";
-			this.labelSourceDb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.labelSourceDb.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// butTransfer
 			// 
 			this.butTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransfer.Location = new System.Drawing.Point(953, 360);
+			this.butTransfer.Location = new System.Drawing.Point(967, 421);
 			this.butTransfer.Name = "butTransfer";
 			this.butTransfer.Size = new System.Drawing.Size(75, 24);
 			this.butTransfer.TabIndex = 229;
@@ -105,7 +105,7 @@
 			// butAddDatabases
 			// 
 			this.butAddDatabases.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAddDatabases.Location = new System.Drawing.Point(481, 457);
+			this.butAddDatabases.Location = new System.Drawing.Point(487, 457);
 			this.butAddDatabases.Name = "butAddDatabases";
 			this.butAddDatabases.Size = new System.Drawing.Size(75, 24);
 			this.butAddDatabases.TabIndex = 232;
@@ -116,7 +116,7 @@
 			// butRemovePats
 			// 
 			this.butRemovePats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRemovePats.Location = new System.Drawing.Point(89, 457);
+			this.butRemovePats.Location = new System.Drawing.Point(91, 457);
 			this.butRemovePats.Name = "butRemovePats";
 			this.butRemovePats.Size = new System.Drawing.Size(75, 24);
 			this.butRemovePats.TabIndex = 233;
@@ -127,7 +127,7 @@
 			// butRemoveDb
 			// 
 			this.butRemoveDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butRemoveDb.Location = new System.Drawing.Point(566, 457);
+			this.butRemoveDb.Location = new System.Drawing.Point(570, 457);
 			this.butRemoveDb.Name = "butRemoveDb";
 			this.butRemoveDb.Size = new System.Drawing.Size(75, 24);
 			this.butRemoveDb.TabIndex = 234;

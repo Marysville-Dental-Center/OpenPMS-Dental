@@ -61,7 +61,7 @@
 			this.panelPrint.Controls.Add(this.butRefresh);
 			this.panelPrint.Controls.Add(this.butPrintPreview);
 			this.panelPrint.Controls.Add(this.butEdit);
-			this.panelPrint.Location = new System.Drawing.Point(271, 0);
+			this.panelPrint.Location = new System.Drawing.Point(259, 0);
 			this.panelPrint.Name = "panelPrint";
 			this.panelPrint.Size = new System.Drawing.Size(118, 46);
 			this.panelPrint.TabIndex = 20;
@@ -118,7 +118,7 @@
 			this.panelEditCell.Controls.Add(this.butDeleteCell);
 			this.panelEditCell.Controls.Add(this.butDeleteRow);
 			this.panelEditCell.Controls.Add(this.butDeleteColumn);
-			this.panelEditCell.Location = new System.Drawing.Point(130, 0);
+			this.panelEditCell.Location = new System.Drawing.Point(105, 0);
 			this.panelEditCell.Name = "panelEditCell";
 			this.panelEditCell.Size = new System.Drawing.Size(154, 46);
 			this.panelEditCell.TabIndex = 21;

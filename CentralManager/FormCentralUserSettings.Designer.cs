@@ -34,7 +34,7 @@
 			// checkAutoLogin
 			// 
 			this.checkAutoLogin.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.checkAutoLogin.Location = new System.Drawing.Point(59, 35);
+			this.checkAutoLogin.Location = new System.Drawing.Point(50, 35);
 			this.checkAutoLogin.Name = "checkAutoLogin";
 			this.checkAutoLogin.Size = new System.Drawing.Size(157, 18);
 			this.checkAutoLogin.TabIndex = 18;
@@ -43,7 +43,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(17, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(36, 23);
 			this.label3.TabIndex = 16;
@@ -52,17 +52,17 @@
 			// 
 			// textUserName
 			// 
-			this.textUserName.Location = new System.Drawing.Point(59, 8);
+			this.textUserName.Location = new System.Drawing.Point(50, 8);
 			this.textUserName.Name = "textUserName";
 			this.textUserName.ReadOnly = true;
-			this.textUserName.Size = new System.Drawing.Size(204, 23);
+			this.textUserName.Size = new System.Drawing.Size(236, 23);
 			this.textUserName.TabIndex = 15;
 			// 
 			// labelAutoLogin
 			// 
-			this.labelAutoLogin.Location = new System.Drawing.Point(59, 57);
+			this.labelAutoLogin.Location = new System.Drawing.Point(50, 57);
 			this.labelAutoLogin.Name = "labelAutoLogin";
-			this.labelAutoLogin.Size = new System.Drawing.Size(206, 47);
+			this.labelAutoLogin.Size = new System.Drawing.Size(236, 34);
 			this.labelAutoLogin.TabIndex = 19;
 			this.labelAutoLogin.Text = "Enable automatic log in by checking box \"Log me in automatically\" at next log in." +
     "";

@@ -302,12 +302,12 @@
 			// labelVersion
 			// 
 			this.labelVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelVersion.Location = new System.Drawing.Point(8, 87);
+			this.labelVersion.Location = new System.Drawing.Point(8, 86);
 			this.labelVersion.Name = "labelVersion";
-			this.labelVersion.Size = new System.Drawing.Size(110, 12);
+			this.labelVersion.Size = new System.Drawing.Size(258, 23);
 			this.labelVersion.TabIndex = 227;
 			this.labelVersion.Text = "Version";
-			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// gridConns
 			// 
@@ -315,10 +315,10 @@
 			this.gridConns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridConns.ContextMenuStrip = this.gridMainRightClickMenu;
-			this.gridConns.Location = new System.Drawing.Point(8, 144);
+			this.gridConns.Location = new System.Drawing.Point(8, 148);
 			this.gridConns.Name = "gridConns";
 			this.gridConns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridConns.Size = new System.Drawing.Size(703, 837);
+			this.gridConns.Size = new System.Drawing.Size(703, 797);
 			this.gridConns.TabIndex = 5;
 			this.gridConns.Title = "Connections - Double-click to Launch";
 			this.gridConns.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridConns_CellDoubleClick);
@@ -335,9 +335,9 @@
 			// 
 			// butRefreshStatuses
 			// 
-			this.butRefreshStatuses.Location = new System.Drawing.Point(155, 59);
+			this.butRefreshStatuses.Location = new System.Drawing.Point(161, 59);
 			this.butRefreshStatuses.Name = "butRefreshStatuses";
-			this.butRefreshStatuses.Size = new System.Drawing.Size(105, 24);
+			this.butRefreshStatuses.Size = new System.Drawing.Size(105, 23);
 			this.butRefreshStatuses.TabIndex = 227;
 			this.butRefreshStatuses.Text = "Refresh Statuses";
 			this.butRefreshStatuses.UseVisualStyleBackColor = true;
@@ -355,7 +355,7 @@
 			this.labelFetch.BackColor = System.Drawing.Color.Transparent;
 			this.labelFetch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFetch.ForeColor = System.Drawing.Color.Red;
-			this.labelFetch.Location = new System.Drawing.Point(1620, 677);
+			this.labelFetch.Location = new System.Drawing.Point(1624, 693);
 			this.labelFetch.Name = "labelFetch";
 			this.labelFetch.Size = new System.Drawing.Size(112, 23);
 			this.labelFetch.TabIndex = 235;
@@ -368,7 +368,7 @@
 			this.checkLimit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkLimit.Checked = true;
 			this.checkLimit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLimit.Location = new System.Drawing.Point(1591, 655);
+			this.checkLimit.Location = new System.Drawing.Point(1605, 671);
 			this.checkLimit.Name = "checkLimit";
 			this.checkLimit.Size = new System.Drawing.Size(199, 18);
 			this.checkLimit.TabIndex = 234;
@@ -377,7 +377,7 @@
 			// butSearchPats
 			// 
 			this.butSearchPats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearchPats.Location = new System.Drawing.Point(1738, 677);
+			this.butSearchPats.Location = new System.Drawing.Point(1742, 693);
 			this.butSearchPats.Name = "butSearchPats";
 			this.butSearchPats.Size = new System.Drawing.Size(84, 23);
 			this.butSearchPats.TabIndex = 233;
@@ -421,7 +421,7 @@
 			this.groupBox2.Controls.Add(this.label16);
 			this.groupBox2.Controls.Add(this.textLName);
 			this.groupBox2.Controls.Add(this.label17);
-			this.groupBox2.Location = new System.Drawing.Point(1591, 132);
+			this.groupBox2.Location = new System.Drawing.Point(1597, 148);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(229, 515);
 			this.groupBox2.TabIndex = 232;
@@ -722,9 +722,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridPats.HScrollVisible = true;
-			this.gridPats.Location = new System.Drawing.Point(717, 120);
+			this.gridPats.Location = new System.Drawing.Point(719, 148);
 			this.gridPats.Name = "gridPats";
-			this.gridPats.Size = new System.Drawing.Size(868, 837);
+			this.gridPats.Size = new System.Drawing.Size(870, 797);
 			this.gridPats.TabIndex = 231;
 			this.gridPats.Title = "Patients - Double-click to Launch Connection";
 			this.gridPats.TranslationName = "FormPatientSelect";
@@ -740,7 +740,7 @@
 			this.groupBox1.Controls.Add(this.label4);
 			this.groupBox1.Controls.Add(this.butFilter);
 			this.groupBox1.Controls.Add(this.label6);
-			this.groupBox1.Location = new System.Drawing.Point(285, 32);
+			this.groupBox1.Location = new System.Drawing.Point(282, 32);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(297, 108);
 			this.groupBox1.TabIndex = 236;
@@ -751,7 +751,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(1834, 989);
+			this.ClientSize = new System.Drawing.Size(1834, 953);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.labelFetch);
 			this.Controls.Add(this.checkLimit);

@@ -56,16 +56,16 @@
 			this.groupConnection.Controls.Add(this.label3);
 			this.groupConnection.Location = new System.Drawing.Point(8, 8);
 			this.groupConnection.Name = "groupConnection";
-			this.groupConnection.Size = new System.Drawing.Size(608, 152);
+			this.groupConnection.Size = new System.Drawing.Size(608, 147);
 			this.groupConnection.TabIndex = 0;
 			this.groupConnection.TabStop = false;
 			this.groupConnection.Text = "Connection Settings";
 			// 
 			// butConnect
 			// 
-			this.butConnect.Location = new System.Drawing.Point(512, 121);
+			this.butConnect.Location = new System.Drawing.Point(525, 115);
 			this.butConnect.Name = "butConnect";
-			this.butConnect.Size = new System.Drawing.Size(75, 23);
+			this.butConnect.Size = new System.Drawing.Size(75, 24);
 			this.butConnect.TabIndex = 3;
 			this.butConnect.Text = "C&onnect";
 			this.butConnect.UseVisualStyleBackColor = true;
@@ -73,26 +73,26 @@
 			// 
 			// textPort
 			// 
-			this.textPort.Location = new System.Drawing.Point(8, 94);
+			this.textPort.Location = new System.Drawing.Point(8, 88);
 			this.textPort.Name = "textPort";
 			this.textPort.Size = new System.Drawing.Size(72, 23);
 			this.textPort.TabIndex = 2;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(8, 73);
+			this.label5.Location = new System.Drawing.Point(8, 69);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(282, 16);
+			this.label5.Size = new System.Drawing.Size(292, 17);
 			this.label5.TabIndex = 9;
 			this.label5.Text = "Port - If different than the default 3306";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textServer
 			// 
-			this.textServer.Location = new System.Drawing.Point(8, 45);
+			this.textServer.Location = new System.Drawing.Point(8, 42);
 			this.textServer.Name = "textServer";
 			this.textServer.ReadOnly = true;
-			this.textServer.Size = new System.Drawing.Size(280, 23);
+			this.textServer.Size = new System.Drawing.Size(292, 23);
 			this.textServer.TabIndex = 7;
 			this.textServer.TabStop = false;
 			this.textServer.Text = "localhost";
@@ -100,44 +100,44 @@
 			// textUser
 			// 
 			this.textUser.AutoSize = false;
-			this.textUser.Location = new System.Drawing.Point(294, 45);
+			this.textUser.Location = new System.Drawing.Point(308, 42);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(282, 23);
+			this.textUser.Size = new System.Drawing.Size(292, 23);
 			this.textUser.TabIndex = 0;
 			this.textUser.Text = "root";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 24);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(282, 16);
+			this.label1.Size = new System.Drawing.Size(292, 17);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Server Name";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(296, 94);
+			this.textPassword.Location = new System.Drawing.Point(308, 88);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(280, 20);
+			this.textPassword.Size = new System.Drawing.Size(292, 23);
 			this.textPassword.TabIndex = 1;
 			this.textPassword.UseSystemPasswordChar = true;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(296, 72);
+			this.label2.Location = new System.Drawing.Point(308, 69);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(282, 18);
+			this.label2.Size = new System.Drawing.Size(292, 17);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "MySQL Password";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(296, 23);
+			this.label3.Location = new System.Drawing.Point(308, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(282, 18);
+			this.label3.Size = new System.Drawing.Size(292, 17);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "MySQL User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -145,9 +145,9 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(541, 516);
+			this.butClose.Location = new System.Drawing.Point(541, 466);
 			this.butClose.Name = "butClose";
-			this.butClose.Size = new System.Drawing.Size(75, 23);
+			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 4;
 			this.butClose.Text = "&Close";
 			this.butClose.UseVisualStyleBackColor = true;
@@ -155,9 +155,9 @@
 			// 
 			// butAdd
 			// 
-			this.butAdd.Location = new System.Drawing.Point(267, 188);
+			this.butAdd.Location = new System.Drawing.Point(251, 182);
 			this.butAdd.Name = "butAdd";
-			this.butAdd.Size = new System.Drawing.Size(75, 23);
+			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 1;
 			this.butAdd.Text = "&Add";
 			this.butAdd.UseVisualStyleBackColor = true;
@@ -165,9 +165,9 @@
 			// 
 			// butEdit
 			// 
-			this.butEdit.Location = new System.Drawing.Point(267, 215);
+			this.butEdit.Location = new System.Drawing.Point(251, 210);
 			this.butEdit.Name = "butEdit";
-			this.butEdit.Size = new System.Drawing.Size(75, 23);
+			this.butEdit.Size = new System.Drawing.Size(75, 24);
 			this.butEdit.TabIndex = 2;
 			this.butEdit.Text = "&Edit";
 			this.butEdit.UseVisualStyleBackColor = true;
@@ -175,9 +175,9 @@
 			// 
 			// butDrop
 			// 
-			this.butDrop.Location = new System.Drawing.Point(267, 242);
+			this.butDrop.Location = new System.Drawing.Point(251, 238);
 			this.butDrop.Name = "butDrop";
-			this.butDrop.Size = new System.Drawing.Size(75, 23);
+			this.butDrop.Size = new System.Drawing.Size(75, 24);
 			this.butDrop.TabIndex = 3;
 			this.butDrop.Text = "&Drop";
 			this.butDrop.UseVisualStyleBackColor = true;
@@ -186,17 +186,17 @@
 			// listBoxUsers
 			// 
 			this.listBoxUsers.FormattingEnabled = true;
-			this.listBoxUsers.Location = new System.Drawing.Point(26, 188);
+			this.listBoxUsers.Location = new System.Drawing.Point(8, 182);
 			this.listBoxUsers.Name = "listBoxUsers";
-			this.listBoxUsers.Size = new System.Drawing.Size(235, 316);
+			this.listBoxUsers.Size = new System.Drawing.Size(235, 308);
 			this.listBoxUsers.TabIndex = 39;
 			this.listBoxUsers.DoubleClick += new System.EventHandler(this.listBoxUsers_DoubleClick);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(8, 168);
+			this.label4.Location = new System.Drawing.Point(8, 163);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(102, 18);
+			this.label4.Size = new System.Drawing.Size(40, 17);
 			this.label4.TabIndex = 40;
 			this.label4.Text = "Users";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -205,7 +205,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(624, 547);
+			this.ClientSize = new System.Drawing.Size(624, 498);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.listBoxUsers);
 			this.Controls.Add(this.butDrop);

@@ -50,7 +50,7 @@
 			this.groupBox3.Controls.Add(this.radioRunProcs);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(407, 147);
+			this.groupBox3.Size = new System.Drawing.Size(427, 147);
 			this.groupBox3.TabIndex = 4;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Count By";
@@ -60,7 +60,7 @@
 			this.comboBrokenProcType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBrokenProcType.Enabled = false;
 			this.comboBrokenProcType.FormattingEnabled = true;
-			this.comboBrokenProcType.Location = new System.Drawing.Point(97, 45);
+			this.comboBrokenProcType.Location = new System.Drawing.Point(119, 45);
 			this.comboBrokenProcType.Name = "comboBrokenProcType";
 			this.comboBrokenProcType.Size = new System.Drawing.Size(216, 23);
 			this.comboBrokenProcType.TabIndex = 9;
@@ -68,9 +68,9 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(110, 94);
+			this.label3.Location = new System.Drawing.Point(119, 94);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(280, 18);
+			this.label3.Size = new System.Drawing.Size(204, 18);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Count the selected adjustment type.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -79,16 +79,16 @@
 			// 
 			this.label2.Location = new System.Drawing.Point(119, 72);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(280, 18);
+			this.label2.Size = new System.Drawing.Size(272, 18);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Count broken appointments left on the schedule.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(102, 23);
+			this.label1.Location = new System.Drawing.Point(119, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(297, 18);
+			this.label1.Size = new System.Drawing.Size(300, 18);
 			this.label1.TabIndex = 6;
 			this.label1.Text = "Count completed broken and/or canceled procedures.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -98,7 +98,7 @@
 			this.comboAdjType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboAdjType.Enabled = false;
 			this.comboAdjType.FormattingEnabled = true;
-			this.comboAdjType.Location = new System.Drawing.Point(97, 116);
+			this.comboAdjType.Location = new System.Drawing.Point(119, 116);
 			this.comboAdjType.Name = "comboAdjType";
 			this.comboAdjType.Size = new System.Drawing.Size(216, 23);
 			this.comboAdjType.TabIndex = 5;
@@ -144,7 +144,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
 			this.Controls.Add(this.groupBox3);
 			this.Name = "BrokenApptGraphOptionsCtrl";
-			this.Size = new System.Drawing.Size(423, 163);
+			this.Size = new System.Drawing.Size(443, 163);
 			this.Load += new System.EventHandler(this.BrokenApptGraphOptionsCtrl_Load);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();

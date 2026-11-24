@@ -15,6 +15,7 @@ import argparse
 import collections
 import importlib.util
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -62,6 +63,7 @@ class Hand:
         self.sized = set()  # the controls the script gave a size
         self.why = {}
         self.containers = []
+        self.extra = []  # UI-12 slice 12: rows of other properties (splitter())
 
     # -- nodes ---------------------------------------------------------------------------------------------------------------------------
     def n(self, name):
@@ -105,6 +107,13 @@ class Hand:
         if n.name in self.designer.rtl:
             n.rtl = True
         self.touched[id(n)] = n
+
+    def splitter(self, name, distance, why="the first panel as tall (or wide) as the settings it holds"):
+        """UI-12 slice 12: a split container's SplitterDistance (a hand row; the applier edits the line's digits)."""
+        m = re.search(r"this\.%s\.SplitterDistance ?= ?(\d+);" % re.escape(name), self.designer.text)
+        old = m.group(1) if m else "(none)"
+        if old != str(distance):
+            self.extra.append((name, "SplitterDistance", old, str(distance), RULE + why))
 
     def lw(self, name):
         """The width a label needs for its text on one line (snapped up to the grid): the widest of its designer text and the texts the code
@@ -279,6 +288,7 @@ class Hand:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "aligned, not right to left (which mirrors it)"))
             elif n.rtl:
                 out.append((n.name, "RightToLeft", "Yes", "No", RULE + "the box on the left of its text (not right to left)"))
+        out.extend(self.extra)
         return out
 
     def check(self):

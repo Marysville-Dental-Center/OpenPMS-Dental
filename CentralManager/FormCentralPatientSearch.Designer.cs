@@ -73,7 +73,7 @@
 			this.gridPats.HScrollVisible = true;
 			this.gridPats.Location = new System.Drawing.Point(8, 8);
 			this.gridPats.Name = "gridPats";
-			this.gridPats.Size = new System.Drawing.Size(501, 567);
+			this.gridPats.Size = new System.Drawing.Size(499, 651);
 			this.gridPats.TabIndex = 10;
 			this.gridPats.Title = "Patients - Double Click to Launch Connection";
 			this.gridPats.TranslationName = "FormPatientSelect";
@@ -115,7 +115,7 @@
 			this.groupBox2.Controls.Add(this.label3);
 			this.groupBox2.Controls.Add(this.textLName);
 			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Location = new System.Drawing.Point(515, 52);
+			this.groupBox2.Location = new System.Drawing.Point(515, 8);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(220, 488);
 			this.groupBox2.TabIndex = 11;
@@ -396,7 +396,7 @@
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSearch.Location = new System.Drawing.Point(652, 570);
+			this.butSearch.Location = new System.Drawing.Point(660, 526);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 34;
@@ -408,7 +408,7 @@
 			this.checkLimit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkLimit.Checked = true;
 			this.checkLimit.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkLimit.Location = new System.Drawing.Point(515, 548);
+			this.checkLimit.Location = new System.Drawing.Point(523, 504);
 			this.checkLimit.Name = "checkLimit";
 			this.checkLimit.Size = new System.Drawing.Size(199, 18);
 			this.checkLimit.TabIndex = 50;
@@ -420,7 +420,7 @@
 			this.labelFetch.BackColor = System.Drawing.Color.Transparent;
 			this.labelFetch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelFetch.ForeColor = System.Drawing.Color.Red;
-			this.labelFetch.Location = new System.Drawing.Point(534, 570);
+			this.labelFetch.Location = new System.Drawing.Point(542, 526);
 			this.labelFetch.Name = "labelFetch";
 			this.labelFetch.Size = new System.Drawing.Size(112, 23);
 			this.labelFetch.TabIndex = 51;
@@ -440,7 +440,7 @@
 			// buttonOK
 			// 
 			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonOK.Location = new System.Drawing.Point(652, 635);
+			this.buttonOK.Location = new System.Drawing.Point(577, 635);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 24);
 			this.buttonOK.TabIndex = 53;

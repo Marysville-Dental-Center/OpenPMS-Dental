@@ -36,9 +36,9 @@
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 35);
+			this.gridMain.Location = new System.Drawing.Point(8, 39);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(341, 377);
+			this.gridMain.Size = new System.Drawing.Size(358, 374);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Groups";
 			this.gridMain.TranslationName = "TableGroups";
@@ -47,7 +47,7 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(434, 424);
+			this.butClose.Location = new System.Drawing.Point(374, 389);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 2;
@@ -60,7 +60,7 @@
 			this.butAdd.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(434, 200);
+			this.butAdd.Location = new System.Drawing.Point(374, 39);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(75, 24);
 			this.butAdd.TabIndex = 218;
@@ -71,7 +71,7 @@
 			// 
 			this.comboConnectionGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboConnectionGroup.FormattingEnabled = true;
-			this.comboConnectionGroup.Location = new System.Drawing.Point(12, 8);
+			this.comboConnectionGroup.Location = new System.Drawing.Point(8, 8);
 			this.comboConnectionGroup.MaxDropDownItems = 20;
 			this.comboConnectionGroup.Name = "comboConnectionGroup";
 			this.comboConnectionGroup.Size = new System.Drawing.Size(168, 23);
@@ -80,9 +80,10 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(186, 12);
+			this.label1.Location = new System.Drawing.Point(182, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(244, 15);
+			this.label1.Size = new System.Drawing.Size(144, 23);
 			this.label1.TabIndex = 220;
 			this.label1.Text = "Default Group on Startup";
 			// 
@@ -90,7 +91,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(517, 456);
+			this.ClientSize = new System.Drawing.Size(457, 421);
 			this.Controls.Add(this.comboConnectionGroup);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.butAdd);

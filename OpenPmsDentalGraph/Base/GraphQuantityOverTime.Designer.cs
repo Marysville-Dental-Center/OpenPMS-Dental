@@ -147,36 +147,36 @@
 			// 
 			this.comboGroupBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboGroupBy.FormattingEnabled = true;
-			this.comboGroupBy.Location = new System.Drawing.Point(83, 68);
+			this.comboGroupBy.Location = new System.Drawing.Point(86, 77);
 			this.comboGroupBy.Name = "comboGroupBy";
-			this.comboGroupBy.Size = new System.Drawing.Size(137, 21);
+			this.comboGroupBy.Size = new System.Drawing.Size(137, 23);
 			this.comboGroupBy.TabIndex = 0;
 			this.comboGroupBy.SelectedIndexChanged += new System.EventHandler(this.FilterData);
 			// 
 			// dateTimeFrom
 			// 
 			this.dateTimeFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimeFrom.Location = new System.Drawing.Point(90, 44);
+			this.dateTimeFrom.Location = new System.Drawing.Point(98, 50);
 			this.dateTimeFrom.Name = "dateTimeFrom";
-			this.dateTimeFrom.Size = new System.Drawing.Size(127, 20);
+			this.dateTimeFrom.Size = new System.Drawing.Size(127, 23);
 			this.dateTimeFrom.TabIndex = 0;
 			this.dateTimeFrom.Value = new System.DateTime(2015, 12, 12, 10, 19, 0, 0);
 			this.dateTimeFrom.ValueChanged += new System.EventHandler(this.FilterData);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 48);
+			this.label3.Location = new System.Drawing.Point(8, 50);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(75, 15);
+			this.label3.Size = new System.Drawing.Size(84, 23);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "From:";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(8, 72);
+			this.label4.Location = new System.Drawing.Point(8, 77);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(75, 15);
+			this.label4.Size = new System.Drawing.Size(84, 23);
 			this.label4.TabIndex = 12;
 			this.label4.Text = "To:";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -184,9 +184,9 @@
 			// dateTimeTo
 			// 
 			this.dateTimeTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimeTo.Location = new System.Drawing.Point(90, 68);
+			this.dateTimeTo.Location = new System.Drawing.Point(98, 77);
 			this.dateTimeTo.Name = "dateTimeTo";
-			this.dateTimeTo.Size = new System.Drawing.Size(127, 20);
+			this.dateTimeTo.Size = new System.Drawing.Size(127, 23);
 			this.dateTimeTo.TabIndex = 1;
 			this.dateTimeTo.ValueChanged += new System.EventHandler(this.FilterData);
 			// 
@@ -197,9 +197,9 @@
 			this.groupBoxBreakdown.Controls.Add(this.numericTop);
 			this.groupBoxBreakdown.Controls.Add(this.radBreakdownAll);
 			this.groupBoxBreakdown.Controls.Add(this.radBreakdownTop);
-			this.groupBoxBreakdown.Location = new System.Drawing.Point(470, 32);
+			this.groupBoxBreakdown.Location = new System.Drawing.Point(488, 39);
 			this.groupBoxBreakdown.Name = "groupBoxBreakdown";
-			this.groupBoxBreakdown.Size = new System.Drawing.Size(251, 123);
+			this.groupBoxBreakdown.Size = new System.Drawing.Size(259, 135);
 			this.groupBoxBreakdown.TabIndex = 1;
 			this.groupBoxBreakdown.TabStop = false;
 			this.groupBoxBreakdown.Text = "Series Grouping";
@@ -207,9 +207,9 @@
 			// radBreakdownNone
 			// 
 			this.radBreakdownNone.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radBreakdownNone.Location = new System.Drawing.Point(4, 68);
+			this.radBreakdownNone.Location = new System.Drawing.Point(8, 72);
 			this.radBreakdownNone.Name = "radBreakdownNone";
-			this.radBreakdownNone.Size = new System.Drawing.Size(53, 17);
+			this.radBreakdownNone.Size = new System.Drawing.Size(58, 18);
 			this.radBreakdownNone.TabIndex = 2;
 			this.radBreakdownNone.Text = "None";
 			this.radBreakdownNone.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -220,22 +220,22 @@
 			// 
 			this.comboBreakdownBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBreakdownBy.FormattingEnabled = true;
-			this.comboBreakdownBy.Location = new System.Drawing.Point(129, 40);
+			this.comboBreakdownBy.Location = new System.Drawing.Point(134, 45);
 			this.comboBreakdownBy.Name = "comboBreakdownBy";
-			this.comboBreakdownBy.Size = new System.Drawing.Size(117, 21);
+			this.comboBreakdownBy.Size = new System.Drawing.Size(117, 23);
 			this.comboBreakdownBy.TabIndex = 3;
 			this.comboBreakdownBy.SelectedIndexChanged += new System.EventHandler(this.FilterData);
 			// 
 			// numericTop
 			// 
-			this.numericTop.Location = new System.Drawing.Point(68, 41);
+			this.numericTop.Location = new System.Drawing.Point(72, 45);
 			this.numericTop.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
 			this.numericTop.Name = "numericTop";
-			this.numericTop.Size = new System.Drawing.Size(56, 20);
+			this.numericTop.Size = new System.Drawing.Size(56, 23);
 			this.numericTop.TabIndex = 2;
 			this.numericTop.Value = new decimal(new int[] {
             5,
@@ -247,9 +247,9 @@
 			// radBreakdownAll
 			// 
 			this.radBreakdownAll.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.radBreakdownAll.Location = new System.Drawing.Point(15, 20);
+			this.radBreakdownAll.Location = new System.Drawing.Point(8, 23);
 			this.radBreakdownAll.Name = "radBreakdownAll";
-			this.radBreakdownAll.Size = new System.Drawing.Size(42, 17);
+			this.radBreakdownAll.Size = new System.Drawing.Size(43, 18);
 			this.radBreakdownAll.TabIndex = 0;
 			this.radBreakdownAll.Text = "All";
 			this.radBreakdownAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -260,9 +260,9 @@
 			// 
 			this.radBreakdownTop.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownTop.Checked = true;
-			this.radBreakdownTop.Location = new System.Drawing.Point(12, 43);
+			this.radBreakdownTop.Location = new System.Drawing.Point(8, 47);
 			this.radBreakdownTop.Name = "radBreakdownTop";
-			this.radBreakdownTop.Size = new System.Drawing.Size(45, 17);
+			this.radBreakdownTop.Size = new System.Drawing.Size(49, 18);
 			this.radBreakdownTop.TabIndex = 1;
 			this.radBreakdownTop.TabStop = true;
 			this.radBreakdownTop.Text = "Top";
@@ -278,18 +278,18 @@
 			this.groupBox2.Controls.Add(this.comboQuickRange);
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Controls.Add(this.dateTimeTo);
-			this.groupBox2.Location = new System.Drawing.Point(241, 32);
+			this.groupBox2.Location = new System.Drawing.Point(247, 39);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(223, 123);
+			this.groupBox2.Size = new System.Drawing.Size(233, 135);
 			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Filter Dates";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(9, 23);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(77, 15);
+			this.label2.Size = new System.Drawing.Size(84, 23);
 			this.label2.TabIndex = 13;
 			this.label2.Text = "Quick Range:";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -298,17 +298,17 @@
 			// 
 			this.comboQuickRange.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboQuickRange.FormattingEnabled = true;
-			this.comboQuickRange.Location = new System.Drawing.Point(90, 19);
+			this.comboQuickRange.Location = new System.Drawing.Point(98, 23);
 			this.comboQuickRange.Name = "comboQuickRange";
-			this.comboQuickRange.Size = new System.Drawing.Size(127, 21);
+			this.comboQuickRange.Size = new System.Drawing.Size(127, 23);
 			this.comboQuickRange.TabIndex = 2;
 			this.comboQuickRange.SelectedIndexChanged += new System.EventHandler(this.comboQuickRange_SelectedIndexChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 72);
+			this.label1.Location = new System.Drawing.Point(8, 77);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(71, 15);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Group By:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -323,18 +323,18 @@
 			this.groupBox1.Controls.Add(this.comboQuantityType);
 			this.groupBox1.Controls.Add(this.comboChartType);
 			this.groupBox1.Controls.Add(this.comboGroupBy);
-			this.groupBox1.Location = new System.Drawing.Point(8, 32);
+			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(227, 123);
+			this.groupBox1.Size = new System.Drawing.Size(231, 135);
 			this.groupBox1.TabIndex = 3;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Chart Options";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(26, 99);
+			this.label7.Location = new System.Drawing.Point(8, 104);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(51, 15);
+			this.label7.Size = new System.Drawing.Size(72, 23);
 			this.label7.TabIndex = 17;
 			this.label7.Text = "Legend:";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -343,26 +343,26 @@
 			// 
 			this.comboLegendDock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboLegendDock.FormattingEnabled = true;
-			this.comboLegendDock.Location = new System.Drawing.Point(83, 95);
+			this.comboLegendDock.Location = new System.Drawing.Point(86, 104);
 			this.comboLegendDock.Name = "comboLegendDock";
-			this.comboLegendDock.Size = new System.Drawing.Size(137, 21);
+			this.comboLegendDock.Size = new System.Drawing.Size(137, 23);
 			this.comboLegendDock.TabIndex = 16;
 			this.comboLegendDock.SelectedIndexChanged += new System.EventHandler(this.comboLegendDock_SelectedIndexChanged);
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(6, 48);
+			this.label6.Location = new System.Drawing.Point(8, 50);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(71, 15);
+			this.label6.Size = new System.Drawing.Size(72, 23);
 			this.label6.TabIndex = 15;
 			this.label6.Text = "Series Type:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(71, 15);
+			this.label5.Size = new System.Drawing.Size(72, 23);
 			this.label5.TabIndex = 14;
 			this.label5.Text = "Display:";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -371,9 +371,9 @@
 			// 
 			this.comboQuantityType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboQuantityType.FormattingEnabled = true;
-			this.comboQuantityType.Location = new System.Drawing.Point(83, 19);
+			this.comboQuantityType.Location = new System.Drawing.Point(86, 23);
 			this.comboQuantityType.Name = "comboQuantityType";
-			this.comboQuantityType.Size = new System.Drawing.Size(137, 21);
+			this.comboQuantityType.Size = new System.Drawing.Size(137, 23);
 			this.comboQuantityType.TabIndex = 1;
 			this.comboQuantityType.SelectedIndexChanged += new System.EventHandler(this.FilterData);
 			// 
@@ -381,9 +381,9 @@
 			// 
 			this.comboChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboChartType.FormattingEnabled = true;
-			this.comboChartType.Location = new System.Drawing.Point(83, 44);
+			this.comboChartType.Location = new System.Drawing.Point(86, 50);
 			this.comboChartType.Name = "comboChartType";
-			this.comboChartType.Size = new System.Drawing.Size(137, 21);
+			this.comboChartType.Size = new System.Drawing.Size(137, 23);
 			this.comboChartType.TabIndex = 0;
 			this.comboChartType.SelectedIndexChanged += new System.EventHandler(this.FilterData);
 			// 
@@ -409,22 +409,22 @@
 			this.splitContainerMain.Panel2.BackColor = System.Drawing.SystemColors.Control;
 			this.splitContainerMain.Panel2.Controls.Add(this.splitContainerChart);
 			this.splitContainerMain.Size = new System.Drawing.Size(900, 463);
-			this.splitContainerMain.SplitterDistance = 157;
+			this.splitContainerMain.SplitterDistance = 182;
 			this.splitContainerMain.TabIndex = 4;
 			// 
 			// textChartTitle
 			// 
-			this.textChartTitle.Location = new System.Drawing.Point(91, 6);
+			this.textChartTitle.Location = new System.Drawing.Point(86, 8);
 			this.textChartTitle.Name = "textChartTitle";
-			this.textChartTitle.Size = new System.Drawing.Size(373, 20);
+			this.textChartTitle.Size = new System.Drawing.Size(661, 23);
 			this.textChartTitle.TabIndex = 5;
 			this.textChartTitle.TextChanged += new System.EventHandler(this.textChartTitle_TextChanged);
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(5, 4);
+			this.label8.Location = new System.Drawing.Point(8, 8);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(80, 23);
+			this.label8.Size = new System.Drawing.Size(72, 23);
 			this.label8.TabIndex = 4;
 			this.label8.Text = "Chart Title:";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -38,7 +38,7 @@
 			// 
 			this.checkShow.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.checkShow.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkShow.Location = new System.Drawing.Point(155, 89);
+			this.checkShow.Location = new System.Drawing.Point(118, 89);
 			this.checkShow.Name = "checkShow";
 			this.checkShow.Size = new System.Drawing.Size(58, 18);
 			this.checkShow.TabIndex = 18;
@@ -50,16 +50,16 @@
 			// textCurrent
 			// 
 			this.textCurrent.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.textCurrent.Location = new System.Drawing.Point(155, 35);
+			this.textCurrent.Location = new System.Drawing.Point(118, 35);
 			this.textCurrent.Name = "textCurrent";
 			this.textCurrent.PasswordChar = '*';
-			this.textCurrent.Size = new System.Drawing.Size(204, 23);
+			this.textCurrent.Size = new System.Drawing.Size(297, 23);
 			this.textCurrent.TabIndex = 10;
 			// 
 			// labelCurrent
 			// 
 			this.labelCurrent.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.labelCurrent.Location = new System.Drawing.Point(45, 35);
+			this.labelCurrent.Location = new System.Drawing.Point(8, 35);
 			this.labelCurrent.Name = "labelCurrent";
 			this.labelCurrent.Size = new System.Drawing.Size(104, 23);
 			this.labelCurrent.TabIndex = 17;
@@ -69,18 +69,18 @@
 			// textUserName
 			// 
 			this.textUserName.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.textUserName.Location = new System.Drawing.Point(155, 8);
+			this.textUserName.Location = new System.Drawing.Point(118, 8);
 			this.textUserName.Name = "textUserName";
 			this.textUserName.ReadOnly = true;
-			this.textUserName.Size = new System.Drawing.Size(204, 23);
+			this.textUserName.Size = new System.Drawing.Size(297, 23);
 			this.textUserName.TabIndex = 15;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label3.Location = new System.Drawing.Point(113, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(36, 23);
+			this.label3.Size = new System.Drawing.Size(104, 23);
 			this.label3.TabIndex = 16;
 			this.label3.Text = "User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -88,10 +88,10 @@
 			// textPassword
 			// 
 			this.textPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.textPassword.Location = new System.Drawing.Point(155, 62);
+			this.textPassword.Location = new System.Drawing.Point(118, 62);
 			this.textPassword.Name = "textPassword";
 			this.textPassword.PasswordChar = '*';
-			this.textPassword.Size = new System.Drawing.Size(204, 23);
+			this.textPassword.Size = new System.Drawing.Size(297, 23);
 			this.textPassword.TabIndex = 11;
 			// 
 			// butOK
@@ -117,9 +117,9 @@
 			// label1
 			// 
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.label1.Location = new System.Drawing.Point(61, 62);
+			this.label1.Location = new System.Drawing.Point(8, 62);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88, 23);
+			this.label1.Size = new System.Drawing.Size(104, 23);
 			this.label1.TabIndex = 14;
 			this.label1.Text = "New Password";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

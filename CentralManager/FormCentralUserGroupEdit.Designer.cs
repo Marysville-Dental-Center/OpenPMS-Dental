@@ -45,14 +45,14 @@
 			// 
 			// textDescription
 			// 
-			this.textDescription.Location = new System.Drawing.Point(114, 8);
+			this.textDescription.Location = new System.Drawing.Point(86, 8);
 			this.textDescription.Name = "textDescription";
-			this.textDescription.Size = new System.Drawing.Size(240, 23);
+			this.textDescription.Size = new System.Drawing.Size(322, 23);
 			this.textDescription.TabIndex = 5;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(36, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 7;
