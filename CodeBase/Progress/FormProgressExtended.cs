@@ -23,6 +23,7 @@ namespace CodeBase {
 		///eventType must be a Type that contains an event called Fired.</summary>
 		public FormProgressExtended(bool hasHistory=false,string cancelButtonText=null) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			if(!string.IsNullOrEmpty(cancelButtonText)) {
 				butCancel.Text=cancelButtonText;
 			}

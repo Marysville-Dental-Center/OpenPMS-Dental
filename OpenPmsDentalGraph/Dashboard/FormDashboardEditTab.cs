@@ -44,6 +44,7 @@ namespace OpenPmsDentalGraph {
 		/// This is only used in BroadcastMonitor as the db context is typically already set in OD proper.</param>
 		public FormDashboardEditTab(long provNum,bool useProvFilter,EventHandler onSetDb=null) {			
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_onSetDb=onSetDb;
 			Cache.DashboardCache.ProvNum=provNum;
 			Cache.DashboardCache.UseProvFilter=useProvFilter;

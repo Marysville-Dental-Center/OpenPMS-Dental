@@ -63,6 +63,7 @@ namespace UpdateFileCopier {
 			string serverName=null,string databaseName=null,string mySqlUser=null,string mySqlPassHash=null)
 		{
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_sourceDirectory=sourceDirectory;
 			_destDirectory=destDirectory;
 			_doKillServices=doKillServices;

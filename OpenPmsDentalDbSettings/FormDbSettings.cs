@@ -41,6 +41,7 @@ namespace OpenPmsDentalDbSettings {
 			_caCopyPath=caCopyPath;
 			_dbSettingsRequestStart=dbSettingsRequestStart??new DbSettingsRequest();
 			BuildControls();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			Load+=FormDbSettings_Load;
 			Shown+=FormDbSettings_Shown;
 		}

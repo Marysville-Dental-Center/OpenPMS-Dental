@@ -8,6 +8,7 @@ namespace ServiceManager {
 	public partial class FormMain:Form {
 		public FormMain() {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 		}
 
 		private void FormMain_Load(object sender,EventArgs e) {

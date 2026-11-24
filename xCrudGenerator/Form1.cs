@@ -24,6 +24,7 @@ namespace xCrudGenerator {
 
 		public Form1() {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 		}
 
 		private void Form1_Load(object sender,EventArgs e) {

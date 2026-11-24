@@ -43,6 +43,7 @@ namespace OpenPmsDental {
 		///<summary></summary>
 		public FormCentralChooseDatabase(string webServiceUri) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			textURI.Text=webServiceUri;
 			Lan.F(this);
 		}

@@ -57,6 +57,7 @@ namespace DocumentationBuilder {
 
 		public Form1(string[] cla) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_errorMessage=new StringBuilder();
 			string version="";
 			string serverName="";

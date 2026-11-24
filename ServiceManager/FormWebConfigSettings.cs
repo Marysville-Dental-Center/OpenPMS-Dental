@@ -14,6 +14,7 @@ namespace ServiceManager {
 		///<summary>Pass in the file information for the service file that is being installed.  We will use the file path to determine where to put the config file.</summary>
 		public FormWebConfigSettings(FileInfo serviceFile) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_serviceFile=serviceFile;
 			if(_serviceFile.Name!="OpenDentalReplicationService.exe") {
 				//The replication service controls are shwoing by default. 

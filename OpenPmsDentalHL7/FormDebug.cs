@@ -11,6 +11,7 @@ namespace OpenPmsDentalHL7 {
 		public FormDebug(string serviceName="") {
 			_service.ServiceName=serviceName;
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 		}
 
 		private void FormDebug_Load(object sender,EventArgs e) {

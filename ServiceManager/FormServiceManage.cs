@@ -27,6 +27,7 @@ namespace ServiceManager {
 		///<summary>Pass in empty string to create a new service. Pass in OpenDent string to manage an existing service.</summary>
 		public FormServiceManage(string serviceName,bool isInstallOnly,bool isNew) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			textName.Text=serviceName;
 			textPathToExe.Text=Directory.GetCurrentDirectory();
 			_isInstallOnly=isInstallOnly;

@@ -359,6 +359,7 @@ namespace UiRefreshTests.Scan {
 					case BuildKind.PlainWindow:
 						builtWindow.Form=(Form)CreateBare(scanType.Type,typeof(Form));
 						builtWindow.Root=builtWindow.Form;
+						AttachPlainLookAsTheConstructorDoes(builtWindow.Form);
 						break;
 					case BuildKind.UserControlAdd:
 					case BuildKind.UserControlAddUnscaled:
@@ -373,6 +374,9 @@ namespace UiRefreshTests.Scan {
 						formPlain.ClientSize=userControlPlain.Size;
 						builtWindow.Form=formPlain;
 						formPlain.Controls.Add(userControlPlain);
+						//UI-PLAIN: the plain windows that host these controls (the graph's dashboard dialogs) and the program's windows give them the
+						//look; the test form does what a plain host's constructor does.
+						CodeBase.UiPlainWindow.Attach(formPlain);
 						break;
 				}
 			}
@@ -381,6 +385,24 @@ namespace UiRefreshTests.Scan {
 				throw;
 			}
 			return builtWindow;
+		}
+
+		///<summary>UI-PLAIN: the builder runs a plain window's InitializeComponent, not its constructor; when the window's own constructor calls
+		///CodeBase.UiPlainWindow.Attach (its IL), the builder calls it too, as it calls InitializeLayoutManager for a program window. A plain
+		///window whose constructor does not call it is built without the look (and fails PlainLookTests). UpdateFileCopier references no CodeBase
+		///and compiles the looks in as linked files: its window calls its own copy, which the builder calls then (off with the gallery's
+		///UiLooks.IsOffForGallery too).</summary>
+		public static bool AttachPlainLookAsTheConstructorDoes(Form form) {
+			Type typePlainWindow=form.GetType().Assembly.GetType(typeof(CodeBase.UiPlainWindow).FullName)??typeof(CodeBase.UiPlainWindow);
+			MethodInfo methodInfoAttach=typePlainWindow.GetMethod(nameof(CodeBase.UiPlainWindow.Attach),new Type[] { typeof(Form) });
+			if(methodInfoAttach==null || !ConstructorCalls(form.GetType(),methodInfoAttach)) {
+				return false;
+			}
+			if(CodeBase.UiLooks.IsOffForGallery) {
+				return true;
+			}
+			methodInfoAttach.Invoke(null,new object[] { form });
+			return true;
 		}
 
 		///<summary>Hosts a UserControl in a bare test FormODBase the way the program adds it, and lays it out at 100%.</summary>

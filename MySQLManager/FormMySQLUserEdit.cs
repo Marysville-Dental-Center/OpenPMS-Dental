@@ -33,6 +33,7 @@ namespace MySQLManager {
 
 		public FormMySQLUserEdit(string userName,bool isNew,DataConnection dataConnection) {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			_userName=userName;
 			_isNew=isNew;
 			_dataConnection=dataConnection;

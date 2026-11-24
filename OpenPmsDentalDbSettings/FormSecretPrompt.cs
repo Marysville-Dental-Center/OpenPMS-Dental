@@ -24,6 +24,7 @@ namespace OpenPmsDentalDbSettings {
 			Button butOK=new Button() { Text="OK",Location=new Point(252,84),Size=new Size(75,24),DialogResult=DialogResult.OK };
 			Button butCancel=new Button() { Text="Cancel",Location=new Point(333,84),Size=new Size(75,24),DialogResult=DialogResult.Cancel };
 			Controls.AddRange(new Control[] { labelPrompt,_textSecret,butOK,butCancel });
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			AcceptButton=butOK;
 			CancelButton=butCancel;
 		}

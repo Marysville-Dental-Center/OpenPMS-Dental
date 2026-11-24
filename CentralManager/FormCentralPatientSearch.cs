@@ -29,6 +29,7 @@ namespace CentralManager {
 
 		public FormCentralPatientSearch() {
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 		}
 
 		private void FormCentralPatientSearch_Load(object sender,System.EventArgs e) {

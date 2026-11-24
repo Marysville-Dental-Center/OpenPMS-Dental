@@ -19,6 +19,7 @@ namespace CodeBase {
 			string startingMessage="",ProgressBarStyle progStyle=ProgressBarStyle.Marquee)
 		{
 			InitializeComponent();
+			UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			labelMsg.Text=startingMessage;
 			progressBar.Style=progStyle;
 			if(!hasMinimize) {
