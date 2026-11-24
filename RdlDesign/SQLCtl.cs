@@ -173,7 +173,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tvTablesColumns
 			// 
-			this.tvTablesColumns.Dock = System.Windows.Forms.DockStyle.Left;
+			this.tvTablesColumns.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left)));
 			this.tvTablesColumns.FullRowSelect = true;
 			this.tvTablesColumns.ImageIndex = -1;
 			this.tvTablesColumns.Location = new System.Drawing.Point(8, 8);

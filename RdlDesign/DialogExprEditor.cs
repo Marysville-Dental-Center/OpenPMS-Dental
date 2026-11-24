@@ -431,18 +431,28 @@ namespace fyiReporting.RdlDesign
 			tbExpr.SelectedText = t;
 		}
 
+		/// <summary>
+		/// Open PMS - Dental (UI-12 slice 15): the two boxes on the layout grid of the program's windows (CodeBase.UiGrid's numbers: the
+		/// 8 px padding, the 6 px item gap, the 2 px caption gap, the 12 px section gap over the bottom bar) in the client area. Main placed
+		/// them from the window's outer size: they ran into the right edge and to 4 px over OK and Cancel. As before, the operator tree and
+		/// the expression box share the width with the copy button between them and fill the height down to the bar; OK and Cancel are
+		/// anchored to the bottom right.
+		/// </summary>
 		private void DialogExprEditor_Layout(object sender, System.Windows.Forms.LayoutEventArgs e)
 		{
-			int bottom = this.Height - bOK.Top + 5;
+			const int PAD = 8;			// UiGrid.PAD
+			const int ITEM_GAP = 6;		// UiGrid.ITEM_GAP
+			const int CAPTION_GAP = 2;	// UiGrid.CAPTION_GAP
+			const int SECTION_GAP = 12;	// UiGrid.SECTION_GAP
+			int top = lOp.Bottom + CAPTION_GAP;
+			int height = Math.Max(0, bOK.Top - SECTION_GAP - top);
+			int width = Math.Max(0, (ClientSize.Width - 2 * PAD - bCopy.Width - 2 * ITEM_GAP) / 2);
 
-			tvOp.Height = tbExpr.Height = this.Height - tbExpr.Top - bottom;
-
-			tbExpr.Left = this.Width / 2;
-			lExpr.Left = tbExpr.Left;
-			tbExpr.Width = this.Width / 2 - 16;
-
-			tvOp.Width = this.Width / 2 - tvOp.Left - bCopy.Width - 8;
-			bCopy.Left = tvOp.Left + tvOp.Width + 4;
+			tvOp.SetBounds(PAD, top, width, height);
+			bCopy.Location = new Point(tvOp.Right + ITEM_GAP, top);
+			int left = bCopy.Right + ITEM_GAP;
+			tbExpr.SetBounds(left, top, Math.Max(0, ClientSize.Width - PAD - left), height);
+			lExpr.Left = left;
 		}
 
 	}

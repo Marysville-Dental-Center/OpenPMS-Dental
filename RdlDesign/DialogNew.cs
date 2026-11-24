@@ -100,7 +100,9 @@ namespace fyiReporting.RdlDesign
 			// 
 			// listNewChoices
 			// 
-			this.listNewChoices.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listNewChoices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.listNewChoices.HideSelection = false;
 			this.listNewChoices.Location = new System.Drawing.Point(8, 8);
 			this.listNewChoices.MultiSelect = false;
