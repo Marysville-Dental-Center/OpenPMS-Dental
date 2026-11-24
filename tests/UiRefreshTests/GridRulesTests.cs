@@ -409,7 +409,7 @@ namespace UiRefreshTests {
 							if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
 								root=formODBase.PanelClient;
 							}
-							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType));
+							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType) || !(root.FindForm() is FormODBase));//slice 13: the report designer's and ODR's windows are no FormODBase either
 							CheckColumns(gridWindow,root,listFindings);
 							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
 						}
@@ -555,10 +555,9 @@ namespace UiRefreshTests {
 				//rich text boxes too (FormEmailInbox's address boxes and ControlChart's search box are single-line ODtextBoxes and drew plain
 				//white bars). A single-line stock TextBox keeps the one-line rule (framed with a 3-D border), and the text inside an up-down box
 				//has its box's frame. In a window the harness builds as a form, the frame is attached too.
-				//UI-12 slices 12 and 13: no input frame in a plain window (IsPlain) or any window that is no FormODBase (the report designer's dialogs
-				//and controls, ODR's): FormODBase's LayoutManager attaches the frame, so those keep the stock text boxes.
-				bool isFormODBase=root.FindForm() is FormODBase;
-				foreach(Control control in listKids.Where(x => !isPlain && isFormODBase && x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
+				//UI-12 slices 12 and 13: no input frame in a plain window: IsPlain, or (the caller) any window that is no FormODBase (the report
+				//designer's dialogs and controls, ODR's): FormODBase's LayoutManager attaches the frame, so those keep the stock text boxes.
+				foreach(Control control in listKids.Where(x => !isPlain && x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
 					if(control is TextBox textBox && (!textBox.Multiline || OpenPmsDental.UI.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
 						continue;
 					}
