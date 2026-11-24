@@ -74,3 +74,21 @@ the same build), `<W>/before-150`. Five pictures have no before: FormProgressSta
 (states of code this slice wrote) and, at 150%, FormUpdate and ServiceManager's FormMain. Gallery `G-UI3-ui12-14`: 52 pictures, 42
 changed, 5 the same (FormReportCustom and FormReportForRdl: the code already placed the viewer; FormToothPicker: its numbers were the
 grid's, now named; SplitContainer; UserControlSecurityUserGroup: laid out by slice 3), 5 only after.
+
+## Fix round (`ui/ui12-14-2`; `<W>/f2-100` from the final build, `<W>/f1-150`; the review's nine findings)
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| UserControlTasks-date, FormTasks-date | fixed, then good | The tree had covered the calendar's Today line in UserControlTasks-date (y 240): the stock calendar sized itself after the tree was placed. Now both pictures alike: the calendar ends at y 254, the tree's top 4 px under it (259). |
+| UserControlTasks, FormTasks | good | The tree and grid on the padding (x 8 to the right padding), as the tab strip. |
+| FormSheetFieldCheckBox-single | fixed, then good | The mobile item caption on Required's row, 12 px under Width / Height (main's slot under the hidden Required left 58 px empty). |
+| FormSheetFieldCheckBox, -radio, -misc, -allergy, -problem | fixed, then good | Required's note and Yes / No's note on one left edge (x 532); Required's note on two even lines ("Same for the" / "whole group"): it needs 148 px, 135 are left at that edge. |
+| FormProgressExtended, -bars | fixed, then good | The window a padding under Pause and Cancel with and without the bars (the 22 px band was AutoSize sizing the framed window for Windows' title bar); the buttons 12 px under the log box (the hidden warning's row only while it shows). |
+| FormProgressStatus, -history | fixed, then good | The bar on the padding under the history box (x 8 to 520, as the box). |
+| FormServiceManage | fixed, then good | Install, Uninstall, Start and Stop a bottom bar on the padding (x 8, 8 px over the bottom); the fields from the top padding. |
+| FormCameraSettings | fixed, then good | Section headings 18 to 20 px under the content before them (main 18 to 35): the trigger notes as tall as their two lines, the one-line notes one line tall. |
+| FormCameraSettings-150, FormSheetFieldCheckBox-150, -allergy-150, UserControlTasks-150 | good | As at 100%; UserControlTasks' tree and grid 12 px from both edges (x 12 to 1399 in 1412). |
+| FormUpdate-150, FormMain-150 (before) | drawn | The branch point's two windows (6f343389d's FormUpdate and ServiceManager FormMain files with this slice's harness), so every window and state but the three code states has a before. |
+
+Gallery `G-UI3-ui12-14` redrawn: 52 pictures, 44 changed, 5 the same, 3 only after (FormProgressStatus-history, FormUpdate-load,
+FormWebConfigSettings-service: states of code this slice wrote).

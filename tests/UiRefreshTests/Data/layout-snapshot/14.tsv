@@ -5,13 +5,13 @@
 file	control	location	size	client_size
 CodeBase/Progress/FormProgressExtended.designer.cs	textMsg	0,19	460,70	
 CodeBase/Progress/FormProgressExtended.designer.cs	label4	0,0	96,17	
-CodeBase/Progress/FormProgressExtended.designer.cs	labelWarning	0,93	292,17	
-CodeBase/Progress/FormProgressExtended.designer.cs	panel1	3,9	460,145	
-CodeBase/Progress/FormProgressExtended.designer.cs	butCancel	385,122	75,23	
-CodeBase/Progress/FormProgressExtended.designer.cs	butPause	0,122	75,23	
-CodeBase/Progress/FormProgressExtended.designer.cs	flowLayoutPanel1	8,8	466,157	
+CodeBase/Progress/FormProgressExtended.designer.cs	labelWarning	0,72	292,17	
+CodeBase/Progress/FormProgressExtended.designer.cs	panel1	3,9	460,124	
+CodeBase/Progress/FormProgressExtended.designer.cs	butCancel	385,101	75,23	
+CodeBase/Progress/FormProgressExtended.designer.cs	butPause	0,101	75,23	
+CodeBase/Progress/FormProgressExtended.designer.cs	flowLayoutPanel1	8,8	466,136	
 CodeBase/Progress/FormProgressExtended.designer.cs	tableLayoutPanel1	3,3	460,0	
-CodeBase/Progress/FormProgressExtended.designer.cs	.			482,173
+CodeBase/Progress/FormProgressExtended.designer.cs	.			482,149
 CodeBase/Progress/FormProgressStatus.designer.cs	labelMsg	8,48	453,36	
 CodeBase/Progress/FormProgressStatus.designer.cs	progressBar	8,86	453,23	
 CodeBase/Progress/FormProgressStatus.designer.cs	textHistoryMsg	8,34	453,40	
@@ -86,11 +86,11 @@ OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listMedical	158,27	142,59
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMedical	158,8	142,17	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	radioYes	454,116	56,18	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	radioNo	454,138	56,18	
-OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelRequired	532,71	135,34	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelRequired	532,71	78,34	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textReportableName	454,602	213,23	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelReportableName	308,602	140,23	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMiscInstructions	454,580	213,18	
-OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelYesNo	516,117	151,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelYesNo	532,117	135,18	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textTabOrder	454,629	68,23	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butDelete	8,664	77,24	
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textHeight	599,35	68,23	
@@ -229,10 +229,10 @@ ServiceManager/FormMain.Designer.cs	label1	8,8	337,155
 ServiceManager/FormMain.Designer.cs	butAdd	8,437	75,24	
 ServiceManager/FormMain.Designer.cs	.			353,469
 ServiceManager/FormServiceManage.Designer.cs	butRefresh	378,62	75,23	
-ServiceManager/FormServiceManage.Designer.cs	butStop	359,89	75,23	
-ServiceManager/FormServiceManage.Designer.cs	butStart	278,89	75,23	
-ServiceManager/FormServiceManage.Designer.cs	butUninstall	197,89	75,23	
-ServiceManager/FormServiceManage.Designer.cs	butInstall	116,89	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butStop	251,135	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butStart	170,135	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butUninstall	89,135	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butInstall	8,135	75,23	
 ServiceManager/FormServiceManage.Designer.cs	textStatus	156,62	216,23	
 ServiceManager/FormServiceManage.Designer.cs	label2	106,62	44,23	
 ServiceManager/FormServiceManage.Designer.cs	label1	66,8	84,23	
