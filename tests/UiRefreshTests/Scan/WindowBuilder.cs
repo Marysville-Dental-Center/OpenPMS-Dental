@@ -9,6 +9,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -119,8 +120,26 @@ namespace UiRefreshTests.Scan {
 				return;
 			}
 			Size sizeRoot=new Size((int)Math.Round(Root.Width*factor),(int)Math.Round(Root.Height*factor));
-			Root.Scale(new SizeF(factor,factor));
-			Root.Size=sizeRoot;
+			//The UserControl's own Resize handler may need the run-time state the harness does not make (GraphQuantityOverTime's chart area:
+			//a NullReferenceException in SetXAxisLabelDensity stopped the scale half way): it is off while the bounds change.
+			FieldInfo fieldResize=typeof(Control).GetField("s_resizeEvent",BindingFlags.Static|BindingFlags.NonPublic)
+				??typeof(Control).GetField("EventResize",BindingFlags.Static|BindingFlags.NonPublic);
+			PropertyInfo propertyEvents=typeof(Component).GetProperty("Events",BindingFlags.Instance|BindingFlags.NonPublic);
+			EventHandlerList eventHandlerList=propertyEvents?.GetValue(Root) as EventHandlerList;
+			object keyResize=fieldResize?.GetValue(null);
+			Delegate delegateResize=(eventHandlerList!=null && keyResize!=null) ? eventHandlerList[keyResize] : null;
+			if(delegateResize!=null) {
+				eventHandlerList.RemoveHandler(keyResize,delegateResize);
+			}
+			try {
+				Root.Scale(new SizeF(factor,factor));
+				Root.Size=sizeRoot;
+			}
+			finally {
+				if(delegateResize!=null) {
+					eventHandlerList.AddHandler(keyResize,delegateResize);
+				}
+			}
 			if(Form!=null && Form!=Root && (Form.ClientSize.Width<Root.Right || Form.ClientSize.Height<Root.Bottom)) {
 				Form.ClientSize=new Size(Math.Max(Form.ClientSize.Width,Root.Right),Math.Max(Form.ClientSize.Height,Root.Bottom));
 			}
