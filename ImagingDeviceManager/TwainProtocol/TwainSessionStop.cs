@@ -281,6 +281,9 @@ namespace ImagingDeviceManager.TwainProtocol {
 					ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_EVENT,Tw.MSG_PROCESSEVENT,pEvent);
 					twEvent=(TW_EVENT)Marshal.PtrToStructure(pEvent,typeof(TW_EVENT));
 					ushort notification=notificationPolled!=Tw.MSG_NULL ? notificationPolled : twEvent.TWMessage;
+					if(twEvent.TWMessage==Tw.MSG_DEVICEEVENT) {
+						ReadDeviceEvent();//twain-contract 1.3 section 10.6: reported, then the loop goes on
+					}
 					if(notification==Tw.MSG_XFERREADY || notification==Tw.MSG_CLOSEDSREQ) {
 						if(rc!=Tw.TWRC_DSEVENT) {
 							//Not the source's message: dispatched before the notification is acted on, as in the TWAIN reference loop.
@@ -358,6 +361,9 @@ namespace ImagingDeviceManager.TwainProtocol {
 				Marshal.StructureToPtr(new TW_EVENT { pEvent=pMsg,TWMessage=Tw.MSG_NULL },pEvent,false);
 				ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_EVENT,Tw.MSG_PROCESSEVENT,pEvent);
 				TW_EVENT twEvent=(TW_EVENT)Marshal.PtrToStructure(pEvent,typeof(TW_EVENT));
+				if(twEvent.TWMessage==Tw.MSG_DEVICEEVENT) {
+					ReadDeviceEvent();
+				}
 				//Whatever rc says, as in the message loop: a source that sets the notification has moved on (to state 6 for MSG_XFERREADY).
 				if(twEvent.TWMessage==Tw.MSG_XFERREADY || twEvent.TWMessage==Tw.MSG_CLOSEDSREQ) {
 					return twEvent.TWMessage;

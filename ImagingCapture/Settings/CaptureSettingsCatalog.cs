@@ -147,6 +147,9 @@ namespace ImagingCapture.Settings {
 			Add(SectionDevice,"RedeliverCap",CaptureSettingKind.Capability,"",true,"The redelivery capability. "+HelpCapability);
 			Add(SectionDevice,"NoActivateCap",CaptureSettingKind.Capability,"",true,"The capability that keeps the source's window from taking "
 				+"activation. "+HelpCapability);
+			Add(SectionDevice,"DeviceEvents",CaptureSettingKind.Switch,"0",false,"1: ask the source for device events (twain-contract 1.3 and "
+				+"later), so the session shows when the sensor is ready, when an exposure was captured, and when it went offline. A source without "
+				+"them is left as it is.");
 			foreach(CaptureSessionKey key in Enum.GetValues(typeof(CaptureSessionKey))) {
 				string help=key==CaptureSessionKey.Confirm
 					? "Held about 1 s, starts or re-enables; empty means the on-screen button only. Never the same as a session key. "+HelpKey

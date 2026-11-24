@@ -194,6 +194,14 @@ namespace ImagingDeviceManager.Capture {
 		public DateTime EndedAt { get; set; }
 	}
 
+	///<summary>The device events TwainCaptureStatus.DeviceEvent carries (TWAIN's TWDE_ codes, twain-contract 1.3 section 10.6).</summary>
+	public static class TwainDeviceEvent {
+		public const ushort Offline=7;
+		public const ushort Ready=8;
+		public const ushort Removed=9;
+		public const ushort ImageCaptured=10;
+	}
+
 	///<summary>A status change of the worker, for the indicator.</summary>
 	public sealed class TwainCaptureStatus {
 		public TwainCaptureState State { get; set; }
@@ -211,6 +219,10 @@ namespace ImagingDeviceManager.Capture {
 		///window tells the operator at once not to expose again and to end the series. With safe disable in effect the library stops the enable
 		///instead, and it ends TransferFailed.</summary>
 		public string LayoutUnusableText { get; set; }
+		///<summary>A device event of the source ([Device.N] DeviceEvents=1, twain-contract 1.3 section 10.6): Tw.TWDE_DEVICEREADY,
+		///TWDE_IMAGECAPTURED, TWDE_DEVICEOFFLINE or TWDE_DEVICEREMOVED. Null on every other status. State is then the worker's state as it
+		///was, unchanged.</summary>
+		public ushort? DeviceEvent { get; set; }
 	}
 
 	public enum TwainCaptureOpenError {

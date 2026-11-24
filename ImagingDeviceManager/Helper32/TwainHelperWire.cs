@@ -232,6 +232,7 @@ namespace ImagingDeviceManager.Helper32 {
 			WriteNullableUShort(writer,options.ContinuousCap);
 			WriteNullableUShort(writer,options.RedeliverCap);
 			WriteNullableUShort(writer,options.NoActivateCap);
+			writer.Write(options.DeviceEvents);
 			writer.Write(options.Allow16Bit);
 			writer.Write(options.RestrictSources);
 			WriteList(writer,options.AllowedSources,WriteString);
@@ -259,6 +260,7 @@ namespace ImagingDeviceManager.Helper32 {
 			options.ContinuousCap=ReadNullableUShort(reader);
 			options.RedeliverCap=ReadNullableUShort(reader);
 			options.NoActivateCap=ReadNullableUShort(reader);
+			options.DeviceEvents=reader.ReadBoolean();
 			options.Allow16Bit=reader.ReadBoolean();
 			options.RestrictSources=reader.ReadBoolean();
 			options.AllowedSources=ReadList(reader,ReadString);
@@ -410,6 +412,7 @@ namespace ImagingDeviceManager.Helper32 {
 			WriteString(writer,status.Text);
 			writer.Write(status.IsSafeDisableInEffect);
 			WriteString(writer,status.LayoutUnusableText);
+			WriteNullableUShort(writer,status.DeviceEvent);
 		}
 
 		public static TwainCaptureStatus ReadStatus(BinaryReader reader) {
@@ -419,6 +422,7 @@ namespace ImagingDeviceManager.Helper32 {
 				Text=ReadString(reader),
 				IsSafeDisableInEffect=reader.ReadBoolean(),
 				LayoutUnusableText=ReadString(reader),
+				DeviceEvent=ReadNullableUShort(reader),
 			};
 		}
 

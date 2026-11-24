@@ -209,6 +209,16 @@ namespace ImagingCapture.Tests {
 			});
 		}
 
+		///<summary>A device event of the running enable (twain-contract 1.3), with the state unchanged, as TwainCaptureSession raises it.</summary>
+		public void RaiseDeviceEvent(ushort code) {
+			StatusChanged?.Invoke(new TwainCaptureStatus {
+				State=State,
+				EnableId=LastEnableId,
+				Text=TwainCaptureSession.GetStateText(State),
+				DeviceEvent=code,
+			});
+		}
+
 		public void RaiseQuarantinedByLibrary(AcquiredImage image) {
 			image.QuarantinePath=@"C:\Quarantine\late.bmp";
 			ImageQuarantined?.Invoke(image);
