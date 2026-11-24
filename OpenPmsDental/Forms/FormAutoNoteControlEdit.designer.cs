@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			this.textBoxControlLabel.MaxLength = 255;
 			this.textBoxControlLabel.Multiline = true;
 			this.textBoxControlLabel.Name = "textBoxControlLabel";
-			this.textBoxControlLabel.Size = new System.Drawing.Size(364, 76);
+			this.textBoxControlLabel.Size = new System.Drawing.Size(386, 76);
 			this.textBoxControlLabel.TabIndex = 2;
 			this.textBoxControlLabel.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxControlLabel_KeyDown);
 			// 
@@ -212,14 +212,14 @@ namespace OpenPmsDental {
 			this.textOptions.Multiline = true;
 			this.textOptions.Name = "textOptions";
 			this.textOptions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textOptions.Size = new System.Drawing.Size(364, 293);
+			this.textOptions.Size = new System.Drawing.Size(386, 293);
 			this.textOptions.TabIndex = 4;
 			// 
 			// labelResponses
 			// 
 			this.labelResponses.Location = new System.Drawing.Point(68, 142);
 			this.labelResponses.Name = "labelResponses";
-			this.labelResponses.Size = new System.Drawing.Size(112, 105);
+			this.labelResponses.Size = new System.Drawing.Size(112, 23);
 			this.labelResponses.TabIndex = 123;
 			this.labelResponses.Text = "Possible responses";
 			this.labelResponses.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -267,7 +267,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDown.AdjustImageLocation = new System.Drawing.Point(1, 0);
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
-			this.butDown.Location = new System.Drawing.Point(587, 148);
+			this.butDown.Location = new System.Drawing.Point(609, 148);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(25, 24);
 			this.butDown.TabIndex = 126;
@@ -277,7 +277,7 @@ namespace OpenPmsDental {
 			// 
 			this.butUp.AdjustImageLocation = new System.Drawing.Point(1, 0);
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
-			this.butUp.Location = new System.Drawing.Point(556, 148);
+			this.butUp.Location = new System.Drawing.Point(578, 148);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(25, 24);
 			this.butUp.TabIndex = 125;
@@ -285,7 +285,7 @@ namespace OpenPmsDental {
 			// 
 			// butAutoNoteResp
 			// 
-			this.butAutoNoteResp.Location = new System.Drawing.Point(556, 176);
+			this.butAutoNoteResp.Location = new System.Drawing.Point(578, 176);
 			this.butAutoNoteResp.Name = "butAutoNoteResp";
 			this.butAutoNoteResp.Size = new System.Drawing.Size(113, 24);
 			this.butAutoNoteResp.TabIndex = 127;

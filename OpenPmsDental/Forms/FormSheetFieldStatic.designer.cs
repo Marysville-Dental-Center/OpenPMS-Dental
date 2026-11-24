@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(511, 319);
+			this.label1.Location = new System.Drawing.Point(518, 319);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(131, 62);
 			this.label1.TabIndex = 103;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			this.listFields.IntegralHeight = false;
 			this.listFields.Location = new System.Drawing.Point(657, 8);
 			this.listFields.Name = "listFields";
-			this.listFields.Size = new System.Drawing.Size(198, 640);
+			this.listFields.Size = new System.Drawing.Size(201, 640);
 			this.listFields.TabIndex = 0;
 			this.listFields.TabStop = false;
 			this.listFields.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListFields_MouseDown);
@@ -104,11 +104,11 @@ namespace OpenPmsDental{
 			// 
 			this.textFieldValue.AcceptsReturn = true;
 			this.textFieldValue.AcceptsTab = true;
-			this.textFieldValue.Location = new System.Drawing.Point(18, 8);
+			this.textFieldValue.Location = new System.Drawing.Point(8, 8);
 			this.textFieldValue.Multiline = true;
 			this.textFieldValue.Name = "textFieldValue";
 			this.textFieldValue.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textFieldValue.Size = new System.Drawing.Size(621, 307);
+			this.textFieldValue.Size = new System.Drawing.Size(641, 307);
 			this.textFieldValue.TabIndex = 102;
 			this.textFieldValue.TextChanged += new System.EventHandler(this.UpdateTextSizeLabels);
 			this.textFieldValue.Leave += new System.EventHandler(this.textFieldValue_Leave);
@@ -272,7 +272,7 @@ namespace OpenPmsDental{
 			// 
 			// butExamSheet
 			// 
-			this.butExamSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.butExamSheet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
 			this.butExamSheet.Location = new System.Drawing.Point(336, 319);
 			this.butExamSheet.Name = "butExamSheet";
 			this.butExamSheet.Size = new System.Drawing.Size(98, 24);

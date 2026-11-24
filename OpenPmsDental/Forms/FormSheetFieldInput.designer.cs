@@ -274,7 +274,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(13, 8);
+			this.label2.Location = new System.Drawing.Point(8, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(108, 16);
 			this.label2.TabIndex = 86;
@@ -283,9 +283,9 @@ namespace OpenPmsDental{
 			// 
 			// listFields
 			// 
-			this.listFields.Location = new System.Drawing.Point(13, 26);
+			this.listFields.Location = new System.Drawing.Point(8, 26);
 			this.listFields.Name = "listFields";
-			this.listFields.Size = new System.Drawing.Size(142, 352);
+			this.listFields.Size = new System.Drawing.Size(142, 367);
 			this.listFields.TabIndex = 85;
 			this.listFields.SelectionChangeCommitted += new System.EventHandler(this.listFields_SelectionChangeCommitted);
 			this.listFields.DoubleClick += new System.EventHandler(this.listFields_DoubleClick);
@@ -302,7 +302,7 @@ namespace OpenPmsDental{
 			// 
 			// butAutoNote
 			// 
-			this.butAutoNote.Location = new System.Drawing.Point(470, 340);
+			this.butAutoNote.Location = new System.Drawing.Point(471, 365);
 			this.butAutoNote.Name = "butAutoNote";
 			this.butAutoNote.Size = new System.Drawing.Size(25, 24);
 			this.butAutoNote.TabIndex = 108;
@@ -321,7 +321,7 @@ namespace OpenPmsDental{
 			// butClearAutoNote
 			// 
 			this.butClearAutoNote.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
-			this.butClearAutoNote.Location = new System.Drawing.Point(500, 340);
+			this.butClearAutoNote.Location = new System.Drawing.Point(502, 365);
 			this.butClearAutoNote.Name = "butClearAutoNote";
 			this.butClearAutoNote.Size = new System.Drawing.Size(24, 24);
 			this.butClearAutoNote.TabIndex = 111;

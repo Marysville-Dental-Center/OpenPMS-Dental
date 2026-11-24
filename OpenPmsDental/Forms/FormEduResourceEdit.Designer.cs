@@ -109,7 +109,7 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(62, 23);
+			this.label3.Location = new System.Drawing.Point(113, 23);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(48, 23);
 			this.label3.TabIndex = 8;
@@ -118,7 +118,7 @@
 			// 
 			// textLabResultsID
 			// 
-			this.textLabResultsID.Location = new System.Drawing.Point(116, 23);
+			this.textLabResultsID.Location = new System.Drawing.Point(167, 23);
 			this.textLabResultsID.Name = "textLabResultsID";
 			this.textLabResultsID.Size = new System.Drawing.Size(112, 23);
 			this.textLabResultsID.TabIndex = 0;
@@ -165,7 +165,7 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(42, 50);
+			this.label5.Location = new System.Drawing.Point(93, 50);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(68, 23);
 			this.label5.TabIndex = 15;
@@ -174,9 +174,9 @@
 			// 
 			// textLabTestName
 			// 
-			this.textLabTestName.Location = new System.Drawing.Point(116, 50);
+			this.textLabTestName.Location = new System.Drawing.Point(167, 50);
 			this.textLabTestName.Name = "textLabTestName";
-			this.textLabTestName.Size = new System.Drawing.Size(356, 23);
+			this.textLabTestName.Size = new System.Drawing.Size(392, 23);
 			this.textLabTestName.TabIndex = 1;
 			this.textLabTestName.TabStop = false;
 			this.textLabTestName.Click += new System.EventHandler(this.textLabResults_Click);
@@ -199,7 +199,7 @@
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(222, 80);
+			this.label6.Location = new System.Drawing.Point(273, 80);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(107, 17);
 			this.label6.TabIndex = 18;
@@ -208,7 +208,7 @@
 			// 
 			// labelCriterionValue
 			// 
-			this.labelCriterionValue.Location = new System.Drawing.Point(18, 77);
+			this.labelCriterionValue.Location = new System.Drawing.Point(69, 77);
 			this.labelCriterionValue.Name = "labelCriterionValue";
 			this.labelCriterionValue.Size = new System.Drawing.Size(92, 23);
 			this.labelCriterionValue.TabIndex = 17;
@@ -217,7 +217,7 @@
 			// 
 			// textCompareValue
 			// 
-			this.textCompareValue.Location = new System.Drawing.Point(116, 77);
+			this.textCompareValue.Location = new System.Drawing.Point(167, 77);
 			this.textCompareValue.Name = "textCompareValue";
 			this.textCompareValue.Size = new System.Drawing.Size(100, 20);
 			this.textCompareValue.TabIndex = 2;

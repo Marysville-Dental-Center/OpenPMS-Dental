@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// 
 			this.textWebsitePath.Location = new System.Drawing.Point(249, 32);
 			this.textWebsitePath.Name = "textWebsitePath";
-			this.textWebsitePath.Size = new System.Drawing.Size(432, 20);
+			this.textWebsitePath.Size = new System.Drawing.Size(474, 20);
 			this.textWebsitePath.TabIndex = 36;
 			// 
 			// label3
@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// 
 			this.textUpdateServerAddress.Location = new System.Drawing.Point(249, 8);
 			this.textUpdateServerAddress.Name = "textUpdateServerAddress";
-			this.textUpdateServerAddress.Size = new System.Drawing.Size(432, 20);
+			this.textUpdateServerAddress.Size = new System.Drawing.Size(474, 20);
 			this.textUpdateServerAddress.TabIndex = 43;
 			// 
 			// label1
@@ -102,16 +102,16 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(63, 167);
+			this.label5.Location = new System.Drawing.Point(63, 170);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(180, 32);
 			this.label5.TabIndex = 46;
 			this.label5.Text = "Simultaneously update other databases";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(521, 167);
+			this.label6.Location = new System.Drawing.Point(521, 170);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(210, 32);
 			this.label6.TabIndex = 47;
@@ -125,9 +125,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label8);
 			this.groupBox1.Controls.Add(this.textWebProxyAddress);
 			this.groupBox1.Controls.Add(this.label7);
-			this.groupBox1.Location = new System.Drawing.Point(69, 60);
+			this.groupBox1.Location = new System.Drawing.Point(8, 60);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(614, 99);
+			this.groupBox1.Size = new System.Drawing.Size(723, 99);
 			this.groupBox1.TabIndex = 48;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Web Proxy (most users will ignore this section)";
@@ -135,7 +135,7 @@ namespace OpenPmsDental {
 			// textWebProxyPassword
 			// 
 			this.textWebProxyPassword.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textWebProxyPassword.Location = new System.Drawing.Point(180, 71);
+			this.textWebProxyPassword.Location = new System.Drawing.Point(241, 71);
 			this.textWebProxyPassword.Name = "textWebProxyPassword";
 			this.textWebProxyPassword.PasswordChar = '*';
 			this.textWebProxyPassword.Size = new System.Drawing.Size(128, 20);
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(110, 71);
+			this.label9.Location = new System.Drawing.Point(171, 71);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(64, 20);
 			this.label9.TabIndex = 47;
@@ -153,14 +153,14 @@ namespace OpenPmsDental {
 			// textWebProxyUserName
 			// 
 			this.textWebProxyUserName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textWebProxyUserName.Location = new System.Drawing.Point(180, 47);
+			this.textWebProxyUserName.Location = new System.Drawing.Point(241, 47);
 			this.textWebProxyUserName.Name = "textWebProxyUserName";
 			this.textWebProxyUserName.Size = new System.Drawing.Size(128, 20);
 			this.textWebProxyUserName.TabIndex = 44;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(106, 47);
+			this.label8.Location = new System.Drawing.Point(167, 47);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(68, 20);
 			this.label8.TabIndex = 45;
@@ -170,14 +170,14 @@ namespace OpenPmsDental {
 			// textWebProxyAddress
 			// 
 			this.textWebProxyAddress.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textWebProxyAddress.Location = new System.Drawing.Point(180, 23);
+			this.textWebProxyAddress.Location = new System.Drawing.Point(241, 23);
 			this.textWebProxyAddress.Name = "textWebProxyAddress";
-			this.textWebProxyAddress.Size = new System.Drawing.Size(364, 20);
+			this.textWebProxyAddress.Size = new System.Drawing.Size(474, 20);
 			this.textWebProxyAddress.TabIndex = 42;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(118, 23);
+			this.label7.Location = new System.Drawing.Point(179, 23);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(56, 20);
 			this.label7.TabIndex = 43;
@@ -204,9 +204,9 @@ namespace OpenPmsDental {
 			// 
 			// labelRecopy
 			// 
-			this.labelRecopy.Location = new System.Drawing.Point(12, 260);
+			this.labelRecopy.Location = new System.Drawing.Point(8, 263);
 			this.labelRecopy.Name = "labelRecopy";
-			this.labelRecopy.Size = new System.Drawing.Size(237, 62);
+			this.labelRecopy.Size = new System.Drawing.Size(235, 50);
 			this.labelRecopy.TabIndex = 53;
 			this.labelRecopy.Text = "Copies all files from the local installation directory to the shared Update Files" +
     " folder and puts a zipped copy into the database.\r\n";
@@ -214,9 +214,9 @@ namespace OpenPmsDental {
 			// 
 			// butRecopy
 			// 
-			this.butRecopy.Location = new System.Drawing.Point(249, 361);
+			this.butRecopy.Location = new System.Drawing.Point(249, 260);
 			this.butRecopy.Name = "butRecopy";
-			this.butRecopy.Size = new System.Drawing.Size(67, 23);
+			this.butRecopy.Size = new System.Drawing.Size(67, 24);
 			this.butRecopy.TabIndex = 54;
 			this.butRecopy.Text = "Recopy";
 			this.butRecopy.Click += new System.EventHandler(this.butRecopy_Click);
@@ -224,9 +224,9 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(656, 358);
+			this.butSave.Location = new System.Drawing.Point(656, 360);
 			this.butSave.Name = "butSave";
-			this.butSave.Size = new System.Drawing.Size(75, 26);
+			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
 			this.butSave.Text = "&Save";
 			this.butSave.Click += new System.EventHandler(this.butSave_Click);

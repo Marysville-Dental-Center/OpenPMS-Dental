@@ -55,7 +55,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSave.Location = new System.Drawing.Point(339, 267);
+			this.butSave.Location = new System.Drawing.Point(256, 315);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 11;
@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(153, 315);
+			this.butOK.Location = new System.Drawing.Point(339, 315);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 13;
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			this.butPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPreview.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Preview,17,16);
 			this.butPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPreview.Location = new System.Drawing.Point(9, 315);
+			this.butPreview.Location = new System.Drawing.Point(8, 315);
 			this.butPreview.Name = "butPreview";
 			this.butPreview.Size = new System.Drawing.Size(75, 24);
 			this.butPreview.TabIndex = 12;
@@ -96,7 +96,7 @@ namespace OpenPmsDental{
 			// 
 			// butSelectedView
 			// 
-			this.butSelectedView.Location = new System.Drawing.Point(21, 51);
+			this.butSelectedView.Location = new System.Drawing.Point(8, 51);
 			this.butSelectedView.Name = "butSelectedView";
 			this.butSelectedView.Size = new System.Drawing.Size(120, 24);
 			this.butSelectedView.TabIndex = 1;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// butSelectedDay
 			// 
-			this.butSelectedDay.Location = new System.Drawing.Point(21, 23);
+			this.butSelectedDay.Location = new System.Drawing.Point(8, 23);
 			this.butSelectedDay.Name = "butSelectedDay";
 			this.butSelectedDay.Size = new System.Drawing.Size(120, 24);
 			this.butSelectedDay.TabIndex = 0;
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			this.groupBoxOD2.Controls.Add(this.radioLessColor);
 			this.groupBoxOD2.Controls.Add(this.radioFullColor);
 			this.groupBoxOD2.Controls.Add(this.radioGrayscale);
-			this.groupBoxOD2.Location = new System.Drawing.Point(53, 135);
+			this.groupBoxOD2.Location = new System.Drawing.Point(153, 135);
 			this.groupBoxOD2.Name = "groupBoxOD2";
 			this.groupBoxOD2.Size = new System.Drawing.Size(130, 93);
 			this.groupBoxOD2.TabIndex = 9;
@@ -184,7 +184,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupBoxOD1.Controls.Add(this.radioPortrait);
 			this.groupBoxOD1.Controls.Add(this.radioLandscape);
-			this.groupBoxOD1.Location = new System.Drawing.Point(53, 236);
+			this.groupBoxOD1.Location = new System.Drawing.Point(153, 236);
 			this.groupBoxOD1.Name = "groupBoxOD1";
 			this.groupBoxOD1.Size = new System.Drawing.Size(130, 71);
 			this.groupBoxOD1.TabIndex = 10;

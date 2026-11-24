@@ -140,9 +140,9 @@ namespace OpenPmsDental{
 			// 
 			// butListPatients
 			// 
-			this.butListPatients.Location = new System.Drawing.Point(399, 136);
+			this.butListPatients.Location = new System.Drawing.Point(400, 140);
 			this.butListPatients.Name = "butListPatients";
-			this.butListPatients.Size = new System.Drawing.Size(75, 21);
+			this.butListPatients.Size = new System.Drawing.Size(75, 23);
 			this.butListPatients.TabIndex = 22;
 			this.butListPatients.Text = "List Patients";
 			this.butListPatients.Click += new System.EventHandler(this.butListPatients_Click);
@@ -181,7 +181,7 @@ namespace OpenPmsDental{
 			this.textPlanNote.Name = "textPlanNote";
 			this.textPlanNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textPlanNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textPlanNote.Size = new System.Drawing.Size(265, 60);
+			this.textPlanNote.Size = new System.Drawing.Size(268, 60);
 			this.textPlanNote.TabIndex = 6;
 			this.textPlanNote.Text = "";
 			// 

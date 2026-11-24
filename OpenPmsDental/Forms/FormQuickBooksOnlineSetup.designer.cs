@@ -248,19 +248,19 @@ namespace OpenPmsDental{
 			//
 			// labelStatus
 			//
-			this.labelStatus.Location = new System.Drawing.Point(8, 205);
+			this.labelStatus.Location = new System.Drawing.Point(103, 205);
 			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(120, 20);
+			this.labelStatus.Size = new System.Drawing.Size(44, 23);
 			this.labelStatus.TabIndex = 108;
 			this.labelStatus.Text = "Status";
 			this.labelStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// labelStatusValue
 			//
-			this.labelStatusValue.Location = new System.Drawing.Point(492, 205);
-			this.labelStatusValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelStatusValue.Location = new System.Drawing.Point(153, 208);
+			this.labelStatusValue.TextAlign = System.Drawing.ContentAlignment.TopLeft;
 			this.labelStatusValue.Name = "labelStatusValue";
-			this.labelStatusValue.Size = new System.Drawing.Size(92, 54);
+			this.labelStatusValue.Size = new System.Drawing.Size(431, 54);
 			this.labelStatusValue.TabIndex = 109;
 			this.labelStatusValue.Text = "Not connected";
 			//

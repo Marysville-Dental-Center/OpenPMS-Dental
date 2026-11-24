@@ -96,7 +96,7 @@ namespace OpenPmsDental {
 			// 
 			// listType
 			// 
-			this.listType.Location = new System.Drawing.Point(15, 28);
+			this.listType.Location = new System.Drawing.Point(8, 28);
 			this.listType.Name = "listType";
 			this.listType.Size = new System.Drawing.Size(218, 381);
 			this.listType.TabIndex = 8;
@@ -255,18 +255,18 @@ namespace OpenPmsDental {
 			// 
 			// butAnother
 			// 
-			this.butAnother.Location = new System.Drawing.Point(495, 328);
+			this.butAnother.Location = new System.Drawing.Point(400, 328);
 			this.butAnother.Name = "butAnother";
-			this.butAnother.Size = new System.Drawing.Size(114, 26);
+			this.butAnother.Size = new System.Drawing.Size(114, 24);
 			this.butAnother.TabIndex = 10;
 			this.butAnother.Text = "Add, then another";
 			this.butAnother.Click += new System.EventHandler(this.butAnother_Click);
 			// 
 			// butOK
 			// 
-			this.butOK.Location = new System.Drawing.Point(615, 328);
+			this.butOK.Location = new System.Drawing.Point(522, 328);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75, 26);
+			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 11;
 			this.butOK.Text = "Add";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);

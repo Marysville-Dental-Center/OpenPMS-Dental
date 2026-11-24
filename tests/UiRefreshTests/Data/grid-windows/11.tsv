@@ -1,6 +1,4 @@
 window	slice	mode	note
-CodeBase.FormProgressExtended	11	tool	UI-12-11 the large windows and the earlier skips
-CodeBase.FormProgressStatus	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormApptPrintSetup	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormAutoNoteControlEdit	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormConfirmationSetup	11	tool	UI-12-11 the large windows and the earlier skips
@@ -24,8 +22,6 @@ OpenPmsDental.FormSheetFieldImage	11	tool	UI-12-11 the large windows and the ear
 OpenPmsDental.FormSheetFieldInput	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormSheetFieldStatic	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormTestLatency	11	tool	UI-12-11 the large windows and the earlier skips
-OpenPmsDental.FormUpdate	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormUpdateSetup	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.FormXDRSetup	11	tool	UI-12-11 the large windows and the earlier skips
 OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPractice	11	tool	UI-12-11 the large windows and the earlier skips
-ServiceManager.FormWebConfigSettings	11	tool	UI-12-11 the large windows and the earlier skips

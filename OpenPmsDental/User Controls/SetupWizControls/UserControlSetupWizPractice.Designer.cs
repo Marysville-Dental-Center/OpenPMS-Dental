@@ -52,61 +52,61 @@
 			// textFax
 			// 
 			this.textFax.IsFormattingEnabled = false;
-			this.textFax.Location = new System.Drawing.Point(264, 62);
+			this.textFax.Location = new System.Drawing.Point(94, 62);
 			this.textFax.Name = "textFax";
-			this.textFax.Size = new System.Drawing.Size(658, 23);
+			this.textFax.Size = new System.Drawing.Size(562, 23);
 			this.textFax.TabIndex = 100;
 			this.textFax.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// textPhone
 			// 
 			this.textPhone.IsFormattingEnabled = false;
-			this.textPhone.Location = new System.Drawing.Point(264, 35);
+			this.textPhone.Location = new System.Drawing.Point(94, 35);
 			this.textPhone.Name = "textPhone";
-			this.textPhone.Size = new System.Drawing.Size(658, 23);
+			this.textPhone.Size = new System.Drawing.Size(562, 23);
 			this.textPhone.TabIndex = 99;
 			this.textPhone.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// label19
 			// 
-			this.label19.Location = new System.Drawing.Point(24, 62);
+			this.label19.Location = new System.Drawing.Point(8, 62);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(234, 23);
+			this.label19.Size = new System.Drawing.Size(80, 23);
 			this.label19.TabIndex = 91;
 			this.label19.Text = "Fax";
-			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(24, 35);
+			this.label9.Location = new System.Drawing.Point(8, 35);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(234, 23);
+			this.label9.Size = new System.Drawing.Size(80, 23);
 			this.label9.TabIndex = 92;
 			this.label9.Text = "Phone";
-			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPracticeTitle
 			// 
-			this.textPracticeTitle.Location = new System.Drawing.Point(264, 8);
+			this.textPracticeTitle.Location = new System.Drawing.Point(94, 8);
 			this.textPracticeTitle.Name = "textPracticeTitle";
-			this.textPracticeTitle.Size = new System.Drawing.Size(658, 23);
+			this.textPracticeTitle.Size = new System.Drawing.Size(562, 23);
 			this.textPracticeTitle.TabIndex = 98;
 			// 
 			// listProvider
 			// 
 			this.listProvider.Items.AddRange(new object[] {
             ""});
-			this.listProvider.Location = new System.Drawing.Point(935, 26);
+			this.listProvider.Location = new System.Drawing.Point(672, 28);
 			this.listProvider.Name = "listProvider";
-			this.listProvider.Size = new System.Drawing.Size(129, 108);
+			this.listProvider.Size = new System.Drawing.Size(250, 227);
 			this.listProvider.TabIndex = 106;
 			this.listProvider.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(935, 8);
+			this.label10.Location = new System.Drawing.Point(672, 8);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(110, 16);
+			this.label10.Size = new System.Drawing.Size(250, 18);
 			this.label10.TabIndex = 95;
 			this.label10.Text = "Default Provider";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -123,109 +123,109 @@
 			this.groupBox2.Controls.Add(this.textAddress2);
 			this.groupBox2.Controls.Add(this.textAddress);
 			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Location = new System.Drawing.Point(170, 93);
+			this.groupBox2.Location = new System.Drawing.Point(8, 93);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(429, 162);
+			this.groupBox2.Size = new System.Drawing.Size(656, 162);
 			this.groupBox2.TabIndex = 101;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Physical Treating Address";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(24, 77);
+			this.label2.Location = new System.Drawing.Point(8, 77);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(64, 23);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "City";
-			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(24, 104);
+			this.label1.Location = new System.Drawing.Point(8, 104);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(64, 23);
+			this.label1.Size = new System.Drawing.Size(72, 23);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "State";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(24, 131);
+			this.label6.Location = new System.Drawing.Point(8, 131);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(64, 23);
+			this.label6.Size = new System.Drawing.Size(72, 23);
 			this.label6.TabIndex = 6;
 			this.label6.Text = "Zip Code";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(24, 50);
+			this.label16.Location = new System.Drawing.Point(8, 50);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(64, 23);
+			this.label16.Size = new System.Drawing.Size(72, 23);
 			this.label16.TabIndex = 0;
 			this.label16.Text = "Address 2";
-			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textZip
 			// 
-			this.textZip.Location = new System.Drawing.Point(94, 131);
+			this.textZip.Location = new System.Drawing.Point(86, 131);
 			this.textZip.Name = "textZip";
 			this.textZip.Size = new System.Drawing.Size(104, 23);
 			this.textZip.TabIndex = 5;
 			// 
 			// textST
 			// 
-			this.textST.Location = new System.Drawing.Point(94, 104);
+			this.textST.Location = new System.Drawing.Point(86, 104);
 			this.textST.Name = "textST";
-			this.textST.Size = new System.Drawing.Size(52, 20);
+			this.textST.Size = new System.Drawing.Size(52, 23);
 			this.textST.TabIndex = 4;
 			// 
 			// textCity
 			// 
-			this.textCity.Location = new System.Drawing.Point(94, 77);
+			this.textCity.Location = new System.Drawing.Point(86, 77);
 			this.textCity.Name = "textCity";
-			this.textCity.Size = new System.Drawing.Size(327, 23);
+			this.textCity.Size = new System.Drawing.Size(554, 23);
 			this.textCity.TabIndex = 3;
 			// 
 			// textAddress2
 			// 
-			this.textAddress2.Location = new System.Drawing.Point(94, 50);
+			this.textAddress2.Location = new System.Drawing.Point(86, 50);
 			this.textAddress2.Name = "textAddress2";
-			this.textAddress2.Size = new System.Drawing.Size(327, 23);
+			this.textAddress2.Size = new System.Drawing.Size(554, 23);
 			this.textAddress2.TabIndex = 2;
 			// 
 			// textAddress
 			// 
-			this.textAddress.Location = new System.Drawing.Point(94, 23);
+			this.textAddress.Location = new System.Drawing.Point(86, 23);
 			this.textAddress.Name = "textAddress";
-			this.textAddress.Size = new System.Drawing.Size(327, 23);
+			this.textAddress.Size = new System.Drawing.Size(554, 23);
 			this.textAddress.TabIndex = 1;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(24, 23);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(64, 23);
+			this.label5.Size = new System.Drawing.Size(72, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Address";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(24, 8);
+			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(234, 23);
+			this.label3.Size = new System.Drawing.Size(80, 23);
 			this.label3.TabIndex = 90;
 			this.label3.Text = "Practice Title";
-			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butAdvanced
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(830, 285);
+			this.butAdvanced.Location = new System.Drawing.Point(840, 287);
 			this.butAdvanced.Name = "butAdvanced";
-			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
+			this.butAdvanced.Size = new System.Drawing.Size(82, 24);
 			this.butAdvanced.TabIndex = 108;
 			this.butAdvanced.Text = "Advanced";
 			this.butAdvanced.Click += new System.EventHandler(this.butAdvanced_Click);
@@ -233,7 +233,7 @@
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label4.Location = new System.Drawing.Point(227, 263);
+			this.label4.Location = new System.Drawing.Point(237, 263);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(685, 20);
 			this.label4.TabIndex = 107;

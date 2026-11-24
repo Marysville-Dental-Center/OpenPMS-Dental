@@ -94,7 +94,7 @@ namespace OpenPmsDental{
         "Urgency"};
 			this.listComboType.Location = new System.Drawing.Point(110, 193);
 			this.listComboType.Name = "listComboType";
-			this.listComboType.Size = new System.Drawing.Size(146, 82);
+			this.listComboType.Size = new System.Drawing.Size(146, 191);
 			this.listComboType.TabIndex = 123;
 			this.listComboType.SelectionChangeCommitted += new System.EventHandler(this.listComboType_SelectionChangeCommitted);
 			// 
@@ -110,16 +110,16 @@ namespace OpenPmsDental{
 			// textTabOrder
 			// 
 			this.textTabOrder.AutoSize = false;
-			this.textTabOrder.Location = new System.Drawing.Point(302, 8);
+			this.textTabOrder.Location = new System.Drawing.Point(304, 8);
 			this.textTabOrder.MaxVal = 2000;
 			this.textTabOrder.MinVal = -100;
 			this.textTabOrder.Name = "textTabOrder";
-			this.textTabOrder.Size = new System.Drawing.Size(70, 23);
+			this.textTabOrder.Size = new System.Drawing.Size(68, 23);
 			this.textTabOrder.TabIndex = 4;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(232, 8);
+			this.label2.Location = new System.Drawing.Point(234, 8);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(64, 23);
 			this.label2.TabIndex = 119;
@@ -147,9 +147,9 @@ namespace OpenPmsDental{
 			// 
 			this.butUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
-			this.butUp.Location = new System.Drawing.Point(521, 341);
+			this.butUp.Location = new System.Drawing.Point(532, 341);
 			this.butUp.Name = "butUp";
-			this.butUp.Size = new System.Drawing.Size(69, 24);
+			this.butUp.Size = new System.Drawing.Size(64, 24);
 			this.butUp.TabIndex = 116;
 			this.butUp.Click += new System.EventHandler(this.butUp_Click);
 			// 
@@ -157,9 +157,9 @@ namespace OpenPmsDental{
 			// 
 			this.butDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
-			this.butDown.Location = new System.Drawing.Point(596, 341);
+			this.butDown.Location = new System.Drawing.Point(602, 341);
 			this.butDown.Name = "butDown";
-			this.butDown.Size = new System.Drawing.Size(69, 24);
+			this.butDown.Size = new System.Drawing.Size(64, 24);
 			this.butDown.TabIndex = 115;
 			this.butDown.Click += new System.EventHandler(this.butDown_Click);
 			// 
@@ -170,7 +170,7 @@ namespace OpenPmsDental{
 			this.butRemove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.butRemove.Location = new System.Drawing.Point(446, 341);
 			this.butRemove.Name = "butRemove";
-			this.butRemove.Size = new System.Drawing.Size(69, 24);
+			this.butRemove.Size = new System.Drawing.Size(80, 24);
 			this.butRemove.TabIndex = 113;
 			this.butRemove.Text = "Remove";
 			this.butRemove.Click += new System.EventHandler(this.butRemove_Click);

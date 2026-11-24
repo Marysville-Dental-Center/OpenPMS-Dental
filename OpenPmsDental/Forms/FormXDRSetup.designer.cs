@@ -64,7 +64,7 @@ namespace OpenPmsDental{
 			// 
 			// labelLocationID
 			// 
-			this.labelLocationID.Location = new System.Drawing.Point(10, 35);
+			this.labelLocationID.Location = new System.Drawing.Point(67, 35);
 			this.labelLocationID.Name = "labelLocationID";
 			this.labelLocationID.Size = new System.Drawing.Size(72, 23);
 			this.labelLocationID.TabIndex = 120;
@@ -73,14 +73,14 @@ namespace OpenPmsDental{
 			// 
 			// textLocationID
 			// 
-			this.textLocationID.Location = new System.Drawing.Point(88, 35);
+			this.textLocationID.Location = new System.Drawing.Point(145, 35);
 			this.textLocationID.Name = "textLocationID";
 			this.textLocationID.Size = new System.Drawing.Size(276, 23);
 			this.textLocationID.TabIndex = 119;
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(88, 8);
+			this.comboClinic.Location = new System.Drawing.Point(145, 8);
 			this.comboClinic.Name = "comboClinic";
 			this.comboClinic.Size = new System.Drawing.Size(160, 23);
 			this.comboClinic.TabIndex = 122;
@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(38, 8);
+			this.labelClinic.Location = new System.Drawing.Point(95, 8);
 			this.labelClinic.Name = "labelClinic";
 			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 121;
@@ -149,9 +149,9 @@ namespace OpenPmsDental{
 			// butClear
 			// 
 			this.butClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClear.Location = new System.Drawing.Point(235, 486);
+			this.butClear.Location = new System.Drawing.Point(236, 488);
 			this.butClear.Name = "butClear";
-			this.butClear.Size = new System.Drawing.Size(75, 26);
+			this.butClear.Size = new System.Drawing.Size(75, 24);
 			this.butClear.TabIndex = 140;
 			this.butClear.Text = "Clear";
 			this.butClear.Click += new System.EventHandler(this.ButClear_Click);
@@ -159,9 +159,9 @@ namespace OpenPmsDental{
 			// butImport
 			// 
 			this.butImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butImport.Location = new System.Drawing.Point(152, 486);
+			this.butImport.Location = new System.Drawing.Point(153, 488);
 			this.butImport.Name = "butImport";
-			this.butImport.Size = new System.Drawing.Size(75, 26);
+			this.butImport.Size = new System.Drawing.Size(75, 24);
 			this.butImport.TabIndex = 139;
 			this.butImport.Text = "Import";
 			this.butImport.Click += new System.EventHandler(this.ButImport_Click);
@@ -262,9 +262,9 @@ namespace OpenPmsDental{
 			this.groupBox2.Controls.Add(this.textLocationID);
 			this.groupBox2.Controls.Add(this.labelLocationID);
 			this.groupBox2.Controls.Add(this.labelClinic);
-			this.groupBox2.Location = new System.Drawing.Point(65, 117);
+			this.groupBox2.Location = new System.Drawing.Point(8, 117);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(372, 66);
+			this.groupBox2.Size = new System.Drawing.Size(429, 66);
 			this.groupBox2.TabIndex = 147;
 			this.groupBox2.Text = "";
 			// 

@@ -64,7 +64,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(312, 536);
+			this.butCancel.Location = new System.Drawing.Point(292, 493);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 0;
@@ -75,7 +75,7 @@
 			// butOk
 			// 
 			this.butOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOk.Location = new System.Drawing.Point(211, 536);
+			this.butOk.Location = new System.Drawing.Point(211, 493);
 			this.butOk.Name = "butOk";
 			this.butOk.Size = new System.Drawing.Size(75, 23);
 			this.butOk.TabIndex = 1;
@@ -101,18 +101,18 @@
 			this.groupBox1.Controls.Add(this.textUser);
 			this.groupBox1.Controls.Add(this.textDatabase);
 			this.groupBox1.Controls.Add(this.textServer);
-			this.groupBox1.Location = new System.Drawing.Point(27, 8);
+			this.groupBox1.Location = new System.Drawing.Point(27, 12);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(324, 243);
+			this.groupBox1.Size = new System.Drawing.Size(324, 235);
 			this.groupBox1.TabIndex = 2;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Connection Settings";
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(35, 185);
+			this.label8.Location = new System.Drawing.Point(9, 175);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(88, 23);
+			this.label8.Size = new System.Drawing.Size(119, 18);
 			this.label8.TabIndex = 15;
 			this.label8.Text = "Database Type";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -121,70 +121,70 @@
 			// 
 			this.comboDatabaseType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboDatabaseType.FormattingEnabled = true;
-			this.comboDatabaseType.Location = new System.Drawing.Point(129, 185);
+			this.comboDatabaseType.Location = new System.Drawing.Point(129, 175);
 			this.comboDatabaseType.Name = "comboDatabaseType";
-			this.comboDatabaseType.Size = new System.Drawing.Size(187, 23);
+			this.comboDatabaseType.Size = new System.Drawing.Size(189, 21);
 			this.comboDatabaseType.TabIndex = 14;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(59, 212);
+			this.label7.Location = new System.Drawing.Point(9, 202);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(64, 23);
+			this.label7.Size = new System.Drawing.Size(119, 18);
 			this.label7.TabIndex = 13;
 			this.label7.Text = "Log Level";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(39, 158);
+			this.label6.Location = new System.Drawing.Point(6, 149);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(84, 23);
+			this.label6.Size = new System.Drawing.Size(122, 18);
 			this.label6.TabIndex = 12;
 			this.label6.Text = "PasswordLow";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(67, 131);
+			this.label5.Location = new System.Drawing.Point(9, 123);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(56, 23);
+			this.label5.Size = new System.Drawing.Size(119, 18);
 			this.label5.TabIndex = 11;
 			this.label5.Text = "UserLow";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(59, 104);
+			this.label4.Location = new System.Drawing.Point(6, 97);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(64, 23);
+			this.label4.Size = new System.Drawing.Size(122, 18);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Password";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(87, 77);
+			this.label3.Location = new System.Drawing.Point(6, 71);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(36, 23);
+			this.label3.Size = new System.Drawing.Size(122, 18);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "User";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(63, 50);
+			this.label2.Location = new System.Drawing.Point(12, 45);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(60, 23);
+			this.label2.Size = new System.Drawing.Size(116, 18);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Database";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(79, 23);
+			this.label1.Location = new System.Drawing.Point(6, 19);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(44, 23);
+			this.label1.Size = new System.Drawing.Size(122, 18);
 			this.label1.TabIndex = 7;
 			this.label1.Text = "Server";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -193,53 +193,53 @@
 			// 
 			this.comboLogLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboLogLevel.FormattingEnabled = true;
-			this.comboLogLevel.Location = new System.Drawing.Point(129, 212);
+			this.comboLogLevel.Location = new System.Drawing.Point(129, 202);
 			this.comboLogLevel.Name = "comboLogLevel";
-			this.comboLogLevel.Size = new System.Drawing.Size(187, 23);
+			this.comboLogLevel.Size = new System.Drawing.Size(189, 21);
 			this.comboLogLevel.TabIndex = 6;
 			// 
 			// textPasswordLow
 			// 
-			this.textPasswordLow.Location = new System.Drawing.Point(129, 158);
+			this.textPasswordLow.Location = new System.Drawing.Point(129, 149);
 			this.textPasswordLow.Name = "textPasswordLow";
-			this.textPasswordLow.Size = new System.Drawing.Size(187, 23);
+			this.textPasswordLow.Size = new System.Drawing.Size(189, 20);
 			this.textPasswordLow.TabIndex = 5;
 			// 
 			// textUserLow
 			// 
-			this.textUserLow.Location = new System.Drawing.Point(129, 131);
+			this.textUserLow.Location = new System.Drawing.Point(129, 123);
 			this.textUserLow.Name = "textUserLow";
-			this.textUserLow.Size = new System.Drawing.Size(187, 23);
+			this.textUserLow.Size = new System.Drawing.Size(189, 20);
 			this.textUserLow.TabIndex = 4;
 			// 
 			// textPassword
 			// 
-			this.textPassword.Location = new System.Drawing.Point(129, 104);
+			this.textPassword.Location = new System.Drawing.Point(129, 97);
 			this.textPassword.Name = "textPassword";
-			this.textPassword.Size = new System.Drawing.Size(187, 23);
+			this.textPassword.Size = new System.Drawing.Size(189, 20);
 			this.textPassword.TabIndex = 3;
 			this.textPassword.TextChanged += new System.EventHandler(this.textPassword_TextChanged);
 			this.textPassword.Leave += new System.EventHandler(this.textPassword_Leave);
 			// 
 			// textUser
 			// 
-			this.textUser.Location = new System.Drawing.Point(129, 77);
+			this.textUser.Location = new System.Drawing.Point(129, 71);
 			this.textUser.Name = "textUser";
-			this.textUser.Size = new System.Drawing.Size(187, 23);
+			this.textUser.Size = new System.Drawing.Size(189, 20);
 			this.textUser.TabIndex = 2;
 			// 
 			// textDatabase
 			// 
-			this.textDatabase.Location = new System.Drawing.Point(129, 50);
+			this.textDatabase.Location = new System.Drawing.Point(129, 45);
 			this.textDatabase.Name = "textDatabase";
-			this.textDatabase.Size = new System.Drawing.Size(187, 23);
+			this.textDatabase.Size = new System.Drawing.Size(189, 20);
 			this.textDatabase.TabIndex = 1;
 			// 
 			// textServer
 			// 
-			this.textServer.Location = new System.Drawing.Point(129, 23);
+			this.textServer.Location = new System.Drawing.Point(129, 19);
 			this.textServer.Name = "textServer";
-			this.textServer.Size = new System.Drawing.Size(187, 23);
+			this.textServer.Size = new System.Drawing.Size(189, 20);
 			this.textServer.TabIndex = 0;
 			this.textServer.Text = "localhost";
 			// 
@@ -255,18 +255,18 @@
 			this.groupReplicationMaster.Controls.Add(this.textReplicationMasterUser);
 			this.groupReplicationMaster.Controls.Add(this.textReplicationMasterDatabase);
 			this.groupReplicationMaster.Controls.Add(this.textReplicationMasterServer);
-			this.groupReplicationMaster.Location = new System.Drawing.Point(27, 312);
+			this.groupReplicationMaster.Location = new System.Drawing.Point(27, 321);
 			this.groupReplicationMaster.Name = "groupReplicationMaster";
-			this.groupReplicationMaster.Size = new System.Drawing.Size(324, 162);
+			this.groupReplicationMaster.Size = new System.Drawing.Size(324, 160);
 			this.groupReplicationMaster.TabIndex = 3;
 			this.groupReplicationMaster.TabStop = false;
 			this.groupReplicationMaster.Text = "Master Connection Settings";
 			// 
 			// labelReplicationMasterDbType
 			// 
-			this.labelReplicationMasterDbType.Location = new System.Drawing.Point(35, 131);
+			this.labelReplicationMasterDbType.Location = new System.Drawing.Point(9, 123);
 			this.labelReplicationMasterDbType.Name = "labelReplicationMasterDbType";
-			this.labelReplicationMasterDbType.Size = new System.Drawing.Size(88, 23);
+			this.labelReplicationMasterDbType.Size = new System.Drawing.Size(119, 18);
 			this.labelReplicationMasterDbType.TabIndex = 15;
 			this.labelReplicationMasterDbType.Text = "Database Type";
 			this.labelReplicationMasterDbType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -275,80 +275,80 @@
 			// 
 			this.comboReplicationMasterDbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboReplicationMasterDbType.FormattingEnabled = true;
-			this.comboReplicationMasterDbType.Location = new System.Drawing.Point(129, 131);
+			this.comboReplicationMasterDbType.Location = new System.Drawing.Point(129, 123);
 			this.comboReplicationMasterDbType.Name = "comboReplicationMasterDbType";
-			this.comboReplicationMasterDbType.Size = new System.Drawing.Size(187, 23);
+			this.comboReplicationMasterDbType.Size = new System.Drawing.Size(189, 21);
 			this.comboReplicationMasterDbType.TabIndex = 14;
 			// 
 			// labelReplicationMasterPass
 			// 
-			this.labelReplicationMasterPass.Location = new System.Drawing.Point(59, 104);
+			this.labelReplicationMasterPass.Location = new System.Drawing.Point(6, 97);
 			this.labelReplicationMasterPass.Name = "labelReplicationMasterPass";
-			this.labelReplicationMasterPass.Size = new System.Drawing.Size(64, 23);
+			this.labelReplicationMasterPass.Size = new System.Drawing.Size(122, 18);
 			this.labelReplicationMasterPass.TabIndex = 10;
 			this.labelReplicationMasterPass.Text = "Password";
 			this.labelReplicationMasterPass.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelReplicationMasterUser
 			// 
-			this.labelReplicationMasterUser.Location = new System.Drawing.Point(87, 77);
+			this.labelReplicationMasterUser.Location = new System.Drawing.Point(6, 71);
 			this.labelReplicationMasterUser.Name = "labelReplicationMasterUser";
-			this.labelReplicationMasterUser.Size = new System.Drawing.Size(36, 23);
+			this.labelReplicationMasterUser.Size = new System.Drawing.Size(122, 18);
 			this.labelReplicationMasterUser.TabIndex = 9;
 			this.labelReplicationMasterUser.Text = "User";
 			this.labelReplicationMasterUser.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelReplicationMasterDatabase
 			// 
-			this.labelReplicationMasterDatabase.Location = new System.Drawing.Point(63, 50);
+			this.labelReplicationMasterDatabase.Location = new System.Drawing.Point(12, 45);
 			this.labelReplicationMasterDatabase.Name = "labelReplicationMasterDatabase";
-			this.labelReplicationMasterDatabase.Size = new System.Drawing.Size(60, 23);
+			this.labelReplicationMasterDatabase.Size = new System.Drawing.Size(116, 18);
 			this.labelReplicationMasterDatabase.TabIndex = 8;
 			this.labelReplicationMasterDatabase.Text = "Database";
 			this.labelReplicationMasterDatabase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelReplicationMasterServer
 			// 
-			this.labelReplicationMasterServer.Location = new System.Drawing.Point(79, 23);
+			this.labelReplicationMasterServer.Location = new System.Drawing.Point(6, 19);
 			this.labelReplicationMasterServer.Name = "labelReplicationMasterServer";
-			this.labelReplicationMasterServer.Size = new System.Drawing.Size(44, 23);
+			this.labelReplicationMasterServer.Size = new System.Drawing.Size(122, 18);
 			this.labelReplicationMasterServer.TabIndex = 7;
 			this.labelReplicationMasterServer.Text = "Server";
 			this.labelReplicationMasterServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textReplicationMasterPass
 			// 
-			this.textReplicationMasterPass.Location = new System.Drawing.Point(129, 104);
+			this.textReplicationMasterPass.Location = new System.Drawing.Point(129, 97);
 			this.textReplicationMasterPass.Name = "textReplicationMasterPass";
-			this.textReplicationMasterPass.Size = new System.Drawing.Size(187, 23);
+			this.textReplicationMasterPass.Size = new System.Drawing.Size(189, 20);
 			this.textReplicationMasterPass.TabIndex = 3;
 			// 
 			// textReplicationMasterUser
 			// 
-			this.textReplicationMasterUser.Location = new System.Drawing.Point(129, 77);
+			this.textReplicationMasterUser.Location = new System.Drawing.Point(129, 71);
 			this.textReplicationMasterUser.Name = "textReplicationMasterUser";
-			this.textReplicationMasterUser.Size = new System.Drawing.Size(187, 23);
+			this.textReplicationMasterUser.Size = new System.Drawing.Size(189, 20);
 			this.textReplicationMasterUser.TabIndex = 2;
 			// 
 			// textReplicationMasterDatabase
 			// 
-			this.textReplicationMasterDatabase.Location = new System.Drawing.Point(129, 50);
+			this.textReplicationMasterDatabase.Location = new System.Drawing.Point(129, 45);
 			this.textReplicationMasterDatabase.Name = "textReplicationMasterDatabase";
-			this.textReplicationMasterDatabase.Size = new System.Drawing.Size(187, 23);
+			this.textReplicationMasterDatabase.Size = new System.Drawing.Size(189, 20);
 			this.textReplicationMasterDatabase.TabIndex = 1;
 			// 
 			// textReplicationMasterServer
 			// 
-			this.textReplicationMasterServer.Location = new System.Drawing.Point(129, 23);
+			this.textReplicationMasterServer.Location = new System.Drawing.Point(129, 19);
 			this.textReplicationMasterServer.Name = "textReplicationMasterServer";
-			this.textReplicationMasterServer.Size = new System.Drawing.Size(187, 23);
+			this.textReplicationMasterServer.Size = new System.Drawing.Size(189, 20);
 			this.textReplicationMasterServer.TabIndex = 0;
 			// 
 			// checkIsOneWayReplication
 			// 
-			this.checkIsOneWayReplication.Location = new System.Drawing.Point(156, 286);
+			this.checkIsOneWayReplication.Location = new System.Drawing.Point(27, 296);
 			this.checkIsOneWayReplication.Name = "checkIsOneWayReplication";
-			this.checkIsOneWayReplication.Size = new System.Drawing.Size(141, 18);
+			this.checkIsOneWayReplication.Size = new System.Drawing.Size(324, 24);
 			this.checkIsOneWayReplication.TabIndex = 4;
 			this.checkIsOneWayReplication.Text = "Is one way replication";
 			this.checkIsOneWayReplication.UseVisualStyleBackColor = true;
@@ -356,16 +356,16 @@
 			// 
 			// textPEM
 			// 
-			this.textPEM.Location = new System.Drawing.Point(156, 259);
+			this.textPEM.Location = new System.Drawing.Point(156, 264);
 			this.textPEM.Name = "textPEM";
-			this.textPEM.Size = new System.Drawing.Size(188, 23);
+			this.textPEM.Size = new System.Drawing.Size(189, 20);
 			this.textPEM.TabIndex = 5;
 			// 
 			// labelpem
 			// 
-			this.labelpem.Location = new System.Drawing.Point(66, 259);
+			this.labelpem.Location = new System.Drawing.Point(27, 266);
 			this.labelpem.Name = "labelpem";
-			this.labelpem.Size = new System.Drawing.Size(84, 23);
+			this.labelpem.Size = new System.Drawing.Size(122, 18);
 			this.labelpem.TabIndex = 13;
 			this.labelpem.Text = "SKY SQL PEM";
 			this.labelpem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

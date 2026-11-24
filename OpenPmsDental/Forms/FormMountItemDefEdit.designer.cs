@@ -188,10 +188,10 @@ namespace OpenPmsDental{
 			// 
 			// textTextShowing
 			// 
-			this.textTextShowing.Location = new System.Drawing.Point(174, 170);
+			this.textTextShowing.Location = new System.Drawing.Point(182, 170);
 			this.textTextShowing.Multiline = true;
 			this.textTextShowing.Name = "textTextShowing";
-			this.textTextShowing.Size = new System.Drawing.Size(395, 179);
+			this.textTextShowing.Size = new System.Drawing.Size(402, 179);
 			this.textTextShowing.TabIndex = 45;
 			// 
 			// label7
@@ -254,7 +254,7 @@ namespace OpenPmsDental{
 			this.textGuideLabel.Location = new System.Drawing.Point(400, 8);
 			this.textGuideLabel.MaxLength = 255;
 			this.textGuideLabel.Name = "textGuideLabel";
-			this.textGuideLabel.Size = new System.Drawing.Size(180, 20);
+			this.textGuideLabel.Size = new System.Drawing.Size(184, 23);
 			this.textGuideLabel.TabIndex = 61;
 			// 
 			// labelSlotKind
