@@ -655,4 +655,3 @@ OpenPmsDental/Forms/FormCreditRecurringCharges.designer.cs	OpenPmsDental.FormCre
 OpenPmsDental/Forms/FormCreditRecurringCharges.designer.cs	OpenPmsDental.FormCreditRecurringCharges	.	ClientSize	1058,581	1058,585	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationEdit	gridGrades	Size	314,342	314,340	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	OpenPmsDental.FormEvaluationEdit	gridCriterion	Size	504,342	504,340	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	OpenPmsDental.FormFeesForIns	gridMain	Size	808,524	808,520	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

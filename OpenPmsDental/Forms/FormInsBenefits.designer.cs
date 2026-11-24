@@ -951,7 +951,7 @@ namespace OpenPmsDental {
 			this.textSubscNote.Name = "textSubscNote";
 			this.textSubscNote.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.InsPlan;
 			this.textSubscNote.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textSubscNote.Size = new System.Drawing.Size(568, 98);
+			this.textSubscNote.Size = new System.Drawing.Size(568, 94);
 			this.textSubscNote.TabIndex = 6;
 			this.textSubscNote.Text = "1 - Benefits\n2\n3 lines will show here in 46 vert.\n4 lines will show here in 59 ve" +
     "rt.\n5 lines in 72 vert\n6 lines in 85 vert\n7 lines in 98";

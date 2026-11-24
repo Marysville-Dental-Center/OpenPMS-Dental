@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(161, 653);
+			this.labelBatch.Location = new System.Drawing.Point(161, 661);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 152;
@@ -51,7 +51,7 @@ namespace OpenPmsDental{
 			this.gridAllergyExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridAllergyExisting.Name = "gridAllergyExisting";
 			this.gridAllergyExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAllergyExisting.Size = new System.Drawing.Size(482, 237);
+			this.gridAllergyExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridAllergyExisting.TabIndex = 65;
 			this.gridAllergyExisting.Title = "Current Allergies";
 			this.gridAllergyExisting.TranslationName = "GridAllergyExisting";
@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			this.gridAllergyImport.Location = new System.Drawing.Point(498, 8);
 			this.gridAllergyImport.Name = "gridAllergyImport";
 			this.gridAllergyImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAllergyImport.Size = new System.Drawing.Size(483, 237);
+			this.gridAllergyImport.Size = new System.Drawing.Size(483, 245);
 			this.gridAllergyImport.TabIndex = 77;
 			this.gridAllergyImport.Title = "Transition of Care/Referral Summary";
 			this.gridAllergyImport.TranslationName = "GridAllergyImport";
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(906, 653);
+			this.butSave.Location = new System.Drawing.Point(906, 661);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileAllergy
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(989, 685);
+			this.ClientSize = new System.Drawing.Size(989, 693);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridAllergyExisting);
 			this.Controls.Add(this.gridAllergyImport);

@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			this.gridMedExisting.Location = new System.Drawing.Point(8, 8);
 			this.gridMedExisting.Name = "gridMedExisting";
 			this.gridMedExisting.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedExisting.Size = new System.Drawing.Size(482, 237);
+			this.gridMedExisting.Size = new System.Drawing.Size(482, 245);
 			this.gridMedExisting.TabIndex = 65;
 			this.gridMedExisting.Title = "Current Medications";
 			this.gridMedExisting.TranslationName = "GridMedExisting";
@@ -53,7 +53,7 @@ namespace OpenPmsDental{
 			this.gridMedImport.Location = new System.Drawing.Point(498, 8);
 			this.gridMedImport.Name = "gridMedImport";
 			this.gridMedImport.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMedImport.Size = new System.Drawing.Size(483, 237);
+			this.gridMedImport.Size = new System.Drawing.Size(483, 245);
 			this.gridMedImport.TabIndex = 77;
 			this.gridMedImport.Title = "Transition of Care/Referral Summary";
 			this.gridMedImport.TranslationName = "GridMedImport";
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(906, 653);
+			this.butSave.Location = new System.Drawing.Point(906, 661);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(161, 653);
+			this.labelBatch.Location = new System.Drawing.Point(161, 661);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 153;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileMedication
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(989, 685);
+			this.ClientSize = new System.Drawing.Size(989, 693);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridMedExisting);
 			this.Controls.Add(this.gridMedImport);
