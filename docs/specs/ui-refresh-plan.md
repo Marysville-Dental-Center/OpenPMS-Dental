@@ -1766,6 +1766,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   the HL7 debug window, the service manager, the update file copier, the CodeBase progress windows and message box, the graph's dashboard
   dialogs and controls), but they still drew in the Windows look: no FormODBase attached the looks there. Restyle only. Note:
   [UI-PLAIN.md](../port-notes/UI-PLAIN.md); audit: `UI-PLAIN-audit.md`.
+- Fix round (2026-11-23, branch `ui/uiplain-2`, the review of `ui/uiplain-1`): the stock tab control draws its ImageList images (the
+  dashboard's setup mode), an enabled stock DropDownList combo box's face in the input fill, a stock AcceptButton filled Accent (one list with
+  UI.Button), a plain window's looks without the program's zoom, GraphIncome on its host's colour, the radio button's access key, and
+  OpenPmsDentalDbSettings' two windows in the gallery (62 pictures, audit pass 3). UI-PLAIN.md section 7.
 - Status (2026-11-23, branch `ui/uiplain-1`): the shared looks moved from OpenPmsDental/UI to CodeBase/UI (the program gives them its window
   scale and zoom); each plain window calls `UiPlainWindow.Attach` once (the window background token, the inputs' frame and every shared
   look, on the controls its code adds later too); the stock group box drawn like UI.GroupBox and the stock top tab control like

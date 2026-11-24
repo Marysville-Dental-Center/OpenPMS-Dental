@@ -60,7 +60,7 @@ each whether it should stay blue or stay plain.
   look; left to the owner (a later package could do it with the keyboard checks). The WinForms controls show the ring now.
 - **The default WinForms button is the form's `AcceptButton` whenever it is a `UI.Button`** (86 of the 107 assignments; the other 21 are stock
   buttons in RdlDesign, RdlViewer and others, which keep the Windows look). The 12 that are not OK or Save are marked `owner` in
-  `accept-buttons.tsv`; one the owner turns down goes on `_arrayAcceptButtonsPlain` in Button.cs as `FormName.buttonName`. The plan counted
+  `accept-buttons.tsv`; one the owner turns down goes on `_arrayAcceptButtonsPlain` in Button.cs (UI-PLAIN fix round: now in CodeBase's UiButtonLook, UiLooks.cs, which UI.Button.IsPrimary asks) as `FormName.buttonName`. The plan counted
   87 and 13; the 13th (`button1`) is in `UnitTests`, which the list leaves out with the other test code.
 - **The icon on a WinForms button** is drawn as today; Direct2D's background for it is the flat fill of the state (it was a gradient matched
   to the old one), so the icon sits on the right colour.

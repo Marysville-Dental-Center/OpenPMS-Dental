@@ -122,3 +122,39 @@ against the same `main` pictures. One line per picture: picture | changed % | wh
 Findings of pass 1, all real: (1) UiButtonLook drew a button's image and caption where each alignment alone put them, ignoring
 TextImageRelation (DashboardPanelCtrl's Add Col, Add Row); (2) the looks drew the access key's underline always (&OK, &Cancel, Add,
 Edit, Drop, Print) where Windows hides it until Alt; (3) the CodeBase progress windows' light grey window (ControlLight) stayed.
+
+## Pass 3: the review's fix round (branch `ui/uiplain-2`)
+
+The review of `ui/uiplain-1` found six problems this audit had passed: the dashboard's tab images painted over in its setup mode (not in
+the gallery), the stock DropDownList combo boxes' grey face (pass 2 called FormCentralConnectionGroups' "disabled grey: no data"; the combo
+box is enabled), the stock AcceptButtons drawn plain, GraphIncome's classic grey (pass 2: "ok"), the program's zoom on the plain windows'
+looks, and the two OpenPmsDentalDbSettings windows missing. Fixed (UI-PLAIN.md section 7); the gallery drawn again in one session from the
+fix round's build: after = `work/after3-100` and `work/after3-150`; before = `main`'s pictures (`work/main-100`, `main-150`), which the same
+session's looks-off drawing of this branch (`work/before3-100`) reproduced byte for byte for 49 of the 50 windows (FormCentralSecurity: a
+FormODBase window, as in pass 2); the three new pictures' before is that looks-off drawing (their code differs from `main` only by the Attach
+call, which does nothing with the looks off). 62 pictures. Against pass 2, 14 pictures at 100% and 6 at 150% changed, exactly the ones the
+fixes touch; the other 39 are byte-identical to pass 2's. Every changed or new picture opened:
+
+- 1-plain-windows/DashboardTabCtrl-setup.png | 99.9220 | new: the dashboard in setup mode: the delete X on Production, the hovered X (red box) on Appointments, the add icon on Add Tab, each 6 px in from the tab's left with the text after it; the selected tab's Accent line | ok
+- 1-plain-windows/FormDbSettings.png | 76.6133 | new: framed boxes, the Client credential group in the program's group box, radio buttons in the look with their access keys hidden (first drawn with the "&" showing: fixed, UiRadioLook), the buttons in the button look (no AcceptButton) | ok after the fix
+- 1-plain-windows/FormSecretPrompt.png | 60.6327 | new: the framed password box; OK (its AcceptButton) filled Accent | ok
+- 1-plain-windows/FormDashboardEditCell.png | 90.9671 | OK (AcceptButton) filled Accent, Cancel plain | ok
+- 1-plain-windows/FormDashboardNamePrompt.png | 49.6648 | OK (AcceptButton) filled Accent | ok
+- 1-plain-windows/FormCentralConnectionEdit.png | 67.2551 | OK (AcceptButton) filled Accent, Delete and Cancel plain | ok
+- 2-at-150/FormCentralConnectionEdit-150.png | 70.7529 | as at 100% | ok
+- 1-plain-windows/FormWebConfigSettings.png | 69.8605 | Database Type (twice) and Log Level: white faces with the chevron, as the text boxes beside them | ok
+- 1-plain-windows/GraphQuantityOverTimeFilter.png | 70.0864 | Display, Series Type, Group By, Legend, Quick Range and the Top combo box white with their text in Text; the two disabled date pickers keep the disabled grey | ok
+- 2-at-150/GraphQuantityOverTimeFilter-150.png | 71.8657 | as at 100% | ok
+- 1-plain-windows/GraphQuantityOverTime.png | 43.4675 | the same combo boxes white (empty) | ok
+- 2-at-150/GraphQuantityOverTime-150.png | 44.4943 | as at 100% | ok
+- 1-plain-windows/GraphIncome.png | 16.4033 | on the window's colour (it showed the harness's classic grey: 15.5% of the picture, now 0.6%, all inside the chart); the group boxes' inside on that colour too (the looks took the classic grey for a box in a transparent control: fixed, UiLooks.GetBackColor); the Group By combo box white | ok after the fix
+- 1-plain-windows/FormCentralManager.png | 27.0146 | Conn Groups white | ok
+- 2-at-150/FormCentralManager-150.png | 16.9352 | as at 100% | ok
+- 1-plain-windows/FormCentralConnections.png | 29.1201 | Connection Groups white | ok
+- 2-at-150/FormCentralConnections-150.png | 28.8141 | as at 100% | ok
+- 1-plain-windows/FormCentralConnectionGroups.png | 27.8178 | the (enabled) combo box white | ok
+- 1-plain-windows/xCrudGenerator-Form1.png | 34.9604 | Type white | ok
+- 2-at-150/Form1-150.png | 36.0076 | as at 100% | ok
+
+Findings of pass 3, both real, fixed before the pictures above: (1) the stock radio button drew its access key's "&" (FormDbSettings'
+"Client &certificate", "Database &password"); (2) a group box inside a transparent user control (GraphIncome) took the classic grey inside.

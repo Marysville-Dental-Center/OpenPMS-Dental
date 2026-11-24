@@ -73,12 +73,11 @@ stock controls are drawn in the look instead. CentralManager's windows already u
   ModuleSwitchBlurOverlay (a splash, pop-ups and an overlay that draw themselves), the imaging device manager's AcquireStatusWindow and
   CaptureNoticeWindow and the 32-bit helper's TopazSigningWindow (separate processes, left for the lead), PluginExample's and UnitTests'
   forms (samples and the test runner).
-- The stock radio button's access key: UiRadioLook draws its text with DrawString, which shows an "&" as written; no plain window's radio
-  button has one.
+- (Fix round: the stock radio button's access key is drawn as Windows draws it, section 7.)
 - At 150% the off-screen harness (a 96 dpi process) draws the looks at their 100% size (the check boxes, radio circles, the frames' lines and
   chevrons, the group box corners): they take their scale from the control's dpi, which Windows sets on a 150% screen (UI-13.md section 4).
-- FormDbSettings and FormSecretPrompt build their controls in their constructors, which the harness does not run (it runs InitializeComponent
-  and the constructor's Attach): they are not in the gallery; their constructors call Attach (PlainLookTests).
+- (Fix round: FormDbSettings and FormSecretPrompt, which build their controls in their constructors, are in the gallery and PlainLookTests,
+  section 7.)
 
 ## 4. Tests
 
@@ -141,3 +140,27 @@ passed, 49 skipped (opt-in), 0 failed (PlainLookTests, ElementInventoryTests, Gr
 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped); `PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The
 gallery runs (`<W>/tests-*.txt`): UiRefreshTests 297 passed each on the final code. `tools/Test-NoEolFlips.ps1 -Base 2268b57b0`: 0 flips.
 `element_inventory.py --check`: matches (180 rows: 131 in the new look, 27 kept with a reason, 22 drawing nothing).
+
+## 7. Fix round (branch `ui/uiplain-2`, the review of `ui/uiplain-1`)
+
+| Finding | Fix | Code |
+|---|---|---|
+| The stock tab control's look painted over the tabs' ImageList images: in DashboardTabCtrl's setup mode the add icon and the delete X disappeared, the text sat over them, and a click left on a tab header deleted the tab with nothing showing | each tab's image (ImageIndex, else ImageKey; disabled through ControlPaint) where Windows draws it, 6 px in from the header's left and centred top to bottom (header X+6, Y+2 for the dashboard's 30 px tall pictures, the rectangle DashboardTabCtrl hit-tests), the text in the rest of the header; on screen and in WM_PRINT (one paint routine); read at each paint, so the ImageList the dashboard switches at run time and a new ImageIndex (Windows repaints, the look follows WM_PAINT) show | `UiTabLook.PaintTabControl`, `GetImageRectangle` |
+| Stock DropDownList combo boxes kept Windows' grey read-only face inside the frame's white edge and chevron strip | an enabled one's face in the input fill (the frame's fill, the text boxes' white) with the selected item's text in Text, left and centred top to bottom, cut with an ellipsis; the focus shows as the frame's Accent line. Disabled (the disabled grey), editable (its white edit), owner-drawn, right-to-left and high-contrast combo boxes keep Windows' face | `UiInputFrame.IsFaceDrawn`, `PaintComboFace` (from PaintFrame, so on screen and printed) |
+| A plain window's stock AcceptButton was drawn plain, unlike UI.Button's (FormODBase and the Central Manager's UI.Button windows) | filled Accent with the text in TextOnAccent when it is its form's AcceptButton; the owner's list of AcceptButtons kept plain moved from UI.Button to `UiButtonLook` (CodeBase), which both ask | `UiButtonLook.IsPrimary`, `PaintButton`; `UI.Button.IsPrimary` |
+| GraphIncome (BackColor Transparent) showed the classic grey around its groups and chart (15.5% of the picture); PlainLookTests measured another picture than the gallery's | the harness draws a transparent control on the first opaque colour up its parents (its host's window token), as Windows Forms shows it on screen; the looks' colour behind a control walks up the same way (a group box inside GraphIncome took the classic grey inside: audit pass 3); PlainLookTests measure the gallery's picture (each control printed alone), so the old picture fails the 10% rule | `DesignSheetWindows.GetColorBehind`, `UiLooks.GetBackColor`, `PlainLookTests.CheckClassicGrey` |
+| Inside the program a plain window (MsgBoxCopyPaste, the progress windows, the dashboard's dialogs) drew its looks at dpi times the program's zoom on 100% controls | a control in a window UiPlainWindow attached draws at its dpi alone, as its input frames do; a control outside any FormODBase and plain window keeps the zoom, as before | `UiLooks.GetScale(Control)` |
+| FormDbSettings and FormSecretPrompt were not in the gallery | the builder makes the windows that build their controls in code with their own constructor and synthetic arguments (no file, database or network: FormDbSettings reads its file in Load, not raised), while the gallery and PlainLookTests build (`WindowBuilder.IsBuildingByConstructor`; off for the scans, which keep their records) | `WindowBuilder.CreateByItsConstructor` |
+| Audit pass 3: FormDbSettings' radio buttons showed their access key's "&" | the stock radio button's access key as Windows draws it: no "&", the underline only with the keyboard cues | `UiRadioLook` (StringFormat.HotkeyPrefix from `UiLooks.GetPrefixFlags`) |
+
+**Tests** (PlainLookTests): `TabLook_TheTabsImages` (an ImageList given after the look, ImageIndex 1 then 0: the image's pixels at its place,
+the text after it, painted and printed), `InputFrame_DropDownListFaceInTheInputFill` (the face white over Windows' grey, the text; disabled,
+owner-drawn and editable keep Windows' face), `ButtonLook_AcceptButtonIsPrimary` (Accent fill on the AcceptButton only),
+`PlainWindow_LooksIgnoreTheProgramsZoom` (zoom 1.25: a check box in a plain window at the dpi scale and drawn as at zoom 1; one in a window
+without the look keeps the zoom), `PlainWindows_BuiltByTheirConstructor_DrawTheNewLook` (FormDbSettings and FormSecretPrompt: Attach,
+their controls, framed inputs, every look, the grey rule); the slice 12 test measures the gallery's picture.
+
+**Gallery** (`G-UI3-uiplain`, 62 pictures): the 50 windows at 100% and 9 at 150% drawn again from this branch's build, plus
+DashboardTabCtrl in setup mode (`FitGallery.SetDashboardSetupMode`, the state `setup`), FormDbSettings and FormSecretPrompt. Before:
+`main`'s pictures; the same session's looks-off drawing of this branch reproduced 49 of the 50 byte for byte (FormCentralSecurity: a
+FormODBase window), and is the before of the three new ones. Audit pass 3 in UI-PLAIN-audit.md.
