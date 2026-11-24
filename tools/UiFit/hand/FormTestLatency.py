@@ -2,7 +2,7 @@
 the three groups 157, 157 and 216 wide ending 26 px short of the right padding, the Speed note cut (its three lines in 52 px) and the Test
 buttons on three heights. The three groups from the padding to the right padding, 8 px apart, one width; each note as tall as its lines at
 the group's content width; the Latency and Speed boxes on one row under the taller note; the three Test buttons on the groups' bottom
-padding."""
+padding; the Average rows on one label column from the content edge, the units after the boxes."""
 import importlib.util
 import os
 
@@ -30,6 +30,17 @@ def layout(h):
         h.set(unit, 8 + b.nw + 6, y + (h.H - u.nh) // 2)
     a = h.n("groupBoxAverage")
     h.set("labelAverageExplain", 8, 23, a.nw - 16, h.note_h("labelAverageExplain", a.nw - 16))
+    # the Average rows: one label column from the content edge (the widest caption), the boxes after it, the units after them
+    lw = max(h.lw(n) for n in ("labelAverageCount", "labelAverage", "labelAverageMin", "labelAverageMax"))
+    bx = 8 + lw + 6
+    for label, box, unit in (("labelAverageCount", "textAverageCount", None), ("labelAverage", "textAverage", "labelAverageMs"),
+                             ("labelAverageMin", "textAverageMin", "labelAverageMinMs"),
+                             ("labelAverageMax", "textAverageMax", "labelAverageMaxMs")):
+        h.set(box, bx, None)
+        s.label_before(h, label, box)
+        if unit:
+            b = h.n(box)
+            h.set(unit, bx + b.nw + 6, None)
     gh = h.n("groupBox1").nh
     for but in ("butLatency", "butSpeed", "butAverage"):
         h.set(but, 8, gh - 8 - 24, None, 24)

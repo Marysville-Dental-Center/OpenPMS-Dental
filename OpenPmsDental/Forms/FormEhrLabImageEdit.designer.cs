@@ -44,7 +44,7 @@ namespace OpenPmsDental{
 			this.picturePreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.picturePreview.Location = new System.Drawing.Point(8, 8);
 			this.picturePreview.Name = "picturePreview";
-			this.picturePreview.Size = new System.Drawing.Size(759, 310);
+			this.picturePreview.Size = new System.Drawing.Size(752, 296);
 			this.picturePreview.TabIndex = 19;
 			this.picturePreview.TabStop = false;
 			// 
@@ -65,12 +65,12 @@ namespace OpenPmsDental{
 			this.splitContainer.Controls.Add(this.splitterPanel1);
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
-			this.splitContainer.Location = new System.Drawing.Point(8, 32);
+			this.splitContainer.Location = new System.Drawing.Point(8, 36);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(791, 549);
+			this.splitContainer.Size = new System.Drawing.Size(768, 509);
 			this.splitContainer.SplitterDistance = 193;
 			this.splitContainer.TabIndex = 268;
 			this.splitContainer.SplitterMoved += new System.EventHandler(this.splitContainer_SplitterMoved);
@@ -79,17 +79,17 @@ namespace OpenPmsDental{
 			// splitterPanel1
 			// 
 			this.splitterPanel1.Controls.Add(this.gridMain);
-			this.splitterPanel1.Location = new System.Drawing.Point(8, 8);
+			this.splitterPanel1.Location = new System.Drawing.Point(0, 0);
 			this.splitterPanel1.Name = "splitterPanel1";
-			this.splitterPanel1.Size = new System.Drawing.Size(775, 203);
+			this.splitterPanel1.Size = new System.Drawing.Size(768, 193);
 			this.splitterPanel1.TabIndex = 13;
 			// 
 			// splitterPanel2
 			// 
 			this.splitterPanel2.Controls.Add(this.picturePreview);
-			this.splitterPanel2.Location = new System.Drawing.Point(8, 215);
+			this.splitterPanel2.Location = new System.Drawing.Point(0, 197);
 			this.splitterPanel2.Name = "splitterPanel2";
-			this.splitterPanel2.Size = new System.Drawing.Size(775, 326);
+			this.splitterPanel2.Size = new System.Drawing.Size(768, 312);
 			this.splitterPanel2.TabIndex = 14;
 			// 
 			// gridMain
@@ -99,7 +99,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(759, 187);
+			this.gridMain.Size = new System.Drawing.Size(752, 177);
 			this.gridMain.TabIndex = 18;
 			this.gridMain.Title = "Available Images";
 			this.gridMain.TranslationName = "TableWikiSearchPages";
@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(724, 593);
+			this.butSave.Location = new System.Drawing.Point(701, 557);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -117,7 +117,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEhrLabImageEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(807, 625);
+			this.ClientSize = new System.Drawing.Size(784, 589);
 			this.Controls.Add(this.splitContainer);
 			this.Controls.Add(this.checkWaitingForImages);
 			this.Controls.Add(this.butSave);

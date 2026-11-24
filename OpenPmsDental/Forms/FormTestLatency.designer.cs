@@ -162,7 +162,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageCount
 			// 
-			this.labelAverageCount.Location = new System.Drawing.Point(28, 57);
+			this.labelAverageCount.Location = new System.Drawing.Point(8, 57);
 			this.labelAverageCount.Name = "labelAverageCount";
 			this.labelAverageCount.Size = new System.Drawing.Size(72, 23);
 			this.labelAverageCount.TabIndex = 1;
@@ -171,7 +171,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverage
 			// 
-			this.labelAverage.Location = new System.Drawing.Point(44, 84);
+			this.labelAverage.Location = new System.Drawing.Point(24, 84);
 			this.labelAverage.Name = "labelAverage";
 			this.labelAverage.Size = new System.Drawing.Size(56, 23);
 			this.labelAverage.TabIndex = 2;
@@ -180,7 +180,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageMs
 			// 
-			this.labelAverageMs.Location = new System.Drawing.Point(168, 87);
+			this.labelAverageMs.Location = new System.Drawing.Point(148, 87);
 			this.labelAverageMs.Name = "labelAverageMs";
 			this.labelAverageMs.Size = new System.Drawing.Size(30, 17);
 			this.labelAverageMs.TabIndex = 3;
@@ -189,7 +189,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageMin
 			// 
-			this.labelAverageMin.Location = new System.Drawing.Point(52, 111);
+			this.labelAverageMin.Location = new System.Drawing.Point(32, 111);
 			this.labelAverageMin.Name = "labelAverageMin";
 			this.labelAverageMin.Size = new System.Drawing.Size(48, 23);
 			this.labelAverageMin.TabIndex = 4;
@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageMinMs
 			// 
-			this.labelAverageMinMs.Location = new System.Drawing.Point(168, 114);
+			this.labelAverageMinMs.Location = new System.Drawing.Point(148, 114);
 			this.labelAverageMinMs.Name = "labelAverageMinMs";
 			this.labelAverageMinMs.Size = new System.Drawing.Size(30, 17);
 			this.labelAverageMinMs.TabIndex = 5;
@@ -207,7 +207,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageMax
 			// 
-			this.labelAverageMax.Location = new System.Drawing.Point(48, 138);
+			this.labelAverageMax.Location = new System.Drawing.Point(28, 138);
 			this.labelAverageMax.Name = "labelAverageMax";
 			this.labelAverageMax.Size = new System.Drawing.Size(52, 23);
 			this.labelAverageMax.TabIndex = 6;
@@ -216,7 +216,7 @@ namespace OpenPmsDental{
 			// 
 			// labelAverageMaxMs
 			// 
-			this.labelAverageMaxMs.Location = new System.Drawing.Point(168, 141);
+			this.labelAverageMaxMs.Location = new System.Drawing.Point(148, 141);
 			this.labelAverageMaxMs.Name = "labelAverageMaxMs";
 			this.labelAverageMaxMs.Size = new System.Drawing.Size(30, 17);
 			this.labelAverageMaxMs.TabIndex = 7;
@@ -225,7 +225,7 @@ namespace OpenPmsDental{
 			// 
 			// textAverageCount
 			// 
-			this.textAverageCount.Location = new System.Drawing.Point(106, 57);
+			this.textAverageCount.Location = new System.Drawing.Point(86, 57);
 			this.textAverageCount.MaxVal = 1000;
 			this.textAverageCount.MinVal = 1;
 			this.textAverageCount.Name = "textAverageCount";
@@ -235,7 +235,7 @@ namespace OpenPmsDental{
 			// 
 			// textAverage
 			// 
-			this.textAverage.Location = new System.Drawing.Point(106, 84);
+			this.textAverage.Location = new System.Drawing.Point(86, 84);
 			this.textAverage.Name = "textAverage";
 			this.textAverage.ReadOnly = true;
 			this.textAverage.Size = new System.Drawing.Size(56, 23);
@@ -244,7 +244,7 @@ namespace OpenPmsDental{
 			// 
 			// textAverageMin
 			// 
-			this.textAverageMin.Location = new System.Drawing.Point(106, 111);
+			this.textAverageMin.Location = new System.Drawing.Point(86, 111);
 			this.textAverageMin.Name = "textAverageMin";
 			this.textAverageMin.ReadOnly = true;
 			this.textAverageMin.Size = new System.Drawing.Size(56, 23);
@@ -253,7 +253,7 @@ namespace OpenPmsDental{
 			// 
 			// textAverageMax
 			// 
-			this.textAverageMax.Location = new System.Drawing.Point(106, 138);
+			this.textAverageMax.Location = new System.Drawing.Point(86, 138);
 			this.textAverageMax.Name = "textAverageMax";
 			this.textAverageMax.ReadOnly = true;
 			this.textAverageMax.Size = new System.Drawing.Size(56, 23);
