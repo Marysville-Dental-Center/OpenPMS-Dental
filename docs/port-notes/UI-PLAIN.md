@@ -164,3 +164,9 @@ their controls, framed inputs, every look, the grey rule); the slice 12 test mea
 DashboardTabCtrl in setup mode (`FitGallery.SetDashboardSetupMode`, the state `setup`), FormDbSettings and FormSecretPrompt. Before:
 `main`'s pictures; the same session's looks-off drawing of this branch reproduced 49 of the 50 byte for byte (FormCentralSecurity: a
 FormODBase window), and is the before of the three new ones. Audit pass 3 in UI-PLAIN-audit.md.
+
+**Results** (`uiplain2-final.txt`; the whole filter `OpenDental.Local.slnf` built x64 through the lane: 0 errors): `UiRefreshTests` 301
+passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped);
+`PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-after3-100.txt`, `after3-150`,
+`before3-100`): UiRefreshTests 302 passed each. `tools/Test-NoEolFlips.ps1 -Base 2268b57b0`: 0 flips. `element_inventory.py --check`:
+matches.
