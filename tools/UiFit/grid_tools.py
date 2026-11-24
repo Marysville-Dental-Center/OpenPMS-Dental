@@ -1592,6 +1592,7 @@ class Planner:
         MULTI_PICKERS.update(designer.multi_pickers)
         MULTI_PICKERS.update(multi_pickers_in_code(self.root, simple))
         PLAIN_WINDOW[0] = is_plain_window(self.root, designer.rel, simple)
+        plain_client_root(tree)
         for n in walk(tree):
             if "ComboBoxClinicPicker" in n.type and n.name not in NO_LABEL_PICKERS and not n.text_w:
                 # A tree of a build before slice 1 (GridDump wrote no label width for a clinic picker): its box was drawn after main's fixed
@@ -2311,6 +2312,14 @@ PLAIN_WINDOW = [False]  # UI-12 slice 12: the window being planned is a plain wi
 # The plain exes' and plain libraries' folders (tests/UiRefreshTests/Scan/WindowBuilder.cs, ArrayPlainExes and ArrayPlainLibraries).
 PLAIN_FOLDERS = ("CentralManager", "DatabaseIntegrityCheck", "DocumentationBuilder", "MySQLManager", "OpenPmsDentalDbSettings",
                  "OpenPmsDentalHL7", "RdlDesign", "ServiceManager", "UpdateFileCopier", "xCrudGenerator", "OpenPmsDentalGraph")
+
+
+def plain_client_root(tree):
+    """UI-12 slice 12: the root of a plain window's tree is the Form itself, whose bounds take Windows' frame and title bar (FormODBase's
+    root is its client panel): the planner lays out the client area, so the root is as large as the form's ClientSize."""
+    if PLAIN_WINDOW[0] and tree is not None and tree.cw > 0 and tree.ch > 0 and (tree.cw, tree.ch) != (tree.w, tree.h):
+        tree.w, tree.h = tree.cw, tree.ch
+        tree.nw, tree.nh = tree.cw, tree.ch
 
 
 def is_plain_window(root, designer_rel, simple):

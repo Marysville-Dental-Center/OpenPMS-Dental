@@ -50,7 +50,7 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(538, 401);
+			this.butOK.Location = new System.Drawing.Point(522, 362);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 28);
 			this.butOK.TabIndex = 5;
@@ -60,7 +60,7 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(621, 401);
+			this.butCancel.Location = new System.Drawing.Point(605, 362);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 28);
 			this.butCancel.TabIndex = 2;
@@ -88,7 +88,7 @@ namespace CentralManager{
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 401);
+			this.butDelete.Location = new System.Drawing.Point(8, 362);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 28);
 			this.butDelete.TabIndex = 205;
@@ -177,7 +177,7 @@ namespace CentralManager{
 			this.groupBox1.Controls.Add(this.label6);
 			this.groupBox1.Location = new System.Drawing.Point(8, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(688, 135);
+			this.groupBox1.Size = new System.Drawing.Size(672, 135);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Direct Database Connection";
@@ -189,7 +189,7 @@ namespace CentralManager{
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Location = new System.Drawing.Point(8, 170);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(688, 76);
+			this.groupBox2.Size = new System.Drawing.Size(672, 76);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Middle Tier Connection";

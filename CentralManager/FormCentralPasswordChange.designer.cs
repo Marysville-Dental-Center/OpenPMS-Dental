@@ -35,7 +35,7 @@ namespace CentralManager{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(298,216);
+			this.butOK.Location = new System.Drawing.Point(282,177);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,28);
 			this.butOK.TabIndex = 3;
@@ -45,7 +45,7 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(381,216);
+			this.butCancel.Location = new System.Drawing.Point(365,177);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75,28);
 			this.butCancel.TabIndex = 2;

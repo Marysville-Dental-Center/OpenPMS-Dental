@@ -298,7 +298,7 @@ namespace xCrudGenerator {
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(1161, 734);
+			this.ClientSize = new System.Drawing.Size(1161, 754);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textPassword);

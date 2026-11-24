@@ -53,7 +53,7 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(224, 387);
+			this.butClose.Location = new System.Drawing.Point(208, 375);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(80, 24);
 			this.butClose.TabIndex = 3;
@@ -64,7 +64,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(296, 380);
+			this.ClientSize = new System.Drawing.Size(296, 407);
 			this.Controls.Add(this.butAddGroup);
 			this.Controls.Add(this.listGroups);
 			this.Controls.Add(this.butClose);

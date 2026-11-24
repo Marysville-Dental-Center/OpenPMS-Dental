@@ -435,7 +435,7 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(672, 641);
+			this.butClose.Location = new System.Drawing.Point(660, 635);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 52;
@@ -445,7 +445,7 @@
 			// buttonOK
 			// 
 			this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonOK.Location = new System.Drawing.Point(652, 641);
+			this.buttonOK.Location = new System.Drawing.Point(652, 635);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 24);
 			this.buttonOK.TabIndex = 53;
@@ -456,7 +456,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(739, 634);
+			this.ClientSize = new System.Drawing.Size(743, 667);
 			this.Controls.Add(this.buttonOK);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.labelFetch);

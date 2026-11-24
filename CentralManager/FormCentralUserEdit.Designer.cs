@@ -60,7 +60,7 @@
 			// butPassword
 			// 
 			this.butPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPassword.Location = new System.Drawing.Point(8, 558);
+			this.butPassword.Location = new System.Drawing.Point(8, 523);
 			this.butPassword.Name = "butPassword";
 			this.butPassword.Size = new System.Drawing.Size(103, 24);
 			this.butPassword.TabIndex = 25;
@@ -77,7 +77,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(460, 558);
+			this.butOK.Location = new System.Drawing.Point(444, 523);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 20;
@@ -87,7 +87,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(543, 558);
+			this.butCancel.Location = new System.Drawing.Point(527, 523);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 19;
@@ -224,7 +224,7 @@
 			// butUnlock
 			// 
 			this.butUnlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUnlock.Location = new System.Drawing.Point(132, 558);
+			this.butUnlock.Location = new System.Drawing.Point(132, 523);
 			this.butUnlock.Name = "butUnlock";
 			this.butUnlock.Size = new System.Drawing.Size(103, 24);
 			this.butUnlock.TabIndex = 169;
@@ -236,7 +236,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
-			this.ClientSize = new System.Drawing.Size(610, 551);
+			this.ClientSize = new System.Drawing.Size(610, 555);
 			this.Controls.Add(this.butUnlock);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.checkIsHidden);

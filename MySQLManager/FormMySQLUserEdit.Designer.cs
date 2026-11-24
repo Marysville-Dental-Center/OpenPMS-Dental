@@ -41,7 +41,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(258, 253);
+			this.butOK.Location = new System.Drawing.Point(242, 214);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 23);
 			this.butOK.TabIndex = 25;
@@ -78,7 +78,7 @@
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(341, 253);
+			this.butCancel.Location = new System.Drawing.Point(325, 214);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 30;

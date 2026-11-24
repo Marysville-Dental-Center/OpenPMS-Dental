@@ -46,7 +46,7 @@
 			this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupBox1.Location = new System.Drawing.Point(8, 39);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(475, 117);
+			this.groupBox1.Size = new System.Drawing.Size(459, 117);
 			this.groupBox1.TabIndex = 58;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Only if newer than";
@@ -116,7 +116,7 @@
 			// 
 			this.butCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(408, 236);
+			this.butCancel.Location = new System.Drawing.Point(392, 197);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 55;
@@ -126,7 +126,7 @@
 			// butOK
 			// 
 			this.butOK.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.butOK.Location = new System.Drawing.Point(325, 236);
+			this.butOK.Location = new System.Drawing.Point(309, 197);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 54;

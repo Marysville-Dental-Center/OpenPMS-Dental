@@ -57,7 +57,7 @@
 			this.groupConnection.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.groupConnection.Location = new System.Drawing.Point(8, 8);
 			this.groupConnection.Name = "groupConnection";
-			this.groupConnection.Size = new System.Drawing.Size(624, 152);
+			this.groupConnection.Size = new System.Drawing.Size(608, 152);
 			this.groupConnection.TabIndex = 0;
 			this.groupConnection.TabStop = false;
 			this.groupConnection.Text = "Connection Settings";
@@ -146,7 +146,7 @@
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(557, 516);
+			this.butClose.Location = new System.Drawing.Point(541, 516);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 23);
 			this.butClose.TabIndex = 4;
@@ -206,7 +206,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.ClientSize = new System.Drawing.Size(624, 508);
+			this.ClientSize = new System.Drawing.Size(624, 547);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.listBoxUsers);
 			this.Controls.Add(this.butDrop);

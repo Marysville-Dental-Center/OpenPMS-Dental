@@ -89,7 +89,7 @@ namespace OpenPmsDental {
 			this.groupServer.Controls.Add(this.label6);
 			this.groupServer.Location = new System.Drawing.Point(8,8);
 			this.groupServer.Name = "groupServer";
-			this.groupServer.Size = new System.Drawing.Size(360,188);
+			this.groupServer.Size = new System.Drawing.Size(344,188);
 			this.groupServer.TabIndex = 2;
 			this.groupServer.TabStop = false;
 			this.groupServer.Text = "Connect to Middle Tier";
@@ -157,7 +157,7 @@ namespace OpenPmsDental {
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.butCancel.Location = new System.Drawing.Point(293,245);
+			this.butCancel.Location = new System.Drawing.Point(277,208);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75,24);
 			this.butCancel.TabIndex = 13;
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(210,245);
+			this.butOK.Location = new System.Drawing.Point(194,208);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,24);
 			this.butOK.TabIndex = 12;
@@ -178,7 +178,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAutoLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkAutoLogin.AutoSize = true;
-			this.checkAutoLogin.Location = new System.Drawing.Point(8,250);
+			this.checkAutoLogin.Location = new System.Drawing.Point(8,213);
 			this.checkAutoLogin.Name = "checkAutoLogin";
 			this.checkAutoLogin.Size = new System.Drawing.Size(136,17);
 			this.checkAutoLogin.TabIndex = 14;
@@ -189,7 +189,7 @@ namespace OpenPmsDental {
 			// 
 			this.AcceptButton = this.butOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5,13);
-			this.ClientSize = new System.Drawing.Size(360,238);
+			this.ClientSize = new System.Drawing.Size(360,240);
 			this.Controls.Add(this.checkAutoLogin);
 			this.Controls.Add(this.groupServer);
 			this.Controls.Add(this.butCancel);

@@ -48,7 +48,7 @@
 			// butStart
 			// 
 			this.butStart.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butStart.Location = new System.Drawing.Point(190, 356);
+			this.butStart.Location = new System.Drawing.Point(190, 317);
 			this.butStart.Name = "butStart";
 			this.butStart.Size = new System.Drawing.Size(135, 36);
 			this.butStart.TabIndex = 1;

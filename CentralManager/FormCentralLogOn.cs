@@ -71,7 +71,7 @@ namespace CentralManager{
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(361, 85);
+			this.butCancel.Location = new System.Drawing.Point(381, 358);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 24);
 			this.butCancel.TabIndex = 2;
@@ -134,7 +134,7 @@ namespace CentralManager{
 			// 
 			this.AcceptButton = this.butOK;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(464, 378);
+			this.ClientSize = new System.Drawing.Size(464, 390);
 			this.Controls.Add(this.textUser);
 			this.Controls.Add(this.textPassword);
 			this.Controls.Add(this.butOK);
