@@ -347,7 +347,6 @@
 			// 
 			// groupQuadrant
 			// 
-			this.groupQuadrant.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupQuadrant.Controls.Add(this.radioLR);
 			this.groupQuadrant.Controls.Add(this.radioLL);
 			this.groupQuadrant.Controls.Add(this.radioUL);
@@ -397,7 +396,6 @@
 			// 
 			// groupArch
 			// 
-			this.groupArch.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupArch.Controls.Add(this.radioL);
 			this.groupArch.Controls.Add(this.radioU);
 			this.groupArch.Location = new System.Drawing.Point(126, 170);
@@ -508,7 +506,6 @@
 			// 
 			// groupSextant
 			// 
-			this.groupSextant.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupSextant.Controls.Add(this.radioS6);
 			this.groupSextant.Controls.Add(this.radioS5);
 			this.groupSextant.Controls.Add(this.radioS4);
@@ -1266,7 +1263,6 @@
 			// 
 			// groupProsth
 			// 
-			this.groupProsth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupProsth.Controls.Add(this.checkIsDateProsthEst);
 			this.groupProsth.Controls.Add(this.listProsth);
 			this.groupProsth.Controls.Add(this.textDateOriginalProsth);
@@ -1352,7 +1348,6 @@
 			// 
 			// groupCanadianProcTypeCode
 			// 
-			this.groupCanadianProcTypeCode.BackColor = System.Drawing.Color.White;
 			this.groupCanadianProcTypeCode.Controls.Add(this.checkTypeCodeS);
 			this.groupCanadianProcTypeCode.Controls.Add(this.checkTypeCodeX);
 			this.groupCanadianProcTypeCode.Controls.Add(this.checkTypeCodeL);
@@ -1610,7 +1605,6 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.White;
 			this.groupBox1.Controls.Add(this.butPickOrderProvInternal);
 			this.groupBox1.Controls.Add(this.textOrderingProviderOverride);
 			this.groupBox1.Controls.Add(this.butPickOrderProvReferral);

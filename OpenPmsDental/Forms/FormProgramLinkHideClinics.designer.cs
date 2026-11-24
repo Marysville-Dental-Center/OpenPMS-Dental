@@ -105,7 +105,6 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.ForeColor = System.Drawing.Color.Black;
 			this.label3.Location = new System.Drawing.Point(8, 8);
 			this.label3.Name = "label3";
 			this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;

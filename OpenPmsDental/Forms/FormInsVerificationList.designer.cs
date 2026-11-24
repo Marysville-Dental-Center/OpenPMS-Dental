@@ -136,7 +136,6 @@ namespace OpenPmsDental{
 			// 
 			// tabVerify
 			// 
-			this.tabVerify.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabVerify.Controls.Add(this.tabControlVerificationList);
 			this.tabVerify.Controls.Add(this.butVerifyPat);
 			this.tabVerify.Controls.Add(this.textPatBirthdate);
@@ -158,7 +157,6 @@ namespace OpenPmsDental{
 			// 
 			// tabControlVerificationList
 			// 
-			this.tabControlVerificationList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabControlVerificationList.Controls.Add(this.tabCurrent);
 			this.tabControlVerificationList.Controls.Add(this.tabPastDue);
 			this.tabControlVerificationList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
@@ -170,7 +168,6 @@ namespace OpenPmsDental{
 			// 
 			// tabCurrent
 			// 
-			this.tabCurrent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabCurrent.Controls.Add(this.gridMain);
 			this.tabCurrent.Location = new System.Drawing.Point(2, 21);
 			this.tabCurrent.Name = "tabCurrent";
@@ -513,7 +510,6 @@ namespace OpenPmsDental{
 			// 
 			// tabAssignStandard
 			// 
-			this.tabAssignStandard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabAssignStandard.Controls.Add(this.gridAssignStandard);
 			this.tabAssignStandard.Controls.Add(this.groupAssignVerificationStandard);
 			this.tabAssignStandard.Controls.Add(this.butAssignUserStandard);
@@ -624,7 +620,6 @@ namespace OpenPmsDental{
 			// 
 			// groupAssignVerificationMedicaid
 			// 
-			this.groupAssignVerificationMedicaid.BackColor = System.Drawing.Color.White;
 			this.groupAssignVerificationMedicaid.Controls.Add(this.textInsVerifyNoteMedicaid);
 			this.groupAssignVerificationMedicaid.Controls.Add(this.labelNoteMedicaid);
 			this.groupAssignVerificationMedicaid.Controls.Add(this.textAssignUserMedicaid);

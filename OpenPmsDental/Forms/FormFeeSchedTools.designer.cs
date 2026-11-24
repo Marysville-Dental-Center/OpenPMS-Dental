@@ -693,7 +693,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageCopy
 			//
-			this.tabPageCopy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageCopy.Controls.Add(this.groupBox1);
 			this.tabPageCopy.Location = new System.Drawing.Point(2, 21);
 			this.tabPageCopy.Name = "tabPageCopy";
@@ -703,7 +702,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageIncrease
 			//
-			this.tabPageIncrease.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageIncrease.Controls.Add(this.groupBox3);
 			this.tabPageIncrease.Location = new System.Drawing.Point(2, 21);
 			this.tabPageIncrease.Name = "tabPageIncrease";
@@ -713,7 +711,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageClear
 			//
-			this.tabPageClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageClear.Controls.Add(this.groupBox2);
 			this.tabPageClear.Location = new System.Drawing.Point(2, 21);
 			this.tabPageClear.Name = "tabPageClear";
@@ -723,7 +720,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageExportImport
 			//
-			this.tabPageExportImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageExportImport.Controls.Add(this.groupBox5);
 			this.tabPageExportImport.Location = new System.Drawing.Point(2, 21);
 			this.tabPageExportImport.Name = "tabPageExportImport";
@@ -733,7 +729,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageGlobalUpdates
 			//
-			this.tabPageGlobalUpdates.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageGlobalUpdates.Controls.Add(this.groupGlobalUpdateFees);
 			this.tabPageGlobalUpdates.Location = new System.Drawing.Point(2, 21);
 			this.tabPageGlobalUpdates.Name = "tabPageGlobalUpdates";
@@ -743,7 +738,6 @@ namespace OpenPmsDental {
 			//
 			// tabPageCopyCode
 			//
-			this.tabPageCopyCode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabPageCopyCode.Controls.Add(this.groupBoxCopyCode);
 			this.tabPageCopyCode.Location = new System.Drawing.Point(2, 21);
 			this.tabPageCopyCode.Name = "tabPageCopyCode";

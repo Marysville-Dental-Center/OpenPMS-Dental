@@ -230,7 +230,6 @@ namespace OpenPmsDental {
 			// 
 			// tabPageProv
 			// 
-			this.tabPageProv.BackColor = System.Drawing.SystemColors.Control;
 			this.tabPageProv.Controls.Add(this.listProv);
 			this.tabPageProv.Location = new System.Drawing.Point(2, 21);
 			this.tabPageProv.Name = "tabPageProv";

@@ -202,7 +202,6 @@ namespace OpenPmsDental {
 			// 
 			// tabAtoZ
 			// 
-			this.tabAtoZ.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabAtoZ.Controls.Add(this.butBrowseLocal);
 			this.tabAtoZ.Controls.Add(this.labelPathSameForAll);
 			this.tabAtoZ.Controls.Add(this.butBrowseServer);
@@ -272,7 +271,6 @@ namespace OpenPmsDental {
 			// 
 			// tabInDatabase
 			// 
-			this.tabInDatabase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabInDatabase.Controls.Add(this.label2);
 			this.tabInDatabase.Location = new System.Drawing.Point(2, 21);
 			this.tabInDatabase.Name = "tabInDatabase";
@@ -291,7 +289,6 @@ namespace OpenPmsDental {
 			// 
 			// tabStorageRemoved
 			// 
-			this.tabStorageRemoved.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabStorageRemoved.Controls.Add(this.labelStorageRemoved);
 			this.tabStorageRemoved.Location = new System.Drawing.Point(2, 21);
 			this.tabStorageRemoved.Name = "tabStorageRemoved";
@@ -310,7 +307,6 @@ namespace OpenPmsDental {
 			// 
 			// tabSftp
 			// 
-			this.tabSftp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabSftp.Controls.Add(this.label11);
 			this.tabSftp.Controls.Add(this.butSftpClear);
 			this.tabSftp.Controls.Add(this.butSshHostKeys);

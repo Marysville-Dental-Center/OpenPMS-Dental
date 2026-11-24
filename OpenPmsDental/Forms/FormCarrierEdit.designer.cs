@@ -287,7 +287,6 @@ namespace OpenPmsDental {
 			// 
 			// groupCDAnet
 			// 
-			this.groupCDAnet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupCDAnet.Controls.Add(this.label14);
 			this.groupCDAnet.Controls.Add(this.label12);
 			this.groupCDAnet.Controls.Add(this.textEncryptionMethod);
@@ -313,7 +312,6 @@ namespace OpenPmsDental {
 			// label14
 			// 
 			this.label14.Cursor = System.Windows.Forms.Cursors.Default;
-			this.label14.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.label14.Location = new System.Drawing.Point(8, 104);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(325, 34);

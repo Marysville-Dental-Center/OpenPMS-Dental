@@ -172,7 +172,6 @@
 			// 
 			// checkBoxEmployees
 			// 
-			this.checkBoxEmployees.BackColor = System.Drawing.SystemColors.Control;
 			this.checkBoxEmployees.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkBoxEmployees.Checked = true;
 			this.checkBoxEmployees.CheckState = System.Windows.Forms.CheckState.Checked;

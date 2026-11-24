@@ -128,7 +128,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD1
 			// 
-			this.groupBoxOD1.BackColor = System.Drawing.Color.White;
 			this.groupBoxOD1.Controls.Add(this.label3);
 			this.groupBoxOD1.Controls.Add(this.label2);
 			this.groupBoxOD1.Controls.Add(this.label1);
@@ -211,7 +210,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD2
 			// 
-			this.groupBoxOD2.BackColor = System.Drawing.Color.White;
 			this.groupBoxOD2.Controls.Add(this.label7);
 			this.groupBoxOD2.Controls.Add(this.label6);
 			this.groupBoxOD2.Controls.Add(this.label8);
@@ -309,7 +307,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBox5
 			// 
-			this.groupBox5.BackColor = System.Drawing.Color.White;
 			this.groupBox5.Controls.Add(this.labelRefundable);
 			this.groupBox5.Controls.Add(this.checkAllowPrePayToTpProcs);
 			this.groupBox5.Controls.Add(this.checkIsRefundable);

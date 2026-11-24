@@ -204,7 +204,6 @@ namespace OpenPmsDental{
 			// 
 			// tabUnsent
 			// 
-			this.tabUnsent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabUnsent.Controls.Add(this.checkExcludeBadAddress);
 			this.tabUnsent.Controls.Add(this.checkExcludeIfProcs);
 			this.tabUnsent.Controls.Add(this.checkExcludeInsPending);
@@ -554,7 +553,6 @@ namespace OpenPmsDental{
 			// groupPlaceAccounts
 			// 
 			this.groupPlaceAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupPlaceAccounts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupPlaceAccounts.Controls.Add(this.butSend);
 			this.groupPlaceAccounts.Controls.Add(this.comboServiceType);
 			this.groupPlaceAccounts.Controls.Add(this.labelServiceType);
@@ -647,7 +645,6 @@ namespace OpenPmsDental{
 			// 
 			// tabSent
 			// 
-			this.tabSent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabSent.Controls.Add(this.comboLastTransType);
 			this.tabSent.Controls.Add(this.butSentExport);
 			this.tabSent.Controls.Add(this.butSentSaveDefaults);
@@ -984,7 +981,6 @@ namespace OpenPmsDental{
 			// groupUpdateAccounts
 			// 
 			this.groupUpdateAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupUpdateAccounts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupUpdateAccounts.Controls.Add(this.labelNewBillType);
 			this.groupUpdateAccounts.Controls.Add(this.comboNewBillType);
 			this.groupUpdateAccounts.Controls.Add(this.butUpdateStatus);
@@ -1064,7 +1060,6 @@ namespace OpenPmsDental{
 			// 
 			// tabExcluded
 			// 
-			this.tabExcluded.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabExcluded.Controls.Add(this.comboExcludedAccountAge);
 			this.tabExcluded.Controls.Add(this.butExcludedExport);
 			this.tabExcluded.Controls.Add(this.comboProvsExcluded);
@@ -1391,7 +1386,6 @@ namespace OpenPmsDental{
 			// groupExcludedPlaceAccounts
 			// 
 			this.groupExcludedPlaceAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupExcludedPlaceAccounts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupExcludedPlaceAccounts.Controls.Add(this.butExcludedSend);
 			this.groupExcludedPlaceAccounts.Controls.Add(this.comboExcludedServiceType);
 			this.groupExcludedPlaceAccounts.Controls.Add(this.labelExcludedServiceType);

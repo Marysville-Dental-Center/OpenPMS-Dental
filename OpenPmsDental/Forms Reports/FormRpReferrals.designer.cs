@@ -60,7 +60,6 @@ namespace OpenPmsDental {
 			// 
 			// tabData
 			// 
-			this.tabData.BackColor = System.Drawing.SystemColors.Window;
 			this.tabData.Controls.Add(this.listSelect);
 			this.tabData.Controls.Add(this.butCheckAll);
 			this.tabData.Controls.Add(this.butClear);
@@ -99,7 +98,6 @@ namespace OpenPmsDental {
 			// 
 			// tabFilters
 			// 
-			this.tabFilters.BackColor = System.Drawing.SystemColors.Window;
 			this.tabFilters.Controls.Add(this.label2);
 			this.tabFilters.Controls.Add(this.butDeleteFilter);
 			this.tabFilters.Controls.Add(this.listOptions);

@@ -509,7 +509,6 @@ namespace OpenPmsDental {
 			// UserControlApptAppearance
 			//
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxTimeBars);
 			this.Controls.Add(this.groupBoxOD1);
 			this.Controls.Add(this.groupBoxBlockouts);

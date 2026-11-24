@@ -154,7 +154,6 @@ namespace OpenPmsDental{
 			// groupRadioMisc
 			// 
 			this.groupRadioMisc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupRadioMisc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupRadioMisc.Controls.Add(this.comboRadioGroupNameMisc);
 			this.groupRadioMisc.Controls.Add(this.textUiLabelMobileMisc);
 			this.groupRadioMisc.Controls.Add(this.labelUiLabelMobileMisc);
@@ -221,7 +220,6 @@ namespace OpenPmsDental{
 			// groupRadio
 			// 
 			this.groupRadio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupRadio.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupRadio.Controls.Add(this.labelItemOverride);
 			this.groupRadio.Controls.Add(this.textItemOverride);
 			this.groupRadio.Controls.Add(this.labelAlsoActs);

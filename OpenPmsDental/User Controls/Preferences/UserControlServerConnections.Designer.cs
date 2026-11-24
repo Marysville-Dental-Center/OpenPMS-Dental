@@ -288,7 +288,6 @@ namespace OpenPmsDental {
 			// UserControlServerConnections
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkUseReadOnlyServer);
 			this.Controls.Add(this.groupBoxReadOnlyServerSetup);
 			this.Controls.Add(this.groupReplication);

@@ -978,7 +978,7 @@ namespace OpenPmsDental {
 			butClear.Enabled=false;
 			gridInbox.Title=Lan.g(this,"Inbox");
 			gridSent.Title=Lan.g(this,"Sent Messages");
-			groupSearch.BackColor=SystemColors.Control;
+			groupSearch.BackColor=Color.Empty;//UI-11: back to the parent's colour (the window background token), was SystemColors.Control
 			FillInboxOrSent();
 		}
 

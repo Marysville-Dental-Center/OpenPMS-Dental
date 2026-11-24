@@ -595,7 +595,6 @@
 			// 
 			// groupProsth
 			// 
-			this.groupProsth.BackColor = System.Drawing.SystemColors.Window;
 			this.groupProsth.Controls.Add(this.labelMissingTeeth);
 			this.groupProsth.Controls.Add(this.textPriorDate);
 			this.groupProsth.Controls.Add(this.label18);
@@ -830,7 +829,6 @@
 			// 
 			// groupOrtho
 			// 
-			this.groupOrtho.BackColor = System.Drawing.SystemColors.Window;
 			this.groupOrtho.Controls.Add(this.textOrthoTotalM);
 			this.groupOrtho.Controls.Add(this.label96);
 			this.groupOrtho.Controls.Add(this.textOrthoDate);
@@ -963,7 +961,6 @@
 			// 
 			// tabAttachments
 			// 
-			this.tabAttachments.BackColor = System.Drawing.Color.White;
 			this.tabAttachments.Controls.Add(this.panel1);
 			this.tabAttachments.Location = new System.Drawing.Point(2, 21);
 			this.tabAttachments.Name = "tabAttachments";
@@ -1023,7 +1020,6 @@
 			// 
 			// tabNEA
 			// 
-			this.tabNEA.BackColor = System.Drawing.Color.White;
 			this.tabNEA.Controls.Add(this.groupAttachments);
 			this.tabNEA.Controls.Add(this.groupAttachedImages);
 			this.tabNEA.Location = new System.Drawing.Point(2, 21);
@@ -1327,7 +1323,6 @@
 			// 
 			// tabCanadianAttachments
 			// 
-			this.tabCanadianAttachments.BackColor = System.Drawing.Color.White;
 			this.tabCanadianAttachments.Controls.Add(this.groupCanadianAttachedImages);
 			this.tabCanadianAttachments.Controls.Add(this.butSendCanadaAttachments);
 			this.tabCanadianAttachments.Location = new System.Drawing.Point(2, 21);
@@ -1588,7 +1583,6 @@
 			// 
 			// tabUB04
 			// 
-			this.tabUB04.BackColor = System.Drawing.Color.White;
 			this.tabUB04.Controls.Add(this.panel4);
 			this.tabUB04.Location = new System.Drawing.Point(2, 21);
 			this.tabUB04.Name = "tabUB04";
@@ -2544,7 +2538,6 @@
 			// 
 			// tabCanadian
 			// 
-			this.tabCanadian.BackColor = System.Drawing.Color.White;
 			this.tabCanadian.Controls.Add(this.panel5);
 			this.tabCanadian.Location = new System.Drawing.Point(2, 21);
 			this.tabCanadian.Name = "tabCanadian";

@@ -90,6 +90,9 @@ namespace CodeBase {
 			if(control is DateTimePicker dateTimePicker) {
 				SetDateTimePickerLook(dateTimePicker);
 			}
+			if(control is TextBoxBase textBoxBase) {
+				SetCaptionBoxLook(textBoxBase);
+			}
 			if(UiGroupBoxLook.IsDrawn(control)) {
 				UiGroupBoxLook.Attach(control);
 			}
@@ -301,6 +304,27 @@ namespace CodeBase {
 				}
 			}
 			UiControlPaint.Outline(g,EnumUiColor.StrokeStrong,rectangle,1,UiTheme.CORNER_SQUARE,1f);
+		}
+
+		///<summary>UI-11 (docs/port-notes/UI-11.md): a caption box, a text box without a border used as a label (FormBackup's and the database
+		///maintenance's notes), in an old background (Windows' grey, the old look's 252,253,254, or the Surface value a hand row wrote) takes its
+		///parent's colour, the container's token, as a label does; on a transparent parent the window background token. A framed box is an input
+		///and keeps its colour; so does a white or coloured caption box.</summary>
+		public static void SetCaptionBoxLook(TextBoxBase textBoxBase) {
+			if(textBoxBase.BorderStyle!=BorderStyle.None || !IsCaptionBoxBackground(textBoxBase.BackColor)) {
+				return;
+			}
+			Color colorParent=textBoxBase.Parent?.BackColor ?? Color.Empty;
+			textBoxBase.BackColor=colorParent.A==255 ? colorParent : UiTheme.GetColor(EnumUiColor.Surface);
+		}
+
+		///<summary>True for the old backgrounds a caption box's designer names: Windows' grey (SystemColors.Control, a read-only box's default), the
+		///old look's window background (UiPlainWindow.IsOldBackground) and the light Surface value.</summary>
+		public static bool IsCaptionBoxBackground(Color color) {
+			if(color.IsEmpty || color.A<255) {
+				return false;
+			}
+			return UiPlainWindow.IsOldBackground(color) || color.ToArgb()==UiTheme.GetColorLight(EnumUiColor.Surface).ToArgb();
 		}
 
 		///<summary>A link label's links in Accent (AccentPressed while clicked) where it has Windows' default blue and red.</summary>

@@ -86,7 +86,6 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.BackColor = System.Drawing.Color.White;
 			this.groupBox2.Controls.Add(this.butCurrent);
 			this.groupBox2.Controls.Add(this.butAll);
 			this.groupBox2.Controls.Add(this.butFind);

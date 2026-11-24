@@ -1621,7 +1621,6 @@ namespace OpenPmsDental{
 			// 
 			// tabPublicHealth
 			// 
-			this.tabPublicHealth.BackColor = System.Drawing.SystemColors.Control;
 			this.tabPublicHealth.Controls.Add(this.comboBoxMultiRace);
 			this.tabPublicHealth.Controls.Add(this.comboEthnicity);
 			this.tabPublicHealth.Controls.Add(this.textEthnicity);
@@ -1782,7 +1781,6 @@ namespace OpenPmsDental{
 			// 
 			// tabHospitals
 			// 
-			this.tabHospitals.BackColor = System.Drawing.SystemColors.Control;
 			this.tabHospitals.Controls.Add(this.labelDischargeDate);
 			this.tabHospitals.Controls.Add(this.odDatePickerDischargeDate);
 			this.tabHospitals.Controls.Add(this.textWard);
@@ -1825,7 +1823,6 @@ namespace OpenPmsDental{
 			// 
 			// tabOther
 			// 
-			this.tabOther.BackColor = System.Drawing.SystemColors.Control;
 			this.tabOther.Controls.Add(this.butViewSSN);
 			this.tabOther.Controls.Add(this.checkDoseSpotConsent);
 			this.tabOther.Controls.Add(this.checkBoxSignedTil);
@@ -1883,7 +1880,6 @@ namespace OpenPmsDental{
 			// 
 			// tabICE
 			// 
-			this.tabICE.BackColor = System.Drawing.SystemColors.Control;
 			this.tabICE.Controls.Add(this.labelEmergencyPhone);
 			this.tabICE.Controls.Add(this.textIcePhone);
 			this.tabICE.Controls.Add(this.textIceName);
@@ -1935,7 +1931,6 @@ namespace OpenPmsDental{
 			// 
 			// tabEHR
 			// 
-			this.tabEHR.BackColor = System.Drawing.SystemColors.Control;
 			this.tabEHR.Controls.Add(this.butNow);
 			this.tabEHR.Controls.Add(this.butClearDateTimeDeceased);
 			this.tabEHR.Controls.Add(this.textDateTimeDeceased);

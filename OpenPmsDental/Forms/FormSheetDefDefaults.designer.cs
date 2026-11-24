@@ -103,7 +103,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD1
 			// 
-			this.groupBoxOD1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOD1.Controls.Add(this.labelTreatmentPlan);
 			this.groupBoxOD1.Controls.Add(this.comboTreatmentPlan);
 			this.groupBoxOD1.Controls.Add(this.comboRx);
@@ -133,7 +132,6 @@ namespace OpenPmsDental{
 			// 
 			// groupBoxOD2
 			// 
-			this.groupBoxOD2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
 			this.groupBoxOD2.Controls.Add(this.comboReceipt);
 			this.groupBoxOD2.Controls.Add(this.comboInvoice);
 			this.groupBoxOD2.Controls.Add(this.comboLimited);

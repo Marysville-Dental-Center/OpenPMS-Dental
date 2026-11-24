@@ -303,7 +303,6 @@ namespace OpenPmsDental {
 			// 
 			// tabGeneral
 			// 
-			this.tabGeneral.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabGeneral.Controls.Add(this.textPreferredName);
 			this.tabGeneral.Controls.Add(this.label25);
 			this.tabGeneral.Controls.Add(this.odColorPickerOutline);
@@ -1056,7 +1055,6 @@ namespace OpenPmsDental {
 			// 
 			// dateTerm
 			// 
-			this.dateTerm.BackColor = System.Drawing.SystemColors.Window;
 			this.dateTerm.CalendarLocation = OpenPmsDental.UI.ODDatePicker.EnumCalendarLocation.ToTheRight;
 			this.dateTerm.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
 			this.dateTerm.Location = new System.Drawing.Point(139, 590);
@@ -1066,7 +1064,6 @@ namespace OpenPmsDental {
 			// 
 			// tabSupplementalIDs
 			// 
-			this.tabSupplementalIDs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabSupplementalIDs.Controls.Add(this.groupBox2);
 			this.tabSupplementalIDs.Location = new System.Drawing.Point(2, 21);
 			this.tabSupplementalIDs.Name = "tabSupplementalIDs";
@@ -1077,7 +1074,6 @@ namespace OpenPmsDental {
 			// 
 			// tabDentalSchools
 			// 
-			this.tabDentalSchools.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabDentalSchools.Controls.Add(this.labelPassDescription);
 			this.tabDentalSchools.Controls.Add(this.textUserName);
 			this.tabDentalSchools.Controls.Add(this.comboSchoolClass);
@@ -1097,7 +1093,6 @@ namespace OpenPmsDental {
 			// 
 			// tabClinics
 			// 
-			this.tabClinics.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabClinics.Controls.Add(this.labelClinicsDesc);
 			this.tabClinics.Controls.Add(this.checkAllClinics);
 			this.tabClinics.Controls.Add(this.listBoxClinics);

@@ -378,7 +378,6 @@ namespace OpenPmsDental {
 			// UserControlAccountPayments
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxUnearnedIncome);
 			this.Controls.Add(this.groupBoxPayPlans);
 			this.Controls.Add(this.groupBoxPayments);

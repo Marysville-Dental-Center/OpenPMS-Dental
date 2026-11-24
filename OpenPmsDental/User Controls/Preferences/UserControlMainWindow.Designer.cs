@@ -51,7 +51,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxPopups
 			// 
-			this.groupBoxPopups.BackColor = System.Drawing.Color.White;
 			this.groupBoxPopups.Controls.Add(this.textPopupsDisableTimeSpan);
 			this.groupBoxPopups.Controls.Add(this.labelTimeSpan);
 			this.groupBoxPopups.Controls.Add(this.textPopupsDisableDays);
@@ -96,7 +95,6 @@ namespace OpenPmsDental {
 			// 
 			// groupSelectPatient
 			// 
-			this.groupSelectPatient.BackColor = System.Drawing.Color.White;
 			this.groupSelectPatient.Controls.Add(this.checkPatientSelectWindowShowGetAll);
 			this.groupSelectPatient.Controls.Add(this.checkEnterpriseAllowRefreshWhileTyping);
 			this.groupSelectPatient.Controls.Add(this.checkShowInactivePatientsDefault);
@@ -159,7 +157,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox6
 			// 
-			this.groupBox6.BackColor = System.Drawing.Color.White;
 			this.groupBox6.Controls.Add(this.checkTitleBarShowSpecialty);
 			this.groupBox6.Controls.Add(this.checkUseClinicAbbr);
 			this.groupBox6.Controls.Add(this.textMainWindowTitle);
@@ -244,7 +241,6 @@ namespace OpenPmsDental {
 			// UserControlMainWindow
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxPopups);
 			this.Controls.Add(this.groupSelectPatient);
 			this.Controls.Add(this.groupBox6);

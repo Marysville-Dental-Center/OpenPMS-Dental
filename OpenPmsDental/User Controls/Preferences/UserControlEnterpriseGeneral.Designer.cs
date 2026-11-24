@@ -460,7 +460,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkDatabaseGlobalVariablesDontSet);
 			this.Controls.Add(this.checkEnterpriseCommlogOmitDefaults);
 			this.Controls.Add(this.checkEnableEmailAddressAutoComplete);

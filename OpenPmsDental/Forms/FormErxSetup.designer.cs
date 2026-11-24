@@ -152,7 +152,6 @@ namespace OpenPmsDental{
 			//
 			// tabPageDoseSpot
 			//
-			this.tabPageDoseSpot.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPageDoseSpot.Controls.Add(this.labelDoseSpotEnvironment);
 			this.tabPageDoseSpot.Controls.Add(this.comboDoseSpotEnvironment);
 			this.tabPageDoseSpot.Controls.Add(this.labelSubscriptionKey);
@@ -258,7 +257,6 @@ namespace OpenPmsDental{
 			//
 			// tabPageNewCrop
 			//
-			this.tabPageNewCrop.BackColor = System.Drawing.SystemColors.Window;
 			this.tabPageNewCrop.Controls.Add(this.labelNewCropEnvironment);
 			this.tabPageNewCrop.Controls.Add(this.comboNewCropEnvironment);
 			this.tabPageNewCrop.Controls.Add(this.labelPartnerName);

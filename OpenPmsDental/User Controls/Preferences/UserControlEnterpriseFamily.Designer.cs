@@ -135,7 +135,6 @@ namespace OpenPmsDental {
 			// UserControlEnterpriseFamily
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkShowFeeSchedGroups);
 			this.Controls.Add(this.groupClaimSnapshot);
 			this.Controls.Add(this.checkShowFeaturePatientClone);

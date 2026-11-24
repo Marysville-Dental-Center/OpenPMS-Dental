@@ -433,7 +433,6 @@ namespace OpenPmsDental {
 			// UserControlChartGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkToothChartShowCompletedExtractions);
 			this.Controls.Add(this.checkChartOrthoTabAutomaticCheckboxes);
 			this.Controls.Add(this.groupBoxFunctionality);

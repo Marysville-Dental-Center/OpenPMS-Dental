@@ -370,7 +370,6 @@ namespace OpenPmsDental {
 			// UserControlMainWindowMisc
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkModuleSwitchBlur);
 			this.Controls.Add(this.checkBackupIndexesDisabled);
 			this.Controls.Add(this.textWebServiceServerName);

@@ -63,7 +63,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxPerVisitProcedureCodes
 			// 
-			this.groupBoxPerVisitProcedureCodes.BackColor = System.Drawing.Color.White;
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.textPerVisitInsAmountProcCode);
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.textPerVisitPatAmountProcCode);
 			this.groupBoxPerVisitProcedureCodes.Controls.Add(this.butPickPerVisitInsAmountProcCode);
@@ -134,7 +133,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxCOB
 			// 
-			this.groupBoxCOB.BackColor = System.Drawing.Color.White;
 			this.groupBoxCOB.Controls.Add(this.comboCobSendPaidByInsAt);
 			this.groupBoxCOB.Controls.Add(this.comboCobRule);
 			this.groupBoxCOB.Controls.Add(this.labelCobSendPaidByOtherInsAt);
@@ -376,7 +374,6 @@ namespace OpenPmsDental {
 			// UserControlFamilyInsurance
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxPerVisitProcedureCodes);
 			this.Controls.Add(this.groupBoxCOB);
 			this.Controls.Add(this.groupBoxClaims);

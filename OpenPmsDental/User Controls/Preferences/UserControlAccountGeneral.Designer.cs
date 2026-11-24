@@ -160,7 +160,6 @@ namespace OpenPmsDental {
 			// 
 			// groupCommLogs
 			// 
-			this.groupCommLogs.BackColor = System.Drawing.Color.White;
 			this.groupCommLogs.Controls.Add(this.checkCommLogAutoSave);
 			this.groupCommLogs.Controls.Add(this.checkShowFamilyCommByDefault);
 			this.groupCommLogs.Location = new System.Drawing.Point(8, 8);
@@ -234,7 +233,6 @@ namespace OpenPmsDental {
 			// UserControlAccountGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxFutureDatedTransactions);
 			this.Controls.Add(this.groupBoxFunctionality);
 			this.Controls.Add(this.label62);

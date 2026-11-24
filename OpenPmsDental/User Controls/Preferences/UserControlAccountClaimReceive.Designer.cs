@@ -290,7 +290,6 @@ namespace OpenPmsDental {
 			// UserControlAccountClaimReceive
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxClaimsSecondary);
 			this.Controls.Add(this.groupBoxClaimsMedical);
 			this.Controls.Add(this.groupBoxClaimsPayments);

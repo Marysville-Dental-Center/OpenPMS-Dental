@@ -252,7 +252,7 @@ namespace OpenPmsDental.UI{
 			panelHeaderTip.Visible=false;
 			panelHeaderTip.Size=new Size(200,17);
 			panelHeaderTip.MouseMove+=new MouseEventHandler(panelOpHoverTip_MouseMove);
-			panelHeaderTip.BackColor=Color.White;
+			panelHeaderTip.BackColor=UiTheme.GetColor(EnumUiColor.SurfaceRaised);//UI-11: the tip's token, was White
 			panelHeaderTip.BorderStyle=BorderStyle.FixedSingle;
 			labelHeaderTip=new Label();
 			labelHeaderTip.Location=new Point(0,0);

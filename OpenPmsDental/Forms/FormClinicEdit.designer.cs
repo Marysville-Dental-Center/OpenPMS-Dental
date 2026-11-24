@@ -294,7 +294,6 @@ namespace OpenPmsDental {
 			// 
 			// BillingAddress
 			// 
-			this.BillingAddress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.BillingAddress.Controls.Add(this.checkUseBillingAddressOnClaims);
 			this.BillingAddress.Controls.Add(this.label18);
 			this.BillingAddress.Controls.Add(this.label20);

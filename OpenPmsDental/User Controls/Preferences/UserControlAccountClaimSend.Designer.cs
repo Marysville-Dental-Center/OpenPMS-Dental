@@ -201,7 +201,6 @@ namespace OpenPmsDental {
 			// groupBoxClaimIdPrefix
 			// 
 			this.groupBoxClaimIdPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBoxClaimIdPrefix.BackColor = System.Drawing.Color.White;
 			this.groupBoxClaimIdPrefix.Controls.Add(this.butReplacements);
 			this.groupBoxClaimIdPrefix.Controls.Add(this.textClaimIdPrefix);
 			this.groupBoxClaimIdPrefix.Location = new System.Drawing.Point(8, 249);
@@ -261,7 +260,6 @@ namespace OpenPmsDental {
 			// UserControlAccountClaimSend
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.textInsWriteoffDescript);
 			this.Controls.Add(this.groupBoxClaimsMedical);
 			this.Controls.Add(this.groupBoxOD1);

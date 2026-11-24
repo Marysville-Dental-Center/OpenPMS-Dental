@@ -351,7 +351,7 @@ namespace OpenPmsDental {
 							continue;
 						}
 						if(textSearch.Text==""){
-							label.BackColor=Color.White;
+							label.BackColor=Color.Empty;//UI-11: the page's colour (was White, the old white pages)
 							continue;
 						}
 						PrefInf prefInf=controlAndPref.PrefInf_;
@@ -362,7 +362,7 @@ namespace OpenPmsDental {
 							label.BackColor=Color.FromArgb(255, 255, 192);
 						}
 						else{
-							label.BackColor=Color.White;
+							label.BackColor=Color.Empty;//UI-11: the page's colour (was White, the old white pages)
 						}
 					}
 				}
@@ -374,7 +374,7 @@ namespace OpenPmsDental {
 							continue;
 						}
 						if(textSearch.Text==""){
-							checkBox.BackColor=Color.White;
+							checkBox.BackColor=Color.Empty;//UI-11: the page's colour (was White)
 							continue;
 						}
 						PrefInf prefInf=controlAndPref.PrefInf_;
@@ -385,7 +385,7 @@ namespace OpenPmsDental {
 							checkBox.BackColor=Color.FromArgb(255, 255, 192);
 						}
 						else{
-							checkBox.BackColor=Color.White;
+							checkBox.BackColor=Color.Empty;//UI-11: the page's colour (was White)
 						}
 					}
 				}

@@ -187,7 +187,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox4
 			// 
-			this.groupBox4.BackColor = System.Drawing.Color.White;
 			this.groupBox4.Controls.Add(this.listboxBadDebtAdjs);
 			this.groupBox4.Controls.Add(this.labelCurrentBadDebtAdjTypes);
 			this.groupBox4.Controls.Add(this.butBadDebt);
@@ -228,7 +227,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxOD3
 			// 
-			this.groupBoxOD3.BackColor = System.Drawing.Color.White;
 			this.groupBoxOD3.Controls.Add(this.comboSalesTaxAdjType);
 			this.groupBoxOD3.Controls.Add(this.textTaxPercent);
 			this.groupBoxOD3.Controls.Add(this.comboSalesTaxDefaultProvider);
@@ -341,7 +339,6 @@ namespace OpenPmsDental {
 			// UserControlAccountAdjustments
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxAdjustments);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.groupBoxOD3);

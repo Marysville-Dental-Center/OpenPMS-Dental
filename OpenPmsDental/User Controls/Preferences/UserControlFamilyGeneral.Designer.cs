@@ -241,7 +241,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxClaimSnapshot
 			// 
-			this.groupBoxClaimSnapshot.BackColor = System.Drawing.Color.White;
 			this.groupBoxClaimSnapshot.Controls.Add(this.comboClaimSnapshotTriggerType);
 			this.groupBoxClaimSnapshot.Controls.Add(this.textClaimSnapshotRunTime);
 			this.groupBoxClaimSnapshot.Controls.Add(this.label30);
@@ -292,7 +291,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBoxSuperFamily
 			// 
-			this.groupBoxSuperFamily.BackColor = System.Drawing.Color.White;
 			this.groupBoxSuperFamily.Controls.Add(this.comboSuperFamSort);
 			this.groupBoxSuperFamily.Controls.Add(this.labelSuperFamSort);
 			this.groupBoxSuperFamily.Controls.Add(this.checkSuperFamSync);
@@ -356,7 +354,6 @@ namespace OpenPmsDental {
 			// UserControlFamilyGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxHIPAA);
 			this.Controls.Add(this.groupBoxPatientEdit);
 			this.Controls.Add(this.groupBoxClaimSnapshot);

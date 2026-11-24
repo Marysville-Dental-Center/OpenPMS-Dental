@@ -125,7 +125,6 @@
 			// 
 			// label4
 			// 
-			this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.label4.Location = new System.Drawing.Point(8, 59);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(116, 23);
@@ -410,7 +409,6 @@
 			// checkASAP
 			// 
 			this.checkASAP.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkASAP.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.checkASAP.Location = new System.Drawing.Point(130, 35);
 			this.checkASAP.Name = "checkASAP";
 			this.checkASAP.Size = new System.Drawing.Size(52, 20);

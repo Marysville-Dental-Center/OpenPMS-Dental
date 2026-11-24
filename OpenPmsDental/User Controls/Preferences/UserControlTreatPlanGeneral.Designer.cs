@@ -173,7 +173,6 @@ namespace OpenPmsDental {
 			// 
 			// groupTreatPlanSort
 			// 
-			this.groupTreatPlanSort.BackColor = System.Drawing.Color.White;
 			this.groupTreatPlanSort.Controls.Add(this.radioTreatPlanSortTooth);
 			this.groupTreatPlanSort.Controls.Add(this.radioTreatPlanSortOrder);
 			this.groupTreatPlanSort.Location = new System.Drawing.Point(8, 213);
@@ -226,7 +225,6 @@ namespace OpenPmsDental {
 			// UserControlTreatPlanGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupTreatPlan);
 			this.Controls.Add(this.groupBoxDiscounts);
 			this.Controls.Add(this.groupBoxInsuranceHistory);

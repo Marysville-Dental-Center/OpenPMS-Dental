@@ -456,7 +456,6 @@ namespace OpenPmsDental {
 			// UserControlManageGeneral
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.checkAccountingInvoiceAttachmentsSaveInDatabase);
 			this.Controls.Add(this.groupBoxTimeCards);
 			this.Controls.Add(this.groupBoxDeposits);

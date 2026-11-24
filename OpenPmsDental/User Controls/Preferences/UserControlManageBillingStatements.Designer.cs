@@ -214,7 +214,6 @@ namespace OpenPmsDental {
 			// UserControlManageBillingStatements
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxStatements);
 			this.Controls.Add(this.groupBoxBilling);
 			this.Name = "UserControlManageBillingStatements";

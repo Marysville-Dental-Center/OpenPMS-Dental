@@ -172,7 +172,6 @@ namespace OpenPmsDental{
 			// 
 			// tabQSBatchTrans
 			// 
-			this.tabQSBatchTrans.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabQSBatchTrans.Controls.Add(this.butNoneQSBatch);
 			this.tabQSBatchTrans.Controls.Add(this.butButAllQSTrans);
 			this.tabQSBatchTrans.Controls.Add(this.labelProcessQSBatches);
@@ -241,7 +240,6 @@ namespace OpenPmsDental{
 			// 
 			// tabErrors
 			// 
-			this.tabErrors.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabErrors.Controls.Add(this.butNone);
 			this.tabErrors.Controls.Add(this.butAll);
 			this.tabErrors.Controls.Add(this.butAck);

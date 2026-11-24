@@ -301,7 +301,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.BackColor = System.Drawing.Color.White;
 			this.groupBox2.Controls.Add(this.comboBrokenApptProc);
 			this.groupBox2.Controls.Add(this.comboBrokenApptAdjType);
 			this.groupBox2.Controls.Add(this.label37);
@@ -423,7 +422,6 @@ namespace OpenPmsDental {
 			// UserControlApptGeneral
 			//
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.groupBoxScheduling);
 			this.Controls.Add(this.groupBoxProduction);
 			this.Controls.Add(this.groupBoxOD2);

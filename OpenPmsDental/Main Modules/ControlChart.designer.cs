@@ -547,7 +547,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelImages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panelImages.Controls.Add(this.listViewImages);
-			this.panelImages.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.panelImages.Location = new System.Drawing.Point(0, 592);
 			this.panelImages.Name = "panelImages";
 			this.panelImages.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
@@ -680,7 +679,6 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.BackColor = System.Drawing.SystemColors.Window;
 			this.groupBox2.Controls.Add(this.radioEntryCn);
 			this.groupBox2.Controls.Add(this.radioEntryR);
 			this.groupBox2.Controls.Add(this.radioEntryC);
@@ -916,7 +914,6 @@
 			// 
 			// groupBox5
 			// 
-			this.groupBox5.BackColor = System.Drawing.Color.White;
 			this.groupBox5.Controls.Add(this.butPerm);
 			this.groupBox5.Controls.Add(this.butPrimary);
 			this.groupBox5.Location = new System.Drawing.Point(275, 7);
@@ -970,7 +967,6 @@
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.White;
 			this.groupBox1.Controls.Add(this.label7);
 			this.groupBox1.Controls.Add(this.butNotMissing);
 			this.groupBox1.Controls.Add(this.butMissing);
@@ -1215,7 +1211,6 @@
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.BackColor = System.Drawing.Color.White;
 			this.groupBox3.Controls.Add(this.butShiftBplus);
 			this.groupBox3.Controls.Add(this.butShiftBminus);
 			this.groupBox3.Controls.Add(this.butShiftOplus);
@@ -1363,7 +1358,6 @@
 			// 
 			// tabPlanned
 			// 
-			this.tabPlanned.BackColor = System.Drawing.Color.White;
 			this.tabPlanned.Controls.Add(this.checkShowCompleted);
 			this.tabPlanned.Controls.Add(this.checkDone);
 			this.tabPlanned.Controls.Add(this.butPin);
@@ -1456,7 +1450,6 @@
 			// 
 			// tabShow
 			// 
-			this.tabShow.BackColor = System.Drawing.Color.White;
 			this.tabShow.Controls.Add(this.checkShowCommAuto);
 			this.tabShow.Controls.Add(this.labelSearchClear);
 			this.tabShow.Controls.Add(this.label23);
@@ -2643,7 +2636,6 @@
 			// ControlChart
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.tabControlOrthoCategories);
 			this.Controls.Add(this.gridOrtho);
 			this.Controls.Add(this.panelGridProg);

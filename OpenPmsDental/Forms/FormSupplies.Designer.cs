@@ -214,7 +214,6 @@ namespace OpenPmsDental{
 			// groupCreateOrders
 			// 
 			this.groupCreateOrders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupCreateOrders.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.groupCreateOrders.Controls.Add(this.butCreateOrdersQty);
 			this.groupCreateOrders.Controls.Add(this.label3);
 			this.groupCreateOrders.Controls.Add(this.butCreateOrders);

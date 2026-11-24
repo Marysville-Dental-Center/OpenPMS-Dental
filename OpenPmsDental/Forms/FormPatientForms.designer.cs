@@ -70,7 +70,6 @@ namespace OpenPmsDental{
 			//
 			// groupSortBy
 			//
-			this.groupSortBy.BackColor = System.Drawing.Color.White;
 			this.groupSortBy.Controls.Add(this.radioSortByDateTime);
 			this.groupSortBy.Controls.Add(this.radioSortByDescDateT);
 			this.groupSortBy.Location = new System.Drawing.Point(12, 57);
@@ -103,7 +102,6 @@ namespace OpenPmsDental{
 			//
 			// groupShow
 			//
-			this.groupShow.BackColor = System.Drawing.Color.White;
 			this.groupShow.Controls.Add(this.radioShowBoth);
 			this.groupShow.Controls.Add(this.radioShowSheets);
 			this.groupShow.Controls.Add(this.radioShowEForms);

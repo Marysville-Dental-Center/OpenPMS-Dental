@@ -117,7 +117,6 @@
 			// 
 			// labelInvalidSig
 			// 
-			this.labelInvalidSig.BackColor = System.Drawing.SystemColors.Window;
 			this.labelInvalidSig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelInvalidSig.Location = new System.Drawing.Point(398, 31);
 			this.labelInvalidSig.Name = "labelInvalidSig";
@@ -280,7 +279,6 @@
 			// 
 			// panelSplitter
 			// 
-			this.panelSplitter.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.panelSplitter.Location = new System.Drawing.Point(233, 69);
 			this.panelSplitter.Name = "panelSplitter";
 			this.panelSplitter.Size = new System.Drawing.Size(8, 434);

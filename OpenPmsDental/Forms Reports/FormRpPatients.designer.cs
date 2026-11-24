@@ -76,7 +76,6 @@ namespace OpenPmsDental {
 			// 
 			// tabData
 			// 
-			this.tabData.BackColor = System.Drawing.SystemColors.Window;
 			this.tabData.Controls.Add(this.listBoxRefType);
 			this.tabData.Controls.Add(this.label1);
 			this.tabData.Controls.Add(this.textBox1);
@@ -157,7 +156,6 @@ namespace OpenPmsDental {
 			// 
 			// tabFilters
 			// 
-			this.tabFilters.BackColor = System.Drawing.SystemColors.Window;
 			this.tabFilters.Controls.Add(this.label2);
 			this.tabFilters.Controls.Add(this.labelHelp);
 			this.tabFilters.Controls.Add(this.listBoxColumns);

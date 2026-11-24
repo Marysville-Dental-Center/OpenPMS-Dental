@@ -55,7 +55,6 @@
 			// UserControlDashboard
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Name = "UserControlDashboard";
 			this.Size = new System.Drawing.Size(148, 148);

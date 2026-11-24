@@ -316,7 +316,6 @@
 			// 
 			// tabProcedure
 			// 
-			this.tabProcedure.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabProcedure.Controls.Add(this.textProcWriteoff);
 			this.tabProcedure.Controls.Add(this.label16);
 			this.tabProcedure.Controls.Add(this.textProcTooth);
@@ -594,7 +593,6 @@
 			// 
 			// tabAdjustment
 			// 
-			this.tabAdjustment.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(253)))), ((int)(((byte)(254)))));
 			this.tabAdjustment.Controls.Add(this.textAdjProv);
 			this.tabAdjustment.Controls.Add(this.textAdjDate);
 			this.tabAdjustment.Controls.Add(this.labelAdjRemaining);

@@ -97,7 +97,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.BackColor = System.Drawing.Color.White;
 			this.groupBox3.Controls.Add(this.butEras);
 			this.groupBox3.Controls.Add(this.butImportInsPlans);
 			this.groupBox3.Controls.Add(this.butEmailInbox);
@@ -255,7 +254,6 @@ namespace OpenPmsDental {
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.groupBox2.BackColor = System.Drawing.Color.White;
 			this.groupBox2.Controls.Add(this.listBoxMessages);
 			this.groupBox2.Controls.Add(this.butSend);
 			this.groupBox2.Controls.Add(this.butAck);
@@ -465,7 +463,6 @@ namespace OpenPmsDental {
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.White;
 			this.groupBox1.Controls.Add(this.textFilterName);
 			this.groupBox1.Controls.Add(this.labelFilterName);
 			this.groupBox1.Controls.Add(this.comboReportsTo);
@@ -634,7 +631,6 @@ namespace OpenPmsDental {
 			// 
 			// ControlManage
 			// 
-			this.BackColor = System.Drawing.Color.White;
 			this.Controls.Add(this.butDaycareCheckIn);
 			this.Controls.Add(this.butDaycare);
 			this.Controls.Add(this.groupBox3);
