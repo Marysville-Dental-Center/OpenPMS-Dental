@@ -245,8 +245,6 @@ OpenPmsDental/Main Modules/ControlImages.Designer.cs	.		1321,595
 OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	printPreviewControl2	8,33	815,575	
 OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	ToolBarMain	0,0	831,25	
 OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	.			831,616
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	ImageBox	0,0	50,50	
-OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	.		50,50	
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label2	6,8	90,15	
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label3	95,8	90,15	
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	label4	184,8	90,15	
