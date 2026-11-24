@@ -150,7 +150,8 @@ namespace S3aM1Tests {
 					using(Graphics g=Graphics.FromImage(bitmap)) {
 						g.Clear(Color.Magenta);
 						Priv.Call(comboBoxMulti,"MenuItem_Paint",toolStripItem,new PaintEventArgs(g,new Rectangle(Point.Empty,toolStripItem.Size)));
-						Color colorExpected=(i==1 ? SystemColors.Highlight : SystemColors.Window);
+						//UI-PLAIN-2: the drop list draws in the tokens (the selected entry on AccentSubtle, the others on SurfaceRaised), not Windows' Highlight/Window.
+						Color colorExpected=CodeBase.UiTheme.GetColor(i==1 ? CodeBase.EnumUiColor.AccentSubtle : CodeBase.EnumUiColor.SurfaceRaised);
 						Color colorCorner=bitmap.GetPixel(toolStripItem.Width-1,toolStripItem.Height-1);//text never reaches the corner
 						Assert.AreEqual(colorExpected.ToArgb(),colorCorner.ToArgb(),"Entry "+i);
 					}
