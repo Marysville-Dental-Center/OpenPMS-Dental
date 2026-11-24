@@ -79,12 +79,13 @@ namespace OpenPmsDental {
 			// monthCalendar
 			// 
 			this.monthCalendar.AllowKeyboard = true;
-			this.monthCalendar.Location = new System.Drawing.Point(0, 69);
+			this.monthCalendar.Location = new System.Drawing.Point(8, 80);
 			this.monthCalendar.MaxSelectionCount = 1;
 			this.monthCalendar.Name = "monthCalendar";
 			this.monthCalendar.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendar.TabIndex = 6;
 			this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.cal_DateSelected);
+			this.monthCalendar.SizeChanged += new System.EventHandler(this.monthCalendar_SizeChanged);
 			// 
 			// tree
 			// 
@@ -93,12 +94,12 @@ namespace OpenPmsDental {
 			this.tree.HideSelection = false;
 			this.tree.ImageIndex = 0;
 			this.tree.ItemHeight = 18;
-			this.tree.Location = new System.Drawing.Point(0, 206);
+			this.tree.Location = new System.Drawing.Point(8, 80);
 			this.tree.Name = "tree";
 			this.tree.Scrollable = false;
 			this.tree.SelectedImageIndex = 0;
 			this.tree.ShowPlusMinus = false;
-			this.tree.Size = new System.Drawing.Size(941, 98);
+			this.tree.Size = new System.Drawing.Size(925, 8);
 			this.tree.TabIndex = 7;
 			this.tree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tree_MouseDown);
 			// 
@@ -254,9 +255,9 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.DoShowRightClickLinks = true;
-			this.gridMain.Location = new System.Drawing.Point(0, 310);
+			this.gridMain.Location = new System.Drawing.Point(8, 92);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(941, 200);
+			this.gridMain.Size = new System.Drawing.Size(925, 410);
 			this.gridMain.TabIndex = 9;
 			this.gridMain.Title = "Tasks";
 			this.gridMain.TranslationName = "TableTasks";
@@ -266,26 +267,26 @@ namespace OpenPmsDental {
 			// textListFilter
 			// 
 			this.textListFilter.AutoSize = false;
-			this.textListFilter.Location = new System.Drawing.Point(86, 27);
+			this.textListFilter.Location = new System.Drawing.Point(98, 29);
 			this.textListFilter.Name = "textListFilter";
-			this.textListFilter.Size = new System.Drawing.Size(131, 20);
+			this.textListFilter.Size = new System.Drawing.Size(132, 23);
 			this.textListFilter.TabIndex = 12;
 			this.textListFilter.TextChanged += new System.EventHandler(this.textFilter_TextChanged);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(0, 28);
+			this.label1.Location = new System.Drawing.Point(8, 29);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(84, 18);
+			this.label1.Size = new System.Drawing.Size(84, 23);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Task List Filter";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butClearFilter
 			// 
-			this.butClearFilter.Location = new System.Drawing.Point(220, 27);
+			this.butClearFilter.Location = new System.Drawing.Point(236, 29);
 			this.butClearFilter.Name = "butClearFilter";
-			this.butClearFilter.Size = new System.Drawing.Size(50, 20);
+			this.butClearFilter.Size = new System.Drawing.Size(52, 23);
 			this.butClearFilter.TabIndex = 12;
 			this.butClearFilter.Text = "Clear";
 			this.butClearFilter.UseVisualStyleBackColor = true;
@@ -293,9 +294,9 @@ namespace OpenPmsDental {
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(319, 26);
+			this.butRefresh.Location = new System.Drawing.Point(304, 29);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(67, 22);
+			this.butRefresh.Size = new System.Drawing.Size(68, 23);
 			this.butRefresh.TabIndex = 12;
 			this.butRefresh.Text = "&Refresh";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -312,9 +313,9 @@ namespace OpenPmsDental {
 			this.tabControl.Controls.Add(this.tabDate);
 			this.tabControl.Controls.Add(this.tabWeek);
 			this.tabControl.Controls.Add(this.tabMonth);
-			this.tabControl.Location = new System.Drawing.Point(0, 49);
+			this.tabControl.Location = new System.Drawing.Point(8, 56);
 			this.tabControl.Name = "tabControl";
-			this.tabControl.Size = new System.Drawing.Size(941, 20);
+			this.tabControl.Size = new System.Drawing.Size(925, 20);
 			this.tabControl.TabIndex = 5;
 			this.tabControl.Selecting += new System.EventHandler<int>(this.tabControl_Selecting);
 			// 

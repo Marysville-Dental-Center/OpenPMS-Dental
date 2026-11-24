@@ -1,0 +1,323 @@
+designer_file	window	control	property	old	new	rule
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	label1	Location	0,28	8,29	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	label1	Size	84,18	84,23	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	textListFilter	Location	86,27	98,29	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	textListFilter	Size	131,20	132,23	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	butClearFilter	Location	220,27	236,29	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	butClearFilter	Size	50,20	52,23	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	butRefresh	Location	319,26	304,29	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	butRefresh	Size	67,22	68,23	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	tabControl	Location	0,49	8,56	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	tabControl	Size	941,20	925,20	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	monthCalendar	Location	0,69	8,80	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	tree	Location	0,206	8,80	by hand (layout script): the main trunk's tree (LayoutTreeAndGrid: no history, 8 px), 4 px under the tab strip
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	tree	Size	941,98	925,8	by hand (layout script): the main trunk's tree (LayoutTreeAndGrid: no history, 8 px), 4 px under the tab strip
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	gridMain	Location	0,310	8,92	by hand (layout script): on the grid
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	gridMain	Size	941,200	925,410	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	pictureBoxPat	Location	1,27	0,29	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridFamily	Location	103,27	104,29	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridRecall	Location	585,27	588,29	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridRecall	Size	354,100	351,100	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridPat	Location	0,129	0,133	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridPat	Size	252,579	252,575	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	splitContainerSuperClones	Location	254,129	256,133	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	splitContainerSuperClones	Size	329,579	329,575	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridIns	Location	254,129	256,133	by hand (layout script): in the pane's place (no super family), to the module's right edge, as LayoutSuperClones puts it
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	gridIns	Size	685,579	683,575	by hand (layout script): in the pane's place (no super family), to the module's right edge, as LayoutSuperClones puts it
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	textContent	Location	0,57	8,58	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	textContent	Size	472,515	460,507	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	webViewWiki	Location	474,58	476,58	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	webViewWiki	Size	470,514	460,507	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	OpenPmsDental.FormReportCustom	viewer	Location	45,56	0,25	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	OpenPmsDental.FormReportCustom	viewer	Size	856,453	987,687	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	OpenPmsDental.FormReportForRdl	viewer	Location	45,56	0,25	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	OpenPmsDental.FormReportForRdl	viewer	Size	856,453	987,687	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butPrint	Location	1075,666	1152,664	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butExport	Location	990,666	1065,664	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butPrintPreview	Location	890,666	963,664	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butQView	Location	792,666	863,664	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	panelZoom	Location	644,666	711,664	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	panelZoom	Size	142,23	144,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butBack	Size	18,23	18,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butFwd	Location	118,0	120,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butFwd	Size	18,23	18,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	labelTotPages	Location	29,3	30,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	labelTotPages	Size	87,18	86,24	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	labelTotPages	TextAlign	TopCenter	MiddleLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitContainer	Location	1,1	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitContainer	Size	1228,659	1214,644	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	printPreviewControl2	Location	6,136	8,8	by hand (layout script): where Load places it: the padding, the bar's 24 px and a section gap
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	printPreviewControl2	Size	313,636	1214,644	by hand (layout script): where Load places it: the padding, the bar's 24 px and a section gap
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitterPanel1	Size	1228,159	1214,140	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitterPanel2	Location	0,163	0,144	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitterPanel2	Size	1228,496	1214,500	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	textQuery	Location	2,1	0,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	textQuery	Size	557,156	557,140	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butFavorite	Location	3,8	0,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butAdd	Location	3,32	0,27	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butCopy	Location	3,56	0,54	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butCopy	Size	72,23	67,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butPaste	Location	78,56	73,54	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butPaste	Size	65,23	67,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butSubmit	Location	3,80	0,81	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butSubmit	Size	102,23	104,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	checkReportServer	Location	5,106	0,108	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	checkReportServer	Size	243,23	140,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	groupBox1	Location	162,8	148,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	groupBox1	Size	122,58	132,70	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	radioHuman	Location	10,16	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	radioHuman	Size	108,16	116,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	radioRaw	Location	10,34	8,44	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	radioRaw	Size	104,16	116,18	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butExportExcel	Location	159,71	148,74	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	butExportExcel	Size	79,26	80,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	panel1	Location	564,2	565,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	panel1	Size	400,143	280,126	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	label1	Location	3,4	0,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	label1	Size	54,17	36,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	textTitle	Location	63,2	42,0	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	textTitle	Size	219,20	220,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	labelGridCaption	Location	1,26	0,27	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	labelGridCaption	Size	1225,19	1214,19	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	grid2	Location	1,45	0,48	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	grid2	Size	1225,449	1214,452	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	splitContainer	SplitterDistance	159	140	by hand (layout script): Load's split (140)
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	splitContainer	Location	297,67	51,49	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	splitContainer	Size	491,268	1179,491	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	panelSplitter	Location	71,568	51,540	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	panelSplitter	Size	769,7	1179,7	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	lightSignalGrid1	Location	0,489	0,442	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	lightSignalGrid1	Size	50,206	50,254	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	labelVersion	Location	74,35	8,32	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	labelVersion	Size	280,20	631,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	labelVersion	TextAlign	TopLeft	MiddleLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butCheck2	Location	77,57	8,59	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butCheck2	Size	117,25	120,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butShowUpdateHistory	Location	422,57	507,59	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butShowUpdateHistory	Size	132,25	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textConnectionMessage	Location	77,88	8,86	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textConnectionMessage	Size	477,66	631,66	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label2	Location	6,16	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label2	Size	465,15	615,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textBuild	Location	9,34	8,42	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textBuild	Size	462,20	615,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallBuild	Location	398,60	549,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallBuild	Size	73,24	74,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiBuild	Location	309,60	457,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiBuild	Size	83,24	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupBuild	Location	77,162	8,160	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupBuild	Size	477,93	631,100	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label11	Location	6,16	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label11	Size	465,15	615,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textStable	Location	6,34	8,42	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textStable	Size	465,20	615,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallStable	Location	398,60	549,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallStable	Size	73,24	74,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiStable	Location	309,60	457,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiStable	Size	83,24	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupStable	Location	77,264	8,268	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupStable	Size	477,91	631,100	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label5	Location	6,16	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label5	Size	465,28	615,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label5	TextAlign	TopLeft	BottomLeft	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textBeta	Location	6,47	8,58	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textBeta	Size	465,20	615,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallBeta	Location	398,73	549,85	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallBeta	Size	73,24	74,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiBeta	Location	309,73	457,85	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiBeta	Size	83,24	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	checkAcknowledgeBeta	Location	6,69	8,87	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	checkAcknowledgeBeta	Size	238,32	397,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupBeta	Location	77,365	8,376	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupBeta	Size	477,104	631,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label7	Location	6,16	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label7	Size	465,15	615,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textAlpha	Location	9,34	8,42	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textAlpha	Size	462,20	615,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallAlpha	Location	398,60	549,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butInstallAlpha	Size	73,24	74,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiAlpha	Location	309,60	457,69	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownloadMsiAlpha	Size	83,24	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupAlpha	Location	77,479	8,500	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	groupAlpha	Size	477,93	631,100	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label6	Location	10,8	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label6	Size	555,58	615,50	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label3	Location	24,78	8,66	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label3	Size	105,19	80,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textWebsitePath	Location	129,77	94,66	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textWebsitePath	Size	388,20	529,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label4	Location	6,100	8,93	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	label4	Size	120,19	80,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textUpdateCode	Location	129,100	94,93	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textUpdateCode	Size	113,20	112,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butCheck	Location	129,125	94,120	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butCheck	Size	117,25	120,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textResult	Location	129,156	94,147	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textResult	Size	388,20	529,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textResult2	Location	129,179	94,174	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	textResult2	Size	388,66	529,66	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownload	Location	129,251	94,244	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	butDownload	Size	83,25	84,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	panelClassic	Location	605,35	8,160	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	panelClassic	Size	568,494	631,275	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	.	ClientSize	647,586	647,608	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	butDelete	Location	16,658	8,664	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	butSave	Location	584,658	592,664	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label2	Location	13,18	8,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label2	Size	108,16	142,17	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listBoxFields	Location	15,37	8,27	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listBoxFields	Size	142,511	142,597	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMedical	Location	183,18	158,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMedical	Size	108,16	142,17	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listMedical	Location	186,37	158,27	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listMedical	Size	142,511	142,597	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	butAddProc	Location	15,554	8,628	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	butAddAllergy	Location	186,550	158,628	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	butAddProblem	Location	186,577	158,628	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label5	Location	385,7	308,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label5	Size	71,16	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textXPos	Location	456,5	454,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textXPos	Size	69,20	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label6	Location	531,7	538,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label6	Size	61,16	55,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textYPos	Location	592,5	599,8	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textYPos	Size	69,20	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label7	Location	385,34	308,35	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label7	Size	71,16	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textWidth	Location	456,33	454,35	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textWidth	Size	69,20	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label8	Location	531,37	538,35	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label8	Size	61,18	55,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textHeight	Location	592,33	599,35	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textHeight	Size	69,20	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	checkRequired	Location	359,197	454,70	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	checkRequired	Size	97,18	72,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	checkRequired	RightToLeft	Yes	No	by hand (layout script): the box on the left of its text (not right to left)
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelRequired	Location	465,187	532,71	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelRequired	Size	188,40	78,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label3	Location	30,51	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label3	Size	89,16	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	comboRadioGroupNameMisc	Location	119,49	146,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	comboRadioGroupNameMisc	Size	197,21	205,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileMisc	Location	6,77	8,49	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileMisc	Size	113,16	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileMisc	Location	119,76	146,49	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileMisc	Size	197,20	205,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileRadioButtonMisc	Location	5,103	8,76	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileRadioButtonMisc	Size	114,16	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileRadioButtonMisc	Location	119,102	146,76	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileRadioButtonMisc	Size	197,20	205,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	groupRadioMisc	Location	337,57	308,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	groupRadioMisc	Size	322,129	359,107	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobile	Location	6,20	8,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobile	Size	113,16	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobile	Location	119,19	146,22	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobile	Size	197,20	205,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listRadio	Location	119,80	146,49	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	listRadio	Size	197,56	205,56	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelAlsoActs	Location	11,80	8,51	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelAlsoActs	Size	108,41	132,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelAlsoActs	TextAlign	TopLeft	TopRight	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelItemOverride	Location	6,142	8,109	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelItemOverride	Size	113,16	132,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textItemOverride	Location	119,142	146,109	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textItemOverride	Size	197,20	205,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	groupRadio	Location	337,365	308,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	groupRadio	Size	322,168	359,140	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioYes	Location	395,254	454,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioYes	Size	61,17	56,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioYes	CheckAlign	MiddleRight	MiddleLeft	by hand (layout script): the box on the left of its text
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	Location	395,272	454,138	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	Size	61,17	56,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	CheckAlign	MiddleRight	MiddleLeft	by hand (layout script): the box on the left of its text
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Location	462,237	532,117	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Size	197,68	135,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	Location	340,311	308,168	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	Size	119,13	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	TextAlign	TopRight	MiddleRight	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textMobileCheckOverride	Location	459,308	454,168	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textMobileCheckOverride	Size	194,20	213,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileMedicalNameOverride	Location	337,336	308,195	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileMedicalNameOverride	Size	122,17	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileMedicalNameOverride	TextAlign	TopRight	MiddleRight	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textMobileMedicalNameOverride	Location	459,333	454,195	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textMobileMedicalNameOverride	Size	194,20	213,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileCheckBoxNonMisc	Location	334,540	308,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelUiLabelMobileCheckBoxNonMisc	Size	122,18	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileCheckBoxNonMisc	Location	456,539	454,116	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textUiLabelMobileCheckBoxNonMisc	Size	197,20	213,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelTabOrder	Location	385,631	308,629	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelTabOrder	Size	71,16	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textTabOrder	Location	456,630	454,629	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textTabOrder	Size	69,20	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelReportableName	Location	334,605	308,602	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelReportableName	Size	122,18	140,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textReportableName	Location	456,604	454,602	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textReportableName	Size	197,20	213,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMiscInstructions	Location	370,567	454,580	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMiscInstructions	Size	289,32	213,18	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butCopyAll	Location	126,606	8,610	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butCopyAll	Size	79,28	80,26	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butOK	Location	615,606	619,610	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butOK	Size	75,28	75,26	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butPrint	Location	530,606	531,610	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butPrint	Size	79,26	80,26	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	textMain	Location	12,12	8,8	by hand (layout script): on the grid
+CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	textMain	Size	678,588	686,590	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	label1	Location	9,23	8,8	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	panel1	Location	475,69	482,48	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	panel1	Size	145,94	159,120	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	button4	Location	0,0	8,8	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	butProviderIncomeReport	Location	0,23	8,35	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	butGuarnDetailReport	Location	0,46	8,62	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	butUneardedIncomeReport	Location	0,69	8,89	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	richTextBox1	Location	12,69	8,48	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	richTextBox1	Size	383,164	466,197	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbIhaveNotRead	Location	3,3	0,0	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbIhaveNotRead	Size	204,19	204,18	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbutIHaveRead	Location	3,22	0,22	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	rbutIHaveRead	Size	173,22	204,18	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	panel2	Location	12,239	8,253	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	panel2	Size	234,57	234,40	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	butRunAllocatorTool	Location	252,239	250,253	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	lblAllocatorStatus	Location	253,269	250,280	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	lblAllocatorStatus	Size	121,13	143,20	by hand (layout script): on the grid
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	lblAllocatorStatus	AutoSize	true	false	by hand (layout script): on the grid
+UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	butRetry	Location	155,106	154,110	by hand (layout script): on the grid
+UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	labelFile	Location	12,9	8,8	by hand (layout script): on the grid
+UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	labelFile	Size	360,87	368,90	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	panelMinimize	Location	445,1	439,8	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	progressBar	Location	55,75	8,86	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	progressBar	Size	363,23	453,23	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	butCopyToClipboard	Location	12,75	8,86	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	butClose	Location	382,75	386,86	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	labelMsg	Location	52,36	8,48	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	labelMsg	Size	366,36	453,36	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	textHistoryMsg	Location	12,23	8,34	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	textHistoryMsg	Size	445,49	453,40	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelLeftText	Location	3,19	0,23	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelLeftText	Size	95,26	98,23	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	progressBar	Location	104,22	104,23	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelPercentComplete	Location	396,26	396,23	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelPercentComplete	Size	71,15	74,23	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	Location	6,3	104,4	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	Size	461,16	286,17	by hand (layout script): on the grid
+CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	flowLayoutPanel1	Location	3,1	8,8	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	flowLayoutPanel1	Size	466,260	466,136	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	label4	Location	9,3	0,0	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	label4	Size	93,19	96,17	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	label4	TextAlign	MiddleLeft	BottomLeft	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	textMsg	Location	12,25	0,19	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	textMsg	Size	439,70	460,70	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	labelWarning	Location	9,98	0,72	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	butPause	Location	12,118	0,101	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	butCancel	Location	376,118	385,101	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	panel1	Size	460,155	460,124	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	.	ClientSize	469,262	482,149	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Location	23,13	8,8	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Size	318,98	337,155	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Location	26,423	8,437	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Size	75,23	75,24	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Location	26,114	8,167	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Size	174,303	174,258	by hand (layout script): on the grid

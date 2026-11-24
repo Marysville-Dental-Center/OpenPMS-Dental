@@ -1608,6 +1608,20 @@ namespace OpenPmsDental{
 		}
 		#endregion Methods - Private - GridFamily
 
+		#region Methods - Private - Layout
+		///<summary>UI-12 slice 14: the insurance grid beside the super family and clones pane when it is shown (UiGrid.ROW_GAP after it, the gap
+		///between the module's parts), else in its place; to the module's right edge.</summary>
+		private void LayoutSuperClones(bool isPaneShown) {
+			if(isPaneShown) {
+				LayoutManager.MoveLocation(gridIns,new Point(splitContainerSuperClones.Right+LayoutManager.Scale(UiGrid.ROW_GAP),gridIns.Top));
+			}
+			else {
+				LayoutManager.MoveLocation(gridIns,splitContainerSuperClones.Location);
+			}
+			LayoutManager.MoveWidth(gridIns,Width-gridIns.Left);
+		}
+		#endregion Methods - Private - Layout
+
 		#region Methods - Private - GridRecall
 		private void FillGridRecall() {
 			//We never show a horizScroll or wrap because there's simply not enough space.  They can double click if they want more info.
@@ -3140,12 +3154,8 @@ namespace OpenPmsDental{
 					int widthFinal=Math.Max(widthSuperFam,widthClones)+SystemInformation.VerticalScrollBarWidth;
 					int widthSuperClonesPanel=LayoutManager.Scale(widthFinal);
 					LayoutManager.MoveWidth(splitContainerSuperClones,widthSuperClonesPanel);
-					LayoutManager.MoveLocation(gridIns,new Point(splitContainerSuperClones.Right+2,gridIns.Top));
 				}
-				else {
-					LayoutManager.MoveLocation(gridIns,splitContainerSuperClones.Location);
-				}
-				LayoutManager.MoveWidth(gridIns,Width-gridIns.Left);
+				LayoutSuperClones(splitContainerSuperClones.Visible);
 				if(PrefC.GetBool(PrefName.ShowFeatureSuperfamilies) && toolBarMain.Buttons["AddSuper"]!=null) {
 					toolBarMain.Buttons["AddSuper"].Enabled=true;
 				}
@@ -3188,8 +3198,7 @@ namespace OpenPmsDental{
 			else {//no patient selected
 				//Hide super family and patient clone grids, safe to run even if panel is already hidden.
 				splitContainerSuperClones.Visible=false;
-				LayoutManager.MoveLocation(gridIns,splitContainerSuperClones.Location);
-				LayoutManager.MoveWidth(gridIns,Width-gridIns.Left);
+				LayoutSuperClones(false);
 				toolBarMain.Buttons["Add"].Enabled=false;
 				toolBarMain.Buttons["Delete"].Enabled=false;
 				toolBarMain.Buttons["Guarantor"].Enabled=false;

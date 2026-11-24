@@ -38,20 +38,21 @@ namespace CodeBase {
 			// 
 			this.labelMsg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelMsg.Location = new System.Drawing.Point(52, 36);
+			this.labelMsg.Location = new System.Drawing.Point(8, 48);
 			this.labelMsg.Name = "labelMsg";
-			this.labelMsg.Size = new System.Drawing.Size(366, 36);
+			this.labelMsg.Size = new System.Drawing.Size(453, 36);
 			this.labelMsg.TabIndex = 1;
 			this.labelMsg.Text = "Please Wait...";
 			this.labelMsg.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// progressBar
 			// 
-			this.progressBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.progressBar.Location = new System.Drawing.Point(55, 75);
+			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.progressBar.Location = new System.Drawing.Point(8, 86);
 			this.progressBar.MarqueeAnimationSpeed = 50;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(363, 23);
+			this.progressBar.Size = new System.Drawing.Size(453, 23);
 			this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
 			this.progressBar.TabIndex = 2;
 			// 
@@ -60,18 +61,18 @@ namespace CodeBase {
 			this.textHistoryMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textHistoryMsg.Location = new System.Drawing.Point(12, 23);
+			this.textHistoryMsg.Location = new System.Drawing.Point(8, 34);
 			this.textHistoryMsg.Multiline = true;
 			this.textHistoryMsg.Name = "textHistoryMsg";
 			this.textHistoryMsg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textHistoryMsg.Size = new System.Drawing.Size(445, 49);
+			this.textHistoryMsg.Size = new System.Drawing.Size(453, 40);
 			this.textHistoryMsg.TabIndex = 3;
 			this.textHistoryMsg.Visible = false;
 			// 
 			// butCopyToClipboard
 			// 
 			this.butCopyToClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCopyToClipboard.Location = new System.Drawing.Point(12, 75);
+			this.butCopyToClipboard.Location = new System.Drawing.Point(8, 86);
 			this.butCopyToClipboard.Name = "butCopyToClipboard";
 			this.butCopyToClipboard.Size = new System.Drawing.Size(100, 23);
 			this.butCopyToClipboard.TabIndex = 5;
@@ -83,7 +84,7 @@ namespace CodeBase {
 			// butClose
 			// 
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(382, 75);
+			this.butClose.Location = new System.Drawing.Point(386, 86);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 23);
 			this.butClose.TabIndex = 4;
@@ -96,7 +97,7 @@ namespace CodeBase {
 			// 
 			this.panelMinimize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.panelMinimize.Controls.Add(this.labelMinimize);
-			this.panelMinimize.Location = new System.Drawing.Point(445, 1);
+			this.panelMinimize.Location = new System.Drawing.Point(439, 8);
 			this.panelMinimize.Name = "panelMinimize";
 			this.panelMinimize.Size = new System.Drawing.Size(22, 22);
 			this.panelMinimize.TabIndex = 7;

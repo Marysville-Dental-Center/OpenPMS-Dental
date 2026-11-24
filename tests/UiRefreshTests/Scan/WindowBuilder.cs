@@ -372,6 +372,16 @@ namespace UiRefreshTests.Scan {
 				switch(scanType.Kind) {
 					case BuildKind.LayoutManagerWindow:
 						FormODBase formODBase;
+						if(IsBuiltByItsFactory(scanType.Type)) {
+							//UI-12 slice 14: its controls are made in its constructor, which calls InitializeLayoutManager itself.
+							formODBase=_dictBuiltByFactory[scanType.Type.FullName]();
+							builtWindow.Form=formODBase;
+							builtWindow.Root=formODBase;
+							builtWindow.LayoutManager=GetLayoutManager(formODBase);
+							SetPanelClientAsOnLoad(formODBase,builtWindow.LayoutManager);
+							builtWindow.LayOutAt(1f);
+							break;
+						}
 						//UI-12 slice 13: the preferences an InitializeComponent reads, and the sample objects seven windows' handlers read (Scan\SampleData).
 						using(SampleData.PrefsForInitializeComponent(scanType.Type)) {
 							formODBase=(FormODBase)CreateBare(scanType.Type,typeof(FormODBase));
@@ -457,6 +467,23 @@ namespace UiRefreshTests.Scan {
 			return IsBuildingByConstructor && _dictBuiltByConstructor.ContainsKey(type.FullName);
 		}
 
+		///<summary>UI-12 slice 14: the program's windows that make their controls in code (no InitializeComponent; the imaging upgrades), made by
+		///their constructor with synthetic arguments while IsBuildingByConstructor is set (the gallery, the sweep and GridRulesTests): a made-up
+		///camera with no device, the Universal tooth numbers with no tooth picked, the adjustments window with no image. Their constructors build
+		///the controls and call InitializeLayoutManager; nothing reads the database or a device before Load, which the builder does not raise.</summary>
+		private static readonly Dictionary<string,Func<FormODBase>> _dictBuiltByFactory=new Dictionary<string,Func<FormODBase>> {
+			{ "OpenPmsDental.FormCameraSettings",() => new FormCameraSettings(new List<ImagingCapture.Uvc.UvcDeviceInfo>(),null,null,false,
+				new ImagingCapture.Camera.CameraConfig(),new ImagingCapture.Photo.PhotoSessionConfig { IsFreezeFirst=true,VideoLimitSeconds=90 },
+				new List<string> { "Camera button: still pin (learned).","Foot pedal: F8 takes a photo." },0,(Func<ImagingCapture.UI.CaptureLearnMode,List<string>>)null) },
+			{ "OpenPmsDental.FormToothPicker",() => new FormToothPicker("",null,OpenPmsDentalBusiness.ToothNumberingNomenclature.Universal) },
+			{ "OpenPmsDental.FormImageEnhance",() => new FormImageEnhance() },
+		};
+
+		///<summary>UI-12 slice 14: true for a program window the builder makes with its own constructor (_dictBuiltByFactory).</summary>
+		public static bool IsBuiltByItsFactory(Type type) {
+			return IsBuildingByConstructor && _dictBuiltByFactory.ContainsKey(type.FullName);
+		}
+
 		///<summary>The window made by its public constructor with the synthetic arguments of _dictBuiltByConstructor.</summary>
 		public static Form CreateByItsConstructor(Type type) {
 			object[] arrayArgs=_dictBuiltByConstructor[type.FullName];
@@ -509,6 +536,7 @@ namespace UiRefreshTests.Scan {
 			builtWindow.LayoutManager=layoutManager;
 			SetPanelClientAsOnLoad(hostFormOD,layoutManager);
 			userControl.Location=new Point(0,0);
+			IDisposable disposableSample=SampleData.BeforeHosting(userControl);//UI-12 slice 14: the controls' sample data
 			if(isUnscaled) {
 				//FormPreferences.FillUserControls and FormSetupWizardProgress dock each page to fill before AddUnscaled.
 				userControl.Dock=DockStyle.Fill;
@@ -517,8 +545,10 @@ namespace UiRefreshTests.Scan {
 			else {
 				layoutManager.Add(userControl,hostFormOD.PanelClient);
 			}
+			disposableSample?.Dispose();
 			layoutManager.LayoutControlBoundsAndFonts(hostFormOD.PanelClient);
 			builtWindow.LayOutAt(1f);
+			SampleData.AfterHosting(userControl);//UI-12 slice 14
 		}
 
 		///<summary>A FormODBase window made by its own constructor (a test window), laid out at 100% the way FormODBase.OnLoad does it, without

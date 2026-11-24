@@ -48,14 +48,14 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.viewer.Cursor = System.Windows.Forms.Cursors.Default;
 			this.viewer.Folder = null;
-			this.viewer.Location = new System.Drawing.Point(45,56);
+			this.viewer.Location = new System.Drawing.Point(0,25);
 			this.viewer.Name = "viewer";
 			this.viewer.PageCurrent = 1;
 			this.viewer.Parameters = null;
 			this.viewer.ReportName = null;
 			this.viewer.ScrollMode = fyiReporting.RdlViewer.ScrollModeEnum.Continuous;
 			this.viewer.ShowParameterPanel = true;
-			this.viewer.Size = new System.Drawing.Size(856,453);
+			this.viewer.Size = new System.Drawing.Size(987,687);
 			this.viewer.SourceFile = null;
 			this.viewer.SourceRdl = null;
 			this.viewer.TabIndex = 2;

@@ -270,6 +270,10 @@ namespace OpenPmsDental {
 				if(_listRadioButtonVals.Count==0) { //Rare, currently only addressAndHmPhoneIsSameEntireFamily.
 					labelUiLabelMobileCheckBoxNonMisc.Visible=SheetDefs.IsMobileAllowed(SheetDefCur.SheetType);
 					textUiLabelMobileCheckBoxNonMisc.Visible=SheetDefs.IsMobileAllowed(SheetDefCur.SheetType);
+					//UI-12 slice 14 fix round: Required and its note stay hidden for this box, so its mobile item caption takes Required's row (a section
+					//gap under Width / Height) instead of the slot under it, which left an empty band.
+					LayoutManager.MoveLocation(labelUiLabelMobileCheckBoxNonMisc,new System.Drawing.Point(labelUiLabelMobileCheckBoxNonMisc.Left,checkRequired.Top));
+					LayoutManager.MoveLocation(textUiLabelMobileCheckBoxNonMisc,new System.Drawing.Point(textUiLabelMobileCheckBoxNonMisc.Left,checkRequired.Top));
 					return;
 				}
 				groupRadio.Visible=true;

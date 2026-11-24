@@ -1806,6 +1806,17 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   `G-UI3-ui12-16`, audit `UI-12-audit-16.md` (UI-12.md section 7, "Slice 16"). Review fix round `ui/ui12-16-2`: ten findings fixed
   (the big tooth chart back to main's Dock Fill, owner question on a margin; the search group, the calendar column, the claim form's note,
   the statement's page buttons, the imaging note, the sheet's button column; the missing imaging and Change User pictures).
+  Slice 14 (UI-12-14, branch `ui/ui12-14-1`, the owner's "Fix all of them" for the sweep's 124 windows off the grid; the lead's list of
+  28): the main window, the task list, the Family module, the wiki editor, the report viewers, the user query, the update window, the sheet
+  check box field, the message boxes, the progress windows, DbSettings, ServiceManager, UpdateFileCopier and the imaging windows built in
+  code on the grid (`grid-windows/14.tsv`; out of `sweep-known.tsv`): the code that places controls on `UiGrid`'s numbers (the task
+  list's tabs, calendar, tree and grid off the edges, the Family module's insurance grid, the wiki halves, the query preview and its
+  panes' minimum sizes, the signal grid under the module bar's buttons, the update window as tall as what the fork shows, the web
+  config window shortened by its hidden rows, the five windows built in code), 16 layout scripts, the harness builds the code-built
+  windows by their constructor and UserControlSecurityUserGroup with sample data, 16 gallery states; gallery `G-UI3-ui12-14`, audit
+  `UI-12-audit-14.md` (UI-12.md section 7, "Slice 14"). Fix round (`ui/ui12-14-2`): the review's nine findings fixed (the task list's
+  calendar and tree, its margins at 150%, the progress windows' bottoms and bar, the service window's bottom bar, the camera settings'
+  section gaps, the sheet check box's single state and side notes, the two missing befores at 150%).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

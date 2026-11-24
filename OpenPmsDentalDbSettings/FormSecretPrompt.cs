@@ -19,10 +19,19 @@ namespace OpenPmsDentalDbSettings {
 			AutoScaleMode=AutoScaleMode.Dpi;
 			ClientSize=new Size(420,120);
 			ShowIcon=false;
-			Label labelPrompt=new Label() { Text=prompt,Location=new Point(12,12),Size=new Size(396,32) };
-			_textSecret=new TextBox() { Location=new Point(12,48),Size=new Size(396,20),UseSystemPasswordChar=true };
-			Button butOK=new Button() { Text="OK",Location=new Point(252,84),Size=new Size(75,24),DialogResult=DialogResult.OK };
-			Button butCancel=new Button() { Text="Cancel",Location=new Point(333,84),Size=new Size(75,24),DialogResult=DialogResult.Cancel };
+			//UI-12 slice 14: on the layout grid (CodeBase.UiGrid): the padding, the prompt (two lines) a caption gap over its box, the bar a
+			//section gap under the box, OK and Cancel bottom right a dialog gap apart.
+			int widthContent=ClientSize.Width-2*CodeBase.UiGrid.PAD;
+			Label labelPrompt=new Label() { Text=prompt,Location=new Point(CodeBase.UiGrid.PAD,CodeBase.UiGrid.PAD),Size=new Size(widthContent,34),
+				TextAlign=ContentAlignment.BottomLeft };
+			_textSecret=new TextBox() { Location=new Point(CodeBase.UiGrid.PAD,labelPrompt.Bottom+CodeBase.UiGrid.CAPTION_GAP),
+				Size=new Size(widthContent,CodeBase.UiGrid.FIELD_HEIGHT),UseSystemPasswordChar=true };
+			int yBar=_textSecret.Bottom+CodeBase.UiGrid.SECTION_GAP;
+			Button butCancel=new Button() { Text="Cancel",Location=new Point(ClientSize.Width-CodeBase.UiGrid.PAD-75,yBar),Size=new Size(75,24),
+				DialogResult=DialogResult.Cancel };
+			Button butOK=new Button() { Text="OK",Location=new Point(butCancel.Left-CodeBase.UiGrid.DIALOG_GAP-75,yBar),Size=new Size(75,24),
+				DialogResult=DialogResult.OK };
+			ClientSize=new Size(ClientSize.Width,Math.Max(ClientSize.Height,yBar+24+CodeBase.UiGrid.PAD));
 			Controls.AddRange(new Control[] { labelPrompt,_textSecret,butOK,butCancel });
 			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN: the look of the program's windows (docs/port-notes/UI-PLAIN.md)
 			AcceptButton=butOK;

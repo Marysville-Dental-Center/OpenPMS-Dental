@@ -44,6 +44,7 @@ namespace UiRefreshTests {
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				WindowBuilder.IsBuildingByConstructor=true;//UI-12 slice 14: the windows made in their constructor, as GridRulesTests and the gallery build them
 				foreach(string window in listWindows) {
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
 					if(scanType==null) {
@@ -69,6 +70,7 @@ namespace UiRefreshTests {
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}
 				}
+				WindowBuilder.IsBuildingByConstructor=false;
 			});
 			Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(file)));
 			File.WriteAllLines(file,listLines,new UTF8Encoding(false));

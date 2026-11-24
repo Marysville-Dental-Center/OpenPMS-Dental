@@ -163,7 +163,7 @@ namespace CodeBase {
 			//Checks if any labels are hidden and hides them accordingly.
 			//Size the progress bar based on if the left or top labels are hidden.
 			//only adjust if either top or left labels are hidden. If both are marked hidden no adjustment will be made. 
-			int padding=6;
+			int padding=UiGrid.ITEM_GAP;//UI-12 slice 14: the gap between the bar and its labels (6)
 			if(_isLabelLeftHidden) {
 				labelLeftText.Visible=false;
 				progressBar.SetBounds(labelLeftText.Location.X,progressBar.Location.Y

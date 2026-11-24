@@ -93,9 +93,9 @@ namespace OpenPmsDental{
 			// webViewWiki
 			// 
 			this.webViewWiki.AllowExternalDrop = false;
-			this.webViewWiki.Location = new System.Drawing.Point(474, 58);
+			this.webViewWiki.Location = new System.Drawing.Point(476, 58);
 			this.webViewWiki.Name = "webViewWiki";
-			this.webViewWiki.Size = new System.Drawing.Size(470, 514);
+			this.webViewWiki.Size = new System.Drawing.Size(460, 507);
 			this.webViewWiki.TabIndex = 78;
 			// 
 			// ToolBarMain
@@ -111,10 +111,10 @@ namespace OpenPmsDental{
 			// 
 			this.textContent.AcceptsTab = true;
 			this.textContent.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textContent.Location = new System.Drawing.Point(0, 57);
+			this.textContent.Location = new System.Drawing.Point(8, 58);
 			this.textContent.Name = "textContent";
 			this.textContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textContent.Size = new System.Drawing.Size(472, 515);
+			this.textContent.Size = new System.Drawing.Size(460, 507);
 			this.textContent.TabIndex = 83;
 			this.textContent.Text = "";
 			this.textContent.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textContent_KeyPress);

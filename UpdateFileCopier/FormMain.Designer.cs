@@ -33,9 +33,9 @@
 			this.labelFile.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelFile.Location = new System.Drawing.Point(12, 9);
+			this.labelFile.Location = new System.Drawing.Point(8, 8);
 			this.labelFile.Name = "labelFile";
-			this.labelFile.Size = new System.Drawing.Size(360, 87);
+			this.labelFile.Size = new System.Drawing.Size(368, 90);
 			this.labelFile.TabIndex = 0;
 			this.labelFile.Text = "Preparing to Copy Files...";
 			this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -43,7 +43,7 @@
 			// butRetry
 			// 
 			this.butRetry.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butRetry.Location = new System.Drawing.Point(155, 106);
+			this.butRetry.Location = new System.Drawing.Point(154, 110);
 			this.butRetry.Name = "butRetry";
 			this.butRetry.Size = new System.Drawing.Size(75, 23);
 			this.butRetry.TabIndex = 1;

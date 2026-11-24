@@ -147,6 +147,66 @@ namespace UiRefreshTests.Scan {
 					SetField(formODBase,"SheetDef_",sheetDef);
 					SetField(formODBase,"_margins",new Margins(0,0,40,60));
 					break;
+				case "OpenPmsDental.FormTasks":
+					//UI-12 slice 14: Load collapses the empty lower pane (Panel2Collapsed), so the task list fills the window; its control's tree
+					//history is the one InitializeOnStartup starts (the main trunk: empty), which its Resize lays the tree and grid out by.
+					((OpenPmsDental.UI.SplitContainer)formODBase.GetType().GetField("splitContainer",FLAGS).GetValue(formODBase)).Panel2Collapsed=true;
+					BeforeHosting((UserControl)formODBase.GetType().GetField("userControlTasks1",FLAGS).GetValue(formODBase));
+					break;
+			}
+		}
+
+		///<summary>UI-12 slice 14: runs on a UserControl the builder hosts (WindowBuilder.HostInFormODBase) before LayoutManager.Add, and on one a
+		///window's designer holds: UserControlTasks gets the tree history InitializeOnStartup starts with (the main trunk: an empty list), which
+		///its Resize lays the tree and grid out by. UserControlSecurityUserGroup's tab control lays its pages out while LayoutManager.Add walks the
+		///control (SetNoAnchorDock's PerformLayout), before the pages' panels are added (FormSecurity adds it in its designer, where the window's
+		///layout is suspended): its tab controls are suspended until the Add is done (Dispose resumes them). Null for every other control.</summary>
+		public static IDisposable BeforeHosting(UserControl userControl) {
+			switch(userControl.GetType().FullName) {
+				case "OpenPmsDental.UserControlTasks":
+					SetField(userControl,"_listTaskListTreeHistory",new List<TaskList>());
+					return null;
+				case "OpenPmsDental.ControlFamily":
+					//RefreshModuleScreen with no patient (or none with a super family or clones) hides the super family and clones pane; the
+					//insurance grid stands in its place.
+					((Control)userControl.GetType().GetField("splitContainerSuperClones",FLAGS).GetValue(userControl)).Visible=false;
+					return null;
+				case "OpenPmsDental.UserControlSecurityUserGroup":
+					List<Control> listSuspended=new List<Control>();
+					SuspendTabControls(userControl,listSuspended);
+					return new ActionOnDispose(() => listSuspended.ForEach(x => x.ResumeLayout(false)));
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 14: runs on a UserControl the builder has hosted and laid out (WindowBuilder.HostInFormODBase). UserControlTasks lays
+		///its tabs, calendar, tree and grid out in its Resize handler, which a host that sizes it raises (FormTasks docks it, the main window moves
+		///it); hosted at its own size it gets none, so the handler runs here as a host's sizing runs it.</summary>
+		public static void AfterHosting(UserControl userControl) {
+			if(userControl.GetType().FullName=="OpenPmsDental.UserControlTasks") {
+				userControl.GetType().GetMethod("UserControlTasks_Resize",FLAGS).Invoke(userControl,new object[] { userControl,EventArgs.Empty });
+			}
+		}
+
+		private static void SuspendTabControls(Control control,List<Control> listSuspended) {
+			foreach(Control child in control.Controls) {
+				if(child is OpenPmsDental.UI.TabControl) {
+					child.SuspendLayout();
+					listSuspended.Add(child);
+				}
+				SuspendTabControls(child,listSuspended);
+			}
+		}
+
+		private class ActionOnDispose:IDisposable {
+			private readonly Action _action;
+
+			public ActionOnDispose(Action action) {
+				_action=action;
+			}
+
+			public void Dispose() {
+				_action();
 			}
 		}
 

@@ -63,9 +63,9 @@ namespace CodeBase{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(615,606);
+			this.butOK.Location = new System.Drawing.Point(619,610);
 			this.butOK.Name = "butOK";
-			this.butOK.Size = new System.Drawing.Size(75,28);
+			this.butOK.Size = new System.Drawing.Size(75,26);
 			this.butOK.TabIndex = 1;
 			this.butOK.Text = "&OK";
 			this.butOK.Click += new System.EventHandler(this.butOK_Click);
@@ -77,11 +77,11 @@ namespace CodeBase{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textMain.BackColor = System.Drawing.SystemColors.Window;
 			this.textMain.Font = new System.Drawing.Font("Courier New",8.25F,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((byte)(0)));
-			this.textMain.Location = new System.Drawing.Point(12,12);
+			this.textMain.Location = new System.Drawing.Point(8,8);
 			this.textMain.Multiline = true;
 			this.textMain.Name = "textMain";
 			this.textMain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textMain.Size = new System.Drawing.Size(678,588);
+			this.textMain.Size = new System.Drawing.Size(686,590);
 			this.textMain.TabIndex = 2;
 			// 
 			// butPrint
@@ -89,9 +89,9 @@ namespace CodeBase{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Print",22,22);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(530,606);
+			this.butPrint.Location = new System.Drawing.Point(531,610);
 			this.butPrint.Name = "butPrint";
-			this.butPrint.Size = new System.Drawing.Size(79,26);
+			this.butPrint.Size = new System.Drawing.Size(80,26);
 			this.butPrint.TabIndex = 3;
 			this.butPrint.Text = "    &Print";
 			this.butPrint.Click += new System.EventHandler(this.butPrint_Click);
@@ -100,9 +100,9 @@ namespace CodeBase{
 			// 
 			this.butCopyAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCopyAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopyAll.Location = new System.Drawing.Point(126,606);
+			this.butCopyAll.Location = new System.Drawing.Point(8,610);
 			this.butCopyAll.Name = "butCopyAll";
-			this.butCopyAll.Size = new System.Drawing.Size(79,28);
+			this.butCopyAll.Size = new System.Drawing.Size(80,26);
 			this.butCopyAll.TabIndex = 4;
 			this.butCopyAll.Text = "Copy All";
 			this.butCopyAll.Click += new System.EventHandler(this.butCopyAll_Click);

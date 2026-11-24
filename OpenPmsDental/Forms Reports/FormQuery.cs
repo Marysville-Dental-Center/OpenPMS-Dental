@@ -360,7 +360,9 @@ namespace OpenPmsDental{
 		}
 
 		private void FormQuery_Load(object sender, System.EventArgs e) {
-			LayoutManager.Move(printPreviewControl2,new Rectangle(0,0,ClientSize.Width,ClientSize.Height-LayoutManager.Scale(39)));
+			//UI-12 slice 14: the report's preview on the layout grid (UiGrid): the padding, the bar's 24 px and a section gap under it.
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			LayoutManager.Move(printPreviewControl2,new Rectangle(pad,pad,ClientSize.Width-2*pad,ClientSize.Height-2*pad-LayoutManager.Scale(24+UiGrid.SECTION_GAP)));
 			grid2.Font=bodyFont;
 			splitContainer.SplitterDistance=LayoutManager.Scale(140);
 			//splitContainer.FixedPanel=FixedPanel.Panel1;

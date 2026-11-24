@@ -71,106 +71,116 @@ namespace OpenPmsDental {
 			_photoSourceSaved=PhotoSource;
 			IsMainWindowSpace=cameraConfig?.MainWindowSpace??true;
 			CategoryDefNum=categoryDefNum;
-			BuildControls();
+			BuildControls(listTriggerNotes);
 			Fill(deviceCurrent,hasStillPin,listTriggerNotes);
 			InitializeLayoutManager();
 			Lan.F(this);
 		}
 
 		#region Methods - Build
-		private void BuildControls() {
+		private void BuildControls(List<string> listTriggerNotes) {
 			SuspendLayout();
-			int xLabel=8;
-			int widthLabel=190;
-			int xField=xLabel+widthLabel+6;
+			//UI-12 slice 14: on the layout grid (UiGrid): label + field rows one pitch apart, the fields and labels the field height, a check box
+			//row the check box height, each section a section gap under the one before with its heading a row gap over its rows, the bar a
+			//section gap under the last row.
+			int xLabel=UiGrid.PAD;
+			int widthLabel=192;
+			int xField=xLabel+widthLabel+UiGrid.LABEL_GAP;
 			int widthField=320;
-			int y=8;
-			int pitch=27;
+			int y=UiGrid.PAD;
+			int pitch=UiGrid.PITCH;
+			int pitchCheck=UiGrid.CHECK_HEIGHT+UiGrid.ROW_GAP;
+			int heightHeading=20;
 			Label AddLabel(string name,string text,int yRow) {
-				Label label=new Label { Name=name,Text=text,Location=new Point(xLabel,yRow),Size=new Size(widthLabel,21),TextAlign=ContentAlignment.MiddleRight };
+				Label label=new Label { Name=name,Text=text,Location=new Point(xLabel,yRow),Size=new Size(widthLabel,UiGrid.FIELD_HEIGHT),TextAlign=ContentAlignment.MiddleRight };
 				Controls.Add(label);
 				return label;
 			}
 			Label AddHeading(string name,string text,int yRow) {
-				Label label=new Label { Name=name,Text=text,Location=new Point(xLabel,yRow),Size=new Size(widthLabel+6+widthField,20),
+				Label label=new Label { Name=name,Text=text,Location=new Point(xLabel,yRow),Size=new Size(widthLabel+UiGrid.LABEL_GAP+widthField,heightHeading),
 					TextAlign=ContentAlignment.BottomLeft,Font=UiTheme.FontTitle };
 				Controls.Add(label);
 				return label;
 			}
 			AddHeading("labelHeadingCamera","Camera",y);
-			y+=24;
+			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelCamera","Camera",y);
-			comboCamera=new UI.ComboBox { Name="comboCamera",Location=new Point(xField,y),Size=new Size(widthField,21),TabIndex=1 };
+			comboCamera=new UI.ComboBox { Name="comboCamera",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=1 };
 			Controls.Add(comboCamera);
 			y+=pitch;
 			AddLabel("labelResolution","Picture size",y);
-			comboResolution=new UI.ComboBox { Name="comboResolution",Location=new Point(xField,y),Size=new Size(widthField,21),TabIndex=2 };
+			comboResolution=new UI.ComboBox { Name="comboResolution",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=2 };
 			Controls.Add(comboResolution);
 			y+=pitch;
 			AddLabel("labelPhotoSource","Take photos from",y);
-			comboPhotoSource=new UI.ComboBox { Name="comboPhotoSource",Location=new Point(xField,y),Size=new Size(widthField,21),TabIndex=3 };
+			comboPhotoSource=new UI.ComboBox { Name="comboPhotoSource",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=3 };
 			Controls.Add(comboPhotoSource);
 			y+=pitch;
 			checkMainWindowSpace=new UI.CheckBox { Name="checkMainWindowSpace",Text="Space in the main window takes a photo",Location=new Point(xField,y),
-				Size=new Size(widthField,21),CheckAlign=ContentAlignment.MiddleLeft,TabIndex=4 };
+				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),CheckAlign=ContentAlignment.MiddleLeft,TabIndex=4 };
 			Controls.Add(checkMainWindowSpace);
-			y+=pitch+6;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingButton","Camera button and pedal",y);
-			y+=24;
-			butLearn=new UI.Button { Name="butLearn",Text="Learn button...",Location=new Point(xField,y),Size=new Size(120,24),TabIndex=5 };
+			y+=heightHeading+UiGrid.ROW_GAP;
+			butLearn=new UI.Button { Name="butLearn",Text="Learn button...",Location=new Point(xField,y),Size=new Size(120,UiGrid.FIELD_HEIGHT),TabIndex=5 };
 			butLearn.Click+=(sender,e) => Learn(CaptureLearnMode.Learn);
 			Controls.Add(butLearn);
-			butButtonTest=new UI.Button { Name="butButtonTest",Text="Test button...",Location=new Point(xField+128,y),Size=new Size(110,24),TabIndex=6 };
+			butButtonTest=new UI.Button { Name="butButtonTest",Text="Test button...",Location=new Point(xField+120+UiGrid.ITEM_GAP,y),Size=new Size(112,UiGrid.FIELD_HEIGHT),TabIndex=6 };
 			butButtonTest.Click+=(sender,e) => Learn(CaptureLearnMode.ButtonTest);
 			Controls.Add(butButtonTest);
-			y+=pitch+2;
-			labelTriggerNotes=new Label { Name="labelTriggerNotes",Text="",Location=new Point(xField,y),Size=new Size(widthField,48),ForeColor=UiTheme.TextSecondary };
+			y+=pitch;
+			//Fix round: the notes as tall as their lines (GetHeightTriggerNotes), so the Photos heading is a section gap under the last line, as
+			//every heading is under the content before it.
+			labelTriggerNotes=new Label { Name="labelTriggerNotes",Text=GetTextTriggerNotes(listTriggerNotes),Location=new Point(xField,y),
+				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),ForeColor=UiTheme.TextSecondary };
 			Controls.Add(labelTriggerNotes);
-			y+=48+6;
+			labelTriggerNotes.Height=GetHeightTriggerNotes();
+			y+=labelTriggerNotes.Height+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingPhotos","Photos",y);
-			y+=24;
+			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelAfterCapture","After a press of Capture",y);
-			comboAfterCapture=new UI.ComboBox { Name="comboAfterCapture",Location=new Point(xField,y),Size=new Size(widthField,21),TabIndex=7 };
+			comboAfterCapture=new UI.ComboBox { Name="comboAfterCapture",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=7 };
 			Controls.Add(comboAfterCapture);
 			y+=pitch;
-			checkClick=new UI.CheckBox { Name="checkClick",Text="A click on every photo",Location=new Point(xField,y),Size=new Size(widthField,21),
+			checkClick=new UI.CheckBox { Name="checkClick",Text="A click on every photo",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),
 				CheckAlign=ContentAlignment.MiddleLeft,TabIndex=8 };
 			Controls.Add(checkClick);
-			y+=pitch;
+			y+=pitchCheck;
 			AddLabel("labelIdleMinutes","Release the camera after (minutes)",y);
-			textIdleMinutes=new ValidNum { Name="textIdleMinutes",Location=new Point(xField,y),Size=new Size(60,20),MinVal=PhotoSessionConfig.MinutesIdleMin,
+			textIdleMinutes=new ValidNum { Name="textIdleMinutes",Location=new Point(xField,y),Size=new Size(60,UiGrid.FIELD_HEIGHT),MinVal=PhotoSessionConfig.MinutesIdleMin,
 				MaxVal=PhotoSessionConfig.MinutesIdleMax,TabIndex=9 };
 			Controls.Add(textIdleMinutes);
-			y+=pitch+6;
+			y+=UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingVideo","Video",y);
-			y+=24;
+			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelLimitSeconds","Longest video (seconds)",y);
-			textLimitSeconds=new ValidNum { Name="textLimitSeconds",Location=new Point(xField,y),Size=new Size(60,20),MinVal=PhotoSessionConfig.LimitSecondsMin,
+			textLimitSeconds=new ValidNum { Name="textLimitSeconds",Location=new Point(xField,y),Size=new Size(60,UiGrid.FIELD_HEIGHT),MinVal=PhotoSessionConfig.LimitSecondsMin,
 				MaxVal=PhotoSessionConfig.LimitSecondsMax,TabIndex=10 };
 			Controls.Add(textLimitSeconds);
 			y+=pitch;
-			Label labelSound=new Label { Name="labelSound",Text="Videos are recorded without sound.",Location=new Point(xField,y),Size=new Size(widthField,21),
+			//Fix round: the one-line notes one line tall (the check box height), so the next heading is a section gap under their text.
+			Label labelSound=new Label { Name="labelSound",Text="Videos are recorded without sound.",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.CHECK_HEIGHT),
 				ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
 			Controls.Add(labelSound);
-			y+=pitch+6;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingCategories","Categories (all computers)",y);
-			y+=24;
+			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelCategory","Quick photos and videos",y);
-			comboCategory=new UI.ComboBox { Name="comboCategory",Location=new Point(xField,y),Size=new Size(widthField,21),TabIndex=11 };
+			comboCategory=new UI.ComboBox { Name="comboCategory",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=11 };
 			Controls.Add(comboCategory);
 			y+=pitch;
 			Label labelCategoryNote=new Label { Name="labelCategoryNote",Text="Photo mounts save into their mount's category.",Location=new Point(xField,y),
-				Size=new Size(widthField,21),ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
+				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),ForeColor=UiTheme.TextSecondary,TextAlign=ContentAlignment.MiddleLeft };
 			Controls.Add(labelCategoryNote);
-			y+=pitch+10;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
 			int xRight=xField+widthField;
 			butCancel=new UI.Button { Name="butCancel",Text="Cancel",Location=new Point(xRight-75,y),Size=new Size(75,26),TabIndex=21 };
 			butCancel.Click+=(sender,e) => { DialogResult=DialogResult.Cancel; };
 			Controls.Add(butCancel);
-			butOK=new UI.Button { Name="butOK",Text="OK",Location=new Point(xRight-75-8-75,y),Size=new Size(75,26),TabIndex=20 };
+			butOK=new UI.Button { Name="butOK",Text="OK",Location=new Point(xRight-75-UiGrid.DIALOG_GAP-75,y),Size=new Size(75,26),TabIndex=20 };
 			butOK.Click+=butOK_Click;
 			Controls.Add(butOK);
-			ClientSize=new Size(xRight+8,y+26+8);
+			ClientSize=new Size(xRight+UiGrid.PAD,y+26+UiGrid.PAD);
 			Name="FormCameraSettings";
 			Text="Camera Settings";
 			StartPosition=FormStartPosition.CenterParent;
@@ -211,7 +221,7 @@ namespace OpenPmsDental {
 			checkMainWindowSpace.Checked=IsMainWindowSpace;
 			butLearn.Enabled=_funcLearn!=null;
 			butButtonTest.Enabled=_funcLearn!=null;
-			labelTriggerNotes.Text=string.Join("\r\n",listTriggerNotes??new List<string>());
+			labelTriggerNotes.Text=GetTextTriggerNotes(listTriggerNotes);
 			comboAfterCapture.Items.Add(Lan.g(this,"Save the photo at once"));
 			comboAfterCapture.Items.Add(Lan.g(this,"Freeze first, save on the second press"));
 			comboAfterCapture.SelectedIndex=PhotoSessionConfigNew.IsFreezeFirst ? 1 : 0;
@@ -242,8 +252,42 @@ namespace OpenPmsDental {
 			}
 			List<string> listNotes=_funcLearn(captureLearnMode);
 			if(listNotes!=null) {
-				labelTriggerNotes.Text=string.Join("\r\n",listNotes);//what Learn saved
+				labelTriggerNotes.Text=GetTextTriggerNotes(listNotes);//what Learn saved
+				SizeTriggerNotes();
 			}
+		}
+
+		private static string GetTextTriggerNotes(List<string> listTriggerNotes) {
+			return string.Join("\r\n",listTriggerNotes??new List<string>());
+		}
+
+		///<summary>UI-12 slice 14 fix round: the trigger notes' height for their text: its lines at the label's width and font (as the label wraps
+		///them) and 2 px, as the grid's notes (one line at least: the check box height).</summary>
+		private int GetHeightTriggerNotes() {
+			int heightText=TextRenderer.MeasureText(labelTriggerNotes.Text,labelTriggerNotes.Font,new Size(labelTriggerNotes.Width,int.MaxValue),
+				TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl).Height;
+			//BuildControls measures before InitializeLayoutManager (96 dpi: no LayoutManager yet); Learn, at the window's scale
+			int heightMin=LayoutManager==null ? UiGrid.CHECK_HEIGHT : LayoutManager.Scale(UiGrid.CHECK_HEIGHT);
+			int heightSlack=LayoutManager==null ? 2 : LayoutManager.Scale(2);
+			return Math.Max(heightMin,heightText+heightSlack);
+		}
+
+		///<summary>UI-12 slice 14 fix round: after Learn changes the notes, the label as tall as its new lines; the sections under it and the
+		///window move by the difference, so the Photos heading stays a section gap under the last line.</summary>
+		private void SizeTriggerNotes() {
+			int heightNew=GetHeightTriggerNotes();
+			int shift=heightNew-labelTriggerNotes.Height;
+			if(shift==0) {
+				return;
+			}
+			int bottomOld=labelTriggerNotes.Bottom;
+			foreach(Control control in labelTriggerNotes.Parent.Controls) {
+				if(control.Top>=bottomOld) {
+					LayoutManager.MoveLocation(control,new Point(control.Left,control.Top+shift));
+				}
+			}
+			LayoutManager.MoveHeight(labelTriggerNotes,heightNew);
+			Height+=shift;//The window grows or shrinks at its bottom, under the user's eyes.
 		}
 
 		private void butOK_Click(object sender,EventArgs e) {

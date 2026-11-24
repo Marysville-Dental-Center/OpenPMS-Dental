@@ -155,6 +155,12 @@ namespace OpenPmsDental {
 			return _listButtons.IndexOf(moduleBarButton);
 		}
 
+		///<summary>UI-12 slice 14: the height the module buttons take from the bar's top (ComputeButtonSizes: each button and 1 px under it), 0 when
+		///the bar has no buttons yet. The main window puts the signal grid a section gap under it.</summary>
+		public int GetButtonsHeight() {
+			return _listButtons.Count*(LayoutManager.Scale(_heightButton)+1);
+		}
+
 		/// <summary>Fixes theme image and text translation for any existing buttons.</summary>
 		public void RefreshButtons() {
 			bool isMedical=Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum);
