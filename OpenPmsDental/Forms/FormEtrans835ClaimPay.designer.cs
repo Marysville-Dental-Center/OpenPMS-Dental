@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(575, 669);
+			this.label2.Location = new System.Drawing.Point(575, 663);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(300, 34);
 			this.label2.TabIndex = 122;
@@ -97,7 +97,7 @@ namespace OpenPmsDental {
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label3.Location = new System.Drawing.Point(8, 645);
+			this.label3.Location = new System.Drawing.Point(8, 649);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(184, 17);
 			this.label3.TabIndex = 123;
@@ -107,7 +107,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(208, 645);
+			this.label4.Location = new System.Drawing.Point(208, 649);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(192, 17);
 			this.label4.TabIndex = 124;
@@ -231,7 +231,7 @@ namespace OpenPmsDental {
 			// butViewEobDetails
 			// 
 			this.butViewEobDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butViewEobDetails.Location = new System.Drawing.Point(416, 674);
+			this.butViewEobDetails.Location = new System.Drawing.Point(416, 668);
 			this.butViewEobDetails.Name = "butViewEobDetails";
 			this.butViewEobDetails.Size = new System.Drawing.Size(135, 24);
 			this.butViewEobDetails.TabIndex = 201;
@@ -241,7 +241,7 @@ namespace OpenPmsDental {
 			// butWriteOff
 			// 
 			this.butWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butWriteOff.Location = new System.Drawing.Point(208, 674);
+			this.butWriteOff.Location = new System.Drawing.Point(208, 668);
 			this.butWriteOff.Name = "butWriteOff";
 			this.butWriteOff.Size = new System.Drawing.Size(90, 24);
 			this.butWriteOff.TabIndex = 121;
@@ -251,7 +251,7 @@ namespace OpenPmsDental {
 			// butDeductible
 			// 
 			this.butDeductible.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDeductible.Location = new System.Drawing.Point(8, 674);
+			this.butDeductible.Location = new System.Drawing.Point(8, 668);
 			this.butDeductible.Name = "butDeductible";
 			this.butDeductible.Size = new System.Drawing.Size(92, 24);
 			this.butDeductible.TabIndex = 120;
@@ -273,7 +273,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(891, 674);
+			this.butSave.Location = new System.Drawing.Point(891, 668);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -301,7 +301,7 @@ namespace OpenPmsDental {
 			// 
 			// FormEtrans835ClaimPay
 			// 
-			this.ClientSize = new System.Drawing.Size(974, 706);
+			this.ClientSize = new System.Drawing.Size(974, 700);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.checkIncludeWOPercCoPay);
 			this.Controls.Add(this.butSplitProcs);

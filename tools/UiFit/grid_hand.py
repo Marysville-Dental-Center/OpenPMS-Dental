@@ -467,6 +467,10 @@ def bar_section_gap(hand):
     row = [c for c in buttons if over(c, lowest)]
     y_row = min(c.ny for c in row)
     bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row))]
+    # a caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
+    # Write-off) belongs to the bar and moves with it
+    bar += [c for c in shown if c.kind == "label" and c not in bar
+            and any(0 <= b.ny - (c.ny + c.nh) <= 4 and min(c.nx + c.nw, b.nx + b.nw) - max(c.nx, b.nx) > 0 for b in bar)]
     y_bar = min(c.ny for c in bar)
     above = [c for c in shown if c not in bar and c.ny + c.nh <= y_bar]
     low = [c for c in above if c.ny + c.nh > y_bar - GRID["section_gap"]]

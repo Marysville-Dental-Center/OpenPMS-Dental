@@ -85,7 +85,7 @@
 			// butWriteOff
 			// 
 			this.butWriteOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butWriteOff.Location = new System.Drawing.Point(132, 368);
+			this.butWriteOff.Location = new System.Drawing.Point(132, 358);
 			this.butWriteOff.Name = "butWriteOff";
 			this.butWriteOff.Size = new System.Drawing.Size(90, 25);
 			this.butWriteOff.TabIndex = 121;
@@ -95,7 +95,7 @@
 			// butDeductible
 			// 
 			this.butDeductible.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDeductible.Location = new System.Drawing.Point(8, 368);
+			this.butDeductible.Location = new System.Drawing.Point(8, 358);
 			this.butDeductible.Name = "butDeductible";
 			this.butDeductible.Size = new System.Drawing.Size(92, 25);
 			this.butDeductible.TabIndex = 120;
@@ -105,7 +105,7 @@
 			// butPayLabs
 			// 
 			this.butPayLabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPayLabs.Location = new System.Drawing.Point(228, 368);
+			this.butPayLabs.Location = new System.Drawing.Point(228, 358);
 			this.butPayLabs.Name = "butPayLabs";
 			this.butPayLabs.Size = new System.Drawing.Size(90, 25);
 			this.butPayLabs.TabIndex = 125;
@@ -157,7 +157,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1075, 368);
+			this.butSave.Location = new System.Drawing.Point(1075, 358);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -234,7 +234,7 @@
 			// 
 			// FormClaimPayTotal
 			// 
-			this.ClientSize = new System.Drawing.Size(1158, 401);
+			this.ClientSize = new System.Drawing.Size(1158, 391);
 			this.Controls.Add(this.textPatResp);
 			this.Controls.Add(this.textInsPayAllowed);
 			this.Controls.Add(this.textClaimFee);

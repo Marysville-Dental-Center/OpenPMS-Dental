@@ -59,7 +59,7 @@ namespace OpenPmsDental{
 			// butCheck
 			// 
 			this.butCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butCheck.Location = new System.Drawing.Point(8, 511);
+			this.butCheck.Location = new System.Drawing.Point(8, 510);
 			this.butCheck.Name = "butCheck";
 			this.butCheck.Size = new System.Drawing.Size(75, 24);
 			this.butCheck.TabIndex = 3;
@@ -79,7 +79,7 @@ namespace OpenPmsDental{
 			// labelVerified
 			// 
 			this.labelVerified.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelVerified.Location = new System.Drawing.Point(134, 476);
+			this.labelVerified.Location = new System.Drawing.Point(134, 484);
 			this.labelVerified.Name = "labelVerified";
 			this.labelVerified.Size = new System.Drawing.Size(56, 23);
 			this.labelVerified.TabIndex = 71;
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			// labelInvalid
 			// 
 			this.labelInvalid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInvalid.Location = new System.Drawing.Point(138, 512);
+			this.labelInvalid.Location = new System.Drawing.Point(138, 511);
 			this.labelInvalid.Name = "labelInvalid";
 			this.labelInvalid.Size = new System.Drawing.Size(52, 23);
 			this.labelInvalid.TabIndex = 72;
@@ -109,7 +109,7 @@ namespace OpenPmsDental{
 			// 
 			this.textVerified.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textVerified.Enabled = false;
-			this.textVerified.Location = new System.Drawing.Point(196, 476);
+			this.textVerified.Location = new System.Drawing.Point(196, 484);
 			this.textVerified.Name = "textVerified";
 			this.textVerified.Size = new System.Drawing.Size(64, 23);
 			this.textVerified.TabIndex = 74;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// 
 			this.textInvalid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textInvalid.Enabled = false;
-			this.textInvalid.Location = new System.Drawing.Point(196, 512);
+			this.textInvalid.Location = new System.Drawing.Point(196, 511);
 			this.textInvalid.Name = "textInvalid";
 			this.textInvalid.Size = new System.Drawing.Size(64, 23);
 			this.textInvalid.TabIndex = 75;
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			// FormXchargeTokenTool
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(725, 543);
+			this.ClientSize = new System.Drawing.Size(725, 542);
 			this.Controls.Add(this.textInvalid);
 			this.Controls.Add(this.textVerified);
 			this.Controls.Add(this.textTotal);

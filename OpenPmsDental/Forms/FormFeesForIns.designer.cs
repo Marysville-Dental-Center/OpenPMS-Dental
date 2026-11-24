@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// comboFeeSchedNew
 			// 
 			this.comboFeeSchedNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.comboFeeSchedNew.Location = new System.Drawing.Point(337, 682);
+			this.comboFeeSchedNew.Location = new System.Drawing.Point(337, 674);
 			this.comboFeeSchedNew.Name = "comboFeeSchedNew";
 			this.comboFeeSchedNew.Size = new System.Drawing.Size(228, 23);
 			this.comboFeeSchedNew.TabIndex = 25;
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(223, 682);
+			this.label5.Location = new System.Drawing.Point(223, 674);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(108, 23);
 			this.label5.TabIndex = 26;
@@ -165,7 +165,7 @@ namespace OpenPmsDental {
 			// butSelectAll
 			// 
 			this.butSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSelectAll.Location = new System.Drawing.Point(8, 682);
+			this.butSelectAll.Location = new System.Drawing.Point(8, 674);
 			this.butSelectAll.Name = "butSelectAll";
 			this.butSelectAll.Size = new System.Drawing.Size(75, 23);
 			this.butSelectAll.TabIndex = 30;
@@ -179,7 +179,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 115);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(808, 524);
+			this.gridMain.Size = new System.Drawing.Size(808, 520);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Ins Plans that might need to be changed";
 			this.gridMain.TranslationName = "TablePlans";
@@ -187,7 +187,7 @@ namespace OpenPmsDental {
 			// butChangeFeeSchedule
 			// 
 			this.butChangeFeeSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butChangeFeeSchedule.Location = new System.Drawing.Point(571, 682);
+			this.butChangeFeeSchedule.Location = new System.Drawing.Point(571, 674);
 			this.butChangeFeeSchedule.Name = "butChangeFeeSchedule";
 			this.butChangeFeeSchedule.Size = new System.Drawing.Size(74, 23);
 			this.butChangeFeeSchedule.TabIndex = 2;
@@ -199,7 +199,7 @@ namespace OpenPmsDental {
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(89, 682);
+			this.butPrint.Location = new System.Drawing.Point(89, 674);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(87, 23);
 			this.butPrint.TabIndex = 31;
@@ -253,7 +253,7 @@ namespace OpenPmsDental {
 			// 
 			// FormFeesForIns
 			// 
-			this.ClientSize = new System.Drawing.Size(824, 713);
+			this.ClientSize = new System.Drawing.Size(824, 705);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.comboInsPlanType);
 			this.Controls.Add(this.label7);

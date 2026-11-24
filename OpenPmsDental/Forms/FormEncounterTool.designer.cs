@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(375, 309);
+			this.butRun.Location = new System.Drawing.Point(375, 307);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 24);
 			this.butRun.TabIndex = 8;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			// labelEncWarning
 			// 
 			this.labelEncWarning.ForeColor = System.Drawing.Color.Red;
-			this.labelEncWarning.Location = new System.Drawing.Point(34, 250);
+			this.labelEncWarning.Location = new System.Drawing.Point(34, 258);
 			this.labelEncWarning.Name = "labelEncWarning";
 			this.labelEncWarning.Size = new System.Drawing.Size(422, 47);
 			this.labelEncWarning.TabIndex = 164;
@@ -213,7 +213,7 @@ namespace OpenPmsDental{
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(476, 343);
+			this.ClientSize = new System.Drawing.Size(476, 341);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.textDateEnd);

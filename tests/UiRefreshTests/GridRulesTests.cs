@@ -690,6 +690,10 @@ namespace UiRefreshTests {
 			int yRow=listRow.Min(x => x.Top);
 			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)))
 				.ToList();
+			//A caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
+			//Write-off) belongs to the bar: the gap is the one over the caption.
+			listBar.AddRange(listKids.Where(x => x is Label && !listBar.Contains(x) && listBar.Any(y => y.Top-x.Bottom>=0 && y.Top-x.Bottom<=4
+				&& Math.Min(x.Right,y.Right)-Math.Max(x.Left,y.Left)>0)).ToList());
 			int yBar=listBar.Min(x => x.Top);
 			controlBar=listBar.OrderBy(x => x.Top).ThenBy(x => x.Left).First();
 			controlAbove=listKids.Where(x => !listBar.Contains(x) && x.Width>0 && x.Height>0 && x.Bottom<=yBar)

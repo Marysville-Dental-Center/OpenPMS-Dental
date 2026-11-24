@@ -180,14 +180,14 @@ namespace OpenPmsDental {
 			// 
 			// comboCategory
 			// 
-			this.comboCategory.Location = new System.Drawing.Point(433, 301);
+			this.comboCategory.Location = new System.Drawing.Point(433, 309);
 			this.comboCategory.Name = "comboCategory";
 			this.comboCategory.Size = new System.Drawing.Size(164, 23);
 			this.comboCategory.TabIndex = 9;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(367, 301);
+			this.label7.Location = new System.Drawing.Point(367, 309);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(60, 23);
 			this.label7.TabIndex = 19;
