@@ -468,7 +468,7 @@ namespace WindowChecksTests.InProc {
 					checkResult.Note("Test capture asked: "+ui.DescribeWindow(opened.Hwnd));
 					ui.Close(opened.Hwnd);
 				}
-				else if(InspectWindow(ui,checkResult,opened,"FrmTestCapture",null,close:false)) {
+				else if(InspectWindow(ui,checkResult,opened,"FrmTestCapture","E4.png",close:false)) {//the picture: IMG-TESTCAP's step and state lines
 					System.Windows.FrameworkElement frm=ui.GetFrm(opened.Hwnd);
 					string labels=ui.Invoke(() => {
 						string device=Member(Ui.GetField(frm,"labelDevice"),"Text") as string;

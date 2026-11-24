@@ -39,6 +39,44 @@ record, the capture session took 8-bit X-rays. The owner asked on 2026-11-24 tha
    - the "Write it anyway?" confirmation;
    - the securitylog row (Setup, FKey = ImagingDeviceNum).
 
+## Gallery picture (waits for the owner's connected desktop)
+
+WPF draws nothing while the desktop is disconnected (`ControlPictures.RendersWpf()`), so the window has no picture yet. Window check E4 opens
+the real window from Setup > Imaging > Devices and now saves `E4.png`. That is the first state, before any image: the step line asks for
+a test image, and the state line says "Not verified in this window". The states after an image need a sensor. In a connected, unlocked
+session on the owner's desktop (`query user`: Active), after a full Debug x64 build of `main`:
+
+    set OPMS_WINDOW_CHECKS=1
+    set OPMS_WINDOW_CHECKS_DUMP=<od-tools>\winchk-gate3a\opendental_dev.sql
+    set OPMS_WINDOW_CHECKS_GROUPS=E
+    set OPMS_WINDOW_CHECKS_OUT=<od-tools>\test-results\img-testcap-E
+    set OPMS_WINDOW_CHECKS_BUDGET_MINUTES=10
+    powershell -NoProfile -ExecutionPolicy Bypass -File <od-tools>\run-tests.ps1 -Root . -Mode Targeted -Platform x64 -RequireBuildOutput -Include WindowChecksTests
+
+Audit `E4.png` before the owner looks:
+- the two bold lines under the results box are whole, with no text cut off and nothing overlapping;
+- Write verification record is not the accent button before an image.
+
+## Clinic instructions (held until the next setup the owner asks for)
+
+The share still has the 2026-11-22 setup, with the old window, so these texts wait. Apply them together with the next setup.
+
+`W:\OpenPMS\INSTRUCTIONS.md`, section 7, step 3: replace the Test capture bullets with:
+
+    - Click **Test capture**, then **Take test image**, and take one exposure. The window shows the image's analysis.
+    - Then do what the bold **Step 2 of 2** line says (right side, under the results): tick the byte order and polarity checks on the left if
+      the image looks right (dense objects white), then click **Write verification record** (the highlighted button; needs the Setup
+      permission) and answer the prompt.
+    - The bold line above it must then say **"Verified: record written ... The session can now take 16-bit X-rays from this device."**
+      If it says "Not verified" or "it unlocks nothing", the device stays at 8 bits: do what the Step line says and write the record again.
+      Without this record, every later capture falls back to 8 bits ("8 bits (fallback): no Test capture record for this sensor's driver
+      version and image settings.").
+
+`W:\KP-OpenDental-Tools\clinic-run.md` (woodpacker-twain `doc/clinic-run.md`): its "Order of the visit", item 3 (INSTRUCTIONS steps 7 and
+8), gets one more sentence:
+
+    Test capture must end with the line "Verified: record written ..."; take a photo of the window if it says anything else.
+
 ## Tests
 
 `TestCaptureModelTests` (+5):
