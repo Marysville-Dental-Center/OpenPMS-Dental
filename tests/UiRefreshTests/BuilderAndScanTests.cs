@@ -90,7 +90,7 @@ namespace UiRefreshTests {
 				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				ScanType scanType=WindowBuilder.GetScanTypes().Single(x => x.Type.Name=="FormProgressViewer");
 				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
-					FormProgressViewer formProgressViewer=(FormProgressViewer)builtWindow.Form;
+					OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer formProgressViewer=(OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer)builtWindow.Form;
 					LayoutManagerForms layoutManager=builtWindow.LayoutManager;
 					Assert.AreEqual(Size.Empty,formProgressViewer.MinimumSize,"No limits in the constructor (LayoutManager's scale is 96 dpi's there).");
 					Assert.AreEqual(Size.Empty,formProgressViewer.MaximumSize);

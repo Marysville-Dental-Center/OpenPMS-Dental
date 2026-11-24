@@ -42,7 +42,7 @@
 			// lblMessage
 			// 
 			this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.lblMessage.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblMessage.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lblMessage.ForeColor = System.Drawing.Color.Maroon;
 			this.lblMessage.Location = new System.Drawing.Point(8, 8);
 			this.lblMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -54,7 +54,7 @@
 			// 
 			// label1
 			// 
-			this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Maroon;
 			this.label1.Location = new System.Drawing.Point(260, 255);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -98,7 +98,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label2.ForeColor = System.Drawing.Color.Maroon;
 			this.label2.Location = new System.Drawing.Point(64, 8);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);

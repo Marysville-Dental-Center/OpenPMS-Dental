@@ -140,12 +140,12 @@ OpenPmsDental/Forms/FormClaimCreate.designer.cs	gridMain	8,32	551,186
 OpenPmsDental/Forms/FormClaimCreate.designer.cs	checkShowPlansNotInUse	8,8	377,20	
 OpenPmsDental/Forms/FormClaimCreate.designer.cs	.			763,276
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	label1	427,299	44,23	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butSave	1075,330	75,25	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	gridMain	8,8	1142,279	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butSave	1075,334	75,25	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	gridMain	8,8	1142,287	
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	textOverpayTotal	477,299	64,23	
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	textUnderpayTotal	547,299	64,23	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butToSupplemental	533,330	97,25	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	.			1158,363
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butToSupplemental	533,334	97,25	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	.			1158,367
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label1	355,269	44,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label2	405,300	348,32	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label3	8,322	116,34	
@@ -446,16 +446,16 @@ OpenPmsDental/Forms/FormHL7Defs.designer.cs	butDuplicate	684,609	89,24
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	butCopy	208,609	75,24	
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	butHistory	8,8	75,24	
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	.			974,641
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	butMerge	517,180	75,24	
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	butMerge	517,217	75,24	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	groupBoxInto	8,8	584,76	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	buttonChangeInto	501,35	75,24	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	textBoxInto	8,45	236,23	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	labelInto	8,23	132,20	
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	groupBoxFrom	8,92	584,76	
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	groupBoxFrom	8,112	584,76	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	buttonChangeFrom	501,35	75,24	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	textBoxFrom	8,45	236,23	
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	labelFrom	8,23	132,20	
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	.			600,253
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	.			600,249
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	butSend	1147,664	75,24	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	pictureBox	256,8	730,680	
 OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	elementHostImageSelector	8,8	240,680	
