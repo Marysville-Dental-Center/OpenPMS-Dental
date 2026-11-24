@@ -241,3 +241,8 @@ windows whole at 100% and 150%. Before: this branch with the looks off, whose 21
 pictures; the title-bar before pictures are Windows' frame as Windows prints it in the 96 dpi test process. Commands:
 `G-UI3-uiplain2-src/work/ugal2.ps1 -Name after-100 -Scale 1` (`-LooksOff` for the before; `-Scale 1.5`), then New-UiGallery as in section
 6. Every picture opened: [UI-PLAIN-2-audit.md](UI-PLAIN-2-audit.md) (pass 1: four findings, fixed; pass 2: none).
+
+**Results** (`uiplain2-final.txt`; the whole filter `OpenDental.Local.slnf` built x64 through the lane: 0 errors): `UiRefreshTests` 311
+passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped);
+`PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-*.txt`): UiRefreshTests 312 passed each.
+`tools/Test-NoEolFlips.ps1 -Base 857b85266`: 0 flips. `element_inventory.py --check`: matches.
