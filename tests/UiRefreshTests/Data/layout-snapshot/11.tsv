@@ -45,7 +45,7 @@ OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	labelControlType	144,35	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	labelControlLabel	104,62	76,23	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	labelControlName	108,8	72,23	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	textOptions	186,142	386,293	
-OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	labelResponses	68,142	112,23	
+OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	labelResponses	8,146	172,34	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butDelete	8,447	76,24	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butSave	615,447	76,24	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butAddOptionControl	286,247	91,25	
@@ -282,7 +282,7 @@ OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	labelOperand	119,8
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	butSave	413,341	75,23	
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	butDelete	8,341	75,23	
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	labelRestriction	111,8	68,23	
-OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	labelCompareString	83,143	96,23	
+OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	labelCompareString	19,143	160,23	
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	textCompareString	185,143	136,23	
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	labelLabValue	115,197	64,23	
 OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	textLabValue	185,197	136,23	
@@ -460,8 +460,8 @@ OpenPmsDental/Forms/FormProcTPEdit.designer.cs	labelFeeAllowed	113,384	56,23
 OpenPmsDental/Forms/FormProcTPEdit.designer.cs	.			564,461
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butSave	816,687	75,24	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	checkEnabled	153,29	66,20	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelClassesInOD	14,507	141,32	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelIncomeAccountsInOD	11,395	144,47	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelClassesInOD	14,523	141,32	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelIncomeAccountsInOD	11,403	144,47	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelDepositAccountsInOD	8,283	147,47	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	groupConnection	8,8	883,267	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelDescription	225,23	650,32	
@@ -483,19 +483,19 @@ OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butConnect	590,205	90,
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butDisconnect	686,205	90,23	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butAddDepositAccount	390,307	35,24	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butRemoveDepositAccount	390,335	35,24	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelDepositAccountsAvailable	667,283	136,47	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelIncomeAccountsAvailable	667,395	136,47	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelClassesAvailable	667,507	136,32	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butRemoveIncomeAccount	390,447	35,24	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butAddIncomeAccount	390,419	35,24	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butRemoveClass	390,559	35,24	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butAddClass	390,531	35,24	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelDepositAccountsAvailable	658,283	145,47	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelIncomeAccountsAvailable	658,403	145,47	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	labelClassesAvailable	658,523	145,32	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butRemoveIncomeAccount	390,455	35,24	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butAddIncomeAccount	390,427	35,24	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butRemoveClass	390,575	35,24	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	butAddClass	390,547	35,24	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxDepositAccountsInOD	161,283	221,108	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxDepositAccountsAvailable	433,283	230,108	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxIncomeAccountsInOD	161,395	221,108	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxIncomeAccountsAvailable	433,395	230,108	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxClassRefsInOD	161,507	221,108	
-OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxClassRefsAvailable	433,507	230,108	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxDepositAccountsAvailable	433,283	221,108	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxIncomeAccountsInOD	161,403	221,108	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxIncomeAccountsAvailable	433,403	221,108	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxClassRefsInOD	161,523	221,108	
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	listBoxClassRefsAvailable	433,523	221,108	
 OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	.			899,719
 OpenPmsDental/Forms/FormReportsMore.designer.cs	groupBusiness	524,80	120,55	
 OpenPmsDental/Forms/FormReportsMore.designer.cs	picturePracticeByNumbers	8,23	95,24	
@@ -600,7 +600,7 @@ OpenPmsDental/Forms/FormSheetFieldInput.designer.cs	butClearAutoNote	502,365	24,
 OpenPmsDental/Forms/FormSheetFieldInput.designer.cs	textAutoNote	269,365	196,23	
 OpenPmsDental/Forms/FormSheetFieldInput.designer.cs	.			571,437
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	checkPmtOpt	126,617	123,20	
-OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	labelTextW	231,563	52,23	
+OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	labelTextW	200,563	83,23	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	label1	518,319	131,62	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	listFields	657,8	201,653	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	textFieldValue	8,8	641,307	
@@ -628,7 +628,7 @@ OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	textWidth	126,563	68,23
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	textYPos	126,536	68,23	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	textXPos	126,509	68,23	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	butSave	783,673	75,24	
-OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	labelTextH	235,590	48,23	
+OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	labelTextH	200,590	83,23	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	checkIncludeInMobile	126,641	117,20	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	butCalcWidth	289,563	98,23	
 OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	butCalcHeight	289,590	98,23	
@@ -676,7 +676,7 @@ OpenPmsDental/Forms/FormUpdateSetup.designer.cs	textWebProxyAddress	241,23	474,2
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	label7	179,23	56,20	
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	checkShowMsi	249,212	139,20	
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	label10	394,212	246,19	
-OpenPmsDental/Forms/FormUpdateSetup.designer.cs	labelRecopy	8,263	235,50	
+OpenPmsDental/Forms/FormUpdateSetup.designer.cs	labelRecopy	8,263	235,66	
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	butRecopy	249,260	67,24	
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	butSave	656,360	75,24	
 OpenPmsDental/Forms/FormUpdateSetup.designer.cs	butChangeTime	447,236	67,20	
