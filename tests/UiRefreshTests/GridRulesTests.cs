@@ -417,12 +417,7 @@ namespace UiRefreshTests {
 							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType) || !(root.FindForm() is FormODBase));//slice 13: the report designer's and ODR's windows are no FormODBase either
 							CheckColumns(gridWindow,root,listFindings);
 							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
-							if(!string.IsNullOrEmpty(pathBarGaps)) {
-								List<Control> listRootKids=root.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
-								int? gap=GetBarGap(listRootKids,out Control controlAbove,out Control controlBar);
-								listBarGaps.Add(gridWindow.Window+"\t"+gap+"\t"+controlAbove?.Name+" "+controlAbove?.Bounds+"\t"+controlBar?.Name+" "+controlBar?.Bounds
-									+"\t"+root.ClientSize);
-							}
+							CheckBarGap(gridWindow,root,GridDump.GetStoredAnchors(builtWindow.LayoutManager),listFindings,listBarGaps);
 						}
 					}
 					catch(Exception exception) {
@@ -620,13 +615,21 @@ namespace UiRefreshTests {
 						listFindings.Add(window+"\tpicker-column\t"+picker.Name+" "+fieldAbove.Name);
 					}
 				}
-				//UI-12F (the final consistency pass): the window's bottom bar stands a section gap (12 px, UI-12.md section 1) or more under the
-				//content above it; some slice 6 and 8 scripts put it 8 px under (the sibling gap). More is allowed: a window that keeps main's size
-				//shares the room it does not fill out as equal gaps, the one over the bar too.
-				if(container==root && GetBarGap(listKids,out Control controlAbove,out Control controlBar) is int gapBar && gapBar<UiGrid.SECTION_GAP) {
-					listFindings.Add(window+"\tbar-gap\t"+controlAbove.Name+" "+controlBar.Name);
-					ListTextDetails.Add(window+" bar gap "+gapBar+" px between "+controlAbove.Name+" and "+controlBar.Name);
-				}
+			}
+		}
+
+		///<summary>UI-12F (the final consistency pass): the window's bottom bar stands a section gap (12 px, UI-12.md section 1) or more under
+		///the content above it; many scripts put it 8 px under (the sibling gap). More is allowed: a window that keeps main's size shares the
+		///room it does not fill out as equal gaps, the one over the bar too. The anchors are the designer's as the window's LayoutManager
+		///stores them (it leaves every control at Top|Left: GridDump.GetStoredAnchors); a window without one keeps its controls' own.</summary>
+		private static void CheckBarGap(GridWindow gridWindow,Control root,Dictionary<Control,AnchorStyles> dictAnchors,List<string> listFindings,List<string> listBarGaps) {
+			List<Control> listKids=root.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+			Func<Control,AnchorStyles> funcAnchor=x => dictAnchors.TryGetValue(x,out AnchorStyles anchorStyles) ? anchorStyles : x.Anchor;
+			int? gapBar=GetBarGap(listKids,funcAnchor,out Control controlAbove,out Control controlBar);
+			listBarGaps.Add(gridWindow.Window+"\t"+gapBar+"\t"+controlAbove?.Name+" "+controlAbove?.Bounds+"\t"+controlBar?.Name+" "+controlBar?.Bounds+"\t"+root.ClientSize);
+			if(gapBar is int gap && gap<UiGrid.SECTION_GAP) {
+				listFindings.Add(gridWindow.Window+"\tbar-gap\t"+controlAbove.Name+" "+controlBar.Name);
+				ListTextDetails.Add(gridWindow.Window+" bar gap "+gap+" px between "+controlAbove.Name+" and "+controlBar.Name);
 			}
 		}
 
@@ -635,11 +638,11 @@ namespace UiRefreshTests {
 		///starts on that row (a Delete button, a note or check box beside the buttons); grid_hand.bar_section_gap reads it the same way. The
 		///content is every other control that ends above the bar's top (a list beside the bar, down to the window's bottom, is no content
 		///above it).</summary>
-		public static int? GetBarGap(List<Control> listKids,out Control controlAbove,out Control controlBar) {
+		public static int? GetBarGap(List<Control> listKids,Func<Control,AnchorStyles> funcAnchor,out Control controlAbove,out Control controlBar) {
 			controlAbove=null;
 			controlBar=null;
 			string[] arrayDialogNames=new string[] { "butOK","butSave","butCancel","butClose" };
-			List<Control> listButtons=listKids.Where(x => IsAnyButton(x) && ((x.Anchor & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+			List<Control> listButtons=listKids.Where(x => IsAnyButton(x) && ((funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
 				|| arrayDialogNames.Contains(x.Name))).ToList();
 			if(listButtons.Count==0) {
 				return null;
