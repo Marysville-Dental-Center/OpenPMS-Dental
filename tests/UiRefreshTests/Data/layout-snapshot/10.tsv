@@ -382,7 +382,7 @@ OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	label3	278,55	304,32
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	label5	98,238	64,23	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	label6	90,265	72,23	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butColor	168,265	30,23	
-OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	label7	229,250	278,73	
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	label7	229,238	278,50	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	groupBox1	121,95	464,135	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butRecordNew	108,50	108,23	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butDeleteSound	47,50	55,23	
@@ -390,10 +390,10 @@ OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butRecord	108,23	108,23
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butExport	47,104	55,23	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butImport	47,77	55,23	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butPlay	47,23	55,23	
-OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butDelete	8,335	82,26	
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butDelete	8,300	82,26	
 OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	textLightRow	168,238	52,23	
-OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butSave	516,335	75,26	
-OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	.			599,369
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	butSave	516,300	75,26	
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	.			599,334
 OpenPmsDental/Forms/FormSnomeds.designer.cs	butOK	891,659	75,24	
 OpenPmsDental/Forms/FormSnomeds.designer.cs	textCode	146,8	446,23	
 OpenPmsDental/Forms/FormSnomeds.designer.cs	label1	8,8	132,23	
