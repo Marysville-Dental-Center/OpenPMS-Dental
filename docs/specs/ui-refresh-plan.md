@@ -1571,6 +1571,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   pointing at the tokens (so its users follow high contrast); the 874 literals that stay (content, states, status colours, system colours
   the looks read) listed with their reasons in the UI-11 section of `colour-literals.tsv`; NoHqTests' `ChromeColourScanTests` fails on a new
   chrome literal. Gallery G-UI3-ui11 (106 pictures, 86 changed), audit `UI-11-audit.md`. Note: [UI-11.md](../port-notes/UI-11.md).
+  Fix round (branch `ui/ui11-2`): the scan reads every literal of an assignment (each branch of a `?:`, `Color.FromName`,
+  `Color.FromKnownColor`; 897 literals listed); no UI.CheckBox or UI.GroupBox left on a transparent tab page (ControlAccount, FormClaimEdit;
+  a new test); FormRpPatients' hint and EmailPreviewControl's caption boxes take the page's colour; FormExamSheets' preview clears to the token.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
 - Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one
