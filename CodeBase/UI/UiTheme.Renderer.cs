@@ -103,6 +103,17 @@ namespace CodeBase {
 			DrawArrow(new ToolStripArrowRenderEventArgs(e.Graphics,toolStripSplitButton,toolStripSplitButton.DropDownButtonBounds,colorArrow,ArrowDirection.Down));
 		}
 
+		///<summary>A tool strip's own overflow button (UI-OVF, docs/port-notes/UI-OVF.md): the tool button's shape (SubtleHover on hover,
+		///SubtlePressed while its drop-down is open) and the » glyph, as the program's toolbar draws its overflow button, instead of the professional
+		///renderer's gradient and arrow.</summary>
+		protected override void OnRenderOverflowButtonBackground(ToolStripItemRenderEventArgs e) {
+			ToolStripItem toolStripItem=e.Item;
+			float scale=GetScale(e.ToolStrip);
+			DrawButtonShape(e.Graphics,e.ToolStrip,toolStripItem,false,toolStripItem.Pressed);
+			Rectangle rectangle=new Rectangle(0,0,toolStripItem.Width,toolStripItem.Height);
+			DrawOverflowGlyph(e.Graphics,rectangle,UiTheme.GetColor(toolStripItem.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled),scale);
+		}
+
 		protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e) {
 			if(e.TextDirection!=ToolStripTextDirection.Horizontal) {
 				base.OnRenderItemText(e);
@@ -242,6 +253,23 @@ namespace CodeBase {
 				}
 			}
 			return -1;
+		}
+
+		///<summary>The width of a toolbar's overflow button at 96 DPI (UI-OVF): the 22 px icon slot of a tool button plus a little room.</summary>
+		public const int WIDTH_OVERFLOW_BUTTON96=24;
+		///<summary>How far the second chevron of the » glyph sits to the right of the first, at 96 DPI.</summary>
+		private const int OFFSET_OVERFLOW_CHEVRON96=4;
+
+		///<summary>The overflow button's glyph (UI-OVF): », two 12 px Fluent chevrons right (UI-7a's ChevronRight), the second 4 px to the right of
+		///the first, centred in the rectangle, in the colour. The program's toolbar (ToolBarOD), the tool strips (this renderer) and the WPF toolbar
+		///(its two chevron paths) draw the same.</summary>
+		public static void DrawOverflowGlyph(Graphics g,Rectangle rectangle,Color color,float scale) {
+			int size=UiTheme.ScaleI(UiTheme.SIZE_CHEVRON,scale);
+			int offset=UiTheme.ScaleI(OFFSET_OVERFLOW_CHEVRON96,scale);
+			int x=rectangle.X+(rectangle.Width-size-offset)/2;
+			int y=rectangle.Y+(rectangle.Height-size)/2;
+			UiIcons.Draw(g,UiGlyph.ChevronRight,new Rectangle(x,y,size,size),color);
+			UiIcons.Draw(g,UiGlyph.ChevronRight,new Rectangle(x+offset,y,size,size),color);
 		}
 
 		///<summary>The strip's scale against 96 DPI (its monitor's DPI).</summary>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -71,6 +72,18 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		///<summary>This is temporarily used to fix artifacts from Direct2D.</summary>
 		Timer timer;
 		private int _widthDropDown=15;
+		///<summary>UI-OVF (docs/port-notes/UI-OVF.md): the index of the first button that does not fit; it and every button after it are in the
+		///overflow button's drop-down instead of on the bar. -1 when every button fits (no overflow button). Set by ComputeButtonsizes.</summary>
+		private int _indexOverflowFirst=-1;
+		///<summary>The » overflow button at the right end of the bar (UI-OVF). Not in Buttons; its Bounds are empty when nothing overflows. It takes
+		///the hover and pressed states of the other buttons.</summary>
+		private ODToolBarButton _toolBarButtonOverflow;
+		///<summary>The overflow button's drop-down, built again each time it opens; null until then.</summary>
+		private ContextMenuStrip _contextMenuStripOverflow;
+		///<summary>The pictures made for the drop-down's items (icons drawn, ImageList copies), disposed with the drop-down.</summary>
+		private List<Image> _listImagesOverflow=new List<Image>();
+		///<summary>The button the arrow keys move to while the toolbar has the keyboard focus (UI-OVF), or the overflow button. Null: none yet.</summary>
+		private ODToolBarButton _toolBarButtonFocused;
 		#endregion Fields
 
 		#region Constructor
@@ -91,6 +104,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			timer.Interval=1000;//redraw every 1 second to remove artifacts
 			timer.Enabled=true;
 			timer.Tick+=timer_Tick;
+			_toolBarButtonOverflow=new ODToolBarButton("",EnumIcons.None,Lan.g("ToolBarOD","More buttons"),TAG_OVERFLOW);
 		}
 		#endregion Constructor
 
@@ -110,6 +124,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				if(_arrayIconsImageList!=null){
 					imageList?.Dispose();//the list of icons SetImageListIcons made is the toolbar's own
 				}
+				DisposeOverflowMenu();
 			}
 			base.Dispose( disposing );
 		}
@@ -308,36 +323,17 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 					if(!toolBarButton.Enabled){
 						//disabled buttons don't respond at all
 					}
+					else if(toolBarButton==_toolBarButtonOverflow){//the » button (UI-OVF): its drop-down of the buttons that do not fit
+						_toolBarButtonHot=null;
+						ShowOverflowMenu(isKeyboard:false);
+					}
 					else if(toolBarButton.Style==ODToolBarButtonStyle.DropDownButton//if current button is dropdown
 						&& HitTestDrop(toolBarButton,e.X,e.Y))//and we are in the dropdown area on the right
 					{
-						if(toolBarButton.ContextMenuStripDropDown!=null){//there is a dropdown menu strip to display, below the button
-							_toolBarButtonHot=null;
-							toolBarButton.State=ToolBarButtonState.Normal;
-							Invalidate();
-							toolBarButton.ContextMenuStripDropDown.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
-						}
-						if(toolBarButton.ContextMenuStripDropDown==null){//the arrow opens a window (P262-BILLING)
-							_toolBarButtonHot=null;
-							toolBarButton.State=ToolBarButtonState.Normal;
-							Invalidate();
-							OnButtonDropDownClicked(toolBarButton);
-						}
-					}
-					else if(toolBarButton.Style==ODToolBarButtonStyle.ToggleButton){//if current button is a toggle button
-						if(toolBarButton.IsTogglePushed){
-							toolBarButton.IsTogglePushed=false;
-						}
-						else{
-							toolBarButton.IsTogglePushed=true;
-						}
-						OnButtonClicked(toolBarButton);
-					}
-					else if(toolBarButton.Style==ODToolBarButtonStyle.Label){
-						//lables do not respond with click
+						ShowDropDown(toolBarButton);
 					}
 					else{
-						OnButtonClicked(toolBarButton);
+						PerformButtonClick(toolBarButton);
 					}
 					return;//the button will not revert back to hover
 				}//end of click section
@@ -370,8 +366,16 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				ComputeButtonsizes(e.Graphics);
 				DrawBackground(e.Graphics);
 				for(int i=0;i<buttons.Count;i++) {
+					if(IsOverflowedIndex(i)){
+						continue;//in the overflow button's drop-down (UI-OVF)
+					}
 					DrawButton(e.Graphics,buttons[i]);
 				}
+				if(IsOverflowing){
+					DrawButton(e.Graphics,_toolBarButtonOverflow);
+					UiToolStripRenderer.DrawOverflowGlyph(e.Graphics,_toolBarButtonOverflow.Bounds,UiTheme.GetColor(EnumUiColor.Text),LayoutManager.ScaleMy());
+				}
+				DrawFocus(e.Graphics);
 				//For quite some time, the Paint event was never fired here.  Added by Sam and AndrewD so we can subscribe to the Paint event.
 				base.OnPaint(e);
 			});
@@ -442,7 +446,567 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool IsImageListIcons=>_arrayIconsImageList!=null;
+
+		///<summary>The Tag of the » overflow button (UI-OVF). It is never in Buttons, so no ButtonClick handler sees it.</summary>
+		public const string TAG_OVERFLOW="ToolBarOD.Overflow";
+
+		///<summary>True when some buttons do not fit and the » overflow button shows at the right end (UI-OVF). From the last layout (paint).</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool IsOverflowing=>_indexOverflowFirst>=0;
+
+		///<summary>The » overflow button's bounds, empty when nothing overflows (UI-OVF). From the last layout (paint).</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Rectangle BoundsOverflow=>_toolBarButtonOverflow.Bounds;
+
+		///<summary>The buttons in the overflow button's drop-down instead of on the bar, in their order, separators included (UI-OVF). Empty when
+		///every button fits. From the last layout (paint).</summary>
+		public List<ODToolBarButton> GetButtonsOverflowed(){
+			List<ODToolBarButton> listButtons=new List<ODToolBarButton>();
+			for(int i=0;i<buttons.Count;i++){
+				if(IsOverflowedIndex(i)){
+					listButtons.Add(buttons[i]);
+				}
+			}
+			return listButtons;
+		}
+
+		///<summary>True when the button is in the overflow button's drop-down instead of on the bar (UI-OVF).</summary>
+		public bool IsOverflowed(ODToolBarButton toolBarButton){
+			if(toolBarButton==null){
+				return false;
+			}
+			return IsOverflowedIndex(buttons.IndexOf(toolBarButton));
+		}
+
+		///<summary>Builds the overflow button's drop-down again from the buttons that do not fit (UI-OVF) and returns it, not shown. Each button is an
+		///item with the same text, picture, enabled state and tooltip; a toggle button is checked while pushed; a click does what a click on the
+		///button does (ButtonClick or the button's own handler, a toggle flips first). A drop-down button's item opens the button's own menu as its
+		///sub-menu (the same items and handlers; the menu's Opening still fires) and a click on the item itself is the button's main part; a
+		///drop-down button whose arrow opens a window (ButtonDropDownClick) has one sub-item for the arrow. Separators stay between groups; a label
+		///is a disabled item; the page navigation is left out (its text box cannot move into a menu). The toolbar owns the drop-down.</summary>
+		public ContextMenuStrip GetOverflowMenu(){
+			DisposeOverflowMenu();
+			_contextMenuStripOverflow=new ContextMenuStrip();
+			_contextMenuStripOverflow.Font=Font;
+			int sizeImage=LayoutManager.Scale(16);
+			_contextMenuStripOverflow.ImageScalingSize=new Size(sizeImage,sizeImage);
+			_contextMenuStripOverflow.Closed+=ContextMenuStripOverflow_Closed;
+			List<ODToolBarButton> listButtons=GetButtonsOverflowed();
+			for(int i=0;i<listButtons.Count;i++){
+				ODToolBarButton toolBarButton=listButtons[i];
+				if(toolBarButton.Style==ODToolBarButtonStyle.Separator){
+					int countItems=_contextMenuStripOverflow.Items.Count;
+					if(countItems>0 && !(_contextMenuStripOverflow.Items[countItems-1] is ToolStripSeparator)){
+						_contextMenuStripOverflow.Items.Add(new ToolStripSeparator());
+					}
+					continue;
+				}
+				if(toolBarButton.Style==ODToolBarButtonStyle.PageNav){
+					continue;
+				}
+				_contextMenuStripOverflow.Items.Add(NewOverflowItem(toolBarButton,sizeImage));
+			}
+			int countLast=_contextMenuStripOverflow.Items.Count;
+			if(countLast>0 && _contextMenuStripOverflow.Items[countLast-1] is ToolStripSeparator){
+				_contextMenuStripOverflow.Items.RemoveAt(countLast-1);
+			}
+			return _contextMenuStripOverflow;
+		}
+
+		///<summary>Opens the » overflow button's drop-down below it, right-aligned to it (UI-OVF), and shows the button pressed while it is open. From
+		///the keyboard the first item is selected, as Windows' menus do.</summary>
+		public void ShowOverflowMenu(bool isKeyboard){
+			if(!IsOverflowing){
+				return;
+			}
+			ContextMenuStrip contextMenuStrip=GetOverflowMenu();
+			if(contextMenuStrip.Items.Count==0){
+				return;
+			}
+			_toolBarButtonOverflow.State=ToolBarButtonState.Pressed;
+			Invalidate();
+			Rectangle rectangle=_toolBarButtonOverflow.Bounds;
+			contextMenuStrip.Show(this,new Point(rectangle.Right,rectangle.Bottom),ToolStripDropDownDirection.BelowLeft);
+			if(isKeyboard){
+				for(int i=0;i<contextMenuStrip.Items.Count;i++){
+					if(contextMenuStrip.Items[i].CanSelect && contextMenuStrip.Items[i].Enabled){
+						contextMenuStrip.Items[i].Select();
+						break;
+					}
+				}
+			}
+		}
 		#endregion Methods - Public
+
+		#region Methods - Private Overflow and keyboard
+		///<summary>True when the button at the index is in the overflow button's drop-down (UI-OVF).</summary>
+		private bool IsOverflowedIndex(int index){
+			return _indexOverflowFirst>=0 && index>=_indexOverflowFirst;
+		}
+
+		///<summary>The page navigation button, or null.</summary>
+		private ODToolBarButton GetButtonPageNav(){
+			for(int i=0;i<buttons.Count;i++){
+				if(buttons[i].Style==ODToolBarButtonStyle.PageNav){
+					return buttons[i];
+				}
+			}
+			return null;
+		}
+
+		///<summary>The drop-down's item for a button (UI-OVF, GetOverflowMenu). Its picture is the button's at the menu's image size.</summary>
+		private ToolStripMenuItem NewOverflowItem(ODToolBarButton toolBarButton,int sizeImage){
+			ToolStripMenuItem toolStripMenuItem=new ToolStripMenuItem();
+			toolStripMenuItem.Text=(toolBarButton.Text??"").Replace("&","&&");//the button's text has no mnemonics
+			if(toolStripMenuItem.Text==""){
+				toolStripMenuItem.Text=(toolBarButton.ToolTipText??"").Replace("&","&&");//an icon-only button: its tooltip names it
+			}
+			toolStripMenuItem.ToolTipText=toolBarButton.ToolTipText;
+			toolStripMenuItem.Tag=toolBarButton;
+			toolStripMenuItem.Enabled=toolBarButton.Enabled && toolBarButton.Style!=ODToolBarButtonStyle.Label;
+			toolStripMenuItem.Checked=toolBarButton.Style==ODToolBarButtonStyle.ToggleButton && toolBarButton.IsTogglePushed;
+			toolStripMenuItem.Image=GetOverflowImage(toolBarButton,sizeImage);
+			if(toolBarButton.IsRed){
+				toolStripMenuItem.ForeColor=UiTheme.GetColor(EnumUiColor.Danger);
+			}
+			if(!string.IsNullOrWhiteSpace(toolBarButton.NotificationText)){
+				toolStripMenuItem.ShortcutKeyDisplayString=toolBarButton.NotificationText;//the drop-down's notification, at the item's right
+			}
+			if(toolBarButton.Style==ODToolBarButtonStyle.DropDownButton){
+				if(toolBarButton.ContextMenuStripDropDown!=null){
+					toolStripMenuItem.DropDown=toolBarButton.ContextMenuStripDropDown;//detached again when the drop-down closes
+				}
+				else if(ButtonDropDownClick!=null){
+					ToolStripMenuItem toolStripMenuItemArrow=new ToolStripMenuItem((toolBarButton.Text??"").Replace("&","&&")+"...");
+					toolStripMenuItemArrow.Tag=toolBarButton;
+					toolStripMenuItemArrow.Click+=OverflowItemArrow_Click;
+					toolStripMenuItem.DropDownItems.Add(toolStripMenuItemArrow);
+				}
+			}
+			toolStripMenuItem.Click+=OverflowItem_Click;
+			return toolStripMenuItem;
+		}
+
+		///<summary>The button's picture for its overflow item: an icon drawn at the size, the button's Bitmap (not copied: the button owns it), or
+		///its ImageList picture (a copy). Null when it has none. The pictures made here are the toolbar's, disposed with the drop-down.</summary>
+		private Image GetOverflowImage(ODToolBarButton toolBarButton,int sizeImage){
+			if(toolBarButton.Icon!=EnumIcons.None){
+				Bitmap bitmap=new Bitmap(sizeImage,sizeImage);
+				using(Graphics g=Graphics.FromImage(bitmap)){
+					DrawIconTransparent(g,toolBarButton.Icon,new Rectangle(0,0,sizeImage,sizeImage),IconLibrary.GetColor(toolBarButton.Icon));
+				}
+				_listImagesOverflow.Add(bitmap);
+				return bitmap;
+			}
+			if(toolBarButton.Bitmap!=null){
+				return toolBarButton.Bitmap;
+			}
+			if(imageList!=null && toolBarButton.ImageIndex>=0 && toolBarButton.ImageIndex<imageList.Images.Count){
+				Image image=imageList.Images[toolBarButton.ImageIndex];//a copy the list makes
+				_listImagesOverflow.Add(image);
+				return image;
+			}
+			return null;
+		}
+
+		private void OverflowItem_Click(object sender,EventArgs e){
+			ToolStripMenuItem toolStripMenuItem=(ToolStripMenuItem)sender;
+			if(toolStripMenuItem.HasDropDownItems){
+				_contextMenuStripOverflow?.Close(ToolStripDropDownCloseReason.ItemClicked);//an item with a sub-menu does not close the menu itself
+			}
+			ODToolBarButton toolBarButton=(ODToolBarButton)toolStripMenuItem.Tag;
+			if(!toolBarButton.Enabled || buttons.IndexOf(toolBarButton)<0){
+				return;
+			}
+			PerformButtonClick(toolBarButton);
+		}
+
+		private void OverflowItemArrow_Click(object sender,EventArgs e){
+			ODToolBarButton toolBarButton=(ODToolBarButton)((ToolStripItem)sender).Tag;
+			if(!toolBarButton.Enabled || buttons.IndexOf(toolBarButton)<0){
+				return;
+			}
+			OnButtonDropDownClicked(toolBarButton);
+		}
+
+		private void ContextMenuStripOverflow_Closed(object sender,ToolStripDropDownClosedEventArgs e){
+			_toolBarButtonOverflow.State=ToolBarButtonState.Normal;
+			if(_toolBarButtonHot==_toolBarButtonOverflow){
+				_toolBarButtonHot=null;
+			}
+			Invalidate();
+			//The buttons' own menus go back to their buttons once the click that closed the drop-down is done (Windows Forms closes the menus before
+			//it raises the click of an item in them).
+			if(IsHandleCreated && !IsDisposed){
+				BeginInvoke((Action)DetachOverflowDropDowns);
+				return;
+			}
+			DetachOverflowDropDowns();
+		}
+
+		///<summary>Gives the buttons' own menus back (UI-OVF): an overflow item that showed a drop-down button's ContextMenuStripDropDown as its
+		///sub-menu lets go of it, so the button shows it below itself again as before.</summary>
+		private void DetachOverflowDropDowns(){
+			if(_contextMenuStripOverflow==null){
+				return;
+			}
+			for(int i=0;i<_contextMenuStripOverflow.Items.Count;i++){
+				ToolStripMenuItem toolStripMenuItem=_contextMenuStripOverflow.Items[i] as ToolStripMenuItem;
+				if(toolStripMenuItem==null || !(toolStripMenuItem.Tag is ODToolBarButton toolBarButton)){
+					continue;
+				}
+				ContextMenuStrip contextMenuStrip=toolBarButton.ContextMenuStripDropDown;
+				if(contextMenuStrip==null || !toolStripMenuItem.HasDropDown || toolStripMenuItem.DropDown!=contextMenuStrip){
+					continue;
+				}
+				toolStripMenuItem.DropDown=null;
+				contextMenuStrip.OwnerItem=null;
+			}
+		}
+
+		private void DisposeOverflowMenu(){
+			if(_contextMenuStripOverflow!=null){
+				DetachOverflowDropDowns();
+				_contextMenuStripOverflow.Closed-=ContextMenuStripOverflow_Closed;
+				_contextMenuStripOverflow.Dispose();
+				_contextMenuStripOverflow=null;
+			}
+			for(int i=0;i<_listImagesOverflow.Count;i++){
+				_listImagesOverflow[i].Dispose();
+			}
+			_listImagesOverflow.Clear();
+		}
+
+		///<summary>What a click on the button's main part does: a toggle button flips and clicks, a label does nothing, any other button clicks.
+		///The mouse, the keyboard and the overflow drop-down all come here.</summary>
+		private void PerformButtonClick(ODToolBarButton toolBarButton){
+			if(toolBarButton.Style==ODToolBarButtonStyle.Label || toolBarButton.Style==ODToolBarButtonStyle.Separator){
+				return;//lables do not respond with click
+			}
+			if(toolBarButton.Style==ODToolBarButtonStyle.ToggleButton){
+				toolBarButton.IsTogglePushed=!toolBarButton.IsTogglePushed;
+				Invalidate();
+			}
+			OnButtonClicked(toolBarButton);
+		}
+
+		///<summary>What a click on a drop-down button's arrow does: its menu below the button, or ButtonDropDownClick when it has none (the arrow
+		///opens a window, P262-BILLING).</summary>
+		private void ShowDropDown(ODToolBarButton toolBarButton){
+			_toolBarButtonHot=null;
+			toolBarButton.State=ToolBarButtonState.Normal;
+			Invalidate();
+			if(toolBarButton.ContextMenuStripDropDown!=null){//there is a dropdown menu strip to display, below the button
+				toolBarButton.ContextMenuStripDropDown.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
+				return;
+			}
+			OnButtonDropDownClicked(toolBarButton);//the arrow opens a window (P262-BILLING)
+		}
+
+		///<summary>The buttons the arrow keys stop on (UI-OVF), in order: the enabled buttons on the bar (no separators, labels or page navigation),
+		///then the » overflow button when it shows.</summary>
+		private List<ODToolBarButton> GetKeyboardButtons(){
+			List<ODToolBarButton> listButtons=new List<ODToolBarButton>();
+			for(int i=0;i<buttons.Count;i++){
+				if(IsOverflowedIndex(i)){
+					break;
+				}
+				ODToolBarButton toolBarButton=buttons[i];
+				if(!toolBarButton.Enabled || toolBarButton.Style==ODToolBarButtonStyle.Separator || toolBarButton.Style==ODToolBarButtonStyle.Label
+					|| toolBarButton.Style==ODToolBarButtonStyle.PageNav)
+				{
+					continue;
+				}
+				listButtons.Add(toolBarButton);
+			}
+			if(IsOverflowing){
+				listButtons.Add(_toolBarButtonOverflow);
+			}
+			return listButtons;
+		}
+
+		///<summary>The buttons a screen reader sees (UI-OVF), in order: every button on the bar but the separators, then the » overflow button when
+		///it shows.</summary>
+		private List<ODToolBarButton> GetAccessibleButtons(){
+			List<ODToolBarButton> listButtons=new List<ODToolBarButton>();
+			for(int i=0;i<buttons.Count;i++){
+				if(IsOverflowedIndex(i)){
+					break;
+				}
+				if(buttons[i].Style!=ODToolBarButtonStyle.Separator){
+					listButtons.Add(buttons[i]);
+				}
+			}
+			if(IsOverflowing){
+				listButtons.Add(_toolBarButtonOverflow);
+			}
+			return listButtons;
+		}
+
+		///<summary>The button the keyboard is on: the one the arrow keys last moved to while it is still reachable, else the first one. Null when the
+		///toolbar has none.</summary>
+		private ODToolBarButton GetButtonFocused(){
+			List<ODToolBarButton> listButtons=GetKeyboardButtons();
+			if(listButtons.Count==0){
+				return null;
+			}
+			if(_toolBarButtonFocused==null || !listButtons.Contains(_toolBarButtonFocused)){
+				_toolBarButtonFocused=listButtons[0];
+			}
+			return _toolBarButtonFocused;
+		}
+
+		///<summary>Moves the keyboard to the button and tells accessibility clients (a screen reader announces the button).</summary>
+		private void SetButtonFocused(ODToolBarButton toolBarButton){
+			_toolBarButtonFocused=toolBarButton;
+			Invalidate();
+			int indexChild=GetAccessibleButtons().IndexOf(toolBarButton);
+			if(Focused && indexChild>=0){
+				AccessibilityNotifyClients(AccessibleEvents.Focus,indexChild);
+			}
+		}
+
+		///<summary>The focus ring (section 3.6) on the button the keyboard is on, while the toolbar has the focus and Windows shows keyboard cues: the
+		///2 px Accent ring inside the button's shape, so a mouse click draws none.</summary>
+		private void DrawFocus(Graphics g){
+			if(!Focused || !ShowFocusCues){
+				return;
+			}
+			ODToolBarButton toolBarButton=GetButtonFocused();
+			if(toolBarButton==null){
+				return;
+			}
+			Rectangle rectangle=Rectangle.Inflate(toolBarButton.Bounds,-LayoutManager.Scale(1),-LayoutManager.Scale(1));
+			UiControlPaint.FocusRing(g,rectangle,UiTheme.CORNER_CONTROL,LayoutManager.ScaleMy());
+		}
+
+		///<summary>What Enter, Space or Down does on the button the keyboard is on (UI-OVF): the » button opens its drop-down with the first item
+		///selected; Down (or Alt+Down) on a drop-down button opens its menu; otherwise the button's main part is clicked.</summary>
+		internal void ActivateButton(ODToolBarButton toolBarButton,bool isDropDown){
+			if(toolBarButton==null || !toolBarButton.Enabled){
+				return;
+			}
+			if(toolBarButton==_toolBarButtonOverflow){
+				ShowOverflowMenu(isKeyboard:true);
+				return;
+			}
+			if(isDropDown){
+				if(toolBarButton.Style==ODToolBarButtonStyle.DropDownButton){
+					ShowDropDown(toolBarButton);
+				}
+				return;
+			}
+			PerformButtonClick(toolBarButton);
+		}
+
+		protected override bool IsInputKey(Keys keyData){
+			switch(keyData & Keys.KeyCode){
+				case Keys.Left:
+				case Keys.Right:
+				case Keys.Home:
+				case Keys.End:
+				case Keys.Down:
+				case Keys.Enter:
+				case Keys.Space:
+					if((keyData & (Keys.Control|Keys.Shift))==0 && GetKeyboardButtons().Count>0){
+						return true;//the toolbar's own keys while it has the focus, as a tool strip's
+					}
+					break;
+			}
+			return base.IsInputKey(keyData);
+		}
+
+		protected override void OnKeyDown(KeyEventArgs e){
+			base.OnKeyDown(e);
+			if(e.Handled || e.Control || e.Shift){
+				return;
+			}
+			List<ODToolBarButton> listButtons=GetKeyboardButtons();
+			if(listButtons.Count==0){
+				return;
+			}
+			int index=listButtons.IndexOf(GetButtonFocused());
+			switch(e.KeyCode){
+				case Keys.Left:
+					SetButtonFocused(listButtons[index<=0 ? listButtons.Count-1 : index-1]);
+					break;
+				case Keys.Right:
+					SetButtonFocused(listButtons[(index+1)%listButtons.Count]);
+					break;
+				case Keys.Home:
+					SetButtonFocused(listButtons[0]);
+					break;
+				case Keys.End:
+					SetButtonFocused(listButtons[listButtons.Count-1]);
+					break;
+				case Keys.Down:
+					ActivateButton(listButtons[index],isDropDown:true);
+					break;
+				case Keys.Enter:
+				case Keys.Space:
+					ActivateButton(listButtons[index],isDropDown:false);
+					break;
+				default:
+					return;
+			}
+			e.Handled=true;
+			e.SuppressKeyPress=true;
+		}
+
+		protected override void OnGotFocus(EventArgs e){
+			base.OnGotFocus(e);
+			ODToolBarButton toolBarButton=GetButtonFocused();
+			Invalidate();
+			int indexChild=GetAccessibleButtons().IndexOf(toolBarButton);
+			if(indexChild>=0){
+				AccessibilityNotifyClients(AccessibleEvents.Focus,indexChild);
+			}
+		}
+
+		protected override void OnLostFocus(EventArgs e){
+			base.OnLostFocus(e);
+			Invalidate();
+		}
+
+		protected override AccessibleObject CreateAccessibilityInstance(){
+			return new ToolBarODAccessibleObject(this);
+		}
+
+		///<summary>The toolbar for screen readers (UI-OVF): a tool bar whose children are its buttons on the bar and the » overflow button.</summary>
+		private class ToolBarODAccessibleObject:ControlAccessibleObject{
+			private ToolBarOD _toolBarOD;
+
+			public ToolBarODAccessibleObject(ToolBarOD toolBarOD):base(toolBarOD){
+				_toolBarOD=toolBarOD;
+			}
+
+			public override AccessibleRole Role=>AccessibleRole.ToolBar;
+
+			public override int GetChildCount(){
+				return _toolBarOD.GetAccessibleButtons().Count;
+			}
+
+			public override AccessibleObject GetChild(int index){
+				List<ODToolBarButton> listButtons=_toolBarOD.GetAccessibleButtons();
+				if(index<0 || index>=listButtons.Count){
+					return null;
+				}
+				return new ToolBarODButtonAccessibleObject(_toolBarOD,listButtons[index],this);
+			}
+
+			public override AccessibleObject GetFocused(){
+				if(!_toolBarOD.Focused){
+					return base.GetFocused();
+				}
+				int index=_toolBarOD.GetAccessibleButtons().IndexOf(_toolBarOD.GetButtonFocused());
+				if(index<0){
+					return this;
+				}
+				return GetChild(index);
+			}
+
+			public override AccessibleObject HitTest(int x,int y){
+				Point point=_toolBarOD.PointToClient(new Point(x,y));
+				ODToolBarButton toolBarButton=_toolBarOD.HitTest(point.X,point.Y);
+				int index=_toolBarOD.GetAccessibleButtons().IndexOf(toolBarButton);
+				if(index>=0){
+					return GetChild(index);
+				}
+				return base.HitTest(x,y);
+			}
+		}
+
+		///<summary>One toolbar button for screen readers (UI-OVF): its text (or tooltip), its kind, state and place; the default action clicks it, or
+		///opens the » button's drop-down.</summary>
+		private class ToolBarODButtonAccessibleObject:AccessibleObject{
+			private ToolBarOD _toolBarOD;
+			private ODToolBarButton _toolBarButton;
+			private AccessibleObject _accessibleObjectParent;
+
+			public ToolBarODButtonAccessibleObject(ToolBarOD toolBarOD,ODToolBarButton toolBarButton,AccessibleObject accessibleObjectParent){
+				_toolBarOD=toolBarOD;
+				_toolBarButton=toolBarButton;
+				_accessibleObjectParent=accessibleObjectParent;
+			}
+
+			private bool IsOverflowButton=>_toolBarButton==_toolBarOD._toolBarButtonOverflow;
+
+			public override string Name{
+				get{
+					if(!string.IsNullOrEmpty(_toolBarButton.Text)){
+						return _toolBarButton.Text;
+					}
+					return _toolBarButton.ToolTipText??"";
+				}
+				set{ }
+			}
+
+			public override string Description=>_toolBarButton.ToolTipText;
+
+			public override AccessibleRole Role{
+				get{
+					if(IsOverflowButton){
+						return AccessibleRole.ButtonMenu;
+					}
+					switch(_toolBarButton.Style){
+						case ODToolBarButtonStyle.DropDownButton:
+							return AccessibleRole.ButtonDropDown;
+						case ODToolBarButtonStyle.ToggleButton:
+							return AccessibleRole.CheckButton;
+						case ODToolBarButtonStyle.Label:
+						case ODToolBarButtonStyle.PageNav:
+							return AccessibleRole.StaticText;
+						default:
+							return AccessibleRole.PushButton;
+					}
+				}
+			}
+
+			public override AccessibleStates State{
+				get{
+					AccessibleStates accessibleStates=AccessibleStates.None;
+					if(!_toolBarButton.Enabled){
+						accessibleStates|=AccessibleStates.Unavailable;
+					}
+					else{
+						accessibleStates|=AccessibleStates.Focusable;
+					}
+					if(_toolBarOD.Focused && _toolBarOD.GetButtonFocused()==_toolBarButton){
+						accessibleStates|=AccessibleStates.Focused;
+					}
+					if(_toolBarButton.Style==ODToolBarButtonStyle.ToggleButton && _toolBarButton.IsTogglePushed){
+						accessibleStates|=AccessibleStates.Checked;
+					}
+					if(IsOverflowButton || _toolBarButton.Style==ODToolBarButtonStyle.DropDownButton){
+						accessibleStates|=AccessibleStates.HasPopup;
+					}
+					if(_toolBarButton.State==ToolBarButtonState.Hover){
+						accessibleStates|=AccessibleStates.HotTracked;
+					}
+					return accessibleStates;
+				}
+			}
+
+			public override Rectangle Bounds=>_toolBarOD.RectangleToScreen(_toolBarButton.Bounds);
+
+			public override AccessibleObject Parent=>_accessibleObjectParent;
+
+			public override string DefaultAction{
+				get{
+					if(IsOverflowButton){
+						return Lan.g("ToolBarOD","Open");
+					}
+					return Lan.g("ToolBarOD","Press");
+				}
+			}
+
+			public override void DoDefaultAction(){
+				_toolBarOD.ActivateButton(_toolBarButton,isDropDown:false);
+			}
+		}
+		#endregion Methods - Private Overflow and keyboard
 
 		#region Methods - Private
 		///<summary>The size of the ImageList's pictures at 96 DPI: SIZE_IMAGE_LIST96 for a list of icons (it holds them at the scale), else the
@@ -533,6 +1097,41 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				}
 				buttons[i].Bounds=new Rectangle(new Point(xPos,0),new Size(width,Height-1));
 				xPos+=buttons[i].Bounds.Width;
+			}
+			ComputeOverflow(xPos);
+		}
+
+		///<summary>UI-OVF (docs/port-notes/UI-OVF.md): when the buttons run past the right edge, the » overflow button takes the right end of the bar
+		///(WIDTH_OVERFLOW_BUTTON96 scaled) and every button from the first one that does not fit left of it goes into its drop-down; a separator just
+		///before the cut goes with them. The buttons keep their bounds (the width formula and the order are unchanged); the overflowed ones are only
+		///neither drawn nor hit. Nothing changes when the buttons fit, or when only separators would overflow.</summary>
+		private void ComputeOverflow(int widthNeeded){
+			_indexOverflowFirst=-1;
+			_toolBarButtonOverflow.Bounds=Rectangle.Empty;
+			if(widthNeeded>Width && buttons.Count>0){
+				int widthOverflow=LayoutManager.Scale(UiToolStripRenderer.WIDTH_OVERFLOW_BUTTON96);
+				int xLimit=Width-widthOverflow;
+				int indexFirst=0;
+				while(indexFirst<buttons.Count && buttons[indexFirst].Bounds.Right<=xLimit){
+					indexFirst++;
+				}
+				while(indexFirst>0 && buttons[indexFirst-1].Style==ODToolBarButtonStyle.Separator){
+					indexFirst--;
+				}
+				bool hasButton=false;
+				for(int i=indexFirst;i<buttons.Count;i++){
+					if(buttons[i].Style!=ODToolBarButtonStyle.Separator){
+						hasButton=true;
+						break;
+					}
+				}
+				if(hasButton){
+					_indexOverflowFirst=indexFirst;
+					_toolBarButtonOverflow.Bounds=new Rectangle(Math.Max(0,xLimit),0,widthOverflow,Height-1);
+				}
+			}
+			if(textPageNav!=null){
+				textPageNav.Visible=!IsOverflowed(GetButtonPageNav());
 			}
 		}
 
@@ -744,7 +1343,13 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 
 		///<summary>Returns the button that contains these coordinates, or null if no hit.</summary>
 		private ODToolBarButton HitTest(int x,int y){
+			if(IsOverflowing && _toolBarButtonOverflow.Bounds.Contains(x,y)){
+				return _toolBarButtonOverflow;
+			}
 			for(int i=0;i<buttons.Count;i++){
+				if(IsOverflowedIndex(i)){
+					continue;
+				}
 				if(buttons[i].Bounds.Contains(x,y)){
 					return buttons[i];
 				}
