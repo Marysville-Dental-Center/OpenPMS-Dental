@@ -54,7 +54,7 @@
 			this.checkIsHidden.Size = new System.Drawing.Size(81, 18);
 			this.checkIsHidden.TabIndex = 33;
 			this.checkIsHidden.Text = "Is Hidden";
-			this.checkIsHidden.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIsHidden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsHidden.UseVisualStyleBackColor = true;
 			// 
 			// butPassword

@@ -429,6 +429,18 @@ def check_width(n, text_room=None):
     return lead + n.text_w + 2 if n.text_w else n.w
 
 
+def box_left_text_align(n):
+    """UI-12 slice 12 fix round: the TextAlign a check box or radio button turned box-left needs, or None. In a plain window the stock
+    check box and radio button draw their TextAlign: one that had its box on the right with its text right-aligned (MiddleRight) kept that
+    alignment and drew its text 23 to 27 px after the box instead of about 16 (FormCentralConnections' Automatically Log On, GraphQuantity
+    OverTime's All, Top and None). Its text goes to the left of its bounds with the box: MiddleRight -> MiddleLeft (TopRight -> TopLeft).
+    UI.CheckBox and the program windows' radio look (UiRadioLook) draw their text after the box whatever the TextAlign: no row."""
+    if not PLAIN_WINDOW[0] or n.type not in ("System.Windows.Forms.CheckBox",) + RADIO_TYPES:
+        return None
+    ta = n.text_align or ""
+    return ta[:-len("Right")] + "Left" if ta.endswith("Right") else None
+
+
 def wrapped_lines(text_w, room):
     if room <= 0:
         return 99
@@ -1716,6 +1728,9 @@ class Planner:
                 n.rule.setdefault("CheckAlign", "check box: the box on the left of its text (its bounds kept)")
                 if n.fixed:
                     self.add(designer, window, n.name, "CheckAlign", n.check_align, "MiddleLeft", n.rule["CheckAlign"])
+                    if box_left_text_align(n):
+                        self.add(designer, window, n.name, "TextAlign", n.text_align, box_left_text_align(n),
+                                 "check box: its text from the box (a stock box draws its TextAlign)")
         # Rows of the plan.
         for n in walk(tree):
             if not n.editable or n.fixed:
@@ -1752,6 +1767,9 @@ class Planner:
                 self.add(designer, window, n.name, "AutoSize", "true", "false", "a size set by the grid")
             if n.new_check_align:
                 self.add(designer, window, n.name, "CheckAlign", n.check_align, n.new_check_align, n.rule["CheckAlign"])
+                if n.new_check_align == "MiddleLeft" and box_left_text_align(n):
+                    self.add(designer, window, n.name, "TextAlign", n.text_align, box_left_text_align(n),
+                             "check box: its text from the box (a stock box draws its TextAlign)")
             if n.new_text_align and n.type in LABEL_TYPES:
                 self.add(designer, window, n.name, "TextAlign", n.text_align, n.new_text_align, n.rule["TextAlign"])
                 # Slice 1 fix round 9: a label drawn right to left (RightToLeft.Yes) mirrors its TextAlign: MiddleRight would draw its text at

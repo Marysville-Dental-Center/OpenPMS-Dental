@@ -43,7 +43,7 @@
 			this.checkShow.Size = new System.Drawing.Size(60, 18);
 			this.checkShow.TabIndex = 18;
 			this.checkShow.Text = "Show";
-			this.checkShow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkShow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkShow.UseVisualStyleBackColor = true;
 			this.checkShow.Click += new System.EventHandler(this.checkShow_Click);
 			// 

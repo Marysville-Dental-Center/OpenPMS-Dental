@@ -212,7 +212,7 @@
 			this.radBreakdownNone.Size = new System.Drawing.Size(60, 18);
 			this.radBreakdownNone.TabIndex = 2;
 			this.radBreakdownNone.Text = "None";
-			this.radBreakdownNone.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownNone.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownNone.UseVisualStyleBackColor = true;
 			this.radBreakdownNone.CheckedChanged += new System.EventHandler(this.radBreakdown_CheckedChanged);
 			// 
@@ -252,7 +252,7 @@
 			this.radBreakdownAll.Size = new System.Drawing.Size(45, 18);
 			this.radBreakdownAll.TabIndex = 0;
 			this.radBreakdownAll.Text = "All";
-			this.radBreakdownAll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownAll.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownAll.UseVisualStyleBackColor = true;
 			this.radBreakdownAll.CheckedChanged += new System.EventHandler(this.radBreakdown_CheckedChanged);
 			// 
@@ -266,7 +266,7 @@
 			this.radBreakdownTop.TabIndex = 1;
 			this.radBreakdownTop.TabStop = true;
 			this.radBreakdownTop.Text = "Top";
-			this.radBreakdownTop.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.radBreakdownTop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.radBreakdownTop.UseVisualStyleBackColor = true;
 			this.radBreakdownTop.CheckedChanged += new System.EventHandler(this.radBreakdown_CheckedChanged);
 			// 

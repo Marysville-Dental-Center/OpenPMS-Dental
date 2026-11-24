@@ -104,6 +104,8 @@ class Hand:
         n = self.n(name)
         if n.check_align and n.check_align != "MiddleLeft" and n.check_align != "TopLeft":
             n.new_check_align = "MiddleLeft"
+            if g.box_left_text_align(n):
+                n.new_text_align = g.box_left_text_align(n)  # UI-12 slice 12 fix round: a plain window's stock box draws its TextAlign
         if n.name in self.designer.rtl:
             n.rtl = True
         self.touched[id(n)] = n

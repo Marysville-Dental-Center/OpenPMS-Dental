@@ -235,6 +235,31 @@ class TemplateTests(unittest.TestCase):
         self.assertFalse(grid_templates.settled([(w, ".", "overlapping items kept as drawn: a, b")]))
 
 
+class BoxLeftTextAlignTests(unittest.TestCase):
+    """UI-12 slice 12 fix round: a plain window's stock check box or radio button turned box-left takes its text to the left as well."""
+
+    def node(self, type_, text_align):
+        class N:
+            pass
+        n = N()
+        n.type, n.text_align = type_, text_align
+        return n
+
+    def setUp(self):
+        self.addCleanup(grid_tools.PLAIN_WINDOW.__setitem__, 0, grid_tools.PLAIN_WINDOW[0])
+
+    def test_plain_window_stock_boxes_align_left(self):
+        grid_tools.PLAIN_WINDOW[0] = True
+        self.assertEqual("MiddleLeft", grid_tools.box_left_text_align(self.node("System.Windows.Forms.CheckBox", "MiddleRight")))
+        self.assertEqual("TopLeft", grid_tools.box_left_text_align(self.node("System.Windows.Forms.RadioButton", "TopRight")))
+        self.assertIsNone(grid_tools.box_left_text_align(self.node("System.Windows.Forms.CheckBox", "MiddleLeft")))
+        self.assertIsNone(grid_tools.box_left_text_align(self.node("OpenPmsDental.UI.CheckBox", "MiddleRight")))
+
+    def test_program_windows_unchanged(self):
+        grid_tools.PLAIN_WINDOW[0] = False
+        self.assertIsNone(grid_tools.box_left_text_align(self.node("System.Windows.Forms.CheckBox", "MiddleRight")))
+
+
 class AnchorTests(unittest.TestCase):
     """UI-12 slice 4 fix round: the designer's anchors (the tree has LayoutManager's reset Top|Left) and the bottom-anchor check."""
     DESIGNER = (

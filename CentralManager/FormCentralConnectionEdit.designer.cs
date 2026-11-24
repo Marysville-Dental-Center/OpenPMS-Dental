@@ -197,7 +197,7 @@ namespace CentralManager{
 			this.checkWebServiceIsEcw.Size = new System.Drawing.Size(142, 18);
 			this.checkWebServiceIsEcw.TabIndex = 1;
 			this.checkWebServiceIsEcw.Text = "Using eClinicalWorks";
-			this.checkWebServiceIsEcw.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkWebServiceIsEcw.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkWebServiceIsEcw.UseVisualStyleBackColor = true;
 			// 
 			// textNote
@@ -234,7 +234,7 @@ namespace CentralManager{
 			this.checkClinicBreakdown.Size = new System.Drawing.Size(210, 18);
 			this.checkClinicBreakdown.TabIndex = 221;
 			this.checkClinicBreakdown.Text = "Show clinic breakdown on reports";
-			this.checkClinicBreakdown.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkClinicBreakdown.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkClinicBreakdown.UseVisualStyleBackColor = true;
 			// 
 			// FormCentralConnectionEdit

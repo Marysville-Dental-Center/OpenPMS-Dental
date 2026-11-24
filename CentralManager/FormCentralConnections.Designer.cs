@@ -202,7 +202,7 @@
 			this.checkIsAutoLogon.Size = new System.Drawing.Size(147, 18);
 			this.checkIsAutoLogon.TabIndex = 230;
 			this.checkIsAutoLogon.Text = "Automatically Log On";
-			this.checkIsAutoLogon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.checkIsAutoLogon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.checkIsAutoLogon.UseVisualStyleBackColor = true;
 			this.checkIsAutoLogon.Click += new System.EventHandler(this.CheckIsAutoLogon_Click);
 			// 
