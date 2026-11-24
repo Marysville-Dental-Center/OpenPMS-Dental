@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			// calendarTo
 			// 
 			this.calendarTo.AllowKeyboard = true;
-			this.calendarTo.Location = new System.Drawing.Point(208, 62);
+			this.calendarTo.Location = new System.Drawing.Point(289, 62);
 			this.calendarTo.MaxSelectionCount = 1;
 			this.calendarTo.Name = "calendarTo";
 			this.calendarTo.Size = new System.Drawing.Size(227, 162);

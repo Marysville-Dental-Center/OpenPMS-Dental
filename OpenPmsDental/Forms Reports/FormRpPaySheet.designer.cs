@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			// date2
 			// 
 			this.date2.AllowKeyboard = true;
-			this.date2.Location = new System.Drawing.Point(238, 8);
+			this.date2.Location = new System.Drawing.Point(243, 8);
 			this.date2.MaxSelectionCount = 7;
 			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";
@@ -72,18 +72,18 @@ namespace OpenPmsDental {
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(473, 50);
+			this.listProv.Location = new System.Drawing.Point(478, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(150, 134);
+			this.listProv.Size = new System.Drawing.Size(145, 134);
 			this.listProv.TabIndex = 36;
 			this.listProv.Click += new System.EventHandler(this.listProv_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(473, 8);
+			this.label1.Location = new System.Drawing.Point(478, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(150, 18);
+			this.label1.Size = new System.Drawing.Size(145, 18);
 			this.label1.TabIndex = 35;
 			this.label1.Text = "Providers";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -92,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(473, 28);
+			this.checkAllProv.Location = new System.Drawing.Point(478, 28);
 			this.checkAllProv.Name = "checkAllProv";
 			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 43;
@@ -238,7 +238,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkUnearned.Checked = true;
 			this.checkUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkUnearned.Location = new System.Drawing.Point(511, 28);
+			this.checkUnearned.Location = new System.Drawing.Point(516, 28);
 			this.checkUnearned.Name = "checkUnearned";
 			this.checkUnearned.Size = new System.Drawing.Size(119, 20);
 			this.checkUnearned.TabIndex = 59;

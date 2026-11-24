@@ -35,7 +35,7 @@ OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	.			679,490
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	butOK	640,414	75,26	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date2	288,26	227,162	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date1	29,26	227,162	
-OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	labelTO	258,26	28,23	
+OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	labelTO	258,95	28,23	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	listProv	533,50	181,147	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	label1	530,8	104,16	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	listType	29,255	227,147	
@@ -125,7 +125,7 @@ OpenPmsDental/Forms Reports/FormRpPatPortionUncollected.designer.cs	.			860,500
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	butOK	636,411	75,26	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date2	284,26	227,162	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date1	28,26	227,162	
-OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	labelTO	256,26	28,23	
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	labelTO	256,95	28,23	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	listProv	534,50	175,147	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	label1	532,8	104,16	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	label2	26,210	200,16	

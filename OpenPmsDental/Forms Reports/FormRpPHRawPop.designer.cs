@@ -60,12 +60,12 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(237, 8);
+			this.labelTO.Location = new System.Drawing.Point(237, 77);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1
 			// 
