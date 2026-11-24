@@ -188,7 +188,10 @@ the same with OPMS_UI_FIT_GALLERY_SCALE=1.5, OPMS_UI_CAL_DROP_GALLERY=<W>/<side>
 tools/New-UiGallery.ps1 -Before <W>/gal-before -After <W>/gal-after -Name G-UI3-uical2 -Out .git/od-tools/test-results/G-UI3-uical2
 ```
 
-**Results.** RESULTS_PLACEHOLDER
+**Results.** Full build through the lane: 0 errors. Targeted x64 run (`.git/od-tools/test-results/uical2b-final.txt`, 2026-11-24):
+UiRefreshTests 380 passed, 52 skipped; WindowChecksTests 31 passed, 44 skipped; UnitTests 1728 passed, 3 skipped; PrintGuardTests 19
+passed, 1 skipped; NoHqTests 130 passed; P262BillingTests 54 passed; 0 failed. `tools/Test-NoEolFlips.ps1 -Base 642322a74`: 0 flips.
+`python tools/UiFit/element_inventory.py --check` and `python tools/UiFit/colour_literals.py --check`: match.
 
 **Open.** The owner's look at the gallery, and on a desktop: a drop-down at 150% in a graph's window and in a program window, one near the
 screen's bottom and right edges, and a window moved to a monitor of another scale (the harness draws no screen).
