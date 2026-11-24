@@ -51,8 +51,7 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormUpdate#load":
 					//What the fork's Load shows: the message, the window a padding under it (FormUpdate_Load since slice 14).
 					Control textMessage=Find(root,"textConnectionMessage");
-					textMessage.Text="Checking for updates with Open Dental is not available in this build. Install new versions manually.
-"
+					textMessage.Text="Checking for updates with Open Dental is not available in this build. Install new versions manually.\r\n"
 						+"After a new version is installed on one computer, the other computers update themselves from this database.";
 					Form formUpdate=root.FindForm();
 					int heightLess=root.ClientSize.Height-textMessage.Bottom-CodeBase.UiGrid.PAD;
