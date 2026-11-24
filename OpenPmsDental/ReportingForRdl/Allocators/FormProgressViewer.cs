@@ -67,6 +67,10 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		{
 			InitializeComponent();
 			InitializeLayoutManager();
+			//UI-12F: LayoutManager scales the window (FormODBase allows no MinimumSize or MaximumSize in the designer), so its size limits, the
+			//designer's 525 x 166 and 1000 x 800 at 96 dpi, are set scaled here.
+			MinimumSize=new System.Drawing.Size(LayoutManager.Scale(525),LayoutManager.Scale(166));
+			MaximumSize=new System.Drawing.Size(LayoutManager.Scale(1000),LayoutManager.Scale(800));
 
 		}
 		#region Public Methods and Properties
