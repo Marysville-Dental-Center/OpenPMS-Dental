@@ -1837,6 +1837,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   `UI-12-audit-14.md` (UI-12.md section 7, "Slice 14"). Fix round (`ui/ui12-14-2`): the review's nine findings fixed (the task list's
   calendar and tree, its margins at 150%, the progress windows' bottoms and bar, the service window's bottom bar, the camera settings'
   section gaps, the sheet check box's single state and side notes, the two missing befores at 150%).
+  UI-CLOSE (branch `ui/uiclose-1`, the lead's last layout items): the batch list ends empty (MDIChild on the grid list as slice 17;
+  FormODBase, the Windows Forms UnmountedBar and WindowingSlider and DashFamilyInsurance, which the harness cannot build and have
+  nothing to lay out, in `sweep-known.tsv` with their reasons, and `plan_batches.py` leaves them out); FormServiceManage's spare height
+  as equal gaps between its sections; FormBackup's five example notes as tall as their lines (measured, up to 175%; textBox5 and four
+  more showed their first lines only) and, after the review (`ui/uiclose-2`), its Backup and Restore groups on the grid with one
+  rhythm (content 4 px under the title band, 2 px note to field, 6 px field to note, 8 px under the last row), the window's size kept; gallery `G-UI3-uiclose`, audit `UI-CLOSE-audit.md` (UI-12.md section 7,
+  "UI-CLOSE").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

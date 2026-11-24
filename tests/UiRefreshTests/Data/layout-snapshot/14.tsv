@@ -228,13 +228,13 @@ ServiceManager/FormMain.Designer.cs	listMain	8,167	174,258
 ServiceManager/FormMain.Designer.cs	label1	8,8	337,155	
 ServiceManager/FormMain.Designer.cs	butAdd	8,437	75,24	
 ServiceManager/FormMain.Designer.cs	.			353,469
-ServiceManager/FormServiceManage.Designer.cs	butRefresh	378,62	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butRefresh	378,85	75,23	
 ServiceManager/FormServiceManage.Designer.cs	butStop	251,135	75,23	
 ServiceManager/FormServiceManage.Designer.cs	butStart	170,135	75,23	
 ServiceManager/FormServiceManage.Designer.cs	butUninstall	89,135	75,23	
 ServiceManager/FormServiceManage.Designer.cs	butInstall	8,135	75,23	
-ServiceManager/FormServiceManage.Designer.cs	textStatus	156,62	216,23	
-ServiceManager/FormServiceManage.Designer.cs	label2	106,62	44,23	
+ServiceManager/FormServiceManage.Designer.cs	textStatus	156,85	216,23	
+ServiceManager/FormServiceManage.Designer.cs	label2	106,85	44,23	
 ServiceManager/FormServiceManage.Designer.cs	label1	66,8	84,23	
 ServiceManager/FormServiceManage.Designer.cs	textName	156,8	216,23	
 ServiceManager/FormServiceManage.Designer.cs	label3	62,35	88,23	

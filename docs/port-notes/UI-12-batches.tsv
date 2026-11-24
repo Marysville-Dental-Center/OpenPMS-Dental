@@ -1,6 +1,1 @@
 batch	kind	rank	designer_file	window	controls	group
-1	small		OpenPmsDental/UI/BordersDpi/FormODBase.cs	OpenPmsDental.formodbase	0	OpenPmsDental.formodbase
-1	small		OpenPmsDental/UI/ImagesModule/UnmountedBar.Designer.cs	OpenPmsDental.UI.UnmountedBar	0	OpenPmsDental.UI.UnmountedBar
-1	small		OpenPmsDental/UI/ImagesModule/WindowingSlider.Designer.cs	OpenPmsDental.UI.WindowingSlider	0	OpenPmsDental.UI.WindowingSlider
-1	small		OpenPmsDental/User Controls/Dashboard/DashFamilyInsurance.Designer.cs	OpenPmsDental.DashFamilyInsurance	0	OpenPmsDental.DashFamilyInsurance
-1	small		RdlDesign/MDIChild.cs	fyiReporting.RdlDesign.mdichild	0	fyiReporting.RdlDesign.mdichild
