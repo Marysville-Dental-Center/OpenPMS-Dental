@@ -1,0 +1,22 @@
+picture	size	sha256	gallery	commit	date	answer	note
+1-slice-windows/DialogNewTable.png	472x442	e7700a1400d65afed02dd0b0e68f8da256ed1a4a5ec6270ae2b7e83300c3a5fb	G-UI3	951e8f204	2026-11-23	Change	old style 
+1-slice-windows/StyleTextCtl.png	456x280	dfd751d28e97cd7a6431c7a79f858729e52d415f848088900d004765c3d8da33	G-UI3	951e8f204	2026-11-23	Change	still old style
+1-slice-windows/ChartAxisCtl.png	440x288	1efb084f3cf5b64cf1616606123543708a1357095e37a42ce86b20249abcf2e0	G-UI3	951e8f204	2026-11-23	Change	still old style
+1-slice-windows/ReportCtl.png	472x288	2a7c0099bde74267c24d869ff0ca829ee30a9412280da00cdce8f8bc064d5dbe	G-UI3	951e8f204	2026-11-23	Change	 old style
+1-slice-windows/PositionCtl.png	472x288	553227a03d5137b54918440fdfbe62c559584d9a50b9e887dc65979f472e2fdb	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/StyleCtl.png	472x312	322bdf7318319916150ff42fee500dbc5ad4a5d2ce6a84c39555b75e0c8daa45	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/ReportParameterCtl.png	456x298	16696fa62bbb971f7dc7b42025c6356abf84628a40b78ed8c8f34eee4bf8ee33	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogDatabase.png	544x405	06c77608e788ba72b839caef9017e38becbdf38d2791009b618886bb5ea25589	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/StyleBorderCtl.png	472x312	d282233ce3b7eadd103208123f589354105134f223b540769c4e864addebaf4b	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogNewChart.png	472x463	9d773b5e569ef2f136de278284f7630e4712da6f433d1976545c6614dbfac898	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/InteractivityCtl.png	472x288	910aea60e1f36f208c1f44982af00d26259d9a1c4229799de646d2c6cbe46278	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogToolOptions.png	482x343	7de112d3aa04bdf8769f4946412fa37cf2b4a6cddcbf24bff59ffe002c3438ac	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/FindTab.png	464x245	7df15cdd539a6822de5c97aac9df85f576640934dc7e085d59a5b24dcba21fa1	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/FormParameterInput.png	644x354	869de2668eaafc29364dc76fee4f2483ece11581c4fa730d721bb7b693c22102	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogDatabase-connection.png	544x405	0a632a5a0ff8c10a8a644cbd68ede38f23f1b59bf405ed75c1aa83075e808138	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogDatabase-grouping.png	544x405	656cb01d9563aa86bc1b0e3e536dd8925c767e413d0cfd8d913cf83c52258833	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogDatabase-parameters.png	544x405	706daf7c272942815e69927c6bf2ea7c109e363b349d83d9701567fe43f04701	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogToolOptions-desktop.png	482x343	d192281c2938a651c6864075853a5c4ce4d474cfcc24f8761f819d043e67b348	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/DialogToolOptions-toolbar.png	482x343	b97dcb15a06fd2a0345ee6d76da88996f841613ec156273393b9efef2cb3476f	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/FindTab-goto.png	464x245	17b86d011877493bc8a11401c27d68a1b230049fe7e6afb1b7540883654735de	G-UI3	951e8f204	2026-11-23	Change	old style
+1-slice-windows/FindTab-replace.png	464x245	54263962d2077f0d55f49e2ee2db2a5e57d7597a23ebabe4f141f92f18a22362	G-UI3	951e8f204	2026-11-23	Change	old style
