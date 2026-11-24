@@ -1034,7 +1034,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bTable.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Table",16,16);
 			this.bTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bTable.Location = new System.Drawing.Point(608, 32);
+			this.bTable.Location = new System.Drawing.Point(585, 8);
 			this.bTable.Name = "bTable";
 			this.bTable.TabIndex = 0;
 			this.bTable.Text = "Table";
@@ -1044,7 +1044,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bLine.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Line",16,16);
 			this.bLine.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bLine.Location = new System.Drawing.Point(608, 288);
+			this.bLine.Location = new System.Drawing.Point(585, 224);
 			this.bLine.Name = "bLine";
 			this.bLine.TabIndex = 1;
 			this.bLine.Text = "Line";
@@ -1054,7 +1054,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bImage.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Image",16,16);
 			this.bImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bImage.Location = new System.Drawing.Point(608, 256);
+			this.bImage.Location = new System.Drawing.Point(585, 197);
 			this.bImage.Name = "bImage";
 			this.bImage.TabIndex = 2;
 			this.bImage.Text = "Image";
@@ -1064,7 +1064,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bRectangle.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Rectangle",16,16);
 			this.bRectangle.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bRectangle.Location = new System.Drawing.Point(608, 224);
+			this.bRectangle.Location = new System.Drawing.Point(585, 170);
 			this.bRectangle.Name = "bRectangle";
 			this.bRectangle.TabIndex = 3;
 			this.bRectangle.Text = "Rect";
@@ -1074,7 +1074,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSubreport.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Subreport",16,16);
 			this.bSubreport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bSubreport.Location = new System.Drawing.Point(608, 192);
+			this.bSubreport.Location = new System.Drawing.Point(585, 143);
 			this.bSubreport.Name = "bSubreport";
 			this.bSubreport.TabIndex = 4;
 			this.bSubreport.Text = "Subreport";
@@ -1084,7 +1084,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bList.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ListBullets",16,16);
 			this.bList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bList.Location = new System.Drawing.Point(608, 160);
+			this.bList.Location = new System.Drawing.Point(585, 116);
 			this.bList.Name = "bList";
 			this.bList.TabIndex = 5;
 			this.bList.Text = "List";
@@ -1094,7 +1094,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bChart.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","ChartBar",16,16);
 			this.bChart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bChart.Location = new System.Drawing.Point(608, 128);
+			this.bChart.Location = new System.Drawing.Point(585, 89);
 			this.bChart.Name = "bChart";
 			this.bChart.TabIndex = 6;
 			this.bChart.Text = "Chart";
@@ -1104,7 +1104,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bText.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","TextBox",16,16);
 			this.bText.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bText.Location = new System.Drawing.Point(608, 96);
+			this.bText.Location = new System.Drawing.Point(585, 62);
 			this.bText.Name = "bText";
 			this.bText.TabIndex = 7;
 			this.bText.Text = "Text";
@@ -1114,7 +1114,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bMatrix.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Matrix",16,16);
 			this.bMatrix.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bMatrix.Location = new System.Drawing.Point(608, 64);
+			this.bMatrix.Location = new System.Drawing.Point(585, 35);
 			this.bMatrix.Name = "bMatrix";
 			this.bMatrix.TabIndex = 8;
 			this.bMatrix.Text = "Matrix";
@@ -1124,7 +1124,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bPrint.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Print",16,16);
 			this.bPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bPrint.Location = new System.Drawing.Point(504, 192);
+			this.bPrint.Location = new System.Drawing.Point(504, 143);
 			this.bPrint.Name = "bPrint";
 			this.bPrint.TabIndex = 9;
 			this.bPrint.Text = "Print";
@@ -1134,7 +1134,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bSave.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Save",16,16);
 			this.bSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bSave.Location = new System.Drawing.Point(504, 160);
+			this.bSave.Location = new System.Drawing.Point(504, 116);
 			this.bSave.Name = "bSave";
 			this.bSave.TabIndex = 10;
 			this.bSave.Text = "Save";
@@ -1144,7 +1144,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bOpen.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Open",16,16);
 			this.bOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bOpen.Location = new System.Drawing.Point(504, 128);
+			this.bOpen.Location = new System.Drawing.Point(504, 89);
 			this.bOpen.Name = "bOpen";
 			this.bOpen.TabIndex = 11;
 			this.bOpen.Text = "Open";
@@ -1154,7 +1154,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bPaste.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Paste",16,16);
 			this.bPaste.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bPaste.Location = new System.Drawing.Point(504, 96);
+			this.bPaste.Location = new System.Drawing.Point(504, 62);
 			this.bPaste.Name = "bPaste";
 			this.bPaste.TabIndex = 12;
 			this.bPaste.Text = "Paste";
@@ -1164,7 +1164,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCopy.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Copy",16,16);
 			this.bCopy.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bCopy.Location = new System.Drawing.Point(504, 64);
+			this.bCopy.Location = new System.Drawing.Point(504, 35);
 			this.bCopy.Name = "bCopy";
 			this.bCopy.TabIndex = 13;
 			this.bCopy.Text = "Copy";
@@ -1174,7 +1174,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCut.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Cut",16,16);
 			this.bCut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bCut.Location = new System.Drawing.Point(504, 32);
+			this.bCut.Location = new System.Drawing.Point(504, 8);
 			this.bCut.Name = "bCut";
 			this.bCut.TabIndex = 14;
 			this.bCut.Text = "Cut";
@@ -1184,7 +1184,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bNew.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","NewDocument",16,16);
 			this.bNew.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bNew.Location = new System.Drawing.Point(504, 224);
+			this.bNew.Location = new System.Drawing.Point(504, 170);
 			this.bNew.Name = "bNew";
 			this.bNew.TabIndex = 15;
 			this.bNew.Text = "New";
@@ -1194,7 +1194,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bUndo.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Undo",16,16);
 			this.bUndo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bUndo.Location = new System.Drawing.Point(504, 256);
+			this.bUndo.Location = new System.Drawing.Point(504, 197);
 			this.bUndo.Name = "bUndo";
 			this.bUndo.TabIndex = 16;
 			this.bUndo.Text = "Undo";
@@ -1204,7 +1204,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bPdf.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Pdf",18,16);
 			this.bPdf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bPdf.Location = new System.Drawing.Point(504, 320);
+			this.bPdf.Location = new System.Drawing.Point(504, 251);
 			this.bPdf.Name = "bPdf";
 			this.bPdf.TabIndex = 17;
 			this.bPdf.Text = "PDF";
@@ -1214,7 +1214,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bXml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Xml",16,16);
 			this.bXml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bXml.Location = new System.Drawing.Point(504, 288);
+			this.bXml.Location = new System.Drawing.Point(504, 224);
 			this.bXml.Name = "bXml";
 			this.bXml.TabIndex = 18;
 			this.bXml.Text = "XML";
@@ -1224,7 +1224,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bHtml.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Html",16,16);
 			this.bHtml.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bHtml.Location = new System.Drawing.Point(608, 320);
+			this.bHtml.Location = new System.Drawing.Point(585, 251);
 			this.bHtml.Name = "bHtml";
 			this.bHtml.TabIndex = 19;
 			this.bHtml.Text = "HTML";
@@ -1234,7 +1234,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bMht.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Mht",16,16);
 			this.bMht.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.bMht.Location = new System.Drawing.Point(504, 360);
+			this.bMht.Location = new System.Drawing.Point(504, 278);
 			this.bMht.Name = "bMht";
 			this.bMht.TabIndex = 20;
 			this.bMht.Text = "HTML";

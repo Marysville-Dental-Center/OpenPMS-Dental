@@ -98,45 +98,48 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(40, 24);
+			this.label1.Location = new System.Drawing.Point(60, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(56, 23);
+			this.label1.Size = new System.Drawing.Size(48, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Height";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(40, 60);
+			this.label2.Location = new System.Drawing.Point(48, 35);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(56, 23);
+			this.label2.Size = new System.Drawing.Size(60, 23);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Columns";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 96);
+			this.label3.Location = new System.Drawing.Point(8, 62);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(95, 23);
+			this.label3.Size = new System.Drawing.Size(100, 23);
 			this.label3.TabIndex = 2;
 			this.label3.Text = "Column Spacing";
 			// 
 			// tbHeight
 			// 
-			this.tbHeight.Location = new System.Drawing.Point(104, 25);
+			this.tbHeight.Location = new System.Drawing.Point(114, 8);
 			this.tbHeight.Name = "tbHeight";
 			this.tbHeight.TabIndex = 0;
 			this.tbHeight.Text = "";
 			// 
 			// tbColumns
 			// 
-			this.tbColumns.Location = new System.Drawing.Point(104, 61);
+			this.tbColumns.Location = new System.Drawing.Point(114, 35);
 			this.tbColumns.Name = "tbColumns";
 			this.tbColumns.TabIndex = 1;
 			this.tbColumns.Text = "";
 			// 
 			// tbColumnSpacing
 			// 
-			this.tbColumnSpacing.Location = new System.Drawing.Point(104, 96);
+			this.tbColumnSpacing.Location = new System.Drawing.Point(114, 62);
 			this.tbColumnSpacing.Name = "tbColumnSpacing";
 			this.tbColumnSpacing.TabIndex = 2;
 			this.tbColumnSpacing.Text = "";

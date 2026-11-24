@@ -172,29 +172,30 @@ namespace fyiReporting.RdlDesign
 			this.dgParms.AutoGenerateColumns = false;
 			this.dgParms.DataMember = "";
 			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgParms.Location = new System.Drawing.Point(8,40);
+			this.dgParms.Location = new System.Drawing.Point(8,35);
 			this.dgParms.Name = "dgParms";
-			this.dgParms.Size = new System.Drawing.Size(384,168);
+			this.dgParms.Size = new System.Drawing.Size(384,170);
 			this.dgParms.TabIndex = 2;
 			// 
 			// label1
 			// 
 			this.label1.Location = new System.Drawing.Point(8,8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(88,23);
+			this.label1.Size = new System.Drawing.Size(80,23);
 			this.label1.TabIndex = 3;
 			this.label1.Text = "Report name";
 			// 
 			// tbReportFile
 			// 
-			this.tbReportFile.Location = new System.Drawing.Point(104,8);
+			this.tbReportFile.Location = new System.Drawing.Point(94,8);
 			this.tbReportFile.Name = "tbReportFile";
-			this.tbReportFile.Size = new System.Drawing.Size(312,20);
+			this.tbReportFile.Size = new System.Drawing.Size(332,23);
 			this.tbReportFile.TabIndex = 4;
 			// 
 			// bFile
 			// 
-			this.bFile.Location = new System.Drawing.Point(424,8);
+			this.bFile.Location = new System.Drawing.Point(432,8);
 			this.bFile.Name = "bFile";
 			this.bFile.Size = new System.Drawing.Size(24,23);
 			this.bFile.TabIndex = 5;
@@ -203,7 +204,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bRefreshParms
 			// 
-			this.bRefreshParms.Location = new System.Drawing.Point(400,40);
+			this.bRefreshParms.Location = new System.Drawing.Point(400,35);
 			this.bRefreshParms.Name = "bRefreshParms";
 			this.bRefreshParms.Size = new System.Drawing.Size(56,23);
 			this.bRefreshParms.TabIndex = 10;
@@ -213,7 +214,7 @@ namespace fyiReporting.RdlDesign
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(288,216);
+			this.bOK.Location = new System.Drawing.Point(298,217);
 			this.bOK.Name = "bOK";
 			this.bOK.Size = new System.Drawing.Size(75,23);
 			this.bOK.TabIndex = 11;
@@ -224,7 +225,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCancel.CausesValidation = false;
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(376,216);
+			this.bCancel.Location = new System.Drawing.Point(381,217);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.Size = new System.Drawing.Size(75,23);
 			this.bCancel.TabIndex = 12;

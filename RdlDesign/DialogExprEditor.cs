@@ -331,7 +331,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(264, 280);
+			this.bOK.Location = new System.Drawing.Point(274, 279);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 3;
 			this.bOK.Text = "OK";
@@ -340,11 +340,11 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.tbExpr.AcceptsReturn = true;
 			this.tbExpr.AcceptsTab = true;
-			this.tbExpr.Location = new System.Drawing.Point(208, 32);
+			this.tbExpr.Location = new System.Drawing.Point(242, 27);
 			this.tbExpr.Multiline = true;
 			this.tbExpr.Name = "tbExpr";
 			this.tbExpr.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.tbExpr.Size = new System.Drawing.Size(224, 232);
+			this.tbExpr.Size = new System.Drawing.Size(190, 240);
 			this.tbExpr.TabIndex = 2;
 			this.tbExpr.Text = "";
 			this.tbExpr.WordWrap = false;
@@ -353,7 +353,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(352, 280);
+			this.bCancel.Location = new System.Drawing.Point(357, 279);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 4;
 			this.bCancel.Text = "Cancel";
@@ -361,31 +361,33 @@ namespace fyiReporting.RdlDesign
 			// tvOp
 			// 
 			this.tvOp.ImageIndex = -1;
-			this.tvOp.Location = new System.Drawing.Point(8, 32);
+			this.tvOp.Location = new System.Drawing.Point(8, 27);
 			this.tvOp.Name = "tvOp";
 			this.tvOp.SelectedImageIndex = -1;
-			this.tvOp.Size = new System.Drawing.Size(152, 224);
+			this.tvOp.Size = new System.Drawing.Size(190, 240);
 			this.tvOp.TabIndex = 0;
 			// 
 			// lExpr
 			// 
-			this.lExpr.Location = new System.Drawing.Point(216, 8);
+			this.lExpr.Location = new System.Drawing.Point(242, 8);
+			this.lExpr.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.lExpr.Name = "lExpr";
-			this.lExpr.Size = new System.Drawing.Size(208, 16);
+			this.lExpr.Size = new System.Drawing.Size(190, 17);
 			this.lExpr.TabIndex = 12;
 			this.lExpr.Text = "Expressions start with \'=\'";
 			// 
 			// lOp
 			// 
 			this.lOp.Location = new System.Drawing.Point(8, 8);
+			this.lOp.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.lOp.Name = "lOp";
-			this.lOp.Size = new System.Drawing.Size(136, 16);
+			this.lOp.Size = new System.Drawing.Size(190, 17);
 			this.lOp.TabIndex = 13;
 			this.lOp.Text = "Select and hit \'>>\'";
 			// 
 			// bCopy
 			// 
-			this.bCopy.Location = new System.Drawing.Point(168, 48);
+			this.bCopy.Location = new System.Drawing.Point(204, 27);
 			this.bCopy.Name = "bCopy";
 			this.bCopy.Size = new System.Drawing.Size(32, 23);
 			this.bCopy.TabIndex = 1;

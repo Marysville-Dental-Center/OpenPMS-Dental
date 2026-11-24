@@ -102,10 +102,10 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.listNewChoices.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listNewChoices.HideSelection = false;
-			this.listNewChoices.Location = new System.Drawing.Point(0, 0);
+			this.listNewChoices.Location = new System.Drawing.Point(8, 8);
 			this.listNewChoices.MultiSelect = false;
 			this.listNewChoices.Name = "listNewChoices";
-			this.listNewChoices.Size = new System.Drawing.Size(448, 366);
+			this.listNewChoices.Size = new System.Drawing.Size(432, 315);
 			this.listNewChoices.TabIndex = 0;
 			this.listNewChoices.ItemActivate += new System.EventHandler(this.listNewChoices_ItemActivate);
 			this.listNewChoices.SelectedIndexChanged += new System.EventHandler(this.listNewChoices_SelectedIndexChanged);
@@ -114,7 +114,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOK.Enabled = false;
-			this.btnOK.Location = new System.Drawing.Point(280, 4);
+			this.btnOK.Location = new System.Drawing.Point(282, 12);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.TabIndex = 1;
 			this.btnOK.Text = "OK";
@@ -124,7 +124,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.btnCancel.Location = new System.Drawing.Point(368, 4);
+			this.btnCancel.Location = new System.Drawing.Point(365, 12);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.TabIndex = 2;
 			this.btnCancel.Text = "Cancel";
@@ -134,9 +134,9 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.btnOK);
 			this.panel1.Controls.Add(this.btnCancel);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 334);
+			this.panel1.Location = new System.Drawing.Point(0, 323);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(448, 32);
+			this.panel1.Size = new System.Drawing.Size(448, 43);
 			this.panel1.TabIndex = 3;
 			// 
 			// DialogNew

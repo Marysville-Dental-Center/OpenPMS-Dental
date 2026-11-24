@@ -138,7 +138,7 @@ namespace fyiReporting.RdlDesign
 			this.grpBoxVisibility.Controls.Add(this.label2);
 			this.grpBoxVisibility.Location = new System.Drawing.Point(8, 8);
 			this.grpBoxVisibility.Name = "grpBoxVisibility";
-			this.grpBoxVisibility.Size = new System.Drawing.Size(432, 80);
+			this.grpBoxVisibility.Size = new System.Drawing.Size(432, 81);
 			this.grpBoxVisibility.TabIndex = 1;
 			this.grpBoxVisibility.TabStop = false;
 			this.grpBoxVisibility.Text = "Visibility";
@@ -146,9 +146,9 @@ namespace fyiReporting.RdlDesign
 			// bHidden
 			// 
 			this.bHidden.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bHidden.Location = new System.Drawing.Point(400, 26);
+			this.bHidden.Location = new System.Drawing.Point(402, 23);
 			this.bHidden.Name = "bHidden";
-			this.bHidden.Size = new System.Drawing.Size(22, 16);
+			this.bHidden.Size = new System.Drawing.Size(22, 23);
 			this.bHidden.TabIndex = 1;
 			this.bHidden.Tag = "visibility";
 			this.bHidden.Text = "fx";
@@ -157,49 +157,52 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbToggle
 			// 
-			this.cbToggle.Location = new System.Drawing.Point(168, 48);
+			this.cbToggle.Location = new System.Drawing.Point(174, 50);
 			this.cbToggle.Name = "cbToggle";
-			this.cbToggle.Size = new System.Drawing.Size(152, 21);
+			this.cbToggle.Size = new System.Drawing.Size(152, 23);
 			this.cbToggle.TabIndex = 2;
 			this.cbToggle.TextChanged += new System.EventHandler(this.cbToggle_SelectedIndexChanged);
 			this.cbToggle.SelectedIndexChanged += new System.EventHandler(this.cbToggle_SelectedIndexChanged);
 			// 
 			// tbHidden
 			// 
-			this.tbHidden.Location = new System.Drawing.Point(168, 24);
+			this.tbHidden.Location = new System.Drawing.Point(174, 23);
 			this.tbHidden.Name = "tbHidden";
-			this.tbHidden.Size = new System.Drawing.Size(224, 20);
+			this.tbHidden.Size = new System.Drawing.Size(222, 23);
 			this.tbHidden.TabIndex = 0;
 			this.tbHidden.Text = "";
 			this.tbHidden.TextChanged += new System.EventHandler(this.tbHidden_TextChanged);
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 48);
+			this.label3.Location = new System.Drawing.Point(8, 50);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(152, 23);
+			this.label3.Size = new System.Drawing.Size(160, 23);
 			this.label3.TabIndex = 1;
 			this.label3.Text = "Toggle Item (Textbox name)";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 24);
+			this.label2.Location = new System.Drawing.Point(8, 23);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(132, 23);
+			this.label2.Size = new System.Drawing.Size(160, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Hidden (initial visibility)";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 104);
+			this.label1.Location = new System.Drawing.Point(84, 97);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(80, 16);
+			this.label1.Size = new System.Drawing.Size(92, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Column Width";
 			// 
 			// tbColumnWidth
 			// 
-			this.tbColumnWidth.Location = new System.Drawing.Point(88, 104);
+			this.tbColumnWidth.Location = new System.Drawing.Point(182, 97);
 			this.tbColumnWidth.Name = "tbColumnWidth";
 			this.tbColumnWidth.TabIndex = 3;
 			this.tbColumnWidth.Text = "";
@@ -207,18 +210,18 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkFixedHeader
 			// 
-			this.chkFixedHeader.Location = new System.Drawing.Point(8, 136);
+			this.chkFixedHeader.Location = new System.Drawing.Point(182, 126);
 			this.chkFixedHeader.Name = "chkFixedHeader";
-			this.chkFixedHeader.Size = new System.Drawing.Size(96, 24);
+			this.chkFixedHeader.Size = new System.Drawing.Size(99, 18);
 			this.chkFixedHeader.TabIndex = 4;
 			this.chkFixedHeader.Text = "Fixed Header";
 			this.chkFixedHeader.CheckedChanged += new System.EventHandler(this.cbFixedHeader_CheckedChanged);
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(112, 136);
+			this.label4.Location = new System.Drawing.Point(182, 151);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(336, 24);
+			this.label4.Size = new System.Drawing.Size(258, 50);
 			this.label4.TabIndex = 5;
 			this.label4.Text = "Note: Fixed headers must be contiguous and start at either the left or the right " +
 				"of the table.  Current renderers ignore this parameter.";

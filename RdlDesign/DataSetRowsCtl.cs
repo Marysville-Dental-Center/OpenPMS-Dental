@@ -183,58 +183,58 @@ namespace fyiReporting.RdlDesign
 			this.dgRows.AutoGenerateColumns = false;
 			this.dgRows.DataMember = "";
 			this.dgRows.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgRows.Location = new System.Drawing.Point(8, 48);
+			this.dgRows.Location = new System.Drawing.Point(8, 35);
 			this.dgRows.Name = "dgRows";
-			this.dgRows.Size = new System.Drawing.Size(376, 200);
+			this.dgRows.Size = new System.Drawing.Size(324, 215);
 			this.dgRows.TabIndex = 2;
 			// 
 			// bDelete
 			// 
-			this.bDelete.Location = new System.Drawing.Point(392, 48);
+			this.bDelete.Location = new System.Drawing.Point(340, 35);
 			this.bDelete.Name = "bDelete";
-			this.bDelete.Size = new System.Drawing.Size(48, 23);
+			this.bDelete.Size = new System.Drawing.Size(100, 23);
 			this.bDelete.TabIndex = 1;
 			this.bDelete.Text = "Delete";
 			this.bDelete.Click += new System.EventHandler(this.bDelete_Click);
 			// 
 			// bUp
 			// 
-			this.bUp.Location = new System.Drawing.Point(392, 80);
+			this.bUp.Location = new System.Drawing.Point(340, 62);
 			this.bUp.Name = "bUp";
-			this.bUp.Size = new System.Drawing.Size(48, 23);
+			this.bUp.Size = new System.Drawing.Size(100, 23);
 			this.bUp.TabIndex = 3;
 			this.bUp.Text = "Up";
 			this.bUp.Click += new System.EventHandler(this.bUp_Click);
 			// 
 			// bDown
 			// 
-			this.bDown.Location = new System.Drawing.Point(392, 112);
+			this.bDown.Location = new System.Drawing.Point(340, 89);
 			this.bDown.Name = "bDown";
-			this.bDown.Size = new System.Drawing.Size(48, 23);
+			this.bDown.Size = new System.Drawing.Size(100, 23);
 			this.bDown.TabIndex = 4;
 			this.bDown.Text = "Down";
 			this.bDown.Click += new System.EventHandler(this.bDown_Click);
 			// 
 			// chkRowsFile
 			// 
-			this.chkRowsFile.Location = new System.Drawing.Point(8, 8);
+			this.chkRowsFile.Location = new System.Drawing.Point(8, 10);
 			this.chkRowsFile.Name = "chkRowsFile";
-			this.chkRowsFile.Size = new System.Drawing.Size(136, 24);
+			this.chkRowsFile.Size = new System.Drawing.Size(140, 18);
 			this.chkRowsFile.TabIndex = 5;
 			this.chkRowsFile.Text = "Use XML file for data";
 			this.chkRowsFile.CheckedChanged += new System.EventHandler(this.chkRowsFile_CheckedChanged);
 			// 
 			// tbRowsFile
 			// 
-			this.tbRowsFile.Location = new System.Drawing.Point(144, 8);
+			this.tbRowsFile.Location = new System.Drawing.Point(154, 8);
 			this.tbRowsFile.Name = "tbRowsFile";
-			this.tbRowsFile.Size = new System.Drawing.Size(240, 20);
+			this.tbRowsFile.Size = new System.Drawing.Size(256, 23);
 			this.tbRowsFile.TabIndex = 6;
 			this.tbRowsFile.Text = "";
 			// 
 			// bRowsFile
 			// 
-			this.bRowsFile.Location = new System.Drawing.Point(392, 8);
+			this.bRowsFile.Location = new System.Drawing.Point(416, 8);
 			this.bRowsFile.Name = "bRowsFile";
 			this.bRowsFile.Size = new System.Drawing.Size(24, 23);
 			this.bRowsFile.TabIndex = 7;
@@ -244,27 +244,27 @@ namespace fyiReporting.RdlDesign
 			// label1
 			// 
 			this.label1.Font = new System.Drawing.Font("Segoe UI", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.label1.Location = new System.Drawing.Point(16, 256);
+			this.label1.Location = new System.Drawing.Point(8, 258);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(368, 23);
+			this.label1.Size = new System.Drawing.Size(432, 34);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "Warning: this panel supports an extension to the RDL specification.  This informa" +
 				"tion will be ignored in RDL processors other than in fyiReporting.";
 			// 
 			// bLoad
 			// 
-			this.bLoad.Location = new System.Drawing.Point(392, 184);
+			this.bLoad.Location = new System.Drawing.Point(340, 143);
 			this.bLoad.Name = "bLoad";
-			this.bLoad.Size = new System.Drawing.Size(48, 48);
+			this.bLoad.Size = new System.Drawing.Size(100, 23);
 			this.bLoad.TabIndex = 9;
 			this.bLoad.Text = "Load From SQL";
 			this.bLoad.Click += new System.EventHandler(this.bLoad_Click);
 			// 
 			// bClear
 			// 
-			this.bClear.Location = new System.Drawing.Point(392, 141);
+			this.bClear.Location = new System.Drawing.Point(340, 116);
 			this.bClear.Name = "bClear";
-			this.bClear.Size = new System.Drawing.Size(48, 23);
+			this.bClear.Size = new System.Drawing.Size(100, 23);
 			this.bClear.TabIndex = 10;
 			this.bClear.Text = "Clear";
 			this.bClear.Click += new System.EventHandler(this.bClear_Click);

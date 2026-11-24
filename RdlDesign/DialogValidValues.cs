@@ -175,13 +175,13 @@ namespace fyiReporting.RdlDesign
 			this.dgParms.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.dgParms.Location = new System.Drawing.Point(8, 8);
 			this.dgParms.Name = "dgParms";
-			this.dgParms.Size = new System.Drawing.Size(320, 168);
+			this.dgParms.Size = new System.Drawing.Size(320, 171);
 			this.dgParms.TabIndex = 2;
 			// 
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(216, 192);
+			this.bOK.Location = new System.Drawing.Point(226, 191);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 3;
 			this.bOK.Text = "OK";
@@ -189,14 +189,14 @@ namespace fyiReporting.RdlDesign
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(312, 192);
+			this.bCancel.Location = new System.Drawing.Point(309, 191);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 4;
 			this.bCancel.Text = "Cancel";
 			// 
 			// bDelete
 			// 
-			this.bDelete.Location = new System.Drawing.Point(336, 16);
+			this.bDelete.Location = new System.Drawing.Point(336, 8);
 			this.bDelete.Name = "bDelete";
 			this.bDelete.Size = new System.Drawing.Size(48, 23);
 			this.bDelete.TabIndex = 5;

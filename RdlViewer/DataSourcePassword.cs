@@ -85,16 +85,17 @@ namespace fyiReporting.RdlViewer
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(16,16);
+			this.label1.Location = new System.Drawing.Point(8,8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(280,23);
+			this.label1.Size = new System.Drawing.Size(290,17);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Please enter the pass phrase for shared data sources";
 			// 
 			// bOK
 			// 
 			this.bOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.bOK.Location = new System.Drawing.Point(112,80);
+			this.bOK.Location = new System.Drawing.Point(140,81);
 			this.bOK.Name = "bOK";
 			this.bOK.Size = new System.Drawing.Size(75,23);
 			this.bOK.TabIndex = 2;
@@ -103,7 +104,7 @@ namespace fyiReporting.RdlViewer
 			// bCancel
 			// 
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(208,80);
+			this.bCancel.Location = new System.Drawing.Point(223,81);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.Size = new System.Drawing.Size(75,23);
 			this.bCancel.TabIndex = 3;
@@ -111,10 +112,10 @@ namespace fyiReporting.RdlViewer
 			// 
 			// tbPassPhrase
 			// 
-			this.tbPassPhrase.Location = new System.Drawing.Point(16,40);
+			this.tbPassPhrase.Location = new System.Drawing.Point(8,27);
 			this.tbPassPhrase.Name = "tbPassPhrase";
 			this.tbPassPhrase.PasswordChar = '*';
-			this.tbPassPhrase.Size = new System.Drawing.Size(272,20);
+			this.tbPassPhrase.Size = new System.Drawing.Size(290,23);
 			this.tbPassPhrase.TabIndex = 1;
 			// 
 			// DataSourcePassword

@@ -164,10 +164,10 @@ namespace fyiReporting.RdlDesign
 			this.tbSQL.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.tbSQL.Location = new System.Drawing.Point(176, 0);
+			this.tbSQL.Location = new System.Drawing.Point(188, 8);
 			this.tbSQL.Multiline = true;
 			this.tbSQL.Name = "tbSQL";
-			this.tbSQL.Size = new System.Drawing.Size(304, 142);
+			this.tbSQL.Size = new System.Drawing.Size(284, 131);
 			this.tbSQL.TabIndex = 5;
 			this.tbSQL.Text = "";
 			// 
@@ -176,10 +176,10 @@ namespace fyiReporting.RdlDesign
 			this.tvTablesColumns.Dock = System.Windows.Forms.DockStyle.Left;
 			this.tvTablesColumns.FullRowSelect = true;
 			this.tvTablesColumns.ImageIndex = -1;
-			this.tvTablesColumns.Location = new System.Drawing.Point(0, 0);
+			this.tvTablesColumns.Location = new System.Drawing.Point(8, 8);
 			this.tvTablesColumns.Name = "tvTablesColumns";
 			this.tvTablesColumns.SelectedImageIndex = -1;
-			this.tvTablesColumns.Size = new System.Drawing.Size(136, 142);
+			this.tvTablesColumns.Size = new System.Drawing.Size(136, 131);
 			this.tvTablesColumns.TabIndex = 4;
 			this.tvTablesColumns.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvTablesColumns_BeforeExpand);
 			// 
@@ -188,15 +188,15 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.bOK);
 			this.panel1.Controls.Add(this.bCancel);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel1.Location = new System.Drawing.Point(0, 142);
+			this.panel1.Location = new System.Drawing.Point(0, 139);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(480, 40);
+			this.panel1.Size = new System.Drawing.Size(480, 43);
 			this.panel1.TabIndex = 6;
 			// 
 			// bOK
 			// 
 			this.bOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.bOK.Location = new System.Drawing.Point(312, 8);
+			this.bOK.Location = new System.Drawing.Point(314, 12);
 			this.bOK.Name = "bOK";
 			this.bOK.TabIndex = 2;
 			this.bOK.Text = "OK";
@@ -207,14 +207,14 @@ namespace fyiReporting.RdlDesign
 			this.bCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.bCancel.CausesValidation = false;
 			this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.bCancel.Location = new System.Drawing.Point(400, 8);
+			this.bCancel.Location = new System.Drawing.Point(397, 12);
 			this.bCancel.Name = "bCancel";
 			this.bCancel.TabIndex = 3;
 			this.bCancel.Text = "Cancel";
 			// 
 			// bMove
 			// 
-			this.bMove.Location = new System.Drawing.Point(142, 8);
+			this.bMove.Location = new System.Drawing.Point(150, 8);
 			this.bMove.Name = "bMove";
 			this.bMove.Size = new System.Drawing.Size(32, 23);
 			this.bMove.TabIndex = 8;

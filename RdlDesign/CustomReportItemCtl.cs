@@ -110,17 +110,17 @@ namespace fyiReporting.RdlDesign
             // 
             // pgProps
             // 
-            this.pgProps.Location = new System.Drawing.Point(13, 17);
+            this.pgProps.Location = new System.Drawing.Point(8, 8);
             this.pgProps.Name = "pgProps";
-            this.pgProps.Size = new System.Drawing.Size(406, 260);
+            this.pgProps.Size = new System.Drawing.Size(404, 284);
             this.pgProps.TabIndex = 3;
             // 
             // bExpr
             // 
             this.bExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bExpr.Location = new System.Drawing.Point(422, 57);
+            this.bExpr.Location = new System.Drawing.Point(418, 8);
             this.bExpr.Name = "bExpr";
-            this.bExpr.Size = new System.Drawing.Size(22, 16);
+            this.bExpr.Size = new System.Drawing.Size(22, 23);
             this.bExpr.TabIndex = 4;
             this.bExpr.Tag = "sd";
             this.bExpr.Text = "fx";

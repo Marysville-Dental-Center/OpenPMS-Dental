@@ -132,7 +132,7 @@ namespace fyiReporting.RdlDesign
 			this.grpBoxVisibility.Controls.Add(this.label2);
 			this.grpBoxVisibility.Location = new System.Drawing.Point(8, 8);
 			this.grpBoxVisibility.Name = "grpBoxVisibility";
-			this.grpBoxVisibility.Size = new System.Drawing.Size(432, 80);
+			this.grpBoxVisibility.Size = new System.Drawing.Size(456, 81);
 			this.grpBoxVisibility.TabIndex = 1;
 			this.grpBoxVisibility.TabStop = false;
 			this.grpBoxVisibility.Text = "Visibility";
@@ -140,9 +140,9 @@ namespace fyiReporting.RdlDesign
 			// bHidden
 			// 
 			this.bHidden.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bHidden.Location = new System.Drawing.Point(400, 26);
+			this.bHidden.Location = new System.Drawing.Point(404, 23);
 			this.bHidden.Name = "bHidden";
-			this.bHidden.Size = new System.Drawing.Size(22, 16);
+			this.bHidden.Size = new System.Drawing.Size(22, 23);
 			this.bHidden.TabIndex = 1;
 			this.bHidden.Tag = "visibility";
 			this.bHidden.Text = "fx";
@@ -151,7 +151,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbToggle
 			// 
-			this.cbToggle.Location = new System.Drawing.Point(168, 48);
+			this.cbToggle.Location = new System.Drawing.Point(174, 50);
 			this.cbToggle.Name = "cbToggle";
 			this.cbToggle.Size = new System.Drawing.Size(152, 21);
 			this.cbToggle.TabIndex = 2;
@@ -160,7 +160,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// tbHidden
 			// 
-			this.tbHidden.Location = new System.Drawing.Point(168, 24);
+			this.tbHidden.Location = new System.Drawing.Point(174, 23);
 			this.tbHidden.Name = "tbHidden";
 			this.tbHidden.Size = new System.Drawing.Size(224, 20);
 			this.tbHidden.TabIndex = 0;
@@ -169,31 +169,34 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(16, 48);
+			this.label3.Location = new System.Drawing.Point(8, 50);
+			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(152, 23);
+			this.label3.Size = new System.Drawing.Size(160, 23);
 			this.label3.TabIndex = 1;
 			this.label3.Text = "Toggle Item (Textbox name)";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 24);
+			this.label2.Location = new System.Drawing.Point(32, 23);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(132, 23);
+			this.label2.Size = new System.Drawing.Size(136, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Hidden (initial visibility)";
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 104);
+			this.label1.Location = new System.Drawing.Point(8, 97);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(80, 16);
+			this.label1.Size = new System.Drawing.Size(76, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Row Height";
 			// 
 			// tbRowHeight
 			// 
-			this.tbRowHeight.Location = new System.Drawing.Point(88, 104);
+			this.tbRowHeight.Location = new System.Drawing.Point(90, 97);
 			this.tbRowHeight.Name = "tbRowHeight";
 			this.tbRowHeight.TabIndex = 3;
 			this.tbRowHeight.Text = "";

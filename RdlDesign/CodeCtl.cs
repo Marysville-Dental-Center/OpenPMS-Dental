@@ -123,15 +123,15 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(98, 6);
+			this.label1.Location = new System.Drawing.Point(98, 11);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(149, 16);
+			this.label1.Size = new System.Drawing.Size(156, 16);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Visual Basic Function Code";
 			// 
 			// bCheckSyntax
 			// 
-			this.bCheckSyntax.Location = new System.Drawing.Point(365, 3);
+			this.bCheckSyntax.Location = new System.Drawing.Point(365, 8);
 			this.bCheckSyntax.Name = "bCheckSyntax";
 			this.bCheckSyntax.Size = new System.Drawing.Size(82, 23);
 			this.bCheckSyntax.TabIndex = 2;
@@ -143,9 +143,9 @@ namespace fyiReporting.RdlDesign
 			this.panel1.Controls.Add(this.tbCode);
 			this.panel1.Controls.Add(this.splitter1);
 			this.panel1.Controls.Add(this.lbErrors);
-			this.panel1.Location = new System.Drawing.Point(13, 31);
+			this.panel1.Location = new System.Drawing.Point(8, 39);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(439, 252);
+			this.panel1.Size = new System.Drawing.Size(456, 252);
 			this.panel1.TabIndex = 4;
 			// 
 			// tbCode
@@ -184,7 +184,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(15, 7);
+			this.label2.Location = new System.Drawing.Point(8, 12);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(69, 15);
 			this.label2.TabIndex = 5;
@@ -197,7 +197,7 @@ namespace fyiReporting.RdlDesign
 			this.Controls.Add(this.bCheckSyntax);
 			this.Controls.Add(this.label1);
 			this.Name = "CodeCtl";
-			this.Size = new System.Drawing.Size(472, 288);
+			this.Size = new System.Drawing.Size(472, 299);
 			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 

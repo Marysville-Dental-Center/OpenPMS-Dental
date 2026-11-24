@@ -236,14 +236,14 @@ namespace fyiReporting.RdlDesign
 			this.dgGroup.AutoGenerateColumns = false;
 			this.dgGroup.DataMember = "";
 			this.dgGroup.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.dgGroup.Location = new System.Drawing.Point(8, 48);
+			this.dgGroup.Location = new System.Drawing.Point(8, 53);
 			this.dgGroup.Name = "dgGroup";
 			this.dgGroup.Size = new System.Drawing.Size(376, 88);
 			this.dgGroup.TabIndex = 1;
 			// 
 			// bDelete
 			// 
-			this.bDelete.Location = new System.Drawing.Point(392, 69);
+			this.bDelete.Location = new System.Drawing.Point(392, 73);
 			this.bDelete.Name = "bDelete";
 			this.bDelete.Size = new System.Drawing.Size(48, 20);
 			this.bDelete.TabIndex = 2;
@@ -252,7 +252,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bUp
 			// 
-			this.bUp.Location = new System.Drawing.Point(392, 94);
+			this.bUp.Location = new System.Drawing.Point(392, 97);
 			this.bUp.Name = "bUp";
 			this.bUp.Size = new System.Drawing.Size(48, 20);
 			this.bUp.TabIndex = 3;
@@ -261,7 +261,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bDown
 			// 
-			this.bDown.Location = new System.Drawing.Point(392, 119);
+			this.bDown.Location = new System.Drawing.Point(392, 121);
 			this.bDown.Name = "bDown";
 			this.bDown.Size = new System.Drawing.Size(48, 20);
 			this.bDown.TabIndex = 4;
@@ -270,15 +270,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 8);
+			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(48, 23);
+			this.label1.Size = new System.Drawing.Size(44, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Name";
 			// 
 			// tbName
 			// 
-			this.tbName.Location = new System.Drawing.Point(56, 8);
+			this.tbName.Location = new System.Drawing.Point(62, 8);
 			this.tbName.Name = "tbName";
 			this.tbName.Size = new System.Drawing.Size(328, 20);
 			this.tbName.TabIndex = 0;
@@ -287,7 +288,8 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 144);
+			this.label2.Location = new System.Drawing.Point(16, 145);
+			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(40, 23);
 			this.label2.TabIndex = 7;
@@ -295,15 +297,15 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 32);
+			this.label3.Location = new System.Drawing.Point(8, 35);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(56, 16);
+			this.label3.Size = new System.Drawing.Size(60, 16);
 			this.label3.TabIndex = 9;
 			this.label3.Text = "Group By";
 			// 
 			// cbLabelExpr
 			// 
-			this.cbLabelExpr.Location = new System.Drawing.Point(48, 144);
+			this.cbLabelExpr.Location = new System.Drawing.Point(62, 145);
 			this.cbLabelExpr.Name = "cbLabelExpr";
 			this.cbLabelExpr.Size = new System.Drawing.Size(336, 21);
 			this.cbLabelExpr.TabIndex = 5;
@@ -311,7 +313,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbParentExpr
 			// 
-			this.cbParentExpr.Location = new System.Drawing.Point(48, 176);
+			this.cbParentExpr.Location = new System.Drawing.Point(62, 172);
 			this.cbParentExpr.Name = "cbParentExpr";
 			this.cbParentExpr.Size = new System.Drawing.Size(336, 21);
 			this.cbParentExpr.TabIndex = 6;
@@ -319,64 +321,65 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lParent
 			// 
-			this.lParent.Location = new System.Drawing.Point(8, 176);
+			this.lParent.Location = new System.Drawing.Point(8, 172);
+			this.lParent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lParent.Name = "lParent";
-			this.lParent.Size = new System.Drawing.Size(40, 23);
+			this.lParent.Size = new System.Drawing.Size(48, 23);
 			this.lParent.TabIndex = 11;
 			this.lParent.Text = "Parent";
 			// 
 			// chkPBS
 			// 
-			this.chkPBS.Location = new System.Drawing.Point(8, 208);
+			this.chkPBS.Location = new System.Drawing.Point(62, 199);
 			this.chkPBS.Name = "chkPBS";
-			this.chkPBS.Size = new System.Drawing.Size(136, 24);
+			this.chkPBS.Size = new System.Drawing.Size(129, 18);
 			this.chkPBS.TabIndex = 7;
 			this.chkPBS.Text = "Page Break at Start";
 			// 
 			// chkPBE
 			// 
-			this.chkPBE.Location = new System.Drawing.Point(232, 208);
+			this.chkPBE.Location = new System.Drawing.Point(197, 199);
 			this.chkPBE.Name = "chkPBE";
-			this.chkPBE.Size = new System.Drawing.Size(136, 24);
+			this.chkPBE.Size = new System.Drawing.Size(125, 18);
 			this.chkPBE.TabIndex = 8;
 			this.chkPBE.Text = "Page Break at End";
 			// 
 			// chkRepeatHeader
 			// 
-			this.chkRepeatHeader.Location = new System.Drawing.Point(232, 232);
+			this.chkRepeatHeader.Location = new System.Drawing.Point(212, 221);
 			this.chkRepeatHeader.Name = "chkRepeatHeader";
-			this.chkRepeatHeader.Size = new System.Drawing.Size(139, 24);
+			this.chkRepeatHeader.Size = new System.Drawing.Size(141, 18);
 			this.chkRepeatHeader.TabIndex = 13;
 			this.chkRepeatHeader.Text = "Repeat group header";
 			// 
 			// chkGrpHeader
 			// 
-			this.chkGrpHeader.Location = new System.Drawing.Point(8, 232);
+			this.chkGrpHeader.Location = new System.Drawing.Point(62, 221);
 			this.chkGrpHeader.Name = "chkGrpHeader";
-			this.chkGrpHeader.Size = new System.Drawing.Size(141, 24);
+			this.chkGrpHeader.Size = new System.Drawing.Size(144, 18);
 			this.chkGrpHeader.TabIndex = 12;
 			this.chkGrpHeader.Text = "Include group header";
 			// 
 			// chkRepeatFooter
 			// 
-			this.chkRepeatFooter.Location = new System.Drawing.Point(232, 256);
+			this.chkRepeatFooter.Location = new System.Drawing.Point(208, 243);
 			this.chkRepeatFooter.Name = "chkRepeatFooter";
-			this.chkRepeatFooter.Size = new System.Drawing.Size(136, 24);
+			this.chkRepeatFooter.Size = new System.Drawing.Size(137, 18);
 			this.chkRepeatFooter.TabIndex = 15;
 			this.chkRepeatFooter.Text = "Repeat group footer";
 			// 
 			// chkGrpFooter
 			// 
-			this.chkGrpFooter.Location = new System.Drawing.Point(8, 256);
+			this.chkGrpFooter.Location = new System.Drawing.Point(62, 243);
 			this.chkGrpFooter.Name = "chkGrpFooter";
-			this.chkGrpFooter.Size = new System.Drawing.Size(136, 24);
+			this.chkGrpFooter.Size = new System.Drawing.Size(140, 18);
 			this.chkGrpFooter.TabIndex = 14;
 			this.chkGrpFooter.Text = "Include group footer";
 			// 
 			// bValueExpr
 			// 
 			this.bValueExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bValueExpr.Location = new System.Drawing.Point(392, 48);
+			this.bValueExpr.Location = new System.Drawing.Point(392, 53);
 			this.bValueExpr.Name = "bValueExpr";
 			this.bValueExpr.Size = new System.Drawing.Size(22, 16);
 			this.bValueExpr.TabIndex = 16;
@@ -388,9 +391,9 @@ namespace fyiReporting.RdlDesign
 			// bLabelExpr
 			// 
 			this.bLabelExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bLabelExpr.Location = new System.Drawing.Point(392, 147);
+			this.bLabelExpr.Location = new System.Drawing.Point(404, 145);
 			this.bLabelExpr.Name = "bLabelExpr";
-			this.bLabelExpr.Size = new System.Drawing.Size(22, 16);
+			this.bLabelExpr.Size = new System.Drawing.Size(22, 23);
 			this.bLabelExpr.TabIndex = 17;
 			this.bLabelExpr.Tag = "label";
 			this.bLabelExpr.Text = "fx";
@@ -400,9 +403,9 @@ namespace fyiReporting.RdlDesign
 			// bParentExpr
 			// 
 			this.bParentExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bParentExpr.Location = new System.Drawing.Point(392, 180);
+			this.bParentExpr.Location = new System.Drawing.Point(404, 172);
 			this.bParentExpr.Name = "bParentExpr";
-			this.bParentExpr.Size = new System.Drawing.Size(22, 16);
+			this.bParentExpr.Size = new System.Drawing.Size(22, 23);
 			this.bParentExpr.TabIndex = 18;
 			this.bParentExpr.Tag = "parent";
 			this.bParentExpr.Text = "fx";
