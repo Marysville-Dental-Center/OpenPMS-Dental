@@ -37,9 +37,9 @@ RdlDesign/ChartLegendCtl.cs	chkVisible	144,62	65,18
 RdlDesign/ChartLegendCtl.cs	chkInsidePlotArea	144,84	143,18	
 RdlDesign/ChartLegendCtl.cs	.		440,288	
 RdlDesign/CodeCtl.cs	label1	98,11	156,16	
-RdlDesign/CodeCtl.cs	bCheckSyntax	365,8	82,23	
-RdlDesign/CodeCtl.cs	panel1	8,39	456,252	
-RdlDesign/CodeCtl.cs	tbCode	87,0	352,252	
+RdlDesign/CodeCtl.cs	bCheckSyntax	358,8	82,23	
+RdlDesign/CodeCtl.cs	panel1	8,39	432,252	
+RdlDesign/CodeCtl.cs	tbCode	87,0	345,252	
 RdlDesign/CodeCtl.cs	splitter1	82,0	5,252	
 RdlDesign/CodeCtl.cs	lbErrors	0,0	82,252	
 RdlDesign/CodeCtl.cs	label2	8,12	69,15	
@@ -78,18 +78,18 @@ RdlDesign/DialogAbout.cs	linkLabel3	70,115	172,23
 RdlDesign/DialogAbout.cs	linkLabel4	70,88	169,23	
 RdlDesign/DialogAbout.cs	label5	8,115	56,23	
 RdlDesign/DialogAbout.cs	label6	8,88	56,23	
-RdlDesign/DialogAbout.cs	lVersion	240,34	136,16	
+RdlDesign/DialogAbout.cs	lVersion	240,34	184,16	
 RdlDesign/DialogAbout.cs	label8	240,8	184,24	
 RdlDesign/DialogAbout.cs	pictureBox2	8,8	212,72	
-RdlDesign/DialogAbout.cs	lVMVersion	240,52	144,16	
+RdlDesign/DialogAbout.cs	lVMVersion	240,52	184,16	
 RdlDesign/DialogAbout.cs	.			466,304
 RdlDesign/DialogDataSourceRef.cs	label1	8,8	440,50	
 RdlDesign/DialogDataSourceRef.cs	tbPassword	8,66	185,23	
 RdlDesign/DialogDataSourceRef.cs	label2	8,97	440,17	
 RdlDesign/DialogDataSourceRef.cs	tbFilename	8,116	410,23	
 RdlDesign/DialogDataSourceRef.cs	bGetFilename	424,116	24,23	
-RdlDesign/DialogDataSourceRef.cs	label3	8,147	84,23	
-RdlDesign/DialogDataSourceRef.cs	cbDataProvider	98,147	120,23	
+RdlDesign/DialogDataSourceRef.cs	label3	8,147	82,23	
+RdlDesign/DialogDataSourceRef.cs	cbDataProvider	96,147	120,23	
 RdlDesign/DialogDataSourceRef.cs	label4	8,184	273,17	
 RdlDesign/DialogDataSourceRef.cs	tbConnection	8,203	440,78	
 RdlDesign/DialogDataSourceRef.cs	ckbIntSecurity	297,180	151,18	
@@ -100,16 +100,16 @@ RdlDesign/DialogDataSourceRef.cs	bCancel	373,343
 RdlDesign/DialogDataSourceRef.cs	tbPassword2	263,66	185,23	
 RdlDesign/DialogDataSourceRef.cs	label6	209,66	48,23	
 RdlDesign/DialogDataSourceRef.cs	bTestConnection	8,343	96,23	
-RdlDesign/DialogDataSourceRef.cs	cbOdbcNames	356,147	92,23	
-RdlDesign/DialogDataSourceRef.cs	lODBC	234,147	116,23	
+RdlDesign/DialogDataSourceRef.cs	cbOdbcNames	354,147	94,23	
+RdlDesign/DialogDataSourceRef.cs	lODBC	232,147	116,23	
 RdlDesign/DialogDataSourceRef.cs	.			456,374
 RdlDesign/DialogDataSources.cs	tbFilename	202,66	216,23	
 RdlDesign/DialogDataSources.cs	bGetFilename	424,66	24,23	
-RdlDesign/DialogDataSources.cs	lDataProvider	8,93	84,23	
-RdlDesign/DialogDataSources.cs	cbDataProvider	98,93	144,23	
+RdlDesign/DialogDataSources.cs	lDataProvider	8,93	82,23	
+RdlDesign/DialogDataSources.cs	cbDataProvider	96,93	144,23	
 RdlDesign/DialogDataSources.cs	lConnectionString	8,126	402,17	
 RdlDesign/DialogDataSources.cs	tbConnection	8,145	440,136	
-RdlDesign/DialogDataSources.cs	ckbIntSecurity	258,95	151,18	
+RdlDesign/DialogDataSources.cs	ckbIntSecurity	256,95	151,18	
 RdlDesign/DialogDataSources.cs	lPrompt	8,289	440,17	
 RdlDesign/DialogDataSources.cs	tbPrompt	8,308	440,23	
 RdlDesign/DialogDataSources.cs	bOK	290,343		
@@ -160,8 +160,8 @@ RdlDesign/DialogNew.cs	panel1	0,323	448,43
 RdlDesign/DialogNew.cs	.			448,366
 RdlDesign/DialogNewMatrix.cs	bOK	290,369		
 RdlDesign/DialogNewMatrix.cs	bCancel	373,369		
-RdlDesign/DialogNewMatrix.cs	label1	8,8	52,23	
-RdlDesign/DialogNewMatrix.cs	cbDataSets	66,8	382,23	
+RdlDesign/DialogNewMatrix.cs	label1	8,8	51,23	
+RdlDesign/DialogNewMatrix.cs	cbDataSets	65,8	383,23	
 RdlDesign/DialogNewMatrix.cs	label2	8,39	160,17	
 RdlDesign/DialogNewMatrix.cs	label3	216,39	232,17	
 RdlDesign/DialogNewMatrix.cs	lbFields	8,58	160,249	
@@ -203,26 +203,26 @@ RdlDesign/FiltersCtl.cs	bUp	392,55	48,23
 RdlDesign/FiltersCtl.cs	bDown	392,82	48,23	
 RdlDesign/FiltersCtl.cs	bValueExpr	392,8	22,16	
 RdlDesign/FiltersCtl.cs	.		488,304	
-RdlDesign/GroupingCtl.cs	dgGroup	8,53	376,88	
-RdlDesign/GroupingCtl.cs	bDelete	392,73	48,20	
-RdlDesign/GroupingCtl.cs	bUp	392,97	48,20	
-RdlDesign/GroupingCtl.cs	bDown	392,121	48,20	
+RdlDesign/GroupingCtl.cs	dgGroup	8,53	378,104	
+RdlDesign/GroupingCtl.cs	bDelete	392,80	48,23	
+RdlDesign/GroupingCtl.cs	bUp	392,107	48,23	
+RdlDesign/GroupingCtl.cs	bDown	392,134	48,23	
 RdlDesign/GroupingCtl.cs	label1	12,8	44,23	
-RdlDesign/GroupingCtl.cs	tbName	62,8	328,20	
-RdlDesign/GroupingCtl.cs	label2	16,145	40,23	
+RdlDesign/GroupingCtl.cs	tbName	62,8	324,23	
+RdlDesign/GroupingCtl.cs	label2	16,169	40,23	
 RdlDesign/GroupingCtl.cs	label3	8,35	60,16	
-RdlDesign/GroupingCtl.cs	cbLabelExpr	62,145	336,21	
-RdlDesign/GroupingCtl.cs	cbParentExpr	62,172	336,21	
-RdlDesign/GroupingCtl.cs	lParent	8,172	48,23	
-RdlDesign/GroupingCtl.cs	chkPBS	62,199	129,18	
-RdlDesign/GroupingCtl.cs	chkPBE	197,199	125,18	
-RdlDesign/GroupingCtl.cs	chkRepeatHeader	212,221	141,18	
-RdlDesign/GroupingCtl.cs	chkGrpHeader	62,221	144,18	
-RdlDesign/GroupingCtl.cs	chkRepeatFooter	208,243	137,18	
-RdlDesign/GroupingCtl.cs	chkGrpFooter	62,243	140,18	
-RdlDesign/GroupingCtl.cs	bValueExpr	392,53	22,16	
-RdlDesign/GroupingCtl.cs	bLabelExpr	404,145	22,23	
-RdlDesign/GroupingCtl.cs	bParentExpr	404,172	22,23	
+RdlDesign/GroupingCtl.cs	cbLabelExpr	62,169	324,23	
+RdlDesign/GroupingCtl.cs	cbParentExpr	62,196	324,23	
+RdlDesign/GroupingCtl.cs	lParent	8,196	48,23	
+RdlDesign/GroupingCtl.cs	chkPBS	62,223	129,18	
+RdlDesign/GroupingCtl.cs	chkPBE	212,223	125,18	
+RdlDesign/GroupingCtl.cs	chkRepeatHeader	212,245	141,18	
+RdlDesign/GroupingCtl.cs	chkGrpHeader	62,245	144,18	
+RdlDesign/GroupingCtl.cs	chkRepeatFooter	212,267	137,18	
+RdlDesign/GroupingCtl.cs	chkGrpFooter	62,267	140,18	
+RdlDesign/GroupingCtl.cs	bValueExpr	392,53	22,23	
+RdlDesign/GroupingCtl.cs	bLabelExpr	392,169	22,23	
+RdlDesign/GroupingCtl.cs	bParentExpr	392,196	22,23	
 RdlDesign/GroupingCtl.cs	.		488,304	
 RdlDesign/ImageCtl.cs	groupBox1	8,8	432,135	
 RdlDesign/ImageCtl.cs	bEmbedded	402,50	22,23	
@@ -379,14 +379,14 @@ RdlDesign/TableCtl.cs	chkFooterRows	212,23	96,18
 RdlDesign/TableCtl.cs	chkHeaderRows	106,23	100,18	
 RdlDesign/TableCtl.cs	chkDetails	8,23	92,18	
 RdlDesign/TableCtl.cs	.		472,291	
-RdlDesign/TableRowCtl.cs	grpBoxVisibility	8,8	456,81	
-RdlDesign/TableRowCtl.cs	bHidden	404,23	22,23	
-RdlDesign/TableRowCtl.cs	cbToggle	174,50	152,21	
-RdlDesign/TableRowCtl.cs	tbHidden	174,23	224,20	
+RdlDesign/TableRowCtl.cs	grpBoxVisibility	8,8	432,81	
+RdlDesign/TableRowCtl.cs	bHidden	402,23	22,23	
+RdlDesign/TableRowCtl.cs	cbToggle	174,50	152,23	
+RdlDesign/TableRowCtl.cs	tbHidden	174,23	222,23	
 RdlDesign/TableRowCtl.cs	label3	8,50	160,23	
-RdlDesign/TableRowCtl.cs	label2	32,23	136,23	
-RdlDesign/TableRowCtl.cs	label1	8,97	76,23	
-RdlDesign/TableRowCtl.cs	tbRowHeight	90,97		
+RdlDesign/TableRowCtl.cs	label2	8,23	160,23	
+RdlDesign/TableRowCtl.cs	label1	100,97	76,23	
+RdlDesign/TableRowCtl.cs	tbRowHeight	182,97		
 RdlDesign/TableRowCtl.cs	.		472,288	
 RdlViewer/DataSourcePassword.cs	label1	8,8	290,17	
 RdlViewer/DataSourcePassword.cs	bOK	140,81	75,23	
