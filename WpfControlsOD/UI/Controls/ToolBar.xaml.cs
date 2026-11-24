@@ -88,6 +88,7 @@ The new way of doing it is a separate event for each button.
 
 		public void Add(ToolBarButton toolBarButton){
 			stackPanel.Children.Add(toolBarButton);
+			SetTabStops();
 		}
 
 		public void Add(string text,EventHandler eventHandlerClick=null,EnumIcons icon=EnumIcons.None,ToolBarButtonStyle toolBarButtonStyle=ToolBarButtonStyle.NormalButton,
@@ -95,6 +96,7 @@ The new way of doing it is a separate event for each button.
 		{
 			ToolBarButton toolBarButton = new ToolBarButton(text,eventHandlerClick,icon,toolBarButtonStyle,toolTipText,contextMenuDropDown,tag);
 			stackPanel.Children.Add(toolBarButton);
+			SetTabStops();
 		}
 
 		//public void Add(string text,string bitmapFileName,EventHandler eventHandlerClick){
@@ -207,6 +209,27 @@ The new way of doing it is a separate event for each button.
 
 		private void StackPanel_OverflowChanged(object sender,EventArgs e){
 			_toolBarButtonOverflow.Visibility=IsOverflowing ? Visibility.Visible : Visibility.Collapsed;
+			SetTabStops();
+			//A button that went into the drop-down while it had the focus hands it to the overflow button.
+			if(IsOverflowing && Keyboard.FocusedElement is ToolBarButton toolBarButtonFocused && toolBarButtonFocused!=_toolBarButtonOverflow
+				&& stackPanel.Children.Contains(toolBarButtonFocused) && stackPanel.IsOverflowedIndex(stackPanel.Children.IndexOf(toolBarButtonFocused)))
+			{
+				_toolBarButtonOverflow.Focus();
+			}
+		}
+
+		///<summary>The toolbar is one tab stop (TabNavigation Once): Tab lands on its first button, or the one the keyboard was on last (UI-OVF). A
+		///label ("Scan:") and a button in the overflow button's drop-down are no tab stops, so Tab never lands on one; the arrow keys skip them too
+		///(GetKeyboardButtons). A disabled or collapsed button is skipped by WPF itself.</summary>
+		private void SetTabStops(){
+			if(_toolBarButtonOverflow==null){
+				return;//the designer
+			}
+			for(int i=0;i<stackPanel.Children.Count;i++){
+				if(stackPanel.Children[i] is ToolBarButton toolBarButton){
+					toolBarButton.IsTabStop=toolBarButton.HasClick && !stackPanel.IsOverflowedIndex(i);
+				}
+			}
 		}
 
 		///<summary>The drop-down's item for a button (UI-OVF, GetOverflowMenu).</summary>

@@ -449,6 +449,8 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 
 		///<summary>The Tag of the » overflow button (UI-OVF). It is never in Buttons, so no ButtonClick handler sees it.</summary>
 		public const string TAG_OVERFLOW="ToolBarOD.Overflow";
+		///<summary>The tag of the placeholder item an empty drop-down button menu gets while it is an overflow item's sub-menu (UI-OVF).</summary>
+		private const string TAG_OVERFLOW_PLACEHOLDER="ToolBarOD.OverflowPlaceholder";
 
 		///<summary>True when some buttons do not fit and the » overflow button shows at the right end (UI-OVF). From the last layout (paint).</summary>
 		[Browsable(false)]
@@ -482,9 +484,10 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 
 		///<summary>Builds the overflow button's drop-down again from the buttons that do not fit (UI-OVF) and returns it, not shown. Each button is an
 		///item with the same text, picture, enabled state and tooltip; a toggle button is checked while pushed; a click does what a click on the
-		///button does (ButtonClick or the button's own handler, a toggle flips first). A drop-down button's item opens the button's own menu as its
-		///sub-menu (the same items and handlers; the menu's Opening still fires) and a click on the item itself is the button's main part; a
-		///drop-down button whose arrow opens a window (ButtonDropDownClick) has one sub-item for the arrow. Separators stay between groups; a label
+		///button does (ButtonClick or the button's own handler, a toggle flips first). A drop-down button has two items, as its main part and its
+		///arrow are two targets on the bar: the main part, then the same text with the button's own menu as its sub-menu (the same items and
+		///handlers; the menu's Opening fires when the sub-menu opens, also for a menu filled only then), or, when its arrow opens a window
+		///(ButtonDropDownClick), "Text..." that opens it. Separators stay between groups; a label
 		///is a disabled item; the page navigation is left out (its text box cannot move into a menu). The toolbar owns the drop-down.</summary>
 		public ContextMenuStrip GetOverflowMenu(){
 			DisposeOverflowMenu();
@@ -506,7 +509,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				if(toolBarButton.Style==ODToolBarButtonStyle.PageNav){
 					continue;
 				}
-				_contextMenuStripOverflow.Items.Add(NewOverflowItem(toolBarButton,sizeImage));
+				_contextMenuStripOverflow.Items.AddRange(NewOverflowItems(toolBarButton,sizeImage).ToArray());
 			}
 			int countLast=_contextMenuStripOverflow.Items.Count;
 			if(countLast>0 && _contextMenuStripOverflow.Items[countLast-1] is ToolStripSeparator){
@@ -556,13 +559,16 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			return null;
 		}
 
-		///<summary>The drop-down's item for a button (UI-OVF, GetOverflowMenu). Its picture is the button's at the menu's image size.</summary>
-		private ToolStripMenuItem NewOverflowItem(ODToolBarButton toolBarButton,int sizeImage){
+		///<summary>The drop-down's items for a button (UI-OVF, GetOverflowMenu): one item, its picture the button's at the menu's image size, whose
+		///click is the button's main part. A drop-down button gets a second item right after it for its arrow, as on the bar the main part and the
+		///arrow are two targets: the same text with the button's own menu as its sub-menu (no click of its own, so Enter, Space and Right and the
+		///mouse open the sub-menu and never run the main part), or, when its arrow opens a window (ButtonDropDownClick), "Text..." that does that.
+		///A menu filled when it opens (its Opening handlers clear and refill it) gets a placeholder item meanwhile, so the item has a sub-menu to
+		///open and the Opening handlers run.</summary>
+		private List<ToolStripItem> NewOverflowItems(ODToolBarButton toolBarButton,int sizeImage){
+			List<ToolStripItem> listItems=new List<ToolStripItem>();
 			ToolStripMenuItem toolStripMenuItem=new ToolStripMenuItem();
-			toolStripMenuItem.Text=(toolBarButton.Text??"").Replace("&","&&");//the button's text has no mnemonics
-			if(toolStripMenuItem.Text==""){
-				toolStripMenuItem.Text=(toolBarButton.ToolTipText??"").Replace("&","&&");//an icon-only button: its tooltip names it
-			}
+			toolStripMenuItem.Text=GetOverflowText(toolBarButton);
 			toolStripMenuItem.ToolTipText=toolBarButton.ToolTipText;
 			toolStripMenuItem.Tag=toolBarButton;
 			toolStripMenuItem.Enabled=toolBarButton.Enabled && toolBarButton.Style!=ODToolBarButtonStyle.Label;
@@ -574,19 +580,65 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			if(!string.IsNullOrWhiteSpace(toolBarButton.NotificationText)){
 				toolStripMenuItem.ShortcutKeyDisplayString=toolBarButton.NotificationText;//the drop-down's notification, at the item's right
 			}
-			if(toolBarButton.Style==ODToolBarButtonStyle.DropDownButton){
-				if(toolBarButton.ContextMenuStripDropDown!=null){
-					toolStripMenuItem.DropDown=toolBarButton.ContextMenuStripDropDown;//detached again when the drop-down closes
+			toolStripMenuItem.Click+=OverflowItem_Click;
+			listItems.Add(toolStripMenuItem);
+			if(toolBarButton.Style!=ODToolBarButtonStyle.DropDownButton){
+				return listItems;
+			}
+			ToolStripMenuItem toolStripMenuItemArrow=new ToolStripMenuItem();
+			toolStripMenuItemArrow.Tag=toolBarButton;
+			toolStripMenuItemArrow.Enabled=toolStripMenuItem.Enabled;
+			if(toolBarButton.ContextMenuStripDropDown!=null){
+				ContextMenuStrip contextMenuStrip=toolBarButton.ContextMenuStripDropDown;
+				toolStripMenuItemArrow.Text=toolStripMenuItem.Text;
+				if(contextMenuStrip.Items.Count==0){
+					ToolStripMenuItem toolStripMenuItemPlaceholder=new ToolStripMenuItem("...");
+					toolStripMenuItemPlaceholder.Enabled=false;
+					toolStripMenuItemPlaceholder.Tag=TAG_OVERFLOW_PLACEHOLDER;
+					contextMenuStrip.Items.Add(toolStripMenuItemPlaceholder);
 				}
-				else if(ButtonDropDownClick!=null){
-					ToolStripMenuItem toolStripMenuItemArrow=new ToolStripMenuItem((toolBarButton.Text??"").Replace("&","&&")+"...");
-					toolStripMenuItemArrow.Tag=toolBarButton;
-					toolStripMenuItemArrow.Click+=OverflowItemArrow_Click;
-					toolStripMenuItem.DropDownItems.Add(toolStripMenuItemArrow);
+				//After the program's own Opening handlers (they were added before), so it sees the menu as they left it.
+				contextMenuStrip.Opening+=ContextMenuStripDropDown_Opening;
+				toolStripMenuItemArrow.DropDown=contextMenuStrip;//detached again when the drop-down closes
+				listItems.Add(toolStripMenuItemArrow);
+				return listItems;
+			}
+			if(ButtonDropDownClick!=null){
+				toolStripMenuItemArrow.Text=toolStripMenuItem.Text+"...";
+				toolStripMenuItemArrow.Click+=OverflowItemArrow_Click;
+				listItems.Add(toolStripMenuItemArrow);
+			}
+			return listItems;
+		}
+
+		///<summary>The text of a button's overflow item: its text, or the tooltip of an icon-only button; no mnemonics.</summary>
+		private static string GetOverflowText(ODToolBarButton toolBarButton){
+			string text=toolBarButton.Text??"";
+			if(text==""){
+				text=toolBarButton.ToolTipText??"";//an icon-only button: its tooltip names it
+			}
+			return text.Replace("&","&&");//the button's text has no mnemonics
+		}
+
+		///<summary>A drop-down button's menu opening as a sub-menu of the overflow drop-down (UI-OVF), after the program's Opening handlers: the
+		///placeholder goes once they filled the menu; with nothing in it the sub-menu does not open, as the button's own empty menu does not.</summary>
+		private void ContextMenuStripDropDown_Opening(object sender,CancelEventArgs e){
+			ContextMenuStrip contextMenuStrip=(ContextMenuStrip)sender;
+			RemoveOverflowPlaceholder(contextMenuStrip);
+			if(contextMenuStrip.Items.Count==0){
+				e.Cancel=true;
+			}
+		}
+
+		///<summary>Takes the overflow drop-down's placeholder item out of a button's menu, if it is still there (UI-OVF).</summary>
+		private static void RemoveOverflowPlaceholder(ContextMenuStrip contextMenuStrip){
+			for(int i=contextMenuStrip.Items.Count-1;i>=0;i--){
+				ToolStripItem toolStripItem=contextMenuStrip.Items[i];
+				if(TAG_OVERFLOW_PLACEHOLDER.Equals(toolStripItem.Tag)){
+					contextMenuStrip.Items.RemoveAt(i);
+					toolStripItem.Dispose();
 				}
 			}
-			toolStripMenuItem.Click+=OverflowItem_Click;
-			return toolStripMenuItem;
 		}
 
 		///<summary>The button's picture for its overflow item: an icon drawn at the size, the button's Bitmap (not copied: the button owns it), or
@@ -612,23 +664,20 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		}
 
 		private void OverflowItem_Click(object sender,EventArgs e){
-			ToolStripMenuItem toolStripMenuItem=(ToolStripMenuItem)sender;
-			if(toolStripMenuItem.HasDropDownItems){
-				_contextMenuStripOverflow?.Close(ToolStripDropDownCloseReason.ItemClicked);//an item with a sub-menu does not close the menu itself
-			}
-			ODToolBarButton toolBarButton=(ODToolBarButton)toolStripMenuItem.Tag;
+			ODToolBarButton toolBarButton=(ODToolBarButton)((ToolStripItem)sender).Tag;
 			if(!toolBarButton.Enabled || buttons.IndexOf(toolBarButton)<0){
 				return;
 			}
 			PerformButtonClick(toolBarButton);
 		}
 
+		///<summary>The "Text..." item of a drop-down button whose arrow opens a window: what a click on the arrow does.</summary>
 		private void OverflowItemArrow_Click(object sender,EventArgs e){
 			ODToolBarButton toolBarButton=(ODToolBarButton)((ToolStripItem)sender).Tag;
-			if(!toolBarButton.Enabled || buttons.IndexOf(toolBarButton)<0){
+			if(!toolBarButton.Enabled || buttons.IndexOf(toolBarButton)<0 || toolBarButton.ContextMenuStripDropDown!=null){
 				return;
 			}
-			OnButtonDropDownClicked(toolBarButton);
+			ShowDropDown(toolBarButton);
 		}
 
 		private void ContextMenuStripOverflow_Closed(object sender,ToolStripDropDownClosedEventArgs e){
@@ -647,7 +696,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		}
 
 		///<summary>Gives the buttons' own menus back (UI-OVF): an overflow item that showed a drop-down button's ContextMenuStripDropDown as its
-		///sub-menu lets go of it, so the button shows it below itself again as before.</summary>
+		///sub-menu lets go of it, so the button shows it below itself again as before; the placeholder and the Opening handler come out.</summary>
 		private void DetachOverflowDropDowns(){
 			if(_contextMenuStripOverflow==null){
 				return;
@@ -661,6 +710,8 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				if(contextMenuStrip==null || !toolStripMenuItem.HasDropDown || toolStripMenuItem.DropDown!=contextMenuStrip){
 					continue;
 				}
+				contextMenuStrip.Opening-=ContextMenuStripDropDown_Opening;
+				RemoveOverflowPlaceholder(contextMenuStrip);
 				toolStripMenuItem.DropDown=null;
 				contextMenuStrip.OwnerItem=null;
 			}
@@ -695,14 +746,18 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		///<summary>What a click on a drop-down button's arrow does: its menu below the button, or ButtonDropDownClick when it has none (the arrow
 		///opens a window, P262-BILLING).</summary>
 		private void ShowDropDown(ODToolBarButton toolBarButton){
+			if(toolBarButton.ContextMenuStripDropDown==null){//the arrow opens a window (P262-BILLING); also the overflow drop-down's arrow item
+				_toolBarButtonHot=null;
+				toolBarButton.State=ToolBarButtonState.Normal;
+				Invalidate();
+				OnButtonDropDownClicked(toolBarButton);
+				return;
+			}
 			_toolBarButtonHot=null;
 			toolBarButton.State=ToolBarButtonState.Normal;
 			Invalidate();
-			if(toolBarButton.ContextMenuStripDropDown!=null){//there is a dropdown menu strip to display, below the button
-				toolBarButton.ContextMenuStripDropDown.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
-				return;
-			}
-			OnButtonDropDownClicked(toolBarButton);//the arrow opens a window (P262-BILLING)
+			//there is a dropdown menu strip to display, below the button
+			toolBarButton.ContextMenuStripDropDown.Show(this,new Point(toolBarButton.Bounds.X,toolBarButton.Bounds.Y+toolBarButton.Bounds.Height));
 		}
 
 		///<summary>The buttons the arrow keys stop on (UI-OVF), in order: the enabled buttons on the bar (no separators, labels or page navigation),

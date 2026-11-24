@@ -48,7 +48,10 @@ namespace WpfControls.UI{
 			IsEnabledChanged+=This_IsEnabledChanged;
 			//UI-OVF: reachable from the keyboard like the WinForms toolbar's buttons. The toolbar is one tab stop (ToolBar: TabNavigation Once) and
 			//the arrow keys move between its buttons; the shared focus ring shows only with keyboard cues (FocusVisualStyle, section 3.6).
+			//A UserControl is no tab stop by default: Tab could not enter the toolbar. The toolbar takes it off its labels and the buttons in its
+			//overflow button's drop-down (ToolBar.SetTabStops).
 			Focusable=true;
+			IsTabStop=true;
 			UiLook.SetFocusVisualStyle(this,onAccent:false);
 			SetColors();
 		}

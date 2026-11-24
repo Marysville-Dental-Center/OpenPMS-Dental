@@ -57,9 +57,7 @@ namespace UiRefreshTests {
 				{
 					string name=frameworkElement.GetType().Name;
 					Assert.IsTrue(frameworkElement.Focusable,name+" takes the focus");
-					if(!(frameworkElement is WpfControls.UI.ToolBarButton)) {
-						Assert.IsTrue(KeyboardNavigation.GetIsTabStop(frameworkElement),name+" is a tab stop");
-					}
+					Assert.IsTrue(KeyboardNavigation.GetIsTabStop(frameworkElement),name+" is a tab stop");
 					Assert.IsNotNull(frameworkElement.FocusVisualStyle,name+": the shared focus visual style (shown only with keyboard cues)");
 				}
 				WpfControls.UI.Button buttonPrimary=new WpfControls.UI.Button();
@@ -258,6 +256,130 @@ namespace UiRefreshTests {
 			}
 			CollectionAssert.AreEqual(new[] { "textDescription","radioLeft","radioRight","checkInactive","butDelete","butSave","textDescription" },listNames,
 				string.Join(",",listNames));
+		}
+
+		///<summary>Raises PreviewKeyDown then KeyDown for the key on the focused element of a shown window, as the keyboard does (the toolbar's arrow
+		///keys are its PreviewKeyDown). Returns whether it was handled.</summary>
+		private static bool PressKeyFocused(Window window,Key key) {
+			UIElement uIElementFocused=(UIElement)Keyboard.FocusedElement;
+			PresentationSource presentationSource=PresentationSource.FromVisual(window);
+			KeyEventArgs keyEventArgs=new KeyEventArgs(Keyboard.PrimaryDevice,presentationSource,0,key);
+			keyEventArgs.RoutedEvent=Keyboard.PreviewKeyDownEvent;
+			uIElementFocused.RaiseEvent(keyEventArgs);
+			if(keyEventArgs.Handled) {
+				return true;
+			}
+			keyEventArgs=new KeyEventArgs(Keyboard.PrimaryDevice,presentationSource,0,key);
+			keyEventArgs.RoutedEvent=Keyboard.KeyDownEvent;
+			uIElementFocused.RaiseEvent(keyEventArgs);
+			return keyEventArgs.Handled;
+		}
+
+		///<summary>A button, a toolbar too narrow for its buttons (Alpha, the label "Scan:", Bravo, Charlie, Delta, Echo: the last ones in its
+		///overflow button's drop-down) and a button after it.</summary>
+		private static System.Windows.Controls.StackPanel BuildToolBarContent(List<string> listClicked,out WpfControls.UI.ToolBar toolBar) {
+			System.Windows.Controls.StackPanel stackPanel=new System.Windows.Controls.StackPanel();
+			stackPanel.Children.Add(new WpfControls.UI.Button() { Name="butBefore",Text="Before",Width=75,Height=24,HorizontalAlignment=HorizontalAlignment.Left });
+			toolBar=new WpfControls.UI.ToolBar();
+			toolBar.Name="toolBarMain";
+			toolBar.Width=260;
+			toolBar.Height=ToolBarModel.HEIGHT_TOOLBAR;
+			toolBar.HorizontalAlignment=HorizontalAlignment.Left;
+			foreach(string text in new[] { "Alpha","Scan:","Bravo","Charlie","Delta","Echo" }) {
+				string textButton=text;
+				EventHandler eventHandler=text=="Scan:" ? null : (EventHandler)((sender,e) => listClicked.Add(textButton));
+				toolBar.Add(new WpfControls.UI.ToolBarButton(text,eventHandler,WpfControls.UI.EnumIcons.Print) { Name="toolBarButton"+text.TrimEnd(':') });
+			}
+			stackPanel.Children.Add(toolBar);
+			stackPanel.Children.Add(new WpfControls.UI.Button() { Name="butAfter",Text="After",Width=75,Height=24,HorizontalAlignment=HorizontalAlignment.Left });
+			return stackPanel;
+		}
+
+		[TestMethod]
+		public void ToolBar_TabStops_LabelsAndOverflowedButtonsAreNone() {
+			IconRendererTests.RunSta(() => {
+				NoDatabaseGuard.Install();
+				System.Windows.Controls.StackPanel stackPanel=BuildToolBarContent(new List<string>(),out WpfControls.UI.ToolBar toolBar);
+				stackPanel.Measure(new Size(400,200));
+				stackPanel.Arrange(new Rect(0,0,400,200));
+				stackPanel.UpdateLayout();
+				Assert.IsTrue(toolBar.IsOverflowing,"the buttons do not fit in 260 DIP");
+				System.Windows.Controls.Panel panel=(System.Windows.Controls.Panel)toolBar.FindName("stackPanel");
+				List<string> listTabStops=panel.Children.OfType<WpfControls.UI.ToolBarButton>().Where(x => KeyboardNavigation.GetIsTabStop(x)).Select(x => x.Name).ToList();
+				Assert.IsTrue(listTabStops.Contains("toolBarButtonAlpha"),string.Join(",",listTabStops));
+				Assert.IsFalse(listTabStops.Contains("toolBarButtonScan"),"a label is no tab stop");
+				Assert.IsFalse(listTabStops.Contains("toolBarButtonEcho"),"a button in the drop-down is no tab stop");
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(toolBar.ToolBarButtonOverflow),"the overflow button is");
+				//Wide: everything fits, every button with a click is a tab stop again.
+				toolBar.Width=1500;
+				stackPanel.Measure(new Size(2000,200));
+				stackPanel.Arrange(new Rect(0,0,2000,200));
+				stackPanel.UpdateLayout();
+				Assert.IsFalse(toolBar.IsOverflowing);
+				Assert.IsTrue(KeyboardNavigation.GetIsTabStop(panel.Children.OfType<WpfControls.UI.ToolBarButton>().Single(x => x.Name=="toolBarButtonEcho")));
+				Assert.IsFalse(KeyboardNavigation.GetIsTabStop(panel.Children.OfType<WpfControls.UI.ToolBarButton>().Single(x => x.Name=="toolBarButtonScan")));
+			});
+		}
+
+		[TestMethod]
+		public void ToolBar_RealTabWalk_TabEntersOnTheFirstButton_ArrowsReachTheOverflowButton() {
+			List<string> listSteps=null;
+			List<string> listClicked=new List<string>();
+			bool isFocused=false;
+			IconRendererTests.RunSta(() => {
+				NoDatabaseGuard.Install();
+				Window window=new Window();
+				window.WindowStyle=WindowStyle.None;
+				window.ShowInTaskbar=false;
+				window.Left=-20000;
+				window.Top=-20000;
+				window.Width=400;
+				window.Height=200;
+				window.Content=BuildToolBarContent(listClicked,out WpfControls.UI.ToolBar toolBar);
+				try {
+					window.Show();
+					window.Activate();
+					window.UpdateLayout();
+					WpfControls.UI.Button buttonBefore=(WpfControls.UI.Button)((System.Windows.Controls.Panel)window.Content).Children[0];
+					buttonBefore.Focus();
+					isFocused=buttonBefore.IsKeyboardFocused;
+					if(!isFocused) {
+						return;
+					}
+					listSteps=new List<string>();
+					Func<string> funcFocused=() => Keyboard.FocusedElement==toolBar.ToolBarButtonOverflow ? "overflow" : GetFocusedName();
+					((UIElement)Keyboard.FocusedElement).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+					listSteps.Add("Tab:"+funcFocused());
+					PressKeyFocused(window,Key.Right);
+					listSteps.Add("Right:"+funcFocused());
+					PressKeyFocused(window,Key.End);
+					listSteps.Add("End:"+funcFocused());
+					PressKeyFocused(window,Key.Home);
+					listSteps.Add("Home:"+funcFocused());
+					PressKeyFocused(window,Key.Left);
+					listSteps.Add("Left:"+funcFocused());
+					((UIElement)Keyboard.FocusedElement).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+					listSteps.Add("Tab:"+funcFocused());
+					//Back into the toolbar: the button the keyboard was on last.
+					((UIElement)Keyboard.FocusedElement).MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+					listSteps.Add("ShiftTab:"+funcFocused());
+					PressKeyFocused(window,Key.Home);
+					PressKeyFocused(window,Key.Enter);
+				}
+				finally {
+					window.Close();
+				}
+			});
+			if(!isFocused) {
+				Assert.Inconclusive("The session gave the off-screen window no keyboard focus; the tab stops are checked in ToolBar_TabStops.");
+			}
+			CollectionAssert.AreEqual(new[] { "Tab:toolBarButtonAlpha","Right:toolBarButtonBravo","End:overflow","Home:toolBarButtonAlpha","Left:overflow",
+				"Tab:butAfter","ShiftTab:overflow" },listSteps,string.Join(",",listSteps));
+			CollectionAssert.AreEqual(new[] { "Alpha" },listClicked,"Enter on the focused button clicks it");
+		}
+
+		private static string GetFocusedName() {
+			return Keyboard.FocusedElement is FrameworkElement frameworkElement ? GetName(frameworkElement) : "(none)";
 		}
 
 		///<summary>The Frms whose PreviewKeyDown (which runs before a focused control's KeyDown) looks at Enter, and why each is right now that a
