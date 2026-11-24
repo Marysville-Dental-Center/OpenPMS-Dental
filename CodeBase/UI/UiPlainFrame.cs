@@ -183,7 +183,10 @@ namespace CodeBase {
 			framePaintArgs.MaximizeBox=form.MaximizeBox;
 			framePaintArgs.MinimizeBox=form.MinimizeBox;
 			framePaintArgs.IsMaximized=form.WindowState==FormWindowState.Maximized;
-			framePaintArgs.ShowIcon=form.ShowIcon;
+			//The icon where Windows showed one: the window's own icon, none on a dialog frame or a tool window (Windows draws none there), so each
+			//window keeps the icon it had. FormODBase draws the program's icon on every window; a plain window has no program icon of its own.
+			framePaintArgs.ShowIcon=form.ShowIcon && form.FormBorderStyle!=FormBorderStyle.FixedDialog
+				&& form.FormBorderStyle!=FormBorderStyle.FixedToolWindow && form.FormBorderStyle!=FormBorderStyle.SizableToolWindow;
 			framePaintArgs.Icon=form.Icon;
 			if(_table.TryGetValue(form,out FrameWindow frameWindow)) {
 				framePaintArgs.IsHotX=frameWindow.HitHot==HTCLOSE;
@@ -197,8 +200,10 @@ namespace CodeBase {
 			framePaintArgs.MaxInset=0;
 			framePaintArgs.Scale=val96 => Scale(val96,scale);
 			framePaintArgs.ScaleF=val96 => val96*scale;
-			//FormODBase: the title in 8.25 at the program's zoom (none here), its height at the screen's scale.
-			framePaintArgs.TitleFonts=UiFramePainter.GetTitleFonts(form,val96 => val96,val96 => val96*scale);
+			//FormODBase: the title in 8.25 at the program's zoom (none here; Windows draws the point size at the screen's dpi), its height at the
+			//screen's scale. The gallery harness, a 96 dpi process, draws the point size at its scale as such a screen would.
+			float scaleFont=FuncGetScaleForTest==null ? 1f : scale;
+			framePaintArgs.TitleFonts=UiFramePainter.GetTitleFonts(form,val96 => val96*scaleFont,val96 => val96*scale);
 			Rectangle rectanglePanelBorders=new Rectangle(-1,-1,framePaintArgs.Width-widthBorder*2+1,framePaintArgs.Height-widthBorder);
 			framePaintArgs.RectangleOnScreen=UiFramePainter.GetRectangleOnScreen(new Size(framePaintArgs.Width,framePaintArgs.Height),false,scale,rectanglePanelBorders);
 			return framePaintArgs;

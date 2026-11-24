@@ -170,3 +170,74 @@ passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in 
 `PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-after3-100.txt`, `after3-150`,
 `before3-100`): UiRefreshTests 302 passed each. `tools/Test-NoEolFlips.ps1 -Base 2268b57b0`: 0 flips. `element_inventory.py --check`:
 matches.
+
+## 8. UI-PLAIN-2: the report designer and ODR, and the program's title bar on every plain window (branch `ui/uiplain2-1`)
+
+Why: the owner reviewed slice 13's gallery on 2026-11-23 and marked all 21 report designer and ODR pictures "Change: old style"
+(UI-12-owner-review-13.tsv); on the UI-PLAIN gallery: "window title is the old style. Not matching the rest". Branch point 857b85266.
+
+**The report designer and ODR.** RdlDesign references no CodeBase: it links the shared looks, their painters, UiPlainWindow and the
+frame as files (`ReportDesigner.csproj`, as UpdateFileCopier does; no new project reference). Each of its windows and dialogs (DialogAbout
+to SingleCtlDialog, FindTab's two constructors, PropertyDialog with one line, RdlDesigner's main window) calls
+`CodeBase.UiPlainWindow.Attach(this)` right after InitializeComponent, MDIChild after its own layout code; the property pages
+(ChartAxisCtl, InteractivityCtl, PositionCtl, ReportCtl, ReportParameterCtl, StyleCtl, StyleBorderCtl, StyleTextCtl and the rest) get the
+look from the dialog that hosts them, also when it adds them later (ControlAdded). ODR references CodeBase: FormParameterInput calls
+Attach; ComboBoxMulti draws the program's combo box frame (UiListPaint: the parent's colour in the corners, StrokeStrong, the Accent focus
+line) instead of its blue line, and its list in the program's colours (AccentSubtle with TextSelected, SurfaceRaised with Text). No
+licence header, event, value, tab order or dialog result changes.
+
+**The title bar and frame.** FormODBase's frame drawing (FramePaintArgs, FrameColors, FramePaintResult, FrameTitleFonts, EnumFrameLook, the
+painter, the DWM corners) moved from WpfControlsOD's FramePainter to `CodeBase/UI/UiFramePainter.cs` (namespace CodeBase). FramePainter
+keeps the office's Misc Colors (DefCatMiscColors is the business layer's) and forwards everything else under the names FormODBase,
+FormFrame and the tests call; their pixels are unchanged (FrameTests green; PlainFrameTests compares the two painters pixel for pixel).
+`CodeBase.UiPlainFrame` puts that frame on a plain window; `UiPlainWindow.Attach` turns it on:
+- like FormODBase the window keeps its Windows styles (taskbar entry and icon, system menu, Alt+Space, modal dialogs, a dialog's fixed
+  border) and WM_NCCALCSIZE gives the client area the whole window less the invisible resize borders left, right and below
+  (`UiFramePainter.GetWidthBorderMS`: 8 px at 100%, 11 at 150%); a maximized window also less that border on top, so its band starts at the
+  screen's top row. When the handle is made the window gets the size that keeps the designer's client area; Windows 11's rounded corners
+  and border colour are asked for as FormODBase asks them;
+- FormODBase moves its controls into a PanelClient; a plain window keeps its controls and moves its content once, at Load (after Windows
+  Forms' scaling and the window's own Load code): the band (26 px at 96 dpi) is added to the window's height (on a maximized window to the
+  size it restores to) and to its Padding (the docked controls: menus, tool and status strips, the MDI area), and every other control on
+  the window moves as its anchors say (`GetShiftedBounds`); a centred window moves up by half the band. A control the code adds later
+  moves down too, one it takes off moves back;
+- the band is painted on the window's surface (its Paint event) by UiFramePainter with FormODBase's numbers: the band 26 px, the space
+  right of the close button 15 px, the 8.25 pt title in the title font token, the icon, the Fluent caption glyphs, the token colours (a plain
+  window has no office Misc Colors). The icon is the window's own where Windows showed one (none on a dialog frame or tool window);
+- WM_NCHITTEST: the band is HTCAPTION (Windows drags, snaps, maximizes on a double-click, shows the system menu on a right-click), its top
+  5 px and left 5 px and corner the resize edges on a resizable window that is not maximized (FormODBase's PanelBorders_MouseDown), the
+  caption buttons HTCLOSE, HTMAXBUTTON (Windows 11's snap layouts) and HTMINBUTTON at the painter's hit areas; Windows answers for the
+  invisible borders. A click on a caption button (button down and up on the same one) sends the system command Windows' own button sends
+  (SC_CLOSE, SC_MINIMIZE, SC_MAXIMIZE or SC_RESTORE); the hover follows WM_NCMOUSEMOVE and WM_NCMOUSELEAVE. The band repaints when the
+  code changes the window's text;
+- a per-monitor dpi change (WM_DPICHANGED): the content goes back up, Windows Forms scales the window, then the content moves down by the
+  new band;
+- not for an MDI child (Windows' MDI frame), a window without a border (FormProgressStatus), a window inside another, every window when
+  NoCustomBorders.txt is next to the exe (FormODBase's switch), nor while the gallery draws its before pictures. High contrast: the frame
+  in the high-contrast tokens, as FormODBase draws it (FormODBase keeps no Windows frame there).
+
+**Seen, for the lead**
+- Code that sets a window's ClientSize after its handle exists gets a client area a caption taller than asked (Windows Forms computes the
+  window from Windows' standard frame); none of the plain windows does (FormDbSettings and FormSecretPrompt set it in their constructors).
+- Code that places a control on the window itself, in the window's coordinates, after Load would place it under the band; none found.
+- Windows draws a plain window's title at the system dpi, as FormODBase's: on a 150% screen beside a 100% primary the title text is small
+  in both.
+- The harness builds RdlDesigner's main window from InitializeComponent only (its menus and toolbar are made in code before it).
+- The frame was checked through its messages on hidden windows and in pictures; dragging, snapping and the system menu are Windows' own
+  (HTCAPTION) and were not driven on screen (no window is shown in this package). The owner's launch check should try a plain window.
+
+**Tests** (UiRefreshTests): `PlainLookTests` (the constructor check covers RdlDesigner and ODR;
+`PlainWindows_Slice13_ReportDesignerAndOdr_DrawTheNewLook`: the 14 report designer and ODR windows of `grid-windows/13.tsv` checked like the
+plain exes', with the designer's own copy of the looks, `Scan/PlainLookCopy.cs`); `PlainFrameTests` on real window handles that are never
+shown: the client area over the band and the content below it (docked, top, all-sides and bottom anchored controls, a control added and
+taken off later), WM_NCHITTEST of the caption, top and left edges and corner, the three buttons, the client area and Windows' borders, a
+fixed dialog without maximize and minimize, the close button's click raising FormClosing, the caption text painted and repainted, the
+maximized client area and the 150% sizes, FormODBase's pixels, the windows that keep Windows' frame, a report designer dialog's frame.
+`WindowBuilder` attaches a library's own copy to the test host of its user controls. NoHqTests: coverage rows for the two new files.
+
+**Gallery** G-UI3-uiplain2 (`.git/od-tools/test-results/G-UI3-uiplain2`, `.zip`): 149 pictures. `1-slice-windows`: slice 13's 21 pictures
+(the same states), a window with its title bar; `2-at-150`: the 6 densest at 150%; `3-title-bars` and `4-title-bars-150`: the 61 plain
+windows whole at 100% and 150%. Before: this branch with the looks off, whose 21 slice pictures are byte for byte slice 13's `main`
+pictures; the title-bar before pictures are Windows' frame as Windows prints it in the 96 dpi test process. Commands:
+`G-UI3-uiplain2-src/work/ugal2.ps1 -Name after-100 -Scale 1` (`-LooksOff` for the before; `-Scale 1.5`), then New-UiGallery as in section
+6. Every picture opened: [UI-PLAIN-2-audit.md](UI-PLAIN-2-audit.md) (pass 1: four findings, fixed; pass 2: none).

@@ -95,7 +95,9 @@ namespace UiRefreshTests {
 				if(arrayWindows.Contains("@plainframes")) {
 					List<string> listExpanded=arrayWindows.Where(x => x!="@plainframes").ToList();
 					listExpanded.AddRange(listScanTypes.Where(x => x.Kind==BuildKind.PlainWindow && PlainLookTests.ArrayPlainAssemblies.Contains(x.Assembly)
-						&& !PlainLookTests.ArrayNotWindows.Contains(x.Type.FullName)).Select(x => x.WindowKey+"#frame"));
+						&& !PlainLookTests.ArrayNotWindows.Contains(x.Type.FullName)
+						&& x.Type.FullName!="fyiReporting.RdlDesign.MDIChild")//only ever an MDI child: Windows' MDI frame, not the program's
+						.Select(x => x.WindowKey+"#frame"));
 					arrayWindows=listExpanded.ToArray();
 				}
 				foreach(string windowAndState in arrayWindows) {
@@ -119,10 +121,8 @@ namespace UiRefreshTests {
 					}
 					SetGalleryFont(font);
 					try {
-						if(isFrameHere) {
-							//UI-PLAIN-2: the frame at the gallery's scale (the harness is a 96 dpi process).
-							PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
-						}
+						//UI-PLAIN-2: the plain windows' frame at the gallery's scale (the harness is a 96 dpi process).
+						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
 						FillSampleCache(window,state);
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
@@ -148,7 +148,12 @@ namespace UiRefreshTests {
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window,state);
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
-							bool isFramePicture=isFrameHere && builtWindow.ScanType.Kind==BuildKind.PlainWindow && controlPicture==root;
+							//UI-PLAIN-2: a plain window with the program's frame is drawn whole, its title bar on top, in every picture of it (its
+							//content is below the band); the before pictures (the looks off: no frame) keep the window's printing, unless "frame" asks
+							//for the whole window with Windows' frame.
+							bool isWindowPicture=builtWindow.ScanType.Kind==BuildKind.PlainWindow && controlPicture==root;
+							bool isFramePicture=isWindowPicture && (isFrameHere
+								|| PlainLookCopy.IsTrue(builtWindow.Form.GetType().Assembly,"UiPlainFrame","IsAttached",builtWindow.Form));
 							using(Bitmap bitmap=isFramePicture ? PlainLookCopy.CaptureWindow(builtWindow.Form) : DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
 								//UI-12 slice 12: two windows of one class name in the list (xCrudGenerator's and DocumentationBuilder's Form1) are named
@@ -159,7 +164,7 @@ namespace UiRefreshTests {
 								if(state!="") {
 									name+="-"+state;
 								}
-								if(isFramePicture) {
+								if(isFrameHere && isWindowPicture) {
 									name+="-frame";
 								}
 								if(scale!=1f) {
@@ -195,9 +200,7 @@ namespace UiRefreshTests {
 					}
 					finally {
 						ClearSampleCache(window,state);
-						if(isFrameHere) {
-							PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
-						}
+						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}

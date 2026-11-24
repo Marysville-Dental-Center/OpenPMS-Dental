@@ -1787,6 +1787,10 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   UI.TabControl; a button's image and text laid out by TextImageRelation; access key underlines hidden until Windows shows them; coverage
   of CodeBase/UI; the element inventory counts the plain windows (180 types); `PlainLookTests`. Gallery G-UI3-uiplain (59 pictures:
   the 50 plain windows at 100%, the 9 densest at 150%; before = `main` drawn in the same session).
+- UI-PLAIN-2 (2026-11-24, branch `ui/uiplain2-1`): the report designer's windows, dialogs and property pages and ODR's FormParameterInput
+  and ComboBoxMulti in the look (RdlDesign links the looks as files); the frame drawing moved to CodeBase (UiFramePainter) and every plain
+  window gets FormODBase's title bar and frame (UiPlainFrame: the client area over the band, the hit tests, the caption buttons, dpi
+  changes). PlainLookTests and PlainFrameTests; gallery G-UI3-uiplain2 (149 pictures), audit `UI-PLAIN-2-audit.md`. UI-PLAIN.md section 8.
 
 ---
 

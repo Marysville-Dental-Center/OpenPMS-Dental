@@ -11,6 +11,13 @@ using System.Windows.Forms;
 
 namespace UiRefreshTests.Scan {
 	public static class PlainLookCopy {
+		private const int WM_PRINTCLIENT=0x0318;
+		private const int PRF_CLIENT=0x0004;
+		private const int PRF_ERASEBKGND=0x0008;
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern IntPtr SendMessage(IntPtr hWnd,int msg,IntPtr wParam,IntPtr lParam);
+
 		///<summary>The type CodeBase.<name> of the assembly's copy, else CodeBase's.</summary>
 		public static Type GetType(Assembly assembly,string name) {
 			string fullName="CodeBase."+name;
@@ -64,13 +71,34 @@ namespace UiRefreshTests.Scan {
 			using(Bitmap bitmapWindow=DesignSheetWindows.Capture(form,Rectangle.Empty)) {
 				if(IsTrue(assembly,"UiPlainFrame","IsOn",form)) {
 					//The program's frame: the client area (the band and the content) inside the 1 px border Windows draws in the outline colour.
+					//The window's whole printing (DrawToBitmap) has Windows' own caption printed where the client area now starts, so the client
+					//area is printed alone (WM_PRINTCLIENT: the window's background and Paint, the band among it) and the controls on it as the
+					//gallery prints them (DrawTree).
 					Bitmap bitmap=new Bitmap(rectangleClient.Width+2,rectangleClient.Height+2,PixelFormat.Format32bppArgb);
-					using(Graphics g=Graphics.FromImage(bitmap)) {
-						g.Clear(GetOutline(assembly));
-						g.DrawImage(bitmapWindow,new Rectangle(1,1,rectangleClient.Width,rectangleClient.Height),rectangleClient,GraphicsUnit.Pixel);
-						//The band as the window's Paint draws it (printing a window that was never shown does not raise its Paint reliably).
-						g.TranslateTransform(1,1);
-						Call(assembly,"UiPlainFrame","PaintTitleBar",form,g);
+					using(Bitmap bitmapClient=new Bitmap(rectangleClient.Width,rectangleClient.Height,PixelFormat.Format24bppRgb)) {
+						using(Graphics g=Graphics.FromImage(bitmapClient)) {
+							g.Clear(form.BackColor.A==255 ? form.BackColor : SystemColors.Control);
+							IntPtr hdc=g.GetHdc();
+							try {
+								SendMessage(form.Handle,WM_PRINTCLIENT,hdc,new IntPtr(PRF_CLIENT|PRF_ERASEBKGND));
+							}
+							finally {
+								g.ReleaseHdc(hdc);
+							}
+							//The band as the window's Paint draws it (in case the print did not raise it), then the controls, the last one first.
+							Call(assembly,"UiPlainFrame","PaintTitleBar",form,g);
+							for(int i=form.Controls.Count-1;i>=0;i--) {
+								Control control=form.Controls[i];
+								if(!UiRefreshTests.TextFit.TextFitBoundsRecord.IsDesignedVisible(control)) {
+									continue;
+								}
+								DesignSheetWindows.DrawTree(g,control,control.Location);
+							}
+						}
+						using(Graphics g=Graphics.FromImage(bitmap)) {
+							g.Clear(GetOutline(assembly));
+							g.DrawImage(bitmapClient,1,1,bitmapClient.Width,bitmapClient.Height);
+						}
 					}
 					return bitmap;
 				}
