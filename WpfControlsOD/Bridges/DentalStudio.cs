@@ -25,7 +25,7 @@ namespace OpenPmsDental.Bridges{
 			string str="";
 			//The parameters must be in a specific order.
 			//Param1: UserName
-			string userName=ProgramProperties.GetPropVal(ProgramCur.ProgramNum,"UserName (clear to use OD username)");
+			string userName=ProgramProperties.GetPropVal(ProgramCur.ProgramNum,OpenPmsDentalBusiness.ForkMigrations.FeatureSteps.ProgramPropertyDescRenames.DentalStudioUserName);
 			if(userName=="") {//Give the customer the option to use OD usernames.
 				userName=Security.CurUser.UserName;
 			}
