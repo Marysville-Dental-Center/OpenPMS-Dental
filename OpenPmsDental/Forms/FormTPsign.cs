@@ -198,7 +198,7 @@ namespace OpenPmsDental{
 			butChangeUser.Size=new Size(LayoutManager.Scale(95),LayoutManager.Scale(24));
 			butChangeUser.Location=new Point(xRight-butChangeUser.Width,signatureBoxWrapper.Location.Y+LayoutManager.Scale(41));
 			Label labelSigner=new Label();
-			labelSigner.Size=new Size(LayoutManager.Scale(150),LayoutManager.Scale(17));
+			labelSigner.Size=new Size(LayoutManager.Scale(150),LayoutManager.Scale(16));//ends where the typed-signature row starts (box + 4 px)
 			labelSigner.Location=new Point(xRight-labelSigner.Width,butChangeUser.Bottom+LayoutManager.Scale(UiGrid.CAPTION_GAP));
 			labelSigner.TextAlign=ContentAlignment.MiddleRight;
 			butChangeUser.Click+=(sender,e) => ChangeSigBoxUser(sheetField,signatureBoxWrapper,labelSigner);
