@@ -14,7 +14,7 @@ OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	butPrev	8,714	75,24
 OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	.			842,746
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	printPreviewControl2	8,8	771,558	
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butPrint	351,0	85,24	
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	panelZoom	175,578	436,24	
+OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	panelZoom	223,578	436,24	
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butFwd	200,1	18,22	
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	butBack	123,1	18,22	
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	labelTotPages	147,0	47,24	

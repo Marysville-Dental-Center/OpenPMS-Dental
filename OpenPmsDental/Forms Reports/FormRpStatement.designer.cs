@@ -68,7 +68,7 @@ namespace OpenPmsDental {
 			this.panelZoom.Controls.Add(this.butBack);
 			this.panelZoom.Controls.Add(this.labelTotPages);
 			this.panelZoom.Controls.Add(this.butPrint);
-			this.panelZoom.Location = new System.Drawing.Point(175, 578);
+			this.panelZoom.Location = new System.Drawing.Point(223, 578);
 			this.panelZoom.Name = "panelZoom";
 			this.panelZoom.Size = new System.Drawing.Size(436, 24);
 			this.panelZoom.TabIndex = 12;

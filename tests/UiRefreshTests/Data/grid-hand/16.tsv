@@ -37,7 +37,7 @@ OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStat
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	butFwd	Location	195,7	200,1	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	butPrint	Location	340,5	351,0	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	butPrint	Size	85,27	85,24	by hand (layout script): on the grid
-OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	panelZoom	Location	35,419	175,578	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	panelZoom	Location	35,419	223,578	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	panelZoom	Size	436,37	436,24	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	printPreviewControl2	Location	-116,-7	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	printPreviewControl2	Size	842,538	771,558	by hand (layout script): on the grid
