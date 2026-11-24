@@ -1,7 +1,8 @@
 // Package UI-LOAD (docs/port-notes/UI-LOAD.md): the vector progress ring (CodeBase.UiProgressRing) that replaced the animated GIFs the program
 // showed while it waited. Its drawing at 100% and 150% (pixel checks: the ring's square, the arc in Accent where the frame puts it, nothing
 // outside the square), the static ring when Windows' animations are off, Windows' colours in high contrast, the arc's cycle, the timer (it runs
-// only while the ring is visible and stops when it is hidden or disposed, and never runs with animations off), the graph's IsLoading, and the
+// only while the ring is in a window and visible, stops when it is hidden, taken out or disposed, never runs in a ring that was built but
+// never put in a window, as the dashboard's drag source builds graphs, and never runs with animations off), the graph's IsLoading, and the
 // scan that fails on an animated GIF anywhere in the product's folders or on code that animates a picture (ImageAnimator.Animate). The gallery
 // G-UI3-uiload draws its places through FitGallery (ProgressRingGallery.Prepare: every ring at GALLERY_FRAME; OPMS_UI_LOAD_GALLERY_BEFORE
 // draws the before pictures, the old indicator in the ring's place). No window is shown; no database.
@@ -242,29 +243,85 @@ namespace UiRefreshTests {
 		#endregion Drawing
 
 		#region Timer
+		///<summary>The timer runs only while the ring is in a window (a parent and a window handle) and visible. The window here is a Panel
+		///without a parent whose handle is made (WinForms parks it), so Visible is true without showing anything.</summary>
 		[TestMethod]
-		public void Ring_Timer_OnlyWhileVisible_StopsWhenHiddenOrDisposed() {
+		public void Ring_Timer_OnlyWhileInAWindowAndVisible_StopsWhenHiddenRemovedOrDisposed() {
 			StaRunner.Run(() => {
 				UiProgressRing.SetAnimationForTest(true);
 				try {
-					UiProgressRing uiProgressRing=new UiProgressRing();
-					Assert.IsTrue(uiProgressRing.Visible,"a ring without a parent is visible");
-					uiProgressRing.UpdateAnimation();
-					Assert.IsTrue(uiProgressRing.IsAnimating,"visible: the timer runs");
-					uiProgressRing.Visible=false;
-					Assert.IsFalse(uiProgressRing.IsAnimating,"hidden: the timer stops");
-					uiProgressRing.Visible=true;
-					Assert.IsTrue(uiProgressRing.IsAnimating,"shown again: it runs again");
-					//In a window that is not shown the ring is not visible (Visible asks the parents): no timer.
-					using(Form form=new Form()) {
-						form.Controls.Add(uiProgressRing);
-						Assert.IsFalse(uiProgressRing.Visible);
-						Assert.IsFalse(uiProgressRing.IsAnimating,"in a hidden window: no timer");
-						form.Controls.Remove(uiProgressRing);
+					//A ring without a parent is visible (Visible asks only the parents) but in no window: no timer, even with a handle.
+					using(UiProgressRing uiProgressRingAlone=new UiProgressRing()) {
+						Assert.IsTrue(uiProgressRingAlone.Visible);
+						uiProgressRingAlone.UpdateAnimation();
+						Assert.IsFalse(uiProgressRingAlone.IsAnimating,"no parent, no handle: no timer");
+						uiProgressRingAlone.CreateControl();
+						Assert.IsTrue(uiProgressRingAlone.IsHandleCreated);
+						uiProgressRingAlone.UpdateAnimation();
+						Assert.IsFalse(uiProgressRingAlone.IsAnimating,"no parent: no timer");
 					}
-					Assert.IsTrue(uiProgressRing.IsAnimating,"out of the window, visible again: it runs");
-					uiProgressRing.Dispose();
-					Assert.IsFalse(uiProgressRing.IsAnimating,"disposed: the timer stops");
+					UiProgressRing uiProgressRing=new UiProgressRing();
+					using(Panel panel=new Panel()) {
+						//A parent without a handle: the ring has none either, so no timer.
+						panel.Controls.Add(uiProgressRing);
+						Assert.IsTrue(uiProgressRing.Visible);
+						Assert.IsFalse(uiProgressRing.IsHandleCreated);
+						Assert.IsFalse(uiProgressRing.IsAnimating,"a parent but no window: no timer");
+						panel.CreateControl();
+						uiProgressRing.CreateControl();
+						Assert.IsTrue(uiProgressRing.IsHandleCreated);
+						Assert.IsTrue(uiProgressRing.IsAnimating,"in a window and visible: the timer runs");
+						uiProgressRing.Visible=false;
+						Assert.IsFalse(uiProgressRing.IsAnimating,"hidden: the timer stops");
+						uiProgressRing.Visible=true;
+						Assert.IsTrue(uiProgressRing.IsAnimating,"shown again: it runs again");
+						panel.Visible=false;
+						Assert.IsFalse(uiProgressRing.IsAnimating,"its window hidden: the timer stops");
+						panel.Visible=true;
+						Assert.IsTrue(uiProgressRing.IsAnimating,"its window shown again: it runs again");
+						panel.Controls.Remove(uiProgressRing);
+						Assert.IsFalse(uiProgressRing.IsAnimating,"removed from its window: the timer stops");
+						panel.Controls.Add(uiProgressRing);
+						Assert.IsTrue(uiProgressRing.IsAnimating,"back in its window: it runs again");
+					}
+					Assert.IsFalse(uiProgressRing.IsAnimating,"its window disposed (the ring with it): the timer stops");
+					Assert.IsTrue(uiProgressRing.IsDisposed);
+					//In a window that is not shown the ring is not visible (Visible asks the parents): no timer, with or without handles.
+					using(Form form=new Form())
+					using(UiProgressRing uiProgressRingInForm=new UiProgressRing()) {
+						form.Controls.Add(uiProgressRingInForm);
+						Assert.IsFalse(uiProgressRingInForm.Visible);
+						Assert.IsFalse(uiProgressRingInForm.IsAnimating,"in a hidden window: no timer");
+						Assert.AreNotEqual(IntPtr.Zero,form.Handle);
+						Assert.AreNotEqual(IntPtr.Zero,uiProgressRingInForm.Handle);
+						uiProgressRingInForm.UpdateAnimation();
+						Assert.IsFalse(uiProgressRingInForm.IsAnimating,"in a hidden window with handles: no timer");
+						form.Controls.Remove(uiProgressRingInForm);
+						Assert.IsTrue(uiProgressRingInForm.Visible);
+						Assert.IsFalse(uiProgressRingInForm.IsAnimating,"out of the window, visible again, handle kept: no timer");
+					}
+				}
+				finally {
+					UiProgressRing.SetAnimationForTest(null);
+				}
+			});
+		}
+
+		///<summary>A ring disposed in its window stops its timer.</summary>
+		[TestMethod]
+		public void Ring_Timer_Disposed_Stops() {
+			StaRunner.Run(() => {
+				UiProgressRing.SetAnimationForTest(true);
+				try {
+					using(Panel panel=new Panel()) {
+						panel.CreateControl();
+						UiProgressRing uiProgressRing=new UiProgressRing();
+						panel.Controls.Add(uiProgressRing);
+						uiProgressRing.CreateControl();
+						Assert.IsTrue(uiProgressRing.IsAnimating);
+						uiProgressRing.Dispose();
+						Assert.IsFalse(uiProgressRing.IsAnimating,"disposed: the timer stops");
+					}
 				}
 				finally {
 					UiProgressRing.SetAnimationForTest(null);
@@ -301,7 +358,8 @@ namespace UiRefreshTests {
 		#endregion Timer
 
 		#region The places
-		///<summary>GraphQuantityOverTime shows the ring while IsLoading, in front of the chart as the picture was, and hides it otherwise.</summary>
+		///<summary>GraphQuantityOverTime shows the ring while IsLoading, in front of the chart as the picture was, and hides it otherwise. The ring
+		///turns only once the graph is in a window.</summary>
 		[TestMethod]
 		public void Graph_IsLoading_ShowsTheRingInFrontOfTheChart() {
 			StaRunner.Run(() => {
@@ -320,13 +378,43 @@ namespace UiRefreshTests {
 						propertyInfo.SetValue(userControl,true);
 						Assert.IsTrue(uiProgressRing.Visible,"loading: shown");
 						Assert.AreEqual(0,uiProgressRing.Parent.Controls.IndexOf(uiProgressRing),"loading: in front of the chart");
-						Assert.IsTrue(uiProgressRing.IsAnimating,"loading: turning");
+						Assert.IsFalse(uiProgressRing.IsAnimating,"loading, but the graph is in no window: no timer");
+						userControl.CreateControl();
+						Assert.IsTrue(uiProgressRing.IsHandleCreated);
+						Assert.IsTrue(uiProgressRing.IsAnimating,"loading in a window: turning");
 						Assert.AreEqual(DockStyle.Fill,uiProgressRing.Dock);
 						Assert.AreEqual(64,uiProgressRing.DiameterAt96,"Fluent's large ring, where the 64 px picture was");
 						propertyInfo.SetValue(userControl,false);
 						Assert.IsFalse(uiProgressRing.Visible,"loaded: hidden");
 						Assert.IsFalse(uiProgressRing.IsAnimating,"loaded: the timer stopped");
 						Assert.AreEqual(0,chart.Parent.Controls.IndexOf(chart),"loaded: the chart in front");
+					}
+				}
+				finally {
+					UiProgressRing.SetAnimationForTest(null);
+				}
+			});
+		}
+
+		///<summary>The dashboard's list builds a GraphQuantityOverTimeFilter on every mouse-down in the list (FormDashboardEditTab.listItems_MouseDown)
+		///and only drags it; on a click or a cancelled drag it is never put in a window nor disposed. Its constructor sets the graph loading, so
+		///the ring is shown: its timer must not run, or it would tick on the UI thread forever and keep the filter alive.</summary>
+		[TestMethod]
+		public void GraphFilter_LoadingWithoutAWindow_NoTimer() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				UiProgressRing.SetAnimationForTest(true);
+				try {
+					Assembly assembly=WindowBuilder.LoadProgramAssembly("OpenPmsDentalGraph");
+					Type type=assembly.GetType("OpenPmsDentalGraph.GraphQuantityOverTimeFilter",throwOnError:true);
+					using(UserControl userControl=(UserControl)Activator.CreateInstance(type)) {
+						Assert.IsNull(userControl.Parent);
+						Assert.IsFalse(userControl.IsHandleCreated);
+						Control graph=(Control)type.GetProperty("Graph").GetValue(userControl);
+						Assert.IsTrue((bool)graph.GetType().GetProperty("IsLoading").GetValue(graph),"the constructor sets the graph loading");
+						UiProgressRing uiProgressRing=FinalSweep.Walk(userControl).OfType<UiProgressRing>().Single();
+						Assert.IsTrue(uiProgressRing.Visible,"loading: the ring is shown");
+						Assert.IsFalse(uiProgressRing.IsAnimating,"built but in no window: no timer");
 					}
 				}
 				finally {

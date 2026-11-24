@@ -4,8 +4,9 @@
 // - The ring is 32 px across with a 4 px round-capped stroke at 96 DPI (Fluent's ProgressRing; DiameterAt96 64 for Fluent's large ring),
 //   scaled by UiLooks.GetScale and never larger than the control; centred in the control.
 // - Indeterminate: one arc whose length breathes (20 to 260 degrees) while it turns, FRAMES_CYCLE frames of FRAME_MS each, so a cycle is
-//   two seconds. The timer runs only while the control is visible (Visible, which is false while any parent is hidden) and animation is on;
-//   hiding the control or disposing it stops the timer.
+//   two seconds. The timer runs only while the control is in a window and visible (it has a parent and a window handle, and Visible, which
+//   is false while any parent is hidden) and animation is on; hiding the control, taking it out of its parent, destroying its handle or
+//   disposing it stops the timer. A ring that was built but never put in a window (no handle) does no work and holds nothing.
 // - With Windows' "Show animations in Windows" off (SPI_GETCLIENTAREAANIMATION) nothing moves: a static ring, the whole circle as a track in
 //   AccentSubtle with a quarter arc in Accent.
 // - In a high-contrast theme the colours are Windows': the background Window, the arc Highlight (Accent's partner), the static track
@@ -96,7 +97,8 @@ namespace CodeBase {
 			}
 		}
 
-		///<summary>True while the timer runs: the control is visible, not disposed, and Windows' animations are on.</summary>
+		///<summary>True while the timer runs: the control has a parent and a window handle, is visible, is not disposed, and Windows'
+		///animations are on.</summary>
 		[Browsable(false)]
 		public bool IsAnimating {
 			get { return _timer.Enabled; }
@@ -165,10 +167,12 @@ namespace CodeBase {
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool SystemParametersInfo(int uiAction,int uiParam,[MarshalAs(UnmanagedType.Bool)] ref bool pvParam,int fWinIni);
 
-		///<summary>Starts the timer while the control is visible and animations are on; stops it otherwise. Called whenever visibility changes.
-		///</summary>
+		///<summary>Starts the timer while the control is in a window (a parent and a window handle), visible, and animations are on; stops it
+		///otherwise. Called whenever visibility, the parent or the handle changes. Without a handle the timer never runs: a ring that is built but
+		///never shown (a graph made for a drag that is cancelled) would otherwise tick on the UI thread and, through the enabled timer, keep
+		///itself and everything around it alive.</summary>
 		public void UpdateAnimation() {
-			bool isRun=!IsDisposed && !Disposing && Visible && IsAnimationOn;
+			bool isRun=!IsDisposed && !Disposing && Parent!=null && IsHandleCreated && Visible && IsAnimationOn;
 			if(_timer.Enabled==isRun) {
 				return;
 			}
@@ -177,7 +181,7 @@ namespace CodeBase {
 		}
 
 		private void Timer_Tick(object sender,EventArgs e) {
-			if(IsDisposed || !Visible || !IsAnimationOn) {
+			if(IsDisposed || Parent==null || !IsHandleCreated || !Visible || !IsAnimationOn) {
 				UpdateAnimation();
 				return;
 			}
@@ -192,6 +196,18 @@ namespace CodeBase {
 		protected override void OnParentChanged(EventArgs e) {
 			base.OnParentChanged(e);
 			UpdateAnimation();
+		}
+
+		protected override void OnHandleCreated(EventArgs e) {
+			base.OnHandleCreated(e);
+			UpdateAnimation();
+		}
+
+		protected override void OnHandleDestroyed(EventArgs e) {
+			base.OnHandleDestroyed(e);
+			//IsHandleCreated is still true while the handle is being destroyed, so the timer is stopped here; OnHandleCreated starts it again
+			//when the handle is recreated.
+			_timer.Stop();
 		}
 
 		protected override void Dispose(bool disposing) {
