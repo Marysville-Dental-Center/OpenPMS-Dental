@@ -55,7 +55,7 @@
 			// 
 			// butProblemSelect
 			// 
-			this.butProblemSelect.Location = new System.Drawing.Point(558, 18);
+			this.butProblemSelect.Location = new System.Drawing.Point(565, 23);
 			this.butProblemSelect.Name = "butProblemSelect";
 			this.butProblemSelect.Size = new System.Drawing.Size(29, 23);
 			this.butProblemSelect.TabIndex = 1;
@@ -65,7 +65,7 @@
 			// 
 			// textProblem
 			// 
-			this.textProblem.Location = new System.Drawing.Point(160, 20);
+			this.textProblem.Location = new System.Drawing.Point(167, 23);
 			this.textProblem.Name = "textProblem";
 			this.textProblem.ReadOnly = true;
 			this.textProblem.Size = new System.Drawing.Size(392, 20);
@@ -73,25 +73,25 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 21);
+			this.label1.Location = new System.Drawing.Point(101, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(148, 17);
+			this.label1.Size = new System.Drawing.Size(60, 23);
 			this.label1.TabIndex = 2;
 			this.label1.Text = "Problem ";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(15, 119);
+			this.label2.Location = new System.Drawing.Point(97, 124);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(154, 17);
+			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 5;
 			this.label2.Text = "Medication";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textMedication
 			// 
-			this.textMedication.Location = new System.Drawing.Point(175, 118);
+			this.textMedication.Location = new System.Drawing.Point(175, 124);
 			this.textMedication.Name = "textMedication";
 			this.textMedication.ReadOnly = true;
 			this.textMedication.Size = new System.Drawing.Size(392, 20);
@@ -99,7 +99,7 @@
 			// 
 			// butMedicationSelect
 			// 
-			this.butMedicationSelect.Location = new System.Drawing.Point(573, 116);
+			this.butMedicationSelect.Location = new System.Drawing.Point(573, 124);
 			this.butMedicationSelect.Name = "butMedicationSelect";
 			this.butMedicationSelect.Size = new System.Drawing.Size(29, 23);
 			this.butMedicationSelect.TabIndex = 5;
@@ -109,18 +109,18 @@
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(15, 17);
+			this.label3.Location = new System.Drawing.Point(62, 23);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 17);
+			this.label3.Size = new System.Drawing.Size(48, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Test Id";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textLabResultsID
 			// 
-			this.textLabResultsID.Location = new System.Drawing.Point(116, 16);
+			this.textLabResultsID.Location = new System.Drawing.Point(116, 23);
 			this.textLabResultsID.Name = "textLabResultsID";
-			this.textLabResultsID.Size = new System.Drawing.Size(111, 20);
+			this.textLabResultsID.Size = new System.Drawing.Size(112, 23);
 			this.textLabResultsID.TabIndex = 0;
 			this.textLabResultsID.TabStop = false;
 			this.textLabResultsID.Click += new System.EventHandler(this.textLabResults_Click);
@@ -128,7 +128,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(533, 348);
+			this.butSave.Location = new System.Drawing.Point(540, 352);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 23);
 			this.butSave.TabIndex = 7;
@@ -139,7 +139,7 @@
 			// butDelete
 			// 
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butDelete.Location = new System.Drawing.Point(12, 348);
+			this.butDelete.Location = new System.Drawing.Point(8, 352);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 23);
 			this.butDelete.TabIndex = 9;
@@ -149,7 +149,7 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(15, 289);
+			this.label4.Location = new System.Drawing.Point(8, 298);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(593, 17);
 			this.label4.TabIndex = 13;
@@ -158,25 +158,25 @@
 			// 
 			// textUrl
 			// 
-			this.textUrl.Location = new System.Drawing.Point(15, 309);
+			this.textUrl.Location = new System.Drawing.Point(8, 317);
 			this.textUrl.Name = "textUrl";
-			this.textUrl.Size = new System.Drawing.Size(593, 20);
+			this.textUrl.Size = new System.Drawing.Size(607, 23);
 			this.textUrl.TabIndex = 6;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(15, 43);
+			this.label5.Location = new System.Drawing.Point(42, 50);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(100, 17);
+			this.label5.Size = new System.Drawing.Size(68, 23);
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Test Name";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textLabTestName
 			// 
-			this.textLabTestName.Location = new System.Drawing.Point(116, 42);
+			this.textLabTestName.Location = new System.Drawing.Point(116, 50);
 			this.textLabTestName.Name = "textLabTestName";
-			this.textLabTestName.Size = new System.Drawing.Size(357, 20);
+			this.textLabTestName.Size = new System.Drawing.Size(356, 23);
 			this.textLabTestName.TabIndex = 1;
 			this.textLabTestName.TabStop = false;
 			this.textLabTestName.Click += new System.EventHandler(this.textLabResults_Click);
@@ -190,16 +190,16 @@
 			this.groupLabResults.Controls.Add(this.label5);
 			this.groupLabResults.Controls.Add(this.label3);
 			this.groupLabResults.Controls.Add(this.textLabTestName);
-			this.groupLabResults.Location = new System.Drawing.Point(15, 172);
+			this.groupLabResults.Location = new System.Drawing.Point(8, 182);
 			this.groupLabResults.Name = "groupLabResults";
-			this.groupLabResults.Size = new System.Drawing.Size(593, 100);
+			this.groupLabResults.Size = new System.Drawing.Size(607, 108);
 			this.groupLabResults.TabIndex = 10;
 			this.groupLabResults.TabStop = false;
 			this.groupLabResults.Text = "Lab Results";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(218, 69);
+			this.label6.Location = new System.Drawing.Point(222, 80);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(107, 17);
 			this.label6.TabIndex = 18;
@@ -208,16 +208,16 @@
 			// 
 			// labelCriterionValue
 			// 
-			this.labelCriterionValue.Location = new System.Drawing.Point(7, 69);
+			this.labelCriterionValue.Location = new System.Drawing.Point(18, 77);
 			this.labelCriterionValue.Name = "labelCriterionValue";
-			this.labelCriterionValue.Size = new System.Drawing.Size(107, 17);
+			this.labelCriterionValue.Size = new System.Drawing.Size(92, 23);
 			this.labelCriterionValue.TabIndex = 17;
 			this.labelCriterionValue.Text = "Compare Value";
 			this.labelCriterionValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCompareValue
 			// 
-			this.textCompareValue.Location = new System.Drawing.Point(116, 68);
+			this.textCompareValue.Location = new System.Drawing.Point(116, 77);
 			this.textCompareValue.Name = "textCompareValue";
 			this.textCompareValue.Size = new System.Drawing.Size(100, 20);
 			this.textCompareValue.TabIndex = 2;
@@ -226,16 +226,16 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(6, 47);
+			this.label7.Location = new System.Drawing.Point(125, 50);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(148, 17);
+			this.label7.Size = new System.Drawing.Size(36, 23);
 			this.label7.TabIndex = 19;
 			this.label7.Text = "ICD9";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textICD9
 			// 
-			this.textICD9.Location = new System.Drawing.Point(160, 46);
+			this.textICD9.Location = new System.Drawing.Point(167, 50);
 			this.textICD9.Name = "textICD9";
 			this.textICD9.ReadOnly = true;
 			this.textICD9.Size = new System.Drawing.Size(392, 20);
@@ -243,7 +243,7 @@
 			// 
 			// textSnomed
 			// 
-			this.textSnomed.Location = new System.Drawing.Point(160, 72);
+			this.textSnomed.Location = new System.Drawing.Point(167, 77);
 			this.textSnomed.Name = "textSnomed";
 			this.textSnomed.ReadOnly = true;
 			this.textSnomed.Size = new System.Drawing.Size(392, 20);
@@ -251,9 +251,9 @@
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(6, 73);
+			this.label8.Location = new System.Drawing.Point(81, 77);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(148, 17);
+			this.label8.Size = new System.Drawing.Size(80, 23);
 			this.label8.TabIndex = 19;
 			this.label8.Text = "SNOMED CT";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -267,25 +267,25 @@
 			this.groupProblems.Controls.Add(this.label1);
 			this.groupProblems.Controls.Add(this.textSnomed);
 			this.groupProblems.Controls.Add(this.textICD9);
-			this.groupProblems.Location = new System.Drawing.Point(15, 11);
+			this.groupProblems.Location = new System.Drawing.Point(8, 8);
 			this.groupProblems.Name = "groupProblems";
-			this.groupProblems.Size = new System.Drawing.Size(593, 100);
+			this.groupProblems.Size = new System.Drawing.Size(607, 108);
 			this.groupProblems.TabIndex = 20;
 			this.groupProblems.TabStop = false;
 			this.groupProblems.Text = "Problems";
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(15, 146);
+			this.label9.Location = new System.Drawing.Point(25, 151);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(154, 17);
+			this.label9.Size = new System.Drawing.Size(144, 23);
 			this.label9.TabIndex = 22;
 			this.label9.Text = "Tobacco Use Assessment";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textTobaccoAssessment
 			// 
-			this.textTobaccoAssessment.Location = new System.Drawing.Point(175, 145);
+			this.textTobaccoAssessment.Location = new System.Drawing.Point(175, 151);
 			this.textTobaccoAssessment.Name = "textTobaccoAssessment";
 			this.textTobaccoAssessment.ReadOnly = true;
 			this.textTobaccoAssessment.Size = new System.Drawing.Size(392, 20);
@@ -293,7 +293,7 @@
 			// 
 			// butTobaccoCodeSelect
 			// 
-			this.butTobaccoCodeSelect.Location = new System.Drawing.Point(573, 143);
+			this.butTobaccoCodeSelect.Location = new System.Drawing.Point(573, 151);
 			this.butTobaccoCodeSelect.Name = "butTobaccoCodeSelect";
 			this.butTobaccoCodeSelect.Size = new System.Drawing.Size(29, 23);
 			this.butTobaccoCodeSelect.TabIndex = 23;

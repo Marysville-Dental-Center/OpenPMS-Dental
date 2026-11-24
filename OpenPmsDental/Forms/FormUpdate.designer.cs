@@ -70,7 +70,7 @@
 			// labelVersion
 			// 
 			this.labelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelVersion.Location = new System.Drawing.Point(74, 35);
+			this.labelVersion.Location = new System.Drawing.Point(74, 32);
 			this.labelVersion.Name = "labelVersion";
 			this.labelVersion.Size = new System.Drawing.Size(280, 20);
 			this.labelVersion.TabIndex = 10;
@@ -85,23 +85,23 @@
 			// 
 			// textUpdateCode
 			// 
-			this.textUpdateCode.Location = new System.Drawing.Point(129, 100);
+			this.textUpdateCode.Location = new System.Drawing.Point(129, 99);
 			this.textUpdateCode.Name = "textUpdateCode";
-			this.textUpdateCode.Size = new System.Drawing.Size(113, 20);
+			this.textUpdateCode.Size = new System.Drawing.Size(112, 23);
 			this.textUpdateCode.TabIndex = 19;
 			// 
 			// textWebsitePath
 			// 
-			this.textWebsitePath.Location = new System.Drawing.Point(129, 77);
+			this.textWebsitePath.Location = new System.Drawing.Point(129, 72);
 			this.textWebsitePath.Name = "textWebsitePath";
 			this.textWebsitePath.Size = new System.Drawing.Size(388, 20);
 			this.textWebsitePath.TabIndex = 24;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(24, 78);
+			this.label3.Location = new System.Drawing.Point(43, 72);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(105, 19);
+			this.label3.Size = new System.Drawing.Size(80, 23);
 			this.label3.TabIndex = 26;
 			this.label3.Text = "Website Path";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -110,7 +110,7 @@
 			// 
 			this.textResult.AcceptsReturn = true;
 			this.textResult.BackColor = System.Drawing.SystemColors.Window;
-			this.textResult.Location = new System.Drawing.Point(129, 156);
+			this.textResult.Location = new System.Drawing.Point(129, 155);
 			this.textResult.Name = "textResult";
 			this.textResult.ReadOnly = true;
 			this.textResult.Size = new System.Drawing.Size(388, 20);
@@ -120,7 +120,7 @@
 			// 
 			this.textResult2.AcceptsReturn = true;
 			this.textResult2.BackColor = System.Drawing.SystemColors.Window;
-			this.textResult2.Location = new System.Drawing.Point(129, 179);
+			this.textResult2.Location = new System.Drawing.Point(129, 182);
 			this.textResult2.Multiline = true;
 			this.textResult2.Name = "textResult2";
 			this.textResult2.ReadOnly = true;
@@ -129,18 +129,18 @@
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(6, 100);
+			this.label4.Location = new System.Drawing.Point(43, 99);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(120, 19);
+			this.label4.Size = new System.Drawing.Size(80, 23);
 			this.label4.TabIndex = 34;
 			this.label4.Text = "Update Code";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(10, 8);
+			this.label6.Location = new System.Drawing.Point(8, 8);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(555, 58);
+			this.label6.Size = new System.Drawing.Size(555, 62);
 			this.label6.TabIndex = 40;
 			this.label6.Text = resources.GetString("label6.Text");
 			// 
@@ -155,15 +155,15 @@
 			this.panelClassic.Controls.Add(this.label6);
 			this.panelClassic.Controls.Add(this.textResult2);
 			this.panelClassic.Controls.Add(this.butDownload);
-			this.panelClassic.Location = new System.Drawing.Point(605, 35);
+			this.panelClassic.Location = new System.Drawing.Point(663, 32);
 			this.panelClassic.Name = "panelClassic";
-			this.panelClassic.Size = new System.Drawing.Size(568, 494);
+			this.panelClassic.Size = new System.Drawing.Size(571, 494);
 			this.panelClassic.TabIndex = 48;
 			this.panelClassic.Visible = false;
 			// 
 			// butCheck
 			// 
-			this.butCheck.Location = new System.Drawing.Point(129, 125);
+			this.butCheck.Location = new System.Drawing.Point(129, 126);
 			this.butCheck.Name = "butCheck";
 			this.butCheck.Size = new System.Drawing.Size(117, 25);
 			this.butCheck.TabIndex = 21;
@@ -172,7 +172,7 @@
 			// 
 			// butDownload
 			// 
-			this.butDownload.Location = new System.Drawing.Point(129, 251);
+			this.butDownload.Location = new System.Drawing.Point(129, 252);
 			this.butDownload.Name = "butDownload";
 			this.butDownload.Size = new System.Drawing.Size(83, 25);
 			this.butDownload.TabIndex = 20;
@@ -183,7 +183,7 @@
 			// 
 			this.textConnectionMessage.AcceptsReturn = true;
 			this.textConnectionMessage.BackColor = System.Drawing.SystemColors.Window;
-			this.textConnectionMessage.Location = new System.Drawing.Point(77, 88);
+			this.textConnectionMessage.Location = new System.Drawing.Point(74, 83);
 			this.textConnectionMessage.Multiline = true;
 			this.textConnectionMessage.Name = "textConnectionMessage";
 			this.textConnectionMessage.ReadOnly = true;
@@ -196,9 +196,9 @@
 			this.groupBuild.Controls.Add(this.textBuild);
 			this.groupBuild.Controls.Add(this.butInstallBuild);
 			this.groupBuild.Controls.Add(this.label2);
-			this.groupBuild.Location = new System.Drawing.Point(77, 162);
+			this.groupBuild.Location = new System.Drawing.Point(74, 157);
 			this.groupBuild.Name = "groupBuild";
-			this.groupBuild.Size = new System.Drawing.Size(477, 93);
+			this.groupBuild.Size = new System.Drawing.Size(581, 99);
 			this.groupBuild.TabIndex = 51;
 			this.groupBuild.TabStop = false;
 			this.groupBuild.Text = "A new build is available for the current version";
@@ -206,7 +206,7 @@
 			// 
 			// butDownloadMsiBuild
 			// 
-			this.butDownloadMsiBuild.Location = new System.Drawing.Point(309, 60);
+			this.butDownloadMsiBuild.Location = new System.Drawing.Point(309, 67);
 			this.butDownloadMsiBuild.Name = "butDownloadMsiBuild";
 			this.butDownloadMsiBuild.Size = new System.Drawing.Size(83, 24);
 			this.butDownloadMsiBuild.TabIndex = 52;
@@ -217,15 +217,15 @@
 			// 
 			this.textBuild.AcceptsReturn = true;
 			this.textBuild.BackColor = System.Drawing.SystemColors.Window;
-			this.textBuild.Location = new System.Drawing.Point(9, 34);
+			this.textBuild.Location = new System.Drawing.Point(8, 40);
 			this.textBuild.Name = "textBuild";
 			this.textBuild.ReadOnly = true;
-			this.textBuild.Size = new System.Drawing.Size(462, 20);
+			this.textBuild.Size = new System.Drawing.Size(464, 23);
 			this.textBuild.TabIndex = 51;
 			// 
 			// butInstallBuild
 			// 
-			this.butInstallBuild.Location = new System.Drawing.Point(398, 60);
+			this.butInstallBuild.Location = new System.Drawing.Point(398, 67);
 			this.butInstallBuild.Name = "butInstallBuild";
 			this.butInstallBuild.Size = new System.Drawing.Size(73, 24);
 			this.butInstallBuild.TabIndex = 28;
@@ -234,7 +234,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(6, 16);
+			this.label2.Location = new System.Drawing.Point(8, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(465, 15);
 			this.label2.TabIndex = 27;
@@ -249,9 +249,9 @@
 			this.groupBeta.Controls.Add(this.textBeta);
 			this.groupBeta.Controls.Add(this.butInstallBeta);
 			this.groupBeta.Controls.Add(this.label5);
-			this.groupBeta.Location = new System.Drawing.Point(77, 365);
+			this.groupBeta.Location = new System.Drawing.Point(74, 371);
 			this.groupBeta.Name = "groupBeta";
-			this.groupBeta.Size = new System.Drawing.Size(477, 104);
+			this.groupBeta.Size = new System.Drawing.Size(581, 116);
 			this.groupBeta.TabIndex = 52;
 			this.groupBeta.TabStop = false;
 			this.groupBeta.Text = "A new beta version is available";
@@ -259,16 +259,16 @@
 			// 
 			// checkAcknowledgeBeta
 			// 
-			this.checkAcknowledgeBeta.Location = new System.Drawing.Point(6, 69);
+			this.checkAcknowledgeBeta.Location = new System.Drawing.Point(8, 86);
 			this.checkAcknowledgeBeta.Name = "checkAcknowledgeBeta";
-			this.checkAcknowledgeBeta.Size = new System.Drawing.Size(238, 32);
+			this.checkAcknowledgeBeta.Size = new System.Drawing.Size(397, 20);
 			this.checkAcknowledgeBeta.TabIndex = 54;
 			this.checkAcknowledgeBeta.Text = "I acknowledge that I am updating to the beta version at my own risk.";
 			this.checkAcknowledgeBeta.CheckedChanged += new System.EventHandler(this.checkAcknowledgeBeta_CheckedChanged);
 			// 
 			// butDownloadMsiBeta
 			// 
-			this.butDownloadMsiBeta.Location = new System.Drawing.Point(309, 73);
+			this.butDownloadMsiBeta.Location = new System.Drawing.Point(411, 84);
 			this.butDownloadMsiBeta.Name = "butDownloadMsiBeta";
 			this.butDownloadMsiBeta.Size = new System.Drawing.Size(83, 24);
 			this.butDownloadMsiBeta.TabIndex = 53;
@@ -280,15 +280,15 @@
 			this.textBeta.AcceptsReturn = true;
 			this.textBeta.BackColor = System.Drawing.SystemColors.Window;
 			this.textBeta.AutoSize = false;
-			this.textBeta.Location = new System.Drawing.Point(6, 47);
+			this.textBeta.Location = new System.Drawing.Point(8, 57);
 			this.textBeta.Name = "textBeta";
 			this.textBeta.ReadOnly = true;
-			this.textBeta.Size = new System.Drawing.Size(465, 20);
+			this.textBeta.Size = new System.Drawing.Size(464, 23);
 			this.textBeta.TabIndex = 51;
 			// 
 			// butInstallBeta
 			// 
-			this.butInstallBeta.Location = new System.Drawing.Point(398, 73);
+			this.butInstallBeta.Location = new System.Drawing.Point(500, 84);
 			this.butInstallBeta.Name = "butInstallBeta";
 			this.butInstallBeta.Size = new System.Drawing.Size(73, 24);
 			this.butInstallBeta.TabIndex = 28;
@@ -297,9 +297,9 @@
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(6, 16);
+			this.label5.Location = new System.Drawing.Point(8, 23);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(465, 28);
+			this.label5.Size = new System.Drawing.Size(465, 32);
 			this.label5.TabIndex = 27;
 			this.label5.Text = "This beta version will be very functional, but will have some bugs.  Use a beta v" +
     "ersion only if you demand the latest features.  Be sure to update regularly.";
@@ -310,9 +310,9 @@
 			this.groupStable.Controls.Add(this.textStable);
 			this.groupStable.Controls.Add(this.butInstallStable);
 			this.groupStable.Controls.Add(this.label11);
-			this.groupStable.Location = new System.Drawing.Point(77, 264);
+			this.groupStable.Location = new System.Drawing.Point(74, 264);
 			this.groupStable.Name = "groupStable";
-			this.groupStable.Size = new System.Drawing.Size(477, 91);
+			this.groupStable.Size = new System.Drawing.Size(581, 99);
 			this.groupStable.TabIndex = 53;
 			this.groupStable.TabStop = false;
 			this.groupStable.Text = "A new stable version is available";
@@ -320,7 +320,7 @@
 			// 
 			// butDownloadMsiStable
 			// 
-			this.butDownloadMsiStable.Location = new System.Drawing.Point(309, 60);
+			this.butDownloadMsiStable.Location = new System.Drawing.Point(309, 67);
 			this.butDownloadMsiStable.Name = "butDownloadMsiStable";
 			this.butDownloadMsiStable.Size = new System.Drawing.Size(83, 24);
 			this.butDownloadMsiStable.TabIndex = 53;
@@ -331,15 +331,15 @@
 			// 
 			this.textStable.AcceptsReturn = true;
 			this.textStable.BackColor = System.Drawing.SystemColors.Window;
-			this.textStable.Location = new System.Drawing.Point(6, 34);
+			this.textStable.Location = new System.Drawing.Point(8, 40);
 			this.textStable.Name = "textStable";
 			this.textStable.ReadOnly = true;
-			this.textStable.Size = new System.Drawing.Size(465, 20);
+			this.textStable.Size = new System.Drawing.Size(464, 23);
 			this.textStable.TabIndex = 51;
 			// 
 			// butInstallStable
 			// 
-			this.butInstallStable.Location = new System.Drawing.Point(398, 60);
+			this.butInstallStable.Location = new System.Drawing.Point(398, 67);
 			this.butInstallStable.Name = "butInstallStable";
 			this.butInstallStable.Size = new System.Drawing.Size(73, 24);
 			this.butInstallStable.TabIndex = 28;
@@ -348,7 +348,7 @@
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(6, 16);
+			this.label11.Location = new System.Drawing.Point(8, 23);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(465, 15);
 			this.label11.TabIndex = 27;
@@ -357,7 +357,7 @@
 			// 
 			// butCheck2
 			// 
-			this.butCheck2.Location = new System.Drawing.Point(77, 57);
+			this.butCheck2.Location = new System.Drawing.Point(74, 54);
 			this.butCheck2.Name = "butCheck2";
 			this.butCheck2.Size = new System.Drawing.Size(117, 25);
 			this.butCheck2.TabIndex = 54;
@@ -367,7 +367,7 @@
 			// 
 			// butShowUpdateHistory
 			// 
-			this.butShowUpdateHistory.Location = new System.Drawing.Point(422, 57);
+			this.butShowUpdateHistory.Location = new System.Drawing.Point(422, 54);
 			this.butShowUpdateHistory.Name = "butShowUpdateHistory";
 			this.butShowUpdateHistory.Size = new System.Drawing.Size(132, 25);
 			this.butShowUpdateHistory.TabIndex = 55;
@@ -380,9 +380,9 @@
 			this.groupAlpha.Controls.Add(this.textAlpha);
 			this.groupAlpha.Controls.Add(this.butInstallAlpha);
 			this.groupAlpha.Controls.Add(this.label7);
-			this.groupAlpha.Location = new System.Drawing.Point(77, 479);
+			this.groupAlpha.Location = new System.Drawing.Point(74, 495);
 			this.groupAlpha.Name = "groupAlpha";
-			this.groupAlpha.Size = new System.Drawing.Size(477, 93);
+			this.groupAlpha.Size = new System.Drawing.Size(581, 99);
 			this.groupAlpha.TabIndex = 56;
 			this.groupAlpha.TabStop = false;
 			this.groupAlpha.Text = "A new alpha version is available";
@@ -390,7 +390,7 @@
 			// 
 			// butDownloadMsiAlpha
 			// 
-			this.butDownloadMsiAlpha.Location = new System.Drawing.Point(309, 60);
+			this.butDownloadMsiAlpha.Location = new System.Drawing.Point(309, 67);
 			this.butDownloadMsiAlpha.Name = "butDownloadMsiAlpha";
 			this.butDownloadMsiAlpha.Size = new System.Drawing.Size(83, 24);
 			this.butDownloadMsiAlpha.TabIndex = 52;
@@ -401,15 +401,15 @@
 			// 
 			this.textAlpha.AcceptsReturn = true;
 			this.textAlpha.BackColor = System.Drawing.SystemColors.Window;
-			this.textAlpha.Location = new System.Drawing.Point(9, 34);
+			this.textAlpha.Location = new System.Drawing.Point(8, 40);
 			this.textAlpha.Name = "textAlpha";
 			this.textAlpha.ReadOnly = true;
-			this.textAlpha.Size = new System.Drawing.Size(462, 20);
+			this.textAlpha.Size = new System.Drawing.Size(464, 23);
 			this.textAlpha.TabIndex = 51;
 			// 
 			// butInstallAlpha
 			// 
-			this.butInstallAlpha.Location = new System.Drawing.Point(398, 60);
+			this.butInstallAlpha.Location = new System.Drawing.Point(398, 67);
 			this.butInstallAlpha.Name = "butInstallAlpha";
 			this.butInstallAlpha.Size = new System.Drawing.Size(73, 24);
 			this.butInstallAlpha.TabIndex = 28;
@@ -418,7 +418,7 @@
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(6, 16);
+			this.label7.Location = new System.Drawing.Point(8, 23);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(465, 15);
 			this.label7.TabIndex = 27;
@@ -435,7 +435,7 @@
 			// 
 			// FormUpdate
 			// 
-			this.ClientSize = new System.Drawing.Size(647, 586);
+			this.ClientSize = new System.Drawing.Size(1242, 602);
 			this.Controls.Add(this.groupAlpha);
 			this.Controls.Add(this.butShowUpdateHistory);
 			this.Controls.Add(this.panelClassic);

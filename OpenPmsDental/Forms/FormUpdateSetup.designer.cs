@@ -61,32 +61,32 @@ namespace OpenPmsDental {
 			// 
 			// textWebsitePath
 			// 
-			this.textWebsitePath.Location = new System.Drawing.Point(249, 44);
+			this.textWebsitePath.Location = new System.Drawing.Point(249, 32);
 			this.textWebsitePath.Name = "textWebsitePath";
-			this.textWebsitePath.Size = new System.Drawing.Size(434, 20);
+			this.textWebsitePath.Size = new System.Drawing.Size(432, 20);
 			this.textWebsitePath.TabIndex = 36;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(69, 45);
+			this.label3.Location = new System.Drawing.Point(99, 32);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(180, 19);
+			this.label3.Size = new System.Drawing.Size(144, 20);
 			this.label3.TabIndex = 37;
 			this.label3.Text = "Website Path for Updates";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textUpdateServerAddress
 			// 
-			this.textUpdateServerAddress.Location = new System.Drawing.Point(249, 18);
+			this.textUpdateServerAddress.Location = new System.Drawing.Point(249, 8);
 			this.textUpdateServerAddress.Name = "textUpdateServerAddress";
-			this.textUpdateServerAddress.Size = new System.Drawing.Size(434, 20);
+			this.textUpdateServerAddress.Size = new System.Drawing.Size(432, 20);
 			this.textUpdateServerAddress.TabIndex = 43;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(69, 19);
+			this.label1.Location = new System.Drawing.Point(91, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(180, 19);
+			this.label1.Size = new System.Drawing.Size(152, 20);
 			this.label1.TabIndex = 44;
 			this.label1.Text = "Server Address for Updates";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			// textMultiple
 			// 
 			this.textMultiple.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textMultiple.Location = new System.Drawing.Point(249, 221);
+			this.textMultiple.Location = new System.Drawing.Point(249, 167);
 			this.textMultiple.Multiline = true;
 			this.textMultiple.Name = "textMultiple";
 			this.textMultiple.Size = new System.Drawing.Size(266, 41);
@@ -102,18 +102,18 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(69, 222);
+			this.label5.Location = new System.Drawing.Point(63, 167);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(180, 40);
+			this.label5.Size = new System.Drawing.Size(180, 32);
 			this.label5.TabIndex = 46;
 			this.label5.Text = "Simultaneously update other databases";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(521, 221);
+			this.label6.Location = new System.Drawing.Point(521, 167);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(210, 41);
+			this.label6.Size = new System.Drawing.Size(210, 32);
 			this.label6.TabIndex = 47;
 			this.label6.Text = "Separate with commas.  Do not include this database.";
 			// 
@@ -125,9 +125,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.label8);
 			this.groupBox1.Controls.Add(this.textWebProxyAddress);
 			this.groupBox1.Controls.Add(this.label7);
-			this.groupBox1.Location = new System.Drawing.Point(69, 75);
+			this.groupBox1.Location = new System.Drawing.Point(69, 60);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(614, 100);
+			this.groupBox1.Size = new System.Drawing.Size(614, 99);
 			this.groupBox1.TabIndex = 48;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Web Proxy (most users will ignore this section)";
@@ -138,14 +138,14 @@ namespace OpenPmsDental {
 			this.textWebProxyPassword.Location = new System.Drawing.Point(180, 71);
 			this.textWebProxyPassword.Name = "textWebProxyPassword";
 			this.textWebProxyPassword.PasswordChar = '*';
-			this.textWebProxyPassword.Size = new System.Drawing.Size(127, 20);
+			this.textWebProxyPassword.Size = new System.Drawing.Size(128, 20);
 			this.textWebProxyPassword.TabIndex = 46;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(25, 72);
+			this.label9.Location = new System.Drawing.Point(110, 71);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(155, 19);
+			this.label9.Size = new System.Drawing.Size(64, 20);
 			this.label9.TabIndex = 47;
 			this.label9.Text = "Password";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -153,16 +153,16 @@ namespace OpenPmsDental {
 			// textWebProxyUserName
 			// 
 			this.textWebProxyUserName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textWebProxyUserName.Location = new System.Drawing.Point(180, 45);
+			this.textWebProxyUserName.Location = new System.Drawing.Point(180, 47);
 			this.textWebProxyUserName.Name = "textWebProxyUserName";
-			this.textWebProxyUserName.Size = new System.Drawing.Size(127, 20);
+			this.textWebProxyUserName.Size = new System.Drawing.Size(128, 20);
 			this.textWebProxyUserName.TabIndex = 44;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(25, 46);
+			this.label8.Location = new System.Drawing.Point(106, 47);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(155, 19);
+			this.label8.Size = new System.Drawing.Size(68, 20);
 			this.label8.TabIndex = 45;
 			this.label8.Text = "UserName";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -170,32 +170,32 @@ namespace OpenPmsDental {
 			// textWebProxyAddress
 			// 
 			this.textWebProxyAddress.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textWebProxyAddress.Location = new System.Drawing.Point(180, 19);
+			this.textWebProxyAddress.Location = new System.Drawing.Point(180, 23);
 			this.textWebProxyAddress.Name = "textWebProxyAddress";
-			this.textWebProxyAddress.Size = new System.Drawing.Size(363, 20);
+			this.textWebProxyAddress.Size = new System.Drawing.Size(364, 20);
 			this.textWebProxyAddress.TabIndex = 42;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(25, 20);
+			this.label7.Location = new System.Drawing.Point(118, 23);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(155, 19);
+			this.label7.Size = new System.Drawing.Size(56, 20);
 			this.label7.TabIndex = 43;
 			this.label7.Text = "Address";
 			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkShowMsi
 			// 
-			this.checkShowMsi.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowMsi.Location = new System.Drawing.Point(69, 270);
+			this.checkShowMsi.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowMsi.Location = new System.Drawing.Point(249, 212);
 			this.checkShowMsi.Name = "checkShowMsi";
-			this.checkShowMsi.Size = new System.Drawing.Size(194, 24);
+			this.checkShowMsi.Size = new System.Drawing.Size(139, 20);
 			this.checkShowMsi.TabIndex = 51;
 			this.checkShowMsi.Text = "Show buttons for msi";
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(269, 272);
+			this.label10.Location = new System.Drawing.Point(394, 212);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(246, 19);
 			this.label10.TabIndex = 52;
@@ -204,9 +204,9 @@ namespace OpenPmsDental {
 			// 
 			// labelRecopy
 			// 
-			this.labelRecopy.Location = new System.Drawing.Point(12, 337);
+			this.labelRecopy.Location = new System.Drawing.Point(12, 260);
 			this.labelRecopy.Name = "labelRecopy";
-			this.labelRecopy.Size = new System.Drawing.Size(237, 68);
+			this.labelRecopy.Size = new System.Drawing.Size(237, 62);
 			this.labelRecopy.TabIndex = 53;
 			this.labelRecopy.Text = "Copies all files from the local installation directory to the shared Update Files" +
     " folder and puts a zipped copy into the database.\r\n";
@@ -214,7 +214,7 @@ namespace OpenPmsDental {
 			// 
 			// butRecopy
 			// 
-			this.butRecopy.Location = new System.Drawing.Point(249, 345);
+			this.butRecopy.Location = new System.Drawing.Point(249, 361);
 			this.butRecopy.Name = "butRecopy";
 			this.butRecopy.Size = new System.Drawing.Size(67, 23);
 			this.butRecopy.TabIndex = 54;
@@ -224,7 +224,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(647, 354);
+			this.butSave.Location = new System.Drawing.Point(656, 358);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -233,9 +233,9 @@ namespace OpenPmsDental {
 			// 
 			// butChangeTime
 			// 
-			this.butChangeTime.Location = new System.Drawing.Point(448, 298);
+			this.butChangeTime.Location = new System.Drawing.Point(447, 236);
 			this.butChangeTime.Name = "butChangeTime";
-			this.butChangeTime.Size = new System.Drawing.Size(67, 23);
+			this.butChangeTime.Size = new System.Drawing.Size(67, 20);
 			this.butChangeTime.TabIndex = 58;
 			this.butChangeTime.Text = "Change";
 			this.butChangeTime.Click += new System.EventHandler(this.butChangeTime_Click);
@@ -243,24 +243,24 @@ namespace OpenPmsDental {
 			// textUpdateTime
 			// 
 			this.textUpdateTime.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textUpdateTime.Location = new System.Drawing.Point(249, 300);
+			this.textUpdateTime.Location = new System.Drawing.Point(249, 236);
 			this.textUpdateTime.Name = "textUpdateTime";
 			this.textUpdateTime.ReadOnly = true;
-			this.textUpdateTime.Size = new System.Drawing.Size(193, 20);
+			this.textUpdateTime.Size = new System.Drawing.Size(192, 20);
 			this.textUpdateTime.TabIndex = 55;
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(72, 301);
+			this.label12.Location = new System.Drawing.Point(95, 236);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(177, 19);
+			this.label12.Size = new System.Drawing.Size(148, 20);
 			this.label12.TabIndex = 56;
 			this.label12.Text = "Update Notification Time";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// FormUpdateSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(734, 392);
+			this.ClientSize = new System.Drawing.Size(739, 392);
 			this.Controls.Add(this.butChangeTime);
 			this.Controls.Add(this.textUpdateTime);
 			this.Controls.Add(this.label12);

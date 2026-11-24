@@ -52,7 +52,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(305, 426);
+			this.butSave.Location = new System.Drawing.Point(324, 430);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -61,34 +61,34 @@ namespace OpenPmsDental{
 			// 
 			// checkEnabled
 			// 
-			this.checkEnabled.Location = new System.Drawing.Point(12, 37);
+			this.checkEnabled.Location = new System.Drawing.Point(8, 8);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(226, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(164, 20);
 			this.checkEnabled.TabIndex = 4;
 			this.checkEnabled.Text = "Enabled (affects all clinics)";
 			// 
 			// labelClinicEnable
 			// 
-			this.labelClinicEnable.Location = new System.Drawing.Point(70, 58);
+			this.labelClinicEnable.Location = new System.Drawing.Point(70, 32);
 			this.labelClinicEnable.Name = "labelClinicEnable";
-			this.labelClinicEnable.Size = new System.Drawing.Size(218, 40);
+			this.labelClinicEnable.Size = new System.Drawing.Size(218, 32);
 			this.labelClinicEnable.TabIndex = 6;
 			this.labelClinicEnable.Text = "To enable PaySimple for a clinic, set the Username and Key for that clinic.";
 			this.labelClinicEnable.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// comboClinic
 			// 
-			this.comboClinic.Location = new System.Drawing.Point(163, 105);
+			this.comboClinic.Location = new System.Drawing.Point(174, 66);
 			this.comboClinic.Name = "comboClinic";
-			this.comboClinic.Size = new System.Drawing.Size(175, 21);
+			this.comboClinic.Size = new System.Drawing.Size(176, 23);
 			this.comboClinic.TabIndex = 8;
 			this.comboClinic.SelectionChangeCommitted += new System.EventHandler(this.comboClinic_SelectionChangeCommitted);
 			// 
 			// labelClinic
 			// 
-			this.labelClinic.Location = new System.Drawing.Point(43, 107);
+			this.labelClinic.Location = new System.Drawing.Point(124, 66);
 			this.labelClinic.Name = "labelClinic";
-			this.labelClinic.Size = new System.Drawing.Size(119, 16);
+			this.labelClinic.Size = new System.Drawing.Size(44, 23);
 			this.labelClinic.TabIndex = 7;
 			this.labelClinic.Text = "Clinic";
 			this.labelClinic.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -110,15 +110,15 @@ namespace OpenPmsDental{
 			this.groupPaySettings.Controls.Add(this.label2);
 			this.groupPaySettings.Controls.Add(this.comboPaymentTypeCC);
 			this.groupPaySettings.Controls.Add(this.label1);
-			this.groupPaySettings.Location = new System.Drawing.Point(12, 133);
+			this.groupPaySettings.Location = new System.Drawing.Point(8, 97);
 			this.groupPaySettings.Name = "groupPaySettings";
-			this.groupPaySettings.Size = new System.Drawing.Size(370, 225);
+			this.groupPaySettings.Size = new System.Drawing.Size(391, 238);
 			this.groupPaySettings.TabIndex = 9;
 			this.groupPaySettings.Text = "Clinic Payment Settings";
 			// 
 			// checkAllowOnlinePayments
 			// 
-			this.checkAllowOnlinePayments.Location = new System.Drawing.Point(151, 199);
+			this.checkAllowOnlinePayments.Location = new System.Drawing.Point(166, 212);
 			this.checkAllowOnlinePayments.Name = "checkAllowOnlinePayments";
 			this.checkAllowOnlinePayments.Size = new System.Drawing.Size(217, 18);
 			this.checkAllowOnlinePayments.TabIndex = 9;
@@ -127,104 +127,104 @@ namespace OpenPmsDental{
 			// 
 			// checkPrintReceipt
 			// 
-			this.checkPrintReceipt.Location = new System.Drawing.Point(151, 169);
+			this.checkPrintReceipt.Location = new System.Drawing.Point(166, 182);
 			this.checkPrintReceipt.Name = "checkPrintReceipt";
-			this.checkPrintReceipt.Size = new System.Drawing.Size(217, 18);
+			this.checkPrintReceipt.Size = new System.Drawing.Size(152, 20);
 			this.checkPrintReceipt.TabIndex = 8;
 			this.checkPrintReceipt.Text = "Print receipts by default";
 			// 
 			// comboPaymentTypeACH
 			// 
-			this.comboPaymentTypeACH.Location = new System.Drawing.Point(151, 46);
+			this.comboPaymentTypeACH.Location = new System.Drawing.Point(166, 50);
 			this.comboPaymentTypeACH.Name = "comboPaymentTypeACH";
-			this.comboPaymentTypeACH.Size = new System.Drawing.Size(175, 21);
+			this.comboPaymentTypeACH.Size = new System.Drawing.Size(176, 23);
 			this.comboPaymentTypeACH.TabIndex = 6;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(40, 49);
+			this.label4.Location = new System.Drawing.Point(44, 50);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(110, 16);
+			this.label4.Size = new System.Drawing.Size(116, 23);
 			this.label4.TabIndex = 7;
 			this.label4.Text = "Payment Type ACH";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// checkPreventSavingNewCC
 			// 
-			this.checkPreventSavingNewCC.Location = new System.Drawing.Point(151, 151);
+			this.checkPreventSavingNewCC.Location = new System.Drawing.Point(166, 158);
 			this.checkPreventSavingNewCC.Name = "checkPreventSavingNewCC";
-			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(217, 18);
+			this.checkPreventSavingNewCC.Size = new System.Drawing.Size(160, 20);
 			this.checkPreventSavingNewCC.TabIndex = 5;
 			this.checkPreventSavingNewCC.Text = "Prevent saving new cards";
 			// 
 			// textKey
 			// 
-			this.textKey.Location = new System.Drawing.Point(151, 98);
+			this.textKey.Location = new System.Drawing.Point(166, 104);
 			this.textKey.Name = "textKey";
-			this.textKey.Size = new System.Drawing.Size(175, 20);
+			this.textKey.Size = new System.Drawing.Size(176, 23);
 			this.textKey.TabIndex = 2;
 			this.textKey.UseSystemPasswordChar = true;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(40, 100);
+			this.label3.Location = new System.Drawing.Point(128, 104);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(110, 16);
+			this.label3.Size = new System.Drawing.Size(32, 23);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "Key";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textUsername
 			// 
-			this.textUsername.Location = new System.Drawing.Point(151, 73);
+			this.textUsername.Location = new System.Drawing.Point(166, 77);
 			this.textUsername.Name = "textUsername";
-			this.textUsername.Size = new System.Drawing.Size(175, 20);
+			this.textUsername.Size = new System.Drawing.Size(176, 23);
 			this.textUsername.TabIndex = 1;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(40, 75);
+			this.label2.Location = new System.Drawing.Point(96, 77);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(110, 16);
+			this.label2.Size = new System.Drawing.Size(64, 23);
 			this.label2.TabIndex = 0;
 			this.label2.Text = "Username";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboPaymentTypeCC
 			// 
-			this.comboPaymentTypeCC.Location = new System.Drawing.Point(151, 19);
+			this.comboPaymentTypeCC.Location = new System.Drawing.Point(166, 23);
 			this.comboPaymentTypeCC.Name = "comboPaymentTypeCC";
-			this.comboPaymentTypeCC.Size = new System.Drawing.Size(175, 21);
+			this.comboPaymentTypeCC.Size = new System.Drawing.Size(176, 23);
 			this.comboPaymentTypeCC.TabIndex = 0;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(3, 22);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(147, 16);
+			this.label1.Size = new System.Drawing.Size(152, 23);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Payment Type Credit Card";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// comboEnvironment
 			// 
-			this.comboEnvironment.Location = new System.Drawing.Point(151, 124);
+			this.comboEnvironment.Location = new System.Drawing.Point(166, 131);
 			this.comboEnvironment.Name = "comboEnvironment";
-			this.comboEnvironment.Size = new System.Drawing.Size(175, 21);
+			this.comboEnvironment.Size = new System.Drawing.Size(176, 23);
 			this.comboEnvironment.TabIndex = 3;
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(40, 126);
+			this.label5.Location = new System.Drawing.Point(80, 131);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(110, 16);
+			this.label5.Size = new System.Drawing.Size(80, 23);
 			this.label5.TabIndex = 0;
 			this.label5.Text = "Environment";
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butTestConnection
 			// 
-			this.butTestConnection.Location = new System.Drawing.Point(151, 193);
+			this.butTestConnection.Location = new System.Drawing.Point(166, 206);
 			this.butTestConnection.Name = "butTestConnection";
 			this.butTestConnection.Size = new System.Drawing.Size(120, 24);
 			this.butTestConnection.TabIndex = 10;
@@ -233,15 +233,15 @@ namespace OpenPmsDental{
 			// 
 			// checkAchStatusCheck
 			// 
-			this.checkAchStatusCheck.Location = new System.Drawing.Point(12, 366);
+			this.checkAchStatusCheck.Location = new System.Drawing.Point(8, 343);
 			this.checkAchStatusCheck.Name = "checkAchStatusCheck";
-			this.checkAchStatusCheck.Size = new System.Drawing.Size(370, 18);
+			this.checkAchStatusCheck.Size = new System.Drawing.Size(302, 20);
 			this.checkAchStatusCheck.TabIndex = 10;
 			this.checkAchStatusCheck.Text = "Check ACH payment statuses every hour (all clinics)";
 			// 
 			// butCheckAchStatuses
 			// 
-			this.butCheckAchStatuses.Location = new System.Drawing.Point(12, 390);
+			this.butCheckAchStatuses.Location = new System.Drawing.Point(8, 367);
 			this.butCheckAchStatuses.Name = "butCheckAchStatuses";
 			this.butCheckAchStatuses.Size = new System.Drawing.Size(150, 24);
 			this.butCheckAchStatuses.TabIndex = 11;
@@ -250,7 +250,7 @@ namespace OpenPmsDental{
 			// 
 			// butWebhooks
 			// 
-			this.butWebhooks.Location = new System.Drawing.Point(170, 390);
+			this.butWebhooks.Location = new System.Drawing.Point(164, 367);
 			this.butWebhooks.Name = "butWebhooks";
 			this.butWebhooks.Size = new System.Drawing.Size(150, 24);
 			this.butWebhooks.TabIndex = 12;
@@ -259,7 +259,7 @@ namespace OpenPmsDental{
 			// 
 			// FormPaySimpleSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(394, 462);
+			this.ClientSize = new System.Drawing.Size(407, 462);
 			this.Controls.Add(this.butWebhooks);
 			this.Controls.Add(this.butCheckAchStatuses);
 			this.Controls.Add(this.checkAchStatusCheck);

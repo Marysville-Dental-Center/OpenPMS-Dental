@@ -67,7 +67,7 @@ namespace OpenPmsDental{
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(725, 683);
+			this.butSave.Location = new System.Drawing.Point(816, 687);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 14;
@@ -76,40 +76,40 @@ namespace OpenPmsDental{
 			//
 			// checkEnabled
 			//
-			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEnabled.Location = new System.Drawing.Point(40, 20);
+			this.checkEnabled.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEnabled.Location = new System.Drawing.Point(153, 29);
 			this.checkEnabled.Name = "checkEnabled";
-			this.checkEnabled.Size = new System.Drawing.Size(82, 18);
+			this.checkEnabled.Size = new System.Drawing.Size(66, 20);
 			this.checkEnabled.TabIndex = 0;
 			this.checkEnabled.Text = "Enabled";
 			this.checkEnabled.Click += new System.EventHandler(this.checkEnabled_Click);
 			//
 			// labelClassesInOD
 			//
-			this.labelClassesInOD.Location = new System.Drawing.Point(10, 559);
+			this.labelClassesInOD.Location = new System.Drawing.Point(14, 507);
 			this.labelClassesInOD.Name = "labelClassesInOD";
-			this.labelClassesInOD.Size = new System.Drawing.Size(141, 71);
+			this.labelClassesInOD.Size = new System.Drawing.Size(141, 32);
 			this.labelClassesInOD.TabIndex = 85;
 			this.labelClassesInOD.Text = "User will get to pick from this list of classes.";
-			this.labelClassesInOD.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelClassesInOD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// labelIncomeAccountsInOD
 			//
-			this.labelIncomeAccountsInOD.Location = new System.Drawing.Point(7, 435);
+			this.labelIncomeAccountsInOD.Location = new System.Drawing.Point(11, 395);
 			this.labelIncomeAccountsInOD.Name = "labelIncomeAccountsInOD";
-			this.labelIncomeAccountsInOD.Size = new System.Drawing.Size(144, 68);
+			this.labelIncomeAccountsInOD.Size = new System.Drawing.Size(144, 47);
 			this.labelIncomeAccountsInOD.TabIndex = 83;
 			this.labelIncomeAccountsInOD.Text = "User will get to pick from this list of income accounts.";
-			this.labelIncomeAccountsInOD.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelIncomeAccountsInOD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// labelDepositAccountsInOD
 			//
-			this.labelDepositAccountsInOD.Location = new System.Drawing.Point(4, 311);
+			this.labelDepositAccountsInOD.Location = new System.Drawing.Point(8, 283);
 			this.labelDepositAccountsInOD.Name = "labelDepositAccountsInOD";
-			this.labelDepositAccountsInOD.Size = new System.Drawing.Size(147, 70);
+			this.labelDepositAccountsInOD.Size = new System.Drawing.Size(147, 47);
 			this.labelDepositAccountsInOD.TabIndex = 80;
 			this.labelDepositAccountsInOD.Text = "User will get to pick from this list of accounts to deposit to.";
-			this.labelDepositAccountsInOD.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelDepositAccountsInOD.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// groupConnection
 			//
@@ -131,65 +131,65 @@ namespace OpenPmsDental{
 			this.groupConnection.Controls.Add(this.labelStatusValue);
 			this.groupConnection.Controls.Add(this.butConnect);
 			this.groupConnection.Controls.Add(this.butDisconnect);
-			this.groupConnection.Location = new System.Drawing.Point(12, 6);
+			this.groupConnection.Location = new System.Drawing.Point(8, 8);
 			this.groupConnection.Name = "groupConnection";
-			this.groupConnection.Size = new System.Drawing.Size(790, 288);
+			this.groupConnection.Size = new System.Drawing.Size(883, 267);
 			this.groupConnection.TabIndex = 1;
 			this.groupConnection.Text = "Connection";
 			//
 			// labelDescription
 			//
-			this.labelDescription.Location = new System.Drawing.Point(130, 18);
+			this.labelDescription.Location = new System.Drawing.Point(225, 23);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(650, 44);
+			this.labelDescription.Size = new System.Drawing.Size(650, 32);
 			this.labelDescription.TabIndex = 101;
 			this.labelDescription.Text = "Sends deposit slips to a QuickBooks Online company using your own Intuit developer app. An internet connection is requ" +
     "ired. The deposit memo, amounts and date are sent to Intuit, so don\'t put patient names in the memo.";
 			//
 			// labelEnvironment
 			//
-			this.labelEnvironment.Location = new System.Drawing.Point(6, 70);
+			this.labelEnvironment.Location = new System.Drawing.Point(67, 59);
 			this.labelEnvironment.Name = "labelEnvironment";
-			this.labelEnvironment.Size = new System.Drawing.Size(120, 20);
+			this.labelEnvironment.Size = new System.Drawing.Size(80, 23);
 			this.labelEnvironment.TabIndex = 102;
 			this.labelEnvironment.Text = "Environment";
 			this.labelEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// comboEnvironment
 			//
-			this.comboEnvironment.Location = new System.Drawing.Point(128, 70);
+			this.comboEnvironment.Location = new System.Drawing.Point(153, 59);
 			this.comboEnvironment.Name = "comboEnvironment";
-			this.comboEnvironment.Size = new System.Drawing.Size(150, 21);
+			this.comboEnvironment.Size = new System.Drawing.Size(152, 23);
 			this.comboEnvironment.TabIndex = 1;
 			//
 			// labelClientId
 			//
-			this.labelClientId.Location = new System.Drawing.Point(6, 97);
+			this.labelClientId.Location = new System.Drawing.Point(91, 86);
 			this.labelClientId.Name = "labelClientId";
-			this.labelClientId.Size = new System.Drawing.Size(120, 20);
+			this.labelClientId.Size = new System.Drawing.Size(56, 23);
 			this.labelClientId.TabIndex = 103;
 			this.labelClientId.Text = "Client ID";
 			this.labelClientId.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textClientId
 			//
-			this.textClientId.Location = new System.Drawing.Point(128, 97);
+			this.textClientId.Location = new System.Drawing.Point(153, 86);
 			this.textClientId.Name = "textClientId";
-			this.textClientId.Size = new System.Drawing.Size(450, 20);
+			this.textClientId.Size = new System.Drawing.Size(448, 23);
 			this.textClientId.TabIndex = 2;
 			//
 			// labelClientSecret
 			//
-			this.labelClientSecret.Location = new System.Drawing.Point(6, 123);
+			this.labelClientSecret.Location = new System.Drawing.Point(67, 113);
 			this.labelClientSecret.Name = "labelClientSecret";
-			this.labelClientSecret.Size = new System.Drawing.Size(120, 20);
+			this.labelClientSecret.Size = new System.Drawing.Size(80, 23);
 			this.labelClientSecret.TabIndex = 104;
 			this.labelClientSecret.Text = "Client Secret";
 			this.labelClientSecret.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textClientSecret
 			//
-			this.textClientSecret.Location = new System.Drawing.Point(128, 123);
+			this.textClientSecret.Location = new System.Drawing.Point(153, 113);
 			this.textClientSecret.Name = "textClientSecret";
 			this.textClientSecret.ReadOnly = true;
 			this.textClientSecret.Size = new System.Drawing.Size(300, 20);
@@ -198,48 +198,48 @@ namespace OpenPmsDental{
 			//
 			// butChangeSecret
 			//
-			this.butChangeSecret.Location = new System.Drawing.Point(434, 121);
+			this.butChangeSecret.Location = new System.Drawing.Point(459, 113);
 			this.butChangeSecret.Name = "butChangeSecret";
-			this.butChangeSecret.Size = new System.Drawing.Size(75, 24);
+			this.butChangeSecret.Size = new System.Drawing.Size(75, 23);
 			this.butChangeSecret.TabIndex = 4;
 			this.butChangeSecret.Text = "Change...";
 			this.butChangeSecret.Click += new System.EventHandler(this.butChangeSecret_Click);
 			//
 			// labelRedirectUri
 			//
-			this.labelRedirectUri.Location = new System.Drawing.Point(6, 151);
+			this.labelRedirectUri.Location = new System.Drawing.Point(71, 140);
 			this.labelRedirectUri.Name = "labelRedirectUri";
-			this.labelRedirectUri.Size = new System.Drawing.Size(120, 20);
+			this.labelRedirectUri.Size = new System.Drawing.Size(76, 23);
 			this.labelRedirectUri.TabIndex = 105;
 			this.labelRedirectUri.Text = "Redirect URI";
 			this.labelRedirectUri.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textRedirectUri
 			//
-			this.textRedirectUri.Location = new System.Drawing.Point(128, 151);
+			this.textRedirectUri.Location = new System.Drawing.Point(153, 140);
 			this.textRedirectUri.Name = "textRedirectUri";
-			this.textRedirectUri.Size = new System.Drawing.Size(450, 20);
+			this.textRedirectUri.Size = new System.Drawing.Size(448, 23);
 			this.textRedirectUri.TabIndex = 5;
 			//
 			// labelRelayPort
 			//
-			this.labelRelayPort.Location = new System.Drawing.Point(6, 177);
+			this.labelRelayPort.Location = new System.Drawing.Point(83, 167);
 			this.labelRelayPort.Name = "labelRelayPort";
-			this.labelRelayPort.Size = new System.Drawing.Size(120, 20);
+			this.labelRelayPort.Size = new System.Drawing.Size(64, 23);
 			this.labelRelayPort.TabIndex = 106;
 			this.labelRelayPort.Text = "Relay Port";
 			this.labelRelayPort.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			//
 			// textRelayPort
 			//
-			this.textRelayPort.Location = new System.Drawing.Point(128, 177);
+			this.textRelayPort.Location = new System.Drawing.Point(153, 172);
 			this.textRelayPort.Name = "textRelayPort";
 			this.textRelayPort.Size = new System.Drawing.Size(60, 20);
 			this.textRelayPort.TabIndex = 6;
 			//
 			// labelRelayPortHint
 			//
-			this.labelRelayPortHint.Location = new System.Drawing.Point(194, 177);
+			this.labelRelayPortHint.Location = new System.Drawing.Point(219, 167);
 			this.labelRelayPortHint.Name = "labelRelayPortHint";
 			this.labelRelayPortHint.Size = new System.Drawing.Size(586, 34);
 			this.labelRelayPortHint.TabIndex = 107;
@@ -248,7 +248,7 @@ namespace OpenPmsDental{
 			//
 			// labelStatus
 			//
-			this.labelStatus.Location = new System.Drawing.Point(6, 222);
+			this.labelStatus.Location = new System.Drawing.Point(8, 205);
 			this.labelStatus.Name = "labelStatus";
 			this.labelStatus.Size = new System.Drawing.Size(120, 20);
 			this.labelStatus.TabIndex = 108;
@@ -257,26 +257,27 @@ namespace OpenPmsDental{
 			//
 			// labelStatusValue
 			//
-			this.labelStatusValue.Location = new System.Drawing.Point(128, 222);
+			this.labelStatusValue.Location = new System.Drawing.Point(492, 205);
+			this.labelStatusValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.labelStatusValue.Name = "labelStatusValue";
-			this.labelStatusValue.Size = new System.Drawing.Size(450, 54);
+			this.labelStatusValue.Size = new System.Drawing.Size(92, 54);
 			this.labelStatusValue.TabIndex = 109;
 			this.labelStatusValue.Text = "Not connected";
 			//
 			// butConnect
 			//
-			this.butConnect.Location = new System.Drawing.Point(590, 220);
+			this.butConnect.Location = new System.Drawing.Point(590, 205);
 			this.butConnect.Name = "butConnect";
-			this.butConnect.Size = new System.Drawing.Size(90, 24);
+			this.butConnect.Size = new System.Drawing.Size(90, 23);
 			this.butConnect.TabIndex = 7;
 			this.butConnect.Text = "Connect...";
 			this.butConnect.Click += new System.EventHandler(this.butConnect_Click);
 			//
 			// butDisconnect
 			//
-			this.butDisconnect.Location = new System.Drawing.Point(686, 220);
+			this.butDisconnect.Location = new System.Drawing.Point(686, 205);
 			this.butDisconnect.Name = "butDisconnect";
-			this.butDisconnect.Size = new System.Drawing.Size(90, 24);
+			this.butDisconnect.Size = new System.Drawing.Size(90, 23);
 			this.butDisconnect.TabIndex = 8;
 			this.butDisconnect.Text = "Disconnect";
 			this.butDisconnect.Click += new System.EventHandler(this.butDisconnect_Click);
@@ -286,7 +287,7 @@ namespace OpenPmsDental{
 			this.butAddDepositAccount.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddDepositAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butAddDepositAccount.Location = new System.Drawing.Point(390, 333);
+			this.butAddDepositAccount.Location = new System.Drawing.Point(390, 307);
 			this.butAddDepositAccount.Name = "butAddDepositAccount";
 			this.butAddDepositAccount.Size = new System.Drawing.Size(35, 24);
 			this.butAddDepositAccount.TabIndex = 3;
@@ -296,7 +297,7 @@ namespace OpenPmsDental{
 			//
 			this.butRemoveDepositAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveDepositAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRemoveDepositAccount.Location = new System.Drawing.Point(390, 373);
+			this.butRemoveDepositAccount.Location = new System.Drawing.Point(390, 335);
 			this.butRemoveDepositAccount.Name = "butRemoveDepositAccount";
 			this.butRemoveDepositAccount.Size = new System.Drawing.Size(35, 24);
 			this.butRemoveDepositAccount.TabIndex = 4;
@@ -305,27 +306,27 @@ namespace OpenPmsDental{
 			// labelDepositAccountsAvailable
 			//
 			this.labelDepositAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDepositAccountsAvailable.Location = new System.Drawing.Point(664, 311);
+			this.labelDepositAccountsAvailable.Location = new System.Drawing.Point(667, 283);
 			this.labelDepositAccountsAvailable.Name = "labelDepositAccountsAvailable";
-			this.labelDepositAccountsAvailable.Size = new System.Drawing.Size(136, 70);
+			this.labelDepositAccountsAvailable.Size = new System.Drawing.Size(136, 47);
 			this.labelDepositAccountsAvailable.TabIndex = 98;
 			this.labelDepositAccountsAvailable.Text = "Deposit accounts available in QuickBooks Online.";
 			//
 			// labelIncomeAccountsAvailable
 			//
 			this.labelIncomeAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelIncomeAccountsAvailable.Location = new System.Drawing.Point(664, 435);
+			this.labelIncomeAccountsAvailable.Location = new System.Drawing.Point(667, 395);
 			this.labelIncomeAccountsAvailable.Name = "labelIncomeAccountsAvailable";
-			this.labelIncomeAccountsAvailable.Size = new System.Drawing.Size(136, 68);
+			this.labelIncomeAccountsAvailable.Size = new System.Drawing.Size(136, 47);
 			this.labelIncomeAccountsAvailable.TabIndex = 99;
 			this.labelIncomeAccountsAvailable.Text = "Income accounts available in QuickBooks Online.";
 			//
 			// labelClassesAvailable
 			//
 			this.labelClassesAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelClassesAvailable.Location = new System.Drawing.Point(664, 559);
+			this.labelClassesAvailable.Location = new System.Drawing.Point(667, 507);
 			this.labelClassesAvailable.Name = "labelClassesAvailable";
-			this.labelClassesAvailable.Size = new System.Drawing.Size(136, 71);
+			this.labelClassesAvailable.Size = new System.Drawing.Size(136, 32);
 			this.labelClassesAvailable.TabIndex = 100;
 			this.labelClassesAvailable.Text = "Classes available in QuickBooks Online.";
 			//
@@ -333,7 +334,7 @@ namespace OpenPmsDental{
 			//
 			this.butRemoveIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRemoveIncomeAccount.Location = new System.Drawing.Point(390, 497);
+			this.butRemoveIncomeAccount.Location = new System.Drawing.Point(390, 447);
 			this.butRemoveIncomeAccount.Name = "butRemoveIncomeAccount";
 			this.butRemoveIncomeAccount.Size = new System.Drawing.Size(35, 24);
 			this.butRemoveIncomeAccount.TabIndex = 8;
@@ -344,7 +345,7 @@ namespace OpenPmsDental{
 			this.butAddIncomeAccount.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddIncomeAccount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddIncomeAccount.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butAddIncomeAccount.Location = new System.Drawing.Point(390, 457);
+			this.butAddIncomeAccount.Location = new System.Drawing.Point(390, 419);
 			this.butAddIncomeAccount.Name = "butAddIncomeAccount";
 			this.butAddIncomeAccount.Size = new System.Drawing.Size(35, 24);
 			this.butAddIncomeAccount.TabIndex = 7;
@@ -354,7 +355,7 @@ namespace OpenPmsDental{
 			//
 			this.butRemoveClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butRemoveClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowRight;
-			this.butRemoveClass.Location = new System.Drawing.Point(390, 621);
+			this.butRemoveClass.Location = new System.Drawing.Point(390, 559);
 			this.butRemoveClass.Name = "butRemoveClass";
 			this.butRemoveClass.Size = new System.Drawing.Size(35, 24);
 			this.butRemoveClass.TabIndex = 12;
@@ -365,7 +366,7 @@ namespace OpenPmsDental{
 			this.butAddClass.AdjustImageLocation = new System.Drawing.Point(-1, 0);
 			this.butAddClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAddClass.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
-			this.butAddClass.Location = new System.Drawing.Point(390, 581);
+			this.butAddClass.Location = new System.Drawing.Point(390, 531);
 			this.butAddClass.Name = "butAddClass";
 			this.butAddClass.Size = new System.Drawing.Size(35, 24);
 			this.butAddClass.TabIndex = 11;
@@ -375,15 +376,15 @@ namespace OpenPmsDental{
 			//
 			this.listBoxDepositAccountsInOD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxDepositAccountsInOD.Location = new System.Drawing.Point(152, 311);
+			this.listBoxDepositAccountsInOD.Location = new System.Drawing.Point(161, 283);
 			this.listBoxDepositAccountsInOD.Name = "listBoxDepositAccountsInOD";
-			this.listBoxDepositAccountsInOD.Size = new System.Drawing.Size(230, 108);
+			this.listBoxDepositAccountsInOD.Size = new System.Drawing.Size(221, 108);
 			this.listBoxDepositAccountsInOD.TabIndex = 2;
 			//
 			// listBoxDepositAccountsAvailable
 			//
 			this.listBoxDepositAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxDepositAccountsAvailable.Location = new System.Drawing.Point(433, 311);
+			this.listBoxDepositAccountsAvailable.Location = new System.Drawing.Point(433, 283);
 			this.listBoxDepositAccountsAvailable.Name = "listBoxDepositAccountsAvailable";
 			this.listBoxDepositAccountsAvailable.Size = new System.Drawing.Size(230, 108);
 			this.listBoxDepositAccountsAvailable.TabIndex = 5;
@@ -392,15 +393,15 @@ namespace OpenPmsDental{
 			//
 			this.listBoxIncomeAccountsInOD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxIncomeAccountsInOD.Location = new System.Drawing.Point(152, 435);
+			this.listBoxIncomeAccountsInOD.Location = new System.Drawing.Point(161, 395);
 			this.listBoxIncomeAccountsInOD.Name = "listBoxIncomeAccountsInOD";
-			this.listBoxIncomeAccountsInOD.Size = new System.Drawing.Size(230, 108);
+			this.listBoxIncomeAccountsInOD.Size = new System.Drawing.Size(221, 108);
 			this.listBoxIncomeAccountsInOD.TabIndex = 6;
 			//
 			// listBoxIncomeAccountsAvailable
 			//
 			this.listBoxIncomeAccountsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxIncomeAccountsAvailable.Location = new System.Drawing.Point(433, 435);
+			this.listBoxIncomeAccountsAvailable.Location = new System.Drawing.Point(433, 395);
 			this.listBoxIncomeAccountsAvailable.Name = "listBoxIncomeAccountsAvailable";
 			this.listBoxIncomeAccountsAvailable.Size = new System.Drawing.Size(230, 108);
 			this.listBoxIncomeAccountsAvailable.TabIndex = 9;
@@ -409,22 +410,22 @@ namespace OpenPmsDental{
 			//
 			this.listBoxClassRefsInOD.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxClassRefsInOD.Location = new System.Drawing.Point(152, 559);
+			this.listBoxClassRefsInOD.Location = new System.Drawing.Point(161, 507);
 			this.listBoxClassRefsInOD.Name = "listBoxClassRefsInOD";
-			this.listBoxClassRefsInOD.Size = new System.Drawing.Size(230, 108);
+			this.listBoxClassRefsInOD.Size = new System.Drawing.Size(221, 108);
 			this.listBoxClassRefsInOD.TabIndex = 10;
 			//
 			// listBoxClassRefsAvailable
 			//
 			this.listBoxClassRefsAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxClassRefsAvailable.Location = new System.Drawing.Point(433, 559);
+			this.listBoxClassRefsAvailable.Location = new System.Drawing.Point(433, 507);
 			this.listBoxClassRefsAvailable.Name = "listBoxClassRefsAvailable";
 			this.listBoxClassRefsAvailable.Size = new System.Drawing.Size(230, 108);
 			this.listBoxClassRefsAvailable.TabIndex = 13;
 			//
 			// FormQuickBooksOnlineSetup
 			//
-			this.ClientSize = new System.Drawing.Size(814, 719);
+			this.ClientSize = new System.Drawing.Size(899, 719);
 			this.Controls.Add(this.listBoxClassRefsAvailable);
 			this.Controls.Add(this.listBoxClassRefsInOD);
 			this.Controls.Add(this.listBoxIncomeAccountsAvailable);
