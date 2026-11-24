@@ -1,7 +1,9 @@
 """FormRepeatChargeEditMulti on the grid (UI-12 slice 10, layout script on the planner's tree). The two-line notes made rows 4 to 6 taller and
 their labels stood 4 to 5 px over their fields: one row per field, its label and its note on the field's top (the note's first line on the
 field's text), the rows 4 px apart (the pitch where the note is one line), the fields one width, the notes at one x to the right padding.
-The window 12 px under the last note for Run (305 -> 266 high; the code does not size it)."""
+The window 12 px under the last note for Run (305 -> 266 high; the code does not size it).
+UI-12F (the final consistency pass; a window never shrinks, the lead's decision at slice 6): main's client size 645 x 305 again, the room the
+content does not fill shared out as equal gaps between the six field rows and over the bar (_s10.keep_main), no empty band at the bottom."""
 import importlib.util
 import os
 
@@ -22,6 +24,4 @@ def layout(h):
         nw = R - (x + 101 + 6)
         h.set(n, x + 101 + 6, y + 3, nw, max(18, h.note_h(n, nw)))
         y += max(27, 3 + h.n(n).nh + 4)
-    n = h.n("label9")
-    s.size(h, h.n(".").nw, n.ny + n.nh + 12 + h.n("butRun").nh + 8)
-    s.bar(h, right_=("butRun",))
+    s.keep_main(h, 645, 305, rows, right_=("butRun",))

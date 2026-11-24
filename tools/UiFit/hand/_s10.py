@@ -59,3 +59,26 @@ def fill(h, name, x=PAD, y=None, r=None, b=None, over=None):
     elif b is None:
         b = bottom(h)
     return span(h, name, x=x, r=r, y=y, b=b)
+
+
+def keep_main(h, w, hh, blocks, left=(), right_=()):
+    """UI-12F (the final consistency pass; the lead's decision at slice 6, a window never shrinks): the window back to main's client size
+    w x hh, the bottom bar on its bottom padding, and the height the content does not fill shared out as equal gaps (as slice 8 did for
+    FormBlockoutCutCopyPaste and FormEhrLabResultEdit): the blocks (lists of controls that move together, top down) keep the first one's
+    top, and the gaps between consecutive blocks and the one over the bar are equal (the bar's gets the remainder, and at least the
+    section gap): no empty band at the bottom."""
+    size(h, w, hh)
+    y_bar = bar(h, left=left, right_=right_)
+    bounds = [(min(h.n(x).ny for x in b), max(h.n(x).ny + h.n(x).nh for x in b)) for b in blocks]
+    top = bounds[0][0]
+    used = sum(b1 - b0 for b0, b1 in bounds)
+    gap = (y_bar - top - used) // len(blocks)
+    y = top
+    for b, (b0, b1) in zip(blocks, bounds):
+        for x in b:
+            n = h.n(x)
+            h.set(x, None, n.ny + y - b0, None, None)
+        y += (b1 - b0) + gap
+    last = y_bar - (y - gap)
+    assert gap >= 4 and last >= SECTION, "%s: no room for the gaps (%d, %d over the bar)" % (h.window, gap, last)
+    return gap
