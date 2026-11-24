@@ -37,4 +37,24 @@ The grid rules (`GridWindows_FollowTheRules`) found these 20 overlaps; after the
   window (FormTaskSearch at 150%) the picture grows; on screen the drop-down is its own window and ToolStripDropDown keeps it on the
   screen. No shadow in the pictures (Windows draws the drop-down's). OK.
 
+## Round 3 (the review's findings, `ui/uical-2`)
+
+| Picture | Finding | Fix |
+|---|---|---|
+| FormJournal (not pictured before) | calendarTo at 208 over calendarFrom's Thursday to Saturday (73 px) when the date button shows both | calendarTo to (289,62); new picture FormJournal-calendars |
+| FormRpUnearnedIncome (not pictured before) | the Line Item page's calendars not in the gallery | new picture FormRpUnearnedIncome-lineitem |
+| FormRpPaySheet | the calendars 3 px apart, date2 8 px from the Providers list | date2 to 243; the Providers column to 478, 145 wide; checkUnearned to (514,28), 117 wide (at 516 and 119 it overlapped checkAllClin: `GridWindows_FollowTheRules`) |
+| FormRpProcSheet, FormRpAdjSheet, FormRpPHRawPop, FormRpPHRawScreen | TO right-aligned against date2 and on the calendars' top row | `MiddleCenter`, centred vertically on the calendars |
+
+The new pictures looked at:
+
+- FormJournal-calendars, before: Windows' two calendars overlapping in the same way (calendarTo over calendarFrom's last columns). After:
+  the two MonthCalendarODs side by side 8 px apart below the date boxes, over the grid as the date button shows them; nothing hidden. OK.
+- FormRpUnearnedIncome-lineitem: the From and To calendars on the Line Item page, MonthCalendarOD after, Windows' before; the Clinics
+  list and Show provider column below as before. OK.
+- FormRpPaySheet (100% and 150%): 8 px between the calendars and to the Providers column; All and Include Unearned side by side, the
+  Clinics column unchanged. OK.
+- FormRpProcSheet, FormRpAdjSheet, FormRpPHRawPop, FormRpPHRawScreen: TO in the middle of the gap, level with the calendars' middle, as
+  in FormRpActivePatients. OK.
+
 Nothing left to fix. Open for the owner's desktop check: the drop-down at the screen's edges, on a second monitor, at 125% and 150%.

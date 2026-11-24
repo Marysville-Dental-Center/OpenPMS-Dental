@@ -37,8 +37,14 @@ before pictures: FormRpPaySheet's second calendar over the first's Saturdays and
 second calendar, the TO label and the columns beside them moved so nothing overlaps (FormRpActivePatients, FormRpAdjSheet,
 FormRpBrokenAppointments, FormRpPaySheet, FormRpPHRawPop, FormRpPHRawScreen, FormRpPPOwriteoffs, FormRpPresentedTreatmentProduction,
 FormRpProcSheet, FormRpTreatPlanPresentationStatistics, FormRpWriteoffSheet, FormXChargeReconcile); FormRpWriteoffSheet's Clinics and
-FormRpPaySheet's Providers lists are narrower (170 and 150 px). `GridWindows_FollowTheRules` passes with no new row in grid-known.tsv; the
+FormRpPaySheet's Providers lists are narrower (170 and 145 px). `GridWindows_FollowTheRules` passes with no new row in grid-known.tsv; the
 layout snapshot was written again (`OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1`).
+
+Fix round (`ui/uical-2`, the review's findings): FormJournal's calendarTo to (289,62), 8 px right of calendarFrom (at 208 it hid
+calendarFrom's Thursday to Saturday when the date button shows both); FormRpPaySheet's date2 to x 243 (an 8 px gap), its Providers column
+(label1, listProv, checkAllProv) to x 478 and 145 px wide (right edge 623 kept), checkUnearned to (514,28) and 117 px wide, between
+checkAllProv and checkAllClin; the TO label of FormRpProcSheet, FormRpAdjSheet, FormRpPHRawPop and FormRpPHRawScreen `MiddleCenter`
+and centred vertically on the calendars (top + 69), as in the other report windows. The layout snapshot rows were changed with them.
 
 ## 2. The date pickers' drop-down
 
@@ -76,13 +82,19 @@ OpenPmsDentalGraph, whose GraphIncome and GraphQuantityOverTime pickers get the 
 - `CalendarDropGallery` (opt-in `OPMS_UI_CAL_DROP_GALLERY`): pictures of the drop-down open in six windows.
 - coverage.tsv rows for `UiDateDropLook` and MonthCalendarOD's UI-CAL; NoHqTests' package list has UI-CAL; the element inventory's
   calendar rows (`element_inventory.py`) written again.
+- WindowChecksTests (fix round): C6 sets FormRpPHRawPop's dates on `MonthCalendarOD` (it cast them to Windows' calendar); C22 looks for
+  `MonthCalendarOD` in FormRpPHRawPop (`C22-monthcalendarod.png`) and opens FormRpPayPlans' first picker's drop-down with
+  `UiDateDropLook.OpenForTest`, checks it holds `MonthCalendarOD` and pictures it (`C22-datetimepicker-dropdown.png`); its label and
+  WINCHK-HEADLESS.md say so. Both are opt-in window checks (`OPMS_WINDOW_CHECKS=1` with a dump), skipped in a Targeted run.
 - The picker tests that make a picker's window use Windows' visual styles (`VisualStylesScope`), as the program runs: a picker window
   made earlier without them registered comctl32 version 5's class and failed ElementLookTests' themed picker test in the first run.
 
 ## 5. Gallery G-UI3-uical
 
-`.git/od-tools/test-results/G-UI3-uical` (zip beside it), 59 pictures: windows-100 (the 42 windows with a calendar or a date picker,
-before from `6bd8e0d64`, after from this branch; 16 changed), windows-150 (the densest five, after only), dropdowns-100 and
+`.git/od-tools/test-results/G-UI3-uical` (zip beside it), 61 pictures: windows-100 (the 42 windows with a calendar or a date picker,
+and since the fix round FormJournal-calendars and FormRpUnearnedIncome-lineitem, the gallery states `FormJournal#calendars`
+(ToggleCalendars, as its date button) and `FormRpUnearnedIncome#lineitem` (the Line Item page); before from `6bd8e0d64` with the fix
+round's FitGallery.cs, after from this branch; 18 changed), windows-150 (the densest five, after only), dropdowns-100 and
 dropdowns-150 (six windows with the drop-down open, after only: Windows' drop-down is a window of its own the harness cannot draw).
 `<W>` is `.git/od-tools/test-results/G-UI3-uical-src`.
 
@@ -102,9 +114,13 @@ passed, 49 skipped; WindowChecksTests 31 passed, 44 skipped; UnitTests 1728 pass
 NoHqTests 130 passed; P262BillingTests 54 passed; 0 failed. `tools/Test-NoEolFlips.ps1 -Base 6bd8e0d64`: 0 flips.
 `python tools/UiFit/element_inventory.py --check` and `python tools/UiFit/colour_literals.py --check`: match.
 
+Fix round (`ui/uical-2`): full build through the lane, 0 errors. Targeted x64 run (`.git/od-tools/test-results/uical2-final.txt`,
+2026-11-24): UiRefreshTests 360 passed, 50 skipped (the opt-in drop-down gallery not asked for); WindowChecksTests 31 passed, 44 skipped;
+UnitTests 1728 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed; P262BillingTests 54 passed; 0 failed.
+
 ## 7. Open
 
 - The owner's look at the gallery, and on a desktop: the drop-down's position at the screen's edges and on a second monitor, at 125% and
   150% (the harness draws no screen).
-- FormJournal's two calendars (hidden until its date button is clicked) and FormRpUnearnedIncome's (on a page the gallery does not show)
-  are converted but not in the pictures.
+- A window-checks session for C6 and C22 (fix round): it starts the program on a `winchk_` copy of a dump, which this package's rules did
+  not allow; the coordinator's or the owner's next window-checks run confirms them.
