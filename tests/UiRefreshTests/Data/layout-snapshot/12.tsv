@@ -406,7 +406,7 @@ OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	label8	8,8	80,23
 OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	splitContainerChart	0,0	900,302	
 OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	chartLegend1	0,0	110,302	
 OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	panelChart	0,0	789,302	
-OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	pictureBoxLoading	0,0	789,302	
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	progressRingLoading	0,0	789,302	
 OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	.		900,463	
 OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	groupBox1	8,8	92,71	
 OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	radioGroupClinics	8,45	61,18	
