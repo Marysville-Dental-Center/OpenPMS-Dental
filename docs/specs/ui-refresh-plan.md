@@ -1592,6 +1592,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   MinDate/MaxDate, events and keyboard), the stock date pickers' drop-down is MonthCalendarOD (`UiDateDropLook`, CodeBase), the
   calendars' neighbours moved where the 227x162 calendar overlapped them in 12 report windows; the final sweep's rule `stock-calendar`.
   Note: [UI-CAL.md](../port-notes/UI-CAL.md); gallery G-UI3-uical, audit `UI-CAL-audit.md`.
+- Status UI-CAL-2 (2026-11-24, branch `ui/uical2-1`, the owner's review of G-UI3-uical: "calendar too compressed"): MonthCalendarOD draws
+  its text in pixels at its own scale (the 96 dpi size times the monitor's dpi and the zoom), so at every scale and on every monitor it is
+  the 100% calendar scaled; the date pickers' drop-down takes the picker's 96 dpi font and, in a plain window (the graphs), the monitor's
+  dpi without the zoom; the drop-down stays wholly on the picker's screen (`UiDateDropLook.GetDropBounds`). The harness draws the
+  calendars' fonts as the screen does. `CalendarScaleTests` (100/125/150/175%, program and plain hosts, the placement rule).
+  Note: [UI-CAL.md](../port-notes/UI-CAL.md) section 8; gallery G-UI3-uical2, audit `UI-CAL-2-audit.md`.
 - Status UI-LOAD (2026-11-24, branch `ui/uiload-1`, the owner's yes to the progress ring): `CodeBase.UiProgressRing`, an indeterminate
   Fluent ring in Accent drawn with GDI+ (32 px, a 4 px stroke at 96 DPI, scaled; the graph's 64 px), its timer only while in a window and visible, a static
   ring with Windows' animations off, Windows' colours in high contrast; it replaced GraphQuantityOverTime's `loadingAnim.gif` and

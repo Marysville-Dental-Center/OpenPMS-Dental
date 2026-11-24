@@ -124,3 +124,71 @@ UnitTests 1728 passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTest
   150% (the harness draws no screen).
 - A window-checks session for C6 and C22 (fix round): it starts the program on a `winchk_` copy of a dump, which this package's rules did
   not allow; the coordinator's or the owner's next window-checks run confirms them.
+
+## 8. UI-CAL-2: the calendar at 150% is the 100% calendar scaled
+
+The owner's review of G-UI3-uical ([UI-CAL-owner-review.tsv](UI-CAL-owner-review.tsv)): "dropdowns-150/GraphIncome-drop-150.png: calendar
+too compressed. Don't look right". Branch `ui/uical2-1` from `642322a74`. Gallery G-UI3-uical2, audit [UI-CAL-2-audit.md](UI-CAL-2-audit.md).
+UserControlTasks' two rows of the review (the calendar cut off) are slice 14's, which rewrites its layout code; not touched here.
+
+**What a 150% screen showed.** MonthCalendarOD sized its box, cells, header and footer by its LayoutManager (`ScaleMy`: the monitor's dpi
+times the zoom) but drew its text in its `Font`, in points, which GDI+ draws at the graphics' dpi: on a screen Windows' system dpi (the
+primary monitor's at sign-in, whatever monitor the window is on; the program is per-monitor aware), 96 in a picture. So:
+
+| Host | Before UI-CAL-2 on a 150% screen | Before in the gallery |
+|---|---|---|
+| Program window (FormODBase), inline or drop-down | box x1.5, text x1.5 through the system dpi; the month's name, the Today line and the rows' text placed by measures scaled twice (`ScaleMS` of a measure already at 144 dpi): the text high in its cells, the Today line off centre | inline: text at 100% in the 150% box (the harness scaled only the stock controls' fonts); drop-down: as the screen |
+| Plain window (GraphIncome, GraphQuantityOverTime in the dashboard's plain windows) | the drop-down's LayoutManager was a bare one (no window): the 100% box, with the picker's 150% text squeezed in (the owner's picture) | as the screen |
+| A program window moved to a monitor whose dpi is not the system dpi | box at the monitor's scale, text at the system dpi's | not drawn |
+| WPF-hosted | none: no WinForms date picker or MonthCalendarOD sits in a `WindowsFormsHost` (the hosts hold the signature box and the progress ring); the WPF calendar (`MonthCalendar.xaml`) is scaled by WPF | |
+
+**The fix.**
+
+- `MonthCalendarOD.GetFontDraw`: the text is drawn (and measured) in a font in pixels, its size the calendar's 96 dpi font size times
+  `LayoutManager.ScaleMy()`, so every part grows by the one factor on every monitor and in a picture; the `ScaleMS` of the measures is gone
+  (they are at the scale already). The 96 dpi size (`GetFontSize96Drawn`): `FontSize96` when set, else the size the window's LayoutManager
+  recorded for the calendar (`LayoutManagerForms.GetFontSize96`, the designer font mapped to the body token), else its `Font` as
+  LayoutManager sets fonts (the zoom only). At 100% the font is the same 12 px as 9 pt at 96 dpi: the 100% pictures are pixel for pixel the
+  same (dropdowns-100: 6 the same).
+- `LayoutManagerForms.CreateDropCalendar`: in a program window the window's LayoutManager and the picker's recorded 96 dpi size; in a plain
+  window a LayoutManager of the picker's monitor dpi (`GetScalePlain`: `DeviceDpi/96`) without the zoom (`IsZoomOff`, new: Windows scales a
+  plain window by its dpi and nothing zooms it), and the picker's font as Windows draws it brought back to 96 dpi (`GetFontSize96Plain`: its
+  pixels at the system dpi over the window's scale, so a 9 pt font at 144 dpi in a 150% window and the 6 pt font Windows Forms gives it on a
+  100% monitor are both 9 pt). The calendar is made at each opening, so a window moved to another monitor opens it at that monitor's dpi.
+- Placement: `UiDateDropLook.GetDropBounds` (the picker's bounds on the screen, the calendar's size, the working area of the picker's
+  monitor): below the box at its left edge (right edge with `DropDownAlign.Right`), above it when there is no room below and there is above,
+  as low as it fits when neither; moved left at the screen's right edge and right at its left edge. Never past the working area. Before,
+  ToolStripDropDown alone kept it on the screen sideways.
+
+**The harness.** `ScaleFontsAsWindowsDoes` scales MonthCalendarOD's font too, as Windows' dpi drew it before UI-CAL-2 (a build of main
+draws what its screen shows; the calendar now ignores it and draws from its 96 dpi size). `CalendarDropGallery` gives a plain window's
+picker the picture's scale (`LayoutManagerForms.FuncGetScalePlainForTest`, set through reflection so the file also builds against main).
+`TextCalendarControls.RenderWinFormsCalendar` sets `FontSize96` instead of scaling the font.
+
+**Tests** (`CalendarScaleTests`, UiRefreshTests, 7 tests): MonthCalendarOD at 100%, 125%, 150% and 175% against the 100% one scaled (its size
+within a pixel; its text's pixel size exactly; the ink of each weekday and date cell, the month's name and the Today line where the 100%
+ones are times the scale and as large, within one 100% pixel scaled per cell: each size's hinting rounds the glyphs to its own pixels, a
+cell's width within a pixel per character, the long texts within 5%); the same for the drop-down of a program window (the picker's font
+grown as Windows draws it; the calendar keeps the 96 dpi size) and of a plain window; the plain window's font brought back to 96 dpi on
+either monitor; the placement rule at the edges, on a short screen and on a second monitor at negative coordinates, and for every place of
+a picker on a 1920 x 1040 working area (wholly on the screen, against the box whenever there is room). coverage.tsv: the two rows say
+UI-CAL-2.
+
+**Gallery G-UI3-uical2** (`.git/od-tools/test-results/G-UI3-uical2`, zip beside it), 21 pictures, 15 changed: dropdowns-100 (6, the same),
+dropdowns-150 (6, changed) and windows-150 (FormCalendar, FormJournal#calendars, FormXChargeReconcile, FormRpPaySheet, FormRpWriteoffSheet,
+FormRpAdjSheet, FormRpAccountingGenLedg, FormRpAccountingBalanceSheet, FormRpUnearnedIncome#lineitem: 9, changed). Before: the base
+`642322a74` with this branch's CalendarDropGallery.cs and GridStyleGallery.cs (so main is drawn as its screen shows it); after: this branch.
+`<W>` is `.git/od-tools/test-results/G-UI3-uical2-src`.
+
+```
+OPMS_UI_CAL_DROP_GALLERY=<W>/<side>-drop-100 OPMS_UI_FIT_GALLERY_FONT=program OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1
+  run-tests.ps1 -Mode Targeted -Platform x64 -Include UiRefreshTests
+the same with OPMS_UI_FIT_GALLERY_SCALE=1.5, OPMS_UI_CAL_DROP_GALLERY=<W>/<side>-drop-150, OPMS_UI_FIT_GALLERY=<W>/<side>-150 and
+  OPMS_UI_FIT_GALLERY_WINDOWS=<the nine windows above, full names>
+tools/New-UiGallery.ps1 -Before <W>/gal-before -After <W>/gal-after -Name G-UI3-uical2 -Out .git/od-tools/test-results/G-UI3-uical2
+```
+
+**Results.** RESULTS_PLACEHOLDER
+
+**Open.** The owner's look at the gallery, and on a desktop: a drop-down at 150% in a graph's window and in a program window, one near the
+screen's bottom and right edges, and a window moved to a monitor of another scale (the harness draws no screen).
