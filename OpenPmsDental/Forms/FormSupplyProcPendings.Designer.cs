@@ -32,9 +32,9 @@ namespace OpenPmsDental {
 			//
 			// labelInstructions
 			//
-			this.labelInstructions.Location = new System.Drawing.Point(12, 7);
+			this.labelInstructions.Location = new System.Drawing.Point(12, 8);
 			this.labelInstructions.Name = "labelInstructions";
-			this.labelInstructions.Size = new System.Drawing.Size(748, 30);
+			this.labelInstructions.Size = new System.Drawing.Size(748, 32);
 			this.labelInstructions.TabIndex = 0;
 			this.labelInstructions.Text = "Completed procedures whose materials were not confirmed: nothing was deducted for them yet. Select one or more and " +
     "click Materials to confirm what they used.";
@@ -45,7 +45,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 40);
+			this.gridMain.Location = new System.Drawing.Point(12, 42);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(736, 400);
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			// butMaterials
 			//
 			this.butMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butMaterials.Location = new System.Drawing.Point(12, 448);
+			this.butMaterials.Location = new System.Drawing.Point(8, 454);
 			this.butMaterials.Name = "butMaterials";
 			this.butMaterials.Size = new System.Drawing.Size(90, 24);
 			this.butMaterials.TabIndex = 2;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// butNoMaterials
 			//
 			this.butNoMaterials.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNoMaterials.Location = new System.Drawing.Point(108, 448);
+			this.butNoMaterials.Location = new System.Drawing.Point(104, 454);
 			this.butNoMaterials.Name = "butNoMaterials";
 			this.butNoMaterials.Size = new System.Drawing.Size(100, 24);
 			this.butNoMaterials.TabIndex = 3;
@@ -77,7 +77,7 @@ namespace OpenPmsDental {
 			// butClose
 			//
 			this.butClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butClose.Location = new System.Drawing.Point(673, 448);
+			this.butClose.Location = new System.Drawing.Point(685, 454);
 			this.butClose.Name = "butClose";
 			this.butClose.Size = new System.Drawing.Size(75, 24);
 			this.butClose.TabIndex = 4;
@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			//
 			// FormSupplyProcPendings
 			//
-			this.ClientSize = new System.Drawing.Size(760, 482);
+			this.ClientSize = new System.Drawing.Size(768, 486);
 			this.Controls.Add(this.butClose);
 			this.Controls.Add(this.butNoMaterials);
 			this.Controls.Add(this.butMaterials);

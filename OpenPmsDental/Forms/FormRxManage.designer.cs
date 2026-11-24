@@ -34,7 +34,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(22, 25);
+			this.gridMain.Location = new System.Drawing.Point(22, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(990, 410);
@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			// butNewRx
 			// 
 			this.butNewRx.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNewRx.Location = new System.Drawing.Point(82, 455);
+			this.butNewRx.Location = new System.Drawing.Point(82, 459);
 			this.butNewRx.Name = "butNewRx";
 			this.butNewRx.Size = new System.Drawing.Size(75, 24);
 			this.butNewRx.TabIndex = 0;
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			// butPrintSelected
 			// 
 			this.butPrintSelected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrintSelected.Location = new System.Drawing.Point(219, 455);
+			this.butPrintSelected.Location = new System.Drawing.Point(219, 459);
 			this.butPrintSelected.Name = "butPrintSelected";
 			this.butPrintSelected.Size = new System.Drawing.Size(87, 24);
 			this.butPrintSelected.TabIndex = 1;
@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			// 
 			this.labelECWerror.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelECWerror.AutoSize = true;
-			this.labelECWerror.Location = new System.Drawing.Point(332, 461);
+			this.labelECWerror.Location = new System.Drawing.Point(332, 463);
 			this.labelECWerror.MinimumSize = new System.Drawing.Size(314, 14);
 			this.labelECWerror.Name = "labelECWerror";
 			this.labelECWerror.Size = new System.Drawing.Size(314, 14);

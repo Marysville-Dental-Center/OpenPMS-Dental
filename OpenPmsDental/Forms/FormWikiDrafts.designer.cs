@@ -52,7 +52,7 @@ namespace OpenPmsDental {
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(248, 614);
 			this.gridMain.TabIndex = 5;
@@ -66,7 +66,7 @@ namespace OpenPmsDental {
 			this.butEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Edit;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEdit.Location = new System.Drawing.Point(1067, 12);
+			this.butEdit.Location = new System.Drawing.Point(1069, 8);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(75, 24);
 			this.butEdit.TabIndex = 84;
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(1067, 53);
+			this.butDelete.Location = new System.Drawing.Point(1069, 36);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 85;
@@ -114,7 +114,7 @@ namespace OpenPmsDental {
 			// butCompare
 			// 
 			this.butCompare.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCompare.Location = new System.Drawing.Point(1067, 94);
+			this.butCompare.Location = new System.Drawing.Point(1069, 64);
 			this.butCompare.Name = "butCompare";
 			this.butCompare.Size = new System.Drawing.Size(75, 24);
 			this.butCompare.TabIndex = 86;
@@ -124,7 +124,8 @@ namespace OpenPmsDental {
 			// labelNotAuthorized
 			// 
 			this.labelNotAuthorized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelNotAuthorized.Location = new System.Drawing.Point(1064, 128);
+			this.labelNotAuthorized.Location = new System.Drawing.Point(1064, 92);
+			this.labelNotAuthorized.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.labelNotAuthorized.Name = "labelNotAuthorized";
 			this.labelNotAuthorized.Size = new System.Drawing.Size(84, 96);
 			this.labelNotAuthorized.TabIndex = 87;
@@ -133,7 +134,7 @@ namespace OpenPmsDental {
 			// 
 			// FormWikiDrafts
 			// 
-			this.ClientSize = new System.Drawing.Size(1154, 638);
+			this.ClientSize = new System.Drawing.Size(1157, 638);
 			this.Controls.Add(this.labelNotAuthorized);
 			this.Controls.Add(this.butCompare);
 			this.Controls.Add(this.butDelete);

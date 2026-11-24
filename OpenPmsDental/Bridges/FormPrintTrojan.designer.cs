@@ -34,7 +34,7 @@
 			// printPanel
 			// 
 			this.printPanel.BackColor = System.Drawing.Color.White;
-			this.printPanel.Location = new System.Drawing.Point(10,33);
+			this.printPanel.Location = new System.Drawing.Point(8,35);
 			this.printPanel.Name = "printPanel";
 			this.printPanel.Origin = new System.Drawing.Point(0,0);
 			this.printPanel.Size = new System.Drawing.Size(650,620);
@@ -42,11 +42,11 @@
 			// 
 			// labPageNum
 			// 
-			this.labPageNum.AutoSize = true;
+			this.labPageNum.AutoSize = false;
 			this.labPageNum.BackColor = System.Drawing.SystemColors.ButtonShadow;
-			this.labPageNum.Location = new System.Drawing.Point(156,9);
+			this.labPageNum.Location = new System.Drawing.Point(159,9);
 			this.labPageNum.Name = "labPageNum";
-			this.labPageNum.Size = new System.Drawing.Size(38,13);
+			this.labPageNum.Size = new System.Drawing.Size(44,20);
 			this.labPageNum.TabIndex = 4;
 			this.labPageNum.Text = "Page: ";
 			this.labPageNum.Visible = false;
@@ -65,7 +65,7 @@
 			// butPrint
 			// 
 			this.butPrint.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
-			this.butPrint.Location = new System.Drawing.Point(101,4);
+			this.butPrint.Location = new System.Drawing.Point(104,8);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(49,23);
 			this.butPrint.TabIndex = 3;
@@ -76,7 +76,7 @@
 			// butPreviousPage
 			// 
 			this.butPreviousPage.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Up,22,22);
-			this.butPreviousPage.Location = new System.Drawing.Point(50,4);
+			this.butPreviousPage.Location = new System.Drawing.Point(53,8);
 			this.butPreviousPage.Name = "butPreviousPage";
 			this.butPreviousPage.Size = new System.Drawing.Size(45,23);
 			this.butPreviousPage.TabIndex = 2;
@@ -87,7 +87,7 @@
 			// butNextPage
 			// 
 			this.butNextPage.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Down,22,22);
-			this.butNextPage.Location = new System.Drawing.Point(5,4);
+			this.butNextPage.Location = new System.Drawing.Point(8,8);
 			this.butNextPage.Name = "butNextPage";
 			this.butNextPage.Size = new System.Drawing.Size(39,23);
 			this.butNextPage.TabIndex = 1;
@@ -98,7 +98,7 @@
 			// FormPrintReport
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(686,666);
+			this.ClientSize = new System.Drawing.Size(691,666);
 			this.Controls.Add(this.vScroll);
 			this.Controls.Add(this.labPageNum);
 			this.Controls.Add(this.butPrint);

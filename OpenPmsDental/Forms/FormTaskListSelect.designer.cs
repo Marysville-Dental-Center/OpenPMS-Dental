@@ -46,7 +46,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(597, 481);
+			this.butOK.Location = new System.Drawing.Point(601, 530);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 4;
@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			// 
 			// labelMulti
 			// 
-			this.labelMulti.Location = new System.Drawing.Point(11, 3);
+			this.labelMulti.Location = new System.Drawing.Point(8, 8);
 			this.labelMulti.Name = "labelMulti";
 			this.labelMulti.Size = new System.Drawing.Size(270, 57);
 			this.labelMulti.TabIndex = 0;
@@ -64,9 +64,9 @@ namespace OpenPmsDental {
 			// 
 			// checkMulti
 			// 
-			this.checkMulti.Location = new System.Drawing.Point(12, 112);
+			this.checkMulti.Location = new System.Drawing.Point(8, 496);
 			this.checkMulti.Name = "checkMulti";
-			this.checkMulti.Size = new System.Drawing.Size(182, 18);
+			this.checkMulti.Size = new System.Drawing.Size(151, 20);
 			this.checkMulti.TabIndex = 1;
 			this.checkMulti.Text = "Send copies to multiple";
 			this.checkMulti.Visible = false;
@@ -74,9 +74,9 @@ namespace OpenPmsDental {
 			// 
 			// textFilter
 			// 
-			this.textFilter.Location = new System.Drawing.Point(12, 90);
+			this.textFilter.Location = new System.Drawing.Point(8, 86);
 			this.textFilter.Name = "textFilter";
-			this.textFilter.Size = new System.Drawing.Size(181, 20);
+			this.textFilter.Size = new System.Drawing.Size(180, 23);
 			this.textFilter.TabIndex = 0;
 			this.textFilter.TextChanged += new System.EventHandler(this.textFilter_TextChanged);
 			this.textFilter.DoubleClick += new System.EventHandler(this.textFilter_DoubleClick);
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 70);
+			this.label1.Location = new System.Drawing.Point(8, 67);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(183, 17);
 			this.label1.TabIndex = 0;
@@ -93,9 +93,9 @@ namespace OpenPmsDental {
 			// 
 			// checkIncludeAll
 			// 
-			this.checkIncludeAll.Location = new System.Drawing.Point(12, 129);
+			this.checkIncludeAll.Location = new System.Drawing.Point(8, 113);
 			this.checkIncludeAll.Name = "checkIncludeAll";
-			this.checkIncludeAll.Size = new System.Drawing.Size(182, 18);
+			this.checkIncludeAll.Size = new System.Drawing.Size(117, 20);
 			this.checkIncludeAll.TabIndex = 2;
 			this.checkIncludeAll.Text = "Show all task lists";
 			this.checkIncludeAll.CheckedChanged += new System.EventHandler(this.checkIncludeSubTasks_CheckedChanged);
@@ -105,7 +105,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(11, 150);
+			this.gridMain.Location = new System.Drawing.Point(8, 137);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(572, 355);
 			this.gridMain.TabIndex = 3;
@@ -116,7 +116,7 @@ namespace OpenPmsDental {
 			// FormTaskListSelect
 			// 
 			this.AcceptButton = this.butOK;
-			this.ClientSize = new System.Drawing.Size(684, 517);
+			this.ClientSize = new System.Drawing.Size(684, 562);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.checkIncludeAll);
 			this.Controls.Add(this.label1);

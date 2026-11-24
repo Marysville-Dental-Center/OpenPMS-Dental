@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(855, 636);
+			this.butOK.Location = new System.Drawing.Point(859, 640);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 2;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// labelInstructions
 			// 
 			this.labelInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelInstructions.Location = new System.Drawing.Point(9, 643);
+			this.labelInstructions.Location = new System.Drawing.Point(8, 647);
 			this.labelInstructions.Name = "labelInstructions";
 			this.labelInstructions.Size = new System.Drawing.Size(470, 18);
 			this.labelInstructions.TabIndex = 15;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butBlank
 			// 
 			this.butBlank.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butBlank.Location = new System.Drawing.Point(436, 636);
+			this.butBlank.Location = new System.Drawing.Point(435, 640);
 			this.butBlank.Name = "butBlank";
 			this.butBlank.Size = new System.Drawing.Size(75, 26);
 			this.butBlank.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(738, 611);
 			this.gridMain.TabIndex = 16;
@@ -92,9 +92,9 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkControlledOnly);
 			this.groupBox1.Controls.Add(this.textDisp);
 			this.groupBox1.Controls.Add(this.textDrug);
-			this.groupBox1.Location = new System.Drawing.Point(756, 12);
+			this.groupBox1.Location = new System.Drawing.Point(756, 8);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(174, 173);
+			this.groupBox1.Size = new System.Drawing.Size(176, 173);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Search";
@@ -102,7 +102,7 @@ namespace OpenPmsDental {
 			// butRefresh
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRefresh.Location = new System.Drawing.Point(93, 140);
+			this.butRefresh.Location = new System.Drawing.Point(93, 139);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 26);
 			this.butRefresh.TabIndex = 3;
@@ -111,7 +111,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 67);
+			this.label2.Location = new System.Drawing.Point(8, 69);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(100, 17);
 			this.label2.TabIndex = 4;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 25);
+			this.label1.Location = new System.Drawing.Point(8, 23);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(100, 17);
 			this.label1.TabIndex = 3;
@@ -127,15 +127,15 @@ namespace OpenPmsDental {
 			// 
 			// checkControlledOnly
 			// 
-			this.checkControlledOnly.Location = new System.Drawing.Point(11, 110);
+			this.checkControlledOnly.Location = new System.Drawing.Point(8, 115);
 			this.checkControlledOnly.Name = "checkControlledOnly";
-			this.checkControlledOnly.Size = new System.Drawing.Size(157, 24);
+			this.checkControlledOnly.Size = new System.Drawing.Size(109, 20);
 			this.checkControlledOnly.TabIndex = 2;
 			this.checkControlledOnly.Text = "Controlled Only";
 			// 
 			// textDisp
 			// 
-			this.textDisp.Location = new System.Drawing.Point(8, 84);
+			this.textDisp.Location = new System.Drawing.Point(8, 88);
 			this.textDisp.Name = "textDisp";
 			this.textDisp.Size = new System.Drawing.Size(160, 20);
 			this.textDisp.TabIndex = 1;
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			// 
 			// textDrug
 			// 
-			this.textDrug.Location = new System.Drawing.Point(7, 42);
+			this.textDrug.Location = new System.Drawing.Point(8, 42);
 			this.textDrug.Name = "textDrug";
 			this.textDrug.Size = new System.Drawing.Size(160, 20);
 			this.textDrug.TabIndex = 0;

@@ -33,15 +33,15 @@ namespace OpenPmsDental {
 			// comboBoxClinic
 			// 
 			this.comboBoxClinic.IncludeAll = true;
-			this.comboBoxClinic.Location = new System.Drawing.Point(26, 19);
+			this.comboBoxClinic.Location = new System.Drawing.Point(26, 8);
 			this.comboBoxClinic.Name = "comboBoxClinic";
-			this.comboBoxClinic.Size = new System.Drawing.Size(201, 21);
+			this.comboBoxClinic.Size = new System.Drawing.Size(203, 23);
 			this.comboBoxClinic.TabIndex = 208;
 			this.comboBoxClinic.SelectionChangeCommitted += new System.EventHandler(this.comboBoxClinic_SelectionChangeCommitted);
 			// 
 			// gridPayPlanTemplates
 			// 
-			this.gridPayPlanTemplates.Location = new System.Drawing.Point(26, 55);
+			this.gridPayPlanTemplates.Location = new System.Drawing.Point(26, 35);
 			this.gridPayPlanTemplates.Name = "gridPayPlanTemplates";
 			this.gridPayPlanTemplates.Size = new System.Drawing.Size(900, 401);
 			this.gridPayPlanTemplates.TabIndex = 4;
@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(885, 480);
+			this.butOK.Location = new System.Drawing.Point(889, 484);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -62,9 +62,9 @@ namespace OpenPmsDental {
 			// 
 			this.butAddTemplate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAddTemplate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAddTemplate.Location = new System.Drawing.Point(853, 19);
+			this.butAddTemplate.Location = new System.Drawing.Point(853, 8);
 			this.butAddTemplate.Name = "butAddTemplate";
-			this.butAddTemplate.Size = new System.Drawing.Size(73, 24);
+			this.butAddTemplate.Size = new System.Drawing.Size(73, 23);
 			this.butAddTemplate.TabIndex = 209;
 			this.butAddTemplate.Text = "Add";
 			this.butAddTemplate.UseVisualStyleBackColor = true;
@@ -73,10 +73,10 @@ namespace OpenPmsDental {
 			// 
 			// checkShowHidden
 			// 
-			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkShowHidden.Location = new System.Drawing.Point(233, 19);
+			this.checkShowHidden.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkShowHidden.Location = new System.Drawing.Point(235, 9);
 			this.checkShowHidden.Name = "checkShowHidden";
-			this.checkShowHidden.Size = new System.Drawing.Size(103, 21);
+			this.checkShowHidden.Size = new System.Drawing.Size(95, 20);
 			this.checkShowHidden.TabIndex = 210;
 			this.checkShowHidden.Text = "Show Hidden";
 			this.checkShowHidden.Visible = false;

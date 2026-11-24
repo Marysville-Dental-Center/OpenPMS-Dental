@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// 
 			// textProcCode
 			// 
-			this.textProcCode.Location = new System.Drawing.Point(184, 23);
+			this.textProcCode.Location = new System.Drawing.Point(184, 8);
 			this.textProcCode.MaxLength = 15;
 			this.textProcCode.Name = "textProcCode";
 			this.textProcCode.Size = new System.Drawing.Size(100, 20);
@@ -54,43 +54,43 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(2, 24);
+			this.label1.Location = new System.Drawing.Point(82, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(174, 16);
+			this.label1.Size = new System.Drawing.Size(96, 23);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Procedure Code";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(2, 65);
+			this.label2.Location = new System.Drawing.Point(38, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(174, 18);
+			this.label2.Size = new System.Drawing.Size(140, 23);
 			this.label2.TabIndex = 7;
 			this.label2.Text = "Current Charge Amount";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(2, 151);
+			this.label3.Location = new System.Drawing.Point(66, 89);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(174, 18);
+			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Super Family Head";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(299, 150);
+			this.label4.Location = new System.Drawing.Point(291, 89);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(346, 31);
+			this.label4.Size = new System.Drawing.Size(346, 32);
 			this.label4.TabIndex = 10;
 			this.label4.Text = "Enter patnum of super family head to only update that super family. Leave blank t" +
     "o update entire database.";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(299, 26);
+			this.label5.Location = new System.Drawing.Point(290, 10);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(333, 18);
 			this.label5.TabIndex = 11;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(299, 67);
+			this.label6.Location = new System.Drawing.Point(291, 36);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(346, 20);
 			this.label6.TabIndex = 12;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(299, 190);
+			this.label7.Location = new System.Drawing.Point(291, 125);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(346, 33);
 			this.label7.TabIndex = 14;
@@ -115,23 +115,23 @@ namespace OpenPmsDental{
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(184, 226);
+			this.textDateStart.Location = new System.Drawing.Point(184, 167);
 			this.textDateStart.Name = "textDateStart";
-			this.textDateStart.Size = new System.Drawing.Size(100, 20);
+			this.textDateStart.Size = new System.Drawing.Size(101, 23);
 			this.textDateStart.TabIndex = 5;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(2, 227);
+			this.label8.Location = new System.Drawing.Point(114, 162);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(174, 16);
+			this.label8.Size = new System.Drawing.Size(64, 23);
 			this.label8.TabIndex = 16;
 			this.label8.Text = "Start Date";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(299, 226);
+			this.label9.Location = new System.Drawing.Point(291, 162);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(346, 33);
 			this.label9.TabIndex = 17;
@@ -140,7 +140,7 @@ namespace OpenPmsDental{
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(299, 109);
+			this.label10.Location = new System.Drawing.Point(290, 63);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(333, 20);
 			this.label10.TabIndex = 20;
@@ -148,9 +148,9 @@ namespace OpenPmsDental{
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(2, 107);
+			this.label11.Location = new System.Drawing.Point(54, 62);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(174, 18);
+			this.label11.Size = new System.Drawing.Size(124, 23);
 			this.label11.TabIndex = 19;
 			this.label11.Text = "New Charge Amount";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -158,7 +158,7 @@ namespace OpenPmsDental{
 			// butRun
 			// 
 			this.butRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butRun.Location = new System.Drawing.Point(558, 269);
+			this.butRun.Location = new System.Drawing.Point(558, 273);
 			this.butRun.Name = "butRun";
 			this.butRun.Size = new System.Drawing.Size(75, 24);
 			this.butRun.TabIndex = 6;
@@ -168,16 +168,16 @@ namespace OpenPmsDental{
 			// 
 			// textChargeAmount
 			// 
-			this.textChargeAmount.Location = new System.Drawing.Point(184, 64);
+			this.textChargeAmount.Location = new System.Drawing.Point(184, 35);
 			this.textChargeAmount.MaxVal = 100000000D;
 			this.textChargeAmount.MinVal = -100000000D;
 			this.textChargeAmount.Name = "textChargeAmount";
-			this.textChargeAmount.Size = new System.Drawing.Size(100, 20);
+			this.textChargeAmount.Size = new System.Drawing.Size(101, 23);
 			this.textChargeAmount.TabIndex = 1;
 			// 
 			// textChargeAmountNew
 			// 
-			this.textChargeAmountNew.Location = new System.Drawing.Point(184, 106);
+			this.textChargeAmountNew.Location = new System.Drawing.Point(184, 62);
 			this.textChargeAmountNew.MaxVal = 100000000D;
 			this.textChargeAmountNew.MinVal = -100000000D;
 			this.textChargeAmountNew.Name = "textChargeAmountNew";
@@ -186,26 +186,26 @@ namespace OpenPmsDental{
 			// 
 			// comboIsEnabled
 			// 
-			this.comboIsEnabled.Location = new System.Drawing.Point(184, 190);
+			this.comboIsEnabled.Location = new System.Drawing.Point(184, 130);
 			this.comboIsEnabled.Name = "comboIsEnabled";
-			this.comboIsEnabled.Size = new System.Drawing.Size(100, 21);
+			this.comboIsEnabled.Size = new System.Drawing.Size(101, 23);
 			this.comboIsEnabled.TabIndex = 4;
 			this.comboIsEnabled.Text = "comboBoxOD1";
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(2, 190);
+			this.label12.Location = new System.Drawing.Point(54, 125);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(174, 18);
+			this.label12.Size = new System.Drawing.Size(124, 23);
 			this.label12.TabIndex = 22;
 			this.label12.Text = "Repeat Charge Status";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textPatNumSuperFamilyHead
 			// 
-			this.textPatNumSuperFamilyHead.Location = new System.Drawing.Point(184, 150);
+			this.textPatNumSuperFamilyHead.Location = new System.Drawing.Point(184, 93);
 			this.textPatNumSuperFamilyHead.Name = "textPatNumSuperFamilyHead";
-			this.textPatNumSuperFamilyHead.Size = new System.Drawing.Size(100, 20);
+			this.textPatNumSuperFamilyHead.Size = new System.Drawing.Size(101, 23);
 			this.textPatNumSuperFamilyHead.TabIndex = 3;
 			// 
 			// FormRepeatChargeEditMulti

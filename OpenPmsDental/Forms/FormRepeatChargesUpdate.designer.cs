@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(433, 201);
+			this.butOK.Location = new System.Drawing.Point(437, 209);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 1;
@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			// checkRunAging
 			// 
 			this.checkRunAging.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkRunAging.Location = new System.Drawing.Point(12, 210);
+			this.checkRunAging.Location = new System.Drawing.Point(8, 217);
 			this.checkRunAging.Name = "checkRunAging";
 			this.checkRunAging.Size = new System.Drawing.Size(290, 18);
 			this.checkRunAging.TabIndex = 4;
@@ -64,9 +64,9 @@ namespace OpenPmsDental {
 			// 
 			this.labelDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelDescription.Location = new System.Drawing.Point(12, 13);
+			this.labelDescription.Location = new System.Drawing.Point(12, 8);
 			this.labelDescription.Name = "labelDescription";
-			this.labelDescription.Size = new System.Drawing.Size(496, 188);
+			this.labelDescription.Size = new System.Drawing.Size(496, 182);
 			this.labelDescription.TabIndex = 5;
 			this.labelDescription.Text = resources.GetString("labelDescription.Text");
 			// 

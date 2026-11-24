@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			this.gridSubscribers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridSubscribers.Location = new System.Drawing.Point(23, 24);
+			this.gridSubscribers.Location = new System.Drawing.Point(23, 8);
 			this.gridSubscribers.Name = "gridSubscribers";
 			this.gridSubscribers.Size = new System.Drawing.Size(453, 331);
 			this.gridSubscribers.TabIndex = 4;

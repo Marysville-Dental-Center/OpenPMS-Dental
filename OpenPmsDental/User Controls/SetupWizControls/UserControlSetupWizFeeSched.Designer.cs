@@ -47,7 +47,7 @@
 			// 
 			// gridMain
 			// 
-			this.gridMain.Location = new System.Drawing.Point(21, 7);
+			this.gridMain.Location = new System.Drawing.Point(21, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(372, 489);
 			this.gridMain.TabIndex = 36;
@@ -58,7 +58,7 @@
 			// butImport
 			// 
 			this.butImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butImport.Location = new System.Drawing.Point(400, 128);
+			this.butImport.Location = new System.Drawing.Point(400, 80);
 			this.butImport.Name = "butImport";
 			this.butImport.Size = new System.Drawing.Size(79, 24);
 			this.butImport.TabIndex = 37;
@@ -68,7 +68,7 @@
 			// butEditFee
 			// 
 			this.butEditFee.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEditFee.Location = new System.Drawing.Point(400, 77);
+			this.butEditFee.Location = new System.Drawing.Point(400, 52);
 			this.butEditFee.Name = "butEditFee";
 			this.butEditFee.Size = new System.Drawing.Size(79, 24);
 			this.butEditFee.TabIndex = 38;
@@ -78,7 +78,7 @@
 			// labelEdit
 			// 
 			this.labelEdit.ImageIndex = 0;
-			this.labelEdit.Location = new System.Drawing.Point(485, 79);
+			this.labelEdit.Location = new System.Drawing.Point(485, 50);
 			this.labelEdit.Name = "labelEdit";
 			this.labelEdit.Size = new System.Drawing.Size(20, 20);
 			this.labelEdit.TabIndex = 94;
@@ -89,7 +89,7 @@
 			// labelAdd
 			// 
 			this.labelAdd.ImageIndex = 0;
-			this.labelAdd.Location = new System.Drawing.Point(485, 26);
+			this.labelAdd.Location = new System.Drawing.Point(485, 28);
 			this.labelAdd.Name = "labelAdd";
 			this.labelAdd.Size = new System.Drawing.Size(20, 20);
 			this.labelAdd.TabIndex = 95;
@@ -100,7 +100,7 @@
 			// labelImport
 			// 
 			this.labelImport.ImageIndex = 0;
-			this.labelImport.Location = new System.Drawing.Point(485, 130);
+			this.labelImport.Location = new System.Drawing.Point(485, 72);
 			this.labelImport.Name = "labelImport";
 			this.labelImport.Size = new System.Drawing.Size(20, 20);
 			this.labelImport.TabIndex = 96;

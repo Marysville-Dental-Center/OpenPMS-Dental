@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridMain.Location = new System.Drawing.Point(12, 12);
+			this.gridMain.Location = new System.Drawing.Point(12, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(248, 621);
 			this.gridMain.TabIndex = 6;
@@ -47,7 +47,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.webViewWiki.AreBrowserKeysEnabled = true;
 			this.webViewWiki.IsContextMenuEnabled = false;
-			this.webViewWiki.Location = new System.Drawing.Point(266, 12);
+			this.webViewWiki.Location = new System.Drawing.Point(266, 8);
 			this.webViewWiki.Name = "webViewWiki";
 			this.webViewWiki.Size = new System.Drawing.Size(634, 621);
 			this.webViewWiki.TabIndex = 0;

@@ -52,7 +52,7 @@
 			// groupBox1
 			// 
 			this.groupBox1.Controls.Add(this.labelExplanation);
-			this.groupBox1.Location = new System.Drawing.Point(324, 136);
+			this.groupBox1.Location = new System.Drawing.Point(337, 87);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(542, 229);
 			this.groupBox1.TabIndex = 109;
@@ -80,15 +80,15 @@
 			this.panelInfo.Controls.Add(this.labelInfoInsurance);
 			this.panelInfo.Controls.Add(this.labelInfoCapitation);
 			this.panelInfo.Controls.Add(this.labelInfoMedicaid);
-			this.panelInfo.Location = new System.Drawing.Point(293, 89);
+			this.panelInfo.Location = new System.Drawing.Point(293, 39);
 			this.panelInfo.Name = "panelInfo";
-			this.panelInfo.Size = new System.Drawing.Size(23, 358);
+			this.panelInfo.Size = new System.Drawing.Size(36, 358);
 			this.panelInfo.TabIndex = 108;
 			// 
 			// labelInfoMedIns
 			// 
 			this.labelInfoMedIns.ImageIndex = 0;
-			this.labelInfoMedIns.Location = new System.Drawing.Point(1, 277);
+			this.labelInfoMedIns.Location = new System.Drawing.Point(8, 118);
 			this.labelInfoMedIns.Name = "labelInfoMedIns";
 			this.labelInfoMedIns.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoMedIns.TabIndex = 100;
@@ -99,7 +99,7 @@
 			// labelInfoEHR
 			// 
 			this.labelInfoEHR.ImageIndex = 0;
-			this.labelInfoEHR.Location = new System.Drawing.Point(1, 332);
+			this.labelInfoEHR.Location = new System.Drawing.Point(8, 140);
 			this.labelInfoEHR.Name = "labelInfoEHR";
 			this.labelInfoEHR.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoEHR.TabIndex = 101;
@@ -110,7 +110,7 @@
 			// labelInfoClinical
 			// 
 			this.labelInfoClinical.ImageIndex = 0;
-			this.labelInfoClinical.Location = new System.Drawing.Point(1, 167);
+			this.labelInfoClinical.Location = new System.Drawing.Point(8, 74);
 			this.labelInfoClinical.Name = "labelInfoClinical";
 			this.labelInfoClinical.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoClinical.TabIndex = 96;
@@ -121,7 +121,7 @@
 			// labelInfoClinics
 			// 
 			this.labelInfoClinics.ImageIndex = 0;
-			this.labelInfoClinics.Location = new System.Drawing.Point(1, 222);
+			this.labelInfoClinics.Location = new System.Drawing.Point(8, 96);
 			this.labelInfoClinics.Name = "labelInfoClinics";
 			this.labelInfoClinics.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoClinics.TabIndex = 98;
@@ -134,7 +134,7 @@
 			// labelInfoInsurance
 			// 
 			this.labelInfoInsurance.ImageIndex = 0;
-			this.labelInfoInsurance.Location = new System.Drawing.Point(1, 112);
+			this.labelInfoInsurance.Location = new System.Drawing.Point(8, 52);
 			this.labelInfoInsurance.Name = "labelInfoInsurance";
 			this.labelInfoInsurance.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoInsurance.TabIndex = 95;
@@ -146,7 +146,7 @@
 			// labelInfoCapitation
 			// 
 			this.labelInfoCapitation.ImageIndex = 0;
-			this.labelInfoCapitation.Location = new System.Drawing.Point(1, 2);
+			this.labelInfoCapitation.Location = new System.Drawing.Point(8, 8);
 			this.labelInfoCapitation.Name = "labelInfoCapitation";
 			this.labelInfoCapitation.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoCapitation.TabIndex = 90;
@@ -157,7 +157,7 @@
 			// labelInfoMedicaid
 			// 
 			this.labelInfoMedicaid.ImageIndex = 0;
-			this.labelInfoMedicaid.Location = new System.Drawing.Point(1, 57);
+			this.labelInfoMedicaid.Location = new System.Drawing.Point(8, 30);
 			this.labelInfoMedicaid.Name = "labelInfoMedicaid";
 			this.labelInfoMedicaid.Size = new System.Drawing.Size(20, 20);
 			this.labelInfoMedicaid.TabIndex = 91;
@@ -167,7 +167,7 @@
 			// 
 			// labelFieldType
 			// 
-			this.labelFieldType.Location = new System.Drawing.Point(28, 57);
+			this.labelFieldType.Location = new System.Drawing.Point(28, 8);
 			this.labelFieldType.Name = "labelFieldType";
 			this.labelFieldType.Size = new System.Drawing.Size(469, 29);
 			this.labelFieldType.TabIndex = 89;
@@ -177,65 +177,65 @@
 			// 
 			// checkEhr
 			// 
-			this.checkEhr.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkEhr.Location = new System.Drawing.Point(6, 421);
+			this.checkEhr.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkEhr.Location = new System.Drawing.Point(8, 183);
 			this.checkEhr.Name = "checkEhr";
-			this.checkEhr.Size = new System.Drawing.Size(285, 20);
+			this.checkEhr.Size = new System.Drawing.Size(45, 20);
 			this.checkEhr.TabIndex = 32;
 			this.checkEhr.Text = "EHR";
 			this.checkEhr.Click += new System.EventHandler(this.checkEhr_Click);
 			// 
 			// checkMedicalIns
 			// 
-			this.checkMedicalIns.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkMedicalIns.Location = new System.Drawing.Point(6, 366);
+			this.checkMedicalIns.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkMedicalIns.Location = new System.Drawing.Point(8, 159);
 			this.checkMedicalIns.Name = "checkMedicalIns";
-			this.checkMedicalIns.Size = new System.Drawing.Size(285, 20);
+			this.checkMedicalIns.Size = new System.Drawing.Size(121, 20);
 			this.checkMedicalIns.TabIndex = 31;
 			this.checkMedicalIns.Text = "Medical Insurance";
 			// 
 			// checkInsurance
 			// 
-			this.checkInsurance.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkInsurance.Location = new System.Drawing.Point(6, 201);
+			this.checkInsurance.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkInsurance.Location = new System.Drawing.Point(8, 87);
 			this.checkInsurance.Name = "checkInsurance";
-			this.checkInsurance.Size = new System.Drawing.Size(285, 20);
+			this.checkInsurance.Size = new System.Drawing.Size(92, 20);
 			this.checkInsurance.TabIndex = 29;
 			this.checkInsurance.Text = "All Insurance";
 			// 
 			// checkNoClinics
 			// 
-			this.checkNoClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkNoClinics.Location = new System.Drawing.Point(6, 311);
+			this.checkNoClinics.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkNoClinics.Location = new System.Drawing.Point(8, 135);
 			this.checkNoClinics.Name = "checkNoClinics";
-			this.checkNoClinics.Size = new System.Drawing.Size(285, 20);
+			this.checkNoClinics.Size = new System.Drawing.Size(198, 20);
 			this.checkNoClinics.TabIndex = 26;
 			this.checkNoClinics.Text = "Clinics (multiple office locations)";
 			// 
 			// checkClinical
 			// 
-			this.checkClinical.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkClinical.Location = new System.Drawing.Point(6, 256);
+			this.checkClinical.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkClinical.Location = new System.Drawing.Point(8, 111);
 			this.checkClinical.Name = "checkClinical";
-			this.checkClinical.Size = new System.Drawing.Size(285, 20);
+			this.checkClinical.Size = new System.Drawing.Size(209, 20);
 			this.checkClinical.TabIndex = 23;
 			this.checkClinical.Text = "Clinical (computers in operatories)";
 			// 
 			// checkMedicaid
 			// 
-			this.checkMedicaid.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkMedicaid.Location = new System.Drawing.Point(6, 146);
+			this.checkMedicaid.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkMedicaid.Location = new System.Drawing.Point(8, 63);
 			this.checkMedicaid.Name = "checkMedicaid";
-			this.checkMedicaid.Size = new System.Drawing.Size(285, 20);
+			this.checkMedicaid.Size = new System.Drawing.Size(73, 20);
 			this.checkMedicaid.TabIndex = 21;
 			this.checkMedicaid.Text = "Medicaid";
 			// 
 			// checkCapitation
 			// 
-			this.checkCapitation.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.checkCapitation.Location = new System.Drawing.Point(6, 91);
+			this.checkCapitation.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.checkCapitation.Location = new System.Drawing.Point(8, 39);
 			this.checkCapitation.Name = "checkCapitation";
-			this.checkCapitation.Size = new System.Drawing.Size(285, 20);
+			this.checkCapitation.Size = new System.Drawing.Size(79, 20);
 			this.checkCapitation.TabIndex = 20;
 			this.checkCapitation.Text = "Capitation";
 			// 
@@ -243,7 +243,7 @@
 			// 
 			this.butAdvanced.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butAdvanced.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvanced.Location = new System.Drawing.Point(845, 456);
+			this.butAdvanced.Location = new System.Drawing.Point(845, 401);
 			this.butAdvanced.Name = "butAdvanced";
 			this.butAdvanced.Size = new System.Drawing.Size(82, 26);
 			this.butAdvanced.TabIndex = 111;
@@ -253,9 +253,9 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(631, 402);
+			this.label1.Location = new System.Drawing.Point(631, 324);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(296, 52);
+			this.label1.Size = new System.Drawing.Size(296, 47);
 			this.label1.TabIndex = 110;
 			this.label1.Text = "Further modifications to this list can be made by going to Setup -> Advanced Setu" +
     "p -> Show Features, or by clicking \"Advanced\".";

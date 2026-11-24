@@ -44,9 +44,9 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(351, 39);
+			this.label2.Location = new System.Drawing.Point(378, 35);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(77, 18);
+			this.label2.Size = new System.Drawing.Size(48, 23);
 			this.label2.TabIndex = 22;
 			this.label2.Text = "Course";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -54,18 +54,18 @@ namespace OpenPmsDental {
 			// comboCourse
 			// 
 			this.comboCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboCourse.Location = new System.Drawing.Point(432, 39);
+			this.comboCourse.Location = new System.Drawing.Point(432, 35);
 			this.comboCourse.Name = "comboCourse";
-			this.comboCourse.Size = new System.Drawing.Size(234, 21);
+			this.comboCourse.Size = new System.Drawing.Size(232, 23);
 			this.comboCourse.TabIndex = 21;
 			this.comboCourse.SelectionChangeCommitted += new System.EventHandler(this.comboCourse_SelectionChangeCommitted);
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(348, 12);
+			this.label1.Location = new System.Drawing.Point(386, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(81, 18);
+			this.label1.Size = new System.Drawing.Size(40, 23);
 			this.label1.TabIndex = 20;
 			this.label1.Text = "Class";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -73,9 +73,9 @@ namespace OpenPmsDental {
 			// comboClass
 			// 
 			this.comboClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboClass.Location = new System.Drawing.Point(432, 12);
+			this.comboClass.Location = new System.Drawing.Point(432, 8);
 			this.comboClass.Name = "comboClass";
-			this.comboClass.Size = new System.Drawing.Size(234, 21);
+			this.comboClass.Size = new System.Drawing.Size(232, 23);
 			this.comboClass.TabIndex = 19;
 			this.comboClass.SelectionChangeCommitted += new System.EventHandler(this.comboClass_SelectionChangeCommitted);
 			// 
@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(15, 12);
+			this.gridMain.Location = new System.Drawing.Point(15, 8);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(329, 637);
 			this.gridMain.TabIndex = 3;

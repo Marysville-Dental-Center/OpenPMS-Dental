@@ -42,7 +42,7 @@ namespace OpenPmsDental {
 			//
 			// labelLicenseAgree
 			// 
-			this.labelLicenseAgree.Location = new System.Drawing.Point(12, 26);
+			this.labelLicenseAgree.Location = new System.Drawing.Point(12, 8);
 			this.labelLicenseAgree.Name = "labelLicenseAgree";
 			this.labelLicenseAgree.Size = new System.Drawing.Size(150, 17);
 			this.labelLicenseAgree.TabIndex = 6;
@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			this.richTextAgreement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.richTextAgreement.Location = new System.Drawing.Point(168, 45);
+			this.richTextAgreement.Location = new System.Drawing.Point(168, 28);
 			this.richTextAgreement.Name = "richTextAgreement";
 			this.richTextAgreement.Size = new System.Drawing.Size(583, 359);
 			this.richTextAgreement.TabIndex = 8;
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(676, 410);
+			this.butOK.Location = new System.Drawing.Point(680, 408);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 4;
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			this.listBoxRegistration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listBoxRegistration.Location = new System.Drawing.Point(12, 45);
+			this.listBoxRegistration.Location = new System.Drawing.Point(12, 27);
 			this.listBoxRegistration.Name = "listBoxRegistration";
 			this.listBoxRegistration.Size = new System.Drawing.Size(150, 358);
 			this.listBoxRegistration.TabIndex = 9;

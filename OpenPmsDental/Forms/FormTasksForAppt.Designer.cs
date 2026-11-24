@@ -34,7 +34,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.DoShowRightClickLinks = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 29);
+			this.gridMain.Location = new System.Drawing.Point(12, 28);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.NoteSpanStart = 2;
 			this.gridMain.NoteSpanStop = 2;

@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			this.grid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.grid.Location = new System.Drawing.Point(18, 13);
+			this.grid.Location = new System.Drawing.Point(18, 8);
 			this.grid.Name = "grid";
 			this.grid.Size = new System.Drawing.Size(196, 482);
 			this.grid.TabIndex = 1;
@@ -56,7 +56,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(18, 511);
+			this.butAdd.Location = new System.Drawing.Point(8, 515);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(77, 26);
 			this.butAdd.TabIndex = 98;

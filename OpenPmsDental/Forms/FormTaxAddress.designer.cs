@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(352, 195);
+			this.butSave.Location = new System.Drawing.Point(356, 200);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -50,80 +50,80 @@ namespace OpenPmsDental{
 			// 
 			// labelAddress
 			// 
-			this.labelAddress.Location = new System.Drawing.Point(15, 51);
+			this.labelAddress.Location = new System.Drawing.Point(59, 57);
 			this.labelAddress.Name = "labelAddress";
-			this.labelAddress.Size = new System.Drawing.Size(100, 18);
+			this.labelAddress.Size = new System.Drawing.Size(56, 23);
 			this.labelAddress.TabIndex = 8;
 			this.labelAddress.Text = "Address";
 			this.labelAddress.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAddress
 			// 
-			this.textAddress.Location = new System.Drawing.Point(121, 51);
+			this.textAddress.Location = new System.Drawing.Point(121, 57);
 			this.textAddress.Name = "textAddress";
-			this.textAddress.Size = new System.Drawing.Size(194, 20);
+			this.textAddress.Size = new System.Drawing.Size(192, 23);
 			this.textAddress.TabIndex = 0;
 			// 
 			// textAddress2
 			// 
-			this.textAddress2.Location = new System.Drawing.Point(121, 77);
+			this.textAddress2.Location = new System.Drawing.Point(121, 84);
 			this.textAddress2.Name = "textAddress2";
-			this.textAddress2.Size = new System.Drawing.Size(194, 20);
+			this.textAddress2.Size = new System.Drawing.Size(192, 23);
 			this.textAddress2.TabIndex = 1;
 			// 
 			// labelAddresTwo
 			// 
-			this.labelAddresTwo.Location = new System.Drawing.Point(15, 77);
+			this.labelAddresTwo.Location = new System.Drawing.Point(51, 84);
 			this.labelAddresTwo.Name = "labelAddresTwo";
-			this.labelAddresTwo.Size = new System.Drawing.Size(100, 18);
+			this.labelAddresTwo.Size = new System.Drawing.Size(64, 23);
 			this.labelAddresTwo.TabIndex = 9;
 			this.labelAddresTwo.Text = "Address 2";
 			this.labelAddresTwo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textCity
 			// 
-			this.textCity.Location = new System.Drawing.Point(121, 103);
+			this.textCity.Location = new System.Drawing.Point(121, 111);
 			this.textCity.Name = "textCity";
-			this.textCity.Size = new System.Drawing.Size(103, 20);
+			this.textCity.Size = new System.Drawing.Size(104, 23);
 			this.textCity.TabIndex = 2;
 			// 
 			// labelCity
 			// 
-			this.labelCity.Location = new System.Drawing.Point(15, 105);
+			this.labelCity.Location = new System.Drawing.Point(83, 111);
 			this.labelCity.Name = "labelCity";
-			this.labelCity.Size = new System.Drawing.Size(100, 18);
+			this.labelCity.Size = new System.Drawing.Size(32, 23);
 			this.labelCity.TabIndex = 10;
 			this.labelCity.Text = "City";
 			this.labelCity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textState
 			// 
-			this.textState.Location = new System.Drawing.Point(121, 129);
+			this.textState.Location = new System.Drawing.Point(121, 138);
 			this.textState.Name = "textState";
-			this.textState.Size = new System.Drawing.Size(34, 20);
+			this.textState.Size = new System.Drawing.Size(32, 23);
 			this.textState.TabIndex = 3;
 			// 
 			// labelState
 			// 
-			this.labelState.Location = new System.Drawing.Point(15, 131);
+			this.labelState.Location = new System.Drawing.Point(75, 138);
 			this.labelState.Name = "labelState";
-			this.labelState.Size = new System.Drawing.Size(100, 18);
+			this.labelState.Size = new System.Drawing.Size(40, 23);
 			this.labelState.TabIndex = 11;
 			this.labelState.Text = "State";
 			this.labelState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textZipCode
 			// 
-			this.textZipCode.Location = new System.Drawing.Point(121, 155);
+			this.textZipCode.Location = new System.Drawing.Point(121, 165);
 			this.textZipCode.Name = "textZipCode";
 			this.textZipCode.Size = new System.Drawing.Size(80, 20);
 			this.textZipCode.TabIndex = 4;
 			// 
 			// labelZip
 			// 
-			this.labelZip.Location = new System.Drawing.Point(15, 155);
+			this.labelZip.Location = new System.Drawing.Point(55, 165);
 			this.labelZip.Name = "labelZip";
-			this.labelZip.Size = new System.Drawing.Size(100, 18);
+			this.labelZip.Size = new System.Drawing.Size(60, 23);
 			this.labelZip.TabIndex = 12;
 			this.labelZip.Text = "Zip Code";
 			this.labelZip.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(12, 195);
+			this.butDelete.Location = new System.Drawing.Point(8, 200);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 24);
 			this.butDelete.TabIndex = 7;
@@ -143,9 +143,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 9);
+			this.label1.Location = new System.Drawing.Point(12, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(415, 42);
+			this.label1.Size = new System.Drawing.Size(415, 47);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "We must charge sales tax based on the physical office address.  The address is on" +
     "ly entered here when the physical address and billing address are in different s" +
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			// 
 			// FormTaxAddress
 			// 
-			this.ClientSize = new System.Drawing.Size(439, 231);
+			this.ClientSize = new System.Drawing.Size(439, 232);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.textZipCode);

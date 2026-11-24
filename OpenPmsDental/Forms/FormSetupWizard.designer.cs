@@ -33,9 +33,9 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(9, 5);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(391, 52);
+			this.label1.Size = new System.Drawing.Size(391, 47);
 			this.label1.TabIndex = 5;
 			this.label1.Text = "Double click a row to set it up individually. \r\nDouble click a category to set up" +
     " all for that category.\r\nClick \"Set Up All\" to go through the entire setup seque" +
@@ -48,7 +48,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.HasDropDowns = true;
-			this.gridMain.Location = new System.Drawing.Point(12, 60);
+			this.gridMain.Location = new System.Drawing.Point(8, 57);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(388, 289);
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(12, 364);
+			this.butAll.Location = new System.Drawing.Point(8, 368);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 24);
 			this.butAll.TabIndex = 6;

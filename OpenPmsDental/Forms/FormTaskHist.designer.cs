@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			this.gridTaskHist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridTaskHist.Location = new System.Drawing.Point(12, 12);
+			this.gridTaskHist.Location = new System.Drawing.Point(12, 8);
 			this.gridTaskHist.Name = "gridTaskHist";
 			this.gridTaskHist.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridTaskHist.Size = new System.Drawing.Size(741, 392);

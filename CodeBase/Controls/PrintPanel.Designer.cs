@@ -28,9 +28,9 @@
 			// 
 			// panelSurface
 			// 
-			this.panelSurface.Location = new System.Drawing.Point(0,0);
+			this.panelSurface.Location = new System.Drawing.Point(8,8);
 			this.panelSurface.Name = "panelSurface";
-			this.panelSurface.Size = new System.Drawing.Size(850,1100);
+			this.panelSurface.Size = new System.Drawing.Size(834,1100);
 			this.panelSurface.TabIndex = 0;
 			this.panelSurface.Paint += new System.Windows.Forms.PaintEventHandler(this.panelSurface_Paint);
 			this.panelSurface.SizeChanged += new System.EventHandler(this.panelSurface_SizeChanged);
@@ -43,7 +43,7 @@
 			this.Controls.Add(this.panelSurface);
 			this.DoubleBuffered = true;
 			this.Name = "PrintPanel";
-			this.Size = new System.Drawing.Size(850,1100);
+			this.Size = new System.Drawing.Size(850,1116);
 			this.SizeChanged += new System.EventHandler(this.PrintPanel_SizeChanged);
 			this.ResumeLayout(false);
 

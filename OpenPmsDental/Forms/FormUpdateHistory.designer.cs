@@ -31,7 +31,7 @@ namespace OpenPmsDental{
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Firebrick;
-			this.label1.Location = new System.Drawing.Point(14, 13);
+			this.label1.Location = new System.Drawing.Point(14, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(302, 33);
 			this.label1.TabIndex = 3;
@@ -42,7 +42,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 49);
+			this.gridMain.Location = new System.Drawing.Point(14, 43);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(299, 414);
 			this.gridMain.TabIndex = 4;

@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(877, 655);
+			this.butOK.Location = new System.Drawing.Point(900, 688);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 3;
@@ -48,26 +48,26 @@ namespace OpenPmsDental{
 			// 
 			this.textCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textCode.Location = new System.Drawing.Point(180, 10);
+			this.textCode.Location = new System.Drawing.Point(180, 8);
 			this.textCode.Name = "textCode";
 			this.textCode.Size = new System.Drawing.Size(412, 20);
 			this.textCode.TabIndex = 17;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 13);
+			this.label1.Location = new System.Drawing.Point(42, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(172, 18);
+			this.label1.Size = new System.Drawing.Size(132, 23);
 			this.label1.TabIndex = 18;
 			this.label1.Text = "Code(s) or Description";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSearch.Location = new System.Drawing.Point(598, 8);
 			this.butSearch.Name = "butSearch";
-			this.butSearch.Size = new System.Drawing.Size(75, 24);
+			this.butSearch.Size = new System.Drawing.Size(75, 23);
 			this.butSearch.TabIndex = 19;
 			this.butSearch.Text = "Search";
 			this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
@@ -77,7 +77,7 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(20, 38);
+			this.gridMain.Location = new System.Drawing.Point(20, 35);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.Size = new System.Drawing.Size(830, 641);
 			this.gridMain.TabIndex = 20;
@@ -91,7 +91,7 @@ namespace OpenPmsDental{
 			this.butMapICD9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.butMapICD9.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butMapICD9.Location = new System.Drawing.Point(6, 19);
+			this.butMapICD9.Location = new System.Drawing.Point(8, 23);
 			this.butMapICD9.Name = "butMapICD9";
 			this.butMapICD9.Size = new System.Drawing.Size(103, 24);
 			this.butMapICD9.TabIndex = 24;
@@ -102,9 +102,9 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.butMapICD9);
-			this.groupBox1.Location = new System.Drawing.Point(856, 33);
+			this.groupBox1.Location = new System.Drawing.Point(856, 32);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(115, 50);
+			this.groupBox1.Size = new System.Drawing.Size(119, 55);
 			this.groupBox1.TabIndex = 25;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "One-Time Tools";
@@ -113,7 +113,7 @@ namespace OpenPmsDental{
 			// FormSnomeds
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(974, 691);
+			this.ClientSize = new System.Drawing.Size(983, 720);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.gridMain);
 			this.Controls.Add(this.butSearch);

@@ -38,7 +38,7 @@ namespace OpenPmsDental {
 			this.butAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(106, 636);
+			this.butAdd.Location = new System.Drawing.Point(102, 640);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(88, 26);
 			this.butAdd.TabIndex = 14;
@@ -50,7 +50,7 @@ namespace OpenPmsDental {
 			this.butAdd2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butAdd2.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd2.Location = new System.Drawing.Point(12, 636);
+			this.butAdd2.Location = new System.Drawing.Point(8, 640);
 			this.butAdd2.Name = "butAdd2";
 			this.butAdd2.Size = new System.Drawing.Size(88, 26);
 			this.butAdd2.TabIndex = 16;
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(12, 37);
+			this.gridMain.Location = new System.Drawing.Point(12, 32);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
 			this.gridMain.Size = new System.Drawing.Size(913, 590);
@@ -73,9 +73,9 @@ namespace OpenPmsDental {
 			// 
 			// checkProcCodeRequired
 			// 
-			this.checkProcCodeRequired.Location = new System.Drawing.Point(12, 12);
+			this.checkProcCodeRequired.Location = new System.Drawing.Point(12, 8);
 			this.checkProcCodeRequired.Name = "checkProcCodeRequired";
-			this.checkProcCodeRequired.Size = new System.Drawing.Size(913, 24);
+			this.checkProcCodeRequired.Size = new System.Drawing.Size(282, 20);
 			this.checkProcCodeRequired.TabIndex = 18;
 			this.checkProcCodeRequired.Text = "Procedure code required on some prescriptions";
 			this.checkProcCodeRequired.Click += new System.EventHandler(this.checkProcCodeRequired_Click);
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// butCombine
 			// 
 			this.butCombine.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.butCombine.Location = new System.Drawing.Point(426, 636);
+			this.butCombine.Location = new System.Drawing.Point(422, 640);
 			this.butCombine.Name = "butCombine";
 			this.butCombine.Size = new System.Drawing.Size(90, 26);
 			this.butCombine.TabIndex = 19;

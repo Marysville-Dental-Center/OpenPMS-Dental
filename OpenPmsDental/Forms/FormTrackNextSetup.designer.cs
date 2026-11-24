@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(289, 110);
+			this.butSave.Location = new System.Drawing.Point(293, 114);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -52,49 +52,49 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.textDaysPast);
 			this.groupBox3.Controls.Add(this.label14);
 			this.groupBox3.Controls.Add(this.label15);
-			this.groupBox3.Location = new System.Drawing.Point(29, 12);
+			this.groupBox3.Location = new System.Drawing.Point(29, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(290, 71);
+			this.groupBox3.Size = new System.Drawing.Size(296, 81);
 			this.groupBox3.TabIndex = 55;
 			this.groupBox3.Text = "Default Dates";
 			// 
 			// textDaysFuture
 			// 
 			this.textDaysFuture.AutoSize = false;
-			this.textDaysFuture.Location = new System.Drawing.Point(89, 39);
+			this.textDaysFuture.Location = new System.Drawing.Point(90, 50);
 			this.textDaysFuture.Name = "textDaysFuture";
-			this.textDaysFuture.Size = new System.Drawing.Size(53, 20);
+			this.textDaysFuture.Size = new System.Drawing.Size(52, 23);
 			this.textDaysFuture.TabIndex = 57;
 			// 
 			// textDaysPast
 			// 
 			this.textDaysPast.AutoSize = false;
-			this.textDaysPast.Location = new System.Drawing.Point(89, 17);
+			this.textDaysPast.Location = new System.Drawing.Point(90, 23);
 			this.textDaysPast.Name = "textDaysPast";
-			this.textDaysPast.Size = new System.Drawing.Size(53, 20);
+			this.textDaysPast.Size = new System.Drawing.Size(52, 23);
 			this.textDaysPast.TabIndex = 56;
 			// 
 			// label14
 			// 
-			this.label14.Location = new System.Drawing.Point(6, 18);
+			this.label14.Location = new System.Drawing.Point(20, 23);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(80, 20);
+			this.label14.Size = new System.Drawing.Size(64, 23);
 			this.label14.TabIndex = 50;
 			this.label14.Text = "Days Past";
 			this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(3, 39);
+			this.label15.Location = new System.Drawing.Point(8, 50);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(83, 20);
+			this.label15.Size = new System.Drawing.Size(76, 23);
 			this.label15.TabIndex = 52;
 			this.label15.Text = "Days Future";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(147, 17);
+			this.label1.Location = new System.Drawing.Point(148, 24);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(140, 20);
 			this.label1.TabIndex = 58;
@@ -103,7 +103,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(147, 39);
+			this.label2.Location = new System.Drawing.Point(148, 51);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(140, 20);
 			this.label2.TabIndex = 59;

@@ -39,7 +39,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(487, 447);
+			this.butSave.Location = new System.Drawing.Point(489, 452);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -49,7 +49,7 @@ namespace OpenPmsDental{
 			// signatureBoxWrapper
 			// 
 			this.signatureBoxWrapper.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.signatureBoxWrapper.Location = new System.Drawing.Point(112, 340);
+			this.signatureBoxWrapper.Location = new System.Drawing.Point(110, 335);
 			this.signatureBoxWrapper.Name = "signatureBoxWrapper";
 			this.signatureBoxWrapper.SignatureMode = OpenPmsDental.UI.SignatureBoxWrapper.SigMode.Default;
 			this.signatureBoxWrapper.Size = new System.Drawing.Size(364, 81);
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(109, 319);
+			this.label15.Location = new System.Drawing.Point(110, 315);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(136, 18);
 			this.label15.TabIndex = 108;
@@ -67,9 +67,9 @@ namespace OpenPmsDental{
 			// 
 			// buttonUseAutoNote
 			// 
-			this.buttonUseAutoNote.Location = new System.Drawing.Point(230, 17);
+			this.buttonUseAutoNote.Location = new System.Drawing.Point(232, 8);
 			this.buttonUseAutoNote.Name = "buttonUseAutoNote";
-			this.buttonUseAutoNote.Size = new System.Drawing.Size(80, 22);
+			this.buttonUseAutoNote.Size = new System.Drawing.Size(80, 23);
 			this.buttonUseAutoNote.TabIndex = 113;
 			this.buttonUseAutoNote.Text = "Auto Note";
 			this.buttonUseAutoNote.Click += new System.EventHandler(this.buttonUseAutoNote_Click);
@@ -77,10 +77,10 @@ namespace OpenPmsDental{
 			// textUser
 			// 
 			this.textUser.AutoSize = false;
-			this.textUser.Location = new System.Drawing.Point(112, 18);
+			this.textUser.Location = new System.Drawing.Point(110, 8);
 			this.textUser.Name = "textUser";
 			this.textUser.ReadOnly = true;
-			this.textUser.Size = new System.Drawing.Size(116, 20);
+			this.textUser.Size = new System.Drawing.Size(116, 23);
 			this.textUser.TabIndex = 112;
 			// 
 			// textNotes
@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			this.textNotes.BackColor = System.Drawing.SystemColors.Control;
 			this.textNotes.DetectLinksEnabled = false;
 			this.textNotes.DetectUrls = false;
-			this.textNotes.Location = new System.Drawing.Point(112, 38);
+			this.textNotes.Location = new System.Drawing.Point(110, 35);
 			this.textNotes.Name = "textNotes";
 			this.textNotes.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textNotes.ReadOnly = true;
@@ -100,21 +100,21 @@ namespace OpenPmsDental{
 			// 
 			// label16
 			// 
-			this.label16.Location = new System.Drawing.Point(37, 19);
+			this.label16.Location = new System.Drawing.Point(68, 8);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(73, 16);
+			this.label16.Size = new System.Drawing.Size(36, 23);
 			this.label16.TabIndex = 111;
 			this.label16.Text = "User";
 			this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(24, 42);
+			this.label7.Location = new System.Drawing.Point(20, 35);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(86, 18);
+			this.label7.Size = new System.Drawing.Size(84, 23);
 			this.label7.TabIndex = 109;
 			this.label7.Text = "Original Note";
-			this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// textAppended
 			// 
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			this.textAppended.DetectLinksEnabled = false;
 			this.textAppended.DetectUrls = false;
 			this.textAppended.HasAutoNotes = true;
-			this.textAppended.Location = new System.Drawing.Point(112, 208);
+			this.textAppended.Location = new System.Drawing.Point(110, 203);
 			this.textAppended.Name = "textAppended";
 			this.textAppended.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Procedure;
 			this.textAppended.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -133,18 +133,18 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(7, 212);
+			this.label1.Location = new System.Drawing.Point(8, 203);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(103, 18);
+			this.label1.Size = new System.Drawing.Size(96, 23);
 			this.label1.TabIndex = 114;
 			this.label1.Text = "Appended Note";
-			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// labelPermAlert
 			// 
 			this.labelPermAlert.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelPermAlert.ForeColor = System.Drawing.Color.DarkRed;
-			this.labelPermAlert.Location = new System.Drawing.Point(113, 425);
+			this.labelPermAlert.Location = new System.Drawing.Point(110, 420);
 			this.labelPermAlert.Name = "labelPermAlert";
 			this.labelPermAlert.Size = new System.Drawing.Size(282, 20);
 			this.labelPermAlert.TabIndex = 212;
@@ -153,7 +153,7 @@ namespace OpenPmsDental{
 			// 
 			// FormProcNoteAppend
 			// 
-			this.ClientSize = new System.Drawing.Size(572, 483);
+			this.ClientSize = new System.Drawing.Size(572, 484);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.labelPermAlert);
 			this.Controls.Add(this.textAppended);

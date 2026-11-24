@@ -33,7 +33,7 @@ namespace OpenPmsDental{
 			// 
 			// labelNotAuthorized
 			// 
-			this.labelNotAuthorized.Location = new System.Drawing.Point(174, 12);
+			this.labelNotAuthorized.Location = new System.Drawing.Point(174, 8);
 			this.labelNotAuthorized.Name = "labelNotAuthorized";
 			this.labelNotAuthorized.Size = new System.Drawing.Size(887, 27);
 			this.labelNotAuthorized.TabIndex = 85;
@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			// 
 			// butRevert
 			// 
-			this.butRevert.Location = new System.Drawing.Point(93, 12);
+			this.butRevert.Location = new System.Drawing.Point(93, 9);
 			this.butRevert.Name = "butRevert";
 			this.butRevert.Size = new System.Drawing.Size(75, 24);
 			this.butRevert.TabIndex = 84;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			// butCompare
 			// 
-			this.butCompare.Location = new System.Drawing.Point(12, 12);
+			this.butCompare.Location = new System.Drawing.Point(12, 9);
 			this.butCompare.Name = "butCompare";
 			this.butCompare.Size = new System.Drawing.Size(75, 24);
 			this.butCompare.TabIndex = 86;
