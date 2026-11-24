@@ -9,7 +9,7 @@ CodeBase/Progress/FormProgressExtended.designer.cs	labelWarning	0,93	292,17
 CodeBase/Progress/FormProgressExtended.designer.cs	panel1	3,9	460,145	
 CodeBase/Progress/FormProgressExtended.designer.cs	butCancel	385,122	75,23	
 CodeBase/Progress/FormProgressExtended.designer.cs	butPause	0,122	75,23	
-CodeBase/Progress/FormProgressExtended.designer.cs	flowLayoutPanel1	8,8	466,260	
+CodeBase/Progress/FormProgressExtended.designer.cs	flowLayoutPanel1	8,8	466,157	
 CodeBase/Progress/FormProgressExtended.designer.cs	tableLayoutPanel1	3,3	460,0	
 CodeBase/Progress/FormProgressExtended.designer.cs	.			482,173
 CodeBase/Progress/FormProgressStatus.designer.cs	labelMsg	8,48	453,36	
@@ -224,8 +224,8 @@ OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabWeek	2,21	937,0
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabMonth	2,21	937,0	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	ToolBarMain	0,0	941,25	
 OpenPmsDental/User Controls/UserControlTasks.Designer.cs	.		941,510	
-ServiceManager/FormMain.Designer.cs	listMain	8,150	174,275	
-ServiceManager/FormMain.Designer.cs	label1	8,8	337,138	
+ServiceManager/FormMain.Designer.cs	listMain	8,167	174,258	
+ServiceManager/FormMain.Designer.cs	label1	8,8	337,155	
 ServiceManager/FormMain.Designer.cs	butAdd	8,437	75,24	
 ServiceManager/FormMain.Designer.cs	.			353,469
 ServiceManager/FormServiceManage.Designer.cs	butRefresh	378,62	75,23	

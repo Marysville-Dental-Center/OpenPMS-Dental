@@ -1777,6 +1777,15 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   Fix round (`ui/ui12f-2`): the review's thirteen findings (FormProgressViewer's size limits after the dpi is applied,
   FormWarnToCloseComputers in Segoe UI bold, the allocator's REPORTS header scaled, FormFeesForIns added to the gallery, seven windows'
   gaps and margins, `_s10.keep_main` sharing the spare height by what the blocks draw).
+  Slice 14 (UI-12-14, branch `ui/ui12-14-1`, the owner's "Fix all of them" for the sweep's 124 windows off the grid; the lead's list of
+  28): the main window, the task list, the Family module, the wiki editor, the report viewers, the user query, the update window, the sheet
+  check box field, the message boxes, the progress windows, DbSettings, ServiceManager, UpdateFileCopier and the imaging windows built in
+  code on the grid (`grid-windows/14.tsv`; out of `sweep-known.tsv`): the code that places controls on `UiGrid`'s numbers (the task
+  list's tabs, calendar, tree and grid off the edges, the Family module's insurance grid, the wiki halves, the query preview and its
+  panes' minimum sizes, the signal grid under the module bar's buttons, the update window as tall as what the fork shows, the web
+  config window shortened by its hidden rows, the five windows built in code), 16 layout scripts, the harness builds the code-built
+  windows by their constructor and UserControlSecurityUserGroup with sample data, 16 gallery states; gallery `G-UI3-ui12-14`, audit
+  `UI-12-audit-14.md` (UI-12.md section 7, "Slice 14").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
