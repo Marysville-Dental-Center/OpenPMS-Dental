@@ -225,11 +225,11 @@ OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	label11	28,104	84,2
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	label12	8,50	104,23	
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	butZeroClaims	87,665	72,24	
 OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	.			1251,796
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	date2	206,8	190,155	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	date1	8,8	190,155	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listProv	418,50	205,134	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	label1	418,8	205,18	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkAllProv	418,28	36,20	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	date2	238,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	date1	8,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listProv	473,50	150,134	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	label1	473,8	150,18	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkAllProv	473,28	36,20	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	groupBox1	8,192	190,115	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkShowProvSeparate	8,71	174,36	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	radioPatient	8,47	62,20	
@@ -244,7 +244,7 @@ OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	butOK	761,475	75,24
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listInsuranceTypes	206,214	204,249	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkAllClaimPayGroups	631,192	161,20	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	listClaimPayGroups	631,214	205,249	
-OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkUnearned	470,28	119,20	
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkUnearned	511,28	119,20	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkReportDisplayUnearnedTP	8,315	190,36	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkShowOnlinePatientPaymentsSeparately	8,355	190,36	
 OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	checkShowMerchantFees	8,395	190,20	
@@ -374,8 +374,8 @@ OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	label7	8,8	525,48
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	butLineItemOK	544,464	75,24	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	label17	242,58	178,16	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	label16	8,58	178,16	
-OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	dateLineItemTo	242,78		
-OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	dateLineItemFrom	8,78		
+OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	dateLineItemTo	242,78	227,162	
+OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	dateLineItemFrom	8,78	227,162	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	checkLineItemAllClins	8,282	134,20	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	listLineItemClins	8,304	154,182	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	labelLineItemClins	8,262	104,16	

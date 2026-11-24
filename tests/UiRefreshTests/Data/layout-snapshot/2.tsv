@@ -41,9 +41,9 @@ OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	listClinics	136
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	labelClinics	136,218	120,18	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	listProvs	8,260	120,178	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	labelProviders	8,218	120,18	
-OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	dateEnd	238,34	190,155	
-OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	dateStart	8,34	190,155	
-OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	labelTO	204,110	28,23	
+OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	dateEnd	266,34	227,162	
+OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	dateStart	8,34	227,162	
+OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	labelTO	237,110	28,23	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	labelDescr	8,8	584,18	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	butOK	517,450	75,24	
 OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	radioProcs	272,260	100,20	
@@ -131,8 +131,8 @@ OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	radio
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	groupType	297,192	185,75	
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	radioDetailed	8,23	106,20	
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	radioTotals	8,47	94,20	
-OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	date2	206,8	190,155	
-OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	date1	8,8	190,155	
+OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	date2	255,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	date1	8,8	227,162	
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	butOK	407,445	75,24	
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	groupUser	297,358	185,75	
 OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	radioPresenter	8,23	74,20	
@@ -219,8 +219,8 @@ OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	ra
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	groupGrossNet	297,192	185,75	
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	radioGross	8,23	116,20	
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	radioNet	8,47	106,20	
-OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	date2	206,8	190,155	
-OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	date1	8,8	190,155	
+OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	date2	255,8	227,162	
+OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	date1	8,8	227,162	
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	butOK	407,445	75,24	
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	groupUser	297,358	185,75	
 OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	radioPresenter	8,23	74,20	
