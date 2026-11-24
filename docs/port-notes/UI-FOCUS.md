@@ -73,3 +73,11 @@ screen). After the animation, the focused and unfocused pictures must be the sam
 the date picker, whose field Windows highlights, only the frame's area), the focused picture must show the Accent line and the unfocused
 one not, and the unfocused frame on screen must be the frame `WM_PRINT` draws. Inconclusive when the session draws nothing or the window
 cannot take the focus.
+
+## Results (the lead, 2026-11-23)
+
+- InputFocusTests against the old UiInputFrame.cs (42cc8ea3f), x64: both cases fail. At 100%, Windows' WM_NCPAINT changed 675 pixels of the text box's frame area and its WM_PAINT 292 before the frame was painted, on every focus change: the flash the owner saw.
+- With the fix: the first run found only the combo box's text field (Windows highlights the selection when focused) and once, at 150%, 12 corner pixels of the up-down box differing by 7 levels (D4D4D4 against DBDBDB). The test now compares only the frame's area for a combo box, as for a date picker, and allows 8 levels per channel in the steady no-move check; the paint probe still compares the frame area exactly.
+- Code review: pass. Three of its minor points fixed (76e0dd52e): no region left when building it fails, no whole-client ValidateRgn without a region, and the square between two scroll bars kept out of Windows' painting.
+- Final Targeted run with the review fixes (x64, after a build of OpenPmsDental and UiRefreshTests): UiRefreshTests 283 passed, 49 skipped, 0 failed; NoHqTests 127 passed. Earlier run of the five suites on the fix: PrintGuardTests 19, WindowChecksTests 30, UnitTests 1728, NoHqTests 127, all 0 failed.
+- Not covered by the test: real 144 DPI (the harness's 150% is LayoutManager's zoom at 96 DPI); the owner's desktop check at 125% and 150% covers it.
