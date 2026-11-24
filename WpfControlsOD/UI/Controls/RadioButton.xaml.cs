@@ -47,6 +47,10 @@ How to use the CheckBox control:
 			grid.MouseLeave+=grid_MouseLeave;
 			IsEnabledChanged+=RadioButton_IsEnabledChanged;
 			UiLook.SetFocusVisualStyle(this,onAccent:false);
+			//UI-OVF (docs/port-notes/UI-OVF.md): a tab stop like the WinForms radio button; Space checks it and the arrow keys move to the previous or
+			//next radio button of its group, checking it (OnKeyDown); the shared focus ring shows only with keyboard cues (section 3.6).
+			Focusable=true;
+			IsTabStop=true;
 			SetColors();
 		}
 
@@ -230,6 +234,62 @@ How to use the CheckBox control:
 		private void grid_MouseDown(object sender,MouseButtonEventArgs e) {
 			Checked=true;//this also unchecks any other sibling radiobuttons
 			Click?.Invoke(this,new EventArgs());
+		}
+
+		///<summary>Space checks the focused radio button; the arrow keys move to the previous (Up, Left) or next (Down, Right) enabled radio button
+		///of the same parent, in its order there, and check it, as Windows does (UI-OVF).</summary>
+		protected override void OnKeyDown(KeyEventArgs e) {
+			base.OnKeyDown(e);
+			if(e.Handled || !IsEnabled || Keyboard.Modifiers!=ModifierKeys.None){
+				return;
+			}
+			if(e.Key==Key.Space){
+				e.Handled=true;
+				Checked=true;
+				Click?.Invoke(this,new EventArgs());
+				return;
+			}
+			int step=0;
+			if(e.Key==Key.Up || e.Key==Key.Left){
+				step=-1;
+			}
+			if(e.Key==Key.Down || e.Key==Key.Right){
+				step=1;
+			}
+			if(step==0){
+				return;
+			}
+			List<RadioButton> listRadioButtons=GetGroup();
+			int index=listRadioButtons.IndexOf(this);
+			if(index<0 || listRadioButtons.Count<2){
+				return;
+			}
+			e.Handled=true;
+			RadioButton radioButton=listRadioButtons[(index+step+listRadioButtons.Count)%listRadioButtons.Count];
+			radioButton.Focus();
+			radioButton.Checked=true;
+			radioButton.Click?.Invoke(radioButton,new EventArgs());
+		}
+
+		///<summary>The enabled, visible radio buttons of this one's parent (the group Checked unchecks), in their order there.</summary>
+		private List<RadioButton> GetGroup(){
+			List<RadioButton> listRadioButtons=new List<RadioButton>();
+			System.Collections.IEnumerable enumerable=null;
+			if(Parent is ItemsControl itemsControl){
+				enumerable=itemsControl.Items;
+			}
+			else if(Parent is System.Windows.Controls.Panel panel){
+				enumerable=panel.Children;
+			}
+			if(enumerable==null){
+				return listRadioButtons;
+			}
+			foreach(object item in enumerable){
+				if(item is RadioButton radioButton && radioButton.IsEnabled && radioButton.Visibility==Visibility.Visible){
+					listRadioButtons.Add(radioButton);
+				}
+			}
+			return listRadioButtons;
 		}
 
 		private void RadioButton_IsEnabledChanged(object sender,DependencyPropertyChangedEventArgs e) {
