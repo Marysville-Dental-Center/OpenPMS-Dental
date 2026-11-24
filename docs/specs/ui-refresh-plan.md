@@ -743,6 +743,7 @@ together with the last fit fixes. The sites:
   and Arial Black (they stay, 3.4); `FormProgressViewer` sets none. No package adds `InitializeLayoutManager` to them: it would start
   LayoutManager's DPI scaling, anchoring and `AutoSize` switch-off in those windows, a layout change. They are in the UI-2a-4 slice
   that owns `ReportingForRdl` (section 7).
+  (UI-12F, the grid's final consistency pass: all five call InitializeLayoutManager now and are laid out like every FormODBase window.)
 - Code that creates screen fonts, each routed through the token of its role (3.4), whose UI-2a value is the font the site uses today:
   - `ToolBarOD.cs:89` (Microsoft Sans Serif 8.25), `UI/ListBox.cs:391` (sans serif 8.25), `ControlAppt.cs:3182, 3187` (the lab
     text box, Microsoft Sans Serif 8.25 Regular and Bold): `FontBody`;
@@ -1746,6 +1747,12 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   Fix round (`ui/ui12-13-2`): the review's ten findings (Balancing captions and boxes, grid widths, group margins, check box columns,
   FormSheetDefEdit drawn with Load's visibility, the report designer's dialogs drawn at 150% as their AutoScale scales them;
   PropertyDialog's pages are not scaled by the exe at 150%: an owner question).
+  Final consistency pass (UI-12F, branch `ui/ui12f-1`, the lead's backlog): the bar's 12 px section gap in every grid window (rule
+  `bar-gap`, 170 windows' hand rows), a window never shrinks (test `GridWindows_NeverShrink` against main's sizes before UI-12; ten
+  windows back to main's size, slice 10's six with equal gaps), the label-centre rule in every slice (16 labels), the five allocator
+  windows call InitializeLayoutManager, FormSheetDefEdit's Fields list 151 px again, the report designer's PropertyDialog scales its
+  pages by the dpi; every slice re-planned from one final build; gallery `G-UI3-ui12f`, audit `UI-12F-audit.md` (UI-12.md section 7,
+  "Final consistency pass (UI-12F)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
