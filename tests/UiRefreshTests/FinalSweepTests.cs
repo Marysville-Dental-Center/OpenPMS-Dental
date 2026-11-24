@@ -209,8 +209,8 @@ namespace UiRefreshTests {
 						FitGallery.SetGalleryFont("program");
 						try {
 							using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
-								countWindows++;
 								listFindings.AddRange(FinalSweep.Check(builtWindow).Select(x => scanType.WindowKey+"\t"+x));
+								countWindows++;//only once its check ran: a window whose check throws is a failure, not a swept window
 							}
 						}
 						catch(Exception exception) {
@@ -231,6 +231,10 @@ namespace UiRefreshTests {
 				File.WriteAllLines(pathOut,new[] { "window\trule\tkey" }.Concat(listFindings).Concat(listFailed.Select(x => "# failed: "+x)));
 			}
 			Assert.IsTrue(countWindows>=1000,"The sweep built "+countWindows+" windows. Failed: "+string.Join("; ",listFailed.Take(20)));
+			//Only the types the harness cannot build may fail (UI-11-final.md; the lead after the review): any other failure is a lapse in coverage.
+			string[] arrayUnbuildable=new[] { "ODDatePicker","ToothChartWrapper","UserControlSecurityUserGroup","DataSetRowsCtl" };
+			List<string> listFailedOther=listFailed.Where(x => !arrayUnbuildable.Contains(x.Split(':')[0].Split('.').Last().Split('@')[0])).ToList();
+			Assert.AreEqual(0,listFailedOther.Count,"Windows the sweep could not check: "+string.Join("; ",listFailedOther.Take(20)));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();
 			HashSet<string> hashSetFound=new HashSet<string>(listFindings,StringComparer.Ordinal);
 			List<string> listGone=hashSetKnown.Where(x => x.Split('\t')[1]!=FinalSweep.RULE_GRID && !hashSetFound.Contains(x)).ToList();

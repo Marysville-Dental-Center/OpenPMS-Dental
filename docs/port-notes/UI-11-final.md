@@ -81,7 +81,8 @@ findings in 14 windows and the same 124, each a row of `sweep-known.tsv` with it
 - **FormInsPayFix and FormLanguageAndRegion `textBoxDescript`**: editable multi-line boxes that UI-11 left white and borderless on the
   window's Surface. They take the input frame, as every other editable box: the designers' `BorderStyle.None` line is gone (the default 3-D
   border, which the frame replaces; `UiInputFrame.IsFramed`); their `SystemColors.Window` stays (the input's box, `colour-literals.tsv`).
-  Bounds unchanged.
+  FormInsPayFix's bounds are unchanged; FormLanguageAndRegion's box is 12 px taller, so the rows below it, Save and the window move 12 px
+  lower (section 5).
 - **UI-OVF's WPF pictures**: `ControlPictures.RendersWpf()` is false in this session (disconnected), so they are not drawn. To draw them in a
   connected, unlocked desktop session (after a full x64 build of this branch or of `main` after the merge):
 

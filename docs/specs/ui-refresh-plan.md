@@ -969,9 +969,9 @@ remove them:
 ## 7. Packages
 
 **Status (2026-11-24, UI-11-final).** The UI refresh is complete: every package of this section is built, every window the harness builds
-was swept (UI-11-final), the release notes are written (`docs/release-notes/ui-refresh.md`). Open: only the owner's checks: the look at
-the collected galleries, the desktop checks at 125% and 150% scaling, and the WPF pictures that need a connected session
-(UI-11-final.md section 2).
+was swept (UI-11-final), the release notes are written (`docs/release-notes/ui-refresh.md`). Open: the owner's desktop checks at 125% and 150%
+scaling; in a connected desktop session, the UI-OVF WPF pictures (UI-11-final.md section 2) and the window checks' before set and the two
+pinned WPF content pictures (section 3); and loadingAnim.gif as a vector progress ring, deferred (owner question).
 
 **Rules for all packages.**
 - One writer per package, in its own worktree, on its own branch. Packages that share a control file run one after the other.

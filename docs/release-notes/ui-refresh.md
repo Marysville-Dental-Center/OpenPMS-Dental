@@ -50,7 +50,6 @@ window's buttons at the bottom right. Some windows grew a little so that everyth
 - **Radio buttons.** A group of radio buttons is one Tab stop in every window: Tab lands on the chosen one (or the first, when none is
   chosen) and the arrow keys move the choice inside the group.
 - **The focus ring.** A thin blue ring shows which control has the keyboard focus, only after a key is pressed; a mouse click shows none.
-- **Access keys.** The underlined letters show when you hold Alt, as in Windows.
 
 ## Still open
 
@@ -58,4 +57,4 @@ window's buttons at the bottom right. Some windows grew a little so that everyth
   125% and 150% scaling is still to come.
 - **Pictures of the WPF windows' new keys and » button.** The pictures of the Imaging toolbar's » button and of the WPF focus ring are
   drawn on a connected desktop session; they are listed in `docs/port-notes/UI-11-final.md` until then.
-- The items the final sweep could not settle are listed in `docs/port-notes/UI-11-final.md` with a picture each.
+- The items the final sweep could not settle are listed in `docs/port-notes/UI-11-final.md` (their windows are in gallery G-UI3-ui11final).
