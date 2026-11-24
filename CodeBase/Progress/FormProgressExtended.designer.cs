@@ -136,7 +136,7 @@ namespace CodeBase {
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(479, 274);
+			this.ClientSize = new System.Drawing.Size(482, 173);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MinimumSize = new System.Drawing.Size(100, 100);

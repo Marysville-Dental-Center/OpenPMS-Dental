@@ -1,27 +1,15 @@
 batch	kind	rank	designer_file	window	controls	group
 1	large	94	OpenPmsDental/Main Modules/ControlAppt.Designer.cs	OpenPmsDental.ControlAppt	70	OpenPmsDental.ControlAppt
 1	large	106	OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	OpenPmsDental.FormClaimFormEdit	30	OpenPmsDental.FormClaimFormEdit
-1	large	395	OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	47	OpenPmsDental.FormSheetFieldCheckBox
-1	large	408	OpenPmsDental/Forms/FormTasks.designer.cs	OpenPmsDental.FormTasks	4	OpenPmsDental.FormTasks
-1	large	429	OpenPmsDental/User Controls/UserControlTasks.Designer.cs	OpenPmsDental.UserControlTasks	23	OpenPmsDental.FormTasks
-1	large	440	OpenPmsDental/Forms Reports/FormQuery.designer.cs	OpenPmsDental.FormQuery	29	OpenPmsDental.FormQuery
 1	large	630	OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	OpenPmsDental.FormSheetFillEdit	25	OpenPmsDental.FormSheetFillEdit
-1	large	654	OpenPmsDental/Forms/FormUpdate.designer.cs	OpenPmsDental.FormUpdate	37	OpenPmsDental.FormUpdate
 1	large		OpenPmsDental/Main Modules/ControlImages.Designer.cs	OpenPmsDental.ControlImages	29	OpenPmsDental.ControlImages
 1	large		OpenPmsDental/User Controls/ControlImageDock.Designer.cs	OpenPmsDental.ControlImageDock	1	OpenPmsDental.ControlImages
 1	large		OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	OpenPmsDental.ScreenToothChart	40	OpenPmsDental.ScreenToothChart
 1	large		OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	OpenPmsDental.UserControlScreenTooth	3	OpenPmsDental.ScreenToothChart
 1	large		RdlDesign/RdlDesigner.cs	fyiReporting.RdlDesign.rdldesigner	21	fyiReporting.RdlDesign.rdldesigner
-1	large		ServiceManager/FormWebConfigSettings.Designer.cs	ServiceManager.FormWebConfigSettings	33	ServiceManager.FormWebConfigSettings
-2	small	161	OpenPmsDental/Main Modules/ControlFamily.designer.cs	OpenPmsDental.ControlFamily	11	OpenPmsDental.ControlFamily
 2	small	231	OpenPmsDental/UI/ODDateRangePicker.Designer.cs	OpenPmsDental.UI.ODDateRangePicker	7	OpenPmsDental.UI.ODDateRangePicker
-2	small	438	CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	4	CodeBase.ODProgressBar
-2	small	667	OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	12	OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider
 2	small	668	OpenPmsDental/User Controls/Dashboard/DashApptGrid.Designer.cs	OpenPmsDental.DashApptGrid	1	OpenPmsDental.DashApptGrid
 2	small		CodeBase/Controls/PrintPanel.Designer.cs	CodeBase.PrintPanel	1	CodeBase.PrintPanel
-2	small		CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	8	CodeBase.FormProgressExtended
-2	small		CodeBase/Progress/FormProgressStatus.designer.cs	CodeBase.FormProgressStatus	7	CodeBase.FormProgressStatus
-2	small		CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.msgboxcopypaste	4	CodeBase.msgboxcopypaste
 2	small		ODR/ComboBoxMulti.cs	ODR.comboboxmulti	2	ODR.comboboxmulti
 2	small		OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	OpenPmsDental.FormRpPrintPreview	3	OpenPmsDental.FormRpPrintPreview
 2	small		OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	OpenPmsDental.FormRpStatement	6	OpenPmsDental.FormRpStatement
@@ -39,12 +27,8 @@ batch	kind	rank	designer_file	window	controls	group
 2	small		SparksToothChart/ToothChartWrapper.Designer.cs	SparksToothChart.ToothChartWrapper	1	OpenPmsDental.FormToothChartingBig
 2	small		OpenPmsDental/Forms/FormWebView.designer.cs	OpenPmsDental.FormWebView	2	OpenPmsDental.FormWebView
 2	small		OpenPmsDental/Forms/FormWiki.designer.cs	OpenPmsDental.FormWiki	3	OpenPmsDental.FormWiki
-2	small		OpenPmsDental/Forms/FormWikiEdit.designer.cs	OpenPmsDental.FormWikiEdit	10	OpenPmsDental.FormWikiEdit
-2	small		OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	OpenPmsDental.FormOpenDental	6	OpenPmsDental.FormOpenDental
 2	small		OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	OpenPmsDental.ReportingComplex.FormReportComplex	2	OpenPmsDental.ReportingComplex.FormReportComplex
 2	small		OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator	1	OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator
-2	small		OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	OpenPmsDental.FormReportCustom	2	OpenPmsDental.FormReportCustom
-2	small		OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	OpenPmsDental.FormReportForRdl	2	OpenPmsDental.FormReportForRdl
 2	small		OpenPmsDental/Tables Old Grids/ContrTable.cs	OpenPmsDental.contrtable	4	OpenPmsDental.contrtable
 2	small		OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	OpenPmsDental.UI.ControlApptPanel	2	OpenPmsDental.UI.ControlApptPanel
 2	small		OpenPmsDental/UI/BordersDpi/FormODBase.cs	OpenPmsDental.formodbase	0	OpenPmsDental.formodbase
@@ -96,8 +80,5 @@ batch	kind	rank	designer_file	window	controls	group
 2	small		RdlDesign/TableRowCtl.cs	fyiReporting.RdlDesign.tablerowctl	8	fyiReporting.RdlDesign.tablerowctl
 2	small		RdlViewer/DataSourcePassword.cs	fyiReporting.RdlViewer.datasourcepassword	4	fyiReporting.RdlViewer.datasourcepassword
 2	small		RdlViewer/DialogMessages.cs	fyiReporting.RdlViewer.dialogmessages	2	fyiReporting.RdlViewer.dialogmessages
-2	small		ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	3	ServiceManager.FormMain
-2	small		ServiceManager/FormServiceManage.Designer.cs	ServiceManager.FormServiceManage	12	ServiceManager.FormServiceManage
-2	small		UpdateFileCopier/FormMain.Designer.cs	UpdateFileCopier.FormMain	2	UpdateFileCopier.FormMain
 2	small		WpfControlsOD/Frame/FormFrame.cs	OpenPmsDental.formframe	0	OpenPmsDental.formframe
 2	small		WpfControlsOD/Frame/FormSnap.Designer.cs	OpenPmsDental.FormSnap	0	OpenPmsDental.FormSnap

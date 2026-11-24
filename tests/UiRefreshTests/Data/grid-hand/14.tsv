@@ -256,12 +256,6 @@ OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFi
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	textReportableName	Size	197,20	213,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMiscInstructions	Location	370,567	454,580	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMiscInstructions	Size	289,32	213,18	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Location	23,13	8,8	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Size	318,98	337,130	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Location	26,423	8,437	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Size	75,23	75,24	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Location	26,114	8,142	by hand (layout script): on the grid
-ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Size	174,303	174,283	by hand (layout script): on the grid
 CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butCopyAll	Location	126,606	8,610	by hand (layout script): on the grid
 CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butCopyAll	Size	79,28	80,26	by hand (layout script): on the grid
 CodeBase/Utilities/MsgBoxCopyPaste.cs	CodeBase.MsgBoxCopyPaste@CodeBase	butOK	Location	615,606	619,610	by hand (layout script): on the grid
@@ -309,6 +303,12 @@ CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelPercentC
 CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	Location	6,3	104,4	by hand (layout script): on the grid
 CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	Size	461,16	286,17	by hand (layout script): on the grid
 CodeBase/Progress/ODProgressBar.designer.cs	CodeBase.ODProgressBar	labelTopText	TextAlign	TopCenter	BottomCenter	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Location	23,13	8,8	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	label1	Size	318,98	337,138	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Location	26,423	8,437	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	butAdd	Size	75,23	75,24	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Location	26,114	8,150	by hand (layout script): on the grid
+ServiceManager/FormMain.Designer.cs	ServiceManager.FormMain	listMain	Size	174,303	174,275	by hand (layout script): on the grid
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	flowLayoutPanel1	Location	3,1	8,8	by hand (layout script): on the grid
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	label4	Location	9,3	0,0	by hand (layout script): on the grid
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	label4	Size	93,19	96,17	by hand (layout script): on the grid
@@ -319,4 +319,4 @@ CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	butPause	Location	12,118	0,122	by hand (layout script): on the grid
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	butCancel	Location	376,118	385,122	by hand (layout script): on the grid
 CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	panel1	Size	460,155	460,145	by hand (layout script): on the grid
-CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	.	ClientSize	469,262	479,274	by hand (layout script): on the grid
+CodeBase/Progress/FormProgressExtended.designer.cs	CodeBase.FormProgressExtended	.	ClientSize	469,262	482,173	by hand (layout script): on the grid

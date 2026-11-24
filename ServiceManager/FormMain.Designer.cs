@@ -34,9 +34,9 @@
 			// listMain
 			// 
 			this.listMain.FormattingEnabled = true;
-			this.listMain.Location = new System.Drawing.Point(8, 142);
+			this.listMain.Location = new System.Drawing.Point(8, 150);
 			this.listMain.Name = "listMain";
-			this.listMain.Size = new System.Drawing.Size(174, 283);
+			this.listMain.Size = new System.Drawing.Size(174, 275);
 			this.listMain.TabIndex = 1;
 			this.listMain.DoubleClick += new System.EventHandler(this.listMain_DoubleClick);
 			// 
@@ -44,7 +44,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(337, 130);
+			this.label1.Size = new System.Drawing.Size(337, 138);
 			this.label1.TabIndex = 2;
 			this.label1.Text = resources.GetString("label1.Text");
 			// 

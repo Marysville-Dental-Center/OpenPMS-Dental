@@ -48,6 +48,19 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormSheetFieldCheckBox#single":
 					//A check box with no radio values (addressAndHmPhoneIsSameEntireFamily) on a mobile sheet: its mobile caption only.
 					return ShowSheetCheck(root,"labelUiLabelMobileCheckBoxNonMisc","textUiLabelMobileCheckBoxNonMisc");
+				case "OpenPmsDental.FormUpdate#load":
+					//What the fork's Load shows: the message, the window a padding under it (FormUpdate_Load since slice 14).
+					Control textMessage=Find(root,"textConnectionMessage");
+					textMessage.Text="Checking for updates with Open Dental is not available in this build. Install new versions manually.
+"
+						+"After a new version is installed on one computer, the other computers update themselves from this database.";
+					Form formUpdate=root.FindForm();
+					int heightLess=root.ClientSize.Height-textMessage.Bottom-CodeBase.UiGrid.PAD;
+					formUpdate.Height-=heightLess;
+					if(root!=formUpdate) {
+						root.Height-=heightLess;//the harness's client panel follows the window as FormODBase lays it out on screen
+					}
+					return root;
 				case "OpenPmsDental.FormUpdate#classic":
 					//The panels the fork's Load hides: the classic check for updates.
 					Find(root,"panelClassic").Visible=true;

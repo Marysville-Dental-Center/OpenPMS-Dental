@@ -9,7 +9,7 @@ PAD = 8
 def layout(h):
     W, HH = h.tree.nw, h.tree.nh
     cw = W - 2 * PAD
-    nh = h.note_h("label1", cw, estimate=True)
+    nh = h.note_h("label1", cw, line=17, estimate=True)  # a plain window's label: 17 px a line (GridRulesTests measures 135)
     h.set("label1", PAD, PAD, cw, nh)
     ya = HH - PAD - 24
     h.set("butAdd", PAD, ya, 75, 24)

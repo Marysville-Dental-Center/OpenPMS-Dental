@@ -36,6 +36,10 @@ namespace OpenPmsDental {
 			butCheck2.Visible=false;
 			textConnectionMessage.Text=Lan.g(this,"Checking for updates with Open Dental is not available in this build. Install new versions manually.")
 				+"\r\n"+Lan.g(this,"After a new version is installed on one computer, the other computers update themselves from this database.");
+			//UI-12 slice 14: the window loses the room of Open Dental's states under the message (the version groups and the classic panel stand
+			//in one area there, which the fork never shows): its bottom a padding (UiGrid.PAD) under the message. The designer keeps the area.
+			Control controlClient=PanelClient ?? (Control)this;
+			Height-=controlClient.ClientSize.Height-textConnectionMessage.Bottom-LayoutManager.Scale(UiGrid.PAD);
 		}
 
 		private void LayoutMenu() {

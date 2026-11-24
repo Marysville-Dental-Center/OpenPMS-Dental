@@ -24,7 +24,7 @@ CentralManager/FormCentralUserGroups.Designer.cs	296,380
 CentralManager/FormCentralUserPasswordEdit.Designer.cs	423,174		
 CentralManager/FormCentralUserSettings.Designer.cs	294,145		
 CodeBase/Controls/PrintPanel.Designer.cs	850,1100		
-CodeBase/Progress/FormProgressExtended.designer.cs	469,262		
+CodeBase/Progress/FormProgressExtended.designer.cs	469,262	height	UI-12 slice 14: AutoSize (GrowOnly): the window grows by the progress bars its code adds (UpdateProgress); its designer height is its height with none, main's left an empty band of 97 px under the log
 CodeBase/Progress/FormProgressStatus.designer.cs	469,117		
 CodeBase/Progress/ODProgressBar.designer.cs	470,51		
 CodeBase/Utilities/MsgBoxCopyPaste.cs	702,644		
