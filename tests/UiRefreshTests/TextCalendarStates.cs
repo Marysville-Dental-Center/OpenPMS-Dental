@@ -132,7 +132,7 @@ namespace UiRefreshTests {
 			using(Form form=MakeHost(out panel)) {
 				StateMonthCalendar monthCalendar=new StateMonthCalendar();
 				monthCalendar.LayoutManager.SetScaleMS(scale);
-				monthCalendar.Font=ScaleFont(monthCalendar.Font,scale);
+				monthCalendar.FontSize96=monthCalendar.Font.SizeInPoints;//UI-CAL-2: the calendar scales its text with its cells (in pixels)
 				monthCalendar.Bounds=new Rectangle(10,10,UiTheme.ScaleI(227,scale),UiTheme.ScaleI(162,scale));
 				monthCalendar.SetDateSelected(state==TextPictureState.TodaySelected ? DateTime.Today : GetDateSelected());
 				monthCalendar.IsTextHidden=!withText;

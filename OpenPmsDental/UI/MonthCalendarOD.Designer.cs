@@ -18,6 +18,10 @@ namespace OpenPmsDental.UI
 			{
 				components.Dispose();
 			}
+			if(disposing){
+				_fontDraw?.Dispose();//UI-CAL-2
+				_fontDraw=null;
+			}
 			base.Dispose(disposing);
 		}
 

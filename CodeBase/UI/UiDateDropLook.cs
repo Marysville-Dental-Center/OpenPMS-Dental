@@ -112,22 +112,43 @@ namespace CodeBase {
 		}
 
 		///<summary>Where the drop-down opens, in the picker's client coordinates: below it, at its left edge, or at its right edge when DropDownAlign
-		///is Right; above it when its screen's working area has no room below and has room above, as Windows' drop-down opens (ToolStripDropDown
-		///keeps it on the screen sideways).</summary>
+		///is Right; above it when its screen's working area has no room below and has room above, as Windows' drop-down opens.
+		///UI-CAL-2: always wholly on the picker's screen (GetDropBounds): moved left at the screen's right edge, right at its left edge. Without the
+		///picker's window (the tests) below it.</summary>
 		public static Point GetDropLocation(DateTimePicker dateTimePicker,Size sizeCalendar) {
-			int x=0;
-			if(dateTimePicker.DropDownAlign==LeftRightAlignment.Right) {
-				x=dateTimePicker.Width-sizeCalendar.Width;
+			bool isAlignRight=dateTimePicker.DropDownAlign==LeftRightAlignment.Right;
+			if(!dateTimePicker.IsHandleCreated) {
+				return new Point(isAlignRight ? dateTimePicker.Width-sizeCalendar.Width : 0,dateTimePicker.Height);
 			}
-			int y=dateTimePicker.Height;
-			if(dateTimePicker.IsHandleCreated) {
-				Rectangle rectangleScreen=dateTimePicker.RectangleToScreen(dateTimePicker.ClientRectangle);
-				Rectangle rectangleWorkingArea=Screen.FromControl(dateTimePicker).WorkingArea;
-				if(rectangleScreen.Bottom+sizeCalendar.Height>rectangleWorkingArea.Bottom && rectangleScreen.Top-sizeCalendar.Height>=rectangleWorkingArea.Top) {
-					y=-sizeCalendar.Height;
+			Point pointOrigin=dateTimePicker.PointToScreen(Point.Empty);
+			Rectangle rectanglePicker=new Rectangle(pointOrigin,dateTimePicker.Size);
+			Rectangle rectangleWorkingArea=Screen.FromControl(dateTimePicker).WorkingArea;
+			Rectangle rectangleDrop=GetDropBounds(rectanglePicker,sizeCalendar,rectangleWorkingArea,isAlignRight);
+			return new Point(rectangleDrop.X-pointOrigin.X,rectangleDrop.Y-pointOrigin.Y);
+		}
+
+		///<summary>UI-CAL-2: the drop-down's bounds on the screen for a picker's bounds on the screen, the calendar's size and the working area of
+		///the picker's screen (the monitor it is on, in its pixels): below the picker, at its left edge (its right edge when isAlignRight); above it
+		///when there is no room below and there is above; with room for neither, as low as it fits wholly; moved left when it would pass the
+		///screen's right edge, right when it would pass the left edge. Never past the working area when the calendar fits in it.</summary>
+		public static Rectangle GetDropBounds(Rectangle rectanglePicker,Size sizeCalendar,Rectangle rectangleWorkingArea,bool isAlignRight) {
+			int x=isAlignRight ? rectanglePicker.Right-sizeCalendar.Width : rectanglePicker.Left;
+			int y=rectanglePicker.Bottom;
+			if(y+sizeCalendar.Height>rectangleWorkingArea.Bottom) {
+				if(rectanglePicker.Top-sizeCalendar.Height>=rectangleWorkingArea.Top) {
+					y=rectanglePicker.Top-sizeCalendar.Height;//flipped above the box
+				}
+				else {
+					y=Math.Max(rectangleWorkingArea.Top,rectangleWorkingArea.Bottom-sizeCalendar.Height);
 				}
 			}
-			return new Point(x,y);
+			if(x+sizeCalendar.Width>rectangleWorkingArea.Right) {
+				x=rectangleWorkingArea.Right-sizeCalendar.Width;
+			}
+			if(x<rectangleWorkingArea.Left) {
+				x=rectangleWorkingArea.Left;
+			}
+			return new Rectangle(x,y,sizeCalendar.Width,sizeCalendar.Height);
 		}
 
 		///<summary>The date the picker takes for a day chosen in its drop-down: the day with the picker's time of day, within its MinDate and
