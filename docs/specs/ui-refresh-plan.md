@@ -1581,7 +1581,7 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   a new test); FormRpPatients' hint and EmailPreviewControl's caption boxes take the page's colour; FormExamSheets' preview clears to the token.
   Gallery after the fix round: 108 pictures, 89 changed.
 - Status UI-11-final (2026-11-24, branch `ui/ui11final-1`): the sweep of every window the harness builds (`FinalSweepTests`: the classic
-  look left and the grid list, 1,032 types, the findings that stay in `sweep-known.tsv` with their reasons; the report viewer's two dialogs
+  look left and the grid list, 1,030 types, the findings that stay in `sweep-known.tsv` with their reasons; the report viewer's two dialogs
   fixed), the leftovers (WPF radio button groups one tab stop; FormInsPayFix's and FormLanguageAndRegion's description boxes framed), the
   reference pictures retaken from the final build, the release notes. `loadingAnim.gif` stays a picture (not in the brief: for a later
   package). Note: [UI-11-final.md](../port-notes/UI-11-final.md); gallery G-UI3-ui11final, audit `UI-11-final-audit.md`.

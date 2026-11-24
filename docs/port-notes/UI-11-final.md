@@ -8,7 +8,7 @@ audit [UI-11-final-audit.md](UI-11-final-audit.md). Release notes for the office
 ## 1. The sweep
 
 One pass over every window the harness builds (`WindowBuilder.GetScanTypes`: the program's windows and user controls, the plain exes'
-windows, the graph's, the report designer's and ODR's: 1,032 types, 1,028 built; the four it cannot build are below), automated first.
+windows, the graph's, the report designer's and ODR's: 1,030 types, 1,026 built; the four it cannot build are below), automated first.
 
 **FinalSweepTests** (`tests/UiRefreshTests/FinalSweepTests.cs`, new; the rules in `FinalSweep`). Each window is built off screen as the
 gallery builds it and its controls are walked for what is left of the classic look:
@@ -26,7 +26,8 @@ A finding that stays is a row of `tests/UiRefreshTests/Data/sweep-known.tsv` (wi
 row the sweep no longer finds. `OPMS_UI_SWEEP_OUT=<file>` writes every finding of a run (`<W>/sweep-before.tsv` on `main`,
 `<W>/sweep-after.tsv` on the branch).
 
-**What it found on `main`** (`e4eeb6760`): 35 look findings in 17 windows and 124 windows not on the grid's list.
+**What it found on `main`** (`e4eeb6760`): 35 look findings in 17 windows and 124 windows not on the grid's list. On the branch: 24 look
+findings in 15 windows and the same 124, each a row of `sweep-known.tsv` with its reason (148 rows).
 
 - Fixed: the report viewer library's two dialogs, `DialogMessages` (the report's warnings) and `DataSourcePassword` (a data source's pass
   phrase), drew in Windows' look in the program and in the report designer: the library references no CodeBase, so UI-PLAIN-2 did not reach
@@ -94,7 +95,7 @@ The pictures later changes are compared with, taken again from this final build 
 are: an approval is the owner's, not a baseline):
 
 - **The windows** (the galleries' before set from now on): every window the harness builds at 100% and the densest tenth at 150%, drawn by
-  `FitGallery` in the program's font from the full x64 build of COMMIT, frozen in `.git/od-tools/test-results/ui-baseline-final/`
+  `FitGallery` in the program's font from the full x64 build of `f20ec8b71` (the product code of this branch's end), frozen in `.git/od-tools/test-results/ui-baseline-final/`
   (`windows-100/`, `windows-150/`, `commit.txt`). `tests/WindowChecksTests/UiApproved/baseline.tsv` (new) records each picture with its
   size and its masked pixel SHA-256 (the galleries' one rule, `UiPictureMask`), in `approved.tsv`'s format, with the commit: a later package
   compares its pictures with it (`New-UiGallery.ps1 -Before .git/od-tools/test-results/ui-baseline-final`, or the hashes). Drawn again
@@ -120,7 +121,21 @@ toolbar button, toolbars from the keyboard, Tab in the WPF windows, radio button
 
 ## 5. Gallery G-UI3-ui11final
 
-TBD
+`.git/od-tools/test-results/G-UI3-ui11final` (zip beside it): every window the harness builds at 100%, before (`main` at `e4eeb6760`,
+built x64, drawn in the same session) and after (the branch, the build of `f20ec8b71`), and the densest tenth at 150% (after only):
+1,129 pictures, 4 changed, 1,022 the same, 103 only after. The changed ones are the windows this package changes: FormInsPayFix and
+FormLanguageAndRegion (the framed description boxes; the second 12 px taller), and the report viewer's DialogMessages and
+DataSourcePassword (the program's frame, background, buttons and inputs). The sweep's findings that stay are in `sweep-known.tsv`; their
+windows are in the gallery as they are (the same before and after). Audit: [UI-11-final-audit.md](UI-11-final-audit.md). Raw pictures,
+the sweep's records and work files: `<W>` (`before-100`, `after-100` (the first after run), `final-100`, `final-150`, `sweep-before.tsv`,
+`sweep-final.tsv`).
+
+```
+odbuild.ps1 -Root . -Platform x64 -Projects OpenPmsDental,OpenPmsDentalGraph,xCentralManager,UiRefreshTests -ScopedRestore   (the product files at e4eeb6760)
+OPMS_UI_FIT_GALLERY=<W>/before-100 OPMS_UI_FIT_GALLERY_FONT=program OPMS_UI_FIT_GALLERY_WINDOWS=@all OPMS_UI_SWEEP_OUT=<W>/sweep-before.tsv run-tests.ps1 -Mode Targeted -Platform x64 -Include UiRefreshTests
+the branch's full x64 build, then the same run into final-100, and OPMS_UI_FIT_GALLERY_SCALE=1.5 OPMS_UI_FIT_GALLERY_WINDOWS=@densest into final-150
+tools/New-UiGallery.ps1 -Before <W>/gal-before -After <W>/gal-after -Name G-UI3 -Out .git/od-tools/test-results/G-UI3-ui11final   (windows-100/, windows-150/)
+```
 
 ## 6. Tests
 

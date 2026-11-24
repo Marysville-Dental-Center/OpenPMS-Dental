@@ -13,6 +13,17 @@ tenth at 150% (after only: the final reference set, section 3 of the notes). Bef
 |---|---|---|
 | FormInsPayFix | the description box framed like every input; its four lines fit inside the frame | none |
 | FormLanguageAndRegion | the description box framed, but its third line ("...go to your machine's language and region settings.") was cut: the 3-D border the frame replaces takes 2 px a side, and the box was exactly three lines tall without a border | the box 12 px taller (47 to 59: three lines inside the frame) and the rows under it, the Save button and the window 12 px lower (`layout-snapshot/8.tsv` written again); drawn again |
-| The other 1,024 windows at 100% | the same pixels as `main` (the comparison) | none |
+| The other 1,022 windows at 100% | the same pixels as `main` (the comparison) | none |
+| The report viewer's DialogMessages and DataSourcePassword (changed in the fix of section 1, drawn after the first pass) | the program's title bar and frame, the window background, the framed input (the messages box read-only, so in the disabled grey as every read-only input), OK filled Accent and Cancel in the button look; the window 14 px narrower and 11 px shorter because the program's frame replaces Windows' (the client area is the same) | none |
+| The 103 windows at 150% (after only), on nine contact sheets of twelve, every one opened | the same look and layout as the earlier galleries' 150% pictures of these windows (UI-12, UI-13, UI-PLAIN); the text of the windows the harness scales by their fonts is as small as there (the owner's desktop check at 150% is still open, plan section 7) | none |
+| The sweep's kept findings (`sweep-known.tsv`) | ContrTable's and the time pattern's scroll corner (hidden under the time bar), FormClaimsSend's toolbar (draws its own strip), the popups and covers that paint themselves, the screening tooth: in the pictures as the reasons say | none |
 
-TBD
+## Second pass (the changed pictures again, after the fix)
+
+FormLanguageAndRegion (`final-100`): the three lines inside the frame, the rows 12 px lower on their 27 px pitch, Save 8 px from the edges;
+FormInsPayFix, DialogMessages and DataSourcePassword as in the first pass. Nothing else differs from `main` (1,022 the same).
+
+## Not drawn
+
+The WPF pictures (UI-OVF's imaging toolbar and `wpf-focus`, and any WPF Frm): `ControlPictures.RendersWpf()` is false in this
+disconnected session. The command is in UI-11-final.md section 2. The four types the harness cannot build (section 1) have no picture.
