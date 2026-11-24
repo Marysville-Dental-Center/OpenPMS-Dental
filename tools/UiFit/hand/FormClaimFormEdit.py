@@ -51,8 +51,8 @@ def layout(h):
     yBar = H - s.PAD - s.BUTTON_H
     h.set("butPrint", x, yBar, 55, s.BUTTON_H)
     h.set("butSave", x + 55 + s.GAP, yBar, cw - 55 - s.GAP, s.BUTTON_H)
-    yNote = yBar - s.SECTION - 55
-    h.set("labelInternal", x, yNote, cw, 55)
+    yNote = yBar - s.SECTION - 82  # the note wraps to 5 lines in the column (82 px at 100% and 150%)
+    h.set("labelInternal", x, yNote, cw, 82)
     yRows = yNote - 4 - 4 * 27 + 4
     for i, (label, field) in enumerate((("label4", "textXPos"), ("label5", "textYPos"), ("label6", "textWidth"), ("label7", "textHeight"))):
         row(label, field, yRows + i * 27)

@@ -136,7 +136,7 @@ namespace OpenPmsDental {
 			this.listItems.Location = new System.Drawing.Point(8, 266);
 			this.listItems.Name = "listItems";
 			this.listItems.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listItems.Size = new System.Drawing.Size(119, 264);
+			this.listItems.Size = new System.Drawing.Size(119, 237);
 			this.listItems.TabIndex = 8;
 			this.listItems.DoubleClick += new System.EventHandler(this.listItems_DoubleClick);
 			this.listItems.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listItems_MouseUp);
@@ -154,7 +154,7 @@ namespace OpenPmsDental {
 			// label4
 			// 
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label4.Location = new System.Drawing.Point(8, 538);
+			this.label4.Location = new System.Drawing.Point(8, 511);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(48, 23);
 			this.label4.TabIndex = 10;
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			// label5
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label5.Location = new System.Drawing.Point(8, 565);
+			this.label5.Location = new System.Drawing.Point(8, 538);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(48, 23);
 			this.label5.TabIndex = 11;
@@ -174,7 +174,7 @@ namespace OpenPmsDental {
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label6.Location = new System.Drawing.Point(8, 592);
+			this.label6.Location = new System.Drawing.Point(8, 565);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(48, 23);
 			this.label6.TabIndex = 12;
@@ -184,7 +184,7 @@ namespace OpenPmsDental {
 			// label7
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label7.Location = new System.Drawing.Point(8, 619);
+			this.label7.Location = new System.Drawing.Point(8, 592);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(48, 23);
 			this.label7.TabIndex = 13;
@@ -195,7 +195,7 @@ namespace OpenPmsDental {
 			// 
 			this.textXPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textXPos.AutoSize = false;
-			this.textXPos.Location = new System.Drawing.Point(62, 538);
+			this.textXPos.Location = new System.Drawing.Point(62, 511);
 			this.textXPos.Name = "textXPos";
 			this.textXPos.Size = new System.Drawing.Size(65, 23);
 			this.textXPos.TabIndex = 14;
@@ -205,7 +205,7 @@ namespace OpenPmsDental {
 			// 
 			this.textYPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textYPos.AutoSize = false;
-			this.textYPos.Location = new System.Drawing.Point(62, 565);
+			this.textYPos.Location = new System.Drawing.Point(62, 538);
 			this.textYPos.Name = "textYPos";
 			this.textYPos.Size = new System.Drawing.Size(65, 23);
 			this.textYPos.TabIndex = 15;
@@ -215,7 +215,7 @@ namespace OpenPmsDental {
 			// 
 			this.textWidth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textWidth.AutoSize = false;
-			this.textWidth.Location = new System.Drawing.Point(62, 592);
+			this.textWidth.Location = new System.Drawing.Point(62, 565);
 			this.textWidth.Name = "textWidth";
 			this.textWidth.Size = new System.Drawing.Size(65, 23);
 			this.textWidth.TabIndex = 16;
@@ -225,7 +225,7 @@ namespace OpenPmsDental {
 			// 
 			this.textHeight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.textHeight.AutoSize = false;
-			this.textHeight.Location = new System.Drawing.Point(62, 619);
+			this.textHeight.Location = new System.Drawing.Point(62, 592);
 			this.textHeight.Name = "textHeight";
 			this.textHeight.Size = new System.Drawing.Size(65, 23);
 			this.textHeight.TabIndex = 17;
@@ -304,9 +304,9 @@ namespace OpenPmsDental {
 			// 
 			this.labelInternal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelInternal.Location = new System.Drawing.Point(8, 646);
+			this.labelInternal.Location = new System.Drawing.Point(8, 619);
 			this.labelInternal.Name = "labelInternal";
-			this.labelInternal.Size = new System.Drawing.Size(119, 55);
+			this.labelInternal.Size = new System.Drawing.Size(119, 82);
 			this.labelInternal.TabIndex = 32;
 			this.labelInternal.Text = "This is an internal form. \r\nTo make changes, copy it over to a custom form.";
 			this.labelInternal.Visible = false;

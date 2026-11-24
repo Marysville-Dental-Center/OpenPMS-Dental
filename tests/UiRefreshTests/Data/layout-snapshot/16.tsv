@@ -28,16 +28,16 @@ OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textDescription	8,26	119,23
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label1	8,8	119,16	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	checkIsHidden	8,107	119,18	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label2	8,241	76,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	listItems	8,266	119,264	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	listItems	8,266	119,237	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butAdd	90,241	37,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label4	8,538	48,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label5	8,565	48,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label6	8,592	48,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label7	8,619	48,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textXPos	62,538	65,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textYPos	62,565	65,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textWidth	62,592	65,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textHeight	62,619	65,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label4	8,511	48,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label5	8,538	48,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label6	8,565	48,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label7	8,592	48,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textXPos	62,511	65,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textYPos	62,538	65,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textWidth	62,565	65,23	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textHeight	62,592	65,23	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butFont	8,151	119,24	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	butPrint	8,713	55,24	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	checkPrintImages	8,129	119,18	
@@ -45,7 +45,7 @@ OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label3	8,179	48,23
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label8	8,206	48,23	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textOffsetX	62,179	65,23	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textOffsetY	62,206	65,23	
-OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	labelInternal	8,646	119,55	
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	labelInternal	8,619	119,82	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label9	8,53	48,23	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	label10	8,80	48,23	
 OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	textFormHeight	62,80	65,23	
@@ -132,7 +132,7 @@ OpenPmsDental/Forms/FormTerminal.designer.cs	panelClose	790,619	66,59
 OpenPmsDental/Forms/FormTerminal.designer.cs	labelThankYou	382,530	100,17	
 OpenPmsDental/Forms/FormTerminal.designer.cs	butDone	395,553	75,24	
 OpenPmsDental/Forms/FormTerminal.designer.cs	.			864,686
-OpenPmsDental/Forms/FormToothChartBig.designer.cs	toothChartWrapper	8,8	910,842	
+OpenPmsDental/Forms/FormToothChartBig.designer.cs	toothChartWrapper	0,0	926,858	
 OpenPmsDental/Forms/FormToothChartBig.designer.cs	.			926,858
 OpenPmsDental/Forms/FormWebView.designer.cs	ToolBarMain	0,0	974,25	
 OpenPmsDental/Forms/FormWebView.designer.cs	webViewMain	8,33	958,655	
