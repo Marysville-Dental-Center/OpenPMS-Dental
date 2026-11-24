@@ -32,9 +32,29 @@ def layout(h):
     h.set("label3", 0, 0, h.n("panelImportAuto").nw, 16)
     # the Pearl panel (LayoutControls gives it 70 px, from 62): its group fills it; Show and Tooth Parts a list under the title, Layers on the
     # first row at the group's right padding
-    h.set("panelPearl", None, None, 200, 70)
-    h.set("groupPearl", 0, 0, 200, 70)
+    wt = 228  # the tree's width (_widthTree96)
+    h.set("groupPearl", 0, 0, wt, 70)
     h.set("checkPearlShow", s.PAD, 22, 83, 18)
     h.set("checkPearlToothParts", s.PAD, 44, 83, 18)
-    h.set("butPearlLayers", 200 - s.PAD - 54, 22, 54, s.BUTTON_H)
-    h.set("labelAIProcessing", s.PAD, 22, 200 - 2 * s.PAD, 32)
+    h.set("butPearlLayers", wt - s.PAD - 54, 22, 54, s.BUTTON_H)
+    h.set("labelAIProcessing", s.PAD, 22, wt - 2 * s.PAD, 32)
+    # the module's parts where LayoutControls puts them at the designer's size (the note, Pearl, import and drawing panels hidden, at the
+    # places the code shows them), so the designer draws as the module does
+    W, H = h.tree.w, h.tree.h
+    P, G, I = s.PAD, s.GAP, s.ITEM
+    h.set("elementHostToolBarMain", 0, 0, W, 25)
+    h.set("elementHostWindowingSlider", P, 27, 154, 20)
+    h.set("elementHostZoomSlider", P + 154 + I, 25, 231, 25)
+    xp = P + 154 + I + 231 + I
+    h.set("toolBarPaint", xp, 25, W - xp, 25)
+    top, bottom = 50 + P, H - P
+    h.set("elementHostImageSelector", P, top, wt, bottom - top)
+    h.set("panelPearl", P, bottom - 70, wt, 70)
+    h.set("panelSplitter", P + wt + 1, top, 10, bottom - top)
+    xr = P + wt + 1 + 10 + 1
+    wr = W - P - xr
+    h.set("panelNote", xr, bottom - 114, wr, 114)
+    h.set("elementHostUnmountedBar", xr, bottom - 200, wr, 200)
+    h.set("panelImportAuto", xr, top, wr, 44)
+    h.set("panelDraw", xr, top, wr, 25)
+    h.set("controlImageDock", xr, top, wr, bottom - 200 - G - top)

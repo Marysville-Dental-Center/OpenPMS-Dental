@@ -732,7 +732,13 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.ControlAppt#search":
 					Control panelCalendar=FindByName(root,"panelCalendar");
 					Control groupSearch=FindByName(root,"groupSearch");
-					groupSearch.Location=new Point(panelCalendar.Left,panelCalendar.Top+FindByName(root,"panelCalendarLower").Top+FindByName(root,"pinBoard").Bottom+UiGrid.ROW_GAP);
+					Point pointSearch=new Point(panelCalendar.Left,panelCalendar.Top+FindByName(root,"panelCalendarLower").Top+FindByName(root,"pinBoard").Bottom+UiGrid.ROW_GAP);
+					if(root.FindForm() is FormODBase formODBase && WindowBuilder.GetLayoutManager(formODBase)!=null) {
+						WindowBuilder.GetLayoutManager(formODBase).MoveLocation(groupSearch,pointSearch);//as ShowSearch moves it (the harness lays the window out again)
+					}
+					else {
+						groupSearch.Location=pointSearch;
+					}
 					groupSearch.Visible=true;
 					groupSearch.BringToFront();
 					return root;

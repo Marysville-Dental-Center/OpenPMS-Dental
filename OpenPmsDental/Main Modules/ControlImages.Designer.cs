@@ -108,9 +108,9 @@
 			this.panelNote.Controls.Add(this.label15);
 			this.panelNote.Controls.Add(this.label1);
 			this.panelNote.Controls.Add(this.textNote);
-			this.panelNote.Location = new System.Drawing.Point(230, 494);
+			this.panelNote.Location = new System.Drawing.Point(248, 473);
 			this.panelNote.Name = "panelNote";
-			this.panelNote.Size = new System.Drawing.Size(834, 93);
+			this.panelNote.Size = new System.Drawing.Size(1065, 114);
 			this.panelNote.TabIndex = 23;
 			this.panelNote.Visible = false;
 			this.panelNote.DoubleClick += new System.EventHandler(this.panelNote_DoubleClick);
@@ -173,9 +173,9 @@
 			this.panelImportAuto.Controls.Add(this.butBrowse);
 			this.panelImportAuto.Controls.Add(this.textImportAuto);
 			this.panelImportAuto.Controls.Add(this.label3);
-			this.panelImportAuto.Location = new System.Drawing.Point(262, 102);
+			this.panelImportAuto.Location = new System.Drawing.Point(248, 58);
 			this.panelImportAuto.Name = "panelImportAuto";
-			this.panelImportAuto.Size = new System.Drawing.Size(813, 44);
+			this.panelImportAuto.Size = new System.Drawing.Size(1065, 44);
 			this.panelImportAuto.TabIndex = 34;
 			this.panelImportAuto.Visible = false;
 			// 
@@ -235,9 +235,9 @@
 			// panelDraw
 			// 
 			this.panelDraw.Controls.Add(this.toolBarDraw);
-			this.panelDraw.Location = new System.Drawing.Point(250, 161);
+			this.panelDraw.Location = new System.Drawing.Point(248, 58);
 			this.panelDraw.Name = "panelDraw";
-			this.panelDraw.Size = new System.Drawing.Size(1056, 25);
+			this.panelDraw.Size = new System.Drawing.Size(1065, 25);
 			this.panelDraw.TabIndex = 36;
 			this.panelDraw.Visible = false;
 			// 
@@ -252,16 +252,16 @@
 			// 
 			// elementHostImageSelector
 			// 
-			this.elementHostImageSelector.Location = new System.Drawing.Point(15, 123);
+			this.elementHostImageSelector.Location = new System.Drawing.Point(8, 58);
 			this.elementHostImageSelector.Name = "elementHostImageSelector";
-			this.elementHostImageSelector.Size = new System.Drawing.Size(200, 365);
+			this.elementHostImageSelector.Size = new System.Drawing.Size(228, 529);
 			this.elementHostImageSelector.TabIndex = 38;
 			this.elementHostImageSelector.Text = "elementHost1";
 			this.elementHostImageSelector.Child = null;
 			// 
 			// elementHostZoomSlider
 			// 
-			this.elementHostZoomSlider.Location = new System.Drawing.Point(162, 25);
+			this.elementHostZoomSlider.Location = new System.Drawing.Point(168, 25);
 			this.elementHostZoomSlider.Name = "elementHostZoomSlider";
 			this.elementHostZoomSlider.Size = new System.Drawing.Size(231, 25);
 			this.elementHostZoomSlider.TabIndex = 39;
@@ -270,7 +270,7 @@
 			// 
 			// elementHostWindowingSlider
 			// 
-			this.elementHostWindowingSlider.Location = new System.Drawing.Point(4, 27);
+			this.elementHostWindowingSlider.Location = new System.Drawing.Point(8, 27);
 			this.elementHostWindowingSlider.Name = "elementHostWindowingSlider";
 			this.elementHostWindowingSlider.Size = new System.Drawing.Size(154, 20);
 			this.elementHostWindowingSlider.TabIndex = 169;
@@ -279,9 +279,9 @@
 			// 
 			// panelSplitter
 			// 
-			this.panelSplitter.Location = new System.Drawing.Point(233, 69);
+			this.panelSplitter.Location = new System.Drawing.Point(237, 58);
 			this.panelSplitter.Name = "panelSplitter";
-			this.panelSplitter.Size = new System.Drawing.Size(8, 434);
+			this.panelSplitter.Size = new System.Drawing.Size(10, 529);
 			this.panelSplitter.TabIndex = 24;
 			this.panelSplitter.Paint += new System.Windows.Forms.PaintEventHandler(this.panelSplitter_Paint);
 			this.panelSplitter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelSplitter_MouseDown);
@@ -292,9 +292,9 @@
 			// toolBarPaint
 			// 
 			this.toolBarPaint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.toolBarPaint.Location = new System.Drawing.Point(393, 25);
+			this.toolBarPaint.Location = new System.Drawing.Point(405, 25);
 			this.toolBarPaint.Name = "toolBarPaint";
-			this.toolBarPaint.Size = new System.Drawing.Size(674, 25);
+			this.toolBarPaint.Size = new System.Drawing.Size(916, 25);
 			this.toolBarPaint.TabIndex = 15;
 			this.toolBarPaint.ButtonClick += new OpenPmsDental.UI.ODToolBarButtonClickEventHandler(this.toolBarPaint_ButtonClick);
 			// 
@@ -302,26 +302,26 @@
 			// 
 			this.controlImageDock.AllowDrop = true;
 			this.controlImageDock.BackColor = System.Drawing.Color.White;
-			this.controlImageDock.Location = new System.Drawing.Point(254, 192);
+			this.controlImageDock.Location = new System.Drawing.Point(248, 58);
 			this.controlImageDock.Name = "controlImageDock";
-			this.controlImageDock.Size = new System.Drawing.Size(813, 240);
+			this.controlImageDock.Size = new System.Drawing.Size(1065, 321);
 			this.controlImageDock.TabIndex = 20;
 			this.controlImageDock.Paint += new System.Windows.Forms.PaintEventHandler(this.panelMain_Paint);
 			// 
 			// elementHostUnmountedBar
 			// 
-			this.elementHostUnmountedBar.Location = new System.Drawing.Point(250, 438);
+			this.elementHostUnmountedBar.Location = new System.Drawing.Point(248, 387);
 			this.elementHostUnmountedBar.Name = "elementHostUnmountedBar";
-			this.elementHostUnmountedBar.Size = new System.Drawing.Size(923, 50);
+			this.elementHostUnmountedBar.Size = new System.Drawing.Size(1065, 200);
 			this.elementHostUnmountedBar.TabIndex = 170;
 			this.elementHostUnmountedBar.Text = "elementHost1";
 			this.elementHostUnmountedBar.Child = null;
 			// 
 			// elementHostToolBarMain
 			// 
-			this.elementHostToolBarMain.Location = new System.Drawing.Point(3, -6);
+			this.elementHostToolBarMain.Location = new System.Drawing.Point(0, 0);
 			this.elementHostToolBarMain.Name = "elementHostToolBarMain";
-			this.elementHostToolBarMain.Size = new System.Drawing.Size(1318, 25);
+			this.elementHostToolBarMain.Size = new System.Drawing.Size(1321, 25);
 			this.elementHostToolBarMain.TabIndex = 171;
 			this.elementHostToolBarMain.Text = "elementHost1";
 			this.elementHostToolBarMain.Child = null;
@@ -329,9 +329,9 @@
 			// panelPearl
 			// 
 			this.panelPearl.Controls.Add(this.groupPearl);
-			this.panelPearl.Location = new System.Drawing.Point(15, 522);
+			this.panelPearl.Location = new System.Drawing.Point(8, 517);
 			this.panelPearl.Name = "panelPearl";
-			this.panelPearl.Size = new System.Drawing.Size(200, 70);
+			this.panelPearl.Size = new System.Drawing.Size(228, 70);
 			this.panelPearl.TabIndex = 54;
 			this.panelPearl.Visible = false;
 			// 
@@ -347,7 +347,7 @@
 			this.groupPearl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.groupPearl.Location = new System.Drawing.Point(0, 0);
 			this.groupPearl.Name = "groupPearl";
-			this.groupPearl.Size = new System.Drawing.Size(200, 70);
+			this.groupPearl.Size = new System.Drawing.Size(228, 70);
 			this.groupPearl.TabIndex = 3;
 			this.groupPearl.Text = "Pearl AI";
 			// 
@@ -355,7 +355,7 @@
 			//
 			this.labelAIProcessing.Location = new System.Drawing.Point(8, 22);
 			this.labelAIProcessing.Name = "labelAIProcessing";
-			this.labelAIProcessing.Size = new System.Drawing.Size(184, 32);
+			this.labelAIProcessing.Size = new System.Drawing.Size(212, 32);
 			this.labelAIProcessing.TabIndex = 3;
 			this.labelAIProcessing.Text = "Processing...";
 			this.labelAIProcessing.Visible = false;
@@ -373,7 +373,7 @@
 			// 
 			// butPearlLayers
 			// 
-			this.butPearlLayers.Location = new System.Drawing.Point(138, 22);
+			this.butPearlLayers.Location = new System.Drawing.Point(166, 22);
 			this.butPearlLayers.Name = "butPearlLayers";
 			this.butPearlLayers.Size = new System.Drawing.Size(54, 24);
 			this.butPearlLayers.TabIndex = 2;
