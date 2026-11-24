@@ -33,8 +33,10 @@
 			<Image x:Name="imageHistogram" Stretch="Fill" />
 		</Border>
 		<ui:Label x:Name="labelHistogramNote" Width="230" Height="190" Margin="732,262,0,0" Text="" IsWrap="True" />
-		<ui:TextBox x:Name="textResults" Width="482" Height="200" Margin="480,464,0,0" IsMultiline="True" ReadOnly="True" ColorBack="#FFF0F0F0" />
-		<ui:Label x:Name="labelCategoryWarning" Width="950" Height="36" Margin="12,676,0,0" Text="" IsWrap="True" ColorText="#FFC00000" />
+		<ui:TextBox x:Name="textResults" Width="482" Height="110" Margin="480,464,0,0" IsMultiline="True" ReadOnly="True" ColorBack="#FFF0F0F0" />
+		<ui:Label x:Name="labelVerification" Width="482" Height="36" Margin="480,580,0,0" Text="" IsBold="True" IsWrap="True" />
+		<ui:Label x:Name="labelNextStep" Width="482" Height="54" Margin="480,620,0,0" Text="" IsBold="True" IsWrap="True" />
+		<ui:Label x:Name="labelCategoryWarning" Width="462" Height="36" Margin="12,676,0,0" Text="" IsWrap="True" ColorText="#FFC00000" />
 		<ui:Button x:Name="butRecord" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="170" Height="24" Margin="0,0,93,12" Text="Write verification record" Click="butRecord_Click" />
 		<ui:Button x:Name="butClose" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Height="24" Margin="0,0,12,12" Text="Close" Click="butClose_Click" />
 	</Grid>

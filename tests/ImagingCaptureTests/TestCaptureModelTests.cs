@@ -298,6 +298,57 @@ Name=Not gated
 		}
 
 		[TestMethod]
+		public void NextStep_LeadsToTheRecord_AfterAPassingImage_UntilItIsWritten() {
+			TestCaptureModel model=Model();
+			Assert.IsFalse(model.IsRecordTheNextStep);
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 1 of 2: take a test image");
+			StringAssert.StartsWith(model.GetVerificationText(),"Not verified in this window");
+			model.OnOpenResult(Opened());
+			model.OnEnablePosted(1);
+			model.OnImage(Image16());
+			Assert.IsTrue(model.IsRecordTheNextStep,"The record is the next required action.");
+			Assert.AreEqual("Step 2 of 2, required: tick the byte order and polarity checks below, then click Write verification record (Setup "
+				+"permission). The record unlocks 16-bit X-rays for this device on every computer with the same driver and image settings; without "
+				+"it they stay 8-bit.",model.GetNextStepText());
+			StringAssert.Contains(model.GetVerificationText(),"the capture session takes 8-bit X-rays from it");
+			model.IsByteOrderConfirmed=true;
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: tick the polarity check below, then click Write verification record");
+			model.IsPolarityConfirmed=true;
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2, required: click Write verification record");
+			string error;
+			CaptureVerificationRecord record=model.BuildRecord(new DateTime(2026,11,24,9,30,0),out error);
+			model.OnRecordWritten(record);
+			Assert.IsFalse(model.IsRecordTheNextStep,"Written: no longer the next step.");
+			Assert.AreEqual("",model.GetNextStepText());
+			Assert.AreEqual("Verified: record written 2026-11-24 09:30. The capture session can now take 16-bit X-rays from this device.",
+				model.GetVerificationText());
+			//A record that does not verify more than 8 bits says so.
+			model.OnImage(Image16());
+			record=model.BuildRecord(new DateTime(2026,11,24,9,40,0),out error);
+			model.OnRecordWritten(record);
+			Assert.AreEqual("Record written 2026-11-24 09:40, but it does not unlock more than 8 bits: the capture session stays at 8 bits for this "
+				+"device.",model.GetVerificationText());
+		}
+
+		[TestMethod]
+		public void NextStep_8BitImage_SaysToTakeItAgainAtMoreBits_AndUnverifiedSettings_SayToSaveThemFirst() {
+			TestCaptureModel model=Model();
+			model.OnOpenResult(Opened());
+			model.OnEnablePosted(1);
+			AcquiredImage image=TestImages.Image8(8,8,(x,y) => (byte)(x*y),TestImages.Json8Bit);
+			image.RequestedBits=16;
+			image.IsDeliveredAs8BitIn16BitEnable=true;
+			model.OnImage(image);
+			StringAssert.StartsWith(model.GetNextStepText(),"Step 2 of 2: this test image is 8-bit");
+			TestCaptureModel modelUnsaved=Model(isSettingsSaved:false);
+			modelUnsaved.OnOpenResult(Opened());
+			modelUnsaved.OnEnablePosted(1);
+			modelUnsaved.OnImage(Image16());
+			Assert.IsFalse(modelUnsaved.IsRecordTheNextStep,"No record can be written: the button is not the primary action.");
+			StringAssert.StartsWith(modelUnsaved.GetNextStepText(),"Next: save this device in Capture settings");
+		}
+
+		[TestMethod]
 		public void Record_8Bit_DoesNotVerify16() {
 			TestCaptureModel model=Model();
 			model.OnOpenResult(Opened());

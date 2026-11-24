@@ -455,6 +455,55 @@ namespace ImagingCapture.UI {
 			return text;
 		}
 
+		///<summary>IMG-TESTCAP: after a test image the record can be written and none was written in this window yet, so writing it is the
+		///window's next required action: the window makes Write verification record its primary button and moves the focus to it (at OP1 on
+		///2026-11-22 the step was missed, and the device stayed at 8 bits).</summary>
+		public bool IsRecordTheNextStep => CanWriteRecord && RecordWritten==null;
+
+		///<summary>Whether this device is verified, as far as this window knows: a record it wrote (and whether that record unlocks more than 8
+		///bits), or none yet. It cannot see records written earlier or on other computers: the capture session looks those up itself.</summary>
+		public string GetVerificationText() {
+			if(RecordWritten==null) {
+				return "Not verified in this window: no verification record written. Until a record matches this device's driver and image settings, "
+					+"the capture session takes 8-bit X-rays from it.";
+			}
+			string date=RecordWritten.DateTimeVerified.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture);
+			string warning=GetRecordWarning(RecordWritten);
+			int bitsCovered=CaptureBitDepthDecision.GetBitsCovered(RecordWritten,Options.Bits);
+			if(warning=="" && bitsCovered>8) {
+				return "Verified: record written "+date+". The capture session can now take "+bitsCovered+"-bit X-rays from this device.";
+			}
+			return "Record written "+date+", but it does not unlock more than 8 bits: the capture session stays at 8 bits for this device.";
+		}
+
+		///<summary>The next thing the operator must do to verify the device, in plain words; "" once a record was written in this window.</summary>
+		public string GetNextStepText() {
+			if(RecordWritten!=null) {
+				return "";
+			}
+			if(Analysis==null || !Analysis.IsValid) {
+				return "Step 1 of 2: take a test image of the phantom or the known ramp.";
+			}
+			if(!SettingsCheck.IsVerified) {
+				return "Next: save this device in Capture settings (its settings are not verified on this computer), then take the test image again. "
+					+"Until then no verification record can be written.";
+			}
+			if(!Analysis.IsGray16) {
+				return "Step 2 of 2: this test image is 8-bit, so a record would not unlock more than 8 bits. Take the test image again asking for "
+					+"16 or 14 bits, or write the record to note the 8-bit result.";
+			}
+			List<string> listChecks=new List<string>();
+			if(IsByteOrderCheckable && !IsByteOrderConfirmed) {
+				listChecks.Add("byte order");
+			}
+			if(IsPolarityCheckable && !IsPolarityConfirmed) {
+				listChecks.Add("polarity");
+			}
+			string checks=listChecks.Count==0 ? "" : "tick the "+string.Join(" and ",listChecks)+" check"+(listChecks.Count>1 ? "s" : "")+" below, then ";
+			return "Step 2 of 2, required: "+checks+"click Write verification record (Setup permission). The record unlocks 16-bit X-rays for this "
+				+"device on every computer with the same driver and image settings; without it they stay 8-bit.";
+		}
+
 		public void OnRecordWritten(CaptureVerificationRecord record) {
 			RecordWritten=record;
 			Version++;

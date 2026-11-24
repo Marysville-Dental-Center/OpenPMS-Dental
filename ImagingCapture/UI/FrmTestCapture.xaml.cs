@@ -318,6 +318,17 @@ namespace ImagingCapture.UI {
 			butStop.IsEnabled=model.CanStop;
 			comboBits.IsEnabled=model.CanStart;
 			butRecord.IsEnabled=model.CanWriteRecord;
+			//IMG-TESTCAP: once a test image can be recorded, writing the record is the next required action: the primary button, with the
+			//focus moved to it once, and the step and the device's state said in words next to the results.
+			SetText(labelVerification,model.GetVerificationText());
+			SetText(labelNextStep,model.GetNextStepText());
+			bool isRecordNext=model.IsRecordTheNextStep;
+			if(butRecord.IsPrimary!=isRecordNext) {
+				butRecord.IsPrimary=isRecordNext;
+				if(isRecordNext) {
+					butRecord.Focus();
+				}
+			}
 			checkByteOrder.IsEnabled=model.IsByteOrderCheckable;
 			checkByteOrder.Checked=model.IsByteOrderConfirmed;
 			checkPolarity.IsEnabled=model.IsPolarityCheckable;
