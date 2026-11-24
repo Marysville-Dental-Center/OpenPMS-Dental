@@ -1,0 +1,264 @@
+# UI-BRAND (docs/port-notes/UI-BRAND.md): every string literal of the shipped sources that names OD, Open Dental or OpenDental
+# and stays. One row per file and text: the text is part of the literal as the source writes it (escapes not decoded).
+# Read by NoHqTests' BrandTests. [Category("OD")] designer attributes are left out by rule (BrandTests).
+file	text	reason
+CodeBase/Utilities/ProgramNames.cs	OpenDental	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/ProgramNames.cs	OpenDentalHL7	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/ProgramNames.cs	OpenDentalReplicationServiceConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/ProgramNames.cs	OpenDentalServerConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/ServicesHelper.cs	OpenDentalCustListener.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/ServicesHelper.cs	OpenDentalEConnector.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+CodeBase/Utilities/VendorDirect/HqHosts.cs	opendental.cloud	Open Dental's host names, listed so that the program never contacts them
+CodeBase/Utilities/VendorDirect/HqHosts.cs	opendental.com	Open Dental's host names, listed so that the program never contacts them
+CodeBase/Utilities/VendorDirect/HqHosts.cs	opendentalsoft.com	Open Dental's host names, listed so that the program never contacts them
+DataConnectionBase/ConnectionStoreBase.cs	OpenDentalWebConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+DatabaseIntegrityCheck/FormDatabaseCheck.cs	opendental	Database name: the default database is still called opendental
+ImagingCapture/Dicom/DicomDatasetBuilder.cs	OD	DICOM value representation code OD (other double)
+ODCrypt/Encryption.cs	was only used for uploads to Open Dental's HQ servers and is not	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDental/Forms/FormAbout.cs	Benco Practice Management powered by Open Dental	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
+OpenPmsDental/Forms/FormAbout.cs	Open Dental	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
+OpenPmsDental/Forms/FormAbout.cs	Open Dental Software	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
+OpenPmsDental/Forms/FormAbout.cs	Open Dental Software 	GPL attribution and copyright notice (required)
+OpenPmsDental/Forms/FormAbout.cs	PMS - Dental is a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)
+OpenPmsDental/Forms/FormAbout.cs	the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc.	GPL attribution and copyright notice (required)
+OpenPmsDental/Forms/FormAbout.designer.cs	Open PMS - Dental is a fork of Open Dental.	GPL attribution and copyright notice (required)
+OpenPmsDental/Forms/FormAdoptDatabase.cs	Adopt this database now? Open Dental programs will no longer be able to use it.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormAdoptDatabase.cs	blanks the addresses of Open Dental's servers, and sets	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormAdoptDatabase.cs	its unique index, deletes Open Dental's 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormAdoptDatabase.cs	program use a database that Open Dental created. It is done once, on	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormAdoptDatabase.cs	so Open Dental programs can no longer use	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	Database: usually opendental unless you changed the name.	Database name: the default database is still called opendental
+OpenPmsDental/Forms/FormDatabaseMaintenance.cs	every patient whose hash is blank or was written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormDatabaseMaintenance.cs	moving a database over from Open Dental, before anyone edits data	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormEmailInbox.cs	No instance of Open Dental Service is running.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Forms/FormInfobutton.cs	OD	HL7 Infobutton request field sent to the knowledge provider, not shown in the program
+OpenPmsDental/Forms/FormInfobutton.cs	Open Dental Software, version	HL7 Infobutton request field sent to the knowledge provider, not shown in the program
+OpenPmsDental/Forms/FormOrthoChart.cs	that an instance of OD changed from '{}' to '{}'	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDental/Forms/FormSheetTools.designer.cs	another Open PMS - Dental or Open Dental	Compatibility note: sheet files exported from Open Dental can be imported
+OpenPmsDental/Forms/FormTransworldSetup.designer.cs	(by OpenDentalService)	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Forms/FormTransworldSetup.designer.cs	OpenDentalService Send Time	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Forms/FormTxtMsgEdit.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects
+OpenPmsDental/Forms/FormUpdate.cs	Checking for and downloading updates from Open Dental is not available in this build.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Forms/FormUpdate.cs	Checking for updates with Open Dental is not available in this	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Logic/PatientL.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Logic/PrefL.cs	Failed to create OpenDentalServiceConfig.xml file.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	Failed to install OpenDentalService, try running	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	Open Dental Service Error	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	OpenDental Service could not be found.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	OpenDentalService	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	OpenDentalService.exe	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	OpenDentalServiceConfig.xml	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/PrefL.cs	Unable to install the OpenDentalService; Cannot find	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Logic/SecurityL.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Logic/VendorDirect/DropboxStartupCheck.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.DataValid_BecameInvalid_taskInvalidTypes	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.FillPatientButton_popups	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.FinishLogOff_start	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.FormClosing_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.FormOpenDental_Resize_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.LayoutToolBar_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.Load_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.LogOffNow_loopingforms	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.OnCommlog_Click	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.OnPatient_Click_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.ProcessSignals_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.menuItemLaboratories_Click	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.menuItemWiki_Click	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental.menuItemZoom_Click_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDentalShown	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	FormOpenDental_KeyDown_end	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	LogOnOpenDentalUser	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDental/Main Modules/FormOpenDental.cs	it uploaded the database to Open Dental HQ, which this build does	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Misc/DbmInfo.cs	A bug in an older version of Open Dental caused this issue to occur	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDental/Properties/Settings.Designer.cs	OpenDental_CallFireService_SMSService	Generated settings name or the default Middle Tier URL path; identifiers
+OpenPmsDental/Properties/Settings.Designer.cs	OpenDental_EmdeonITS_ITSWS	Generated settings name or the default Middle Tier URL path; identifiers
+OpenPmsDental/ReportingComplex/FormReportComplex.cs	\\opendental.od\serverfiles\My\KaitlynW\SnackShack_Reports\Inventory_Report_	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDental/ReportingComplex/FormReportComplex.cs	\\opendental.od\serverfiles\My\KaitlynW\SnackShack_Reports\P&I_Report_	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDental/Resources/PrefInfos.xml	&gt;Open Dental Service&lt;/a&gt;	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference (the link text of Open Dental's manual page about it)
+OpenPmsDental/Resources/PrefInfos.xml	Determines time of day OpenDentalService should create Claim Snapshot.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDental/Resources/PrefInfos.xml	Note: Open Dental Cloud users cannot change Read-Only Server Setup.	Names Open Dental Cloud, Open Dental's hosted offering, whose customers cannot change this setting; not a self-reference (question for the owner in docs/port-notes/UI-BRAND.md)
+OpenPmsDental/Resources/PrefInfos.xml	OpenDentalService alerts for scheduled non-CPOE radiology procedures	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference (the help file's copy of the check box's text)
+OpenPmsDental/Resources/PrefInfos.xml	Unhandled Exception errors will automatically be sent to Open Dental headquarters.	Help text of the SendUnhandledExceptionsToHQ option, whose check box (checkSubmitExceptions) UserControlMainWindowMisc hides: nothing is sent to Open Dental HQ in this build, so the pop-up never shows (question for the owner in docs/port-notes/UI-BRAND.md)
+OpenPmsDental/Resources/PrefInfos.xml	opendental.com/manual	Link to Open Dental's online manual in a Preferences info pop-up; flagged for the owner in docs/port-notes/UI-BRAND.md (section 5)
+OpenPmsDental/Resources/PrefInfos.xml	opendental.com/resources/UnitTestsDocumentation.xml	Link to Open Dental's unit test documentation in a Preferences info pop-up; flagged for the owner in docs/port-notes/UI-BRAND.md (section 5)
+OpenPmsDental/UIManagement/WpfConverter.cs	C:\\Development\\Versioned\\OpenDental\\	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDental/UIManagement/WpfConverter.cs	E:\\Documents\\GIT REPOS\\Versioned\\OpenDental\\	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDental/User Controls/Preferences/UserControlChartGeneral.Designer.cs	OpenDentalService alerts for scheduled non-CPOE radiology procedures	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/Bridges/EHG_statements.cs	&UploaderName=OpenDental	Third-party bridge field or identifier that the vendor program expects
+OpenPmsDentalBusiness/Data Interface/AlertItems.cs	No instance of Open Dental Service is running.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/Data Interface/AlertItems.cs	SELECT ValueString,NOW() FROM preference WHERE PrefName='OpenDentalServiceHeartbeat'	Preference name in the database
+OpenPmsDentalBusiness/Data Interface/CentralConnections.cs	opendental	Database name: the default database is still called opendental
+OpenPmsDentalBusiness/Data Interface/Commlogs.cs	Open Dental HQ-Generated	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/Data Interface/DatabaseMaintenances.cs	written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	                  <td>Open Dental PatNum</td>	Sample message of the EHR certification test; test data
+OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	OpenDental 	Direct messaging MDN reporting-agent field (protocol)
+OpenPmsDentalBusiness/Data Interface/OrthoCases.cs	is heavily used throughout OD.	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDentalBusiness/Data Interface/ProcedureCodes.cs	OD customers DO NOT EDIT FeeSchedule does not include a single valid Fee for ProcCode: 	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/Data Interface/StatementAutoSend.cs	is Always, carried over from Open Dental, where this setting most	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Db/Enumerations.cs	Disabled by Open Dental	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/Db/Enumerations.cs	Open Dental	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/Eclaims/Canadian.cs	^(OPENDENTAL\.pem|OD_\d{4}-\d{2}-\d{2}_\d{4}-\d{2}-\d{2}_(prod|staging)\.pem)$	Third-party bridge field or identifier that the vendor program expects
+OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7/FieldConstructor.cs	OpenDentalHL7	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7/InternalCentricity.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7/InternalEcwFull.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7/InternalEcwTight.cs	OD	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EcwDFT.cs	MSH|^~\&|OD||ECW||	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrADT_A01.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrORU.cs	MSH|^~\&|Open Dental|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrORU.cs	OD|	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|OD-	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/HL7old/EhrVXU.cs	|Open Dental	HL7 protocol field (sending application, assigning authority, MSH) that the receiving system expects
+OpenPmsDentalBusiness/Imaging/DicomImageReader.cs	OD	DICOM value representation code OD (other double)
+OpenPmsDentalBusiness/Imaging/DicomSubsetReader.cs	OD	DICOM value representation code OD (other double)
+OpenPmsDentalBusiness/Logic/BillingL.cs	OpenDentalService	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/Logic/BillingL.cs	OpenDentalService should not be allowed to pause/resume.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/Logic/BillingL.cs	OpenDentalService should not be prompted to select an XML file.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/Misc/ConvertDatabases1.cs	 OpenDental false	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases1.cs	C:\OpenDentalData\	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases1.cs	INSERT INTO preference VALUES('ImageStore', 'OpenDental.Imaging.FileStore')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases1.cs	UPDATE claimform SET UniqueID=concat('OD',UniqueID)	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases2.cs	MobileSyncServerURL','https://opendentalsoft.com/WebHostSynch/Mobile.a	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases2.cs	SET ValueString = 'https://opendentalsoft.com/WebHostSynch/Sheets.a	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases2.cs	SET ValueString ='http://opendentalsoft.com:1942/WebServiceCustom	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases2.cs	bHostSynchServerURL','https://opendentalsoft.com/WebHostSynch/WebHostS	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases2.cs	only one allowed to startup OD.')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	'Enter 0 to use Open Dental for sending review invitations, or 1 to use eConnector', 	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	'UserName (clear to use OD username)', 	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	//www.patientviewer.com:49999/OpenDentalWebServiceHQ/WebServiceMainHQ.	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	AND ValueString='http://www.opendental.com/updates/'	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	INSERT INTO preference(PrefName,ValueString) VALUES('SoftwareName','Open Dental Software')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	SET ValueString='http://www.opendental.com/updates/' WHERE	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases3.cs	preference),'SoftwareName','Open Dental Software')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases4.cs	= 'Enter 0 to use Open Dental for sending review	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases5.cs	//www.patientviewer.com:49997/OpenDentalWebServiceHQ/WebServiceMainHQ.	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases5.cs	SET ValueString='https://opendentalsoft.com/WebHostSynch/SheetsSy	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases5.cs	WHERE SCHEMA_NAME = 'opendentalarchive'	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases5.cs	opendentalarchive	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	//www.patientviewer.com:49997/OpenDentalWebServiceHQ/WebServiceMainHQ.	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	AND ValueString='http://opendentalsoft.com:1942/WebServiceCustom	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	INSERT INTO preference(PrefName,ValueString) VALUES('OpenDentalServiceComputerName','')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	SET ValueString='https://opendentalsoft.com:1943/WebServiceCustom	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	SET ValueString='https://www.opendental.com/updates/' WHERE	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	VALUES('OpenDentalServiceHeartbeat','0001-01-01	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases6.cs	width="160" src="https://www.opendental.com/images/logos/templateLogo	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases7.cs	Each replication server will need the new OpenDentalReplicationService installed. 	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases7.cs	Monitoring the slave status is now monitored by the OpenDentalReplicationService. 	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases7.cs	Please visit https://opendental.com and search for 'Slave Monitor' for more information.	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases7.cs	dpoint','https://emailhosting.opendental.cloud:8200/')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases8.cs	'C:\\\\ProgramData\\\\Jazz Imaging LLC\\\\Classic\\\\OpenDentalPatientInfo.xml')	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases8.cs	--source "OpenDental" --pName "[NameFL]" --pAge	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ConvertDatabases8.cs	Imaging LLC\\Classic\\OpenDentalPatientInfo.xml' WHERE	Open Dental's database conversion history: stored values, preference names and program property keys in the database
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	 Open Dental update file row(s).	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	 preference(s) that pointed at Open Dental's servers	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	). The copy may be part way through an Open Dental update; restore a clean backup.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	. Only these Open Dental versions can be adopted: 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Adoption from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	An adoption from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Database adopted from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunner.cs	 has no preference table; it is not an Open Dental database.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunnerAdapter.cs	The schema differs from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunnerAdapter.cs	The schema matches Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkTables.cs	) is an Open Dental table.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkTables.cs	), not Open Dental schema. Checked by ForkTables.VerifyDatabase.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	After adoption, Open Dental programs can no longer use	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	It may be part way through an Open Dental update. Nothing was changed.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	Only these Open Dental versions can be adopted: 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	This database is from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	This is an Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	startup never converts an Open Dental database. An administrator	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/InsHistCodeGroupsStep.cs	 is missing; the Open Dental 26.1 schema step must run first.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/InsHistCodeGroupsStep.cs	this database does not come from before Open Dental 25.4	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 24.4 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 25.1 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 25.2 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 25.3 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 25.3.48 definitions of existing columns	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity25_3.cs	Open Dental 25.3.48 keys on existing columns	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_1.cs	Open Dental 25.4 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_1.cs	Open Dental 26.1 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_1.cs	Open Dental 26.1: claimpayment.Note as text	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdParity26_2.cs	Open Dental 26.2 schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdSettingNamesStep.cs	 setting(s) of release v0.0 to Open Dental's names.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/OdSettingNamesStep.cs	Settings under Open Dental's names: the release v0.0 rows moved	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Legacy table from old Open Dental versions that some	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental HQ-only table declared by	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	a schema-only dump of an Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	in the office database, not Open Dental schema (a generated column).	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Seed25_3Step.cs	Open Dental 25.3 seed rows for databases from 24.3	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Seed26_1.cs	 Open Dental 25.3 PhoneExtension grant(s) from 272 to 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/Seed26_1Step.cs	Open Dental 25.4 and 26.1 seed rows	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkRelease/ForkReleases.cs	OpenDentalReplicationService	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+OpenPmsDentalBusiness/Misc/LocalDiagnostics.cs	Open Dental schema	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Properties/Settings.Designer.cs	OpenDentBusiness_OpenDentalServer_ServiceMain	Generated settings name or the default Middle Tier URL path; identifiers
+OpenPmsDentalBusiness/Properties/Settings.Designer.cs	http://localhost/OpenDentalServer/ServiceMain.asmx	Generated settings name or the default Middle Tier URL path; identifiers
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	BetterDiagnostics is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Mass email is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Message-to-Pay is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Multiple OpenDentalServices	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	OpenDentalService Down	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Raised by Open Dental eServices.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Raised by Open Dental's mobile apps through the eConnector.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Raised by the Open Dental Service's MariaDB backup.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/AlertItem.cs	Raised by the Open Dental eConnector.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/ApptReminderRule.cs	eClipboard is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/DefLink.cs	Open Dental HQ only.	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/TableTypes/GroupPermission.cs	Open Dental Help, FAQ edit and creation.	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/TableTypes/SecurityLog.cs	ODTouch is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/SecurityLog.cs	eClipboard is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/SessionToken.cs	Hosted web apps are Open Dental services.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/TableTypes/SmsToMobile.cs	eClipboard is an Open Dental hosted service.	Describes an Open Dental hosted service or program (eConnector, eServices, mobile apps); not a self-reference
+OpenPmsDentalBusiness/UI/GridOD.cs	js Not allowed to be used in OD proper. Set to true to show	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDentalBusiness/UI/GridOld.cs	js Not allowed to be used in OD proper. Set to true to show	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDentalBusiness/UI/PopupHelper.cs	OpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+OpenPmsDentalBusiness/WebBridges/Erx/NewCrop/NewCrop.cs	OD	eRx provider suffix code (OD = Doctor of Optometry)
+OpenPmsDentalBusiness/WebBridges/Podium.cs	"integrationName": "opendental",	Program property description used as the key of a programproperty row in the database
+OpenPmsDentalBusiness/WebBridges/Podium.cs	Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service	Program property description used as the key of a programproperty row in the database
+OpenPmsDentalBusiness/WebServiceTests.cs	service@opendental.com	Developer-only text (log, exception for developers, designer property description, development path)
+OpenPmsDentalBusiness/WebServices/WebServiceHqServer.cs	http://{}:{}/OpenDentalWebServiceHQ/WebServiceMainHQ.asmx	Open Dental HQ-only code path or text; never reached or shown in an office
+OpenPmsDentalBusiness/WebServices/WebServiceMainHQNoHq.cs	This feature used Open Dental's hosted services, which are not available in this build.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/X12/X277.cs	OD	X12 code value (OD = Doctor of Optometry)
+OpenPmsDentalBusiness/X12/X834.cs	OD	X12 code value (OD = Doctor of Optometry)
+OpenPmsDentalHelper32/QuickBooks/QuickBooksModule.cs	Open Dental	QuickBooks application name: QuickBooks authorizes an application by this name in the company file (kept; question for the owner in docs/port-notes/UI-BRAND.md)
+OpenPmsDentalServer/ServerSettings.cs	/OpenDentalServer	Middle Tier URL path that the clients call (protocol)
+PasswordVaultWrapper/CredentialStore.cs	OpenDental Middle Tier:	Windows Credential Manager target name: a storage key; changing it loses saved credentials
+ServiceManager/FormMain.cs	 (Open Dental)	Marks a Windows service of Open Dental in ServiceManager's list; a correct reference to Open Dental
+ServiceManager/FormServiceManage.cs	OpenDentalAPIService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormServiceManage.cs	OpenDentalEConnector.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormServiceManage.cs	OpenDentalReplicationService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormServiceManage.cs	OpenDentalService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.Designer.cs	OpenDentalWebConfig.xml Settings	Generated settings name or the default Middle Tier URL path; identifiers
+ServiceManager/FormWebConfigSettings.cs	OpenDentalReplicationService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.cs	OpenDentalReplicationServiceConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.cs	OpenDentalService.exe	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.cs	OpenDentalServiceConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.cs	OpenDentalWebConfig.xml	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+ServiceManager/FormWebConfigSettings.cs	opendental	Database name: the default database is still called opendental
+SharedAssemblyInfo.cs	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)
+UpdateFileCopier/FormMain.cs	\\OpenDentalReplicationService	File, folder or service name of an Open Dental program or config file that the program looks for; a name on disk, not a text
+WpfControlsOD/Bridges/DemandForce.cs	Open Dental	Third-party bridge field or identifier that the vendor program expects
+WpfControlsOD/Bridges/DentalStudio.cs	UserName (clear to use OD username)	Program property description used as the key of a programproperty row in the database
+WpfControlsOD/Bridges/DexisIntegrator.cs	.FormOpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+WpfControlsOD/Bridges/Oryx.cs	/api/auth/opendental/v1/login	Third-party bridge field or identifier that the vendor program expects
+WpfControlsOD/Bridges/PracticeByNumbers.cs	http://www.opendental.com/manual/portalpracticebynumbers.html	URL of Open Dental's manual page for this bridge; flagged for the owner in docs/port-notes/UI-BRAND.md
+WpfControlsOD/Bridges/QuickBooksInProcess.cs	Open Dental	QuickBooks application name: QuickBooks authorizes an application by this name in the company file (kept; question for the owner in docs/port-notes/UI-BRAND.md)
+WpfControlsOD/Bridges/QuickBooksLateBound.cs	Open Dental	QuickBooks application name: QuickBooks authorizes an application by this name in the company file (kept; question for the owner in docs/port-notes/UI-BRAND.md)
+WpfControlsOD/Bridges/Sirona.cs	OpenDental	Third-party bridge field or identifier that the vendor program expects
+WpfControlsOD/Bridges/Vipersoft.cs	OpenDental|	Third-party bridge field or identifier that the vendor program expects
+WpfControlsOD/UI/Controls/Supplemental/PopupHelper2.cs	OpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
+installer/OpenPmsDental.iss	  ConfigPage.Values[1] := ExpandConstant('{param:DBNAME|opendental}');	Database name: the default database is still called opendental
+installer/OpenPmsDental.iss	  opendental, opmsd), which would replace	Setup script comment, not shown
+installer/OpenPmsDental.iss	;   /DBNAME=name        database. Default opendental.	Setup script comment, not shown
+installer/OpenPmsDental.iss	; A new id of our own: this setup never upgrades or removes an Open Dental installation.	Setup script comment, not shown
+installer/OpenPmsDental.iss	; Never Open Dental's folder. The release	Setup script comment, not shown
+installer/OpenPmsDental.iss	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)
+installer/OpenPmsDental.iss	contributors; a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)
+installer/OpenPmsDental.iss	switch-over (adopting an Open Dental database) is not part of	Setup script comment, not shown
+installer/setup-info.txt	PMS - Dental is a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)

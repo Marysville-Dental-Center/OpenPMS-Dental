@@ -74,7 +74,7 @@ namespace OpenPmsDental{
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(296, 20);
 			this.label2.TabIndex = 14;
-			this.label2.Text = "View X-Charge transactions with no payment in OD.";
+			this.label2.Text = "View X-Charge transactions not paid in Open PMS.";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label3
@@ -84,7 +84,7 @@ namespace OpenPmsDental{
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(288, 20);
 			this.label3.TabIndex = 14;
-			this.label3.Text = "View payments in OD with no X-Charge transaction.";
+			this.label3.Text = "View Open PMS payments not found in X-Charge.";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// label4

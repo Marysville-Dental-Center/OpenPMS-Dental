@@ -342,7 +342,7 @@ namespace OpenPmsDental {
 			//Dump the entire query history into the log file.
 			try{
 			OpenPmsDentalBusiness.FileIO.FileAtoZ.WriteAllTextRelative(logFolderPath,logFileName,
-				$"Query Monitor Log - {DateTime.Now.ToString()}, OD User: {Security.CurUser.UserName}, Computer: {ODEnvironment.MachineName}\r\n"+
+				$"Query Monitor Log - {DateTime.Now.ToString()}, Open PMS User: {Security.CurUser.UserName}, Computer: {ODEnvironment.MachineName}\r\n"+
 				$"{string.Join("\r\n",_dictionaryQueries.Values.Where(x => !IsFiltered(x)).Select(x => x.ToString()))}");
 			}
 			catch(Exception ex) {
