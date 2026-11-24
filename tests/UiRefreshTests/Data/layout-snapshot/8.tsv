@@ -441,13 +441,13 @@ OpenPmsDental/Forms/FormEhrEduBrowser.Designer.cs	butPrint	801,608	75,23
 OpenPmsDental/Forms/FormEhrEduBrowser.Designer.cs	.			884,639
 OpenPmsDental/Forms/FormEhrGrowthCharts.Designer.cs	.			684,692
 OpenPmsDental/Forms/FormEhrHash.Designer.cs	textHash	192,219	361,23	
-OpenPmsDental/Forms/FormEhrHash.Designer.cs	butGererate	8,254	104,23	
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	butGererate	8,250	104,23	
 OpenPmsDental/Forms/FormEhrHash.Designer.cs	label1	8,8	299,17	
-OpenPmsDental/Forms/FormEhrHash.Designer.cs	label2	118,254	88,23	
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	label2	118,250	88,23	
 OpenPmsDental/Forms/FormEhrHash.Designer.cs	label3	129,219	57,23	
-OpenPmsDental/Forms/FormEhrHash.Designer.cs	textMessage	8,27	545,184	
-OpenPmsDental/Forms/FormEhrHash.Designer.cs	butTransmit	478,254	75,23	
-OpenPmsDental/Forms/FormEhrHash.Designer.cs	.			561,285
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	textMessage	8,27	545,180	
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	butTransmit	478,250	75,23	
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	.			561,281
 OpenPmsDental/Forms/FormEhrMeasureEventEdit.Designer.cs	textMoreInfo	204,116	316,51	
 OpenPmsDental/Forms/FormEhrMeasureEventEdit.Designer.cs	labelDateTime	130,8	68,23	
 OpenPmsDental/Forms/FormEhrMeasureEventEdit.Designer.cs	textType	204,62	316,23	

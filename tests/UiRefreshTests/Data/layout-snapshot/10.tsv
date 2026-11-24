@@ -622,14 +622,14 @@ OpenPmsDental/Forms/FormXWeb.designer.cs	label1	8,208	150,18
 OpenPmsDental/Forms/FormXWeb.designer.cs	.			408,337
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	gridMain	8,75	709,362	
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	labelWarning	8,8	709,65	
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	butCheck	8,511	75,24	
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	butCheck	8,502	75,24	
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	labelTotal	114,449	76,23	
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	labelVerified	134,476	56,23	
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	labelInvalid	138,512	52,23	
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	labelInvalid	138,503	52,23	
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	textTotal	196,449	64,23	
 OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	textVerified	196,476	64,23	
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	textInvalid	196,512	64,23	
-OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	.			725,543
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	textInvalid	196,503	64,23	
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	.			725,534
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	gridDefs	183,8	643,283	
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	label14	8,362	68,17	
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	textGuide	8,381	818,64	

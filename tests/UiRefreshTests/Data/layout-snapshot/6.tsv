@@ -140,12 +140,12 @@ OpenPmsDental/Forms/FormClaimCreate.designer.cs	gridMain	8,32	551,186
 OpenPmsDental/Forms/FormClaimCreate.designer.cs	checkShowPlansNotInUse	8,8	377,20	
 OpenPmsDental/Forms/FormClaimCreate.designer.cs	.			763,276
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	label1	427,299	44,23	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butSave	1075,334	75,25	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	gridMain	8,8	1142,287	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butSave	1075,330	75,25	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	gridMain	8,8	1142,279	
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	textOverpayTotal	477,299	64,23	
 OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	textUnderpayTotal	547,299	64,23	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butToSupplemental	533,334	97,25	
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	.			1158,367
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	butToSupplemental	533,330	97,25	
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	.			1158,363
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label1	355,269	44,23	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label2	405,300	348,32	
 OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	label3	8,322	116,34	
@@ -507,12 +507,12 @@ OpenPmsDental/Forms/FormInventorySetup.Designer.cs	butSave	369,146	75,24
 OpenPmsDental/Forms/FormInventorySetup.Designer.cs	.			452,178
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	label1	8,8	673,26	
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	_gridMain	8,36	577,518	
-OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	butOK	638,570	75,26	
+OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	butOK	638,566	75,26	
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	butAll	593,502	75,26	
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	butNone	593,532	75,26	
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	groupBox1	593,36	120,51	
 OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	checkIsFilteringZeroAmount	8,23	103,20	
-OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	.			721,604
+OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	.			721,600
 OpenPmsDental/Forms/FormJournal.designer.cs	ToolBarMain	0,0	1069,25	
 OpenPmsDental/Forms/FormJournal.designer.cs	labelDateFrom	8,33	40,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	textDateFrom	54,33	80,23	
@@ -545,7 +545,7 @@ OpenPmsDental/Forms/FormMaintHistory.Designer.cs	labelDateTo	893,8	24,23
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	textDateTo	923,8	88,23	
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	butRefresh	1017,8	75,23	
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	gridMain	8,35	1084,360	
-OpenPmsDental/Forms/FormMaintHistory.Designer.cs	gridValues	8,399	996,193	
+OpenPmsDental/Forms/FormMaintHistory.Designer.cs	gridValues	8,399	996,197	
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	butOpenAttachment	1012,399	80,40	
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	butCorrect	1012,443	80,40	
 OpenPmsDental/Forms/FormMaintHistory.Designer.cs	butPrint	8,604	75,24	

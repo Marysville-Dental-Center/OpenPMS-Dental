@@ -669,19 +669,19 @@ OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	label5	463,35	64,23
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textInstructor	533,35	120,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	label6	475,8	52,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textStudent	533,8	120,23	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	label7	173,476	84,23	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeShowingOverride	329,476	60,23	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	label7	173,468	84,23	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeShowingOverride	329,468	60,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	label8	125,441	132,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeNumberOverride	329,441	60,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeNumber	263,441	60,23	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeShowing	263,476	60,23	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	gridGrades	520,89	314,342	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textGradeShowing	263,468	60,23	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	gridGrades	520,89	314,340	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	textDate	263,8	120,23	
 OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	butStudentPicker	659,8	24,23	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	gridCriterion	8,89	504,342	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	butSave	759,476	75,24	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	butDelete	8,476	75,24	
-OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	.			842,508
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	gridCriterion	8,89	504,340	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	butSave	759,468	75,24	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	butDelete	8,468	75,24	
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	.			842,500
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	textCarrier	240,57	180,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label2	162,57	72,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label1	454,84	128,23	
@@ -689,21 +689,21 @@ OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboFeeSchedWithout	588,84	228,2
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label3	134,8	682,18	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboFeeSchedWith	588,57	228,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label4	474,57	108,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboFeeSchedNew	337,682	228,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	label5	223,682	108,23	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboFeeSchedNew	337,674	228,23	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	label5	223,674	108,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	textCarrierNot	240,84	180,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label6	138,84	96,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	listType	8,8	120,99	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	butSelectAll	8,682	75,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	gridMain	8,115	808,524	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	butChangeFeeSchedule	571,682	74,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	butPrint	89,682	87,23	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	butSelectAll	8,674	75,23	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	gridMain	8,115	808,520	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	butChangeFeeSchedule	571,674	74,23	
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	butPrint	89,674	87,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboInsPlanTypeWith	588,30	228,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	comboInsPlanType	337,647	228,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label7	187,647	144,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	butChangeInsPlanType	571,647	74,23	
 OpenPmsDental/Forms/FormFeesForIns.designer.cs	label8	438,30	144,23	
-OpenPmsDental/Forms/FormFeesForIns.designer.cs	.			824,713
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	.			824,705
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	checkEnabled	142,8	164,20	
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	labelDescription	8,32	616,48	
 OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	checkUseSandbox	142,82	381,20	

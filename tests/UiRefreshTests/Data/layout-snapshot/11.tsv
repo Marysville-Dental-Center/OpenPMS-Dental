@@ -54,14 +54,14 @@ OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butDown	609,148	25,24
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butUp	578,148	25,24	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	butAutoNoteResp	578,176	113,24	
 OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	.			699,479
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	butSave	781,539	75,24	
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	butSave	781,531	75,24	
 OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	gridMain	8,8	848,484	
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	comboStatusTextMessagedConfirm	226,539	233,23	
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	label6	8,539	212,23	
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	comboStatusTextMessagedConfirm	226,531	233,23	
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	label6	8,531	212,23	
 OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	comboStatusEmailedConfirm	226,504	233,23	
 OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	label5	8,504	212,23	
 OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	checkGroupFamilies	752,505	104,20	
-OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	.			864,571
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	.			864,563
 OpenPmsDental/Forms/FormCvx.designer.cs	textCode	146,8	400,23	
 OpenPmsDental/Forms/FormCvx.designer.cs	label1	8,8	132,23	
 OpenPmsDental/Forms/FormCvx.designer.cs	gridMain	8,39	945,637	
