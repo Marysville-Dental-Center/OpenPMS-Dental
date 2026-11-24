@@ -667,6 +667,17 @@ namespace UiRefreshTests {
 				SetDashboardSetupMode(root);
 				return root;
 			}
+			//UI-CAL fix round: FormJournal's two calendars as its date buttons show them (ToggleCalendars: both on the date boxes' dates, today
+			//when empty), and FormRpUnearnedIncome's Line Item page with its two calendars.
+			if(window=="OpenPmsDental.FormJournal" && state=="calendars") {
+				Form form=root.FindForm()??(Form)root;
+				form.GetType().GetMethod("ToggleCalendars",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(form,null);
+				return root;
+			}
+			if(window=="OpenPmsDental.FormRpUnearnedIncome" && state=="lineitem") {
+				SelectTabPage(root,"tabControlMain","tabPageLineItemUnearned");
+				return root;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
 		}
 
