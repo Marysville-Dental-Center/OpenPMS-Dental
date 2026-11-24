@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSend.Icon = OpenPmsDental.UI.EnumIcons.Send;
 			this.butSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSend.Location = new System.Drawing.Point(310,70);
+			this.butSend.Location = new System.Drawing.Point(310,78);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(86,24);
 			this.butSend.TabIndex = 131;
@@ -66,7 +66,7 @@ namespace OpenPmsDental{
 			// FormClaimResend
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(408,102);
+			this.ClientSize = new System.Drawing.Size(408,110);
 			this.Controls.Add(this.butSend);
 			this.Controls.Add(this.radioClaimReplacement);
 			this.Controls.Add(this.radioClaimOriginal);

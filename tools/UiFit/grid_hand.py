@@ -441,6 +441,91 @@ class Box:
         return hh
 
 
+# UI-12F: the controls whose height a bar's section gap may take (they show rows or text and scroll): grids, lists, trees, notes, browsers.
+STRETCH_HINTS = ("Grid", "ListBox", "ListView", "TreeView", "WebView", "RichTextBox", "ODtextBox", "TextBox", "ListOD", "SplitContainer")
+BAR_RULE = "the bottom bar a section gap (12 px) under the content (UI-12F)"
+
+
+def bar_section_gap(hand):
+    """UI-12F (the final consistency pass): the window's bottom bar stands the section gap (12 px, UI-12.md section 1) or more under the
+    content above it, as GridRulesTests checks it (GetBarGap): the bar is the row of the lowest buttons anchored to the bottom and not the top
+    (or named OK, Save, Cancel or Close), the buttons and bottom-anchored controls that start on that row (a Delete button, a note or check
+    box beside them) and a caption ending 0 to 4 px over one of them; a row the bar shares with other controls (a field row with Save
+    beside it, a list or group beside a column of buttons) is no bottom bar. The content is every other shown control that ends above the
+    bar's top. Where the gap is less (many scripts put the bar 8 px under a grid
+    or a group, the sibling gap), the content that ends less than 12 px over the bar takes it: a grid, list or note gets shorter by what it
+    lacks (it scrolls); anything else (a group, a tab control, a panel, a check box, a button) keeps its height, and the bar and what stands
+    beside it move down by the most it lacks, the window taller by as much (a window never shrinks). One rule for every window: a script
+    with KEEP_BAR_GAP = True keeps its own."""
+    t = hand.tree
+    kids = [c for c in t.children if c.dock in ("None", "") and c.nw > 0 and c.nh > 0]
+    shown = [c for c in kids if c.visible]
+    hh = t.nh
+    buttons = [c for c in shown if c.kind == "button" and (c.anchored_bottom_only or c.name in g.DIALOG_NAMES)]
+    if not buttons:
+        return
+    lowest = max(buttons, key=lambda c: c.ny + c.nh)
+    over = lambda a, b: min(a.ny + a.nh, b.ny + b.nh) - max(a.ny, b.ny) > 4
+    row = [c for c in buttons if over(c, lowest)]
+    y_row = min(c.ny for c in row)
+    bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row)
+                                            and (c.kind == "button" or c.anchored_bottom_only))]
+    # the bottom-anchored rows of labels, fields and check boxes stacked on the bar (8 px or less over it: FormConfirmationSetup's two
+    # status rows; a second row of bar buttons on the first's columns: FormRpTreatmentFinder) move with it: one bottom block (another
+    # button or a list over the bar is content: FormReconcileAllergy's Remove Selected)
+    while True:
+        y_top = min(c.ny for c in bar)
+        more = [c for c in shown if c not in bar and c.anchored_bottom_only and c.nh <= 30
+                and (c.kind != "button" or any(b.kind == "button" and (abs(b.nx - c.nx) <= 1 or abs(b.nx + b.nw - c.nx - c.nw) <= 1) for b in bar))
+                and 0 <= y_top - (c.ny + c.nh) <= GRID["sibling_gap"]]
+        if not more:
+            break
+        bar += more
+    # a control the bar's row shares with content (a field row with Save beside it, a list or group beside a column of buttons that ends
+    # at the window's bottom): no bottom bar of its own
+    if any(c not in bar and any(over(c, b) for b in bar) for c in shown):
+        return
+    # a caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
+    # Write-off) belongs to the bar and moves with it
+    bar += [c for c in shown if c.kind == "label" and c not in bar
+            and any(b.kind == "button" and 0 <= b.ny - (c.ny + c.nh) <= 4 and min(c.nx + c.nw, b.nx + b.nw) - max(c.nx, b.nx) > 0
+                    for b in bar)]
+    y_bar = min(c.ny for c in bar)
+    above = [c for c in shown if c not in bar and c.ny + c.nh <= y_bar]
+    low = [c for c in above if c.ny + c.nh > y_bar - GRID["section_gap"]]
+    if not low:
+        return
+    need = {id(c): c.ny + c.nh - (y_bar - GRID["section_gap"]) for c in low}
+    stretch = all(any(s in c.type.split(".")[-1] for s in STRETCH_HINTS) and c.kind == "other"
+                  and (c.multiline or "TextBox" not in c.type) and c.nh - need[id(c)] >= 2 * hand.H for c in low)
+    if stretch:
+        for c in low:
+            _put(hand, c, h=c.nh - need[id(c)])
+        return
+    dy = max(need.values())
+    for c in kids:
+        if c in above:
+            continue
+        if c.ny >= y_bar or c in bar:
+            _put(hand, c, y=c.ny + dy)  # the bar's row (shown or hidden)
+        elif c.ny + c.nh > y_bar and c.anchor & 1 and c.anchor & 2:
+            _put(hand, c, h=c.nh + dy)  # beside the bar, down to the window's bottom
+        elif c.ny + c.nh > y_bar and c.anchored_bottom_only:
+            _put(hand, c, y=c.ny + dy)
+    _put(hand, t, h=hh + dy)
+
+
+def _put(hand, n, y=None, h=None):
+    """Places a node as Hand.set does (by the node: a name may be another control's too); its rule stays the script's when it set it."""
+    if y is not None:
+        n.ny = int(y)
+    if h is not None:
+        n.nh = int(h)
+        hand.sized.add(id(n))
+    hand.touched[id(n)] = n
+    hand.why.setdefault(id(n), BAR_RULE)
+
+
 def load_script(window_simple, window=None):
     """hand/<class>.py; UI-12 slice 12: hand/<namespace>.<class>.py first when it exists (two exes' Form1: xCrudGenerator.Form1.py,
     DocumentationBuilder.Form1.py)."""
@@ -484,6 +569,8 @@ def run(tree_path, window_simple, part=None):
     hand = Hand(window, tree, designer)
     mod = load_script(window_simple, window)
     mod.layout(hand)
+    if not part and not getattr(mod, "KEEP_BAR_GAP", False):
+        bar_section_gap(hand)
     return hand, designer
 
 

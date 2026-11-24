@@ -191,7 +191,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 286);
+			this.butDelete.Location = new System.Drawing.Point(8, 290);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(75, 26);
 			this.butDelete.TabIndex = 8;
@@ -201,7 +201,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(373, 286);
+			this.butSave.Location = new System.Drawing.Point(373, 290);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 6;
@@ -227,7 +227,7 @@ namespace OpenPmsDental {
 			// 
 			// FormJournalEntryEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(456, 320);
+			this.ClientSize = new System.Drawing.Size(456, 324);
 			this.Controls.Add(this.textNotes);
 			this.Controls.Add(this.labelNotes);
 			this.Controls.Add(this.textPayee);

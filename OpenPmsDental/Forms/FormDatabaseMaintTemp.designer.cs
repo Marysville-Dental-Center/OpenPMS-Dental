@@ -108,7 +108,7 @@ namespace OpenPmsDental{
 			this.textResults.Multiline = true;
 			this.textResults.Name = "textResults";
 			this.textResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textResults.Size = new System.Drawing.Size(717, 440);
+			this.textResults.Size = new System.Drawing.Size(717, 436);
 			this.textResults.TabIndex = 11;
 			// 
 			// groupBox1

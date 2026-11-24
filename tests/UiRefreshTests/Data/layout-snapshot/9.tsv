@@ -432,14 +432,14 @@ OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	butImport	173,35	69,23
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	textDescription	91,8	384,23	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	textDocNum	91,35	76,23	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	textTaskNum	91,62	76,23	
-OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	textValue	8,110	1214,546	
+OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	textValue	8,110	1214,542	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	labelText	8,89	66,19	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	butDelete	8,664	80,24	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	butViewDoc	323,35	69,23	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	butAttach	248,35	69,23	
 OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	.			1230,696
 OpenPmsDental/Forms/FormTaskListBlock.designer.cs	butSave	353,410	75,24	
-OpenPmsDental/Forms/FormTaskListBlock.designer.cs	treeSubscriptions	8,31	420,368	
+OpenPmsDental/Forms/FormTaskListBlock.designer.cs	treeSubscriptions	8,31	420,367	
 OpenPmsDental/Forms/FormTaskListBlock.designer.cs	butSetAll	8,411	75,23	
 OpenPmsDental/Forms/FormTaskListBlock.designer.cs	butSetNone	89,411	75,23	
 OpenPmsDental/Forms/FormTaskListBlock.designer.cs	labelTitle	8,8	116,21	
@@ -628,9 +628,9 @@ OpenPmsDental/UI/FormPrintPreview.designer.cs	printPreviewControl2	0,25	831,545
 OpenPmsDental/UI/FormPrintPreview.designer.cs	.			831,570
 OpenPmsDental/UI/ToolTipOD.Designer.cs	.			436,48
 OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	labelText	8,8	268,57	
-OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	butCancel	201,73	75,23	
-OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	butOK	118,73	75,23	
-OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	.			284,104
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	butCancel	201,77	75,23	
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	butOK	118,77	75,23	
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	.			284,108
 OpenPmsDental/User Controls/ContrFamilyEcw.Designer.cs	label1	8,8	80,23	
 OpenPmsDental/User Controls/ContrFamilyEcw.Designer.cs	comboFeeSched	94,8	200,23	
 OpenPmsDental/User Controls/ContrFamilyEcw.Designer.cs	.		933,743	

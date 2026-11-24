@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			// butCreate
 			// 
 			this.butCreate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCreate.Location = new System.Drawing.Point(928, 704);
+			this.butCreate.Location = new System.Drawing.Point(928, 708);
 			this.butCreate.Name = "butCreate";
 			this.butCreate.Size = new System.Drawing.Size(92, 24);
 			this.butCreate.TabIndex = 11;
@@ -509,7 +509,7 @@ namespace OpenPmsDental {
 			// butUndo
 			// 
 			this.butUndo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butUndo.Location = new System.Drawing.Point(8, 704);
+			this.butUndo.Location = new System.Drawing.Point(8, 708);
 			this.butUndo.Name = "butUndo";
 			this.butUndo.Size = new System.Drawing.Size(88, 24);
 			this.butUndo.TabIndex = 10;
@@ -559,7 +559,7 @@ namespace OpenPmsDental {
 			// FormBillingOptions
 			// 
 			this.AcceptButton = this.butCreate;
-			this.ClientSize = new System.Drawing.Size(1028, 736);
+			this.ClientSize = new System.Drawing.Size(1028, 740);
 			this.Controls.Add(this.labelMultiClinicGenMsg);
 			this.Controls.Add(this.checkServiceDateView);
 			this.Controls.Add(this.checkSinglePatient);

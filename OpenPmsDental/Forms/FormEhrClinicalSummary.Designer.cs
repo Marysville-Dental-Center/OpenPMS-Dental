@@ -54,7 +54,7 @@
 			this.gridEHRMeasureEvents.Location = new System.Drawing.Point(8, 183);
 			this.gridEHRMeasureEvents.Name = "gridEHRMeasureEvents";
 			this.gridEHRMeasureEvents.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridEHRMeasureEvents.Size = new System.Drawing.Size(257, 261);
+			this.gridEHRMeasureEvents.Size = new System.Drawing.Size(257, 253);
 			this.gridEHRMeasureEvents.TabIndex = 13;
 			this.gridEHRMeasureEvents.Title = "Clinical Summaries Sent to Patient";
 			this.gridEHRMeasureEvents.TranslationName = "TableSummaries";

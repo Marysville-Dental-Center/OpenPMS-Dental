@@ -47,7 +47,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.grid1.Location = new System.Drawing.Point(8, 36);
 			this.grid1.Name = "grid1";
-			this.grid1.Size = new System.Drawing.Size(475, 565);
+			this.grid1.Size = new System.Drawing.Size(475, 561);
 			this.grid1.TabIndex = 14;
 			this.grid1.Title = "Internal";
 			this.grid1.TranslationName = "TableInternal";
@@ -60,7 +60,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grid2.Location = new System.Drawing.Point(491, 36);
 			this.grid2.Name = "grid2";
-			this.grid2.Size = new System.Drawing.Size(475, 565);
+			this.grid2.Size = new System.Drawing.Size(475, 561);
 			this.grid2.TabIndex = 12;
 			this.grid2.Title = "Custom";
 			this.grid2.TranslationName = "TableCustom";

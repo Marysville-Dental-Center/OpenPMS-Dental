@@ -754,12 +754,14 @@ namespace OpenPmsDental {
 		}
 
 		private void FormSheetDefEdit_Load(object sender,EventArgs e) {
+			//UI-12F: the tool column (panelRight) is 343 px wide, not main's 284, so the Fields list keeps main's width: the window adds the
+			//column and 31 px for the sheet's margin, its scroll bar and the frame to the sheet (main's 315 = 284 + 31), so the sheet keeps its room.
 			if(SheetDef_.IsLandscape){
-				Width=LayoutManager.Scale(SheetDef_.Height+315);
+				Width=LayoutManager.Scale(SheetDef_.Height+374);
 				Height=LayoutManager.Scale(SheetDef_.Width+65);
 			}
 			else{
-				Width=LayoutManager.Scale(SheetDef_.Width+315);
+				Width=LayoutManager.Scale(SheetDef_.Width+374);
 				Height=LayoutManager.Scale(SheetDef_.Height+65);
 			}
 			if(Width<LayoutManager.Scale(600)){

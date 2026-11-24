@@ -484,7 +484,7 @@ namespace OpenPmsDental {
 			// butDelete
 			//
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
-			this.butDelete.Location = new System.Drawing.Point(8, 576);
+			this.butDelete.Location = new System.Drawing.Point(8, 580);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(80, 24);
 			this.butDelete.TabIndex = 22;
@@ -493,7 +493,7 @@ namespace OpenPmsDental {
 			//
 			// butSave
 			//
-			this.butSave.Location = new System.Drawing.Point(817, 576);
+			this.butSave.Location = new System.Drawing.Point(817, 580);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 23;
@@ -502,7 +502,7 @@ namespace OpenPmsDental {
 			//
 			// FormMaintItemEdit
 			//
-			this.ClientSize = new System.Drawing.Size(900, 608);
+			this.ClientSize = new System.Drawing.Size(900, 612);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.butFieldDown);

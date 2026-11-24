@@ -217,7 +217,7 @@ namespace OpenPmsDental {
 			this.textSQL.Multiline = true;
 			this.textSQL.Name = "textSQL";
 			this.textSQL.ReadOnly = true;
-			this.textSQL.Size = new System.Drawing.Size(826, 133);
+			this.textSQL.Size = new System.Drawing.Size(826, 129);
 			this.textSQL.TabIndex = 42;
 			// 
 			// FormRpReferrals

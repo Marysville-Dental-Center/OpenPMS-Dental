@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
+using UiRefreshTests.LayoutSnapshot;
 using UiRefreshTests.Scan;
 using UiRefreshTests.TextFit;
 
@@ -357,6 +358,44 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-12F: the report designer's PropertyDialog (AutoScaleMode None, in a per-monitor aware exe) scales itself and the property
+		///pages it hosts by the screen's dpi once they are added (ScaleToDpi): at 144 dpi its client area and a page's controls are 1.5 times
+		///their 96 dpi bounds (at 150% their text was cut: 'Nam', 'Alignm'); at 96 dpi nothing changes. The harness knows its pages
+		///(BuiltWindow.IsPropertyDialogPage) and draws them scaled only on a build whose dialog scales them.</summary>
+		[TestMethod]
+		public void PropertyDialog_ScalesItsPagesByTheDpi() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				ScanType scanTypePage=WindowBuilder.GetScanTypes().First(x => x.WindowKey=="fyiReporting.RdlDesign.ReportParameterCtl");
+				Assert.IsTrue(BuiltWindow.IsPropertyDialogPage(scanTypePage.Type),"ReportParameterCtl is one of PropertyDialog's pages.");
+				Assert.IsFalse(BuiltWindow.IsPropertyDialogPage(typeof(UserControl)));
+				Assert.IsTrue(BuiltWindow.PropertyDialogScalesPages(scanTypePage.Type.Assembly),"This build's PropertyDialog scales its pages.");
+				Type typeDialog=scanTypePage.Type.Assembly.GetType("fyiReporting.RdlDesign.PropertyDialog");
+				System.Reflection.MethodInfo methodAddTab=typeDialog.GetMethod("AddTab",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+				System.Reflection.MethodInfo methodScale=typeDialog.GetMethod("ScaleToDpi",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+				System.Reflection.FieldInfo fieldPanels=typeDialog.GetField("_TabPanels",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+				foreach(int dpi in new int[] { 96,144 }) {
+					using(Form form=(Form)WindowBuilder.CreateBare(typeDialog,typeof(Form)))
+					using(UserControl page=(UserControl)WindowBuilder.CreateBare(scanTypePage.Type,typeof(UserControl)))
+					{
+						fieldPanels.SetValue(form,new List<UserControl>());//a field initializer: CreateBare runs no constructor of the dialog's own
+						methodAddTab.Invoke(form,new object[] { "Parameters",page });
+						Size sizeClient=form.ClientSize;
+						Control controlInPage=page.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && x is Button && !x.AutoSize)
+							.OrderBy(x => x.Name,StringComparer.Ordinal).First();//a button: its size is its bounds (a text box takes its height from its font)
+						Rectangle rectangle=controlInPage.Bounds;
+						methodScale.Invoke(null,new object[] { form,dpi });
+						float factor=dpi/96f;
+						Assert.IsTrue(Math.Abs(form.ClientSize.Width-sizeClient.Width*factor)<=1 && Math.Abs(form.ClientSize.Height-sizeClient.Height*factor)<=1,
+							"dpi "+dpi+": the client area "+sizeClient+" -> "+form.ClientSize);
+						Assert.IsTrue(Math.Abs(controlInPage.Left-rectangle.Left*factor)<=1 && Math.Abs(controlInPage.Top-rectangle.Top*factor)<=1
+							&& Math.Abs(controlInPage.Width-rectangle.Width*factor)<=1 && Math.Abs(controlInPage.Height-rectangle.Height*factor)<=1,
+							"dpi "+dpi+": "+controlInPage.Name+" "+rectangle+" -> "+controlInPage.Bounds);
+					}
+				}
+			});
+		}
+
 		[TestMethod]
 		public void InputFrame_SingleLineODtextBox_IsFramed() {
 			StaRunner.Run(() => {
@@ -393,6 +432,10 @@ namespace UiRefreshTests {
 			List<string[]> listRuntimeTexts=ReadRuntimeTexts();
 			List<string> listFindings=new List<string>();
 			List<string> listFailed=new List<string>();
+			//UI-12F: OPMS_UI_GRID_BAR_GAPS names a file for every window's bar gap as this test reads it (window, gap, the control above, the
+			//bar's first control, the root's client size): the record of the final consistency pass.
+			string pathBarGaps=Environment.GetEnvironmentVariable("OPMS_UI_GRID_BAR_GAPS");
+			List<string> listBarGaps=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
@@ -412,6 +455,7 @@ namespace UiRefreshTests {
 							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType) || !(root.FindForm() is FormODBase));//slice 13: the report designer's and ODR's windows are no FormODBase either
 							CheckColumns(gridWindow,root,listFindings);
 							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
+							CheckBarGap(gridWindow,root,GridDump.GetStoredAnchors(builtWindow.LayoutManager),listFindings,listBarGaps);
 						}
 					}
 					catch(Exception exception) {
@@ -423,6 +467,9 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			if(!string.IsNullOrEmpty(pathBarGaps)) {
+				File.WriteAllLines(pathBarGaps,listBarGaps);
+			}
 			Assert.AreEqual(0,listFailed.Count,"Windows that could not be built: "+string.Join("; ",listFailed));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();
 			List<string> listGone=hashSetKnown.Where(x => !listFindings.Contains(x)).ToList();
@@ -581,9 +628,8 @@ namespace UiRefreshTests {
 					}
 					//UI-12 slice 9 fix round: the label's text is centred on its field (the vertical centres within 1 px). The planner centred
 					//FormTaskListEdit's Date box on the two-line note beside it and left the label 4 px higher, its text over the box's centre.
-					//From slice 9 on: 14 labels of the pilot and slices 1, 2 and 5 stand 2 to 4 px off their fields (UI-12.md, "Slice 9, fix
-					//round"), left to those slices' owners; slice 8 ran at the same time.
-					if(IsLabelCentreChecked(gridWindow.Slice) && Math.Abs(CenterY(field)-CenterY(label))>1) {
+					//UI-12F (the final consistency pass): in every slice, the pilot's and slices 1 to 8's too (their 15 labels fixed).
+					if(Math.Abs(CenterY(field)-CenterY(label))>1) {
 						listFindings.Add(window+"\tlabel-centre\t"+label.Name+" "+field.Name);
 					}
 				}
@@ -608,6 +654,118 @@ namespace UiRefreshTests {
 					}
 				}
 			}
+		}
+
+		///<summary>UI-12F (the final consistency pass): the window's bottom bar stands a section gap (12 px, UI-12.md section 1) or more under
+		///the content above it; many scripts put it 8 px under (the sibling gap). More is allowed: a window that keeps main's size shares the
+		///room it does not fill out as equal gaps, the one over the bar too. The anchors are the designer's as the window's LayoutManager
+		///stores them (it leaves every control at Top|Left: GridDump.GetStoredAnchors); a window without one keeps its controls' own.</summary>
+		private static void CheckBarGap(GridWindow gridWindow,Control root,Dictionary<Control,AnchorStyles> dictAnchors,List<string> listFindings,List<string> listBarGaps) {
+			List<Control> listKids=root.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+			Func<Control,AnchorStyles> funcAnchor=x => dictAnchors.TryGetValue(x,out AnchorStyles anchorStyles) ? anchorStyles : x.Anchor;
+			int? gapBar=GetBarGap(listKids,funcAnchor,out Control controlAbove,out Control controlBar);
+			listBarGaps.Add(gridWindow.Window+"\t"+gapBar+"\t"+controlAbove?.Name+" "+controlAbove?.Bounds+"\t"+controlBar?.Name+" "+controlBar?.Bounds+"\t"+root.ClientSize);
+			if(gapBar is int gap && gap<UiGrid.SECTION_GAP) {
+				listFindings.Add(gridWindow.Window+"\tbar-gap\t"+controlAbove.Name+" "+controlBar.Name);
+				ListTextDetails.Add(gridWindow.Window+" bar gap "+gap+" px between "+controlAbove.Name+" and "+controlBar.Name);
+			}
+		}
+
+		///<summary>UI-12F: the gap between the window's bottom bar and the lowest control above it, null when the window has no bar. The bar is
+		///the row of the lowest buttons anchored to the bottom and not the top (or named OK, Save, Cancel or Close), the buttons and
+		///bottom-anchored controls that start on that row (a Delete button, a note or check box beside the buttons) and a caption over one of
+		///them; a row it shares with other controls is no bottom bar. grid_hand.bar_section_gap reads it the same way. The
+		///content is every other control that ends above the bar's top (a list beside the bar, down to the window's bottom, is no content
+		///above it).</summary>
+		public static int? GetBarGap(List<Control> listKids,Func<Control,AnchorStyles> funcAnchor,out Control controlAbove,out Control controlBar) {
+			controlAbove=null;
+			controlBar=null;
+			string[] arrayDialogNames=new string[] { "butOK","butSave","butCancel","butClose" };
+			List<Control> listButtons=listKids.Where(x => IsAnyButton(x) && ((funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+				|| arrayDialogNames.Contains(x.Name))).ToList();
+			if(listButtons.Count==0) {
+				return null;
+			}
+			Control controlLowest=listButtons.OrderByDescending(x => x.Bottom).First();
+			List<Control> listRow=listButtons.Where(x => Math.Min(x.Bottom,controlLowest.Bottom)-Math.Max(x.Top,controlLowest.Top)>4).ToList();
+			int yRow=listRow.Min(x => x.Top);
+			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)
+				&& (IsAnyButton(x) || (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom))).ToList();
+			//The bottom-anchored rows of labels, fields and check boxes stacked on the bar (8 px or less over it: FormConfirmationSetup's two status
+			//rows; a second row of bar buttons on the first's columns: FormRpTreatmentFinder) are one bottom block with it; another button or a
+			//list over the bar is content (FormReconcileAllergy's Remove Selected).
+			while(true) {
+				int yTop=listBar.Min(x => x.Top);
+				List<Control> listMore=listKids.Where(x => !listBar.Contains(x) && (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+					&& x.Height<=30 && (!IsAnyButton(x) || listBar.Any(y => IsAnyButton(y) && (Math.Abs(y.Left-x.Left)<=1 || Math.Abs(y.Right-x.Right)<=1)))
+					&& yTop-x.Bottom>=0 && yTop-x.Bottom<=UiGrid.SIBLING_GAP).ToList();
+				if(listMore.Count==0) {
+					break;
+				}
+				listBar.AddRange(listMore);
+			}
+			//A row the bar shares with other controls (FormDisplayFieldEdit's Column Width row with Save beside it, a list or group beside a column
+			//of buttons that ends at the window's bottom: FormCounties, FormRpOutstandingIns) is no bottom bar.
+			if(listKids.Any(x => !listBar.Contains(x) && listBar.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4))) {
+				return null;
+			}
+			//A caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
+			//Write-off) belongs to the bar: the gap is the one over the caption.
+			listBar.AddRange(listKids.Where(x => x is Label && !listBar.Contains(x) && listBar.Any(y => IsAnyButton(y) && y.Top-x.Bottom>=0 && y.Top-x.Bottom<=4
+				&& Math.Min(x.Right,y.Right)-Math.Max(x.Left,y.Left)>0)).ToList());
+			int yBar=listBar.Min(x => x.Top);
+			controlBar=listBar.OrderBy(x => x.Top).ThenBy(x => x.Left).First();
+			controlAbove=listKids.Where(x => !listBar.Contains(x) && x.Width>0 && x.Height>0 && x.Bottom<=yBar)
+				.OrderByDescending(x => x.Bottom).ThenBy(x => x.Name,StringComparer.Ordinal).FirstOrDefault();
+			if(controlAbove==null) {
+				return null;
+			}
+			return yBar-controlAbove.Bottom;
+		}
+
+		private static bool IsAnyButton(Control control) {
+			return control is System.Windows.Forms.Button || control.GetType().FullName=="OpenPmsDental.UI.Button";
+		}
+
+		///<summary>UI-12F (the final consistency pass; the lead's decision at slice 6, "a window never shrinks"): every designer file a slice owns
+		///(the grid windows' and the user controls laid out with them) is at least main's size before UI-12 (Data\grid-main-sizes.tsv: the window's
+		///or user control's ClientSize or Size in the layout snapshot of 79d92c89b, the last main before the pilot merged), in both directions.
+		///A window whose code sets its width or height (code_sized) is held to the other direction only. The sizes are read from the designer
+		///files as the layout snapshot reads them.</summary>
+		[TestMethod]
+		public void GridWindows_NeverShrink() {
+			Dictionary<string,string[]> dictMain=new Dictionary<string,string[]>();
+			foreach(string line in File.ReadAllLines(Path.Combine(RepoPaths.Root(),"tests","UiRefreshTests","Data","grid-main-sizes.tsv"))) {
+				if(line=="" || line.StartsWith("#") || line.StartsWith("file\t")) {
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(4,arrayFields.Length,"grid-main-sizes.tsv needs file, size, code_sized and why: "+line);
+				Assert.IsTrue(arrayFields[2]=="" || arrayFields[2]=="width" || arrayFields[2]=="height","code_sized is empty, width or height: "+line);
+				Assert.AreEqual(arrayFields[2]=="",arrayFields[3]=="","A code-sized row says why, and only such a row: "+line);
+				dictMain[arrayFields[0]]=arrayFields;
+			}
+			SliceData.SnapshotOwners snapshotOwners=SliceData.SnapshotOwners.FromData();
+			List<string> listProblems=new List<string>();
+			int countChecked=0;
+			foreach(LayoutSnapshotRow row in LayoutSnapshotBuilder.Build(RepoPaths.Root()).Where(x => x.Control==".")) {
+				if(snapshotOwners.Owner(row.File)==SliceData.UNSLICED || !dictMain.TryGetValue(row.File,out string[] arrayMain)) {
+					continue;
+				}
+				string sizeNow=row.ClientSize!="" ? row.ClientSize : row.Size;
+				int[] arrayNow=sizeNow.Split(',').Select(int.Parse).ToArray();
+				int[] arrayWas=arrayMain[1].Split(',').Select(int.Parse).ToArray();
+				countChecked++;
+				if((arrayNow[0]<arrayWas[0] && arrayMain[2]!="width") || (arrayNow[1]<arrayWas[1] && arrayMain[2]!="height")) {
+					listProblems.Add(row.File+" "+sizeNow+" (main "+arrayMain[1]+")");
+				}
+			}
+			Assert.IsTrue(countChecked>=900,"The grid windows' designer files: "+countChecked);
+			foreach(string[] arrayMain in dictMain.Values.Where(x => x[2]!="")) {
+				Assert.AreNotEqual(SliceData.UNSLICED,snapshotOwners.Owner(arrayMain[0]),"A code-sized row is a grid window's: "+arrayMain[0]);
+			}
+			Assert.AreEqual(0,listProblems.Count,"Grid windows smaller than on main before UI-12 (a window never shrinks):"+Environment.NewLine
+				+string.Join(Environment.NewLine,listProblems));
 		}
 
 		///<summary>Fields named by a label on their row share one left edge with the fields of other rows, group boxes and tab pages whose left edge
@@ -681,11 +839,6 @@ namespace UiRefreshTests {
 					yield return control2;
 				}
 			}
-		}
-
-		///<summary>UI-12 slice 9 fix round: the label-centre rule holds in the windows of slice 9 and later slices.</summary>
-		private static bool IsLabelCentreChecked(string slice) {
-			return int.TryParse(slice,out int number) && number>=9;
 		}
 
 		private static int CenterY(Control control) {

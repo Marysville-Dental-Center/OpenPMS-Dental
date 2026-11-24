@@ -405,6 +405,20 @@ namespace CodeBase {
 			return control!=null && _table.TryGetValue(control,out _);
 		}
 
+		///<summary>UI-12F: true when the button's designer gives it its own colours for a text (FormInstallAllocator_Provider's maroon REPORTS
+		///header with white text, and its report buttons in maroon on white): not the visual-style back colour, an opaque back colour other than
+		///the control colours, and a fore colour other than the control text colour. Drawn in those colours, like a swatch with its text (the
+		///program's button look under a white text hid it once the allocator windows got their LayoutManager).</summary>
+		public static bool IsOwnColours(System.Windows.Forms.Button button) {
+			if(button.UseVisualStyleBackColor || string.IsNullOrEmpty(button.Text) || button.BackColor.A<255) {
+				return false;
+			}
+			int argbBack=button.BackColor.ToArgb();
+			int argbFore=button.ForeColor.ToArgb();
+			return argbBack!=SystemColors.Control.ToArgb() && argbBack!=SystemColors.ButtonFace.ToArgb()
+				&& argbFore!=SystemColors.ControlText.ToArgb() && argbFore!=Color.Black.ToArgb();
+		}
+
 		///<summary>True when the button shows its own colour (a colour swatch, a handle): no icon or text, not the visual-style back colour, and an
 		///opaque colour other than the control colours.</summary>
 		public static bool IsSwatch(System.Windows.Forms.Button button) {
@@ -455,7 +469,7 @@ namespace CodeBase {
 				g.FillRectangle(brush,rectangle);
 			}
 			Color colorText;
-			if(IsSwatch(button)) {
+			if(IsSwatch(button) || IsOwnColours(button)) {
 				UiControlPaint.Fill(g,button.BackColor,rectangle,UiTheme.CORNER_CONTROL,scale);
 				EnumUiColor uiColorEdge=buttonState==EnumUiButtonState.Disabled ? EnumUiColor.Stroke
 					: (buttonState==EnumUiButtonState.Normal ? EnumUiColor.StrokeStrong : EnumUiColor.StrokeStrongHover);

@@ -212,7 +212,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridGrades.Location = new System.Drawing.Point(520, 89);
 			this.gridGrades.Name = "gridGrades";
-			this.gridGrades.Size = new System.Drawing.Size(314, 342);
+			this.gridGrades.Size = new System.Drawing.Size(314, 340);
 			this.gridGrades.TabIndex = 150;
 			this.gridGrades.Title = "Grading Scale";
 			this.gridGrades.TranslationName = "FormEvaluationDefEdit";
@@ -241,7 +241,7 @@ namespace OpenPmsDental{
 			this.gridCriterion.Location = new System.Drawing.Point(8, 89);
 			this.gridCriterion.Name = "gridCriterion";
 			this.gridCriterion.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridCriterion.Size = new System.Drawing.Size(504, 342);
+			this.gridCriterion.Size = new System.Drawing.Size(504, 340);
 			this.gridCriterion.TabIndex = 143;
 			this.gridCriterion.Title = "Criterion";
 			this.gridCriterion.TranslationName = "FormEvaluationDefEdit";

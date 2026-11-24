@@ -125,9 +125,9 @@ namespace OpenPmsDental{
 			// 
 			// butAlignTop
 			// 
-			this.butAlignTop.Location = new System.Drawing.Point(203, 23);
+			this.butAlignTop.Location = new System.Drawing.Point(245, 23);
 			this.butAlignTop.Name = "butAlignTop";
-			this.butAlignTop.Size = new System.Drawing.Size(57, 24);
+			this.butAlignTop.Size = new System.Drawing.Size(71, 24);
 			this.butAlignTop.TabIndex = 88;
 			this.butAlignTop.TabStop = false;
 			this.butAlignTop.Text = "Top";
@@ -136,7 +136,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(204, 928);
+			this.butSave.Location = new System.Drawing.Point(263, 928);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(72, 24);
 			this.butSave.TabIndex = 3;
@@ -151,7 +151,7 @@ namespace OpenPmsDental{
 			this.groupBoxSubViews.Controls.Add(this.comboLanguages);
 			this.groupBoxSubViews.Location = new System.Drawing.Point(8, 733);
 			this.groupBoxSubViews.Name = "groupBoxSubViews";
-			this.groupBoxSubViews.Size = new System.Drawing.Size(268, 78);
+			this.groupBoxSubViews.Size = new System.Drawing.Size(327, 78);
 			this.groupBoxSubViews.TabIndex = 100;
 			this.groupBoxSubViews.Text = "Language";
 			// 
@@ -159,7 +159,7 @@ namespace OpenPmsDental{
 			// 
 			this.checkSynchMatchedFields.Location = new System.Drawing.Point(8, 23);
 			this.checkSynchMatchedFields.Name = "checkSynchMatchedFields";
-			this.checkSynchMatchedFields.Size = new System.Drawing.Size(252, 20);
+			this.checkSynchMatchedFields.Size = new System.Drawing.Size(311, 20);
 			this.checkSynchMatchedFields.TabIndex = 3;
 			this.checkSynchMatchedFields.Text = "Sync matched fields";
 			this.checkSynchMatchedFields.CheckedChanged += new System.EventHandler(this.checkSynchMatchedFields_CheckedChanged);
@@ -168,15 +168,15 @@ namespace OpenPmsDental{
 			// 
 			this.comboLanguages.Location = new System.Drawing.Point(8, 47);
 			this.comboLanguages.Name = "comboLanguages";
-			this.comboLanguages.Size = new System.Drawing.Size(252, 23);
+			this.comboLanguages.Size = new System.Drawing.Size(311, 23);
 			this.comboLanguages.TabIndex = 2;
 			this.comboLanguages.SelectionChangeCommitted += new System.EventHandler(this.comboLanguages_SelectionChangeCommitted);
 			// 
 			// butAutoSnap
 			// 
-			this.butAutoSnap.Location = new System.Drawing.Point(204, 95);
+			this.butAutoSnap.Location = new System.Drawing.Point(230, 95);
 			this.butAutoSnap.Name = "butAutoSnap";
-			this.butAutoSnap.Size = new System.Drawing.Size(72, 24);
+			this.butAutoSnap.Size = new System.Drawing.Size(105, 24);
 			this.butAutoSnap.TabIndex = 99;
 			this.butAutoSnap.TabStop = false;
 			this.butAutoSnap.Text = "Grid Snap";
@@ -184,9 +184,9 @@ namespace OpenPmsDental{
 			// 
 			// butMobile
 			// 
-			this.butMobile.Location = new System.Drawing.Point(106, 39);
+			this.butMobile.Location = new System.Drawing.Point(119, 39);
 			this.butMobile.Name = "butMobile";
-			this.butMobile.Size = new System.Drawing.Size(90, 24);
+			this.butMobile.Size = new System.Drawing.Size(103, 24);
 			this.butMobile.TabIndex = 98;
 			this.butMobile.TabStop = false;
 			this.butMobile.Text = "Show Mobile";
@@ -200,15 +200,15 @@ namespace OpenPmsDental{
 			this.groupAlignH.Controls.Add(this.butAlignTop);
 			this.groupAlignH.Location = new System.Drawing.Point(8, 127);
 			this.groupAlignH.Name = "groupAlignH";
-			this.groupAlignH.Size = new System.Drawing.Size(268, 55);
+			this.groupAlignH.Size = new System.Drawing.Size(327, 55);
 			this.groupAlignH.TabIndex = 96;
 			this.groupAlignH.Text = "Align";
 			// 
 			// butAlignRight
 			// 
-			this.butAlignRight.Location = new System.Drawing.Point(138, 23);
+			this.butAlignRight.Location = new System.Drawing.Point(166, 23);
 			this.butAlignRight.Name = "butAlignRight";
-			this.butAlignRight.Size = new System.Drawing.Size(57, 24);
+			this.butAlignRight.Size = new System.Drawing.Size(71, 24);
 			this.butAlignRight.TabIndex = 91;
 			this.butAlignRight.TabStop = false;
 			this.butAlignRight.Text = "Right";
@@ -216,9 +216,9 @@ namespace OpenPmsDental{
 			// 
 			// butAlignCenterH
 			// 
-			this.butAlignCenterH.Location = new System.Drawing.Point(73, 23);
+			this.butAlignCenterH.Location = new System.Drawing.Point(87, 23);
 			this.butAlignCenterH.Name = "butAlignCenterH";
-			this.butAlignCenterH.Size = new System.Drawing.Size(57, 24);
+			this.butAlignCenterH.Size = new System.Drawing.Size(71, 24);
 			this.butAlignCenterH.TabIndex = 90;
 			this.butAlignCenterH.TabStop = false;
 			this.butAlignCenterH.Text = "Center";
@@ -228,7 +228,7 @@ namespace OpenPmsDental{
 			// 
 			this.butAlignLeft.Location = new System.Drawing.Point(8, 23);
 			this.butAlignLeft.Name = "butAlignLeft";
-			this.butAlignLeft.Size = new System.Drawing.Size(57, 24);
+			this.butAlignLeft.Size = new System.Drawing.Size(71, 24);
 			this.butAlignLeft.TabIndex = 89;
 			this.butAlignLeft.TabStop = false;
 			this.butAlignLeft.Text = "Left";
@@ -241,7 +241,7 @@ namespace OpenPmsDental{
 			this.textDescription.Location = new System.Drawing.Point(8, 8);
 			this.textDescription.Name = "textDescription";
 			this.textDescription.ReadOnly = true;
-			this.textDescription.Size = new System.Drawing.Size(268, 23);
+			this.textDescription.Size = new System.Drawing.Size(327, 23);
 			this.textDescription.TabIndex = 0;
 			// 
 			// groupPage
@@ -251,7 +251,7 @@ namespace OpenPmsDental{
 			this.groupPage.Controls.Add(this.butPageRemove);
 			this.groupPage.Location = new System.Drawing.Point(8, 819);
 			this.groupPage.Name = "groupPage";
-			this.groupPage.Size = new System.Drawing.Size(268, 55);
+			this.groupPage.Size = new System.Drawing.Size(327, 55);
 			this.groupPage.TabIndex = 95;
 			this.groupPage.Text = "Pages";
 			// 
@@ -304,7 +304,7 @@ namespace OpenPmsDental{
 			this.labelInternal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelInternal.Location = new System.Drawing.Point(8, 882);
 			this.labelInternal.Name = "labelInternal";
-			this.labelInternal.Size = new System.Drawing.Size(268, 34);
+			this.labelInternal.Size = new System.Drawing.Size(327, 34);
 			this.labelInternal.TabIndex = 82;
 			this.labelInternal.Text = "This is an internal sheet, so it may not be edited.  Make a copy instead.";
 			this.labelInternal.TextAlign = System.Drawing.ContentAlignment.TopLeft;
@@ -312,7 +312,7 @@ namespace OpenPmsDental{
 			// linkLabelTips
 			// 
 			this.linkLabelTips.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.linkLabelTips.Location = new System.Drawing.Point(245, 885);
+			this.linkLabelTips.Location = new System.Drawing.Point(304, 885);
 			this.linkLabelTips.Name = "linkLabelTips";
 			this.linkLabelTips.Size = new System.Drawing.Size(31, 17);
 			this.linkLabelTips.TabIndex = 93;
@@ -329,16 +329,16 @@ namespace OpenPmsDental{
 			this.listBoxFields.Location = new System.Drawing.Point(8, 209);
 			this.listBoxFields.Name = "listBoxFields";
 			this.listBoxFields.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listBoxFields.Size = new System.Drawing.Size(92, 516);
+			this.listBoxFields.Size = new System.Drawing.Size(151, 516);
 			this.listBoxFields.TabIndex = 83;
 			this.listBoxFields.SelectionChangeCommitted += new System.EventHandler(this.listFields_SelectionChangeCommitted);
 			this.listBoxFields.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listFields_MouseDoubleClick);
 			// 
 			// butPaste
 			// 
-			this.butPaste.Location = new System.Drawing.Point(106, 95);
+			this.butPaste.Location = new System.Drawing.Point(119, 95);
 			this.butPaste.Name = "butPaste";
-			this.butPaste.Size = new System.Drawing.Size(90, 24);
+			this.butPaste.Size = new System.Drawing.Size(103, 24);
 			this.butPaste.TabIndex = 91;
 			this.butPaste.TabStop = false;
 			this.butPaste.Text = "Paste Ctrl-V";
@@ -350,7 +350,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.Location = new System.Drawing.Point(8, 190);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(92, 17);
+			this.label2.Size = new System.Drawing.Size(151, 17);
 			this.label2.TabIndex = 84;
 			this.label2.Text = "Fields";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -359,7 +359,7 @@ namespace OpenPmsDental{
 			// 
 			this.butCopy.Location = new System.Drawing.Point(8, 95);
 			this.butCopy.Name = "butCopy";
-			this.butCopy.Size = new System.Drawing.Size(90, 24);
+			this.butCopy.Size = new System.Drawing.Size(103, 24);
 			this.butCopy.TabIndex = 90;
 			this.butCopy.TabStop = false;
 			this.butCopy.Text = "Copy Ctrl-C";
@@ -369,7 +369,7 @@ namespace OpenPmsDental{
 			// 
 			this.butEdit.Location = new System.Drawing.Point(8, 39);
 			this.butEdit.Name = "butEdit";
-			this.butEdit.Size = new System.Drawing.Size(90, 24);
+			this.butEdit.Size = new System.Drawing.Size(103, 24);
 			this.butEdit.TabIndex = 87;
 			this.butEdit.TabStop = false;
 			this.butEdit.Text = "Edit Properties";
@@ -384,7 +384,7 @@ namespace OpenPmsDental{
 			this.panelLeft.Controls.Add(this.panelMain);
 			this.panelLeft.Location = new System.Drawing.Point(0, 0);
 			this.panelLeft.Name = "panelLeft";
-			this.panelLeft.Size = new System.Drawing.Size(544, 960);
+			this.panelLeft.Size = new System.Drawing.Size(485, 960);
 			this.panelLeft.TabIndex = 102;
 			// 
 			// panelRight
@@ -412,9 +412,9 @@ namespace OpenPmsDental{
 			this.panelRight.Controls.Add(this.label2);
 			this.panelRight.Controls.Add(this.butCopy);
 			this.panelRight.Controls.Add(this.butEdit);
-			this.panelRight.Location = new System.Drawing.Point(544, 0);
+			this.panelRight.Location = new System.Drawing.Point(485, 0);
 			this.panelRight.Name = "panelRight";
-			this.panelRight.Size = new System.Drawing.Size(284, 960);
+			this.panelRight.Size = new System.Drawing.Size(343, 960);
 			this.panelRight.TabIndex = 103;
 			// 
 			// groupShowField
@@ -436,7 +436,7 @@ namespace OpenPmsDental{
 			this.groupShowField.Controls.Add(this.checkShowStaticText);
 			this.groupShowField.Controls.Add(this.checkShowInputField);
 			this.groupShowField.Controls.Add(this.checkShowOutputText);
-			this.groupShowField.Location = new System.Drawing.Point(220, 190);
+			this.groupShowField.Location = new System.Drawing.Point(279, 190);
 			this.groupShowField.Name = "groupShowField";
 			this.groupShowField.Size = new System.Drawing.Size(56, 535);
 			this.groupShowField.TabIndex = 97;
@@ -614,7 +614,7 @@ namespace OpenPmsDental{
 			// 
 			// checkBlue
 			// 
-			this.checkBlue.Location = new System.Drawing.Point(204, 69);
+			this.checkBlue.Location = new System.Drawing.Point(230, 69);
 			this.checkBlue.Name = "checkBlue";
 			this.checkBlue.Size = new System.Drawing.Size(46, 20);
 			this.checkBlue.TabIndex = 4;
@@ -638,7 +638,7 @@ namespace OpenPmsDental{
 			this.groupAddField.Controls.Add(this.butStaticText);
 			this.groupAddField.Controls.Add(this.butInputField);
 			this.groupAddField.Controls.Add(this.butOutputText);
-			this.groupAddField.Location = new System.Drawing.Point(108, 246);
+			this.groupAddField.Location = new System.Drawing.Point(167, 246);
 			this.groupAddField.Name = "groupAddField";
 			this.groupAddField.Size = new System.Drawing.Size(104, 479);
 			this.groupAddField.TabIndex = 97;
@@ -809,9 +809,9 @@ namespace OpenPmsDental{
 			// 
 			// butRedo
 			// 
-			this.butRedo.Location = new System.Drawing.Point(106, 67);
+			this.butRedo.Location = new System.Drawing.Point(119, 67);
 			this.butRedo.Name = "butRedo";
-			this.butRedo.Size = new System.Drawing.Size(90, 24);
+			this.butRedo.Size = new System.Drawing.Size(103, 24);
 			this.butRedo.TabIndex = 103;
 			this.butRedo.TabStop = false;
 			this.butRedo.Text = "Redo Ctrl-Y";
@@ -821,7 +821,7 @@ namespace OpenPmsDental{
 			// 
 			this.butUndo.Location = new System.Drawing.Point(8, 67);
 			this.butUndo.Name = "butUndo";
-			this.butUndo.Size = new System.Drawing.Size(90, 24);
+			this.butUndo.Size = new System.Drawing.Size(103, 24);
 			this.butUndo.TabIndex = 102;
 			this.butUndo.TabStop = false;
 			this.butUndo.Text = "Undo Ctrl-Z";

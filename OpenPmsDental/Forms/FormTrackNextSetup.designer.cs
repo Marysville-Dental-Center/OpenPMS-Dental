@@ -37,7 +37,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(225, 114);
+			this.butSave.Location = new System.Drawing.Point(293, 114);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -54,7 +54,7 @@ namespace OpenPmsDental{
 			this.groupBox3.Controls.Add(this.label15);
 			this.groupBox3.Location = new System.Drawing.Point(8, 8);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(292, 81);
+			this.groupBox3.Size = new System.Drawing.Size(360, 81);
 			this.groupBox3.TabIndex = 55;
 			this.groupBox3.Text = "Default Dates";
 			// 
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// FormTrackNextSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(308, 146);
+			this.ClientSize = new System.Drawing.Size(376, 146);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupBox3);
 			this.Name = "FormTrackNextSetup";

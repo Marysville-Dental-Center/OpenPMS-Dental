@@ -432,7 +432,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(685, 700);
+			this.butSave.Location = new System.Drawing.Point(685, 704);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -442,7 +442,7 @@ namespace OpenPmsDental{
 			// FormEhrSettings
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(768, 732);
+			this.ClientSize = new System.Drawing.Size(768, 736);
 			this.Controls.Add(this.groupGlobalSettings);
 			this.Controls.Add(this.groupPregnancy);
 			this.Controls.Add(this.groupEncounter);

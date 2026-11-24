@@ -287,3 +287,8 @@ OpenPmsDental/Forms/FormProcButtons.designer.cs	OpenPmsDental.FormProcButtons	bu
 OpenPmsDental/Forms/FormProcButtons.designer.cs	OpenPmsDental.FormProcButtons	butDelete	Location	324,409	338,441	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormProcButtons.designer.cs	OpenPmsDental.FormProcButtons	butUp	Location	478,379	490,411	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormProcButtons.designer.cs	OpenPmsDental.FormProcButtons	butDown	Location	478,409	490,441	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	OpenPmsDental.FormTaskAttachmentEdit	textValue	Size	1214,546	1214,542	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormTaskListBlock.designer.cs	OpenPmsDental.FormTaskListBlocks	treeSubscriptions	Size	420,368	420,367	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	OpenPmsDental.UI.Voice.FormMsgBox	butOK	Location	118,73	118,77	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	OpenPmsDental.UI.Voice.FormMsgBox	butCancel	Location	201,73	201,77	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	OpenPmsDental.UI.Voice.FormMsgBox	.	ClientSize	284,104	284,108	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)

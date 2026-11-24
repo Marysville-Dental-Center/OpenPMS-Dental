@@ -45,7 +45,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1075, 330);
+			this.butSave.Location = new System.Drawing.Point(1075, 334);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 25);
 			this.butSave.TabIndex = 1;
@@ -95,7 +95,7 @@ namespace OpenPmsDental{
 			// butToSupplemental
 			// 
 			this.butToSupplemental.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butToSupplemental.Location = new System.Drawing.Point(533, 330);
+			this.butToSupplemental.Location = new System.Drawing.Point(533, 334);
 			this.butToSupplemental.Name = "butToSupplemental";
 			this.butToSupplemental.Size = new System.Drawing.Size(97, 25);
 			this.butToSupplemental.TabIndex = 143;
@@ -104,7 +104,7 @@ namespace OpenPmsDental{
 			// 
 			// FormClaimOverpay
 			// 
-			this.ClientSize = new System.Drawing.Size(1158, 363);
+			this.ClientSize = new System.Drawing.Size(1158, 367);
 			this.Controls.Add(this.butToSupplemental);
 			this.Controls.Add(this.textUnderpayTotal);
 			this.Controls.Add(this.textOverpayTotal);

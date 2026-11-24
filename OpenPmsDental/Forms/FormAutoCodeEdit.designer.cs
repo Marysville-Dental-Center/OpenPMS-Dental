@@ -130,7 +130,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(36, 79);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(719, 434);
+			this.gridMain.Size = new System.Drawing.Size(719, 427);
 			this.gridMain.TabIndex = 31;
 			this.gridMain.CellDoubleClick += new OpenPmsDental.UI.ODGridClickEventHandler(this.gridMain_CellDoubleClick);
 			// 

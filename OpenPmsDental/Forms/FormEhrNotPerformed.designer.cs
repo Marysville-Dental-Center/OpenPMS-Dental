@@ -45,7 +45,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 8);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(901, 376);
+			this.gridMain.Size = new System.Drawing.Size(901, 372);
 			this.gridMain.TabIndex = 30;
 			this.gridMain.Title = "Clinical Quality Measure Items Not Performed";
 			this.gridMain.TranslationName = "TableNotPerformed";

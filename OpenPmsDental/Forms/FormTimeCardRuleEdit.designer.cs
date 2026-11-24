@@ -165,7 +165,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.listEmp.Location = new System.Drawing.Point(8, 226);
 			this.listEmp.Name = "listEmp";
-			this.listEmp.Size = new System.Drawing.Size(343, 212);
+			this.listEmp.Size = new System.Drawing.Size(343, 208);
 			this.listEmp.TabIndex = 6;
 			// 
 			// label1

@@ -62,7 +62,7 @@
 			this.gridProvided.Location = new System.Drawing.Point(8, 336);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProvided.Size = new System.Drawing.Size(855, 300);
+			this.gridProvided.Size = new System.Drawing.Size(855, 292);
 			this.gridProvided.TabIndex = 3;
 			this.gridProvided.Title = "Education Provided";
 			this.gridProvided.TranslationName = "TableProvided";

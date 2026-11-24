@@ -17,3 +17,4 @@ OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizPrinter	column	textSc
 OpenPmsDental.FormApptTypeEdit	overlap	butSlider tbTime	UI-12 slice 5: the time bar's slider stands on the bar (LayoutManager.MoveLocation from the bar's slider location)
 OpenPmsDental.FormApptTypeEdit	hidden-frame	tbTime panelHead	UI-12 slice 5: the time bar's own hidden header panel (TableTimeBar)
 OpenPmsDental.FormPerio	overlap	contrPerio textInputBox	UI-12 slice 5: the probing input box stands on the owner-drawn perio chart (the chart places it on the selected cell)
+OpenPmsDental.FormPerio	bar-gap	butGraphical butSave	UI-12F: no bottom bar: the control named butSave is the Save to Images button (field butSaveImage) of the right-hand button column, 4 px under Graphical like the column's other rows; the window has no bar anchored to its bottom

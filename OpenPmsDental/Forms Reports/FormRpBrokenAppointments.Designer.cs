@@ -65,7 +65,7 @@ namespace OpenPmsDental{
 			this.listClinics.Location = new System.Drawing.Point(136, 260);
 			this.listClinics.Name = "listClinics";
 			this.listClinics.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClinics.Size = new System.Drawing.Size(120, 182);
+			this.listClinics.Size = new System.Drawing.Size(120, 178);
 			this.listClinics.TabIndex = 62;
 			this.listClinics.Click += new System.EventHandler(this.listClinics_Click);
 			// 
@@ -83,7 +83,7 @@ namespace OpenPmsDental{
 			this.listProvs.Location = new System.Drawing.Point(8, 260);
 			this.listProvs.Name = "listProvs";
 			this.listProvs.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProvs.Size = new System.Drawing.Size(120, 182);
+			this.listProvs.Size = new System.Drawing.Size(120, 178);
 			this.listProvs.TabIndex = 60;
 			this.listProvs.Click += new System.EventHandler(this.listProvs_Click);
 			// 

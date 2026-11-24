@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			this.textBoxEditor.Name = "textBoxEditor";
 			this.textBoxEditor.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.PayPlan;
 			this.textBoxEditor.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textBoxEditor.Size = new System.Drawing.Size(488, 422);
+			this.textBoxEditor.Size = new System.Drawing.Size(488, 418);
 			this.textBoxEditor.TabIndex = 0;
 			this.textBoxEditor.Text = "";
 			// 

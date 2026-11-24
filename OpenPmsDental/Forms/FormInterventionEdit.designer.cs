@@ -102,7 +102,7 @@ namespace OpenPmsDental{
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(554, 60);
+			this.textNote.Size = new System.Drawing.Size(554, 56);
 			this.textNote.TabIndex = 4;
 			// 
 			// butSave

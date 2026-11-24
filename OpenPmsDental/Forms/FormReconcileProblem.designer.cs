@@ -71,7 +71,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(906, 653);
+			this.butSave.Location = new System.Drawing.Point(906, 661);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 81;
@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			// labelBatch
 			// 
 			this.labelBatch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelBatch.Location = new System.Drawing.Point(161, 653);
+			this.labelBatch.Location = new System.Drawing.Point(161, 661);
 			this.labelBatch.Name = "labelBatch";
 			this.labelBatch.Size = new System.Drawing.Size(739, 24);
 			this.labelBatch.TabIndex = 153;
@@ -129,7 +129,7 @@ namespace OpenPmsDental{
 			// FormReconcileProblem
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(989, 685);
+			this.ClientSize = new System.Drawing.Size(989, 693);
 			this.Controls.Add(this.labelBatch);
 			this.Controls.Add(this.gridProbExisting);
 			this.Controls.Add(this.gridProbImport);

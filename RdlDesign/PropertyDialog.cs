@@ -114,6 +114,20 @@ namespace fyiReporting.RdlDesign
 					BuildReportItemTabs();
 					break;
 			}
+			ScaleToDpi(this, DeviceDpi);
+		}
+
+		/// <summary>
+		/// Open PMS - Dental (UI-12F): the dialog sets AutoScaleMode None and the designer is per-monitor aware, so above 96 dpi the text of
+		/// its pages grew with the screen while their bounds stayed at 96 dpi and cut it ('Nam', 'Alignm', 'Directi' at 150%). Once its
+		/// pages are added, the dialog and every page are scaled by the screen's dpi; at 96 dpi nothing changes.
+		/// </summary>
+		internal static void ScaleToDpi(Form form, int dpi)
+		{
+			if (dpi <= 0 || dpi == 96)
+				return;
+			float factor = dpi / 96f;
+			form.Scale(new SizeF(factor, factor));
 		}
 
 		internal bool Changed

@@ -57,7 +57,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 35);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(677, 627);
+			this.gridMain.Size = new System.Drawing.Size(677, 623);
 			this.gridMain.TabIndex = 4;
 			this.gridMain.Title = "RxNorm Codes";
 			this.gridMain.TranslationName = "TableCodes";

@@ -157,8 +157,6 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.ClientSize = new System.Drawing.Size(596, 144);
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.panel1);
-			this.MaximumSize = new System.Drawing.Size(1000, 800);
-			this.MinimumSize = new System.Drawing.Size(525, 166);
 			this.Name = "FormProgressViewer";
 			this.Text = "FormProgressViewer";
 			this.panel1.ResumeLayout(false);

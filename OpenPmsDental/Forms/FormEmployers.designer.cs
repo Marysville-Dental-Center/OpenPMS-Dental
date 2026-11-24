@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			this.listEmp.Location = new System.Drawing.Point(8, 8);
 			this.listEmp.Name = "listEmp";
 			this.listEmp.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listEmp.Size = new System.Drawing.Size(258,520);
+			this.listEmp.Size = new System.Drawing.Size(258,516);
 			this.listEmp.TabIndex = 2;
 			this.listEmp.DoubleClick += new System.EventHandler(this.listEmp_DoubleClick);
 			// 

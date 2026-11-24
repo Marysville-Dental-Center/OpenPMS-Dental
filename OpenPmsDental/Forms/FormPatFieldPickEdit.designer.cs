@@ -66,7 +66,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listBoxPick.Location = new System.Drawing.Point(8, 30);
 			this.listBoxPick.Name = "listBoxPick";
-			this.listBoxPick.Size = new System.Drawing.Size(359, 467);
+			this.listBoxPick.Size = new System.Drawing.Size(359, 463);
 			this.listBoxPick.TabIndex = 4;
 			// 
 			// butClear

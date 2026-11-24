@@ -28,8 +28,9 @@ namespace UiRefreshTests {
 		public const string VARIABLE_SCAN_OUT="OPMS_UI_SCAN_OUT";
 		public const string VARIABLE_SCAN_SWAP="OPMS_UI_SCAN_SWAP";
 		public const string VARIABLE_SCAN_OVERRIDE="OPMS_UI_SCAN_OVERRIDE";
-		///<summary>The five FormODBase windows whose constructor never calls InitializeLayoutManager on main (section 5.1).</summary>
-		private static readonly string[] _arrayWindowsWithoutLayoutManager=new string[] { "FormProgressViewer","FormInstallAllocator_Provider",
+		///<summary>The five FormODBase windows whose constructor never called InitializeLayoutManager (section 5.1); since UI-12F (the grid's final
+		///consistency pass) they call it, so they scale at 150% like every FormODBase window.</summary>
+		private static readonly string[] _arrayAllocatorWindows=new string[] { "FormProgressViewer","FormInstallAllocator_Provider",
 			"FormReport_GuarantorAllocationCheck","FormReport_ProviderIncomeReport","FormWarnToCloseComputers" };
 
 		[TestMethod]
@@ -47,15 +48,22 @@ namespace UiRefreshTests {
 				NoDatabaseGuard.Install();
 				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
-				foreach(string name in _arrayWindowsWithoutLayoutManager) {
-					ScanType scanTypeWithout=listScanTypes.Single(x => x.Type.Name==name);
-					Assert.AreEqual(BuildKind.WindowWithoutLayoutManager,scanTypeWithout.Kind,name);
+				//UI-12F: the five allocator windows call InitializeLayoutManager now, and no FormODBase window is without it.
+				foreach(string name in _arrayAllocatorWindows) {
+					ScanType scanTypeAllocator=listScanTypes.Single(x => x.Type.Name==name);
+					Assert.AreEqual(BuildKind.LayoutManagerWindow,scanTypeAllocator.Kind,name);
 				}
-				List<string> listOthers=listScanTypes.Where(x => x.Kind==BuildKind.WindowWithoutLayoutManager).Select(x => x.Type.Name)
-					.Except(_arrayWindowsWithoutLayoutManager).ToList();
-				Assert.AreEqual(0,listOthers.Count,"Other FormODBase windows without InitializeLayoutManager: "+string.Join(", ",listOthers));
+				List<string> listWithout=listScanTypes.Where(x => x.Kind==BuildKind.WindowWithoutLayoutManager).Select(x => x.Type.Name).ToList();
+				Assert.AreEqual(0,listWithout.Count,"FormODBase windows without InitializeLayoutManager: "+string.Join(", ",listWithout));
 				ScanType scanType=listScanTypes.Single(x => x.Type.Name=="FormInstallAllocator_Provider");
 				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+					Assert.IsNotNull(builtWindow.LayoutManager,"An allocator window is built with its LayoutManager.");
+					Assert.IsNotNull(((FormODBase)builtWindow.Form).PanelClient);
+					Assert.IsFalse(builtWindow.Form.IsHandleCreated);
+				}
+				//The builder's path for a FormODBase window whose constructor does not call it stays: built like a plain form, no LayoutManager.
+				ScanType scanTypeWithout=new ScanType { Type=scanType.Type,Assembly=scanType.Assembly,Kind=BuildKind.WindowWithoutLayoutManager };
+				using(BuiltWindow builtWindow=WindowBuilder.Build(scanTypeWithout)) {
 					Assert.IsNull(builtWindow.LayoutManager);
 					Assert.IsNull(TextFitFontSwap.GetLayoutManager(builtWindow.Form),"No LayoutManagerForms after the build.");
 					Assert.IsTrue(builtWindow.Form.Controls.Count>0,"InitializeComponent ran.");
@@ -68,6 +76,71 @@ namespace UiRefreshTests {
 					Assert.IsNotNull(builtWindow.LayoutManager);
 					Assert.IsNotNull(((FormODBase)builtWindow.Form).PanelClient);
 					Assert.IsFalse(builtWindow.Form.IsHandleCreated);
+				}
+			});
+		}
+
+		///<summary>UI-12F fix round: a LayoutManager window's designer fonts are drawn as written (the font scan exempts LayoutManager windows), so
+		///the allocator windows, which call InitializeLayoutManager since UI-12F, name no family but Segoe UI (FormWarnToCloseComputers drew its
+		///Arial Black and Arial once it had its LayoutManager).</summary>
+		[TestMethod]
+		public void AllocatorWindows_DesignerFontsAreSegoeUi() {
+			string folder=Path.Combine(RepoPaths.Root(),"OpenPmsDental","ReportingForRdl","Allocators");
+			List<string> listFiles=Directory.GetFiles(folder,"*.Designer.cs",SearchOption.AllDirectories).ToList();
+			Assert.IsTrue(listFiles.Count>=5,"The allocator windows' designer files: "+listFiles.Count);
+			List<string> listWrong=new List<string>();
+			int countFonts=0;
+			foreach(string file in listFiles) {
+				foreach(System.Text.RegularExpressions.Match match in System.Text.RegularExpressions.Regex.Matches(File.ReadAllText(file),
+					"new System\\.Drawing\\.Font\\(\"([^\"]*)\""))
+				{
+					countFonts++;
+					if(match.Groups[1].Value!="Segoe UI") {
+						listWrong.Add(Path.GetFileName(file)+": "+match.Groups[1].Value);
+					}
+				}
+			}
+			Assert.IsTrue(countFonts>0,"The allocator designers set fonts.");
+			Assert.AreEqual(0,listWrong.Count,"Allocator designer fonts that are not Segoe UI:"+Environment.NewLine+string.Join(Environment.NewLine,listWrong));
+		}
+
+		///<summary>UI-12F fix round: FormProgressViewer's size limits are set in LayoutManager's scale once FormODBase.OnLoad has applied the
+		///screen's dpi (in the constructor the scale is still 96 dpi's), and they always contain the window LayoutManager sized: at 175% the
+		///scaled window (596 px client at 96 dpi, 1043 px) is wider than the 1000 px limit at 96 dpi.</summary>
+		[TestMethod]
+		public void FormProgressViewer_SizeLimitsFollowTheScreensDpi() {
+			StaRunner.Run(() => {
+				NoDatabaseGuard.Install();
+				DefaultFontOverride.Set(TextFitFontOption.Today,1f);
+				ScanType scanType=WindowBuilder.GetScanTypes().Single(x => x.Type.Name=="FormProgressViewer");
+				using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
+					OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer formProgressViewer=(OpenPmsDental.Reporting.Allocators.MyAllocator1.FormProgressViewer)builtWindow.Form;
+					LayoutManagerForms layoutManager=builtWindow.LayoutManager;
+					Assert.AreEqual(Size.Empty,formProgressViewer.MinimumSize,"No limits in the constructor (LayoutManager's scale is 96 dpi's there).");
+					Assert.AreEqual(Size.Empty,formProgressViewer.MaximumSize);
+					foreach(float scale in new float[] { 1f,1.5f,1.75f,2.5f }) {
+						layoutManager.SetScaleMS(scale);
+						//As FormODBase.OnLoad sizes the window: the scaled client size plus its borders.
+						int widthBorder=(int)Math.Round(8+(5*(scale-1)),MidpointRounding.AwayFromZero);
+						Size sizeWindow=new Size(layoutManager.Scale(layoutManager.SizeClientOriginal.Width)+widthBorder*2,
+							layoutManager.Scale(layoutManager.SizeClientOriginal.Height)+widthBorder+layoutManager.GetHeightTitleBar());
+						formProgressViewer.MinimumSize=Size.Empty;
+						formProgressViewer.MaximumSize=Size.Empty;
+						formProgressViewer.Size=sizeWindow;
+						formProgressViewer.SetSizeLimitsScaled();
+						Assert.AreEqual(sizeWindow,formProgressViewer.Size,"The limits never resize the window at "+scale);
+						Assert.IsTrue(formProgressViewer.MinimumSize.Width<=sizeWindow.Width && formProgressViewer.MinimumSize.Height<=sizeWindow.Height,
+							"The minimum contains the window at "+scale);
+						Assert.IsTrue(formProgressViewer.MaximumSize.Width>=sizeWindow.Width && formProgressViewer.MaximumSize.Height>=sizeWindow.Height,
+							"The maximum contains the window at "+scale);
+						Assert.AreEqual(Math.Max(layoutManager.Scale(1000),sizeWindow.Width),formProgressViewer.MaximumSize.Width,"Scaled at "+scale);
+						Assert.AreEqual(Math.Max(layoutManager.Scale(800),sizeWindow.Height),formProgressViewer.MaximumSize.Height,"Scaled at "+scale);
+						Assert.AreEqual(Math.Min(layoutManager.Scale(525),sizeWindow.Width),formProgressViewer.MinimumSize.Width,"Scaled at "+scale);
+						Assert.AreEqual(Math.Min(layoutManager.Scale(166),sizeWindow.Height),formProgressViewer.MinimumSize.Height,"Scaled at "+scale);
+						if(scale>=1.75f) {
+							Assert.IsTrue(sizeWindow.Width>1000,"The case the limits at 96 dpi broke: the window wider than 1000 at "+scale);
+						}
+					}
 				}
 			});
 		}

@@ -131,7 +131,7 @@ namespace OpenPmsDental{
 			this.textValue.Name = "textValue";
 			this.textValue.QuickPasteType = OpenPmsDentalBusiness.EnumQuickPasteType.Task;
 			this.textValue.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.textValue.Size = new System.Drawing.Size(1214, 546);
+			this.textValue.Size = new System.Drawing.Size(1214, 542);
 			this.textValue.TabIndex = 3;
 			this.textValue.Text = "";
 			// 

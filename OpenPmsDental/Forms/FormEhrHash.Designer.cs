@@ -88,7 +88,7 @@
 			this.textMessage.Location = new System.Drawing.Point(8, 27);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
-			this.textMessage.Size = new System.Drawing.Size(545, 184);
+			this.textMessage.Size = new System.Drawing.Size(545, 180);
 			this.textMessage.TabIndex = 0;
 			// 
 			// butTransmit

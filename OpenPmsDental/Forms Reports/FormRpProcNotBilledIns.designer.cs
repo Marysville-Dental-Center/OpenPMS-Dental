@@ -76,7 +76,7 @@
 			this.gridMain.Location = new System.Drawing.Point(8, 143);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1003, 513);
+			this.gridMain.Size = new System.Drawing.Size(1003, 509);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Procedures Not Billed";
 			this.gridMain.TranslationName = "TableProcedures";

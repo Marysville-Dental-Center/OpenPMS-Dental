@@ -585,7 +585,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 515);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(654, 132);
+			this.gridMain.Size = new System.Drawing.Size(654, 128);
 			this.gridMain.TabIndex = 199;
 			this.gridMain.Title = "Knowledge Request Items";
 			this.gridMain.WrapText = false;

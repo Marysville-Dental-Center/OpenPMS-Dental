@@ -320,7 +320,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 185);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridMain.Size = new System.Drawing.Size(1063, 467);
+			this.gridMain.Size = new System.Drawing.Size(1063, 459);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Treatment Finder";
 			this.gridMain.TranslationName = "TableTreatmentFinder";

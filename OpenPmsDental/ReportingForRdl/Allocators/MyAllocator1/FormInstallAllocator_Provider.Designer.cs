@@ -82,7 +82,6 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// button4
 			// 
 			this.button4.BackColor = System.Drawing.Color.Maroon;
-			this.button4.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.button4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.button4.ForeColor = System.Drawing.Color.White;
@@ -96,7 +95,6 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butProviderIncomeReport
 			// 
 			this.butProviderIncomeReport.BackColor = System.Drawing.Color.White;
-			this.butProviderIncomeReport.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.butProviderIncomeReport.Enabled = false;
 			this.butProviderIncomeReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butProviderIncomeReport.ForeColor = System.Drawing.Color.Maroon;
@@ -111,7 +109,6 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butGuarnDetailReport
 			// 
 			this.butGuarnDetailReport.BackColor = System.Drawing.Color.White;
-			this.butGuarnDetailReport.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.butGuarnDetailReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butGuarnDetailReport.ForeColor = System.Drawing.Color.Maroon;
 			this.butGuarnDetailReport.Location = new System.Drawing.Point(0, 46);
@@ -125,7 +122,6 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// butUneardedIncomeReport
 			// 
 			this.butUneardedIncomeReport.BackColor = System.Drawing.Color.White;
-			this.butUneardedIncomeReport.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.butUneardedIncomeReport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.butUneardedIncomeReport.ForeColor = System.Drawing.Color.Maroon;
 			this.butUneardedIncomeReport.Location = new System.Drawing.Point(0, 69);

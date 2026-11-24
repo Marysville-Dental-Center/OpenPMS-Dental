@@ -49,7 +49,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 72);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(744, 400);
+			this.gridMain.Size = new System.Drawing.Size(744, 396);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "UDS Dental Service Lines";
 			this.gridMain.TranslationName = "TableUdsPlusLines";

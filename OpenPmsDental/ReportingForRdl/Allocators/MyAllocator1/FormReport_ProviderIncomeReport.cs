@@ -15,6 +15,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 		public FormReport_ProviderIncomeReport(DateTime fromdate, DateTime todate)
 		{
 			InitializeComponent();
+			InitializeLayoutManager();
 			_FromDate = fromdate;
 			_ToDate = todate;
 		}

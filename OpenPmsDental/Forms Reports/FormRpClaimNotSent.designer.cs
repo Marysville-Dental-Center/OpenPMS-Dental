@@ -68,7 +68,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 71);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1120, 517);
+			this.gridMain.Size = new System.Drawing.Size(1120, 509);
 			this.gridMain.TabIndex = 61;
 			this.gridMain.Title = "Claims Not Sent";
 			this.gridMain.TranslationName = "TableClaimsNotSent";

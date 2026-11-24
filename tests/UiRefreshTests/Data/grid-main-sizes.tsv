@@ -1,0 +1,1013 @@
+# UI-12F (the final consistency pass, docs/port-notes/UI-12.md section 7): main's size before UI-12 of every window and user control, the
+# "." rows (ClientSize, or Size for a user control) of the layout snapshot of 79d92c89b (the last main before the pilot merged, b078f9a61).
+# GridRulesTests.GridWindows_NeverShrink: a designer file a slice owns is at least this size in both directions (a window never shrinks, the
+# lead's decision at slice 6); code_sized (width or height) names the direction the window's code sets at run time, held to the other only.
+file	size	code_sized	why
+CentralManager/FormCentralChooseDatabase.cs	360,238		
+CentralManager/FormCentralConnectionEdit.designer.cs	688,398		
+CentralManager/FormCentralConnectionGroupEdit.Designer.cs	1106,566		
+CentralManager/FormCentralConnectionGroups.Designer.cs	457,421		
+CentralManager/FormCentralConnections.Designer.cs	859,483		
+CentralManager/FormCentralGroupPermEdit.Designer.cs	475,229		
+CentralManager/FormCentralLogOn.cs	464,378		
+CentralManager/FormCentralManager.Designer.cs	1834,953		
+CentralManager/FormCentralPasswordChange.designer.cs	448,213		
+CentralManager/FormCentralPasswordCheck.designer.cs	370,104		
+CentralManager/FormCentralPatientSearch.Designer.cs	739,566		
+CentralManager/FormCentralPatientTransfer.Designer.cs	1050,489		
+CentralManager/FormCentralProdInc.Designer.cs	481,341		
+CentralManager/FormCentralReportSetup.Designer.cs	556,681		
+CentralManager/FormCentralSecurity.Designer.cs	984,696		
+CentralManager/FormCentralUserEdit.Designer.cs	610,551		
+CentralManager/FormCentralUserGroupEdit.Designer.cs	416,154		
+CentralManager/FormCentralUserGroups.Designer.cs	296,380		
+CentralManager/FormCentralUserPasswordEdit.Designer.cs	423,174		
+CentralManager/FormCentralUserSettings.Designer.cs	294,145		
+CodeBase/Controls/PrintPanel.Designer.cs	850,1100		
+CodeBase/Progress/FormProgressExtended.designer.cs	469,262		
+CodeBase/Progress/FormProgressStatus.designer.cs	469,117		
+CodeBase/Progress/ODProgressBar.designer.cs	470,51		
+CodeBase/Utilities/MsgBoxCopyPaste.cs	702,644		
+DatabaseIntegrityCheck/FormDatabaseCheck.Designer.cs	478,495		
+DocumentationBuilder/Form1.Designer.cs	612,508		
+MySQLManager/FormMySQLManager.Designer.cs	624,498		
+MySQLManager/FormMySQLUserEdit.Designer.cs	408,245		
+ODR/ComboBoxMulti.cs	120,21		
+ODR/FormParameterInput.cs	628,315		
+OpenPmsDental/Bridges/FormDrCeph.Designer.cs	581,328		
+OpenPmsDental/Bridges/FormHouseCalls.designer.cs	486,236		
+OpenPmsDental/Bridges/FormOryxUserSettings.designer.cs	393,122		
+OpenPmsDental/Bridges/FormPatienteBill.designer.cs	475,391		
+OpenPmsDental/Bridges/FormPrintTrojan.designer.cs	686,666		
+OpenPmsDental/Bridges/FormTrophyNamePick.Designer.cs	606,534		
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	1230,696		
+OpenPmsDental/Forms Reports/FormRpAccountingBalanceSheet.designer.cs	295,271		
+OpenPmsDental/Forms Reports/FormRpAccountingGenLedg.designer.cs	531,281		
+OpenPmsDental/Forms Reports/FormRpAccountingProfitLoss.designer.cs	530,278		
+OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	679,490		
+OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	723,402		
+OpenPmsDental/Forms Reports/FormRpAging.designer.cs	982,363		
+OpenPmsDental/Forms Reports/FormRpAppointments.designer.cs	602,353		
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEligibility.designer.cs	725,505		
+OpenPmsDental/Forms Reports/FormRpArizonaPrimaryCareEncounter.Designer.cs	725,498		
+OpenPmsDental/Forms Reports/FormRpBirthday.designer.cs	652,214		
+OpenPmsDental/Forms Reports/FormRpBrokenAppointments.Designer.cs	600,482		
+OpenPmsDental/Forms Reports/FormRpCapitation.designer.cs	605,138		
+OpenPmsDental/Forms Reports/FormRpClaimNotSent.designer.cs	1136,626		
+OpenPmsDental/Forms Reports/FormRpConfirm.designer.cs	483,408		
+OpenPmsDental/Forms Reports/FormRpCustomAging.designer.cs	1059,742		
+OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	1189,696		
+OpenPmsDental/Forms Reports/FormRpDentalSealantMeasure.designer.cs	319,91		
+OpenPmsDental/Forms Reports/FormRpDiscountPlan.designer.cs	382,145		
+OpenPmsDental/Forms Reports/FormRpFinanceCharge.designer.cs	448,241		
+OpenPmsDental/Forms Reports/FormRpHiddenPaySplits.Designer.cs	522,337		
+OpenPmsDental/Forms Reports/FormRpInsAging.designer.cs	764,476		
+OpenPmsDental/Forms Reports/FormRpInsCo.designer.cs	430,119		
+OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	545,496		
+OpenPmsDental/Forms Reports/FormRpInsPayPlansPastDue.designer.cs	845,499		
+OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	900,602		
+OpenPmsDental/Forms Reports/FormRpLaserLabels.designer.cs	649,417		
+OpenPmsDental/Forms Reports/FormRpNetProdDetail.designer.cs	791,323		
+OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	600,351		
+OpenPmsDental/Forms Reports/FormRpOutstandingIns.designer.cs	1230,729		
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	765,396		
+OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	569,307		
+OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	697,379		
+OpenPmsDental/Forms Reports/FormRpPatPortionUncollected.designer.cs	860,500		
+OpenPmsDental/Forms Reports/FormRpPatients.designer.cs	962,700		
+OpenPmsDental/Forms Reports/FormRpPayPlans.designer.cs	586,361		
+OpenPmsDental/Forms Reports/FormRpPaySheet.designer.cs	844,507		
+OpenPmsDental/Forms Reports/FormRpPrescriptions.designer.cs	594,166		
+OpenPmsDental/Forms Reports/FormRpPresentedTreatmentProduction.Designer.cs	490,462		
+OpenPmsDental/Forms Reports/FormRpPrintPreview.designer.cs	842,746		
+OpenPmsDental/Forms Reports/FormRpProcCodes.designer.cs	423,314		
+OpenPmsDental/Forms Reports/FormRpProcNotBilledIns.designer.cs	1019,696		
+OpenPmsDental/Forms Reports/FormRpProcNote.designer.cs	891,572		
+OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	1015,696		
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	719,402		
+OpenPmsDental/Forms Reports/FormRpProcedures.designer.cs	1000,642		
+OpenPmsDental/Forms Reports/FormRpProdGoal.designer.cs	774,359		
+OpenPmsDental/Forms Reports/FormRpProdInc.designer.cs	721,389		
+OpenPmsDental/Forms Reports/FormRpProviderPayroll.designer.cs	791,323		
+OpenPmsDental/Forms Reports/FormRpRecall.designer.cs	538,408		
+OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	601,324		
+OpenPmsDental/Forms Reports/FormRpReferralAnalysis.designer.cs	655,413		
+OpenPmsDental/Forms Reports/FormRpReferrals.designer.cs	842,683		
+OpenPmsDental/Forms Reports/FormRpRouting.designer.cs	471,292		
+OpenPmsDental/Forms Reports/FormRpServiceDateView.designer.cs	987,480		
+OpenPmsDental/Forms Reports/FormRpStatement.designer.cs	787,610		
+OpenPmsDental/Forms Reports/FormRpTreatPlanPresentationStatistics.Designer.cs	490,462		
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	1049,681		
+OpenPmsDental/Forms Reports/FormRpUdsPlus.designer.cs	560,340		
+OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	760,512		
+OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	647,543		
+OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	981,499		
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	741,417		
+OpenPmsDental/Forms Reports/FormSearchPatNotes.designer.cs	286,212		
+OpenPmsDental/Forms/BasicTemplate.Designer.cs	1230,696		
+OpenPmsDental/Forms/FormASAP.designer.cs	1089,635		
+OpenPmsDental/Forms/FormAbout.designer.cs	628,410		
+OpenPmsDental/Forms/FormAccountPick.designer.cs	492,584		
+OpenPmsDental/Forms/FormAccounting.designer.cs	492,531		
+OpenPmsDental/Forms/FormAccountingAutoPayEdit.designer.cs	535,269		
+OpenPmsDental/Forms/FormAccountingSetup.designer.cs	553,669		
+OpenPmsDental/Forms/FormAdjMulti.designer.cs	873,618		
+OpenPmsDental/Forms/FormAdjust.designer.cs	731,504		
+OpenPmsDental/Forms/FormAdjustSelect.designer.cs	673,429		
+OpenPmsDental/Forms/FormAdjustmentPicker.designer.cs	629,495		
+OpenPmsDental/Forms/FormAdoptDatabase.Designer.cs	624,441		
+OpenPmsDental/Forms/FormAdvertisingPatientList.Designer.cs	1230,707		
+OpenPmsDental/Forms/FormAdvertisingPostcardsSend.Designer.cs	820,698		
+OpenPmsDental/Forms/FormAdvertisingPostcardsSetup.Designer.cs	560,614		
+OpenPmsDental/Forms/FormAlertCategorySetup.designer.cs	881,601		
+OpenPmsDental/Forms/FormAlerts.designer.cs	915,593		
+OpenPmsDental/Forms/FormAllergyDefEdit.designer.cs	552,284		
+OpenPmsDental/Forms/FormAllergyEdit.designer.cs	514,281		
+OpenPmsDental/Forms/FormAllergySetup.designer.cs	396,361		
+OpenPmsDental/Forms/FormAllocationsSetup.Designer.cs	892,572		
+OpenPmsDental/Forms/FormAmountEdit.designer.cs	280,108		
+OpenPmsDental/Forms/FormApptBreak.designer.cs	206,155		
+OpenPmsDental/Forms/FormApptConflicts.Designer.cs	858,672		
+OpenPmsDental/Forms/FormApptEdit.designer.cs	1230,698		
+OpenPmsDental/Forms/FormApptFieldDefs.designer.cs	383,287		
+OpenPmsDental/Forms/FormApptPrintSetup.designer.cs	415,438		
+OpenPmsDental/Forms/FormApptProcs.designer.cs	725,534		
+OpenPmsDental/Forms/FormApptRules.designer.cs	539,500		
+OpenPmsDental/Forms/FormApptSearchAdvanced.designer.cs	687,334		
+OpenPmsDental/Forms/FormApptTypeEdit.designer.cs	717,585		
+OpenPmsDental/Forms/FormApptTypes.designer.cs	434,464		
+OpenPmsDental/Forms/FormApptViewEdit.designer.cs	926,696		
+OpenPmsDental/Forms/FormApptViews.designer.cs	476,485		
+OpenPmsDental/Forms/FormApptsOther.designer.cs	924,658		
+OpenPmsDental/Forms/FormArManager.designer.cs	1230,696		
+OpenPmsDental/Forms/FormAudit.designer.cs	1108,661		
+OpenPmsDental/Forms/FormAuditOrtho.designer.cs	921,601		
+OpenPmsDental/Forms/FormAutoCode.designer.cs	235,403		
+OpenPmsDental/Forms/FormAutoCodeEdit.designer.cs	794,524		
+OpenPmsDental/Forms/FormAutoItemEdit.designer.cs	437,490		
+OpenPmsDental/Forms/FormAutoNoteControlEdit.designer.cs	699,458		
+OpenPmsDental/Forms/FormAutoNoteControls.designer.cs	867,656		
+OpenPmsDental/Forms/FormAutoNoteEdit.designer.cs	857,656		
+OpenPmsDental/Forms/FormAutoNoteExport.Designer.cs	393,675		
+OpenPmsDental/Forms/FormAutoNoteResponsePicker.designer.cs	450,506		
+OpenPmsDental/Forms/FormAutoNotes.designer.cs	431,675		
+OpenPmsDental/Forms/FormAutomation.designer.cs	788,500		
+OpenPmsDental/Forms/FormAutomationConditionEdit.designer.cs	748,315		
+OpenPmsDental/Forms/FormAutomationEdit.designer.cs	778,437		
+OpenPmsDental/Forms/FormBackup.designer.cs	777,582		
+OpenPmsDental/Forms/FormBenefitEdit.designer.cs	560,468		
+OpenPmsDental/Forms/FormBenefitElectHistory.designer.cs	506,325		
+OpenPmsDental/Forms/FormBenefitFrequencies.Designer.cs	393,402		
+OpenPmsDental/Forms/FormBenefitFrequencyEdit.Designer.cs	693,410		
+OpenPmsDental/Forms/FormBilling.designer.cs	888,688		
+OpenPmsDental/Forms/FormBillingDefaults.Designer.cs	877,602		
+OpenPmsDental/Forms/FormBillingOptions.designer.cs	918,696		
+OpenPmsDental/Forms/FormBillingTypeMerge.designer.cs	607,238		
+OpenPmsDental/Forms/FormBlockoutCutCopyPaste.designer.cs	290,383		
+OpenPmsDental/Forms/FormCCDPrint.Designer.cs	888,690		
+OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	415,359		
+OpenPmsDental/Forms/FormCDSIntervention.designer.cs	923,287		
+OpenPmsDental/Forms/FormCDSSetup.designer.cs	734,529		
+OpenPmsDental/Forms/FormCalendar.Designer.cs	271,224		
+OpenPmsDental/Forms/FormCanadaOutstandingTransactions.designer.cs	360,298		
+OpenPmsDental/Forms/FormCanadaPaymentReconciliation.designer.cs	306,336		
+OpenPmsDental/Forms/FormCanadaSummaryReconciliation.designer.cs	318,556		
+OpenPmsDental/Forms/FormCareCredit.designer.cs	401,293		
+OpenPmsDental/Forms/FormCareCreditSetup.Designer.cs	1012,604		
+OpenPmsDental/Forms/FormCareCreditTransactions.designer.cs	990,584		
+OpenPmsDental/Forms/FormCareCreditWeb.designer.cs	974,696		
+OpenPmsDental/Forms/FormCarrierCombine.designer.cs	880,511		
+OpenPmsDental/Forms/FormCarrierEdit.designer.cs	702,719		
+OpenPmsDental/Forms/FormCarriers.designer.cs	927,672		
+OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	739,652		
+OpenPmsDental/Forms/FormCdsTriggers.designer.cs	788,605		
+OpenPmsDental/Forms/FormCertEmployee.designer.cs	377,199		
+OpenPmsDental/Forms/FormCertificationEdit.designer.cs	426,348		
+OpenPmsDental/Forms/FormCertificationSetup.designer.cs	853,643		
+OpenPmsDental/Forms/FormCertifications.designer.cs	1095,663		
+OpenPmsDental/Forms/FormChartView.designer.cs	683,696		
+OpenPmsDental/Forms/FormChartViewDateFilter.designer.cs	317,196		
+OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	723,642		
+OpenPmsDental/Forms/FormClaimAttachHistory.designer.cs	656,530		
+OpenPmsDental/Forms/FormClaimAttachPasteDXC.designer.cs	1184,498		
+OpenPmsDental/Forms/FormClaimAttachPasteDXCItem.designer.cs	294,305		
+OpenPmsDental/Forms/FormClaimAttachSnipDXC.designer.cs	589,479		
+OpenPmsDental/Forms/FormClaimAttachment.Designer.cs	606,399		
+OpenPmsDental/Forms/FormClaimAttachmentItemEdit.designer.cs	584,338		
+OpenPmsDental/Forms/FormClaimCreate.designer.cs	755,276		
+OpenPmsDental/Forms/FormClaimCustomTrackingUpdate.designer.cs	361,379		
+OpenPmsDental/Forms/FormClaimEdit.designer.cs	1156,696		
+OpenPmsDental/Forms/FormClaimFormEdit.designer.cs	992,745		
+OpenPmsDental/Forms/FormClaimFormItemEdit.designer.cs	939,644		
+OpenPmsDental/Forms/FormClaimForms.designer.cs	785,424		
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	1156,363		
+OpenPmsDental/Forms/FormClaimPayBatch.designer.cs	974,676		
+OpenPmsDental/Forms/FormClaimPayEdit.designer.cs	520,554		
+OpenPmsDental/Forms/FormClaimPayEditOld.designer.cs	902,676		
+OpenPmsDental/Forms/FormClaimPayList.designer.cs	888,612		
+OpenPmsDental/Forms/FormClaimPayPreAuth.designer.cs	686,366		
+OpenPmsDental/Forms/FormClaimPayTotal.designer.cs	1156,363		
+OpenPmsDental/Forms/FormClaimPrint.designer.cs	860,816		
+OpenPmsDental/Forms/FormClaimProc.designer.cs	941,658		
+OpenPmsDental/Forms/FormClaimProcBlueBookLog.designer.cs	1064,624		
+OpenPmsDental/Forms/FormClaimReports.designer.cs	324,101		
+OpenPmsDental/Forms/FormClaimResend.designer.cs	408,102		
+OpenPmsDental/Forms/FormClaimsSend.designer.cs	1230,691		
+OpenPmsDental/Forms/FormClearinghouseEdit.designer.cs	958,696		
+OpenPmsDental/Forms/FormClearinghouses.designer.cs	891,503		
+OpenPmsDental/Forms/FormClerriSetup.Designer.cs	534,420		
+OpenPmsDental/Forms/FormClinicEdit.designer.cs	1140,453		
+OpenPmsDental/Forms/FormClinics.designer.cs	914,611		
+OpenPmsDental/Forms/FormClockEventEdit.designer.cs	669,485		
+OpenPmsDental/Forms/FormCloneAdd.designer.cs	521,248		
+OpenPmsDental/Forms/FormCodeGroupEdit.Designer.cs	671,330		
+OpenPmsDental/Forms/FormCodeGroups.Designer.cs	664,511		
+OpenPmsDental/Forms/FormCodeSystemsImport.designer.cs	881,606		
+OpenPmsDental/Forms/FormCommPrefPicker.Designer.cs	522,640		
+OpenPmsDental/Forms/FormComputers.designer.cs	535,598		
+OpenPmsDental/Forms/FormConfirmList.designer.cs	1099,688		
+OpenPmsDental/Forms/FormConfirmationsSetup.designer.cs	864,563		
+OpenPmsDental/Forms/FormConnectionLost.designer.cs	400,200		
+OpenPmsDental/Forms/FormContactEdit.designer.cs	717,432		
+OpenPmsDental/Forms/FormContacts.designer.cs	886,693		
+OpenPmsDental/Forms/FormContinuityOfCareDocument.Designer.cs	284,209		
+OpenPmsDental/Forms/FormCounties.designer.cs	464,646		
+OpenPmsDental/Forms/FormCpts.designer.cs	961,691		
+OpenPmsDental/Forms/FormCreditCardEdit.designer.cs	524,657		
+OpenPmsDental/Forms/FormCreditCardManage.designer.cs	1004,383		
+OpenPmsDental/Forms/FormCreditRecurringCharges.designer.cs	1054,534		
+OpenPmsDental/Forms/FormCreditRecurringDateChoose.designer.cs	388,195		
+OpenPmsDental/Forms/FormCvx.designer.cs	961,691		
+OpenPmsDental/Forms/FormDashboardWidgetSetup.designer.cs	869,658		
+OpenPmsDental/Forms/FormDashboardWidgets.designer.cs	556,681		
+OpenPmsDental/Forms/FormDatabaseMaintConvPayDates.Designer.cs	900,638		
+OpenPmsDental/Forms/FormDatabaseMaintInvalidChars.Designer.cs	900,638		
+OpenPmsDental/Forms/FormDatabaseMaintTemp.designer.cs	733,694		
+OpenPmsDental/Forms/FormDatabaseMaintenance.designer.cs	834,692		
+OpenPmsDental/Forms/FormDatabaseMaintenancePat.designer.cs	834,605		
+OpenPmsDental/Forms/FormDefEdit.designer.cs	423,352		
+OpenPmsDental/Forms/FormDefEditBlockout.designer.cs	493,172		
+OpenPmsDental/Forms/FormDefEditImages.designer.cs	644,359		
+OpenPmsDental/Forms/FormDefaultCCProcs.designer.cs	332,473		
+OpenPmsDental/Forms/FormDefinitionPicker.designer.cs	509,491		
+OpenPmsDental/Forms/FormDefinitions.designer.cs	711,707		
+OpenPmsDental/Forms/FormDentalSchoolSetup.designer.cs	343,213		
+OpenPmsDental/Forms/FormDepositEdit.designer.cs	974,696		
+OpenPmsDental/Forms/FormDeposits.designer.cs	454,613		
+OpenPmsDental/Forms/FormDiscountPlanEdit.designer.cs	504,500		
+OpenPmsDental/Forms/FormDiscountPlanMerge.designer.cs	663,250		
+OpenPmsDental/Forms/FormDiscountPlanSubEdit.designer.cs	430,368		
+OpenPmsDental/Forms/FormDiscountPlans.designer.cs	796,439		
+OpenPmsDental/Forms/FormDiseaseDefEdit.designer.cs	460,208		
+OpenPmsDental/Forms/FormDiseaseDefMerge.Designer.cs	500,198		
+OpenPmsDental/Forms/FormDiseaseDefs.designer.cs	680,697		
+OpenPmsDental/Forms/FormDispensary.designer.cs	974,612		
+OpenPmsDental/Forms/FormDisplayFieldCategories.designer.cs	271,386		
+OpenPmsDental/Forms/FormDisplayFieldEdit.designer.cs	597,154		
+OpenPmsDental/Forms/FormDisplayFieldOrthoEdit.designer.cs	510,497		
+OpenPmsDental/Forms/FormDisplayFields.designer.cs	549,556		
+OpenPmsDental/Forms/FormDisplayFieldsOrthoChart.designer.cs	638,550		
+OpenPmsDental/Forms/FormDomainUserPick.designer.cs	984,572		
+OpenPmsDental/Forms/FormDoseSpotProperyEdit.designer.cs	350,199		
+OpenPmsDental/Forms/FormDrugManufacturerSetup.designer.cs	324,362		
+OpenPmsDental/Forms/FormDrugUnitSetup.designer.cs	324,362		
+OpenPmsDental/Forms/FormDunningEdit.designer.cs	908,529		
+OpenPmsDental/Forms/FormDunningSetup.designer.cs	1111,420		
+OpenPmsDental/Forms/FormEClinicalWorks.designer.cs	671,656		
+OpenPmsDental/Forms/FormEHR.Designer.cs	817,696		
+OpenPmsDental/Forms/FormEbillSetup.Designer.cs	874,196		
+OpenPmsDental/Forms/FormEcwDiag.designer.cs	725,534		
+OpenPmsDental/Forms/FormEcwDiagAdv.designer.cs	1073,680		
+OpenPmsDental/Forms/FormEdgeExpressPayPage.Designer.cs	684,618		
+OpenPmsDental/Forms/FormEdgeExpressSetup.designer.cs	435,535		
+OpenPmsDental/Forms/FormEdgeExpressTrans.designer.cs	392,323		
+OpenPmsDental/Forms/FormEditTestModeOverrides.designer.cs	484,461		
+OpenPmsDental/Forms/FormEdsValidation.Designer.cs	884,473		
+OpenPmsDental/Forms/FormEduResourceEdit.Designer.cs	623,383		
+OpenPmsDental/Forms/FormEduResourceSetup.Designer.cs	892,531		
+OpenPmsDental/Forms/FormEhrAmendmentEdit.Designer.cs	582,310		
+OpenPmsDental/Forms/FormEhrAmendments.Designer.cs	588,282		
+OpenPmsDental/Forms/FormEhrAptObsEdit.designer.cs	478,272		
+OpenPmsDental/Forms/FormEhrAptObses.designer.cs	645,483		
+OpenPmsDental/Forms/FormEhrCarePlanEdit.designer.cs	427,355		
+OpenPmsDental/Forms/FormEhrCarePlans.designer.cs	982,707		
+OpenPmsDental/Forms/FormEhrClinicalSummary.Designer.cs	273,475		
+OpenPmsDental/Forms/FormEhrEduBrowser.Designer.cs	884,639		
+OpenPmsDental/Forms/FormEhrEduResourcesPat.Designer.cs	871,671		
+OpenPmsDental/Forms/FormEhrElectronicCopy.Designer.cs	437,483		
+OpenPmsDental/Forms/FormEhrEncryption.Designer.cs	680,319		
+OpenPmsDental/Forms/FormEhrExportCCD.designer.cs	365,396		
+OpenPmsDental/Forms/FormEhrGrowthCharts.Designer.cs	684,692		
+OpenPmsDental/Forms/FormEhrHash.Designer.cs	561,281		
+OpenPmsDental/Forms/FormEhrLabImageEdit.designer.cs	784,589		
+OpenPmsDental/Forms/FormEhrLabNoteEdit.Designer.cs	714,392		
+OpenPmsDental/Forms/FormEhrLabOrderEdit2014.Designer.cs	974,696		
+OpenPmsDental/Forms/FormEhrLabOrderImport.Designer.cs	714,392		
+OpenPmsDental/Forms/FormEhrLabOrders.Designer.cs	974,402		
+OpenPmsDental/Forms/FormEhrLabPanelEdit.Designer.cs	572,595		
+OpenPmsDental/Forms/FormEhrLabPanelImport.Designer.cs	895,536		
+OpenPmsDental/Forms/FormEhrLabPanels.Designer.cs	418,331		
+OpenPmsDental/Forms/FormEhrLabResultEdit.Designer.cs	390,338		
+OpenPmsDental/Forms/FormEhrLabResultEdit2014.Designer.cs	974,684		
+OpenPmsDental/Forms/FormEhrLabSpecimenEdit.Designer.cs	599,392		
+OpenPmsDental/Forms/FormEhrMeasureCalc.designer.cs	1000,640		
+OpenPmsDental/Forms/FormEhrMeasureCalcDetail.designer.cs	860,700		
+OpenPmsDental/Forms/FormEhrMeasureEventEdit.Designer.cs	548,261		
+OpenPmsDental/Forms/FormEhrMeasureEvents.designer.cs	784,441		
+OpenPmsDental/Forms/FormEhrMedicalOrderLabEdit.Designer.cs	490,381		
+OpenPmsDental/Forms/FormEhrMedicalOrderRadEdit.Designer.cs	490,278		
+OpenPmsDental/Forms/FormEhrMedicalOrders.Designer.cs	721,320		
+OpenPmsDental/Forms/FormEhrNotPerformed.designer.cs	917,423		
+OpenPmsDental/Forms/FormEhrNotPerformedEdit.designer.cs	377,414		
+OpenPmsDental/Forms/FormEhrPatListElementEdit.Designer.cs	399,271		
+OpenPmsDental/Forms/FormEhrPatListResults.Designer.cs	886,370		
+OpenPmsDental/Forms/FormEhrPatientConfidentialPrefEdit.Designer.cs	362,112		
+OpenPmsDental/Forms/FormEhrPatientExport.designer.cs	626,498		
+OpenPmsDental/Forms/FormEhrPatientSelectSimple.Designer.cs	773,530		
+OpenPmsDental/Forms/FormEhrPatientSmoking.Designer.cs	967,524		
+OpenPmsDental/Forms/FormEhrProviderKeyEdit.designer.cs	440,256		
+OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	465,342		
+OpenPmsDental/Forms/FormEhrReminders.Designer.cs	562,617		
+OpenPmsDental/Forms/FormEhrSettings.designer.cs	768,685		
+OpenPmsDental/Forms/FormEhrSetup.designer.cs	561,395		
+OpenPmsDental/Forms/FormEhrSummaryCcdEdit.Designer.cs	884,639		
+OpenPmsDental/Forms/FormEhrSummaryOfCare.Designer.cs	441,434		
+OpenPmsDental/Forms/FormEhrTimeSynch.designer.cs	538,400		
+OpenPmsDental/Forms/FormEhrVaccinePatEdit.Designer.cs	974,599		
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	663,516		
+OpenPmsDental/Forms/FormElectIDEdit.designer.cs	710,391		
+OpenPmsDental/Forms/FormElectIDs.designer.cs	913,731		
+OpenPmsDental/Forms/FormEligibilityResponseDisplay.designer.cs	814,462		
+OpenPmsDental/Forms/FormEmailAddressEdit.designer.cs	1039,629		
+OpenPmsDental/Forms/FormEmailAddresses.designer.cs	910,539		
+OpenPmsDental/Forms/FormEmailAutographEdit.designer.cs	974,695		
+OpenPmsDental/Forms/FormEmailCertRegister.designer.cs	620,612		
+OpenPmsDental/Forms/FormEmailDigitalSignature.designer.cs	488,329		
+OpenPmsDental/Forms/FormEmailEdit.designer.cs	1230,696		
+OpenPmsDental/Forms/FormEmailInbox.designer.cs	1230,795		
+OpenPmsDental/Forms/FormEmailMessageEdit.designer.cs	974,696		
+OpenPmsDental/Forms/FormEmailTemplateEdit.designer.cs	974,695		
+OpenPmsDental/Forms/FormEmployeeEdit.designer.cs	458,431		
+OpenPmsDental/Forms/FormEmployeeSelect.designer.cs	933,627	height	Load sets the window height to the screen working area's (Screen.FromControl(this).WorkingArea.Height-2)
+OpenPmsDental/Forms/FormEmployers.designer.cs	361,570		
+OpenPmsDental/Forms/FormEncounterEdit.designer.cs	565,415		
+OpenPmsDental/Forms/FormEncounterTool.designer.cs	456,316		
+OpenPmsDental/Forms/FormEncounters.designer.cs	742,423		
+OpenPmsDental/Forms/FormEquipment.Designer.cs	974,585		
+OpenPmsDental/Forms/FormEquipmentEdit.Designer.cs	555,383		
+OpenPmsDental/Forms/FormErx.designer.cs	974,696		
+OpenPmsDental/Forms/FormErxSetup.designer.cs	780,602		
+OpenPmsDental/Forms/FormEtrans270EBraw.designer.cs	365,452		
+OpenPmsDental/Forms/FormEtrans270Edit.designer.cs	974,674		
+OpenPmsDental/Forms/FormEtrans277Edit.designer.cs	984,709		
+OpenPmsDental/Forms/FormEtrans834Import.designer.cs	974,696		
+OpenPmsDental/Forms/FormEtrans834Preview.designer.cs	974,696		
+OpenPmsDental/Forms/FormEtrans835ClaimEdit.designer.cs	974,696		
+OpenPmsDental/Forms/FormEtrans835ClaimPay.designer.cs	974,696		
+OpenPmsDental/Forms/FormEtrans835ClaimSelect.designer.cs	784,562		
+OpenPmsDental/Forms/FormEtrans835Edit.designer.cs	974,695		
+OpenPmsDental/Forms/FormEtrans835PickEob.designer.cs	332,313		
+OpenPmsDental/Forms/FormEtrans835PickEra.designer.cs	498,303		
+OpenPmsDental/Forms/FormEtrans835ProcEdit.designer.cs	974,522		
+OpenPmsDental/Forms/FormEtrans835s.Designer.cs	1034,696		
+OpenPmsDental/Forms/FormEtransEdit.designer.cs	889,672		
+OpenPmsDental/Forms/FormEvaluationCriterionDefEdit.designer.cs	360,174		
+OpenPmsDental/Forms/FormEvaluationDefEdit.designer.cs	491,447		
+OpenPmsDental/Forms/FormEvaluationDefs.designer.cs	461,489		
+OpenPmsDental/Forms/FormEvaluationEdit.designer.cs	842,493		
+OpenPmsDental/Forms/FormEvaluationReport.designer.cs	974,475		
+OpenPmsDental/Forms/FormEvaluations.designer.cs	974,517		
+OpenPmsDental/Forms/FormExamSheets.designer.cs	974,696		
+OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	1208,661		
+OpenPmsDental/Forms/FormFamilyHealthEdit.designer.cs	559,220		
+OpenPmsDental/Forms/FormFamilyMemberSelect.designer.cs	311,263		
+OpenPmsDental/Forms/FormFeeEdit.designer.cs	374,132		
+OpenPmsDental/Forms/FormFeeSchedGroupEdit.designer.cs	589,426		
+OpenPmsDental/Forms/FormFeeSchedGroups.designer.cs	910,696		
+OpenPmsDental/Forms/FormFeeSchedTools.designer.cs	429,422		
+OpenPmsDental/Forms/FormFeeScheds.designer.cs	588,644		
+OpenPmsDental/Forms/FormFeesForIns.designer.cs	824,696		
+OpenPmsDental/Forms/FormFieldDefLink.designer.cs	638,500		
+OpenPmsDental/Forms/FormFileMonitor.designer.cs	1028,512		
+OpenPmsDental/Forms/FormFilePicker.designer.cs	514,512		
+OpenPmsDental/Forms/FormFinanceCharges.designer.cs	573,523		
+OpenPmsDental/Forms/FormFormPatEdit.designer.cs	791,671		
+OpenPmsDental/Forms/FormGlidewellAcctEdit.Designer.cs	424,385		
+OpenPmsDental/Forms/FormGlidewellSetup.Designer.cs	594,620		
+OpenPmsDental/Forms/FormGlobalPaymentsV2.Designer.cs	440,356		
+OpenPmsDental/Forms/FormGlobalPaymentsV2Setup.Designer.cs	640,616		
+OpenPmsDental/Forms/FormGlobalSecurity.designer.cs	370,597		
+OpenPmsDental/Forms/FormGmailApiSetup.Designer.cs	484,222		
+OpenPmsDental/Forms/FormGradingScaleEdit.designer.cs	423,371		
+OpenPmsDental/Forms/FormGradingScales.designer.cs	452,263		
+OpenPmsDental/Forms/FormGraphics.designer.cs	892,683		
+OpenPmsDental/Forms/FormGridSelection.designer.cs	384,331		
+OpenPmsDental/Forms/FormGroupPermEdit.designer.cs	483,216		
+OpenPmsDental/Forms/FormGuardianEdit.designer.cs	372,164		
+OpenPmsDental/Forms/FormHL7DefEdit.designer.cs	823,696		
+OpenPmsDental/Forms/FormHL7DefFieldEdit.designer.cs	344,678		
+OpenPmsDental/Forms/FormHL7DefMessageEdit.designer.cs	725,534		
+OpenPmsDental/Forms/FormHL7DefSegmentEdit.designer.cs	654,441		
+OpenPmsDental/Forms/FormHL7Defs.designer.cs	974,641		
+OpenPmsDental/Forms/FormHL7MsgEdit.designer.cs	884,511		
+OpenPmsDental/Forms/FormHL7Msgs.designer.cs	939,663		
+OpenPmsDental/Forms/FormHcpcs.designer.cs	961,691		
+OpenPmsDental/Forms/FormHieSetup.designer.cs	543,171		
+OpenPmsDental/Forms/FormIcd10s.designer.cs	961,691		
+OpenPmsDental/Forms/FormIcd9s.designer.cs	614,690		
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	600,249		
+OpenPmsDental/Forms/FormImageDrawColor.Designer.cs	313,146		
+OpenPmsDental/Forms/FormImageFloat.Designer.cs	431,376		
+OpenPmsDental/Forms/FormImagePicker.designer.cs	806,494		
+OpenPmsDental/Forms/FormImagePickerDXC.designer.cs	1230,696		
+OpenPmsDental/Forms/FormImagePickerPatient.designer.cs	1230,696		
+OpenPmsDental/Forms/FormImageSelect.designer.cs	495,564		
+OpenPmsDental/Forms/FormImageSelectClaimAttach.designer.cs	579,564		
+OpenPmsDental/Forms/FormImages.designer.cs	1166,778		
+OpenPmsDental/Forms/FormImagingDeviceEdit.designer.cs	526,241		
+OpenPmsDental/Forms/FormImagingDevices.designer.cs	1154,563		
+OpenPmsDental/Forms/FormImagingSetup.designer.cs	649,555		
+OpenPmsDental/Forms/FormIncomeTransferManage.designer.cs	1073,565		
+OpenPmsDental/Forms/FormInfobutton.designer.cs	588,584		
+OpenPmsDental/Forms/FormInnoDb.designer.cs	725,534		
+OpenPmsDental/Forms/FormInsAdj.designer.cs	248,217		
+OpenPmsDental/Forms/FormInsBenefitNotes.designer.cs	561,660		
+OpenPmsDental/Forms/FormInsBenefits.designer.cs	1159,712		
+OpenPmsDental/Forms/FormInsBlueBookRuleEdit.designer.cs	251,239		
+OpenPmsDental/Forms/FormInsBlueBookRules.designer.cs	660,401		
+OpenPmsDental/Forms/FormInsCatEdit.designer.cs	476,180		
+OpenPmsDental/Forms/FormInsCatsSetup.designer.cs	713,660		
+OpenPmsDental/Forms/FormInsEditLogs.designer.cs	1011,602		
+OpenPmsDental/Forms/FormInsEditPatLog.designer.cs	1011,602		
+OpenPmsDental/Forms/FormInsFilingCodeEdit.designer.cs	507,375		
+OpenPmsDental/Forms/FormInsFilingCodes.designer.cs	620,640		
+OpenPmsDental/Forms/FormInsHistSetup.designer.cs	530,348		
+OpenPmsDental/Forms/FormInsPayFix.designer.cs	436,138		
+OpenPmsDental/Forms/FormInsPlan.designer.cs	1340,686		
+OpenPmsDental/Forms/FormInsPlanConvert_7_5_17.designer.cs	569,285		
+OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	792,284		
+OpenPmsDental/Forms/FormInsPlanSubstitution.designer.cs	589,474		
+OpenPmsDental/Forms/FormInsPlans.designer.cs	987,696		
+OpenPmsDental/Forms/FormInsPlansMerge.designer.cs	962,669		
+OpenPmsDental/Forms/FormInsPlansMergeWarning.designer.cs	962,556		
+OpenPmsDental/Forms/FormInsPlansOverrides.designer.cs	987,696		
+OpenPmsDental/Forms/FormInsRemain.designer.cs	787,414		
+OpenPmsDental/Forms/FormInsSpanEdit.designer.cs	246,120		
+OpenPmsDental/Forms/FormInsVerificationList.designer.cs	974,661		
+OpenPmsDental/Forms/FormInsVerificationSetup.designer.cs	811,426		
+OpenPmsDental/Forms/FormInstallmentPlanEdit.designer.cs	387,274		
+OpenPmsDental/Forms/FormInterventionEdit.designer.cs	652,548		
+OpenPmsDental/Forms/FormInterventions.designer.cs	867,423		
+OpenPmsDental/Forms/FormInventorySetup.Designer.cs	452,178		
+OpenPmsDental/Forms/FormInvoiceItemSelect.designer.cs	715,564		
+OpenPmsDental/Forms/FormJournal.designer.cs	1069,671		
+OpenPmsDental/Forms/FormJournalEntryEdit.designer.cs	456,320		
+OpenPmsDental/Forms/FormLabCaseEdit.designer.cs	864,480		
+OpenPmsDental/Forms/FormLabCaseProductEdit.Designer.cs	416,245		
+OpenPmsDental/Forms/FormLabCaseSelect.designer.cs	599,240		
+OpenPmsDental/Forms/FormLabCases.designer.cs	945,533		
+OpenPmsDental/Forms/FormLabTurnaroundEdit.designer.cs	453,156		
+OpenPmsDental/Forms/FormLaboratories.designer.cs	616,405		
+OpenPmsDental/Forms/FormLaboratoryEdit.designer.cs	709,623		
+OpenPmsDental/Forms/FormLanguageAndRegion.designer.cs	436,213		
+OpenPmsDental/Forms/FormLanguagesUsed.designer.cs	738,653		
+OpenPmsDental/Forms/FormLateCharges.designer.cs	602,408		
+OpenPmsDental/Forms/FormLetterEdit.designer.cs	803,463		
+OpenPmsDental/Forms/FormLetterMergeEdit.designer.cs	809,679		
+OpenPmsDental/Forms/FormLetterMerges.designer.cs	579,446		
+OpenPmsDental/Forms/FormLetters.designer.cs	858,615		
+OpenPmsDental/Forms/FormLicense.designer.cs	851,520		
+OpenPmsDental/Forms/FormLimitedStatementSelect.designer.cs	1004,696		
+OpenPmsDental/Forms/FormLogOn.designer.cs	532,367		
+OpenPmsDental/Forms/FormLoginFailed.designer.cs	400,150		
+OpenPmsDental/Forms/FormLoincs.Designer.cs	1006,665		
+OpenPmsDental/Forms/FormMaintBoard.Designer.cs	1100,636		
+OpenPmsDental/Forms/FormMaintFieldEdit.Designer.cs	393,232		
+OpenPmsDental/Forms/FormMaintHistory.Designer.cs	1100,636		
+OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	900,608		
+OpenPmsDental/Forms/FormMaintRecordEdit.Designer.cs	760,620		
+OpenPmsDental/Forms/FormMarkupTableEdit.designer.cs	952,613		
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	760,448		
+OpenPmsDental/Forms/FormMedLabEdit.designer.cs	974,696		
+OpenPmsDental/Forms/FormMedLabHL7MsgText.Designer.cs	884,687		
+OpenPmsDental/Forms/FormMedLabPatSelect.Designer.cs	824,392		
+OpenPmsDental/Forms/FormMedLabResultHist.Designer.cs	974,409		
+OpenPmsDental/Forms/FormMedLabs.Designer.cs	974,561		
+OpenPmsDental/Forms/FormMedPat.designer.cs	616,510		
+OpenPmsDental/Forms/FormMedical.designer.cs	802,494		
+OpenPmsDental/Forms/FormMedicationEdit.designer.cs	621,478		
+OpenPmsDental/Forms/FormMedicationMerge.designer.cs	689,245		
+OpenPmsDental/Forms/FormMedicationReconcile.designer.cs	918,676		
+OpenPmsDental/Forms/FormMedications.designer.cs	941,671		
+OpenPmsDental/Forms/FormMessageReplacementTextEdit.Designer.cs	504,470		
+OpenPmsDental/Forms/FormMessagingButSetup.designer.cs	584,383		
+OpenPmsDental/Forms/FormMessagingSetup.designer.cs	406,430		
+OpenPmsDental/Forms/FormMicrosoft365Setup.Designer.cs	520,486		
+OpenPmsDental/Forms/FormMountDefEdit.designer.cs	1230,696		
+OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	588,288		
+OpenPmsDental/Forms/FormMountDefs.designer.cs	388,487		
+OpenPmsDental/Forms/FormMountItemDefEdit.designer.cs	592,455		
+OpenPmsDental/Forms/FormMountainside.designer.cs	562,225		
+OpenPmsDental/Forms/FormMultiVisitGroup.designer.cs	734,561		
+OpenPmsDental/Forms/FormNotePick.designer.cs	692,656		
+OpenPmsDental/Forms/FormOIDRegistryInternal.Designer.cs	584,362		
+OpenPmsDental/Forms/FormOnlinePayments.designer.cs	682,543		
+OpenPmsDental/Forms/FormOperatories.designer.cs	973,486		
+OpenPmsDental/Forms/FormOperatoryEdit.designer.cs	589,303		
+OpenPmsDental/Forms/FormOperatoryPick.Designer.cs	880,511		
+OpenPmsDental/Forms/FormOrthoAutoClaims.designer.cs	939,510		
+OpenPmsDental/Forms/FormOrthoCase.designer.cs	1019,410		
+OpenPmsDental/Forms/FormOrthoChart.designer.cs	1014,687		
+OpenPmsDental/Forms/FormOrthoChartSetup.designer.cs	368,324		
+OpenPmsDental/Forms/FormOrthoHardwareAdd.Designer.cs	563,667		
+OpenPmsDental/Forms/FormOrthoHardwareEdit.Designer.cs	488,227		
+OpenPmsDental/Forms/FormOrthoHardwareSpecEdit.Designer.cs	487,192		
+OpenPmsDental/Forms/FormOrthoHardwareSpecs.Designer.cs	595,578		
+OpenPmsDental/Forms/FormOrthoPat.designer.cs	365,200		
+OpenPmsDental/Forms/FormOrthoRxEdit.Designer.cs	585,251		
+OpenPmsDental/Forms/FormOrthoRxSelect.Designer.cs	680,522		
+OpenPmsDental/Forms/FormOrthoRxSetup.Designer.cs	622,537		
+OpenPmsDental/Forms/FormPatFieldCheckEdit.designer.cs	272,116		
+OpenPmsDental/Forms/FormPatFieldCurrencyEdit.designer.cs	272,116		
+OpenPmsDental/Forms/FormPatFieldDateEdit.designer.cs	272,116		
+OpenPmsDental/Forms/FormPatFieldDefEdit.designer.cs	447,437		
+OpenPmsDental/Forms/FormPatFieldDefs.designer.cs	512,415		
+OpenPmsDental/Forms/FormPatFieldEdit.designer.cs	375,173		
+OpenPmsDental/Forms/FormPatFieldPickEdit.designer.cs	375,538		
+OpenPmsDental/Forms/FormPatListEHR2014.Designer.cs	747,530		
+OpenPmsDental/Forms/FormPatListElementEditEHR2014.Designer.cs	496,372		
+OpenPmsDental/Forms/FormPatListResultsEHR2014.Designer.cs	886,370		
+OpenPmsDental/Forms/FormPath.designer.cs	675,626		
+OpenPmsDental/Forms/FormPatientEdit.Designer.cs	974,696		
+OpenPmsDental/Forms/FormPatientForms.designer.cs	855,696		
+OpenPmsDental/Forms/FormPatientListDiscount.Designer.cs	517,634		
+OpenPmsDental/Forms/FormPatientMerge.designer.cs	693,250		
+OpenPmsDental/Forms/FormPatientStatusTool.designer.cs	1019,639		
+OpenPmsDental/Forms/FormPayConnect2.Designer.cs	943,477		
+OpenPmsDental/Forms/FormPayConnect2iFrame.Designer.cs	524,432		
+OpenPmsDental/Forms/FormPayConnectSetup.designer.cs	776,708		
+OpenPmsDental/Forms/FormPayPeriodEdit.designer.cs	259,181		
+OpenPmsDental/Forms/FormPayPeriodManager.designer.cs	650,559		
+OpenPmsDental/Forms/FormPayPlan.designer.cs	1023,696		
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	395,300		
+OpenPmsDental/Forms/FormPayPlanChargeSelection.Designer.cs	288,410		
+OpenPmsDental/Forms/FormPayPlanCredits.designer.cs	937,510		
+OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	1043,696		
+OpenPmsDental/Forms/FormPayPlanRecalculate.designer.cs	379,186		
+OpenPmsDental/Forms/FormPayPlanSelect.designer.cs	609,246		
+OpenPmsDental/Forms/FormPayPlanTemplateEdit.Designer.cs	503,354		
+OpenPmsDental/Forms/FormPayPlanTemplates.Designer.cs	972,516		
+OpenPmsDental/Forms/FormPaySimple.designer.cs	456,379		
+OpenPmsDental/Forms/FormPaySimpleSetup.designer.cs	394,462		
+OpenPmsDental/Forms/FormPaySplitEdit.designer.cs	791,492		
+OpenPmsDental/Forms/FormPayTerminalEdit.Designer.cs	321,160		
+OpenPmsDental/Forms/FormPayment.designer.cs	1111,696		
+OpenPmsDental/Forms/FormPaymentPlanOptions.designer.cs	490,275		
+OpenPmsDental/Forms/FormPayorTypeEdit.Designer.cs	624,244		
+OpenPmsDental/Forms/FormPayorTypes.Designer.cs	702,271		
+OpenPmsDental/Forms/FormPdmpClientCertificate.Designer.cs	520,329		
+OpenPmsDental/Forms/FormPerio.designer.cs	1231,696		
+OpenPmsDental/Forms/FormPerioEdit.designer.cs	387,266		
+OpenPmsDental/Forms/FormPerioGraphical.designer.cs	768,696		
+OpenPmsDental/Forms/FormPerioGraphicalSetup.designer.cs	451,207		
+OpenPmsDental/Forms/FormPerioSetup.Designer.cs	554,267		
+OpenPmsDental/Forms/FormPharmacies.designer.cs	834,630		
+OpenPmsDental/Forms/FormPharmacyEdit.designer.cs	495,323		
+OpenPmsDental/Forms/FormPlansForFamily.designer.cs	564,253		
+OpenPmsDental/Forms/FormPodiumSetup.designer.cs	631,399		
+OpenPmsDental/Forms/FormPopupDisplay.designer.cs	425,240		
+OpenPmsDental/Forms/FormPopupFade.designer.cs	326,100		
+OpenPmsDental/Forms/FormPopupsForFam.designer.cs	679,391		
+OpenPmsDental/Forms/FormPractice.designer.cs	891,578		
+OpenPmsDental/Forms/FormPreAuthReminder.Designer.cs	624,294		
+OpenPmsDental/Forms/FormPreferences.Designer.cs	750,696		
+OpenPmsDental/Forms/FormPrepaymentEdit.designer.cs	218,83		
+OpenPmsDental/Forms/FormPrinterEdit.Designer.cs	516,273		
+OpenPmsDental/Forms/FormPrinterSetup.designer.cs	941,404		
+OpenPmsDental/Forms/FormPrntScrn.designer.cs	976,792		
+OpenPmsDental/Forms/FormProcApptColorEdit.designer.cs	361,159		
+OpenPmsDental/Forms/FormProcApptColors.designer.cs	320,428		
+OpenPmsDental/Forms/FormProcBandingSelect.designer.cs	561,431		
+OpenPmsDental/Forms/FormProcBroken.designer.cs	526,508		
+OpenPmsDental/Forms/FormProcButtonEdit.designer.cs	787,549		
+OpenPmsDental/Forms/FormProcButtonQuickEdit.designer.cs	401,175		
+OpenPmsDental/Forms/FormProcButtons.designer.cs	580,475		
+OpenPmsDental/Forms/FormProcCodeEdit.designer.cs	1072,696		
+OpenPmsDental/Forms/FormProcCodeEditMore.designer.cs	560,506		
+OpenPmsDental/Forms/FormProcCodeNew.designer.cs	812,512		
+OpenPmsDental/Forms/FormProcCodeNoteEdit.designer.cs	646,646		
+OpenPmsDental/Forms/FormProcCodes2.designer.cs	1014,696		
+OpenPmsDental/Forms/FormProcCodesOther.Designer.cs	520,326		
+OpenPmsDental/Forms/FormProcEdit.designer.cs	984,696		
+OpenPmsDental/Forms/FormProcEditAll.designer.cs	540,210		
+OpenPmsDental/Forms/FormProcGroup.designer.cs	990,690		
+OpenPmsDental/Forms/FormProcLockTool.designer.cs	330,119		
+OpenPmsDental/Forms/FormProcNoteAppend.designer.cs	572,483		
+OpenPmsDental/Forms/FormProcSelect.designer.cs	873,586		
+OpenPmsDental/Forms/FormProcTPEdit.designer.cs	564,461		
+OpenPmsDental/Forms/FormProcTools.designer.cs	698,460		
+OpenPmsDental/Forms/FormProdSelect.designer.cs	580,432		
+OpenPmsDental/Forms/FormProgramLinkEdit.designer.cs	768,567		
+OpenPmsDental/Forms/FormProgramLinkHideClinics.designer.cs	451,506		
+OpenPmsDental/Forms/FormProgramLinkOutputFile .designer.cs	542,626		
+OpenPmsDental/Forms/FormProgramLinks.designer.cs	464,669		
+OpenPmsDental/Forms/FormProgramProperty.designer.cs	492,173		
+OpenPmsDental/Forms/FormProvAdditional.designer.cs	784,458		
+OpenPmsDental/Forms/FormProvEdit.designer.cs	895,665		
+OpenPmsDental/Forms/FormProvStudentBulkEdit.designer.cs	583,494		
+OpenPmsDental/Forms/FormProvStudentEdit.designer.cs	416,246		
+OpenPmsDental/Forms/FormProviderMerge.designer.cs	689,245		
+OpenPmsDental/Forms/FormProviderMultiPick.designer.cs	514,670		
+OpenPmsDental/Forms/FormProviderSetup.designer.cs	982,707		
+OpenPmsDental/Forms/FormQBAccountSelect.designer.cs	399,127		
+OpenPmsDental/Forms/FormQueryEdit.designer.cs	682,670		
+OpenPmsDental/Forms/FormQueryFavorites.designer.cs	1084,656		
+OpenPmsDental/Forms/FormQueryMonitor.designer.cs	1036,512		
+OpenPmsDental/Forms/FormQueryParser.Designer.cs	817,681		
+OpenPmsDental/Forms/FormQuestionDefEdit.designer.cs	641,273		
+OpenPmsDental/Forms/FormQuestionDefs.designer.cs	838,675		
+OpenPmsDental/Forms/FormQuickBooksOnlineAuthorization.designer.cs	533,275		
+OpenPmsDental/Forms/FormQuickBooksOnlineSetup.designer.cs	814,719		
+OpenPmsDental/Forms/FormQuickBooksSetup.designer.cs	528,639		
+OpenPmsDental/Forms/FormRadOrderList.designer.cs	974,696		
+OpenPmsDental/Forms/FormReactivationEdit.designer.cs	552,267		
+OpenPmsDental/Forms/FormReactivationSetup.designer.cs	963,585		
+OpenPmsDental/Forms/FormRecallEdit.designer.cs	723,489		
+OpenPmsDental/Forms/FormRecallList.designer.cs	985,696		
+OpenPmsDental/Forms/FormRecallListUndo.designer.cs	534,261		
+OpenPmsDental/Forms/FormRecallSetup.designer.cs	900,695		
+OpenPmsDental/Forms/FormRecallTypeEdit.designer.cs	646,666		
+OpenPmsDental/Forms/FormRecallTypes.designer.cs	887,358		
+OpenPmsDental/Forms/FormRecallsPat.designer.cs	848,439		
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	982,676		
+OpenPmsDental/Forms/FormReconcileEdit.designer.cs	587,680		
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	982,676		
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	982,676		
+OpenPmsDental/Forms/FormReconciles.designer.cs	226,549		
+OpenPmsDental/Forms/FormRecordAudio.designer.cs	303,121		
+OpenPmsDental/Forms/FormRecurringChargeFailEmailTemplate.Designer.cs	560,357		
+OpenPmsDental/Forms/FormRecurringChargesHistory.designer.cs	1044,714		
+OpenPmsDental/Forms/FormRedundantIndexes.designer.cs	1230,490		
+OpenPmsDental/Forms/FormReferralMerge.designer.cs	666,249		
+OpenPmsDental/Forms/FormReferralProcTrack.designer.cs	810,534		
+OpenPmsDental/Forms/FormRegistrationKey.designer.cs	763,442		
+OpenPmsDental/Forms/FormReminderRuleEdit.Designer.cs	446,213		
+OpenPmsDental/Forms/FormReminderRules.Designer.cs	670,415		
+OpenPmsDental/Forms/FormRepeatChargeEdit.designer.cs	682,549		
+OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	645,305		
+OpenPmsDental/Forms/FormRepeatChargesUpdate.designer.cs	520,243		
+OpenPmsDental/Forms/FormReplicationEdit.designer.cs	678,353		
+OpenPmsDental/Forms/FormReplicationSetup.designer.cs	885,636		
+OpenPmsDental/Forms/FormReportSetup.designer.cs	556,681		
+OpenPmsDental/Forms/FormReportsFiltered.designer.cs	391,638		
+OpenPmsDental/Forms/FormReportsMore.designer.cs	680,665		
+OpenPmsDental/Forms/FormReqAppt.designer.cs	893,661		
+OpenPmsDental/Forms/FormReqFieldCondEdit.designer.cs	405,324		
+OpenPmsDental/Forms/FormReqNeededEdit.designer.cs	561,107		
+OpenPmsDental/Forms/FormReqNeededs.designer.cs	793,617		
+OpenPmsDental/Forms/FormReqStudentEdit.designer.cs	631,246		
+OpenPmsDental/Forms/FormReqStudentOne.designer.cs	760,665		
+OpenPmsDental/Forms/FormReqStudentsMany.designer.cs	689,661		
+OpenPmsDental/Forms/FormRequiredFields.designer.cs	883,595		
+OpenPmsDental/Forms/FormRpEraAutoProcessed.Designer.cs	1224,696		
+OpenPmsDental/Forms/FormRxAlertEdit.designer.cs	697,346		
+OpenPmsDental/Forms/FormRxCombine.Designer.cs	992,448		
+OpenPmsDental/Forms/FormRxDefEdit.designer.cs	634,587		
+OpenPmsDental/Forms/FormRxEdit.designer.cs	637,630		
+OpenPmsDental/Forms/FormRxManage.designer.cs	1034,491		
+OpenPmsDental/Forms/FormRxNorms.designer.cs	693,702		
+OpenPmsDental/Forms/FormRxSelect.designer.cs	942,674		
+OpenPmsDental/Forms/FormRxSetup.designer.cs	942,674		
+OpenPmsDental/Forms/FormSchedule.designer.cs	1023,696		
+OpenPmsDental/Forms/FormScheduleBlockEdit.designer.cs	638,396		
+OpenPmsDental/Forms/FormScheduleDayEdit.designer.cs	1003,720		
+OpenPmsDental/Forms/FormScheduleEdit.designer.cs	603,431		
+OpenPmsDental/Forms/FormScheduledProcesses.designer.cs	743,545		
+OpenPmsDental/Forms/FormScheduledProcessesEdit.designer.cs	339,179		
+OpenPmsDental/Forms/FormSchoolClassEdit.designer.cs	447,130		
+OpenPmsDental/Forms/FormSchoolClasses.designer.cs	300,459		
+OpenPmsDental/Forms/FormSchoolCourseEdit.designer.cs	590,126		
+OpenPmsDental/Forms/FormSchoolCourses.designer.cs	453,521		
+OpenPmsDental/Forms/FormScreenEdit.designer.cs	311,488		
+OpenPmsDental/Forms/FormScreenGroupEdit.designer.cs	864,641		
+OpenPmsDental/Forms/FormScreenGroups.designer.cs	524,576		
+OpenPmsDental/Forms/FormSecurity.designer.cs	984,696		
+OpenPmsDental/Forms/FormSecurityCentralUserEdit.designer.cs	437,407		
+OpenPmsDental/Forms/FormSecurityLock.designer.cs	470,321		
+OpenPmsDental/Forms/FormSetupWizard.designer.cs	411,400		
+OpenPmsDental/Forms/FormSetupWizardProgress.designer.cs	930,590		
+OpenPmsDental/Forms/FormSheetDef.designer.cs	566,541		
+OpenPmsDental/Forms/FormSheetDefDefaults.designer.cs	574,474		
+OpenPmsDental/Forms/FormSheetDefEdit.designer.cs	828,696		
+OpenPmsDental/Forms/FormSheetDefs.designer.cs	919,598		
+OpenPmsDental/Forms/FormSheetExport.designer.cs	492,638		
+OpenPmsDental/Forms/FormSheetFieldAdd.designer.cs	382,145		
+OpenPmsDental/Forms/FormSheetFieldChart.designer.cs	403,173		
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	675,696		
+OpenPmsDental/Forms/FormSheetFieldComboBox.designer.cs	670,441		
+OpenPmsDental/Forms/FormSheetFieldEditPatImage.designer.cs	514,302		
+OpenPmsDental/Forms/FormSheetFieldExam.designer.cs	394,412		
+OpenPmsDental/Forms/FormSheetFieldGrid.designer.cs	424,283		
+OpenPmsDental/Forms/FormSheetFieldImage.designer.cs	601,489		
+OpenPmsDental/Forms/FormSheetFieldInput.designer.cs	571,437		
+OpenPmsDental/Forms/FormSheetFieldLine.designer.cs	407,207		
+OpenPmsDental/Forms/FormSheetFieldOutput.designer.cs	483,412		
+OpenPmsDental/Forms/FormSheetFieldPatImage.designer.cs	474,263		
+OpenPmsDental/Forms/FormSheetFieldRect.designer.cs	294,202		
+OpenPmsDental/Forms/FormSheetFieldSigBox.designer.cs	423,297		
+OpenPmsDental/Forms/FormSheetFieldSpecial.designer.cs	478,271		
+OpenPmsDental/Forms/FormSheetFieldStatic.designer.cs	866,696		
+OpenPmsDental/Forms/FormSheetFillEdit.designer.cs	887,712		
+OpenPmsDental/Forms/FormSheetImport.designer.cs	1046,696		
+OpenPmsDental/Forms/FormSheetImportEnumPicker.designer.cs	314,340		
+OpenPmsDental/Forms/FormSheetOutputFormat.designer.cs	433,231		
+OpenPmsDental/Forms/FormSheetProcSelect.Designer.cs	650,696		
+OpenPmsDental/Forms/FormSheetTools.designer.cs	370,164		
+OpenPmsDental/Forms/FormShowFeatures.designer.cs	514,377		
+OpenPmsDental/Forms/FormShutdown.designer.cs	648,467		
+OpenPmsDental/Forms/FormSigButDefEdit.designer.cs	580,343		
+OpenPmsDental/Forms/FormSigElementDefEdit.designer.cs	599,363		
+OpenPmsDental/Forms/FormSnomeds.designer.cs	974,691		
+OpenPmsDental/Forms/FormSpellCheck.designer.cs	535,646		
+OpenPmsDental/Forms/FormSpellChecker.designer.cs	842,603		
+OpenPmsDental/Forms/FormSplash.Designer.cs	500,300		
+OpenPmsDental/Forms/FormSshHostKeys.Designer.cs	1100,556		
+OpenPmsDental/Forms/FormStateAbbrEdit.designer.cs	411,150		
+OpenPmsDental/Forms/FormStateAbbrs.designer.cs	336,515		
+OpenPmsDental/Forms/FormStatementChoices.Designer.cs	624,338		
+OpenPmsDental/Forms/FormStatementOptions.designer.cs	720,506		
+OpenPmsDental/Forms/FormSubscriberMove .designer.cs	496,190		
+OpenPmsDental/Forms/FormSubscriberSelect.designer.cs	358,274		
+OpenPmsDental/Forms/FormSubscribersList.Designer.cs	498,367		
+OpenPmsDental/Forms/FormSupplierEdit.Designer.cs	584,302		
+OpenPmsDental/Forms/FormSuppliers.Designer.cs	931,652		
+OpenPmsDental/Forms/FormSupplies.Designer.cs	762,657		
+OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	427,166		
+OpenPmsDental/Forms/FormSupplyCount.Designer.cs	780,480		
+OpenPmsDental/Forms/FormSupplyEdit.Designer.cs	599,448		
+OpenPmsDental/Forms/FormSupplyInventory.Designer.cs	474,638		
+OpenPmsDental/Forms/FormSupplyOrderEdit.Designer.cs	715,304		
+OpenPmsDental/Forms/FormSupplyOrderItemEdit.Designer.cs	613,270		
+OpenPmsDental/Forms/FormSupplyOrders.designer.cs	761,703		
+OpenPmsDental/Forms/FormSupplyProcCodes.Designer.cs	784,482		
+OpenPmsDental/Forms/FormSupplyProcPendings.Designer.cs	760,482		
+OpenPmsDental/Forms/FormSupplyReceive.Designer.cs	760,462		
+OpenPmsDental/Forms/FormSupplyStock.Designer.cs	1084,472		
+OpenPmsDental/Forms/FormSupplyUsageReport.Designer.cs	720,500		
+OpenPmsDental/Forms/FormTPsign.designer.cs	1099,696		
+OpenPmsDental/Forms/FormTaskAttachmentEdit.Designer.cs	1230,696		
+OpenPmsDental/Forms/FormTaskAttachments.Designer.cs	674,450		
+OpenPmsDental/Forms/FormTaskEdit.designer.cs	1185,686	width	LoadTask sets the window width from the split container (Width=splitContainer.Right+25); slice 2 left the designer at that width
+OpenPmsDental/Forms/FormTaskHist.designer.cs	765,416		
+OpenPmsDental/Forms/FormTaskInboxSetup.designer.cs	671,520		
+OpenPmsDental/Forms/FormTaskListBlock.designer.cs	436,442		
+OpenPmsDental/Forms/FormTaskListEdit.designer.cs	462,274		
+OpenPmsDental/Forms/FormTaskListSelect.designer.cs	684,517		
+OpenPmsDental/Forms/FormTaskNoteEdit.designer.cs	664,366		
+OpenPmsDental/Forms/FormTaskOptions.designer.cs	331,191		
+OpenPmsDental/Forms/FormTaskPreferences.designer.cs	384,387		
+OpenPmsDental/Forms/FormTaskSearch.designer.cs	1230,696		
+OpenPmsDental/Forms/FormTaskSubscribers.Designer.cs	344,494		
+OpenPmsDental/Forms/FormTasks.designer.cs	1230,696		
+OpenPmsDental/Forms/FormTasksForAppt.Designer.cs	958,692		
+OpenPmsDental/Forms/FormTaxAddress.designer.cs	439,231		
+OpenPmsDental/Forms/FormTelephone.designer.cs	642,83		
+OpenPmsDental/Forms/FormTerminal.designer.cs	864,686		
+OpenPmsDental/Forms/FormTerminalConnection.designer.cs	637,612		
+OpenPmsDental/Forms/FormTerminalManager.designer.cs	1045,609		
+OpenPmsDental/Forms/FormTestLatency.designer.cs	592,196		
+OpenPmsDental/Forms/FormTimeAdjustEdit.designer.cs	567,364		
+OpenPmsDental/Forms/FormTimeCard.designer.cs	979,696		
+OpenPmsDental/Forms/FormTimeCardManage.designer.cs	1049,696		
+OpenPmsDental/Forms/FormTimeCardRuleEdit.designer.cs	359,475		
+OpenPmsDental/Forms/FormTimeCardSetup.designer.cs	1020,696		
+OpenPmsDental/Forms/FormTimePick.designer.cs	253,171		
+OpenPmsDental/Forms/FormToothChartBig.designer.cs	926,858		
+OpenPmsDental/Forms/FormTrackNext.designer.cs	855,664		
+OpenPmsDental/Forms/FormTrackNextSetup.designer.cs	376,146		
+OpenPmsDental/Forms/FormTransactionEdit.designer.cs	649,508		
+OpenPmsDental/Forms/FormTranslation.designer.cs	958,708		
+OpenPmsDental/Forms/FormTranslationCat.designer.cs	520,648		
+OpenPmsDental/Forms/FormTranslationEdit.designer.cs	856,621		
+OpenPmsDental/Forms/FormTransworldSetup.designer.cs	424,538		
+OpenPmsDental/Forms/FormTreatPlanAddProcs.Designer.cs	900,556		
+OpenPmsDental/Forms/FormTreatPlanCurEdit.designer.cs	923,640		
+OpenPmsDental/Forms/FormTreatPlanDiscount.designer.cs	313,147		
+OpenPmsDental/Forms/FormTreatPlanEdit.designer.cs	660,420		
+OpenPmsDental/Forms/FormTsiHistory.designer.cs	1230,696		
+OpenPmsDental/Forms/FormTxtMsgEdit.designer.cs	377,339		
+OpenPmsDental/Forms/FormUcums.designer.cs	785,691		
+OpenPmsDental/Forms/FormUnsched.designer.cs	909,696		
+OpenPmsDental/Forms/FormUnschedListPatient.Designer.cs	594,369		
+OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	286,180		
+OpenPmsDental/Forms/FormUpdate.designer.cs	647,586		
+OpenPmsDental/Forms/FormUpdateHistory.designer.cs	329,475		
+OpenPmsDental/Forms/FormUpdateInProgress.designer.cs	566,195		
+OpenPmsDental/Forms/FormUpdateSetup.designer.cs	734,392		
+OpenPmsDental/Forms/FormUserEdit.designer.cs	1003,694		
+OpenPmsDental/Forms/FormUserPassword.designer.cs	408,156		
+OpenPmsDental/Forms/FormUserPrefAdditional.designer.cs	273,458		
+OpenPmsDental/Forms/FormUserQuery.Designer.cs	1276,720		
+OpenPmsDental/Forms/FormUspsAddressSetup.Designer.cs	494,362		
+OpenPmsDental/Forms/FormVaccineDefEdit.designer.cs	374,168		
+OpenPmsDental/Forms/FormVaccineDefSetup.designer.cs	324,362		
+OpenPmsDental/Forms/FormVaccineObsEdit.designer.cs	587,322		
+OpenPmsDental/Forms/FormVideo.designer.cs	520,360		
+OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	602,684		
+OpenPmsDental/Forms/FormWaitingRoom.Designer.cs	280,321		
+OpenPmsDental/Forms/FormWebBrowserPrefs.designer.cs	384,211		
+OpenPmsDental/Forms/FormWebView.designer.cs	974,696		
+OpenPmsDental/Forms/FormWiki.designer.cs	944,704		
+OpenPmsDental/Forms/FormWikiAllPages.designer.cs	1012,683		
+OpenPmsDental/Forms/FormWikiCompare.Designer.cs	1164,661		
+OpenPmsDental/Forms/FormWikiDrafts.designer.cs	1154,638		
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	944,573		
+OpenPmsDental/Forms/FormWikiFileFolder.designer.cs	646,123		
+OpenPmsDental/Forms/FormWikiHistory.designer.cs	1154,638		
+OpenPmsDental/Forms/FormWikiIncomingLinks.designer.cs	951,645		
+OpenPmsDental/Forms/FormWikiListEdit.designer.cs	952,628		
+OpenPmsDental/Forms/FormWikiListHeaders.designer.cs	764,470		
+OpenPmsDental/Forms/FormWikiListHistory.designer.cs	975,638		
+OpenPmsDental/Forms/FormWikiListItemEdit.designer.cs	644,677		
+OpenPmsDental/Forms/FormWikiLists.designer.cs	302,534		
+OpenPmsDental/Forms/FormWikiSearch.designer.cs	1184,662		
+OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	527,432		
+OpenPmsDental/Forms/FormXConnectValidation.Designer.cs	884,473		
+OpenPmsDental/Forms/FormXDRSetup.designer.cs	490,490		
+OpenPmsDental/Forms/FormXWeb.designer.cs	408,337		
+OpenPmsDental/Forms/FormXWebTransactions.designer.cs	827,557		
+OpenPmsDental/Forms/FormXchargeSetup.designer.cs	484,533		
+OpenPmsDental/Forms/FormXchargeTokenTool.designer.cs	725,534		
+OpenPmsDental/Forms/FormXchargeTrans.designer.cs	345,282		
+OpenPmsDental/Main Modules/ControlAccount.Designer.cs	1123,732		
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	1076,741		
+OpenPmsDental/Main Modules/ControlChart.designer.cs	939,708		
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	939,708		
+OpenPmsDental/Main Modules/ControlImages.Designer.cs	1321,595		
+OpenPmsDental/Main Modules/ControlManage.designer.cs	908,702		
+OpenPmsDental/Main Modules/ControlTreat.designer.cs	1195,708		
+OpenPmsDental/Main Modules/FormCommandLinePassOff.Designer.cs	284,264		
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	1230,696		
+OpenPmsDental/ReportingComplex/FormReportComplex.designer.cs	831,616		
+OpenPmsDental/ReportingForRdl/Allocators/FormProgressViewer.designer.cs	596,144		
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	649,308		
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_GuarantorAllocationCheck.designer.cs	1071,973		
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormReport_ProviderIncomeReport.Designer.cs	821,520		
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormWarnToCloseComputers.Designer.cs	783,297		
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/Images/ImageAnimator.Designer.cs	50,50		
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	987,712		
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	987,712		
+OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	731,128		
+OpenPmsDental/SheetFramework/SheetEditMobileCtrl.Designer.cs	658,385		
+OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	90,43		
+OpenPmsDental/Tables Old Grids/ContrTable.cs	484,356		
+OpenPmsDental/UI/Appt/ControlApptPanel.Designer.cs	774,737		
+OpenPmsDental/UI/BordersDpi/FormODBase.cs	284,261		
+OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker.Designer.cs	200,21		
+OpenPmsDental/UI/ClinicSelector/FormComboPicker.Designer.cs	29,73		
+OpenPmsDental/UI/FormPrintPreview.designer.cs	831,570		
+OpenPmsDental/UI/ImagesModule/UnmountedBar.Designer.cs	100,50		
+OpenPmsDental/UI/ImagesModule/WindowingSlider.Designer.cs	100,50		
+OpenPmsDental/UI/ODCodeRangeFilter.Designer.cs	150,37		
+OpenPmsDental/UI/ODColorPicker.Designer.cs	74,21		
+OpenPmsDental/UI/ODDatePicker.Designer.cs	227,23		
+OpenPmsDental/UI/ODDateRangePicker.Designer.cs	453,24		
+OpenPmsDental/UI/ToolTipOD.Designer.cs	436,48		
+OpenPmsDental/UI/Voice/FormMsgBox.Designer.cs	284,104		
+OpenPmsDental/User Controls/ContrFamilyEcw.Designer.cs	933,743		
+OpenPmsDental/User Controls/ControlImageDisplay.Designer.cs	150,170		
+OpenPmsDental/User Controls/ControlImageDock.Designer.cs	664,427		
+OpenPmsDental/User Controls/Dashboard/DashApptGrid.Designer.cs	897,398		
+OpenPmsDental/User Controls/Dashboard/DashFamilyInsurance.Designer.cs	193,80		
+OpenPmsDental/User Controls/Dashboard/DashIndividualDiscount.Designer.cs	170,84		
+OpenPmsDental/User Controls/Dashboard/UserControlDashboard.Designer.cs	148,148		
+OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	973,419		
+OpenPmsDental/User Controls/GraphScheduleDay.Designer.cs	738,462		
+OpenPmsDental/User Controls/Preferences/UserControlAccountAdjustments.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlAccountClaimReceive.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlAccountClaimSend.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlAccountGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlAccountPayments.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlAccountRecAndRepCharges.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlApptAppearance.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlApptGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlChartGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlChartProcedures.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAccount.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseAppts.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseFamily.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseManage.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlEnterpriseReports.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlExperimentalPrefs.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlFamilyGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlFamilyInsurance.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlImagingGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlMainWindow.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlMainWindowMisc.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlManageBillingStatements.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlManageGeneral.Designer.cs	494,682		
+OpenPmsDental/User Controls/Preferences/UserControlOrtho.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlServerConnections.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlTreatPlanFreqLimit.Designer.cs	494,660		
+OpenPmsDental/User Controls/Preferences/UserControlTreatPlanGeneral.Designer.cs	494,660		
+OpenPmsDental/User Controls/SetupWizControls/SetupWizControl.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizClinic.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizComplete.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizDefinitions.Designer.cs	834,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizEmployee.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeeSched.Designer.cs	834,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizIntro.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPractice.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizPrinter.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizProvider.Designer.cs	930,530		
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizSchedule.Designer.cs	930,530		
+OpenPmsDental/User Controls/UserControlEmailTemplate.Designer.cs	870,269		
+OpenPmsDental/User Controls/UserControlReportSetup.Designer.cs	525,607		
+OpenPmsDental/User Controls/UserControlSecurityTree.Designer.cs	384,662		
+OpenPmsDental/User Controls/UserControlSecurityUserGroup.Designer.cs	969,484		
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	941,510		
+OpenPmsDentalBusiness/UI/ODGridPageNav.cs	280,26		
+OpenPmsDentalBusiness/UI/SignatureBoxWrapper.Designer.cs	364,81		
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	992,468		
+OpenPmsDentalGraph/Base/GraphQuantityOverTime.Designer.cs	900,463		
+OpenPmsDentalGraph/Base/GroupingOptionsCtrl.Designer.cs	108,63		
+OpenPmsDentalGraph/Base/Legend.designer.cs	242,22		
+OpenPmsDentalGraph/Concrete/BrokenApptGraphOptionsCtrl.Designer.cs	394,131		
+OpenPmsDentalGraph/Concrete/GraphQuantityOverTimeFilter.Designer.cs	788,410		
+OpenPmsDentalGraph/Concrete/HqMessagesRealTimeOptionsCtrl.Designer.cs	269,83		
+OpenPmsDentalGraph/Concrete/IncomeGraphOptionsCtrl.Designer.cs	226,67		
+OpenPmsDentalGraph/Concrete/ProductionGraphOptionsCtrl.Designer.cs	300,42		
+OpenPmsDentalGraph/Dashboard/DashboardCellCtrl.Designer.cs	377,145		
+OpenPmsDentalGraph/Dashboard/DashboardPanelCtrl.Designer.cs	411,196		
+OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	222,127		
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	812,500		
+OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	1061,520		
+OpenPmsDentalGraph/Dashboard/FormDashboardNamePrompt.Designer.cs	387,71		
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	831,645		
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	831,645		
+OpenPmsDentalHL7/FormDebug.Designer.cs	514,361		
+RdlDesign/BodyCtl.cs	472,288		
+RdlDesign/ChartAxisCtl.cs	440,288		
+RdlDesign/ChartCtl.cs	440,288		
+RdlDesign/ChartLegendCtl.cs	440,288		
+RdlDesign/CodeCtl.cs	472,288		
+RdlDesign/CustomReportItemCtl.cs	464,304		
+RdlDesign/DataSetRowsCtl.cs	488,304		
+RdlDesign/DataSetsCtl.cs	448,304		
+RdlDesign/DialogAbout.cs	466,304		
+RdlDesign/DialogDataSourceRef.cs	456,374		
+RdlDesign/DialogDataSources.cs	456,374		
+RdlDesign/DialogDatabase.cs	528,366		
+RdlDesign/DialogEmbeddedImages.cs	456,374		
+RdlDesign/DialogExprEditor.cs	440,310		
+RdlDesign/DialogFilterOperator.cs	256,198		
+RdlDesign/DialogListOfStrings.cs	282,224		
+RdlDesign/DialogNew.cs	448,366		
+RdlDesign/DialogNewChart.cs	456,424		
+RdlDesign/DialogNewMatrix.cs	456,400		
+RdlDesign/DialogNewTable.cs	456,336		
+RdlDesign/DialogToolOptions.cs	466,304		
+RdlDesign/DialogValidValues.cs	392,222		
+RdlDesign/DialogValidateRdl.cs	503,261		
+RdlDesign/DrillParametersDialog.cs	464,248		
+RdlDesign/FiltersCtl.cs	488,304		
+RdlDesign/FindTab.cs	448,206		
+RdlDesign/GroupingCtl.cs	488,304		
+RdlDesign/ImageCtl.cs	472,288		
+RdlDesign/InteractivityCtl.cs	472,288		
+RdlDesign/ListCtl.cs	472,288		
+RdlDesign/MDIChild.cs	292,266		
+RdlDesign/MatrixCtl.cs	472,288		
+RdlDesign/ModulesClassesCtl.cs	472,288		
+RdlDesign/PositionCtl.cs	472,288		
+RdlDesign/PropertyDialog.cs	458,366		
+RdlDesign/QueryParametersCtl.cs	464,304		
+RdlDesign/RdlDesigner.cs	712,470		
+RdlDesign/RdlEditPreview.cs	488,376		
+RdlDesign/ReportCtl.cs	472,288		
+RdlDesign/ReportParameterCtl.cs	456,296		
+RdlDesign/ReportXmlCtl.cs	472,288		
+RdlDesign/SQLCtl.cs	480,182		
+RdlDesign/SingleCtlDialog.cs	458,366		
+RdlDesign/SortingCtl.cs	488,304		
+RdlDesign/StyleBorderCtl.cs	472,312		
+RdlDesign/StyleCtl.cs	472,312		
+RdlDesign/StyleTextCtl.cs	456,280		
+RdlDesign/SubreportCtl.cs	464,304		
+RdlDesign/TableColumnCtl.cs	472,288		
+RdlDesign/TableCtl.cs	472,288		
+RdlDesign/TableRowCtl.cs	472,288		
+RdlViewer/DataSourcePassword.cs	306,112		
+RdlViewer/DialogMessages.cs	482,240		
+ServiceManager/FormMain.Designer.cs	353,469		
+ServiceManager/FormServiceManage.Designer.cs	719,166		
+ServiceManager/FormWebConfigSettings.Designer.cs	379,528		
+SparksToothChart/ToothChart2D.Designer.cs	410,307		
+SparksToothChart/ToothChartWrapper.Designer.cs	544,351		
+UpdateFileCopier/FormMain.Designer.cs	384,141		
+WpfControlsOD/Frame/FormFrame.cs	284,261		
+WpfControlsOD/Frame/FormSnap.Designer.cs	625,358		
+xCrudGenerator/Form1.Designer.cs	1161,734		

@@ -91,7 +91,7 @@
 			this.gridProvided.Location = new System.Drawing.Point(12, 310);
 			this.gridProvided.Name = "gridProvided";
 			this.gridProvided.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridProvided.Size = new System.Drawing.Size(538, 258);
+			this.gridProvided.Size = new System.Drawing.Size(538, 250);
 			this.gridProvided.TabIndex = 7;
 			this.gridProvided.Title = "Reminders Sent";
 			this.gridProvided.TranslationName = "TableRemindersSent";

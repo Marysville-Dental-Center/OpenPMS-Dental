@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			this.textNotes.Location = new System.Drawing.Point(215,215);
 			this.textNotes.Multiline = true;
 			this.textNotes.Name = "textNotes";
-			this.textNotes.Size = new System.Drawing.Size(494,176);
+			this.textNotes.Size = new System.Drawing.Size(494,172);
 			this.textNotes.TabIndex = 11;
 			// 
 			// listCategory

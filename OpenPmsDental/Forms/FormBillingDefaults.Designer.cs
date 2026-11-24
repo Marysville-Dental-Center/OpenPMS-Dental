@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(794, 608);
+			this.butSave.Location = new System.Drawing.Point(794, 612);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 5;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// butEbill
 			//
 			this.butEbill.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butEbill.Location = new System.Drawing.Point(8, 608);
+			this.butEbill.Location = new System.Drawing.Point(8, 612);
 			this.butEbill.Name = "butEbill";
 			this.butEbill.Size = new System.Drawing.Size(130, 24);
 			this.butEbill.TabIndex = 4;
@@ -80,7 +80,7 @@ namespace OpenPmsDental{
 			// butSendSetup
 			//
 			this.butSendSetup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSendSetup.Location = new System.Drawing.Point(144, 608);
+			this.butSendSetup.Location = new System.Drawing.Point(144, 612);
 			this.butSendSetup.Name = "butSendSetup";
 			this.butSendSetup.Size = new System.Drawing.Size(98, 24);
 			this.butSendSetup.TabIndex = 9;
@@ -361,7 +361,7 @@ namespace OpenPmsDental{
 			//
 			// FormBillingDefaults
 			//
-			this.ClientSize = new System.Drawing.Size(877, 640);
+			this.ClientSize = new System.Drawing.Size(877, 644);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.butEbill);
 			this.Controls.Add(this.butSendSetup);

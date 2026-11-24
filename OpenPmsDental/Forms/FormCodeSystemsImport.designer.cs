@@ -71,7 +71,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridStatus.Location = new System.Drawing.Point(8, 178);
 			this.gridStatus.Name = "gridStatus";
-			this.gridStatus.Size = new System.Drawing.Size(865, 388);
+			this.gridStatus.Size = new System.Drawing.Size(865, 384);
 			this.gridStatus.TabIndex = 28;
 			this.gridStatus.Title = "Code-System Status";
 			this.gridStatus.TranslationName = "TableCodeSystemStatus";

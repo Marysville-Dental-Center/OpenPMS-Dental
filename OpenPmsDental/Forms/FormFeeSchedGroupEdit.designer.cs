@@ -88,7 +88,7 @@ namespace OpenPmsDental{
 			this.gridGroup.Location = new System.Drawing.Point(320, 62);
 			this.gridGroup.Name = "gridGroup";
 			this.gridGroup.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridGroup.Size = new System.Drawing.Size(261, 324);
+			this.gridGroup.Size = new System.Drawing.Size(261, 320);
 			this.gridGroup.TabIndex = 56;
 			this.gridGroup.Title = "Clinics in Group";
 			this.gridGroup.TranslationName = "Table Group Clinics ";
@@ -100,7 +100,7 @@ namespace OpenPmsDental{
 			this.gridAvailable.Location = new System.Drawing.Point(8, 62);
 			this.gridAvailable.Name = "gridAvailable";
 			this.gridAvailable.SelectionMode = OpenPmsDental.UI.GridSelectionMode.MultiExtended;
-			this.gridAvailable.Size = new System.Drawing.Size(261, 324);
+			this.gridAvailable.Size = new System.Drawing.Size(261, 320);
 			this.gridAvailable.TabIndex = 57;
 			this.gridAvailable.Title = "Available Clinics";
 			this.gridAvailable.TranslationName = "Table Clinics Available";

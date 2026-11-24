@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			// textMessage
 			// 
-			this.textMessage.Location = new System.Drawing.Point(322, 123);
+			this.textMessage.Location = new System.Drawing.Point(322, 168);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
 			this.textMessage.Size = new System.Drawing.Size(359, 91);
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMessage
 			// 
-			this.labelMessage.Location = new System.Drawing.Point(8, 123);
+			this.labelMessage.Location = new System.Drawing.Point(8, 168);
 			this.labelMessage.Name = "labelMessage";
 			this.labelMessage.Size = new System.Drawing.Size(308, 23);
 			this.labelMessage.TabIndex = 9;
@@ -68,7 +68,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 250);
+			this.butDelete.Location = new System.Drawing.Point(8, 314);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(85, 24);
 			this.butDelete.TabIndex = 4;
@@ -78,7 +78,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(614, 250);
+			this.butSave.Location = new System.Drawing.Point(614, 314);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(62, 101);
+			this.label1.Location = new System.Drawing.Point(62, 146);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(254, 20);
 			this.label1.TabIndex = 13;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox.Controls.Add(this.textRxName);
 			this.groupBox.Controls.Add(this.labelRx);
-			this.groupBox.Location = new System.Drawing.Point(8, 39);
+			this.groupBox.Location = new System.Drawing.Point(8, 64);
 			this.groupBox.Name = "groupBox";
 			this.groupBox.Size = new System.Drawing.Size(681, 54);
 			this.groupBox.TabIndex = 16;
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// checkIsHighSignificance
 			// 
 			this.checkIsHighSignificance.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsHighSignificance.Location = new System.Drawing.Point(322, 218);
+			this.checkIsHighSignificance.Location = new System.Drawing.Point(322, 263);
 			this.checkIsHighSignificance.Name = "checkIsHighSignificance";
 			this.checkIsHighSignificance.Size = new System.Drawing.Size(129, 20);
 			this.checkIsHighSignificance.TabIndex = 18;
@@ -141,7 +141,7 @@ namespace OpenPmsDental{
 			// 
 			// FormRxAlertEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(697, 282);
+			this.ClientSize = new System.Drawing.Size(697, 346);
 			this.Controls.Add(this.checkIsHighSignificance);
 			this.Controls.Add(this.groupBox);
 			this.Controls.Add(this.label1);

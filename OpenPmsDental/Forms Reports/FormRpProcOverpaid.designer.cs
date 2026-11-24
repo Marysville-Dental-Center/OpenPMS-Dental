@@ -69,7 +69,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 97);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(1002, 575);
+			this.gridMain.Size = new System.Drawing.Size(1002, 571);
 			this.gridMain.TabIndex = 69;
 			this.gridMain.Title = "Procedures Overpaid";
 			this.gridMain.TranslationName = "TableProcedures";
@@ -167,7 +167,7 @@ namespace OpenPmsDental {
 			// 
 			// labelProv
 			// 
-			this.labelProv.Location = new System.Drawing.Point(415, 27);
+			this.labelProv.Location = new System.Drawing.Point(415, 25);
 			this.labelProv.Name = "labelProv";
 			this.labelProv.Size = new System.Drawing.Size(57, 18);
 			this.labelProv.TabIndex = 73;

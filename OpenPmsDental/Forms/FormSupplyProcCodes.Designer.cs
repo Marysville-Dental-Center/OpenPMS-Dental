@@ -48,7 +48,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridCodes.Location = new System.Drawing.Point(8, 42);
 			this.gridCodes.Name = "gridCodes";
-			this.gridCodes.Size = new System.Drawing.Size(334, 404);
+			this.gridCodes.Size = new System.Drawing.Size(334, 400);
 			this.gridCodes.TabIndex = 1;
 			this.gridCodes.Title = "Procedure Codes";
 			this.gridCodes.TranslationName = "TableSupplyProcCodes";
@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			this.gridMaterials.Location = new System.Drawing.Point(350, 42);
 			this.gridMaterials.Name = "gridMaterials";
 			this.gridMaterials.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMaterials.Size = new System.Drawing.Size(434, 404);
+			this.gridMaterials.Size = new System.Drawing.Size(434, 400);
 			this.gridMaterials.TabIndex = 2;
 			this.gridMaterials.Title = "Default Materials";
 			this.gridMaterials.TranslationName = "TableSupplyProcCodeMaterials";

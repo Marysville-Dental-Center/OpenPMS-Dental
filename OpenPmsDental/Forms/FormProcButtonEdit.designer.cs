@@ -55,7 +55,7 @@ namespace OpenPmsDental {
 			this.listAutoCodes.Location = new System.Drawing.Point(217, 166);
 			this.listAutoCodes.Name = "listAutoCodes";
 			this.listAutoCodes.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listAutoCodes.Size = new System.Drawing.Size(158, 343);
+			this.listAutoCodes.Size = new System.Drawing.Size(158, 339);
 			this.listAutoCodes.TabIndex = 1;
 			// 
 			// label1
@@ -106,7 +106,7 @@ namespace OpenPmsDental {
 			// 
 			this.listADA.Location = new System.Drawing.Point(8, 166);
 			this.listADA.Name = "listADA";
-			this.listADA.Size = new System.Drawing.Size(160, 343);
+			this.listADA.Size = new System.Drawing.Size(160, 339);
 			this.listADA.TabIndex = 32;
 			// 
 			// label4

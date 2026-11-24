@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using OpenPmsDental;
 using ProjectFileTests;
@@ -108,6 +109,12 @@ namespace UiRefreshTests.Scan {
 			if(ScanType.Kind!=BuildKind.PlainWindow && ScanType.Kind!=BuildKind.UserControlPlain) {
 				return;
 			}
+			//UI-12F: the report designer's property pages are shown only in its PropertyDialog, which scales them by the screen's dpi since
+			//UI-12F (PropertyDialog.ScaleToDpi). A build without it (main before UI-12F) left them at their 96 dpi bounds, only their fonts
+			//growing with the screen (AutoScaleMode None, per-monitor aware): drawn so, as that build shows them.
+			if(IsPropertyDialogPage(ScanType.Type) && !PropertyDialogScalesPages(ScanType.Type.Assembly)) {
+				return;
+			}
 			if(Root is Form form) {
 				//Windows keeps a window within its largest track size (the screen and the frame); the picture draws the client area at its
 				//whole scaled size, as on a screen large enough for the window (as LayOutAt does for the program's client panel).
@@ -143,6 +150,28 @@ namespace UiRefreshTests.Scan {
 			if(Form!=null && Form!=Root && (Form.ClientSize.Width<Root.Right || Form.ClientSize.Height<Root.Bottom)) {
 				Form.ClientSize=new Size(Math.Max(Form.ClientSize.Width,Root.Right),Math.Max(Form.ClientSize.Height,Root.Bottom));
 			}
+		}
+
+		private static HashSet<string> _hashSetPropertyDialogPages;
+
+		///<summary>UI-12F: a UserControl of the report designer that its PropertyDialog hosts as a property page (the classes PropertyDialog.cs
+		///creates with "new ...Ctl(": ReportCtl, StyleTextCtl, ChartAxisCtl and the others).</summary>
+		public static bool IsPropertyDialogPage(Type type) {
+			if(type==null || type.Namespace!="fyiReporting.RdlDesign" || !typeof(UserControl).IsAssignableFrom(type)) {
+				return false;
+			}
+			if(_hashSetPropertyDialogPages==null) {
+				string path=Path.Combine(RepoPaths.Root(),"RdlDesign","PropertyDialog.cs");
+				string text=File.Exists(path) ? File.ReadAllText(path) : "";
+				_hashSetPropertyDialogPages=new HashSet<string>(Regex.Matches(text,@"\bnew\s+(\w+Ctl)\s*\(").Cast<Match>().Select(x => x.Groups[1].Value));
+			}
+			return _hashSetPropertyDialogPages.Contains(type.Name);
+		}
+
+		///<summary>UI-12F: whether the build's PropertyDialog scales its pages by the screen's dpi (it has ScaleToDpi).</summary>
+		public static bool PropertyDialogScalesPages(Assembly assembly) {
+			Type typeDialog=assembly?.GetType("fyiReporting.RdlDesign.PropertyDialog");
+			return typeDialog?.GetMethod("ScaleToDpi",BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public)!=null;
 		}
 
 		public void Dispose() {

@@ -36,7 +36,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(203, 161);
+			this.butSave.Location = new System.Drawing.Point(203, 165);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 3;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// FormUnschedListSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(286, 193);
+			this.ClientSize = new System.Drawing.Size(286, 197);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupBox3);
 			this.Name = "FormUnschedListSetup";

@@ -175,7 +175,7 @@ namespace OpenPmsDental{
 			this.butPrintList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrintList.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrintList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrintList.Location = new System.Drawing.Point(443, 549);
+			this.butPrintList.Location = new System.Drawing.Point(443, 553);
 			this.butPrintList.Name = "butPrintList";
 			this.butPrintList.Size = new System.Drawing.Size(88, 24);
 			this.butPrintList.TabIndex = 80;
@@ -185,7 +185,7 @@ namespace OpenPmsDental{
 			// butNone
 			// 
 			this.butNone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNone.Location = new System.Drawing.Point(98, 549);
+			this.butNone.Location = new System.Drawing.Point(98, 553);
 			this.butNone.Name = "butNone";
 			this.butNone.Size = new System.Drawing.Size(75, 24);
 			this.butNone.TabIndex = 75;
@@ -195,7 +195,7 @@ namespace OpenPmsDental{
 			// butAll
 			// 
 			this.butAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butAll.Location = new System.Drawing.Point(8, 549);
+			this.butAll.Location = new System.Drawing.Point(8, 553);
 			this.butAll.Name = "butAll";
 			this.butAll.Size = new System.Drawing.Size(75, 24);
 			this.butAll.TabIndex = 70;
@@ -215,7 +215,7 @@ namespace OpenPmsDental{
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Location = new System.Drawing.Point(967, 549);
+			this.butSend.Location = new System.Drawing.Point(967, 553);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 1;
@@ -264,7 +264,7 @@ namespace OpenPmsDental{
 			// butHistory
 			// 
 			this.butHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butHistory.Location = new System.Drawing.Point(344, 549);
+			this.butHistory.Location = new System.Drawing.Point(344, 553);
 			this.butHistory.Name = "butHistory";
 			this.butHistory.Size = new System.Drawing.Size(75, 24);
 			this.butHistory.TabIndex = 78;
@@ -285,7 +285,7 @@ namespace OpenPmsDental{
 			// 
 			// FormCreditRecurringCharges
 			// 
-			this.ClientSize = new System.Drawing.Size(1058, 581);
+			this.ClientSize = new System.Drawing.Size(1058, 585);
 			this.Controls.Add(this.checkShowInactive);
 			this.Controls.Add(this.butHistory);
 			this.Controls.Add(this.checkForceDuplicates);

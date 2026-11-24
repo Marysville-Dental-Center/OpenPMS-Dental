@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(708, 289);
+			this.butOK.Location = new System.Drawing.Point(708, 293);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 26);
 			this.butOK.TabIndex = 3;
@@ -272,7 +272,7 @@ namespace OpenPmsDental {
 			// labelSpecialReport
 			// 
 			this.labelSpecialReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelSpecialReport.Location = new System.Drawing.Point(8, 289);
+			this.labelSpecialReport.Location = new System.Drawing.Point(8, 293);
 			this.labelSpecialReport.Name = "labelSpecialReport";
 			this.labelSpecialReport.Size = new System.Drawing.Size(692, 26);
 			this.labelSpecialReport.TabIndex = 56;
@@ -282,7 +282,7 @@ namespace OpenPmsDental {
 			// 
 			// FormRpProviderPayroll
 			// 
-			this.ClientSize = new System.Drawing.Size(791, 323);
+			this.ClientSize = new System.Drawing.Size(791, 327);
 			this.Controls.Add(this.labelSpecialReport);
 			this.Controls.Add(this.groupPayrollReportType);
 			this.Controls.Add(this.groupDateRange);

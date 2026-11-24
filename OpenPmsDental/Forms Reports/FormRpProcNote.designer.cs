@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			this.gridMain.ContextMenuStrip = this.contextMenuStrip;
 			this.gridMain.Location = new System.Drawing.Point(8, 170);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(900, 362);
+			this.gridMain.Size = new System.Drawing.Size(900, 358);
 			this.gridMain.TabIndex = 1;
 			this.gridMain.Title = "Incomplete Procedure Notes";
 			this.gridMain.TranslationName = "TableIncompleteProcNotes";

@@ -42,7 +42,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridGroups.Location = new System.Drawing.Point(8, 70);
 			this.gridGroups.Name = "gridGroups";
-			this.gridGroups.Size = new System.Drawing.Size(443, 587);
+			this.gridGroups.Size = new System.Drawing.Size(443, 583);
 			this.gridGroups.TabIndex = 4;
 			this.gridGroups.Title = "Fee Schedule Groups";
 			this.gridGroups.TranslationName = "Table Fee Schedule Groups";
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridClinics.Location = new System.Drawing.Point(459, 70);
 			this.gridClinics.Name = "gridClinics";
-			this.gridClinics.Size = new System.Drawing.Size(443, 587);
+			this.gridClinics.Size = new System.Drawing.Size(443, 583);
 			this.gridClinics.TabIndex = 5;
 			this.gridClinics.Title = "Clinics in Group";
 			this.gridClinics.TranslationName = "Table Clinics";

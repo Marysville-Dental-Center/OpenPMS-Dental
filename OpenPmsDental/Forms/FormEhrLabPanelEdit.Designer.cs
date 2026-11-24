@@ -166,7 +166,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridMain.Location = new System.Drawing.Point(8, 459);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(556, 156);
+			this.gridMain.Size = new System.Drawing.Size(556, 152);
 			this.gridMain.TabIndex = 0;
 			this.gridMain.Title = "Lab Results";
 			this.gridMain.TranslationName = "TableResults";

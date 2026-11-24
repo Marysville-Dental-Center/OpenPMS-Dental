@@ -298,7 +298,7 @@ namespace OpenPmsDental {
 			// butSave
 			//
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(809, 671);
+			this.butSave.Location = new System.Drawing.Point(809, 675);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 7;
@@ -307,7 +307,7 @@ namespace OpenPmsDental {
 			//
 			// FormGraphics
 			//
-			this.ClientSize = new System.Drawing.Size(892, 705);
+			this.ClientSize = new System.Drawing.Size(892, 709);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupPreview);
 			this.Controls.Add(this.groupOptions);

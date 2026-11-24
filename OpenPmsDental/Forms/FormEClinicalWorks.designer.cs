@@ -79,7 +79,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(666, 641);
+			this.butSave.Location = new System.Drawing.Point(666, 645);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 1;
@@ -268,7 +268,7 @@ namespace OpenPmsDental {
 			// butDiagnostic
 			// 
 			this.butDiagnostic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butDiagnostic.Location = new System.Drawing.Point(8, 641);
+			this.butDiagnostic.Location = new System.Drawing.Point(8, 645);
 			this.butDiagnostic.Name = "butDiagnostic";
 			this.butDiagnostic.Size = new System.Drawing.Size(100, 24);
 			this.butDiagnostic.TabIndex = 61;
@@ -451,7 +451,7 @@ namespace OpenPmsDental {
 			// 
 			// FormEClinicalWorks
 			// 
-			this.ClientSize = new System.Drawing.Size(749, 673);
+			this.ClientSize = new System.Drawing.Size(749, 677);
 			this.Controls.Add(this.checkProcNotesNoIncomplete);
 			this.Controls.Add(this.checkProcRequireSignature);
 			this.Controls.Add(this.checkHideButChartRx);

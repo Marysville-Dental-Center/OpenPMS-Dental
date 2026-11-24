@@ -310,7 +310,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridOrders.Location = new System.Drawing.Point(8, 519);
 			this.gridOrders.Name = "gridOrders";
-			this.gridOrders.Size = new System.Drawing.Size(804, 139);
+			this.gridOrders.Size = new System.Drawing.Size(804, 132);
 			this.gridOrders.TabIndex = 28;
 			this.gridOrders.Title = "Recent Orders";
 			this.gridOrders.TranslationName = "TablePostcardOrders";

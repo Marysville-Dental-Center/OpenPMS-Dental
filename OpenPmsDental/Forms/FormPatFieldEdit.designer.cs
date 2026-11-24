@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.textValue.Location = new System.Drawing.Point(8, 30);
 			this.textValue.Multiline = true;
 			this.textValue.Name = "textValue";
-			this.textValue.Size = new System.Drawing.Size(359, 103);
+			this.textValue.Size = new System.Drawing.Size(359, 99);
 			this.textValue.TabIndex = 0;
 			// 
 			// butUseAutoNote

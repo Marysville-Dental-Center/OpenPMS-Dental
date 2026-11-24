@@ -36,7 +36,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(773, 552);
+			this.butSave.Location = new System.Drawing.Point(773, 587);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 3;
@@ -54,7 +54,7 @@ namespace OpenPmsDental {
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(49, 142);
+			this.label2.Location = new System.Drawing.Point(49, 152);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(72, 23);
 			this.label2.TabIndex = 0;
@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			// textTranslation
 			// 
 			this.textTranslation.AcceptsReturn = true;
-			this.textTranslation.Location = new System.Drawing.Point(127, 142);
+			this.textTranslation.Location = new System.Drawing.Point(127, 152);
 			this.textTranslation.Multiline = true;
 			this.textTranslation.Name = "textTranslation";
 			this.textTranslation.Size = new System.Drawing.Size(721, 130);
@@ -83,7 +83,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(49, 410);
+			this.label4.Location = new System.Drawing.Point(49, 440);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(72, 23);
 			this.label4.TabIndex = 0;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			// textComments
 			// 
 			this.textComments.AcceptsReturn = true;
-			this.textComments.Location = new System.Drawing.Point(127, 410);
+			this.textComments.Location = new System.Drawing.Point(127, 440);
 			this.textComments.Multiline = true;
 			this.textComments.Name = "textComments";
 			this.textComments.Size = new System.Drawing.Size(721, 130);
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// textOtherTranslation
 			// 
-			this.textOtherTranslation.Location = new System.Drawing.Point(127, 276);
+			this.textOtherTranslation.Location = new System.Drawing.Point(127, 296);
 			this.textOtherTranslation.Multiline = true;
 			this.textOtherTranslation.Name = "textOtherTranslation";
 			this.textOtherTranslation.ReadOnly = true;
@@ -111,7 +111,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(17, 276);
+			this.label3.Location = new System.Drawing.Point(17, 296);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(104, 23);
 			this.label3.TabIndex = 0;
@@ -121,7 +121,7 @@ namespace OpenPmsDental {
 			// FormTranslationEdit
 			// 
 			this.AcceptButton = this.butSave;
-			this.ClientSize = new System.Drawing.Size(856, 586);
+			this.ClientSize = new System.Drawing.Size(856, 621);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.textOtherTranslation);
 			this.Controls.Add(this.label3);

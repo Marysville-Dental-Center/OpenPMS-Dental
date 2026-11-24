@@ -67,7 +67,7 @@ namespace OpenPmsDental {
 			this.gridMain.Location = new System.Drawing.Point(8, 44);
 			this.gridMain.Name = "gridMain";
 			this.gridMain.SelectionMode = OpenPmsDental.UI.GridSelectionMode.OneCell;
-			this.gridMain.Size = new System.Drawing.Size(744, 384);
+			this.gridMain.Size = new System.Drawing.Size(744, 380);
 			this.gridMain.TabIndex = 3;
 			this.gridMain.Title = "Order Items";
 			this.gridMain.TranslationName = "TableSupplyReceive";

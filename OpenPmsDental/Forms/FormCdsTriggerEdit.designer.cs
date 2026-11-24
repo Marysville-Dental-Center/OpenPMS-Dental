@@ -386,7 +386,7 @@ namespace OpenPmsDental{
 			// label4
 			// 
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(64, 35);
+			this.label4.Location = new System.Drawing.Point(64, 39);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(68, 23);
 			this.label4.TabIndex = 215;

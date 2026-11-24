@@ -210,7 +210,7 @@ namespace OpenPmsDental{
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(352, 546);
+			this.butSave.Location = new System.Drawing.Point(352, 552);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 18;
@@ -300,7 +300,7 @@ namespace OpenPmsDental{
 			// 
 			// FormEdgeExpressSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(435, 580);
+			this.ClientSize = new System.Drawing.Size(435, 586);
 			this.Controls.Add(this.groupCardEntry);
 			this.Controls.Add(this.checkUseTestGateway);
 			this.Controls.Add(this.labelClinicEnable);

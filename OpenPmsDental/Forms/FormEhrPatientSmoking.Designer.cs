@@ -400,7 +400,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(948, 492);
+			this.butSave.Location = new System.Drawing.Point(948, 496);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(76, 24);
 			this.butSave.TabIndex = 3;
@@ -410,7 +410,7 @@
 			// FormEhrPatientSmoking
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(1032, 524);
+			this.ClientSize = new System.Drawing.Size(1032, 528);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.groupTobaccoUse);
 			this.Controls.Add(this.label1);
