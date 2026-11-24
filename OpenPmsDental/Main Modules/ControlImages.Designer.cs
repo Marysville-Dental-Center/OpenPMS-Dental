@@ -108,9 +108,9 @@
 			this.panelNote.Controls.Add(this.label15);
 			this.panelNote.Controls.Add(this.label1);
 			this.panelNote.Controls.Add(this.textNote);
-			this.panelNote.Location = new System.Drawing.Point(248, 473);
+			this.panelNote.Location = new System.Drawing.Point(248, 490);
 			this.panelNote.Name = "panelNote";
-			this.panelNote.Size = new System.Drawing.Size(1065, 114);
+			this.panelNote.Size = new System.Drawing.Size(1065, 97);
 			this.panelNote.TabIndex = 23;
 			this.panelNote.Visible = false;
 			this.panelNote.DoubleClick += new System.EventHandler(this.panelNote_DoubleClick);

@@ -53,7 +53,7 @@ def layout(h):
     h.set("panelSplitter", P + wt + 1, top, 10, bottom - top)
     xr = P + wt + 1 + 10 + 1
     wr = W - P - xr
-    h.set("panelNote", xr, bottom - 114, wr, 114)
+    h.set("panelNote", xr, bottom - 97, wr, 97)  # as tall as its content (18 + 79; LayoutControls, scaled)
     h.set("elementHostUnmountedBar", xr, bottom - 200, wr, 200)
     h.set("panelImportAuto", xr, top, wr, 44)
     h.set("panelDraw", xr, top, wr, 25)

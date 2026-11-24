@@ -3744,7 +3744,7 @@ namespace OpenPmsDental{
 			}
 			int xRight=panelSplitter.Right+1;
 			int widthRight=Width-pad-xRight;
-			int heightPanelNote=Math.Min(114,yBottom-yTop);
+			int heightPanelNote=Math.Min(LayoutManager.Scale(97),yBottom-yTop);//UI-12 slice 16: as tall as its content (the captions and the 79 px note and signature boxes), scaled
 			if(!panelNote.Visible){
 				heightPanelNote=0;
 			}
