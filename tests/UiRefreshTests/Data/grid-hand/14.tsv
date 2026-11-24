@@ -194,7 +194,7 @@ OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFi
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	checkRequired	Size	97,18	72,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	checkRequired	RightToLeft	Yes	No	by hand (layout script): the box on the left of its text (not right to left)
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelRequired	Location	465,187	532,71	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelRequired	Size	188,40	135,34	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelRequired	Size	188,40	78,34	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label3	Location	30,51	8,22	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	label3	Size	89,16	132,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	comboRadioGroupNameMisc	Location	119,49	146,22	by hand (layout script): on the grid
@@ -230,8 +230,8 @@ OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFi
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	Location	395,272	454,138	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	Size	61,17	56,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	radioNo	CheckAlign	MiddleRight	MiddleLeft	by hand (layout script): the box on the left of its text
-OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Location	462,237	516,117	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Size	197,68	151,18	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Location	462,237	532,117	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelYesNo	Size	197,68	135,18	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	Location	340,311	308,168	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	Size	119,13	140,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	OpenPmsDental.FormSheetFieldCheckBox	labelMobileCheckOverride	TextAlign	TopRight	MiddleRight	by hand (layout script): on the grid

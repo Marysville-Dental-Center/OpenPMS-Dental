@@ -65,8 +65,17 @@ def layout(h):
     h.check_left("checkRequired")
     cw = h.cw("checkRequired")
     h.set("checkRequired", fx, yreq, cw, 18)
-    xn = fx + cw + 6
-    h.set("labelRequired", xn, yreq + 1, R - xn, h.note_h("labelRequired", R - xn))
+    # fix round: Required's note and Yes / No's note on one left edge, 6 px after the wider of Required and the radio buttons
+    RW = 56
+    xn = fx + max(cw, RW) + 6
+    nw = R - xn
+    if h.note_h("labelRequired", nw) > h.note_h("labelRequired", 10000):
+        # it wraps in the whole remaining width: the narrowest width with as few lines, so no word stands alone on the last line
+        lines = h.note_h("labelRequired", nw)
+        while nw > 40 and h.note_h("labelRequired", nw - 1) == lines:
+            nw -= 1
+        nw = min(R - xn, nw + 8)  # 8 px of slack, so the 150% font wraps it the same way
+    h.set("labelRequired", xn, yreq + 1, nw, h.note_h("labelRequired", nw))
     yslot = yreq + max(18, h.n("labelRequired").nh) + SECTION
     # the misc group
     gw = R - x0
@@ -88,9 +97,8 @@ def layout(h):
     # the medical history field: Yes and No, the note beside them, the mobile overrides
     for i, name in enumerate(("radioYes", "radioNo")):
         h.check_left(name)
-        h.set(name, fx, yslot + 22 * i, 56, 18)
-    xy = fx + 56 + 6
-    h.set("labelYesNo", xy, yslot + 1, R - xy, h.note_h("labelYesNo", R - xy))
+        h.set(name, fx, yslot + 22 * i, RW, 18)
+    h.set("labelYesNo", xn, yslot + 1, R - xn, h.note_h("labelYesNo", R - xn))
     ym = yslot + 22 + 18 + SECTION
     row(h, "labelMobileCheckOverride", "textMobileCheckOverride", x0, fx, ym, fw)
     row(h, "labelMobileMedicalNameOverride", "textMobileMedicalNameOverride", x0, fx, ym + 27, fw)

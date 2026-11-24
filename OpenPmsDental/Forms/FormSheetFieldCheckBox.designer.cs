@@ -342,7 +342,7 @@ namespace OpenPmsDental{
 			this.labelRequired.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelRequired.Location = new System.Drawing.Point(532, 71);
 			this.labelRequired.Name = "labelRequired";
-			this.labelRequired.Size = new System.Drawing.Size(135, 34);
+			this.labelRequired.Size = new System.Drawing.Size(78, 34);
 			this.labelRequired.TabIndex = 116;
 			this.labelRequired.Text = "Same for the whole group";
 			// 
@@ -377,9 +377,9 @@ namespace OpenPmsDental{
 			// labelYesNo
 			// 
 			this.labelYesNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelYesNo.Location = new System.Drawing.Point(516, 117);
+			this.labelYesNo.Location = new System.Drawing.Point(532, 117);
 			this.labelYesNo.Name = "labelYesNo";
-			this.labelYesNo.Size = new System.Drawing.Size(151, 18);
+			this.labelYesNo.Size = new System.Drawing.Size(135, 18);
 			this.labelYesNo.TabIndex = 118;
 			this.labelYesNo.Text = "Pair with a \"No\" box";
 			this.labelYesNo.Visible = false;

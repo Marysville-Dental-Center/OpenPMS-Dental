@@ -83,6 +83,7 @@ namespace OpenPmsDental {
 			this.monthCalendar.Name = "monthCalendar";
 			this.monthCalendar.TabIndex = 6;
 			this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.cal_DateSelected);
+			this.monthCalendar.SizeChanged += new System.EventHandler(this.monthCalendar_SizeChanged);
 			// 
 			// tree
 			// 

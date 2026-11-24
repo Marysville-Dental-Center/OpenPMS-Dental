@@ -165,9 +165,13 @@ namespace OpenPmsDental {
 			//UI-12 slice 14: the tabs, calendar, tree and grid on the layout grid: UiGrid.PAD from the control's edges, UiGrid.ROW_GAP apart.
 			int pad=LayoutManager.Scale(UiGrid.PAD);
 			LayoutManager.Move(tabControl,new Rectangle(pad,LayoutManager.Scale(TOP_TABS),Width-2*pad,LayoutManager.Scale(HEIGHT_TABS)));
-			LayoutManager.Move(monthCalendar,new Rectangle(pad,LayoutManager.Scale(TOP_CALENDAR),LayoutManager.Scale(227),LayoutManager.Scale(162)));
-			LayoutManager.MoveWidth(tree,Width-2*pad);
-			LayoutManager.MoveWidth(gridMain,Width-2*pad);
+			//Fix round: the calendar at the size it draws (one month and its Today line: SingleMonthSize, in its font once its handle is made; it
+			//sizes itself to that when the handle is made or its font changes, and monthCalendar_SizeChanged then moves the tree under it).
+			Size sizeCalendar=monthCalendar.SingleMonthSize;
+			LayoutManager.Move(monthCalendar,new Rectangle(pad,LayoutManager.Scale(TOP_CALENDAR),sizeCalendar.Width,sizeCalendar.Height));
+			//The tree and grid on the padding too (their X is set here, not left at the designer's), the same width.
+			LayoutManager.Move(tree,new Rectangle(pad,tree.Top,Width-2*pad,tree.Height));
+			LayoutManager.Move(gridMain,new Rectangle(pad,gridMain.Top,Width-2*pad,gridMain.Height));
 			FillGrid(new List<Signalod>());//Sets height.  Does not run query.
 			LayoutTreeAndGrid();
 		}
@@ -528,6 +532,12 @@ namespace OpenPmsDental {
 			LayoutTreeAndGrid();
 		}
 
+		///<summary>UI-12 slice 14 fix round: the stock calendar sizes itself to its month and Today line when its handle is made and when its font
+		///changes, which can come after LayoutTreeAndGrid placed the tree under it (the tree then covered the Today line): the tree and grid follow.</summary>
+		private void monthCalendar_SizeChanged(object sender,EventArgs e) {
+			LayoutTreeAndGrid();
+		}
+
 		private void LayoutTreeAndGrid() {
 			if(_listTaskListTreeHistory==null) {
 				return;
@@ -535,17 +545,18 @@ namespace OpenPmsDental {
 			//UI-12 slice 14: the tree UiGrid.ROW_GAP under the calendar or the tab strip, the grid UiGrid.ROW_GAP under the tree and down to the
 			//bottom padding. The calendar shows on the date tabs only (the tree and grid no longer cover it: there is a gap between them).
 			int gap=LayoutManager.Scale(UiGrid.ROW_GAP);
+			int pad=LayoutManager.Scale(UiGrid.PAD);
 			bool isDateTab=tabControl.SelectedTab==tabDate || tabControl.SelectedTab==tabWeek || tabControl.SelectedTab==tabMonth;
 			monthCalendar.Visible=isDateTab;
 			if(isDateTab) {
-				LayoutManager.MoveLocation(tree,new Point(tree.Left,monthCalendar.Bottom+gap));//Show the calendar.
+				LayoutManager.MoveLocation(tree,new Point(pad,monthCalendar.Bottom+gap));//Show the calendar.
 			}
 			else {
-				LayoutManager.MoveLocation(tree,new Point(tree.Left,tabControl.Bottom+gap));//Hide the calendar.
+				LayoutManager.MoveLocation(tree,new Point(pad,tabControl.Bottom+gap));//Hide the calendar.
 			}
 			LayoutManager.MoveHeight(tree,_listTaskListTreeHistory.Count*tree.ItemHeight+8);
 			tree.Refresh();
-			LayoutManager.Move(gridMain,new Rectangle(tree.Left,tree.Bottom+gap,gridMain.Width,
+			LayoutManager.Move(gridMain,new Rectangle(pad,tree.Bottom+gap,gridMain.Width,
 				Math.Max(0,ClientSize.Height-LayoutManager.Scale(UiGrid.PAD)-tree.Bottom-gap)));
 		}
 

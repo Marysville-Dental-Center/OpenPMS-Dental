@@ -46,8 +46,15 @@ namespace UiRefreshTests {
 					return ShowSheetCheck(root,"labelRequired","checkRequired","labelMedical","listMedical","radioYes","radioNo","labelYesNo","butAddProblem",
 						"labelMobileCheckOverride","textMobileCheckOverride","labelMobileMedicalNameOverride","textMobileMedicalNameOverride");
 				case "OpenPmsDental.FormSheetFieldCheckBox#single":
-					//A check box with no radio values (addressAndHmPhoneIsSameEntireFamily) on a mobile sheet: its mobile caption only.
-					return ShowSheetCheck(root,"labelUiLabelMobileCheckBoxNonMisc","textUiLabelMobileCheckBoxNonMisc");
+					//A check box with no radio values (addressAndHmPhoneIsSameEntireFamily) on a mobile sheet: its mobile caption only, on Required's
+					//row as the handler places it (fix round: Required is hidden for it).
+					ShowSheetCheck(root,"labelUiLabelMobileCheckBoxNonMisc","textUiLabelMobileCheckBoxNonMisc");
+					int topRequired=Find(root,"checkRequired").Top;
+					foreach(string name in new[] { "labelUiLabelMobileCheckBoxNonMisc","textUiLabelMobileCheckBoxNonMisc" }) {
+						Control control=Find(root,name);
+						control.Location=new Point(control.Left,topRequired);
+					}
+					return root;
 				case "OpenPmsDental.FormUpdate#load":
 					//What the fork's Load shows: the message, the window a padding under it (FormUpdate_Load since slice 14).
 					Control textMessage=Find(root,"textConnectionMessage");
