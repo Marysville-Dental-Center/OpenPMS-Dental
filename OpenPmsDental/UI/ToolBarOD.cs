@@ -801,7 +801,12 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 			PerformButtonClick(toolBarButton);
 		}
 
+		///<summary>The toolbar's own keys (UI-OVF) while it has the focus and Windows shows keyboard cues, so the focused button is seen: a toolbar
+		///that took the focus from a mouse click leaves Enter to the window's default button and the arrows to the next control, as before.</summary>
 		protected override bool IsInputKey(Keys keyData){
+			if(!ShowFocusCues){
+				return base.IsInputKey(keyData);
+			}
 			switch(keyData & Keys.KeyCode){
 				case Keys.Left:
 				case Keys.Right:
@@ -820,7 +825,7 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 
 		protected override void OnKeyDown(KeyEventArgs e){
 			base.OnKeyDown(e);
-			if(e.Handled || e.Control || e.Shift){
+			if(e.Handled || e.Control || e.Shift || !ShowFocusCues){
 				return;
 			}
 			List<ODToolBarButton> listButtons=GetKeyboardButtons();

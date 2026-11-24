@@ -185,10 +185,17 @@ namespace UiRefreshTests {
 			IconRendererTests.RunSta(() => {
 				NoDatabaseGuard.Install();
 				System.Windows.Controls.Grid grid=BuildScrambledContent();
+				//A hidden button just after the check box in the tree, and a hidden text box (no template yet) after the group box.
+				WpfControls.UI.Button buttonHidden=new WpfControls.UI.Button() { Name="butHidden",Visibility=Visibility.Collapsed };
+				grid.Children.Insert(3,buttonHidden);
+				WpfControls.UI.TextBox textBoxHidden=new WpfControls.UI.TextBox() { Name="textHidden",Visibility=Visibility.Collapsed };
+				grid.Children.Add(textBoxHidden);
 				grid.Measure(new Size(400,300));
 				grid.Arrange(new Rect(0,0,400,300));
 				grid.UpdateLayout();
 				List<UIElement> listOrdered=WpfControls.UI.UiTabOrder.Apply(grid);
+				Assert.AreEqual(3,KeyboardNavigation.GetTabIndex(buttonHidden),"a hidden control tabs next to the visible one before it in the tree (the check box)");
+				Assert.IsTrue(WpfControls.UI.UiTabOrder.HasTabIndexSet(textBoxHidden),"the hidden text box's inner stop is found (the group box's index, 2)");
 				List<string> listNames=listOrdered.Select(x => GetName(x)).ToList();
 				CollectionAssert.AreEqual(new[] { "textDescription","groupType","radioLeft","radioRight","checkInactive","butDelete","butSave" },listNames,
 					string.Join(",",listNames));
@@ -203,6 +210,10 @@ namespace UiRefreshTests {
 				gridOwn.Arrange(new Rect(0,0,400,300));
 				Assert.AreEqual(0,WpfControls.UI.UiTabOrder.Apply(gridOwn).Count);
 				Assert.AreEqual(int.MaxValue,KeyboardNavigation.GetTabIndex((UIElement)gridOwn.Children[0]),"Save keeps the default");
+				//Office content (the eForm fill surface) keeps its fields' own order.
+				System.Windows.Controls.Grid gridPinned=BuildScrambledContent();
+				WpfControls.UI.ContentLook.SetIsPinned(gridPinned,true);
+				Assert.AreEqual(0,WpfControls.UI.UiTabOrder.Apply(gridPinned).Count);
 			});
 		}
 

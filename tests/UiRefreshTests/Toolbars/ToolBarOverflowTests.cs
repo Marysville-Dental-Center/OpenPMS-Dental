@@ -20,6 +20,9 @@ namespace UiRefreshTests.Toolbars {
 	public class ToolBarOverflowTests {
 		///<summary>A toolbar whose protected key handling the tests can call.</summary>
 		private class ToolBarODKeys:ToolBarOD {
+			///<summary>As after a Tab into the toolbar: Windows shows keyboard cues (the toolbar takes its keys only then).</summary>
+			protected override bool ShowFocusCues=>true;
+
 			public bool IsInputKeyTest(Keys keys) {
 				return IsInputKey(keys);
 			}
