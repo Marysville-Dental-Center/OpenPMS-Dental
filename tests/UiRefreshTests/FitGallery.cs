@@ -732,12 +732,17 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.ControlAppt#search":
 					Control panelCalendar=FindByName(root,"panelCalendar");
 					Control groupSearch=FindByName(root,"groupSearch");
-					Point pointSearch=new Point(panelCalendar.Left,panelCalendar.Top+FindByName(root,"panelCalendarLower").Top+FindByName(root,"pinBoard").Bottom+UiGrid.ROW_GAP);
-					if(root.FindForm() is FormODBase formODBase && WindowBuilder.GetLayoutManager(formODBase)!=null) {
-						WindowBuilder.GetLayoutManager(formODBase).MoveLocation(groupSearch,pointSearch);//as ShowSearch moves it (the harness lays the window out again)
+					//As ControlAppt.LayoutSearch places it (ShowSearch): under the pinboard, the column's width, down to the tabs' bottom.
+					LayoutManagerForms layoutManagerSearch=root.FindForm() is FormODBase formODBase ? WindowBuilder.GetLayoutManager(formODBase) : null;
+					int ySearch=panelCalendar.Top+FindByName(root,"panelCalendarLower").Top+FindByName(root,"pinBoard").Bottom
+						+(layoutManagerSearch==null ? UiGrid.ROW_GAP : layoutManagerSearch.Scale(UiGrid.ROW_GAP));
+					int heightSearch=Math.Max(layoutManagerSearch==null ? 385 : layoutManagerSearch.Scale(385),FindByName(root,"tabControl").Bottom-ySearch);
+					Rectangle rectangleSearch=new Rectangle(panelCalendar.Left,ySearch,panelCalendar.Width,heightSearch);
+					if(layoutManagerSearch!=null) {
+						layoutManagerSearch.Move(groupSearch,rectangleSearch);//the harness lays the window out again
 					}
 					else {
-						groupSearch.Location=pointSearch;
+						groupSearch.Bounds=rectangleSearch;
 					}
 					groupSearch.Visible=true;
 					groupSearch.BringToFront();

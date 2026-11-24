@@ -3635,7 +3635,7 @@ namespace OpenPmsDental {
 		private void ShowSearch() {
 			_listProvidersSearch=new List<Provider>();
 			List<Provider> listProvidersShort=Providers.GetDeepCopy(true);
-			LayoutManager.MoveLocation(groupSearch,new Point(panelCalendar.Location.X,panelCalendar.Location.Y+panelCalendarLower.Location.Y+pinBoard.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP)));//UI-12 slice 16: the grid's row gap under the pinboard
+			LayoutSearch();//UI-12 slice 16: under the pinboard, the column's width, down to the tabs' bottom
 			textBefore.Text="";
 			textAfter.Text="";
 			_listBoxProviders.Items.Clear();
@@ -3959,6 +3959,17 @@ namespace OpenPmsDental {
 			LayoutManager.Move(panelCalendar,new Rectangle(Width-pad-w,toolBarMain.Bottom+pad,w,panelCalendarLower.Bottom));
 			LayoutManager.Move(tabControl,new Rectangle(panelCalendar.Left,panelCalendar.Bottom+gap,w,Math.Max(0,Height-pad-(panelCalendar.Bottom+gap))));
 			LayoutManager.Move(contrApptPanel,new Rectangle(pad,toolBarMain.Bottom+pad,Math.Max(0,panelCalendar.Left-gap-pad),Math.Max(0,Height-toolBarMain.Bottom-2*pad)));
+			if(groupSearch.Visible) {
+				LayoutSearch();
+			}
+		}
+
+		///<summary>UI-12 slice 16: the search group UiGrid.ROW_GAP under the pinboard, the calendar column's width, and down to the tabs' bottom so
+		///it covers them (never shorter than its designer height; its results list takes the height it gains).</summary>
+		private void LayoutSearch() {
+			int y=panelCalendar.Top+panelCalendarLower.Top+pinBoard.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP);
+			int height=Math.Max(LayoutManager.Scale(385),tabControl.Bottom-y);
+			LayoutManager.Move(groupSearch,new Rectangle(panelCalendar.Left,y,panelCalendar.Width,height));
 		}
 
 		///<summary>Used for the UpdateProvs tool to reassign all future appointments for one op to another prov.

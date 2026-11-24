@@ -165,16 +165,16 @@ OpenPmsDental/Main Modules/ControlAppt.Designer.cs	labelNoneView	171,284	324,66
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	menuBlockout		61,4	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	_menuOp		61,4	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	menuApt		61,4	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupSearch	600,353	219,380	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox1	122,262	89,82	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupSearch	600,348	227,385	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox1	130,267	89,82	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvHygenist	8,50	73,24	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvDentist	8,22	73,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvPick	8,348	75,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butRefresh	89,348	58,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	listSearchResults	8,50	203,89	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	_listBoxProviders	8,280	106,64	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchClose	153,348	58,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox2	8,147	203,107	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butProvPick	8,353	75,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butRefresh	89,353	58,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	listSearchResults	8,50	211,94	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	_listBoxProviders	8,285	114,64	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchClose	161,353	58,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	groupBox2	8,152	211,107	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textAfter	62,76	44,23	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label11	8,76	48,23	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioBeforePM	157,50	39,20	
@@ -186,17 +186,17 @@ OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioAfterAM	0,0	39,20
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	radioAfterPM	45,0	39,20	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	dateSearch	62,22	130,23	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label9	8,22	48,23	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label8	8,262	106,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchCloseX	195,26	16,16	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchNext	118,22	71,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	label8	8,267	114,16	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchCloseX	203,26	16,16	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearchNext	126,22	71,24	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	toolBarMain	0,0	1076,25	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	toggleDayWeek	0,26	80,40	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	toggleDayWeek	0,26	120,40	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd4	178,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd6	197,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd3	159,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	pinBoard	128,26	99,96	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	listConfirmed	84,238	86,113	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butAdvSearch	0,98	60,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butAdvSearch	0,98	66,24	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwdMonth	140,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBackMonth	1,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBackWeek	20,0	19,22	
@@ -205,8 +205,8 @@ OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butToday	58,0	44,22
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butFwd	102,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butBack	39,0	19,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butLab	0,157	78,23	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butClearPin	0,70	75,24	
-OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearch	66,98	48,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butClearPin	0,70	120,24	
+OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butSearch	72,98	48,24	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	comboView	84,130	143,23	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	butMonth	152,1	65,22	
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	monthCalendarOD	0,22	227,162	

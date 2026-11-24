@@ -3,10 +3,12 @@ the tabs at run time (with UiGrid's numbers since this slice: 8 px from the modu
 8 px under it); here the parts the designer places inside them.
 The lower calendar panel (227 px, the calendar's width; LayoutControls gives it 351 px, from 317): the navigation strip at its top (a
 segmented strip, its buttons edge to edge, unchanged); the day/week toggle, Clear and Advanced/Search in a column on the left, 4 px apart,
-the pinboard on the right ending on the panel's edge, both 4 px under the strip; then the field rows at the 27 px pitch (View, Lab Cases,
+the pinboard on the right ending on the panel's edge, both 4 px under the strip (the column one width, 120 px, 8 px before the pinboard:
+the toggle, Clear, and Advanced 66 + 6 + Search 48); then the field rows at the 27 px pitch (View, Lab Cases,
 Daily Prod, Daily Goal), labels and the Lab Cases button right-aligned 6 px before one field column ending on the panel's edge; the
 confirmation list under them with its two-line caption before it.
-The search group (shown by ShowSearch under the pinboard; 219 x 380, from 367): More and its close button on the first row under the
+The search group (shown by ShowSearch under the pinboard, the column's width and down to the tabs' bottom, so it covers them; 227 x 385
+here, from 219 x 367; the results list takes the height ShowSearch adds): More and its close button on the first row under the
 title, the results, the Date/Time Restrictions group (labels right-aligned 6 px before one field column, the am/pm choices 6 px after
 their boxes), the providers' caption and list beside the Search by group, and Providers..., Search and Close on one row at the bottom."""
 import importlib.util
@@ -24,12 +26,13 @@ def layout(h):
     W = h.n("monthCalendarOD").nw  # the column is as wide as the calendar (LayoutControls)
     # the lower calendar panel
     y = 22 + 4
-    h.set("toggleDayWeek", 0, y, 80, 40)
+    C = W - 99 - s.GAP  # the column beside the pinboard: one width
+    h.set("toggleDayWeek", 0, y, C, 40)
     h.set("pinBoard", W - 99, y, 99, 96)
-    h.set("butClearPin", 0, y + 40 + 4, 75, B)
+    h.set("butClearPin", 0, y + 40 + 4, C, B)
     yAdv = y + 40 + 4 + B + 4
-    h.set("butAdvSearch", 0, yAdv, 60, B)
-    h.set("butSearch", 60 + s.ITEM, yAdv, 114 - 60 - s.ITEM, B)
+    h.set("butAdvSearch", 0, yAdv, 66, B)
+    h.set("butSearch", 66 + s.ITEM, yAdv, C - 66 - s.ITEM, B)
     fx = 84
     fw = W - fx
     yRow = y + 96 + s.GAP
@@ -57,13 +60,15 @@ def layout(h):
     h.set("tabControl", xc, top + hc + s.GAP, W, root.h - s.PAD - (top + hc + s.GAP))
     h.set("contrApptPanel", s.PAD, top, xc - s.GAP - s.PAD, root.h - s.PAD - top)
     # the search group
-    G = 219
+    G = W  # the column's width
+    GH = 385  # from under the pinboard (ShowSearch) to the tabs' bottom at the designer size
     R = G - s.PAD
-    h.set("groupSearch", None, 741 - 8 - 380, G, 380)  # shown by ShowSearch; in the designer within the module (it ran 4 px past it)
+    h.set("groupSearch", None, 741 - 8 - GH, G, GH)  # shown by ShowSearch; in the designer within the module (it ran 4 px past it)
     h.set("butSearchCloseX", R - 16, 22 + 4, 16, 16)
     h.set("butSearchNext", R - 16 - s.ITEM - 71, 22, 71, B)
-    h.set("listSearchResults", s.PAD, 22 + B + 4, R - s.PAD, 89)
-    y2 = 22 + B + 4 + 89 + s.GAP
+    LH = 89 + GH - 380  # the results list absorbs the height (anchored on four sides; the parts under it on the bottom)
+    h.set("listSearchResults", s.PAD, 22 + B + 4, R - s.PAD, LH)
+    y2 = 22 + B + 4 + LH + s.GAP
     h.set("groupBox2", s.PAD, y2, R - s.PAD, 22 + 3 * 27 - 4 + s.PAD)
     lw = max(h.lw("label9"), h.lw("label10"), h.lw("label11"))
     gx = s.PAD + lw + s.ITEM
