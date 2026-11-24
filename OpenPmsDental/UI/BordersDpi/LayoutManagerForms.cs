@@ -94,6 +94,9 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 		///<summary>See FormODBase.IsLayoutMS.  This is a copy.</summary>
 		public bool IsLayoutMS;
 		public bool Is96dpi=false;
+		///<summary>UI-CAL-2: the scale is the dpi alone (SetScaleMS), without the program's zoom: a plain window's calendar (CreateDropCalendar), as
+		///Windows scales a plain window by its monitor's dpi and no LayoutManager zooms it.</summary>
+		public bool IsZoomOff=false;
 		///<summary>True if in the middle of laying out. Moving controls can sometimes trigger another layout event. Example, sizing a split container triggers its splitterMoved event.  This bool prevents another layout from starting in cases like that.  2022-12-26- This may be deprecated since we no longer use MS SplitContainers.</summary>
 		public bool IsLayingOut;
 		///<summary>This is a list of the original 96dpi layout info, as it was in the designer.</summary>
@@ -176,21 +179,76 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 
 		///<summary>UI-CAL: the calendar of a stock date picker's drop-down (UiDateDropLook): MonthCalendarOD at the scale of the picker's window
 		///(its LayoutManager, as the window's own calendars draw), in the picker's font, its keyboard on, without the month name's date box (the
-		///picker is the box to type in, as for ODDatePicker's drop-down).</summary>
+		///picker is the box to type in, as for ODDatePicker's drop-down).
+		///UI-CAL-2: the 100% calendar scaled, its size, cells and text by the one factor of the picker's window (MonthCalendarOD.GetFontDraw): in a
+		///program window (FormODBase) its LayoutManager's scale (the monitor's dpi times the zoom) and the picker's 96 dpi font size it recorded; in a
+		///plain window (the graphs' controls, the plain dialogs) the picker's monitor dpi alone (GetScalePlain) and the picker's font as it is drawn
+		///on the screen brought back to 96 dpi (GetFontSize96Plain). It was the 100% calendar there, with the picker's 150% text squeezed into it.</summary>
 		public static Control CreateDropCalendar(System.Windows.Forms.DateTimePicker dateTimePicker){
 			UI.MonthCalendarOD monthCalendarOD=new UI.MonthCalendarOD();
 			LayoutManagerForms layoutManagerForms=null;
 			if(dateTimePicker.FindForm() is FormODBase formODBase){
 				layoutManagerForms=formODBase.GetLayoutManager();
 			}
+			float fontSize96;
 			if(layoutManagerForms!=null){
 				monthCalendarOD.LayoutManager=layoutManagerForms;
+				fontSize96=layoutManagerForms.GetFontSize96(dateTimePicker);
+				if(fontSize96<=0){
+					fontSize96=dateTimePicker.Font.SizeInPoints/layoutManagerForms.ScaleMyFont();//its font set by the zoom only, as LayoutManager sets them
+				}
+			}
+			else{
+				float scale=GetScalePlain(dateTimePicker);
+				LayoutManagerForms layoutManagerPlain=new LayoutManagerForms();
+				layoutManagerPlain.IsZoomOff=true;
+				layoutManagerPlain.SetScaleMS(scale);
+				monthCalendarOD.LayoutManager=layoutManagerPlain;
+				fontSize96=GetFontSize96Plain(dateTimePicker.Font,scale,FuncGetScalePlainForTest==null ? GetDpiFonts() : 96f);
 			}
 			monthCalendarOD.AllowClickingTopText=false;
 			monthCalendarOD.AllowKeyboard=true;
 			monthCalendarOD.Font=dateTimePicker.Font;
+			monthCalendarOD.FontSize96=fontSize96;
 			monthCalendarOD.Size=monthCalendarOD.LayoutManager.ScaleSize(monthCalendarOD.GetDefaultSize());
 			return monthCalendarOD;
+		}
+
+		///<summary>UI-CAL-2, for the gallery harness: the scale of a plain window's control in place of its monitor's (DeviceDpi/96, the test machine's
+		///off screen), the harness drawing its fonts at 96 dpi. Null in the program.</summary>
+		public static Func<Control,float> FuncGetScalePlainForTest;
+
+		///<summary>UI-CAL-2: the scale of a control in a plain window (not a FormODBase): its monitor's dpi over 96 (Windows scales a plain window by
+		///it, per monitor; no zoom). Never under 1.</summary>
+		public static float GetScalePlain(Control control){
+			float scale=FuncGetScalePlainForTest==null ? control.DeviceDpi/96f : FuncGetScalePlainForTest(control);
+			return Math.Max(1f,scale);
+		}
+
+		///<summary>UI-CAL-2: the size in points at 96 dpi of a plain window's font: its height in pixels as Windows draws it (a font in points at the
+		///dpi GDI+ draws fonts at, dpiFonts: Windows' system dpi on a screen, 96 in a picture) over the window's scale. A 9 pt font drawn 18 px
+		///high in a 150% window is 9 pt at 96 dpi (12 px).</summary>
+		public static float GetFontSize96Plain(Font font,float scale,float dpiFonts){
+			float sizePixels;
+			if(font.Unit==GraphicsUnit.Pixel){
+				sizePixels=font.Size;
+			}
+			else{
+				sizePixels=font.SizeInPoints*dpiFonts/72f;
+			}
+			return sizePixels/Math.Max(1f,scale)*72f/96f;
+		}
+
+		///<summary>UI-CAL-2: the dpi GDI+ draws a font in points at on this screen: Windows' system dpi (a per-monitor aware program's device
+		///contexts report it, whatever the monitor).</summary>
+		private static float GetDpiFonts(){
+			try{
+				using Graphics g=Graphics.FromHwnd(IntPtr.Zero);
+				return g.DpiY;
+			}
+			catch{
+				return 96f;
+			}
 		}
 
 		///<summary>The zoom the looks draw at: the ScaleMy of a LayoutManager without a dpi of its own, made once.</summary>
@@ -610,6 +668,9 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			if(Is96dpi){
 				return 1;
 			}
+			if(IsZoomOff){
+				return _scaleMS;
+			}
 			if(ZoomTest!=0){
 				return _scaleMS+ZoomTest/100f;
 			}
@@ -645,7 +706,7 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 
 		///<summary>Example 1.2. This is the scale for Fonts, which is only ComputerPrefs.LocalComputer.Zoom/100.</summary>
 		public float ScaleMyFont(){
-			if(Is96dpi){
+			if(Is96dpi || IsZoomOff){
 				return 1;
 			}
 			if(ZoomTest!=0){
@@ -678,6 +739,19 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 				ZoomChanged?.Invoke(this,new EventArgs());
 			}
 			return zoomLocal;
+		}
+
+		///<summary>UI-CAL-2: the font size at 96 dpi this LayoutManager recorded for the control (its designer font, mapped to the body token), 0 when
+		///it does not lay the control out.</summary>
+		public float GetFontSize96(Control control){
+			if(_listControl96Infos==null || control==null){
+				return 0;
+			}
+			Control96Info control96Info=_listControl96Infos.FirstOrDefault(x=>x.ControlRef==control);
+			if(control96Info==null){
+				return 0;
+			}
+			return control96Info.FontSize96;
 		}
 
 		///<summary>Example 1.5</summary>

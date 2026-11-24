@@ -52,6 +52,7 @@ namespace UiRefreshTests {
 				bool isBuildingBefore=WindowBuilder.IsBuildingByConstructor;
 				WindowBuilder.IsBuildingByConstructor=true;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
+				SetScalePlainForTest(scale);
 				try {
 					List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
 					foreach(string windowAndPicker in arrayWindows) {
@@ -111,11 +112,23 @@ namespace UiRefreshTests {
 				finally {
 					WindowBuilder.IsBuildingByConstructor=isBuildingBefore;
 					DesignSheetWindows.IsPrintingWithoutChildren=false;
+					SetScalePlainForTest(0);
 				}
 			});
 			File.WriteAllLines(Path.Combine(folder,"drop-failed.txt"),listFailed);
 			Assert.AreEqual(0,listFailed.Count,string.Join(Environment.NewLine,listFailed));
 			Assert.IsTrue(countPictures>0);
+		}
+
+		///<summary>UI-CAL-2: a plain window's scale as the gallery draws it (LayoutManagerForms.FuncGetScalePlainForTest: the drop-down of a plain
+		///window's picker at the picture's scale, not the test machine's dpi, its fonts at 96 dpi as in a picture); 0 clears it. Set through
+		///reflection, so this file also builds against a program without UI-CAL-2 (the before pictures from main).</summary>
+		internal static void SetScalePlainForTest(float scale) {
+			FieldInfo fieldInfo=typeof(LayoutManagerForms).GetField("FuncGetScalePlainForTest",BindingFlags.Static|BindingFlags.Public);
+			if(fieldInfo==null) {
+				return;
+			}
+			fieldInfo.SetValue(null,scale>0 ? (Func<Control,float>)(control => scale) : null);
 		}
 
 		///<summary>The window's picture with the program's calendar of the picker's drop-down on it, where it opens; the picture grows when the

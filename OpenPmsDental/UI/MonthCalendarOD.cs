@@ -45,6 +45,10 @@ namespace OpenPmsDental.UI{
 		///button's release, as Windows' calendar does.</summary>
 		private bool _isMouseSelecting;
 		private int _maxSelectionCount=1;
+		///<summary>UI-CAL-2: the font the text is drawn in (GetFontDraw), in pixels at the calendar's scale; made again when the size changes.</summary>
+		private Font _fontDraw;
+		///<summary>UI-CAL-2: see FontSize96.</summary>
+		private float _fontSize96;
 		private float _heightCell;
 		///<summary>Needs to be scaled each time.</summary>
 		private int _heightFooter96=21;
@@ -98,6 +102,23 @@ namespace OpenPmsDental.UI{
 
 		#region Properties
 		protected override Size DefaultSize => new Size(227, 162);
+
+		///<summary>UI-CAL-2: the size in points of the calendar's text at 96 dpi and 100% zoom, which the calendar scales by its LayoutManager as it
+		///scales its cells (GetFontDraw). 0 (the default): the size the window's LayoutManager recorded for the calendar (its designer font), else its
+		///Font as LayoutManager sets the fonts of a window's controls (scaled by the zoom only). The date pickers' drop-down sets it from the picker
+		///(LayoutManagerForms.CreateDropCalendar).</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public float FontSize96{
+			get{
+				return _fontSize96;
+			}
+			set{
+				_fontSize96=value;
+				CalculateRectangles();
+				Invalidate();
+			}
+		}
 
 		///<summary>UI-CAL: as Windows' MonthCalendar.MaxSelectionCount: the most days the selection can span. 1 (one day) by default, unlike
 		///Windows' 7, so the existing uses keep one day.</summary>
@@ -530,15 +551,16 @@ namespace OpenPmsDental.UI{
 				}
 			}
 			EnumUiColor uiColorText=Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled;
+			//UI-CAL-2: the text in pixels at the calendar's scale (GetFontDraw), so it grows with the cells by the same factor; measured as drawn.
+			Font fontDraw=GetFontDraw();
 			//Header======================================================================================================
 			//alignment is centered, left right, but we need to tightly control vertical because we only have a few pixels to work with.
 			using StringFormat stringFormat=new StringFormat(){Alignment=StringAlignment.Center,LineAlignment=StringAlignment.Near };
-			int topCellBuffer=(int)((_heightCell-LayoutManager.ScaleMS(Font.Height))/2f);
+			int topCellBuffer=(int)((_heightCell-GetFontHeight(fontDraw))/2f);
 			string strMonth=_dateMonthShowing.ToString("MMMM yyyy");
 			Rectangle rectangle=new Rectangle(0,topCellBuffer+LayoutManager.Scale(11),Width,LayoutManager.Scale(_heightHeader96));
 			//Hover top text: SubtleHover behind it (was blue text)===========================================================
-			SizeF sizeFStrMonth=g.MeasureString(strMonth,Font);
-			sizeFStrMonth=new SizeF(LayoutManager.ScaleMS(sizeFStrMonth.Width),LayoutManager.ScaleMS(sizeFStrMonth.Height));
+			SizeF sizeFStrMonth=g.MeasureString(strMonth,fontDraw);
 			//Draw the rectangle based on the text size and location with some buffer around the text
 			_rectangleTopText=new Rectangle(x:(Width/2-(int)sizeFStrMonth.Width/2)-LayoutManager.Scale(10),
 				y:(LayoutManager.Scale(33)/2-(int)sizeFStrMonth.Height/2)-LayoutManager.Scale(5),
@@ -548,7 +570,7 @@ namespace OpenPmsDental.UI{
 				UiCalendarPaint.DrawHover(g,_rectangleTopText,scale);
 			}
 			if(IsTextShown){
-				g.DrawString(strMonth,Font,UiTheme.GetBrush(uiColorText),rectangle,stringFormat);
+				g.DrawString(strMonth,fontDraw,UiTheme.GetBrush(uiColorText),rectangle,stringFormat);
 			}
 			//Days of week: TextSecondary=====================================================================================
 			for(int i=0;i<7 && IsTextShown;i++){
@@ -561,7 +583,7 @@ namespace OpenPmsDental.UI{
 					intDay-=7;
 				}
 				str=DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)intDay);
-				g.DrawString(str,Font,UiTheme.GetBrush(Enabled ? EnumUiColor.TextSecondary : EnumUiColor.TextDisabled),rectangle,stringFormat);
+				g.DrawString(str,fontDraw,UiTheme.GetBrush(Enabled ? EnumUiColor.TextSecondary : EnumUiColor.TextDisabled),rectangle,stringFormat);
 			}
 			//Year and month arrows: the Fluent chevrons where the triangles were, the letters Y and M beside them as before===========
 			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.YearBack),isForward:false,uiColorText);
@@ -570,10 +592,10 @@ namespace OpenPmsDental.UI{
 			UiCalendarPaint.DrawArrow(g,GetRectangleArrow(EnumCalendarArrow.YearForward),isForward:true,uiColorText);
 			if(IsTextShown){
 				SolidBrush brushText=UiTheme.GetBrush(uiColorText);
-				g.DrawString("Y",Font,brushText,LayoutManager.ScaleF(10),LayoutManager.ScaleF(11));
-				g.DrawString("M",Font,brushText,LayoutManager.ScaleF(37),LayoutManager.ScaleF(11));
-				g.DrawString("M",Font,brushText,Width-LayoutManager.ScaleF(50),LayoutManager.ScaleF(11));
-				g.DrawString("Y",Font,brushText,Width-LayoutManager.ScaleF(22),LayoutManager.ScaleF(11));
+				g.DrawString("Y",fontDraw,brushText,LayoutManager.ScaleF(10),LayoutManager.ScaleF(11));
+				g.DrawString("M",fontDraw,brushText,LayoutManager.ScaleF(37),LayoutManager.ScaleF(11));
+				g.DrawString("M",fontDraw,brushText,Width-LayoutManager.ScaleF(50),LayoutManager.ScaleF(11));
+				g.DrawString("Y",fontDraw,brushText,Width-LayoutManager.ScaleF(22),LayoutManager.ScaleF(11));
 			}
 			//Dates: Text, TextOnAccent on the selected day, TextDisabled for the months around================================
 			for(int c=0;c<7 && IsTextShown;c++){
@@ -583,12 +605,12 @@ namespace OpenPmsDental.UI{
 					//UI-CAL: a day outside MinDate and MaxDate as the other months' days (it cannot be selected).
 					EnumUiColor uiColorDay=UiCalendarPaint.GetDayText(isSelected:IsDaySelected(_arrayDates[c,r]),
 						isMonthShown:_arrayDates[c,r].Month==_dateMonthShowing.Month && IsSelectable(_arrayDates[c,r]),Enabled);
-					g.DrawString(_arrayDates[c,r].ToString("%d"),Font,UiTheme.GetBrush(uiColorDay),rectangleF,stringFormat);
+					g.DrawString(_arrayDates[c,r].ToString("%d"),fontDraw,UiTheme.GetBrush(uiColorDay),rectangleF,stringFormat);
 				}
 			}
 			//Hover footer================================================================================================
 			string s=Lan.g("Calendar","Today:")+" "+DateTime.Today.ToShortDateString();
-			int widthBoxAndText=(int)widthCell-LayoutManager.Scale(15)+(int)LayoutManager.ScaleMS(g.MeasureString(s,Font).Width);
+			int widthBoxAndText=(int)widthCell-LayoutManager.Scale(15)+(int)g.MeasureString(s,fontDraw).Width;
 			if(_rectangleTodayHover.Contains(pointMouse) && Enabled){
 				UiCalendarPaint.DrawHover(g,_rectangleTodayHover,scale);
 			}
@@ -604,7 +626,7 @@ namespace OpenPmsDental.UI{
 			UiCalendarPaint.DrawToday(g,rectangle,isSelected:false,scale);
 			x+=(int)widthCell-LayoutManager.Scale(13);
 			if(IsTextShown){
-				g.DrawString(s,Font,UiTheme.GetBrush(uiColorText),x,Height-heightFooter+LayoutManager.Scale(2));
+				g.DrawString(s,fontDraw,UiTheme.GetBrush(uiColorText),x,Height-heightFooter+LayoutManager.Scale(2));
 			}
 			//Lines: the outline, 1 px Stroke (was Gray 150)=================================================================
 			//g.DrawLine(penFaint,0,Height-heightFooter,Width,Height-heightFooter);
@@ -619,6 +641,38 @@ namespace OpenPmsDental.UI{
 			MonthBack,
 			MonthForward,
 			YearForward,
+		}
+
+		///<summary>UI-CAL-2: the font the calendar draws its text in: its font's size at 96 dpi (GetFontSize96Drawn) times its scale (LayoutManager.ScaleMy:
+		///the monitor's dpi times the zoom), in pixels. The text grows with the cells by the same factor on every monitor and in a picture: a font in
+		///points grows with the graphics' dpi instead, Windows' system dpi on a screen (not the dpi of the monitor the window is on) and 96 in a
+		///picture, so the 150% calendar drew 100% text in the gallery and a plain window's drop-down drew 150% text in a 100% calendar.</summary>
+		protected Font GetFontDraw(){
+			float sizePixels=GetFontSize96Drawn()*96f/72f*LayoutManager.ScaleMy();
+			Font font=Font;
+			if(_fontDraw!=null && _fontDraw.Size==sizePixels && _fontDraw.Style==font.Style && _fontDraw.Name==font.Name){
+				return _fontDraw;
+			}
+			_fontDraw?.Dispose();
+			_fontDraw=new Font(font.FontFamily,sizePixels,font.Style,GraphicsUnit.Pixel);
+			return _fontDraw;
+		}
+
+		///<summary>UI-CAL-2: the size in points at 96 dpi and 100% zoom the text is drawn at (see FontSize96).</summary>
+		public float GetFontSize96Drawn(){
+			if(_fontSize96>0){
+				return _fontSize96;
+			}
+			float fontSize96=LayoutManager.GetFontSize96(this);
+			if(fontSize96>0){
+				return fontSize96;
+			}
+			return Font.SizeInPoints/LayoutManager.ScaleMyFont();
+		}
+
+		///<summary>UI-CAL-2: the height of a line of the font in pixels, rounded up as Font.Height rounds it (at 100% the same as Font.Height at 96 dpi).</summary>
+		private static int GetFontHeight(Font fontDraw){
+			return (int)Math.Ceiling(fontDraw.GetHeight(96f));
 		}
 
 		///<summary>Whether the focus ring is drawn on the selected day: with focus and keyboard cues (section 3.6). Virtual for the state tests.</summary>
@@ -822,7 +876,7 @@ namespace OpenPmsDental.UI{
 			_rectangleYearRight=new Rectangle(Width-LayoutManager.Scale(26),0,LayoutManager.Scale(26),LayoutManager.Scale(33));
 			float widthCell=Width/7f;
 			string s=Lan.g("Calendar","Today:")+" "+DateTime.Today.ToShortDateString();
-			int widthBoxAndText=(int)widthCell-LayoutManager.Scale(15)+TextRenderer.MeasureText(s,Font).Width;
+			int widthBoxAndText=(int)widthCell-LayoutManager.Scale(15)+TextRenderer.MeasureText(s,GetFontDraw()).Width;
 			int widthTodayHover=widthBoxAndText+LayoutManager.Scale(10);
 			int heightFooter=LayoutManager.Scale(_heightFooter96);
 			_rectangleTodayHover=new Rectangle(Width/2-widthTodayHover/2,

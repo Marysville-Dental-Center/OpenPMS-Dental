@@ -127,8 +127,10 @@ namespace UiRefreshTests {
 		///<summary>The controls under the control whose font Windows scales (see ScaleFontsAsWindowsDoes), with their fonts now.</summary>
 		private static void CollectFontsAsWindowsScales(Control control,List<Tuple<Control,Font>> listScaled) {
 			foreach(Control child in control.Controls) {
+				//UI-CAL-2: MonthCalendarOD too: before UI-CAL-2 it drew its text in points, which Windows draws at its dpi (the harness drew 100%
+				//text in the 150% calendar); since UI-CAL-2 it draws in pixels at its own scale from its 96 dpi size, whatever its font now.
 				if(child is DateTimePicker || child is UpDownBase || child is OpenPmsDental.UI.ComboBoxClinicPicker || child is Label
-					|| child is System.Windows.Forms.ButtonBase || child is OpenPmsDental.UI.CheckBox)
+					|| child is System.Windows.Forms.ButtonBase || child is OpenPmsDental.UI.CheckBox || child is OpenPmsDental.UI.MonthCalendarOD)
 				{
 					listScaled.Add(Tuple.Create(child,child.Font));
 					continue;
