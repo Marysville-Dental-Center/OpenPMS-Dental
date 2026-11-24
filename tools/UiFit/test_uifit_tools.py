@@ -202,6 +202,13 @@ class BatchTests(unittest.TestCase):
         for f, g in self.group_of.items():
             self.assertEqual(where[g], where[f], f)
 
+    def test_nothing_to_lay_out_in_no_batch(self):
+        # UI-CLOSE: the designer files sweep-known.tsv lists with rule grid (the base window, controls that draw themselves) are in no batch.
+        nothing = plan_batches.nothing_to_lay_out(ROOT)
+        self.assertTrue({"formodbase", "unmountedbar", "windowingslider", "dashfamilyinsurance"} <= nothing)
+        files = [f for _, _, fs in self.batches for f in fs]
+        self.assertEqual([], [f for f in files if sd.designer_base(f) in nothing])
+
     def test_the_committed_plan_is_current(self):
         rows = sd.read_dicts(os.path.join(ROOT, "docs", "port-notes", "UI-12-batches.tsv"))
         self.assertEqual([f for _, _, fs in self.batches for f in fs], [r["designer_file"] for r in rows],

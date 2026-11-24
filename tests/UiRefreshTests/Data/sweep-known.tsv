@@ -17,3 +17,8 @@ OpenPmsDental.TableTimeBar	classic-grey	panelScroll	the time pattern's table (a 
 OpenPmsDental.UI.FormComboPicker	plain-window	(window)	the combo box's drop-down list: a borderless popup that paints itself (UI-4b-1)
 OpenPmsDental.UI.ToolTipOD	plain-window	(window)	the program's tooltip: a borderless popup that paints itself (UI-4a)
 OpenPmsDental.UserControlScreenTooth	classic-grey	(window)	the screening tooth: content (colour-literals.tsv, UserControlScreenTooth)
+# UI-CLOSE (docs/port-notes/UI-12.md section 7, UI-CLOSE): designer files with nothing to lay out that the harness cannot build (no Form or UserControl); plan_batches.py leaves them out of the batches.
+OpenPmsDental.FormODBase	grid	(window)	the base of every program window: no InitializeComponent (its comment: it cannot have one, its designer values would become every derived window's defaults) and no designer controls; it draws the frame and title bar, the derived windows are laid out
+OpenPmsDental.UI.UnmountedBar	grid	(window)	the Windows Forms imaging bar of unmounted pictures (a Control, not built by the harness; the Images module uses WpfControls.UI.UnmountedBar): it draws its header and the pictures itself, its four buttons are the header's strip its code places
+OpenPmsDental.UI.WindowingSlider	grid	(window)	the brightness and contrast slider (a Control, not built by the harness): no designer controls, it draws itself; its host FormImagingSetup places it on the grid
+OpenPmsDental.DashFamilyInsurance	grid	(window)	the patient dashboard's Family Insurance cell (a Control, not built by the harness): no designer controls, it draws its text and boxes at the size the dashboard's sheet gives it (a sheet field, like DashApptGrid and UserControlScreenTooth)

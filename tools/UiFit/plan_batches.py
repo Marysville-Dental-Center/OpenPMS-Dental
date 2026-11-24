@@ -9,7 +9,8 @@ fewer designer controls (the layout snapshot's rows, the window itself not count
 larger one into a batch of about --large-batch. Order: the rank of fit-scan-files.tsv (the windows with the most text-fit findings first),
 then the designer files the scan did not rank, by path. Every batch's files (the designer files and the window's .cs and .resx files beside
 them) are its own, so two consecutive batches (and any two) share no file and can run in parallel; the plan checks it. Laid out already:
-a designer file the layout snapshot gives a slice (slice_data.snapshot_owner). Deterministic; the lead reruns it after each slice merges.
+a designer file the layout snapshot gives a slice (slice_data.snapshot_owner). Nothing to lay out (UI-CLOSE): a class with a grid row of
+sweep-known.tsv (nothing_to_lay_out). Deterministic; the lead reruns it after each slice merges.
 Columns: batch, kind (small or large), rank, designer_file, window (namespace.class), controls, group (the group's first window).
 """
 import argparse
@@ -61,7 +62,22 @@ def load(root):
                 ranked.append((int(p[0]), p[1]))
     in_rank = set(f for _, f in ranked)
     order = [(r, f) for r, f in ranked] + [("", f) for f in sorted(seen) if f not in in_rank]
-    return [(r, f) for r, f in order if f not in laid], controls, laid
+    nothing = nothing_to_lay_out(root)
+    return [(r, f) for r, f in order if f not in laid and sd.designer_base(f) not in nothing], controls, laid
+
+
+def nothing_to_lay_out(root):
+    """UI-CLOSE: the class names (lower case) of the designer files with nothing to lay out that the harness cannot build (no Form or
+    UserControl: the base window FormODBase, controls that draw themselves), each a row of sweep-known.tsv with rule grid and key (window)
+    and its reason. They are in no batch; a window the harness builds goes on the grid's list instead (grid-windows)."""
+    out = set()
+    path = os.path.join(sd.data_dir(root), "sweep-known.tsv")
+    if not os.path.exists(path):
+        return out
+    for r in sd.read_dicts(path):
+        if r.get("rule") == "grid" and r.get("key") == "(window)":
+            out.add(r["window"].split("@")[0].split(".")[-1].lower())
+    return out
 
 
 def window_name(root, rel):

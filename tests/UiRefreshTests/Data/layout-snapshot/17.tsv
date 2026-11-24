@@ -1,0 +1,6 @@
+# The layout snapshot of the UI refresh (docs/specs/ui-refresh-plan.md section 3.7, docs/port-notes/UI-0b.md): every designer
+# control's Location, Size and ClientSize as InitializeComponent sets them, "." for the window or UserControl itself. Written by
+# LayoutSnapshotTests with OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1; the test fails on any change that Data/fit-fixes.tsv does not list.
+# One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).
+file	control	location	size	client_size
+RdlDesign/MDIChild.cs	.			292,266
