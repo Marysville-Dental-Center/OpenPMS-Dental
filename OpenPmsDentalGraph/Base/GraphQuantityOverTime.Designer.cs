@@ -474,6 +474,7 @@
 			// 
 			// progressRingLoading
 			// 
+			this.progressRingLoading.DiameterAt96 = 64;
 			this.progressRingLoading.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.progressRingLoading.Location = new System.Drawing.Point(0, 0);
 			this.progressRingLoading.Name = "progressRingLoading";

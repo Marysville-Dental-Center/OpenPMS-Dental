@@ -23,9 +23,9 @@ using UiRefreshTests.TextFit;
 namespace UiRefreshTests {
 	///<summary>The gallery's preparation of the rings in a built window (FitGallery, after its state).</summary>
 	public static class ProgressRingGallery {
-		///<summary>The frame every ring is drawn at in the gallery: a quarter of the cycle, a 140 degree arc from 20 to 160 degrees (its middle at
-		///six o'clock).</summary>
-		public const int GALLERY_FRAME=15;
+		///<summary>The frame every ring is drawn at in the gallery (the audit's choice: the open side up and right, as a spinner is pictured): a
+		///250 degree arc from about 97 to 347 degrees, its middle at 222 degrees (GDI+'s, clockwise from three o'clock).</summary>
+		public const int GALLERY_FRAME=26;
 		///<summary>Set: the before pictures. Each ring is hidden, as the old indicator drew nothing of its own there (the allocator warning's
 		///animator never loaded a frame), and the graph's loading state gets the old picture box back (Dock Fill, CenterImage) with the GIF this
 		///variable names (loadingAnim.gif from the branch point), in front, as GraphQuantityOverTime's designer had it.</summary>
@@ -92,6 +92,10 @@ namespace UiRefreshTests {
 			Assert.AreEqual(new Rectangle(5,0,20,20),UiProgressRing.GetRingRectangle(new Rectangle(0,0,30,20),1f));
 			Assert.AreEqual(4,UiProgressRing.GetStrokeWidth(1f,20));
 			Assert.AreEqual(2,UiProgressRing.GetStrokeWidth(1f,8));
+			//Fluent's large ring (the graph's, where the 64 px picture was): 64 px, 96 at 150%, the stroke as the default ring's.
+			Assert.AreEqual(new Rectangle(18,18,64,64),UiProgressRing.GetRingRectangle(new Rectangle(0,0,100,100),1f,64));
+			Assert.AreEqual(new Rectangle(2,2,96,96),UiProgressRing.GetRingRectangle(new Rectangle(0,0,100,100),1.5f,64));
+			Assert.AreEqual(6,UiProgressRing.GetStrokeWidth(1.5f,96));
 		}
 
 		[TestMethod]
@@ -104,8 +108,8 @@ namespace UiRefreshTests {
 			UiProgressRing.GetArc(UiProgressRing.FRAMES_CYCLE/2,out float _,out float sweepHalf);
 			Assert.AreEqual(UiProgressRing.SWEEP_MAX,sweepHalf,0.001);
 			UiProgressRing.GetArc(ProgressRingGallery.GALLERY_FRAME,out float startGallery,out float sweepGallery);
-			Assert.AreEqual(140f,sweepGallery,0.001);
-			Assert.AreEqual(20f,startGallery,0.001);
+			Assert.AreEqual(249.62,sweepGallery,0.01);
+			Assert.AreEqual(97.19,startGallery,0.01);
 			//Each frame moves both ends of the arc a little and always clockwise: forward, never more than 20 degrees.
 			for(int frame=0;frame<UiProgressRing.FRAMES_CYCLE;frame++) {
 				UiProgressRing.GetArc(frame,out float start1,out float sweep1);
@@ -123,13 +127,13 @@ namespace UiRefreshTests {
 				using(Bitmap bitmap=Draw(64,scale,ProgressRingGallery.GALLERY_FRAME,isAnimated:true,isHighContrast:false)) {
 					Rectangle rectangleRing=UiProgressRing.GetRingRectangle(new Rectangle(0,0,64,64),scale);
 					int widthStroke=UiProgressRing.GetStrokeWidth(scale,rectangleRing.Width);
-					//The arc runs from 20 to 160 degrees: its middle (six o'clock) and both quarters inside it are solid Accent.
-					foreach(double angle in new[] { 90.0,50.0,130.0 }) {
+					//The arc runs from about 97 to 347 degrees: its middle (222) and two points well inside it are solid Accent.
+					foreach(double angle in new[] { 222.0,150.0,300.0 }) {
 						Point point=GetStrokePoint(rectangleRing,widthStroke,angle);
 						Assert.IsTrue(IsSame(colorAccent,bitmap.GetPixel(point.X,point.Y)),scale+" at "+angle+": "+bitmap.GetPixel(point.X,point.Y));
 					}
-					//Outside the arc the ring's line stays the background: twelve o'clock, nine and three o'clock less the round caps.
-					foreach(double angle in new[] { 270.0,200.0,340.0 }) {
+					//Outside the arc the ring's line stays the background: the gap's middle (42) and its ends less the round caps.
+					foreach(double angle in new[] { 42.0,10.0,75.0 }) {
 						Point point=GetStrokePoint(rectangleRing,widthStroke,angle);
 						Assert.IsTrue(IsSame(_colorBack,bitmap.GetPixel(point.X,point.Y)),scale+" at "+angle+": "+bitmap.GetPixel(point.X,point.Y));
 					}
@@ -151,8 +155,9 @@ namespace UiRefreshTests {
 						}
 					}
 					Assert.AreEqual(0,countOutside,"pixels outside the ring at "+scale);
-					//The solid arc grows with the square of the scale: a 140 degree arc of the stroke's width, less its anti-aliased edges.
-					double areaArc=Math.PI*(rectangleRing.Width-widthStroke)*widthStroke*140/360;
+					//The solid arc grows with the square of the scale: the frame's arc of the stroke's width, less its anti-aliased edges.
+					UiProgressRing.GetArc(ProgressRingGallery.GALLERY_FRAME,out float _,out float angleSweep);
+					double areaArc=Math.PI*(rectangleRing.Width-widthStroke)*widthStroke*angleSweep/360;
 					Assert.IsTrue(countAccent>areaArc*0.5 && countAccent<areaArc*1.3,"Accent pixels at "+scale+": "+countAccent+" of about "+areaArc);
 				}
 			}
@@ -189,7 +194,7 @@ namespace UiRefreshTests {
 			Color colorHighlight=SystemColors.Highlight;
 			using(Bitmap bitmap=Draw(64,1f,ProgressRingGallery.GALLERY_FRAME,isAnimated:true,isHighContrast:true)) {
 				Rectangle rectangleRing=UiProgressRing.GetRingRectangle(new Rectangle(0,0,64,64),1f);
-				Point point=GetStrokePoint(rectangleRing,4,90);
+				Point point=GetStrokePoint(rectangleRing,4,222);
 				Assert.IsTrue(IsSame(colorHighlight,bitmap.GetPixel(point.X,point.Y)),bitmap.GetPixel(point.X,point.Y).ToString());
 			}
 			using(Bitmap bitmap=Draw(64,1f,0,isAnimated:false,isHighContrast:true)) {
@@ -317,6 +322,7 @@ namespace UiRefreshTests {
 						Assert.AreEqual(0,uiProgressRing.Parent.Controls.IndexOf(uiProgressRing),"loading: in front of the chart");
 						Assert.IsTrue(uiProgressRing.IsAnimating,"loading: turning");
 						Assert.AreEqual(DockStyle.Fill,uiProgressRing.Dock);
+						Assert.AreEqual(64,uiProgressRing.DiameterAt96,"Fluent's large ring, where the 64 px picture was");
 						propertyInfo.SetValue(userControl,false);
 						Assert.IsFalse(uiProgressRing.Visible,"loaded: hidden");
 						Assert.IsFalse(uiProgressRing.IsAnimating,"loaded: the timer stopped");
@@ -346,6 +352,47 @@ namespace UiRefreshTests {
 			});
 		}
 		#endregion The places
+
+		#region The gallery
+		///<summary>Opt-in: OPMS_UI_LOAD_GALLERY names the folder of the G-UI3-uiload pictures, OPMS_UI_LOAD_GALLERY_OLD_GIF the old spinner
+		///(loadingAnim.gif from the branch point). Draws each place through FitGallery in the program's font, before (the old indicator,
+		///ProgressRingGallery.VARIABLE_BEFORE) and after (the ring at GALLERY_FRAME), at 100% and 150%, into before\windows-100,
+		///before\windows-150, after\windows-100 and after\windows-150 (New-UiGallery.ps1's -Before and -After).</summary>
+		[TestMethod]
+		public void Gallery_UiLoad_BeforeAndAfter() {
+			string folder=Environment.GetEnvironmentVariable("OPMS_UI_LOAD_GALLERY");
+			if(string.IsNullOrEmpty(folder)) {
+				Assert.Inconclusive("Opt-in: OPMS_UI_LOAD_GALLERY names the folder for the UI-LOAD gallery pictures.");
+			}
+			string pathGifOld=Environment.GetEnvironmentVariable("OPMS_UI_LOAD_GALLERY_OLD_GIF");
+			Assert.IsTrue(File.Exists(pathGifOld),"OPMS_UI_LOAD_GALLERY_OLD_GIF names the old loadingAnim.gif.");
+			string[] arrayVariables=new string[] { FitGallery.VARIABLE_FOLDER,FitGallery.VARIABLE_WINDOWS,FitGallery.VARIABLE_FONT,FitGallery.VARIABLE_SCALE,
+				ProgressRingGallery.VARIABLE_BEFORE };
+			Dictionary<string,string> dictBefore=arrayVariables.ToDictionary(x => x,x => Environment.GetEnvironmentVariable(x));
+			try {
+				foreach(bool isBefore in new[] { true,false }) {
+					foreach(float scale in new[] { 1f,1.5f }) {
+						string folderSet=Path.Combine(folder,isBefore ? "before" : "after","windows-"+(int)Math.Round(scale*100));
+						Directory.CreateDirectory(folderSet);
+						Environment.SetEnvironmentVariable(FitGallery.VARIABLE_FOLDER,folderSet);
+						Environment.SetEnvironmentVariable(FitGallery.VARIABLE_WINDOWS,
+							"OpenPmsDentalGraph.GraphQuantityOverTime#loading,OpenPmsDental.Reporting.Allocators.MyAllocator1.FormWarnToCloseComputers");
+						Environment.SetEnvironmentVariable(FitGallery.VARIABLE_FONT,"program");
+						Environment.SetEnvironmentVariable(FitGallery.VARIABLE_SCALE,scale==1f ? null : scale.ToString(System.Globalization.CultureInfo.InvariantCulture));
+						Environment.SetEnvironmentVariable(ProgressRingGallery.VARIABLE_BEFORE,isBefore ? pathGifOld : null);
+						new FitGallery().Gallery_SliceWindows_InTheNewFont();
+						string[] arrayFailed=File.ReadAllLines(Path.Combine(folderSet,"gallery-failed.txt"));
+						Assert.AreEqual(0,arrayFailed.Length,folderSet+": "+string.Join("; ",arrayFailed));
+					}
+				}
+			}
+			finally {
+				foreach(KeyValuePair<string,string> pair in dictBefore) {
+					Environment.SetEnvironmentVariable(pair.Key,pair.Value);
+				}
+			}
+		}
+		#endregion The gallery
 
 		#region The scan
 		///<summary>Folders the scan skips: build output, tools' caches, the repository's own folders and the documentation.</summary>

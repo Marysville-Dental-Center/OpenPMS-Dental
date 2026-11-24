@@ -1,8 +1,8 @@
 // The busy indicator of the new look (docs/specs/ui-refresh-plan.md, section 4.5; package UI-LOAD, docs/port-notes/UI-LOAD.md): an indeterminate
 // Fluent progress ring drawn with GDI+ in the Accent token on the control's own background, so it is sharp at every DPI. It replaces the
 // animated pictures the program showed while it waited (the graph's loadingAnim.gif, the allocator warning's frame animator).
-// - The ring is 32 px across with a 4 px round-capped stroke at 96 DPI (Fluent's ProgressRing), scaled by UiLooks.GetScale and never larger
-//   than the control; centred in the control.
+// - The ring is 32 px across with a 4 px round-capped stroke at 96 DPI (Fluent's ProgressRing; DiameterAt96 64 for Fluent's large ring),
+//   scaled by UiLooks.GetScale and never larger than the control; centred in the control.
 // - Indeterminate: one arc whose length breathes (20 to 260 degrees) while it turns, FRAMES_CYCLE frames of FRAME_MS each, so a cycle is
 //   two seconds. The timer runs only while the control is visible (Visible, which is false while any parent is hidden) and animation is on;
 //   hiding the control or disposing it stops the timer.
@@ -24,7 +24,7 @@ namespace CodeBase {
 	///<summary>The new look's busy indicator: an indeterminate progress ring in the Accent token, animated by a timer only while visible, static
 	///when Windows' animations are off. Show it where the program waits; hide it (Visible=false) when the wait is over.</summary>
 	public class UiProgressRing : Control {
-		///<summary>The ring's diameter at 96 DPI (Fluent's ProgressRing).</summary>
+		///<summary>The ring's diameter at 96 DPI by default (Fluent's ProgressRing); DiameterAt96 sets another (Fluent's large ring is 64).</summary>
 		public const int DIAMETER_96=32;
 		///<summary>The ring's stroke at 96 DPI.</summary>
 		public const int STROKE_96=4;
@@ -48,6 +48,7 @@ namespace CodeBase {
 		private static volatile int _animationStateForTest;
 		private readonly Timer _timer;
 		private int _frame;
+		private int _diameterAt96=DIAMETER_96;
 
 		public UiProgressRing() {
 			SetStyle(ControlStyles.AllPaintingInWmPaint|ControlStyles.OptimizedDoubleBuffer|ControlStyles.ResizeRedraw|ControlStyles.UserPaint
@@ -60,6 +61,23 @@ namespace CodeBase {
 		}
 
 		#region Properties
+		///<summary>The ring's diameter at 96 DPI: 32 (Fluent's ProgressRing), 64 for Fluent's large ring where the old picture was that big.
+		///Scaled with the window; never larger than the control.</summary>
+		[Category("Appearance")]
+		[DefaultValue(DIAMETER_96)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+		public int DiameterAt96 {
+			get { return _diameterAt96; }
+			set {
+				int diameter=Math.Max(4,value);
+				if(_diameterAt96==diameter) {
+					return;
+				}
+				_diameterAt96=diameter;
+				Invalidate();
+			}
+		}
+
 		///<summary>The frame of the animation now (0 to FRAMES_CYCLE-1). The timer advances it; a gallery or a test sets it to draw one frame.</summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -193,12 +211,12 @@ namespace CodeBase {
 			if(isHighContrast) {
 				e.Graphics.Clear(SystemColors.Window);
 			}
-			DrawRing(e.Graphics,ClientRectangle,UiLooks.GetScale(this),_frame,isAnimated:IsAnimationOn,isHighContrast);
+			DrawRing(e.Graphics,ClientRectangle,UiLooks.GetScale(this),_frame,isAnimated:IsAnimationOn,isHighContrast,_diameterAt96);
 		}
 
-		///<summary>The ring's square inside the client rectangle: DIAMETER_96 scaled (never larger than the rectangle), centred.</summary>
-		public static Rectangle GetRingRectangle(Rectangle rectangleClient,float scale) {
-			int diameter=Math.Min(UiTheme.ScaleI(DIAMETER_96,scale),Math.Min(rectangleClient.Width,rectangleClient.Height));
+		///<summary>The ring's square inside the client rectangle: the diameter at 96 DPI scaled (never larger than the rectangle), centred.</summary>
+		public static Rectangle GetRingRectangle(Rectangle rectangleClient,float scale,int diameter96=DIAMETER_96) {
+			int diameter=Math.Min(UiTheme.ScaleI(diameter96,scale),Math.Min(rectangleClient.Width,rectangleClient.Height));
 			diameter=Math.Max(0,diameter);
 			int x=rectangleClient.X+(rectangleClient.Width-diameter)/2;
 			int y=rectangleClient.Y+(rectangleClient.Height-diameter)/2;
@@ -222,8 +240,10 @@ namespace CodeBase {
 
 		///<summary>Draws the ring into the rectangle (the background is the caller's): the frame's arc in Accent, or, when isAnimated is false, the
 		///static ring (an AccentSubtle track with a quarter arc in Accent). In high contrast Highlight on a WindowFrame track.</summary>
-		public static void DrawRing(Graphics g,Rectangle rectangleClient,float scale,int frame,bool isAnimated,bool isHighContrast) {
-			Rectangle rectangleRing=GetRingRectangle(rectangleClient,scale);
+		public static void DrawRing(Graphics g,Rectangle rectangleClient,float scale,int frame,bool isAnimated,bool isHighContrast,
+			int diameter96=DIAMETER_96)
+		{
+			Rectangle rectangleRing=GetRingRectangle(rectangleClient,scale,diameter96);
 			if(rectangleRing.Width<2) {
 				return;
 			}
