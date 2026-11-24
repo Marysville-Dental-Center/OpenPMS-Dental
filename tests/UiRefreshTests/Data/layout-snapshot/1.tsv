@@ -324,16 +324,16 @@ OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	label2	64,77	84,23
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butRefresh	975,64	80,24	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	datePickerEnd	91,104	165,23	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	datePickerStart	91,77	165,23	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	gridMain	8,185	1063,459	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	buttonExport	8,684	119,24	
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	gridMain	8,185	1063,467	
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	buttonExport	8,692	119,24	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLettersPreview	8,656	119,24	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLabelSingle	133,656	119,24	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLabelPreview	133,684	119,24	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butGotoAccount	787,684	96,24	
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butLabelPreview	133,692	119,24	
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butGotoAccount	787,692	96,24	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butGotoFamily	787,656	96,24	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butPrint	544,684	87,24	
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	butPrint	544,692	87,24	
 OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	checkIncludeHiddenBillingTypes	363,105	177,20	
-OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	.			1079,716
+OpenPmsDental/Forms Reports/FormRpTreatmentFinder.designer.cs	.			1079,724
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	tabControlMain	8,8	631,527	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	tabPageUnearnedAccounts	2,21	621,496	
 OpenPmsDental/Forms Reports/FormRpUnearnedIncome.designer.cs	butUnearnedAcctOk	544,464	75,24	

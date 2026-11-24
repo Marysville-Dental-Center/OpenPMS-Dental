@@ -467,13 +467,13 @@ OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	gridMain	8,57	366,277
 OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	label1	8,8	449,47	
 OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	butAdd	382,57	75,24	
 OpenPmsDental/Forms/FormEhrProviderKeys.designer.cs	.			465,342
-OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	butSubmitImmunization	569,485	86,23	
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	butSubmitImmunization	569,493	86,23	
 OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	butAddVaccine	569,8	86,23	
 OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	butExport	569,458	86,23	
-OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	label45	8,488	212,17	
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	label45	8,496	212,17	
 OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	gridVaccine	8,8	553,469	
-OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	listVacShareOk	226,488	95,17	
-OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	.			663,516
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	listVacShareOk	226,496	95,17	
+OpenPmsDental/Forms/FormEhrVaccines.Designer.cs	.			663,524
 OpenPmsDental/Forms/FormEncounters.designer.cs	gridMain	8,8	726,371	
 OpenPmsDental/Forms/FormEncounters.designer.cs	butAdd	8,391	75,24	
 OpenPmsDental/Forms/FormEncounters.designer.cs	.			742,423
@@ -718,7 +718,7 @@ OpenPmsDental/Forms/FormInterventionEdit.designer.cs	label6	44,468	40,23
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	label1	191,8	60,23	
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	comboCodeSet	257,8	180,21	
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	gridMain	8,35	636,425	
-OpenPmsDental/Forms/FormInterventionEdit.designer.cs	textNote	90,468	554,60	
+OpenPmsDental/Forms/FormInterventionEdit.designer.cs	textNote	90,468	554,56	
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	butSave	568,536	76,24	
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	butDelete	8,536	76,24	
 OpenPmsDental/Forms/FormInterventionEdit.designer.cs	checkPatientDeclined	443,9	111,20	
@@ -797,7 +797,7 @@ OpenPmsDental/Forms/FormMaintBoard.Designer.cs	butExport	600,604	75,24
 OpenPmsDental/Forms/FormMaintBoard.Designer.cs	butClose	1017,604	75,24	
 OpenPmsDental/Forms/FormMaintBoard.Designer.cs	.			1100,636
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	labelInstructions	8,8	744,34	
-OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	gridMain	8,46	744,303	
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	gridMain	8,46	744,307	
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	labelScan	8,361	36,23	
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	textScan	50,361	160,23	
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butAdd	216,361	80,23	
@@ -806,9 +806,9 @@ OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	labelLot	442,361	28,23
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	comboLot	476,361	276,23	
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butLotNumber	652,388	100,24	
 OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	labelReadOnly	8,391	560,18	
-OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butOK	594,416	75,24	
-OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butCancel	677,416	75,24	
-OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	.			760,448
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butOK	594,424	75,24	
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	butCancel	677,424	75,24	
+OpenPmsDental/Forms/FormMaterialsUsed.Designer.cs	.			760,456
 OpenPmsDental/Forms/FormMedLabHL7MsgText.Designer.cs	textMain	8,98	868,581	
 OpenPmsDental/Forms/FormMedLabHL7MsgText.Designer.cs	listFileNames	248,8	628,82	
 OpenPmsDental/Forms/FormMedLabHL7MsgText.Designer.cs	label1	8,8	234,82	

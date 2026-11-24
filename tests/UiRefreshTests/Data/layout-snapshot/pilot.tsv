@@ -697,7 +697,7 @@ OpenPmsDental/Forms/FormInsBenefits.designer.cs	label17	8,70	152,23
 OpenPmsDental/Forms/FormInsBenefits.designer.cs	checkShowProcCodes	755,736	149,20	
 OpenPmsDental/Forms/FormInsBenefits.designer.cs	butAddFrequency	1080,734	78,24	
 OpenPmsDental/Forms/FormInsBenefits.designer.cs	gridFrequencies	755,8	403,721	
-OpenPmsDental/Forms/FormInsBenefits.designer.cs	textSubscNote	95,734	568,98	
+OpenPmsDental/Forms/FormInsBenefits.designer.cs	textSubscNote	95,734	568,94	
 OpenPmsDental/Forms/FormInsBenefits.designer.cs	gridBenefits	8,459	739,270	
 OpenPmsDental/Forms/FormInsBenefits.designer.cs	.			1166,872
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label5	20,77	88,23	
@@ -921,8 +921,8 @@ OpenPmsDental/Forms/FormMedLabEdit.designer.cs	groupOrderingPhys	8,151	290,108
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	butProvSelect	255,23	27,23	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	labelShowHL7	556,761	240,18	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	labelPrint	259,754	200,32	
-OpenPmsDental/Forms/FormMedLabEdit.designer.cs	gridFacilities	8,618	958,132	
-OpenPmsDental/Forms/FormMedLabEdit.designer.cs	gridResults	8,267	958,339	
+OpenPmsDental/Forms/FormMedLabEdit.designer.cs	gridFacilities	8,618	958,124	
+OpenPmsDental/Forms/FormMedLabEdit.designer.cs	gridResults	8,267	958,343	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	butShowHL7	475,758	75,24	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	butPDF	178,758	75,24	
 OpenPmsDental/Forms/FormMedLabEdit.designer.cs	butSave	891,758	75,24	

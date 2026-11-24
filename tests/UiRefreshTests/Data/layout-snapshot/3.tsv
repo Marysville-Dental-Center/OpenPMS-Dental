@@ -856,7 +856,7 @@ OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	butFieldDown	817,544	75,24
 OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	butDelete	8,580	80,24	
 OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	butSave	817,580	75,24	
 OpenPmsDental/Forms/FormMaintItemEdit.Designer.cs	.			900,612
-OpenPmsDental/Forms/FormMedPat.designer.cs	butOK	533,504	75,24	
+OpenPmsDental/Forms/FormMedPat.designer.cs	butOK	533,508	75,24	
 OpenPmsDental/Forms/FormMedPat.designer.cs	label1	105,50	72,23	
 OpenPmsDental/Forms/FormMedPat.designer.cs	textMedName	183,50	348,23	
 OpenPmsDental/Forms/FormMedPat.designer.cs	textGenericName	183,77	348,23	
@@ -882,7 +882,7 @@ OpenPmsDental/Forms/FormMedPat.designer.cs	textDateStop	183,177	100,20
 OpenPmsDental/Forms/FormMedPat.designer.cs	label7	113,177	64,23	
 OpenPmsDental/Forms/FormMedPat.designer.cs	textDateStart	183,150	100,20	
 OpenPmsDental/Forms/FormMedPat.designer.cs	label4	113,150	64,23	
-OpenPmsDental/Forms/FormMedPat.designer.cs	.			616,536
+OpenPmsDental/Forms/FormMedPat.designer.cs	.			616,540
 OpenPmsDental/Forms/FormOperatoryEdit.designer.cs	butPickHyg	440,140	23,23	
 OpenPmsDental/Forms/FormOperatoryEdit.designer.cs	butPickProv	440,113	23,23	
 OpenPmsDental/Forms/FormOperatoryEdit.designer.cs	comboClinic	139,86	295,23	

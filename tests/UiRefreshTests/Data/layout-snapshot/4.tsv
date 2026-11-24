@@ -944,15 +944,15 @@ OpenPmsDental/Forms/FormRecallListUndo.designer.cs	label2	45,76	36,23
 OpenPmsDental/Forms/FormRecallListUndo.designer.cs	label3	299,229	104,24	
 OpenPmsDental/Forms/FormRecallListUndo.designer.cs	labelCount	409,229	36,24	
 OpenPmsDental/Forms/FormRecallListUndo.designer.cs	.			534,261
-OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	labelBatch	161,653	739,24	
-OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	gridAllergyExisting	8,8	482,237	
-OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	gridAllergyImport	498,8	483,237	
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	labelBatch	161,661	739,24	
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	gridAllergyExisting	8,8	482,245	
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	gridAllergyImport	498,8	483,245	
 OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	butRemoveRec	445,625	99,24	
-OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	butSave	906,653	75,24	
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	butSave	906,661	75,24	
 OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	butAddNew	909,257	72,24	
 OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	butAddExist	418,257	72,24	
 OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	gridAllergyReconcile	8,285	973,336	
-OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	.			989,685
+OpenPmsDental/Forms/FormReconcileAllergy.designer.cs	.			989,693
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	labelDate	436,8	36,23	
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	labelStart	376,59	96,23	
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	labelEnd	380,86	92,23	
@@ -972,24 +972,24 @@ OpenPmsDental/Forms/FormReconcileEdit.designer.cs	textDate	478,8	101,23
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	butSave	504,656	75,26	
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	butExport	188,656	75,26	
 OpenPmsDental/Forms/FormReconcileEdit.designer.cs	.			587,690
-OpenPmsDental/Forms/FormReconcileMedication.designer.cs	gridMedExisting	8,8	482,237	
-OpenPmsDental/Forms/FormReconcileMedication.designer.cs	gridMedImport	498,8	483,237	
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	gridMedExisting	8,8	482,245	
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	gridMedImport	498,8	483,245	
 OpenPmsDental/Forms/FormReconcileMedication.designer.cs	gridMedReconcile	8,285	973,336	
 OpenPmsDental/Forms/FormReconcileMedication.designer.cs	butRemoveRec	445,625	99,24	
-OpenPmsDental/Forms/FormReconcileMedication.designer.cs	butSave	906,653	75,24	
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	butSave	906,661	75,24	
 OpenPmsDental/Forms/FormReconcileMedication.designer.cs	butAddNew	909,257	72,24	
 OpenPmsDental/Forms/FormReconcileMedication.designer.cs	butAddExist	418,257	72,24	
-OpenPmsDental/Forms/FormReconcileMedication.designer.cs	labelBatch	161,653	739,24	
-OpenPmsDental/Forms/FormReconcileMedication.designer.cs	.			989,685
-OpenPmsDental/Forms/FormReconcileProblem.designer.cs	gridProbExisting	8,8	482,237	
-OpenPmsDental/Forms/FormReconcileProblem.designer.cs	gridProbImport	498,8	483,237	
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	labelBatch	161,661	739,24	
+OpenPmsDental/Forms/FormReconcileMedication.designer.cs	.			989,693
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	gridProbExisting	8,8	482,245	
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	gridProbImport	498,8	483,245	
 OpenPmsDental/Forms/FormReconcileProblem.designer.cs	butRemoveRec	445,625	99,24	
-OpenPmsDental/Forms/FormReconcileProblem.designer.cs	butSave	906,653	75,24	
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	butSave	906,661	75,24	
 OpenPmsDental/Forms/FormReconcileProblem.designer.cs	butAddNew	909,257	72,24	
 OpenPmsDental/Forms/FormReconcileProblem.designer.cs	butAddExist	418,257	72,24	
 OpenPmsDental/Forms/FormReconcileProblem.designer.cs	gridProbReconcile	8,285	973,336	
-OpenPmsDental/Forms/FormReconcileProblem.designer.cs	labelBatch	161,653	739,24	
-OpenPmsDental/Forms/FormReconcileProblem.designer.cs	.			989,685
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	labelBatch	161,661	739,24	
+OpenPmsDental/Forms/FormReconcileProblem.designer.cs	.			989,693
 OpenPmsDental/Forms/FormRecurringChargesHistory.designer.cs	gridMain	20,97	1005,604	
 OpenPmsDental/Forms/FormRecurringChargesHistory.designer.cs	butRefresh	707,23	75,24	
 OpenPmsDental/Forms/FormRecurringChargesHistory.designer.cs	datePicker	8,23	180,46	
@@ -1026,9 +1026,9 @@ OpenPmsDental/Forms/FormReminderRuleEdit.Designer.cs	labelICD9	76,116	44,23
 OpenPmsDental/Forms/FormReminderRuleEdit.Designer.cs	.			446,213
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	checkRandomPrimaryKeys	8,8	358,20	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label1	104,464	440,46	
-OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label2	104,518	440,31	
+OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label2	104,526	440,31	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label3	104,23	431,62	
-OpenPmsDental/Forms/FormReplicationSetup.designer.cs	groupBox1	8,557	887,93	
+OpenPmsDental/Forms/FormReplicationSetup.designer.cs	groupBox1	8,565	887,93	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	textPassword	653,50	124,23	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label5	583,50	64,23	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	textUsername	653,23	124,23	
@@ -1039,10 +1039,10 @@ OpenPmsDental/Forms/FormReplicationSetup.designer.cs	groupBoxReplicationFailure	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	butClearReplicationFailureAtServer_id	268,23	69,23	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	label6	8,23	172,23	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	textReplicaitonFailureAtServer_id	186,23	76,23	
-OpenPmsDental/Forms/FormReplicationSetup.designer.cs	butTest	8,514	90,24	
+OpenPmsDental/Forms/FormReplicationSetup.designer.cs	butTest	8,522	90,24	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	butSetRanges	8,460	90,24	
 OpenPmsDental/Forms/FormReplicationSetup.designer.cs	butAdd	778,428	75,24	
-OpenPmsDental/Forms/FormReplicationSetup.designer.cs	.			903,658
+OpenPmsDental/Forms/FormReplicationSetup.designer.cs	.			903,666
 OpenPmsDental/Forms/FormReqAppt.designer.cs	label2	593,35	48,23	
 OpenPmsDental/Forms/FormReqAppt.designer.cs	comboCourse	647,35	232,23	
 OpenPmsDental/Forms/FormReqAppt.designer.cs	label1	601,8	40,23	
