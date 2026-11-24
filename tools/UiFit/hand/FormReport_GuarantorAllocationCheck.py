@@ -1,8 +1,10 @@
 """FormReport_GuarantorAllocationCheck on the grid (UI-12 slice 9, layout script on the planner's tree): the planner set the report grid 2
 px under the title band and left 96 px of empty window under the summary grid: the panel at the padding to the bottom; in it the title band,
 the report grid 8 px under it, the Summary caption 8 px under that and the summary grid 2 px under the caption to the panel's padding (the
-two grids share the room as on main, 411 to 316); the right column 8 px after the panel: the Guarantor caption, its box, Fill Report and
-Print Preview, the From and To rows, 4 px apart."""
+two grids share the room as on main, 411 to 316); the right column 8 px after the panel to the right content edge (191 px): the Guarantor
+caption, its box, Fill Report and Print Preview, the From and To rows, 4 px apart. The window does not scale its positions (no
+LayoutManager), so the column is as wide as the room allows: at 150% main cut Print Preview, From and the dates; the caption 24 px tall for
+the same reason."""
 import importlib.util
 import os
 
@@ -26,17 +28,15 @@ def layout(h):
     h.set("lblSummary", 8, ys, PW - 16, 21)
     h.set("dgvSummary", 8, ys + 23, PW - 16, ph - 8 - (ys + 23))
     X = 8 + PW + 8
-    h.set("label2", X, 8, h.n("textBox1").nw, 18)
-    y = 8 + 18 + 2
-    s.move(h, "textBox1", x=X, y=y)
-    y += h.n("textBox1").nh + 4
-    s.move(h, "butFillReport", x=X, y=y)
-    y += h.n("butFillReport").nh + 4
-    s.move(h, "butPrintPreview", x=X, y=y)
-    y += h.n("butPrintPreview").nh + 4
-    lw = max(h.lw("label5"), h.lw("label6"))
+    CW2 = CW - 8 - X
+    h.set("label2", X, 8, CW2, 24)
+    y = 8 + 24 + 2
+    for name in ("textBox1", "butFillReport", "butPrintPreview"):
+        h.set(name, X, y, CW2, None)
+        y += h.n(name).nh + 4
+    lw = 60
     for lab, box in (("label5", "dateTimePicker1_FromDate"), ("label6", "dateTimePicker1")):
         h.set(lab, X, y, lw, h.n(box).nh)
         h.text_align(lab, "MiddleRight")
-        s.move(h, box, x=X + lw + 6, y=y)
+        h.set(box, X + lw + 6, y, CW2 - lw - 6, None)
         y += h.n(box).nh + 4

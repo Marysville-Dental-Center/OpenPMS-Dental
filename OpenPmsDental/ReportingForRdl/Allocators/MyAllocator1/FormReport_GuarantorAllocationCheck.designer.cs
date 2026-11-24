@@ -50,17 +50,17 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(872, 28);
+			this.textBox1.Location = new System.Drawing.Point(872, 34);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(116, 20);
+			this.textBox1.Size = new System.Drawing.Size(191, 23);
 			this.textBox1.TabIndex = 1;
 			this.textBox1.Text = "3479";
 			// 
 			// butFillReport
 			// 
-			this.butFillReport.Location = new System.Drawing.Point(872, 55);
+			this.butFillReport.Location = new System.Drawing.Point(872, 61);
 			this.butFillReport.Name = "butFillReport";
-			this.butFillReport.Size = new System.Drawing.Size(116, 23);
+			this.butFillReport.Size = new System.Drawing.Size(191, 23);
 			this.butFillReport.TabIndex = 2;
 			this.butFillReport.Text = "Fill Report";
 			this.butFillReport.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			this.label2.BackColor = System.Drawing.Color.White;
 			this.label2.Location = new System.Drawing.Point(872, 8);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(116, 18);
+			this.label2.Size = new System.Drawing.Size(191, 24);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Guarantor";
 			// 
@@ -146,9 +146,9 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// 
 			// butPrintPreview
 			// 
-			this.butPrintPreview.Location = new System.Drawing.Point(872, 82);
+			this.butPrintPreview.Location = new System.Drawing.Point(872, 88);
 			this.butPrintPreview.Name = "butPrintPreview";
-			this.butPrintPreview.Size = new System.Drawing.Size(116, 23);
+			this.butPrintPreview.Size = new System.Drawing.Size(191, 23);
 			this.butPrintPreview.TabIndex = 5;
 			this.butPrintPreview.Text = "Print Preview";
 			this.butPrintPreview.UseVisualStyleBackColor = true;
@@ -157,37 +157,37 @@ namespace OpenPmsDental.Reporting.Allocators.MyAllocator1
 			// dateTimePicker1_FromDate
 			// 
 			this.dateTimePicker1_FromDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(922, 109);
+			this.dateTimePicker1_FromDate.Location = new System.Drawing.Point(938, 115);
 			this.dateTimePicker1_FromDate.Name = "dateTimePicker1_FromDate";
-			this.dateTimePicker1_FromDate.Size = new System.Drawing.Size(88, 23);
+			this.dateTimePicker1_FromDate.Size = new System.Drawing.Size(125, 23);
 			this.dateTimePicker1_FromDate.TabIndex = 6;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = false;
-			this.label5.Location = new System.Drawing.Point(872, 109);
+			this.label5.Location = new System.Drawing.Point(872, 115);
 			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(44, 23);
+			this.label5.Size = new System.Drawing.Size(60, 23);
 			this.label5.TabIndex = 8;
 			this.label5.Text = "From ";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = false;
-			this.label6.Location = new System.Drawing.Point(872, 136);
+			this.label6.Location = new System.Drawing.Point(872, 142);
 			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(44, 23);
+			this.label6.Size = new System.Drawing.Size(60, 23);
 			this.label6.TabIndex = 10;
 			this.label6.Text = "To";
 			// 
 			// dateTimePicker1
 			// 
 			this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateTimePicker1.Location = new System.Drawing.Point(922, 136);
+			this.dateTimePicker1.Location = new System.Drawing.Point(938, 142);
 			this.dateTimePicker1.Name = "dateTimePicker1";
-			this.dateTimePicker1.Size = new System.Drawing.Size(88, 23);
+			this.dateTimePicker1.Size = new System.Drawing.Size(125, 23);
 			this.dateTimePicker1.TabIndex = 9;
 			// 
 			// FormReport_GuarantorAllocationCheck
