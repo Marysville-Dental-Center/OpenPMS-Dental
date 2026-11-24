@@ -26,8 +26,8 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.listProv = new OpenPmsDental.UI.ListBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.checkAllProv = new OpenPmsDental.UI.CheckBox();
@@ -54,32 +54,36 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(206, 8);
-			this.date2.Size = new System.Drawing.Size(190, 155);
+			this.date2.AllowKeyboard = true;
+			this.date2.Location = new System.Drawing.Point(243, 8);
+			this.date2.MaxSelectionCount = 7;
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(8, 8);
-			this.date1.Size = new System.Drawing.Size(190, 155);
+			this.date1.MaxSelectionCount = 7;
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 1;
 			// 
 			// listProv
 			// 
-			this.listProv.Location = new System.Drawing.Point(418, 50);
+			this.listProv.Location = new System.Drawing.Point(478, 50);
 			this.listProv.Name = "listProv";
 			this.listProv.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listProv.Size = new System.Drawing.Size(205, 134);
+			this.listProv.Size = new System.Drawing.Size(145, 134);
 			this.listProv.TabIndex = 36;
 			this.listProv.Click += new System.EventHandler(this.listProv_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(418, 8);
+			this.label1.Location = new System.Drawing.Point(478, 8);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(205, 18);
+			this.label1.Size = new System.Drawing.Size(145, 18);
 			this.label1.TabIndex = 35;
 			this.label1.Text = "Providers";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -88,7 +92,7 @@ namespace OpenPmsDental {
 			// 
 			this.checkAllProv.Checked = true;
 			this.checkAllProv.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkAllProv.Location = new System.Drawing.Point(418, 28);
+			this.checkAllProv.Location = new System.Drawing.Point(478, 28);
 			this.checkAllProv.Name = "checkAllProv";
 			this.checkAllProv.Size = new System.Drawing.Size(36, 20);
 			this.checkAllProv.TabIndex = 43;
@@ -234,9 +238,9 @@ namespace OpenPmsDental {
 			// 
 			this.checkUnearned.Checked = true;
 			this.checkUnearned.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkUnearned.Location = new System.Drawing.Point(470, 28);
+			this.checkUnearned.Location = new System.Drawing.Point(514, 28);
 			this.checkUnearned.Name = "checkUnearned";
-			this.checkUnearned.Size = new System.Drawing.Size(119, 20);
+			this.checkUnearned.Size = new System.Drawing.Size(117, 20);
 			this.checkUnearned.TabIndex = 59;
 			this.checkUnearned.Text = "Include Unearned";
 			// 
@@ -302,8 +306,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private System.Windows.Forms.MonthCalendar date2;
-		private System.Windows.Forms.MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private OpenPmsDental.UI.ListBox listProv;
 		private Label label1;
 		private OpenPmsDental.UI.GroupBox groupBox1;

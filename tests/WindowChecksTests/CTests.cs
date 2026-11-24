@@ -42,7 +42,7 @@ namespace WindowChecksTests {
 		///with its hosted WPF strips.</summary>
 		public static readonly string[][] ArrayChecks3b=new[] {
 			new[] { "C21","Default font: FormSnap (the snap-layout window the program keeps hidden)" },
-			new[] { "C22","MonthCalendar and DateTimePicker (standard report windows)" },
+			new[] { "C22","MonthCalendarOD and DateTimePicker with its MonthCalendarOD drop-down (standard report windows)" },
 			new[] { "C23","TreeView with check boxes (Auto Note Export)" },
 			new[] { "C24","RichTextBox text (ODtextBox in Edit Patient Information)" },
 			new[] { "C25","Capture notice and acquisition status windows (ImagingDeviceManager)" },

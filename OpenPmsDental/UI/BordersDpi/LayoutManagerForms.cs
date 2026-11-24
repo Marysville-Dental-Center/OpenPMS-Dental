@@ -170,6 +170,27 @@ Scrollable Control: For example, a panel that's set to AutoScroll=true.  These c
 			UiLooks.FuncGetZoom=GetZoomOfLooks;
 			//UI-11-final: the report viewer's dialogs (its messages and data source pass phrase) in the look of the plain windows.
 			fyiReporting.RdlViewer.RdlViewer.ActionAttachLook=form => UiPlainWindow.Attach(form);
+			//UI-CAL: the stock date pickers' drop-down is the program's calendar.
+			UiDateDropLook.FuncCreateCalendar=CreateDropCalendar;
+		}
+
+		///<summary>UI-CAL: the calendar of a stock date picker's drop-down (UiDateDropLook): MonthCalendarOD at the scale of the picker's window
+		///(its LayoutManager, as the window's own calendars draw), in the picker's font, its keyboard on, without the month name's date box (the
+		///picker is the box to type in, as for ODDatePicker's drop-down).</summary>
+		public static Control CreateDropCalendar(System.Windows.Forms.DateTimePicker dateTimePicker){
+			UI.MonthCalendarOD monthCalendarOD=new UI.MonthCalendarOD();
+			LayoutManagerForms layoutManagerForms=null;
+			if(dateTimePicker.FindForm() is FormODBase formODBase){
+				layoutManagerForms=formODBase.GetLayoutManager();
+			}
+			if(layoutManagerForms!=null){
+				monthCalendarOD.LayoutManager=layoutManagerForms;
+			}
+			monthCalendarOD.AllowClickingTopText=false;
+			monthCalendarOD.AllowKeyboard=true;
+			monthCalendarOD.Font=dateTimePicker.Font;
+			monthCalendarOD.Size=monthCalendarOD.LayoutManager.ScaleSize(monthCalendarOD.GetDefaultSize());
+			return monthCalendarOD;
 		}
 
 		///<summary>The zoom the looks draw at: the ScaleMy of a LayoutManager without a dpi of its own, made once.</summary>

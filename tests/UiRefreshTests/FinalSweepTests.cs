@@ -3,7 +3,7 @@
 // Each is built off screen as the gallery builds it and its controls are walked for what is left of the classic look: the classic grey or the
 // old window background on a control that shows the window's background, a stock button, check box, radio button, group box, tab control, grey
 // block, caption, separator or 3-D border without its look, an input without the input frame, scroll bars in Windows' look, a plain window
-// without the program's frame and background. Every scanned window is also on the layout grid's list (grid-windows, GridRulesTests). A finding
+// without the program's frame and background, a calendar in Windows' look (UI-CAL). Every scanned window is also on the layout grid's list (grid-windows, GridRulesTests). A finding
 // that stays is listed with its reason in Data\sweep-known.tsv (window, rule, key, why); a new one fails, and so does a row the sweep no longer
 // finds. OPMS_UI_SWEEP_OUT names a file for every finding of the run (the sweep's record). Nothing is shown; no database.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -27,6 +27,8 @@ namespace UiRefreshTests {
 		public const string RULE_PLAIN_WINDOW="plain-window";
 		public const string RULE_TITLE_BAR="title-bar";
 		public const string RULE_GRID="grid";
+		///<summary>UI-CAL: a calendar in Windows' look (a stock MonthCalendar, or a stock date picker's drop-down).</summary>
+		public const string RULE_STOCK_CALENDAR="stock-calendar";
 		public const string HEADER_KNOWN="window\trule\tkey\twhy";
 		///<summary>The shared looks that draw a stock type (CodeBase's class with IsDrawn and IsAttached) and the rule each missing one is.</summary>
 		public static readonly string[][] ArrayLooks=new string[][] {
@@ -118,6 +120,13 @@ namespace UiRefreshTests {
 					if(PlainLookCopy.IsTrue(assemblyLooks,arrayLook[0],"IsDrawn",control) && !PlainLookCopy.IsTrue(assemblyLooks,arrayLook[0],"IsAttached",control)) {
 						listFindings.Add(arrayLook[1]+"\t"+key);
 					}
+				}
+				//UI-CAL: no calendar in Windows' look: a stock MonthCalendar (MonthCalendarOD replaced them), or a stock date picker whose drop-down
+				//is Windows' calendar (UiDateDropLook gives it the program's; the up-down style has none).
+				if(control is MonthCalendar || (control is DateTimePicker dateTimePicker && !dateTimePicker.ShowUpDown
+					&& !PlainLookCopy.IsTrue(assemblyLooks,"UiDateDropLook","IsProgramCalendar",control)))
+				{
+					listFindings.Add(RULE_STOCK_CALENDAR+"\t"+key);
 				}
 				if(control!=root && PlainLookCopy.IsTrue(assemblyLooks,"UiScrollLook","IsScrolled",control)
 					&& !PlainLookCopy.IsTrue(assemblyLooks,"UiScrollLook","IsAttached",control))

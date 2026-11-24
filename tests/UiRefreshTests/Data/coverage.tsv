@@ -14,6 +14,7 @@ OpenPmsDental/UI/PanelOD	UI-4a	the panel
 OpenPmsDental/UI/ToolTipOD	UI-4a	the tooltip
 OpenPmsDental/UI/ComboBox	UI-4b	the combo box
 CodeBase/UI/UiInputFrame	UI-12,UI-13,UI-PLAIN	the combo box's frame over the stock single-line inputs (text box, up-down box, date picker) and, polish round, every multi-line text box; fix round, every bordered rich text box (ODtextBox), single-line ones too; UI-13: the corners in the parent's colour on whole pixels, and the other shared looks attached with it (AttachOne); fix round 2: the themed date picker's whole drop button covered (DTM_GETDATETIMEPICKERINFO), its value in the Text token, a disabled picker's box in the disabled grey; UI-PLAIN: moved to CodeBase, attached to the plain windows by UiPlainWindow
+CodeBase/UI/UiDateDropLook	UI-CAL	the stock date picker's drop-down calendar: the program's MonthCalendarOD instead of Windows' calendar pop-up (its drop button, F4 and Alt+Down), the picker's events as Windows raises them
 CodeBase/UI/UiRadioLook	UI-12,UI-13	the stock radio button drawn like the program's check box (round 3: the circle where the box is, the text 16 px from the left); UI-13: a circle on the right drawn there in the same look
 CodeBase/UI/UiUpDownLook	UI-12	the stock up-down box's arrow buttons drawn like the combo box's drop area (polish round: the box's fill, the Fluent chevrons)
 CodeBase/UI/UiScrollLook	UI-13	every scroll bar (the stock scroll bar controls of the grids, lists and pickers, and the frame scroll bars of text boxes, lists, tree and list views, scrolling panels) painted over in UiScrollPaint's Fluent look
@@ -36,7 +37,7 @@ CodeBase/UI/UiGrid	UI-12	the layout grid's numbers for code that places controls
 OpenPmsDental/UI/ListBox	UI-4b	the list box
 OpenPmsDental/UI/TabControl/*	UI-4b	the tab control, its pages and designers
 OpenPmsDental/UI/Splitters/*	UI-4b	the split container, its panels and designers
-OpenPmsDental/UI/MonthCalendarOD	UI-4b	the calendar
+OpenPmsDental/UI/MonthCalendarOD	UI-4b,UI-CAL	the calendar; UI-CAL: every calendar of the windows (the 33 stock ones replaced) and the stock date pickers' drop-down
 OpenPmsDental/UI/ODDatePicker	UI-4b	the date picker
 OpenPmsDental/UI/ODDateRangePicker	UI-4b	the date range picker
 OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker	UI-4b	the clinic picker

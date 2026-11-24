@@ -1585,6 +1585,11 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   fixed), the leftovers (WPF radio button groups one tab stop; FormInsPayFix's and FormLanguageAndRegion's description boxes framed), the
   reference pictures retaken from the final build, the release notes. `loadingAnim.gif` stays a picture (not in the brief: for a later
   package). Note: [UI-11-final.md](../port-notes/UI-11-final.md); gallery G-UI3-ui11final, audit `UI-11-final-audit.md`.
+- Status UI-CAL (2026-11-24, branch `ui/uical-1`, the owner's "make all of calendars have the new style"): every calendar is
+  MonthCalendarOD (3.6). The 33 stock MonthCalendars of 18 windows replaced (MonthCalendarOD took over their selection, ranges,
+  MinDate/MaxDate, events and keyboard), the stock date pickers' drop-down is MonthCalendarOD (`UiDateDropLook`, CodeBase), the
+  calendars' neighbours moved where the 227x162 calendar overlapped them in 12 report windows; the final sweep's rule `stock-calendar`.
+  Note: [UI-CAL.md](../port-notes/UI-CAL.md); gallery G-UI3-uical, audit `UI-CAL-audit.md`.
 
 **UI-12: the layout grid (the owner's decision of 2026-11-21, section 1)**
 - Rules: [UI-12.md](../port-notes/UI-12.md) section 1 (8 px container padding, labels 6 px before their fields and right-aligned, one

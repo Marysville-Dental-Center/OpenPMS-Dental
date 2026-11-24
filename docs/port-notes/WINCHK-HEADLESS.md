@@ -345,7 +345,7 @@ rest of the item that the harness can do without input, each as a picture.
 | Check | What | Group |
 |---|---|---|
 | C21 | FormSnap, the snap-layout window. The program never shows it (`FormODBase` and `FormFrame.timerHoverSnap_Tick` return before it, hidden as in Open Dental); shown as that code would show it: its default font, its 288 x 112 layout | C (`C21toC26_CommonControlsAndCaptureWindows`) |
-| C22 | MonthCalendar (Raw Population Data, `FormRpPHRawPop`) and DateTimePicker (Payment Plans, `FormRpPayPlans`) from Reports > Standard; neither report runs | C |
+| C22 | MonthCalendar, since UI-CAL the program's MonthCalendarOD (Raw Population Data, `FormRpPHRawPop`) and DateTimePicker (Payment Plans, `FormRpPayPlans`) from Reports > Standard, since UI-CAL with the picker's drop-down (MonthCalendarOD, opened by `UiDateDropLook.OpenForTest`); neither report runs | C |
 | C23 | A TreeView with check boxes: Setup > Auto Notes > Export (`FormAutoNoteExport`), Select All; a synthetic category and two auto notes made by the business layer and deleted | C |
 | C24 | RichTextBox text: the program's `ODtextBox` (a RichTextBox with its spell check) on Edit Patient Information, three synthetic lines with a misspelt word; Cancel, the patient row unchanged | C |
 | C25 | The capture notice and the acquisition status window of ImagingDeviceManager, shown by its production `WinFormsCaptureUi` (internal, by reflection); they set the message box font themselves (design 7.1), which the check asserts | C |
@@ -392,7 +392,7 @@ answers no UAC prompt, prints nothing, sends nothing and changes no Windows sett
 | WebView2 panes at each DPI | C15 (the Wiki's WebView2) at 100 %; D7 (LAUNCH-3b: the e-mail preview and the WPF WebView2 control, `Microsoft.Web.WebView2.Wpf`) | Yes, above 100 %: a display setting of the session |
 | ImageLists created in code (icon edges with 32-bit depth) | `SourceScanTests.ImageLists_TakeTheirDepthFromAStreamOrSetIt` (none takes the new default); C23 notes the tree's ImageList; the icons in the B and C pairs | - |
 | TreeView check boxes | C23 | - |
-| DateTimePicker, MonthCalendar | C22 | The DateTimePicker's drop-down calendar (opens only on a click on its arrow) |
+| DateTimePicker, MonthCalendar | C22 | The DateTimePicker's drop-down calendar (opens only on a click on its arrow); since UI-CAL it is the program's MonthCalendarOD, which C22 opens and pictures |
 | RichTextBox text | C24 | - |
 | E-mail receive and send | - | Yes: a mail server and a send (the harness sends nothing) |
 | A clearinghouse send to a sandbox | - | Yes: a send |
@@ -483,7 +483,7 @@ prompt). **Every PARTLY item, for a person:**
 - B1: B1-appts-day.png and B1-appts-week.png against stage 0's 03b and 03c.
 - B6: B6-images.png against stage 0's 01 (tree and toolbar).
 - C15: the exit time after a session that opened the Wiki (stage 0 finding 2) needs File > Exit in a real run.
-- C22: the DateTimePicker's drop-down calendar (it opens only on a click on its arrow). C24: the text in C24.png, its font, line breaks
+- C22: the DateTimePicker's drop-down calendar (it opens only on a click on its arrow; since UI-CAL C22 opens and pictures it). C24: the text in C24.png, its font, line breaks
   and the spell check's red underline. C26: the EOB viewer's toolbar and zoom slider (WPF hosted in Windows Forms) and the page fitted.
 - D6: the keyboard focus in a Frm (Tab order, typing, Alt shortcuts are keyboard input).
 - D3: the red underline's look in D3.png.

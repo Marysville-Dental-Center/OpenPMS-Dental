@@ -64,8 +64,8 @@ namespace OpenPmsDental{
 			this.butLineItemOK = new OpenPmsDental.UI.Button();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
-			this.dateLineItemTo = new System.Windows.Forms.MonthCalendar();
-			this.dateLineItemFrom = new System.Windows.Forms.MonthCalendar();
+			this.dateLineItemTo = new OpenPmsDental.UI.MonthCalendarOD();
+			this.dateLineItemFrom = new OpenPmsDental.UI.MonthCalendarOD();
 			this.checkLineItemAllClins = new OpenPmsDental.UI.CheckBox();
 			this.listLineItemClins = new OpenPmsDental.UI.ListBox();
 			this.labelLineItemClins = new System.Windows.Forms.Label();
@@ -508,16 +508,20 @@ namespace OpenPmsDental{
 			// 
 			// dateLineItemTo
 			// 
+			this.dateLineItemTo.AllowKeyboard = true;
 			this.dateLineItemTo.Location = new System.Drawing.Point(242, 78);
 			this.dateLineItemTo.MaxSelectionCount = 1;
 			this.dateLineItemTo.Name = "dateLineItemTo";
+			this.dateLineItemTo.Size = new System.Drawing.Size(227, 162);
 			this.dateLineItemTo.TabIndex = 4;
 			// 
 			// dateLineItemFrom
 			// 
+			this.dateLineItemFrom.AllowKeyboard = true;
 			this.dateLineItemFrom.Location = new System.Drawing.Point(8, 78);
 			this.dateLineItemFrom.MaxSelectionCount = 1;
 			this.dateLineItemFrom.Name = "dateLineItemFrom";
+			this.dateLineItemFrom.Size = new System.Drawing.Size(227, 162);
 			this.dateLineItemFrom.TabIndex = 3;
 			// 
 			// checkLineItemAllClins
@@ -592,8 +596,8 @@ namespace OpenPmsDental{
 		private OpenPmsDental.UI.TabPage tabPageLineItemUnearned;
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.MonthCalendar dateLineItemTo;
-		private System.Windows.Forms.MonthCalendar dateLineItemFrom;
+		private OpenPmsDental.UI.MonthCalendarOD dateLineItemTo;
+		private OpenPmsDental.UI.MonthCalendarOD dateLineItemFrom;
 		private OpenPmsDental.UI.CheckBox checkLineItemAllClins;
 		private OpenPmsDental.UI.ListBox listLineItemClins;
 		private System.Windows.Forms.Label labelLineItemClins;

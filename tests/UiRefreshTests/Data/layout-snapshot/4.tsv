@@ -22,9 +22,9 @@ OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	labelClin	509,218	1
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	checkAllProv	342,238	36,20	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	listProv	342,260	159,186	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	label1	342,218	159,18	
-OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	dateEnd	238,34	190,155	
-OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	dateStart	8,34	190,155	
-OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	labelTO	204,110	28,23	
+OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	dateEnd	266,34	227,162	
+OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	dateStart	8,34	227,162	
+OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	labelTO	237,110	28,23	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	label2	8,218	159,18	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	checkAllBilling	8,238	36,20	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	label3	8,8	663,18	
@@ -33,9 +33,9 @@ OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	label4	175,218	159,
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	listPatientStatuses	175,260	159,186	
 OpenPmsDental/Forms Reports/FormRpActivePatients.Designer.cs	.			679,490
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	butOK	640,414	75,26	
-OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date2	288,26		
-OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date1	29,26		
-OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	labelTO	239,26	28,23	
+OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date2	288,26	227,162	
+OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	date1	29,26	227,162	
+OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	labelTO	258,95	28,23	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	listProv	533,50	181,147	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	label1	530,8	104,16	
 OpenPmsDental/Forms Reports/FormRpAdjSheet.designer.cs	listType	29,255	227,147	
@@ -72,8 +72,8 @@ OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	radioGroupByPat	252,30
 OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	checkAllClin	82,259	134,20	
 OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	listClin	82,281	154,212	
 OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	labelClin	82,241	104,16	
-OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	dateEnd	293,57		
-OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	dateStart	21,57		
+OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	dateEnd	293,57	227,162	
+OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	dateStart	21,57	227,162	
 OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	labelDisclaimer	252,365	270,92	
 OpenPmsDental/Forms Reports/FormRpInsOverpaid.designer.cs	.			545,539
 OpenPmsDental/Forms Reports/FormRpInsPayPlansPastDue.designer.cs	labelProv	170,8	44,23	
@@ -99,9 +99,9 @@ OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	butExport	
 OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	butClose	817,591	75,24	
 OpenPmsDental/Forms Reports/FormRpInsPendingSupplementals.designer.cs	.			900,623
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	butOK	736,345	75,26	
-OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	date2	238,8	190,155	
-OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	date1	8,8	190,155	
-OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	labelTO	204,84	28,23	
+OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	date2	266,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	date1	8,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	labelTO	237,84	28,23	
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	radioIndividual	8,192	116,18	
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	radioGroup	8,214	112,18	
 OpenPmsDental/Forms Reports/FormRpPPOwriteoffs.designer.cs	textCarrier	8,274	176,23	
@@ -123,9 +123,9 @@ OpenPmsDental/Forms Reports/FormRpPatPortionUncollected.designer.cs	checkShowPri
 OpenPmsDental/Forms Reports/FormRpPatPortionUncollected.designer.cs	labelPrior	93,456	700,26	
 OpenPmsDental/Forms Reports/FormRpPatPortionUncollected.designer.cs	.			860,500
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	butOK	636,411	75,26	
-OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date2	284,26		
-OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date1	28,26		
-OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	labelTO	250,26	28,23	
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date2	284,26	227,162	
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	date1	28,26	227,162	
+OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	labelTO	256,95	28,23	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	listProv	534,50	175,147	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	label1	532,8	104,16	
 OpenPmsDental/Forms Reports/FormRpProcSheet.designer.cs	label2	26,210	200,16	
@@ -142,7 +142,7 @@ OpenPmsDental/Forms Reports/FormRpRecall.designer.cs	label1	208,8	170,14
 OpenPmsDental/Forms Reports/FormRpRecall.designer.cs	listPatientSelect2	208,24	170,355	
 OpenPmsDental/Forms Reports/FormRpRecall.designer.cs	.			538,425
 OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	butOK	531,304	75,26	
-OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	date1	272,52		
+OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	date1	272,52	227,162	
 OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	label1	272,30	178,18	
 OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	listProv	8,52	126,155	
 OpenPmsDental/Forms Reports/FormRpReceivablesBreakdown.designer.cs	labelProvider	8,31	126,16	
@@ -186,9 +186,9 @@ OpenPmsDental/Forms Reports/FormRpUdsPlus.designer.cs	butReport	258,308	95,24
 OpenPmsDental/Forms Reports/FormRpUdsPlus.designer.cs	butExport	358,308	105,24	
 OpenPmsDental/Forms Reports/FormRpUdsPlus.designer.cs	butClose	477,308	75,24	
 OpenPmsDental/Forms Reports/FormRpUdsPlus.designer.cs	.			560,340
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	date2	238,8	190,155	
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	date1	8,8	190,155	
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	labelTO	204,84	28,23	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	date2	266,8	227,162	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	date1	8,8	227,162	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	labelTO	237,84	28,23	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	listProv	679,50	228,134	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	label1	679,8	228,18	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	groupBox3	8,192	522,120	
@@ -198,9 +198,9 @@ OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	radioWriteoffProc	8,
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	radioWriteoffPay	8,23	188,20	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	butOK	832,384	75,26	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	checkAllProv	679,28	36,20	
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	checkAllClin	444,28	134,20	
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	listClin	444,50	227,134	
-OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	labelClin	444,8	227,18	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	checkAllClin	501,28	134,20	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	listClin	501,50	170,134	
+OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	labelClin	501,8	170,18	
 OpenPmsDental/Forms Reports/FormRpWriteoffSheet.designer.cs	.			915,418
 OpenPmsDental/Forms/FormAccountPick.designer.cs	checkInactive	8,517	161,20	
 OpenPmsDental/Forms/FormAccountPick.designer.cs	gridMain	8,8	475,505	

@@ -15,18 +15,36 @@ namespace OpenPmsDental.UI{
 	//Jordan is the only one allowed to edit this file.
 
 	///<summary>A replacement for the MS MonthCalendar control.</summary>
-	public partial class MonthCalendarOD : Control{
+	public partial class MonthCalendarOD : Control,IUiDropCalendar{
 		#region Fields - Public
 		///<summary>Set this to false to prevent user from clicking the top text to manually set date. Useful, for example, if this monthCalendar is a dropdown, so there's already a box for that.</summary>
 		public bool AllowClickingTopText=true;
+		///<summary>UI-CAL: the keyboard of Windows' calendar: the arrows move the selected day by a day or a week, Page Up and Page Down by a month,
+		///Home and End to the first and last day of its month, with Shift they extend the range (MaxSelectionCount above 1). Off by default, so the
+		///appointment module's calendar and ODDatePicker's keep their behaviour; the calendars that replaced Windows' ones and the date pickers'
+		///drop-down turn it on.</summary>
+		public bool AllowKeyboard=false;
 		public LayoutManagerForms LayoutManager=new LayoutManagerForms();
 		#endregion Fields - Public
 
 		#region Fields -Private
 		///<summary>The dates that are showing in each cell.  This is a 7x6 array.</summary>
 		private DateTime[,] _arrayDates;
-		///<summary>Unfortunately, this has the same name as a MS event for selecting a date.  So this can't be used publicly unless I'm careful.</summary>
+		///<summary>UI-CAL: the day the range was started from (the click, or the selection before Shift), which a drag or Shift extends from.</summary>
+		private DateTime _dateAnchor;
+		///<summary>UI-CAL: the day the keyboard and a drag move (the end of the range away from the anchor), drawn with the focus ring.</summary>
+		private DateTime _dateCursor;
+		///<summary>UI-CAL: the selectable range (MinDate, MaxDate); every day by default.</summary>
+		private DateTime _dateMax=DateTime.MaxValue.Date;
+		private DateTime _dateMin=DateTime.MinValue;
+		///<summary>Unfortunately, this has the same name as a MS event for selecting a date.  So this can't be used publicly unless I'm careful.
+		///UI-CAL: the first day of the selection (SelectionStart); _dateSelectionEnd its last, the same day unless MaxSelectionCount is above 1.</summary>
 		private DateTime _dateSelected;
+		private DateTime _dateSelectionEnd;
+		///<summary>UI-CAL: a left button down on a day: the selection follows the mouse (MaxSelectionCount above 1) and DateSelected is raised on the
+		///button's release, as Windows' calendar does.</summary>
+		private bool _isMouseSelecting;
+		private int _maxSelectionCount=1;
 		private float _heightCell;
 		///<summary>Needs to be scaled each time.</summary>
 		private int _heightFooter96=21;
@@ -56,6 +74,9 @@ namespace OpenPmsDental.UI{
 			InitializeComponent();
 			DoubleBuffered=true;
 			_dateSelected=DateTime.Today;
+			_dateSelectionEnd=DateTime.Today;
+			_dateAnchor=DateTime.Today;
+			_dateCursor=DateTime.Today;
 			_dateMonthShowing=new DateTime(DateTime.Today.Year,DateTime.Today.Month,1);
 			CalculateRectangles();
 		}
@@ -66,10 +87,119 @@ namespace OpenPmsDental.UI{
 		[Category("OD")]
 		[Description("Occurs when user clicks to change date.  Does not fire in response to programmatic data changes.")]
 		public event EventHandler DateChanged;
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.DateSelected: the user chose a day explicitly, on the mouse button's release over a day (or
+		///after a drag over several), on Today, or a date typed after clicking the month's name. Not the keyboard's moves (they raise DateChanged).
+		///Does not fire in response to programmatic changes.</summary>
+		[Category("OD")]
+		[Description("Occurs when the user chooses a day with the mouse.  Does not fire in response to programmatic data changes.")]
+		public event DateRangeEventHandler DateSelected;
 		#endregion Events - Public Raise
 
 		#region Properties
 		protected override Size DefaultSize => new Size(227, 162);
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.MaxSelectionCount: the most days the selection can span. 1 (one day) by default, unlike
+		///Windows' 7, so the existing uses keep one day.</summary>
+		[Category("OD")]
+		[DefaultValue(1)]
+		public int MaxSelectionCount{
+			get{
+				return _maxSelectionCount;
+			}
+			set{
+				if(value<1){
+					throw new ArgumentOutOfRangeException(nameof(MaxSelectionCount));
+				}
+				_maxSelectionCount=value;
+				SetSelection(_dateSelected,_dateSelectionEnd);
+			}
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.MaxDate: no day after it can be selected (drawn as the other months' days).</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DateTime MaxDate{
+			get{
+				return _dateMax;
+			}
+			set{
+				_dateMax=value.Date;
+				if(_dateMin>_dateMax){
+					_dateMin=_dateMax;
+				}
+				SetSelection(_dateSelected,_dateSelectionEnd);
+			}
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.MinDate: no day before it can be selected (drawn as the other months' days). A selection
+		///before it moves to it.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DateTime MinDate{
+			get{
+				return _dateMin;
+			}
+			set{
+				_dateMin=value.Date;
+				if(_dateMax<_dateMin){
+					_dateMax=_dateMin;
+				}
+				SetSelection(_dateSelected,_dateSelectionEnd);
+			}
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.SelectionEnd: the last day of the selection. A day before SelectionStart moves the start to it;
+		///a range longer than MaxSelectionCount moves the start up to it.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DateTime SelectionEnd{
+			get{
+				return _dateSelectionEnd;
+			}
+			set{
+				DateTime dateStart=_dateSelected;
+				if(value.Date<dateStart){
+					dateStart=value.Date;
+				}
+				if((value.Date-dateStart).TotalDays>=_maxSelectionCount){
+					dateStart=value.Date.AddDays(-(_maxSelectionCount-1));
+				}
+				SetSelection(dateStart,value.Date);
+			}
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.SelectionRange.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public SelectionRange SelectionRange{
+			get{
+				return new SelectionRange(_dateSelected,_dateSelectionEnd);
+			}
+			set{
+				SetSelectionRange(value.Start,value.End);
+			}
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.SelectionStart: the first day of the selection (the selected day). A day after SelectionEnd
+		///moves the end to it; a range longer than MaxSelectionCount moves the end back to it.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public DateTime SelectionStart{
+			get{
+				return _dateSelected;
+			}
+			set{
+				DateTime dateEnd=_dateSelectionEnd;
+				if(value.Date>dateEnd){
+					dateEnd=value.Date;
+				}
+				if((dateEnd-value.Date).TotalDays>=_maxSelectionCount){
+					dateEnd=value.Date.AddDays(_maxSelectionCount-1);
+				}
+				SetSelection(value.Date,dateEnd);
+			}
+		}
 		#endregion Properties
 
 		#region Methods Override
@@ -84,13 +214,30 @@ namespace OpenPmsDental.UI{
 			if(_pointHotHover==new Point(0,0)){
 				return;
 			}*/
+			if(AllowKeyboard && !Focused && CanFocus){
+				Focus();//UI-CAL: as Windows' calendar, a click gives it the keyboard
+			}
 			if(_pointHotHover!=new Point(0,0)){
-				_dateSelected=_arrayDates[_pointHotHover.X,_pointHotHover.Y-1];
-				DateChanged?.Invoke(this,new EventArgs());
-				if(_dateSelected.Month!=_dateMonthShowing.Month){
-					_dateMonthShowing=new DateTime(_dateSelected.Year,_dateSelected.Month,1);
+				DateTime dateClicked=_arrayDates[_pointHotHover.X,_pointHotHover.Y-1];
+				//UI-CAL: a day outside MinDate and MaxDate is not selectable, as in Windows' calendar.
+				if(IsSelectable(dateClicked)){
+					if(_maxSelectionCount>1 && (ModifierKeys & Keys.Shift)==Keys.Shift){
+						//Shift extends the range from the anchor, as in Windows' calendar.
+						SetRangeFromAnchor(dateClicked);
+					}
+					else{
+						_dateSelected=dateClicked;
+						_dateSelectionEnd=dateClicked;
+						_dateAnchor=dateClicked;
+						_dateCursor=dateClicked;
+					}
+					_isMouseSelecting=true;
+					DateChanged?.Invoke(this,new EventArgs());
+					if(dateClicked.Month!=_dateMonthShowing.Month){
+						_dateMonthShowing=new DateTime(dateClicked.Year,dateClicked.Month,1);
+					}
+					Invalidate();
 				}
-				Invalidate();
 			}
 			if(_rectangleTopText.Contains(e.Location) && AllowClickingTopText) {
 				FrmDatePicker frmDatePicker=new FrmDatePicker();
@@ -101,10 +248,14 @@ namespace OpenPmsDental.UI{
 				frmDatePicker.ShowDialog();
 				if(frmDatePicker.IsDialogOK) {
 					_dateSelected=frmDatePicker.DateEntered;
+					_dateSelectionEnd=_dateSelected;
+					_dateAnchor=_dateSelected;
+					_dateCursor=_dateSelected;
 					if(_dateSelected.Month!=_dateMonthShowing.Month || _dateSelected.Year!=_dateMonthShowing.Year){
 						_dateMonthShowing=new DateTime(_dateSelected.Year,_dateSelected.Month,1);
 					}
 					DateChanged?.Invoke(this,new EventArgs());
+					DateSelected?.Invoke(this,new DateRangeEventArgs(_dateSelected,_dateSelectionEnd));
 					Invalidate();
 				}
 			}
@@ -124,8 +275,12 @@ namespace OpenPmsDental.UI{
 				_dateMonthShowing=_dateMonthShowing.AddYears(1);
 				Invalidate();
 			}
-			if(_rectangleTodayHover.Contains(e.Location)){
+			if(_rectangleTodayHover.Contains(e.Location) && IsSelectable(DateTime.Today)){
 				_dateSelected=DateTime.Today;
+				_dateSelectionEnd=DateTime.Today;
+				_dateAnchor=DateTime.Today;
+				_dateCursor=DateTime.Today;
+				_isMouseSelecting=true;
 				DateChanged?.Invoke(this,new EventArgs());
 				if(DateTime.Today.Month!=_dateMonthShowing.Month){
 					_dateMonthShowing=new DateTime(DateTime.Today.Year,DateTime.Today.Month,1);
@@ -133,6 +288,75 @@ namespace OpenPmsDental.UI{
 				Invalidate();
 			}
 			base.OnMouseDown(e);
+		}
+
+		protected override void OnMouseUp(MouseEventArgs e){
+			//UI-CAL: the explicit choice, as Windows' calendar raises it: on the release of the button that selected a day or Today.
+			if(_isMouseSelecting){
+				_isMouseSelecting=false;
+				DateSelected?.Invoke(this,new DateRangeEventArgs(_dateSelected,_dateSelectionEnd));
+			}
+			base.OnMouseUp(e);
+		}
+
+		protected override void OnMouseCaptureChanged(EventArgs e){
+			_isMouseSelecting=false;
+			base.OnMouseCaptureChanged(e);
+		}
+
+		protected override bool IsInputKey(Keys keyData){
+			if(AllowKeyboard){
+				switch(keyData & ~Keys.Shift){
+					case Keys.Left:
+					case Keys.Right:
+					case Keys.Up:
+					case Keys.Down:
+					case Keys.PageUp:
+					case Keys.PageDown:
+					case Keys.Home:
+					case Keys.End:
+						return true;
+				}
+			}
+			return base.IsInputKey(keyData);
+		}
+
+		protected override void OnKeyDown(KeyEventArgs e){
+			base.OnKeyDown(e);
+			if(!AllowKeyboard || e.Handled || e.Alt || e.Control){
+				return;
+			}
+			DateTime dateTo;
+			switch(e.KeyCode){
+				case Keys.Left:
+					dateTo=AddDaysSafe(_dateCursor,-1);
+					break;
+				case Keys.Right:
+					dateTo=AddDaysSafe(_dateCursor,1);
+					break;
+				case Keys.Up:
+					dateTo=AddDaysSafe(_dateCursor,-7);
+					break;
+				case Keys.Down:
+					dateTo=AddDaysSafe(_dateCursor,7);
+					break;
+				case Keys.PageUp:
+					dateTo=_dateCursor.Date>DateTime.MinValue.AddMonths(1) ? _dateCursor.AddMonths(-1) : _dateCursor;
+					break;
+				case Keys.PageDown:
+					dateTo=_dateCursor.Date<DateTime.MaxValue.AddMonths(-1) ? _dateCursor.AddMonths(1) : _dateCursor;
+					break;
+				case Keys.Home:
+					dateTo=new DateTime(_dateCursor.Year,_dateCursor.Month,1);
+					break;
+				case Keys.End:
+					dateTo=new DateTime(_dateCursor.Year,_dateCursor.Month,DateTime.DaysInMonth(_dateCursor.Year,_dateCursor.Month));
+					break;
+				default:
+					return;
+			}
+			e.Handled=true;
+			MoveCursor(dateTo,isExtending:e.Shift);
 		}
 
 		protected override void OnMouseLeave(EventArgs e){
@@ -168,6 +392,14 @@ namespace OpenPmsDental.UI{
 			}
 			else{
 				_pointHotHover=new Point(hotCol,hotRow);
+			}
+			//UI-CAL: a drag over the days selects the range from the day pressed, as in Windows' calendar (MaxSelectionCount above 1).
+			if(_isMouseSelecting && _maxSelectionCount>1 && e.Button==MouseButtons.Left && hotRow!=0 && _arrayDates!=null){
+				DateTime dateHover=_arrayDates[hotCol,hotRow-1];
+				if(IsSelectable(dateHover) && dateHover!=_dateCursor){
+					SetRangeFromAnchor(dateHover);
+					DateChanged?.Invoke(this,new EventArgs());
+				}
 			}
 			Invalidate();
 			base.OnMouseMove(e);
@@ -246,19 +478,23 @@ namespace OpenPmsDental.UI{
 			//Horizontal line below weekdays: 1 px Gridline==================================================================
 			UiControlPaint.Fill(g,EnumUiColor.Gridline,GetRectangleLineUnderDays(),UiTheme.CORNER_SQUARE,scale);
 			//Hover effect: SubtleHover with 4 px corners=====================================================================
-			if(_pointHotHover!=new Point() && Enabled){
+			if(_pointHotHover!=new Point() && Enabled && IsSelectable(_arrayDates[_pointHotHover.X,_pointHotHover.Y-1])){
 				UiCalendarPaint.DrawHover(g,GetRectangleDay(_pointHotHover.X,_pointHotHover.Y),scale);
 			}
 			//Date selected: Accent with 4 px corners=========================================================================
 			//if(_monthShowing.Month==_dateSelected.Month){//date is showing. Can't do this.  Could be showing dimmed.
+			//UI-CAL: every day of a range (MaxSelectionCount above 1) as the selected day; the focus ring on the day the keyboard moves.
 			Rectangle rectangleSelected=Rectangle.Empty;
 			for(int c=0;c<7;c++){
 				for(int r=0;r<6;r++){
-					if(_arrayDates[c,r]!=_dateSelected){
+					if(!IsDaySelected(_arrayDates[c,r])){
 						continue;
 					}
-					rectangleSelected=GetRectangleDay(c,r+1);
-					UiCalendarPaint.DrawSelectedDay(g,rectangleSelected,Enabled,scale);
+					Rectangle rectangleDay=GetRectangleDay(c,r+1);
+					if(rectangleSelected.IsEmpty || _arrayDates[c,r]==_dateCursor.Date){
+						rectangleSelected=rectangleDay;
+					}
+					UiCalendarPaint.DrawSelectedDay(g,rectangleDay,Enabled,scale);
 				}
 			}
 			//}
@@ -269,7 +505,7 @@ namespace OpenPmsDental.UI{
 						if(_arrayDates[c,r]!=DateTime.Today){
 							continue;
 						}
-						UiCalendarPaint.DrawToday(g,GetRectangleDay(c,r+1),isSelected:_arrayDates[c,r]==_dateSelected,scale);
+						UiCalendarPaint.DrawToday(g,GetRectangleDay(c,r+1),isSelected:IsDaySelected(_arrayDates[c,r]),scale);
 					}
 				}
 			//}
@@ -344,8 +580,9 @@ namespace OpenPmsDental.UI{
 				for(int r=0;r<6;r++){
 					RectangleF rectangleF=new RectangleF(_xPos[c],(int)_yPos[r+1]+topCellBuffer,
 						widthCell,_heightCell);//_heightCell is sort of ignored because we are controling y
-					EnumUiColor uiColorDay=UiCalendarPaint.GetDayText(isSelected:_arrayDates[c,r]==_dateSelected,
-						isMonthShown:_arrayDates[c,r].Month==_dateMonthShowing.Month,Enabled);
+					//UI-CAL: a day outside MinDate and MaxDate as the other months' days (it cannot be selected).
+					EnumUiColor uiColorDay=UiCalendarPaint.GetDayText(isSelected:IsDaySelected(_arrayDates[c,r]),
+						isMonthShown:_arrayDates[c,r].Month==_dateMonthShowing.Month && IsSelectable(_arrayDates[c,r]),Enabled);
 					g.DrawString(_arrayDates[c,r].ToString("%d"),Font,UiTheme.GetBrush(uiColorDay),rectangleF,stringFormat);
 				}
 			}
@@ -410,6 +647,12 @@ namespace OpenPmsDental.UI{
 			return new Rectangle((int)_xPos[column]+LayoutManager.Scale(4),(int)_yPos[rowIndex],(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
 		}
 
+		///<summary>UI-CAL: the day in a column and a row of the dates (row 0 is the first row of dates, GetRectangleDay's row 1). Valid after the
+		///first paint. For the behaviour tests.</summary>
+		protected DateTime GetDateInCell(int column,int row){
+			return _arrayDates[column,row];
+		}
+
 		///<summary>The 1 px Gridline under the weekdays. Valid after the first paint.</summary>
 		protected Rectangle GetRectangleLineUnderDays(){
 			return new Rectangle(0,(int)(_yPos[1]-1),Width,UiTheme.GetLineWidth(LayoutManager.ScaleMy()));
@@ -450,10 +693,126 @@ namespace OpenPmsDental.UI{
 		///<summary>Use this in place of MonthCalendar.SetDate().</summary>
 		public void SetDateSelected(DateTime date){
 			_dateSelected=date;
+			_dateSelectionEnd=date;
+			_dateAnchor=date;
+			_dateCursor=date;
 			_dateMonthShowing=new DateTime(_dateSelected.Year,_dateSelected.Month,1);
 			Invalidate();
 		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.SetDate: selects the one day (moved into MinDate and MaxDate) and shows its month. Raises no
+		///event.</summary>
+		public void SetDate(DateTime date){
+			SetSelection(date.Date,date.Date);
+		}
+
+		///<summary>UI-CAL: as Windows' MonthCalendar.SetSelectionRange: the range from the earlier day to the later, cut to MaxSelectionCount days
+		///from the earlier and moved into MinDate and MaxDate. Raises no event.</summary>
+		public void SetSelectionRange(DateTime date1,DateTime date2){
+			DateTime dateStart=date1.Date<=date2.Date ? date1.Date : date2.Date;
+			DateTime dateEnd=date1.Date<=date2.Date ? date2.Date : date1.Date;
+			SetSelection(dateStart,dateEnd);
+		}
 		#endregion Methods - Public
+
+		#region Methods - Selection
+		///<summary>UI-CAL: whether the day is in MinDate and MaxDate.</summary>
+		private bool IsSelectable(DateTime date){
+			return date.Date>=_dateMin && date.Date<=_dateMax;
+		}
+
+		///<summary>UI-CAL: whether the day (a cell's date, midnight) is in the selection. With one day, as before: the cell's date equals the selected
+		///date.</summary>
+		private bool IsDaySelected(DateTime date){
+			return date>=_dateSelected && date<=_dateSelectionEnd;
+		}
+
+		private static DateTime AddDaysSafe(DateTime date,int days){
+			if(days<0 && (date-DateTime.MinValue).TotalDays<-days){
+				return date;
+			}
+			if(days>0 && (DateTime.MaxValue-date).TotalDays<days+1){
+				return date;
+			}
+			return date.AddDays(days);
+		}
+
+		private static DateTime Clamp(DateTime date,DateTime dateMin,DateTime dateMax){
+			if(date.Date<dateMin){
+				return dateMin;
+			}
+			if(date.Date>dateMax){
+				return dateMax;
+			}
+			return date;
+		}
+
+		///<summary>UI-CAL: sets the selection from dateStart to dateEnd (dateEnd not before dateStart), cut to MaxSelectionCount days from the start,
+		///moved into MinDate and MaxDate, and shows the month of its start when neither end's month is showing; the anchor is its start, the
+		///cursor its end. A programmatic change: raises no event, as Windows' calendar raises none the program listens to here.</summary>
+		private void SetSelection(DateTime dateStart,DateTime dateEnd){
+			dateStart=Clamp(dateStart,_dateMin,_dateMax);
+			dateEnd=Clamp(dateEnd,_dateMin,_dateMax);
+			if(dateEnd<dateStart){
+				dateEnd=dateStart;
+			}
+			if((dateEnd.Date-dateStart.Date).TotalDays>=_maxSelectionCount){
+				dateEnd=dateStart.AddDays(_maxSelectionCount-1);
+			}
+			_dateSelected=dateStart;
+			_dateSelectionEnd=dateEnd;
+			_dateAnchor=dateStart;
+			_dateCursor=dateEnd;
+			bool isStartShowing=dateStart.Year==_dateMonthShowing.Year && dateStart.Month==_dateMonthShowing.Month;
+			bool isEndShowing=dateEnd.Year==_dateMonthShowing.Year && dateEnd.Month==_dateMonthShowing.Month;
+			if(!isStartShowing && !isEndShowing){
+				_dateMonthShowing=new DateTime(dateStart.Year,dateStart.Month,1);
+			}
+			Invalidate();
+		}
+
+		///<summary>UI-CAL: the range from the anchor to the day (Shift with a click or a key, a drag), at most MaxSelectionCount days: the anchor
+		///stays, the day is the cursor. Raises no event.</summary>
+		private void SetRangeFromAnchor(DateTime date){
+			DateTime dateAnchor=_dateAnchor.Date;
+			int daysMax=_maxSelectionCount-1;
+			if((date.Date-dateAnchor).TotalDays>daysMax){
+				date=dateAnchor.AddDays(daysMax);
+			}
+			if((dateAnchor-date.Date).TotalDays>daysMax){
+				date=dateAnchor.AddDays(-daysMax);
+			}
+			date=Clamp(date.Date,_dateMin,_dateMax);
+			_dateSelected=date<dateAnchor ? date : dateAnchor;
+			_dateSelectionEnd=date<dateAnchor ? dateAnchor : date;
+			_dateCursor=date;
+			Invalidate();
+		}
+
+		///<summary>UI-CAL: the keyboard's move to the day: with Shift (and MaxSelectionCount above 1) the range from the anchor, else the one day.
+		///Shows the day's month and raises DateChanged when the selection changed.</summary>
+		private void MoveCursor(DateTime date,bool isExtending){
+			date=Clamp(date.Date,_dateMin,_dateMax);
+			DateTime dateStartOld=_dateSelected;
+			DateTime dateEndOld=_dateSelectionEnd;
+			if(isExtending && _maxSelectionCount>1){
+				SetRangeFromAnchor(date);
+			}
+			else{
+				_dateSelected=date;
+				_dateSelectionEnd=date;
+				_dateAnchor=date;
+				_dateCursor=date;
+			}
+			if(_dateCursor.Year!=_dateMonthShowing.Year || _dateCursor.Month!=_dateMonthShowing.Month){
+				_dateMonthShowing=new DateTime(_dateCursor.Year,_dateCursor.Month,1);
+			}
+			Invalidate();
+			if(_dateSelected!=dateStartOld || _dateSelectionEnd!=dateEndOld){
+				DateChanged?.Invoke(this,new EventArgs());
+			}
+		}
+		#endregion Methods - Selection
 
 		#region Methods - Private
 		private void CalculateRectangles(){

@@ -538,6 +538,12 @@ namespace OpenPmsDental {
 			return LayoutManager.ScaleMy();
 		}
 
+		///<summary>UI-CAL: this window's LayoutManager (null before InitializeLayoutManager), for a control the window does not lay out that draws at
+		///its scale: the stock date pickers' drop-down calendar (LayoutManagerForms.CreateDropCalendar).</summary>
+		public LayoutManagerForms GetLayoutManager(){
+			return LayoutManager;
+		}
+
 		public void CenterFormOnMonitor(){
 			Rectangle rectangleWorkingArea=System.Windows.Forms.Screen.FromHandle(this.Handle).WorkingArea;
 			this.Location=new Point(

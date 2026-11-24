@@ -92,9 +92,9 @@ OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	butLeft	41,23	45,24
 OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	butOK	517,319	75,24	
 OpenPmsDental/Forms Reports/FormRpNewPatients.designer.cs	.			600,351
 OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	butOK	486,273	75,26	
-OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	date2	305,52		
-OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	date1	73,52		
-OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	labelTO	271,52	28,23	
+OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	date2	266,52	227,162	
+OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	date1	8,52	227,162	
+OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	labelTO	237,121	28,23	
 OpenPmsDental/Forms Reports/FormRpPHRawScreen.designer.cs	.			569,307
 OpenPmsDental/Forms Reports/FormRpPrescriptions.designer.cs	butOK	510,132	76,26	
 OpenPmsDental/Forms Reports/FormRpPrescriptions.designer.cs	panel1	482,8	104,60	
@@ -260,7 +260,7 @@ OpenPmsDental/Forms/FormBillingTypeMerge.designer.cs	textDefNumFrom	8,45	116,23
 OpenPmsDental/Forms/FormBillingTypeMerge.designer.cs	labelDefNumFrom	8,23	56,20	
 OpenPmsDental/Forms/FormBillingTypeMerge.designer.cs	.			607,238
 OpenPmsDental/Forms/FormCalendar.Designer.cs	butOK	188,192	75,24	
-OpenPmsDental/Forms/FormCalendar.Designer.cs	monthCalendar	18,8		
+OpenPmsDental/Forms/FormCalendar.Designer.cs	monthCalendar	18,8	227,162	
 OpenPmsDental/Forms/FormCalendar.Designer.cs	.			271,224
 OpenPmsDental/Forms/FormCertificationEdit.designer.cs	listBoxCategories	115,62	180,222	
 OpenPmsDental/Forms/FormCertificationEdit.designer.cs	labelCategories	49,62	60,34	

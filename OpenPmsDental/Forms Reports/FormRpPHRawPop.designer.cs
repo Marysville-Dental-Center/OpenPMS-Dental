@@ -23,8 +23,8 @@ namespace OpenPmsDental {
 
 		private void InitializeComponent(){
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.listAdjType = new OpenPmsDental.UI.ListBox();
@@ -42,30 +42,34 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
-			this.date2.Location = new System.Drawing.Point(242, 8);
+			this.date2.AllowKeyboard = true;
+			this.date2.Location = new System.Drawing.Point(266, 8);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Name = "date2";
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(8, 8);
 			this.date1.MaxSelectionCount = 1;
 			this.date1.Name = "date1";
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(206, 8);
+			this.labelTO.Location = new System.Drawing.Point(237, 77);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(448, 8);
+			this.label1.Location = new System.Drawing.Point(501, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(195, 47);
 			this.label1.TabIndex = 29;
@@ -74,7 +78,7 @@ namespace OpenPmsDental {
 			// 
 			// listAdjType
 			// 
-			this.listAdjType.Location = new System.Drawing.Point(448, 57);
+			this.listAdjType.Location = new System.Drawing.Point(501, 57);
 			this.listAdjType.Name = "listAdjType";
 			this.listAdjType.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
 			this.listAdjType.Size = new System.Drawing.Size(195, 238);
@@ -102,8 +106,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private System.Windows.Forms.MonthCalendar date2;
-		private System.Windows.Forms.MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private System.Windows.Forms.Label labelTO;
 		private System.Windows.Forms.Label label1;
 		private OpenPmsDental.UI.ListBox listAdjType;

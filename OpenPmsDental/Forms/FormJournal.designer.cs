@@ -38,10 +38,10 @@ namespace OpenPmsDental {
 			this.textDateTo = new OpenPmsDental.ValidDate();
 			this.labelDateTo = new System.Windows.Forms.Label();
 			this.butRefresh = new OpenPmsDental.UI.Button();
-			this.calendarFrom = new System.Windows.Forms.MonthCalendar();
+			this.calendarFrom = new OpenPmsDental.UI.MonthCalendarOD();
 			this.butDropFrom = new OpenPmsDental.UI.Button();
 			this.butDropTo = new OpenPmsDental.UI.Button();
-			this.calendarTo = new System.Windows.Forms.MonthCalendar();
+			this.calendarTo = new OpenPmsDental.UI.MonthCalendarOD();
 			this.textAmountFrom = new OpenPmsDental.ValidDouble();
 			this.labelAmout = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -106,9 +106,11 @@ namespace OpenPmsDental {
 			// 
 			// calendarFrom
 			// 
+			this.calendarFrom.AllowKeyboard = true;
 			this.calendarFrom.Location = new System.Drawing.Point(54, 62);
 			this.calendarFrom.MaxSelectionCount = 1;
 			this.calendarFrom.Name = "calendarFrom";
+			this.calendarFrom.Size = new System.Drawing.Size(227, 162);
 			this.calendarFrom.TabIndex = 4;
 			this.calendarFrom.Visible = false;
 			this.calendarFrom.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarFrom_DateSelected);
@@ -135,9 +137,11 @@ namespace OpenPmsDental {
 			// 
 			// calendarTo
 			// 
-			this.calendarTo.Location = new System.Drawing.Point(208, 62);
+			this.calendarTo.AllowKeyboard = true;
+			this.calendarTo.Location = new System.Drawing.Point(289, 62);
 			this.calendarTo.MaxSelectionCount = 1;
 			this.calendarTo.Name = "calendarTo";
+			this.calendarTo.Size = new System.Drawing.Size(227, 162);
 			this.calendarTo.TabIndex = 7;
 			this.calendarTo.Visible = false;
 			this.calendarTo.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.calendarTo_DateSelected);
@@ -261,10 +265,10 @@ namespace OpenPmsDental {
 		private ValidDate textDateTo;
 		private Label labelDateTo;
 		private OpenPmsDental.UI.Button butRefresh;
-		private MonthCalendar calendarFrom;
+		private OpenPmsDental.UI.MonthCalendarOD calendarFrom;
 		private OpenPmsDental.UI.Button butDropFrom;
 		private OpenPmsDental.UI.Button butDropTo;
-		private MonthCalendar calendarTo;
+		private OpenPmsDental.UI.MonthCalendarOD calendarTo;
 		private ValidDouble textAmountFrom;
 		private Label labelAmout;
 		private Label label4;

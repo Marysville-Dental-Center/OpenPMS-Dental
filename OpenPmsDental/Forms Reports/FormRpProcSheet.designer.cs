@@ -27,8 +27,8 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.listProv = new OpenPmsDental.UI.ListBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -52,24 +52,30 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
+			this.date2.AllowKeyboard = true;
 			this.date2.Location = new System.Drawing.Point(284, 26);
+			this.date2.MaxSelectionCount = 7;
 			this.date2.Name = "date2";
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(28, 26);
+			this.date1.MaxSelectionCount = 7;
 			this.date1.Name = "date1";
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(250, 26);
+			this.labelTO.Location = new System.Drawing.Point(256, 95);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 22;
 			this.labelTO.Text = "TO";
-			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.labelTO.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// listProv
 			// 
@@ -172,8 +178,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private System.Windows.Forms.MonthCalendar date2;
-		private System.Windows.Forms.MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private System.Windows.Forms.Label labelTO;
 		private OpenPmsDental.UI.ListBox listProv;
 		private System.Windows.Forms.Label label1;

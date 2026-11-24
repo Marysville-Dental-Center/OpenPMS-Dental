@@ -17,11 +17,11 @@ OpenPmsDental/Forms Reports/FormRpCapitation.designer.cs	textCarrier	310,8	287,2
 OpenPmsDental/Forms Reports/FormRpCapitation.designer.cs	label3	8,8	296,23	
 OpenPmsDental/Forms Reports/FormRpCapitation.designer.cs	.			605,138
 OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	butOK	682,362	75,26	
-OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	date2	242,8		
-OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	date1	8,8		
-OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	labelTO	206,8	28,23	
-OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	label1	448,8	195,47	
-OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	listAdjType	448,57	195,238	
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	date2	266,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	date1	8,8	227,162	
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	labelTO	237,77	28,23	
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	label1	501,8	195,47	
+OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	listAdjType	501,57	195,238	
 OpenPmsDental/Forms Reports/FormRpPHRawPop.designer.cs	.			765,396
 OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	labelInstructions	8,8	744,62	
 OpenPmsDental/Forms Reports/FormRpUdsPlusSetup.designer.cs	gridMain	8,72	744,396	
@@ -519,10 +519,10 @@ OpenPmsDental/Forms/FormJournal.designer.cs	textDateFrom	54,33	80,23
 OpenPmsDental/Forms/FormJournal.designer.cs	textDateTo	208,33	80,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	labelDateTo	178,33	24,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	butRefresh	784,33	75,23	
-OpenPmsDental/Forms/FormJournal.designer.cs	calendarFrom	54,62		
+OpenPmsDental/Forms/FormJournal.designer.cs	calendarFrom	54,62	227,162	
 OpenPmsDental/Forms/FormJournal.designer.cs	butDropFrom	140,33	22,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	butDropTo	294,33	22,23	
-OpenPmsDental/Forms/FormJournal.designer.cs	calendarTo	208,62		
+OpenPmsDental/Forms/FormJournal.designer.cs	calendarTo	289,62	227,162	
 OpenPmsDental/Forms/FormJournal.designer.cs	textAmountFrom	374,33	80,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	labelAmout	332,33	36,23	
 OpenPmsDental/Forms/FormJournal.designer.cs	label4	632,33	60,23	
@@ -1018,8 +1018,8 @@ OpenPmsDental/Forms/FormWikiSearch.designer.cs	textLimit	117,35	44,23
 OpenPmsDental/Forms/FormWikiSearch.designer.cs	labelLimitInfo	266,628	300,20	
 OpenPmsDental/Forms/FormWikiSearch.designer.cs	.			1184,694
 OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	label5	99,10	244,20	
-OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	date2	214,40		
-OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	date1	8,40		
+OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	date2	243,40	227,162	
+OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	date1	8,40	227,162	
 OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	label2	99,310	296,20	
 OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	label3	99,338	288,20	
 OpenPmsDental/Forms/FormXChargeReconcile.designer.cs	label4	99,226	244,20	
