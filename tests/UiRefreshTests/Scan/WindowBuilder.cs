@@ -535,6 +535,7 @@ namespace UiRefreshTests.Scan {
 			builtWindow.LayoutManager=layoutManager;
 			SetPanelClientAsOnLoad(hostFormOD,layoutManager);
 			userControl.Location=new Point(0,0);
+			IDisposable disposableSample=SampleData.BeforeHosting(userControl);//UI-12 slice 14: the controls' sample data
 			if(isUnscaled) {
 				//FormPreferences.FillUserControls and FormSetupWizardProgress dock each page to fill before AddUnscaled.
 				userControl.Dock=DockStyle.Fill;
@@ -543,6 +544,7 @@ namespace UiRefreshTests.Scan {
 			else {
 				layoutManager.Add(userControl,hostFormOD.PanelClient);
 			}
+			disposableSample?.Dispose();
 			layoutManager.LayoutControlBoundsAndFonts(hostFormOD.PanelClient);
 			builtWindow.LayOutAt(1f);
 		}

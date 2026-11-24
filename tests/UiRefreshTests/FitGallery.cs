@@ -667,6 +667,11 @@ namespace UiRefreshTests {
 				SetDashboardSetupMode(root);
 				return root;
 			}
+			//UI-12 slice 14: the states of the windows laid out by their code.
+			Control controlSlice14=Slice14States.FillState(root,window,state);
+			if(controlSlice14!=null) {
+				return controlSlice14;
+			}
 			throw new ArgumentException("No gallery state "+state+" for "+window+".");
 		}
 
