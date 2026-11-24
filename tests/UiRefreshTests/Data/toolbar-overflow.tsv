@@ -1,13 +1,15 @@
-# The toolbars and the main menu whose items run past the right edge (UI-6, docs/port-notes/UI-6.md; ToolBarFitTests): toolbar, font
-# (today: Microsoft Sans Serif 8.25; segoe9: UI-2b's Segoe UI 9), window width in px at 100%, the captions past the edge. Written by
-# the test with OPMS_UI6_WRITE_OVERFLOW=1. Every button the code can add is counted (also those behind a preference); the office's
-# program link buttons come after them. For the owner (UQ-9): a toolbar does not wrap or scroll, so what does not fit is cut off at the right edge.
+# The toolbars whose buttons do not all fit (UI-6, docs/port-notes/UI-6.md; UI-OVF, docs/port-notes/UI-OVF.md; ToolBarFitTests): toolbar,
+# font (today: Microsoft Sans Serif 8.25; segoe9: UI-2b's Segoe UI 9), window width in px at 100%, the captions of the buttons in the toolbar's
+# >> overflow button. Written by the test with OPMS_UI6_WRITE_OVERFLOW=1. Every button the code can add is counted (also those behind a
+# preference); the office's program link buttons come after them. Since UI-OVF these buttons are not lost: the overflow button at the toolbar's
+# right end opens a drop-down with each of them (same text, icon, enabled and checked state, click, sub-menu). The main menu has no overflow
+# button and must fit (no menu row).
 family	today	1024	Discount Plan
 family	segoe9	1024	Discount Plan
 chart	today	1024	Commlog | CCD | EHR | hl7Def.Description | hl7DefMedLab.Description | Layout
-chart	today	1366	Layout
+chart	today	1366	hl7DefMedLab.Description | Layout
 chart	segoe9	1024	Commlog | CCD | EHR | hl7Def.Description | hl7DefMedLab.Description | Layout
 chart	segoe9	1366	hl7DefMedLab.Description | Layout
-imaging	today	1024	Paste | Forms
+imaging	today	1024	Copy | Paste | Forms
 imaging-paint	today	1024	Unmount
 imaging-paint	segoe9	1024	Unmount

@@ -1108,7 +1108,14 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 		private void ComputeOverflow(int widthNeeded){
 			_indexOverflowFirst=-1;
 			_toolBarButtonOverflow.Bounds=Rectangle.Empty;
-			if(widthNeeded>Width && buttons.Count>0){
+			bool isButtonPastEdge=false;//a button, not only a separator, runs past the right edge
+			for(int i=0;i<buttons.Count && widthNeeded>Width;i++){
+				if(buttons[i].Style!=ODToolBarButtonStyle.Separator && buttons[i].Bounds.Right>Width){
+					isButtonPastEdge=true;
+					break;
+				}
+			}
+			if(isButtonPastEdge){
 				int widthOverflow=LayoutManager.Scale(UiToolStripRenderer.WIDTH_OVERFLOW_BUTTON96);
 				int xLimit=Width-widthOverflow;
 				int indexFirst=0;
@@ -1118,17 +1125,8 @@ Boilerplate for the new WpfControls.UI.ToolBar is over in ToolBar.xaml.cs
 				while(indexFirst>0 && buttons[indexFirst-1].Style==ODToolBarButtonStyle.Separator){
 					indexFirst--;
 				}
-				bool hasButton=false;
-				for(int i=indexFirst;i<buttons.Count;i++){
-					if(buttons[i].Style!=ODToolBarButtonStyle.Separator){
-						hasButton=true;
-						break;
-					}
-				}
-				if(hasButton){
-					_indexOverflowFirst=indexFirst;
-					_toolBarButtonOverflow.Bounds=new Rectangle(Math.Max(0,xLimit),0,widthOverflow,Height-1);
-				}
+				_indexOverflowFirst=indexFirst;
+				_toolBarButtonOverflow.Bounds=new Rectangle(Math.Max(0,xLimit),0,widthOverflow,Height-1);
 			}
 			if(textPageNav!=null){
 				textPageNav.Visible=!IsOverflowed(GetButtonPageNav());

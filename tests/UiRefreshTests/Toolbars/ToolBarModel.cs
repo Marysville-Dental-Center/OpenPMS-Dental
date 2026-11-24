@@ -124,7 +124,7 @@ namespace UiRefreshTests.Toolbars {
 		public static List<LaidOutItem> LayOutWpf(ToolBarSource toolBarSource) {
 			WpfControls.UI.ToolBar toolBar=BuildToolBarWpf(toolBarSource);
 			toolBar.Measure(new System.Windows.Size(double.PositiveInfinity,HEIGHT_TOOLBAR));
-			System.Windows.Controls.StackPanel stackPanel=(System.Windows.Controls.StackPanel)toolBar.FindName("stackPanel");
+			System.Windows.Controls.Panel stackPanel=(System.Windows.Controls.Panel)toolBar.FindName("stackPanel");//ToolBarItemsPanel since UI-OVF
 			List<LaidOutItem> list=new List<LaidOutItem>();
 			double x=0;
 			for(int i=0;i<stackPanel.Children.Count;i++) {

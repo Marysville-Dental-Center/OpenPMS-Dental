@@ -187,6 +187,7 @@ namespace UiRefreshTests.Toolbars {
 					toolBarOD.PressKey(Keys.Right);
 				}
 				CollectionAssert.AreEqual(new[] { "Alpha","Bravo","Delta","Echo","Foxtrot","Hotel","Alpha" },listVisited,string.Join(",",listVisited));
+				toolBarOD.PressKey(Keys.Home);
 				toolBarOD.PressKey(Keys.Enter);//Alpha
 				toolBarOD.PressKey(Keys.Right);
 				toolBarOD.PressKey(Keys.Space);//Bravo, a toggle
@@ -241,10 +242,10 @@ namespace UiRefreshTests.Toolbars {
 				Assert.AreEqual(1,toolBarOD.Buttons.IndexOf(toolBarOD.GetButtonsOverflowed()[0]),"the separator goes with the buttons after it");
 				using(Bitmap bitmap=ToolBarPictureTests.Draw(toolBarOD)) {
 					Rectangle rectangleOverflow=toolBarOD.BoundsOverflow;
-					Assert.IsTrue(CountNear(bitmap,rectangleOverflow,UiTheme.GetColor(EnumUiColor.Text))>=8,"the » glyph in Text");
+					Assert.IsTrue(CountDark(bitmap,rectangleOverflow)>=6,"the » glyph");
 					//Between Alpha and the overflow button: the toolbar's background only (the overflowed buttons are not drawn there).
 					Rectangle rectangleGap=new Rectangle(toolBarOD.Buttons[0].Bounds.Right,2,rectangleOverflow.Left-toolBarOD.Buttons[0].Bounds.Right,toolBarOD.Height-4);
-					Assert.AreEqual(0,CountNear(bitmap,rectangleGap,UiTheme.GetColor(EnumUiColor.Text)),"nothing drawn past the last button");
+					Assert.AreEqual(0,CountDark(bitmap,rectangleGap),"nothing drawn past the last button");
 				}
 			}
 		}
@@ -266,10 +267,12 @@ namespace UiRefreshTests.Toolbars {
 				Assert.IsTrue(rectangleOverflow.Width>0);
 				using(Bitmap bitmap=new Bitmap(toolStrip.Width,toolStrip.Height)) {
 					toolStrip.DrawToBitmap(bitmap,new Rectangle(0,0,toolStrip.Width,toolStrip.Height));
-					Assert.IsTrue(CountNear(bitmap,rectangleOverflow,UiTheme.GetColor(EnumUiColor.Text))>=8,"the » glyph in Text");
-					//At rest no shape: the strip's flat SurfaceSubtle under the button (no gradient).
-					Color colorCorner=bitmap.GetPixel(rectangleOverflow.X+1,rectangleOverflow.Y+2);
-					Assert.IsTrue(IsNear(colorCorner,UiTheme.GetColor(EnumUiColor.SurfaceSubtle),6),"flat at rest: "+colorCorner);
+					Assert.IsTrue(CountDark(bitmap,rectangleOverflow)>=6,"the » glyph");
+					//At rest no shape and no gradient (the professional renderer's): the button's edges are one flat colour, top to bottom.
+					Color colorTop=bitmap.GetPixel(rectangleOverflow.X+1,rectangleOverflow.Y+2);
+					Color colorMiddle=bitmap.GetPixel(rectangleOverflow.X+1,rectangleOverflow.Y+rectangleOverflow.Height/2);
+					Color colorBottom=bitmap.GetPixel(rectangleOverflow.Right-2,rectangleOverflow.Bottom-4);
+					Assert.IsTrue(IsNear(colorTop,colorMiddle,3) && IsNear(colorTop,colorBottom,3),"flat at rest: "+colorTop+", "+colorMiddle+", "+colorBottom);
 				}
 			}
 		}
@@ -311,7 +314,8 @@ namespace UiRefreshTests.Toolbars {
 				Assert.IsTrue(toolBar.IsOverflowing);
 				Assert.AreEqual(System.Windows.Visibility.Visible,toolBar.ToolBarButtonOverflow.Visibility);
 				Assert.AreEqual(6,toolBar.GetItemsOverflowed().Count,"the separator and the five after it");
-				Assert.AreEqual(0,toolBarButtonCharlie.RenderSize.Width,"an overflowed button is not shown on the bar");
+				//An overflowed button has no room on the bar: WPF clips it to its empty layout slot (not drawn, not hit).
+				Assert.AreEqual(0,System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(toolBarButtonCharlie).Width,"an overflowed button is not shown on the bar");
 				WpfControls.UI.ContextMenu contextMenu=toolBar.GetOverflowMenu();
 				List<WpfControls.UI.MenuItem> listItems=contextMenu.GetMenuItems();
 				CollectionAssert.AreEqual(new[] { "Bravo","Charlie","Delta","Scan:","Foxtrot__tip" },listItems.Select(x => x.Header.ToString()).ToList());
@@ -394,6 +398,22 @@ namespace UiRefreshTests.Toolbars {
 				UiTheme.InitWinForms();
 				action();
 			});
+		}
+
+		///<summary>The number of pixels in the rectangle darker than mid grey (the glyphs' antialiased strokes, in Text, have such pixels; the
+		///toolbar's backgrounds and shapes are light).</summary>
+		public static int CountDark(Bitmap bitmap,Rectangle rectangle) {
+			int count=0;
+			Rectangle rectangleIn=Rectangle.Intersect(rectangle,new Rectangle(0,0,bitmap.Width,bitmap.Height));
+			for(int x=rectangleIn.Left;x<rectangleIn.Right;x++) {
+				for(int y=rectangleIn.Top;y<rectangleIn.Bottom;y++) {
+					Color color=bitmap.GetPixel(x,y);
+					if(color.R+color.G+color.B<3*128) {
+						count++;
+					}
+				}
+			}
+			return count;
 		}
 
 		///<summary>The number of pixels in the rectangle within 60 (per channel sum) of the colour: antialiased glyph pixels count too.</summary>

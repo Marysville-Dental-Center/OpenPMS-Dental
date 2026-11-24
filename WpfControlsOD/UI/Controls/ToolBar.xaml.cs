@@ -360,7 +360,18 @@ The new way of doing it is a separate event for each button.
 				heightMax=Math.Max(heightMax,uIElement.DesiredSize.Height);
 			}
 			int indexOverflowFirst=-1;
+			bool isButtonPastEdge=false;//a button, not only a separator, runs past the right edge
 			if(!double.IsInfinity(sizeAvailable.Width) && widthTotal>sizeAvailable.Width+0.5){
+				double xRight=0;
+				for(int i=0;i<InternalChildren.Count;i++){
+					xRight+=InternalChildren[i].DesiredSize.Width;
+					if(InternalChildren[i] is ToolBarButton && xRight>sizeAvailable.Width+0.5){
+						isButtonPastEdge=true;
+						break;
+					}
+				}
+			}
+			if(isButtonPastEdge){
 				double xLimit=sizeAvailable.Width-UiToolStripRenderer.WIDTH_OVERFLOW_BUTTON96;
 				double x=0;
 				int index=0;
@@ -371,12 +382,7 @@ The new way of doing it is a separate event for each button.
 				while(index>0 && !(InternalChildren[index-1] is ToolBarButton)){
 					index--;
 				}
-				for(int i=index;i<InternalChildren.Count;i++){
-					if(InternalChildren[i] is ToolBarButton){
-						indexOverflowFirst=index;
-						break;
-					}
-				}
+				indexOverflowFirst=index;
 			}
 			if(indexOverflowFirst!=IndexOverflowFirst){
 				IndexOverflowFirst=indexOverflowFirst;
