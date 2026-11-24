@@ -22,6 +22,10 @@ comes with the update, and every setting, colour and picture the office chose st
 - **Icons.** Sharp Microsoft Fluent icons in dark grey, with a few colours for their role: red for delete, green for complete, amber for a
   warning, blue for the main action. They stay sharp at every Windows scaling (125%, 150% and more).
 - **New databases** get new-style pictures on the eight default procedure buttons. The pictures an office chose never change.
+- **Calendars.** Every calendar is the program's own, in the new look: the report windows' date ranges, the task list's calendar and the
+  calendar that drops down from a date box (its button, F4 or Alt+Down). They work as before: click or drag a range, Shift with a click
+  or an arrow key, the arrow keys, Page Up and Page Down, Home and End. In some report windows the second calendar and the lists
+  beside it moved a little, so nothing covers the calendars any more.
 
 ## What changed in the layout
 
@@ -35,8 +39,7 @@ window's buttons at the bottom right. Some windows grew a little so that everyth
   colours set in Setup (Definitions, Misc Colors), and the pictures the office added.
 - **Printouts and PDFs** look as before: printed grids, reports, statements, claim forms and schedules.
 - **The tooth chart** and the perio chart's grid are drawn as in Open Dental's newest release.
-- **Windows' own windows**: the file pickers, the print dialogs, Windows' message boxes and the inside of Windows' calendars keep Windows'
-  look.
+- **Windows' own windows**: the file pickers, the print dialogs and Windows' message boxes keep Windows' look.
 
 ## New keyboard behaviour
 
