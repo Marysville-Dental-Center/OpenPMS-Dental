@@ -26,7 +26,7 @@ namespace OpenPmsDental {
 		/// </summary>
 		private void InitializeComponent() {
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.label1 = new System.Windows.Forms.Label();
 			this.listProv = new OpenPmsDental.UI.ListBox();
 			this.labelProvider = new System.Windows.Forms.Label();
@@ -51,8 +51,11 @@ namespace OpenPmsDental {
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(272, 52);
+			this.date1.MaxSelectionCount = 7;
 			this.date1.Name = "date1";
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.TabIndex = 4;
 			// 
 			// label1
@@ -162,7 +165,7 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private Label label1;
 		private OpenPmsDental.UI.ListBox listProv;
 		private Label labelProvider;

@@ -25,7 +25,7 @@ namespace OpenPmsDental {
 		private void InitializeComponent() {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserControlTasks));
-			this.monthCalendar = new System.Windows.Forms.MonthCalendar();
+			this.monthCalendar = new OpenPmsDental.UI.MonthCalendarOD();
 			this.tree = new System.Windows.Forms.TreeView();
 			this.menuEdit = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.menuItemDone = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,9 +78,11 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendar
 			// 
+			this.monthCalendar.AllowKeyboard = true;
 			this.monthCalendar.Location = new System.Drawing.Point(0, 69);
 			this.monthCalendar.MaxSelectionCount = 1;
 			this.monthCalendar.Name = "monthCalendar";
+			this.monthCalendar.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendar.TabIndex = 6;
 			this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.cal_DateSelected);
 			// 
@@ -448,7 +450,7 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.TabPage tabDate;
 		private OpenPmsDental.UI.TabPage tabWeek;
 		private OpenPmsDental.UI.TabPage tabMonth;
-		private System.Windows.Forms.MonthCalendar monthCalendar;
+		private OpenPmsDental.UI.MonthCalendarOD monthCalendar;
 		private System.Windows.Forms.TreeView tree;
 		private System.Windows.Forms.ContextMenuStrip menuEdit;
 		private System.Windows.Forms.ToolStripMenuItem menuItemEdit;

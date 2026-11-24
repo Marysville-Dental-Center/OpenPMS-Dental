@@ -29,8 +29,8 @@ namespace OpenPmsDental {
 			this.checkAllClin = new OpenPmsDental.UI.CheckBox();
 			this.listClin = new OpenPmsDental.UI.ListBox();
 			this.labelClin = new System.Windows.Forms.Label();
-			this.dateEnd = new System.Windows.Forms.MonthCalendar();
-			this.dateStart = new System.Windows.Forms.MonthCalendar();
+			this.dateEnd = new OpenPmsDental.UI.MonthCalendarOD();
+			this.dateStart = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelDisclaimer = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -103,14 +103,20 @@ namespace OpenPmsDental {
 			// 
 			// dateEnd
 			// 
+			this.dateEnd.AllowKeyboard = true;
 			this.dateEnd.Location = new System.Drawing.Point(293, 57);
+			this.dateEnd.MaxSelectionCount = 7;
 			this.dateEnd.Name = "dateEnd";
+			this.dateEnd.Size = new System.Drawing.Size(227, 162);
 			this.dateEnd.TabIndex = 59;
 			// 
 			// dateStart
 			// 
+			this.dateStart.AllowKeyboard = true;
 			this.dateStart.Location = new System.Drawing.Point(21, 57);
+			this.dateStart.MaxSelectionCount = 7;
 			this.dateStart.Name = "dateStart";
+			this.dateStart.Size = new System.Drawing.Size(227, 162);
 			this.dateStart.TabIndex = 58;
 			// 
 			// labelDisclaimer
@@ -154,8 +160,8 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.CheckBox checkAllClin;
 		private OpenPmsDental.UI.ListBox listClin;
 		private Label labelClin;
-		private MonthCalendar dateEnd;
-		private MonthCalendar dateStart;
+		private OpenPmsDental.UI.MonthCalendarOD dateEnd;
+		private OpenPmsDental.UI.MonthCalendarOD dateStart;
 		private Label labelDisclaimer;
 	}
 }

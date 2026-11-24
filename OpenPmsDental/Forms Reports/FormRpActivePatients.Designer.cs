@@ -31,8 +31,8 @@ namespace OpenPmsDental{
 			this.checkAllProv = new OpenPmsDental.UI.CheckBox();
 			this.listProv = new OpenPmsDental.UI.ListBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.dateEnd = new System.Windows.Forms.MonthCalendar();
-			this.dateStart = new System.Windows.Forms.MonthCalendar();
+			this.dateEnd = new OpenPmsDental.UI.MonthCalendarOD();
+			this.dateStart = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.checkAllBilling = new OpenPmsDental.UI.CheckBox();
@@ -119,15 +119,19 @@ namespace OpenPmsDental{
 			// 
 			// dateEnd
 			// 
+			this.dateEnd.AllowKeyboard = true;
 			this.dateEnd.Location = new System.Drawing.Point(238, 34);
-			this.dateEnd.Size = new System.Drawing.Size(190, 155);
+			this.dateEnd.MaxSelectionCount = 7;
+			this.dateEnd.Size = new System.Drawing.Size(227, 162);
 			this.dateEnd.Name = "dateEnd";
 			this.dateEnd.TabIndex = 57;
 			// 
 			// dateStart
 			// 
+			this.dateStart.AllowKeyboard = true;
 			this.dateStart.Location = new System.Drawing.Point(8, 34);
-			this.dateStart.Size = new System.Drawing.Size(190, 155);
+			this.dateStart.MaxSelectionCount = 7;
+			this.dateStart.Size = new System.Drawing.Size(227, 162);
 			this.dateStart.Name = "dateStart";
 			this.dateStart.TabIndex = 56;
 			// 
@@ -236,8 +240,8 @@ namespace OpenPmsDental{
 		private OpenPmsDental.UI.CheckBox checkAllProv;
 		private OpenPmsDental.UI.ListBox listProv;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.MonthCalendar dateEnd;
-		private System.Windows.Forms.MonthCalendar dateStart;
+		private OpenPmsDental.UI.MonthCalendarOD dateEnd;
+		private OpenPmsDental.UI.MonthCalendarOD dateStart;
 		private System.Windows.Forms.Label labelTO;
 		private System.Windows.Forms.Label label2;
 		private OpenPmsDental.UI.CheckBox checkAllBilling;

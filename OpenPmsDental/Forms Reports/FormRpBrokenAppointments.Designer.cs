@@ -29,8 +29,8 @@ namespace OpenPmsDental{
 			this.labelClinics = new System.Windows.Forms.Label();
 			this.listProvs = new OpenPmsDental.UI.ListBox();
 			this.labelProviders = new System.Windows.Forms.Label();
-			this.dateEnd = new System.Windows.Forms.MonthCalendar();
-			this.dateStart = new System.Windows.Forms.MonthCalendar();
+			this.dateEnd = new OpenPmsDental.UI.MonthCalendarOD();
+			this.dateStart = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.labelDescr = new System.Windows.Forms.Label();
 			this.butOK = new OpenPmsDental.UI.Button();
@@ -98,15 +98,19 @@ namespace OpenPmsDental{
 			// 
 			// dateEnd
 			// 
+			this.dateEnd.AllowKeyboard = true;
 			this.dateEnd.Location = new System.Drawing.Point(238, 34);
-			this.dateEnd.Size = new System.Drawing.Size(190, 155);
+			this.dateEnd.MaxSelectionCount = 7;
+			this.dateEnd.Size = new System.Drawing.Size(227, 162);
 			this.dateEnd.Name = "dateEnd";
 			this.dateEnd.TabIndex = 66;
 			// 
 			// dateStart
 			// 
+			this.dateStart.AllowKeyboard = true;
 			this.dateStart.Location = new System.Drawing.Point(8, 34);
-			this.dateStart.Size = new System.Drawing.Size(190, 155);
+			this.dateStart.MaxSelectionCount = 7;
+			this.dateStart.Size = new System.Drawing.Size(227, 162);
 			this.dateStart.Name = "dateStart";
 			this.dateStart.TabIndex = 65;
 			// 
@@ -213,8 +217,8 @@ namespace OpenPmsDental{
 		private System.Windows.Forms.Label labelClinics;
 		private OpenPmsDental.UI.ListBox listProvs;
 		private System.Windows.Forms.Label labelProviders;
-		private System.Windows.Forms.MonthCalendar dateEnd;
-		private System.Windows.Forms.MonthCalendar dateStart;
+		private OpenPmsDental.UI.MonthCalendarOD dateEnd;
+		private OpenPmsDental.UI.MonthCalendarOD dateStart;
 		private System.Windows.Forms.Label labelTO;
 		private System.Windows.Forms.Label labelDescr;
 		private System.Windows.Forms.RadioButton radioProcs;

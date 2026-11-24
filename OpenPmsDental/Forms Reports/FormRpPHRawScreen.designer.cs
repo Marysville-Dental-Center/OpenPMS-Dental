@@ -23,8 +23,8 @@ namespace OpenPmsDental {
 
 		private void InitializeComponent(){
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -40,16 +40,20 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
+			this.date2.AllowKeyboard = true;
 			this.date2.Location = new System.Drawing.Point(305, 52);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Name = "date2";
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.TabIndex = 2;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(73, 52);
 			this.date1.MaxSelectionCount = 1;
 			this.date1.Name = "date1";
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.TabIndex = 1;
 			// 
 			// labelTO
@@ -81,8 +85,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private System.Windows.Forms.MonthCalendar date2;
-		private System.Windows.Forms.MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private System.Windows.Forms.Label labelTO;
 	}
 }

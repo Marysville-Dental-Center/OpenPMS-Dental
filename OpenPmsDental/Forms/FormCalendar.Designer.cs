@@ -24,7 +24,7 @@ namespace OpenPmsDental {
         /// </summary>
         private void InitializeComponent() {
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.monthCalendar = new System.Windows.Forms.MonthCalendar();
+			this.monthCalendar = new OpenPmsDental.UI.MonthCalendarOD();
 			this.SuspendLayout();
 			// 
 			// butOK
@@ -39,11 +39,13 @@ namespace OpenPmsDental {
 			// 
 			// monthCalendar
 			// 
+			this.monthCalendar.AllowKeyboard = true;
 			this.monthCalendar.Location = new System.Drawing.Point(18,8);
 			this.monthCalendar.MaxSelectionCount = 1;
 			this.monthCalendar.Name = "monthCalendar";
+			this.monthCalendar.Size = new System.Drawing.Size(227, 162);
 			this.monthCalendar.TabIndex = 4;
-			this.monthCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateChanged);
+			this.monthCalendar.DateChanged += new System.EventHandler(this.monthCalendar_DateChanged);
 			// 
 			// FormCalendar
 			// 
@@ -60,6 +62,6 @@ namespace OpenPmsDental {
         #endregion
 
         private OpenPmsDental.UI.Button butOK;
-        private System.Windows.Forms.MonthCalendar monthCalendar;
+        private OpenPmsDental.UI.MonthCalendarOD monthCalendar;
     }
 }

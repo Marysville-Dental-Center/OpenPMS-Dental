@@ -24,8 +24,8 @@ namespace OpenPmsDental{
 		/// </summary>
 		private void InitializeComponent() {
 			this.label5 = new System.Windows.Forms.Label();
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -51,14 +51,20 @@ namespace OpenPmsDental{
 			// 
 			// date2
 			// 
+			this.date2.AllowKeyboard = true;
 			this.date2.Location = new System.Drawing.Point(214, 40);
+			this.date2.MaxSelectionCount = 7;
 			this.date2.Name = "date2";
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.TabIndex = 24;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(8, 40);
+			this.date1.MaxSelectionCount = 7;
 			this.date1.Name = "date1";
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.TabIndex = 23;
 			// 
 			// label2
@@ -192,8 +198,8 @@ namespace OpenPmsDental{
 		private UI.Button butImport;
 		private System.Windows.Forms.Label label5;
 		private UI.Button butViewImported;
-		private System.Windows.Forms.MonthCalendar date2;
-		private System.Windows.Forms.MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private UI.Button butMissing;
 		private UI.Button butExtra;
 		private System.Windows.Forms.Label label2;

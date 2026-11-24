@@ -35,8 +35,8 @@ namespace OpenPmsDental {
 		private void InitializeComponent()
 		{
 			this.butOK = new OpenPmsDental.UI.Button();
-			this.date2 = new System.Windows.Forms.MonthCalendar();
-			this.date1 = new System.Windows.Forms.MonthCalendar();
+			this.date2 = new OpenPmsDental.UI.MonthCalendarOD();
+			this.date1 = new OpenPmsDental.UI.MonthCalendarOD();
 			this.labelTO = new System.Windows.Forms.Label();
 			this.radioIndividual = new System.Windows.Forms.RadioButton();
 			this.radioGroup = new System.Windows.Forms.RadioButton();
@@ -62,17 +62,19 @@ namespace OpenPmsDental {
 			// 
 			// date2
 			// 
+			this.date2.AllowKeyboard = true;
 			this.date2.Location = new System.Drawing.Point(238, 8);
 			this.date2.MaxSelectionCount = 1;
-			this.date2.Size = new System.Drawing.Size(190, 155);
+			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";
 			this.date2.TabIndex = 30;
 			// 
 			// date1
 			// 
+			this.date1.AllowKeyboard = true;
 			this.date1.Location = new System.Drawing.Point(8, 8);
 			this.date1.MaxSelectionCount = 1;
-			this.date1.Size = new System.Drawing.Size(190, 155);
+			this.date1.Size = new System.Drawing.Size(227, 162);
 			this.date1.Name = "date1";
 			this.date1.TabIndex = 29;
 			// 
@@ -202,8 +204,8 @@ namespace OpenPmsDental {
 		}
 		#endregion
 		private OpenPmsDental.UI.Button butOK;
-		private MonthCalendar date2;
-		private MonthCalendar date1;
+		private OpenPmsDental.UI.MonthCalendarOD date2;
+		private OpenPmsDental.UI.MonthCalendarOD date1;
 		private Label labelTO;
 		private RadioButton radioIndividual;
 		private RadioButton radioGroup;
