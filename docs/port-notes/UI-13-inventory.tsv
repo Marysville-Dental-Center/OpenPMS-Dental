@@ -24,7 +24,7 @@ OpenPmsDental.SheetEditMobilePreviewPanel	own control	1	0	keeps		(outside covera
 OpenPmsDental.TableTimeBar	own control	3	0	yes	TableTimeBar.PaintModern (UI-13)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a framed column of 5-minute cells, filled cells Accent/AccentSubtle, cells, letters and slider steps at the window's scale (owner row 'Time pattern on the left looks odd')
 OpenPmsDental.TextBoxWiki	own control	1	0	yes	UiInputFrame (UI-12); UiScrollLook (UI-13)	OpenPmsDental/UI/UiInputFrame	a rich text box: framed; scroll bars in the Fluent look
 OpenPmsDental.ToothChartTextBelowStrip	own control	1	0	yes	ToothChartTextBelowStrip (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
-OpenPmsDental.UI.Button	own control	2833	10	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
+OpenPmsDental.UI.Button	own control	2841	10	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
 OpenPmsDental.UI.CheckBox	own control	1251	3	yes	UI.CheckBox (UI-4a)	OpenPmsDental/UI/CheckBox	
 OpenPmsDental.UI.ComboBox	own control	554	0	yes	UI.ComboBox (UI-4b)	OpenPmsDental/UI/ComboBox	
 OpenPmsDental.UI.ComboBoxClinicPicker	own control	84	0	yes	ComboBoxClinicPicker (UI-4b)	OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker	
@@ -73,7 +73,7 @@ SparksToothChart.ToothChartWrapper	own control	3	4	keeps		(outside coverage.tsv:
 System.ComponentModel.BackgroundWorker	stock	2	3	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
 System.ComponentModel.Container	stock	138	1	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
 System.Drawing.Printing.PrintDocument	stock	6	12	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing (a component, a data holder or a part of another row's control)
-System.Windows.Forms.Button	stock	196	12	yes	UiButtonLook (UI-13)	OpenPmsDental/UI/UiLooks	the program's button look (flat SurfaceRaised, Stroke, 4 px corners); a button with its own colour as a rounded swatch
+System.Windows.Forms.Button	stock	188	12	yes	UiButtonLook (UI-13)	OpenPmsDental/UI/UiLooks	the program's button look (flat SurfaceRaised, Stroke, 4 px corners); a button with its own colour as a rounded swatch
 System.Windows.Forms.CheckBox	stock	8	1	yes	UiCheckLook (UI-13)	OpenPmsDental/UI/UiLooks	the program's check box (box left, the tokens)
 System.Windows.Forms.ColorDialog	stock	9	17	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
 System.Windows.Forms.ComboBox	stock	83	2	yes	UiInputFrame (UI-12)	OpenPmsDental/UI/UiInputFrame	the combo box's frame and chevron over the stock combo

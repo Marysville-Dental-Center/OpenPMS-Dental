@@ -26,6 +26,8 @@ namespace UiRefreshTests {
 		public class GridWindow {
 			public string Window="";
 			public string Mode="";
+			///<summary>The rollout slice whose grid-windows file holds the row (pilot, 1, 2, ...).</summary>
+			public string Slice="";
 		}
 
 		public static List<GridWindow> ReadGridWindows() {
@@ -37,7 +39,7 @@ namespace UiRefreshTests {
 				Assert.AreEqual(4,arrayFields.Length,"grid-windows needs window, slice, mode and note: "+line);
 				Assert.AreEqual(sliceLine.Slice,arrayFields[1],"grid-windows: a row is in its slice's file: "+line);
 				Assert.IsTrue(arrayFields[2]=="tool" || arrayFields[2]=="hand","grid-windows's mode is tool or hand: "+line);
-				listWindows.Add(new GridWindow { Window=arrayFields[0],Mode=arrayFields[2] });
+				listWindows.Add(new GridWindow { Window=arrayFields[0],Mode=arrayFields[2],Slice=arrayFields[1] });
 			}
 			return listWindows;
 		}
@@ -515,6 +517,13 @@ namespace UiRefreshTests {
 					if(gap<4 || gap>8) {
 						listFindings.Add(window+"\tlabel-gap\t"+label.Name+" "+field.Name);
 					}
+					//UI-12 slice 9 fix round: the label's text is centred on its field (the vertical centres within 1 px). The planner centred
+					//FormTaskListEdit's Date box on the two-line note beside it and left the label 4 px higher, its text over the box's centre.
+					//From slice 9 on: 14 labels of the pilot and slices 1, 2 and 5 stand 2 to 4 px off their fields (UI-12.md, "Slice 9, fix
+					//round"), left to those slices' owners; slice 8 ran at the same time.
+					if(IsLabelCentreChecked(gridWindow.Slice) && Math.Abs(CenterY(field)-CenterY(label))>1) {
+						listFindings.Add(window+"\tlabel-centre\t"+label.Name+" "+field.Name);
+					}
 				}
 				//UI-12 slice 1 (fix round 8): a clinic picker under a field of a column (the next row, its box within 40 px of the field's left edge)
 				//has its box on that column: the same left edge, and under a combo box of about its width (right edges within 16 px, the grid's edge
@@ -610,6 +619,11 @@ namespace UiRefreshTests {
 					yield return control2;
 				}
 			}
+		}
+
+		///<summary>UI-12 slice 9 fix round: the label-centre rule holds in the windows of slice 9 and later slices.</summary>
+		private static bool IsLabelCentreChecked(string slice) {
+			return int.TryParse(slice,out int number) && number>=9;
 		}
 
 		private static int CenterY(Control control) {
