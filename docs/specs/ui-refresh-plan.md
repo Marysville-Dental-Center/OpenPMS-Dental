@@ -1588,7 +1588,7 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   reference pictures retaken from the final build, the release notes. `loadingAnim.gif` stays a picture (not in the brief: for a later
   package). Note: [UI-11-final.md](../port-notes/UI-11-final.md); gallery G-UI3-ui11final, audit `UI-11-final-audit.md`.
 - Status UI-LOAD (2026-11-24, branch `ui/uiload-1`, the owner's yes to the progress ring): `CodeBase.UiProgressRing`, an indeterminate
-  Fluent ring in Accent drawn with GDI+ (32 px, a 4 px stroke at 96 DPI, scaled; the graph's 64 px), its timer only while visible, a static
+  Fluent ring in Accent drawn with GDI+ (32 px, a 4 px stroke at 96 DPI, scaled; the graph's 64 px), its timer only while in a window and visible, a static
   ring with Windows' animations off, Windows' colours in high contrast; it replaced GraphQuantityOverTime's `loadingAnim.gif` and
   FormWarnToCloseComputers' frame animator (both pictures and the `ImageAnimator` control removed). No other busy picture was found (WPF
   has none; the marquee progress bars are progress bars). `ProgressRingTests` and the sweep's busy-gif rule fail on an animated GIF.
