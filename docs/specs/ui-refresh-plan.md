@@ -1753,6 +1753,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   windows call InitializeLayoutManager, FormSheetDefEdit's Fields list 151 px again, the report designer's PropertyDialog scales its
   pages by the dpi; every slice re-planned from one final build; gallery `G-UI3-ui12f`, audit `UI-12F-audit.md` (UI-12.md section 7,
   "Final consistency pass (UI-12F)").
+  Fix round (`ui/ui12f-2`): the review's thirteen findings (FormProgressViewer's size limits after the dpi is applied,
+  FormWarnToCloseComputers in Segoe UI bold, the allocator's REPORTS header scaled, FormFeesForIns added to the gallery, seven windows'
+  gaps and margins, `_s10.keep_main` sharing the spare height by what the blocks draw).
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**

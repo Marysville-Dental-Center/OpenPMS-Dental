@@ -80,6 +80,30 @@ namespace UiRefreshTests {
 			});
 		}
 
+		///<summary>UI-12F fix round: a LayoutManager window's designer fonts are drawn as written (the font scan exempts LayoutManager windows), so
+		///the allocator windows, which call InitializeLayoutManager since UI-12F, name no family but Segoe UI (FormWarnToCloseComputers drew its
+		///Arial Black and Arial once it had its LayoutManager).</summary>
+		[TestMethod]
+		public void AllocatorWindows_DesignerFontsAreSegoeUi() {
+			string folder=Path.Combine(RepoPaths.Root(),"OpenPmsDental","ReportingForRdl","Allocators");
+			List<string> listFiles=Directory.GetFiles(folder,"*.Designer.cs",SearchOption.AllDirectories).ToList();
+			Assert.IsTrue(listFiles.Count>=5,"The allocator windows' designer files: "+listFiles.Count);
+			List<string> listWrong=new List<string>();
+			int countFonts=0;
+			foreach(string file in listFiles) {
+				foreach(System.Text.RegularExpressions.Match match in System.Text.RegularExpressions.Regex.Matches(File.ReadAllText(file),
+					"new System\\.Drawing\\.Font\\(\"([^\"]*)\""))
+				{
+					countFonts++;
+					if(match.Groups[1].Value!="Segoe UI") {
+						listWrong.Add(Path.GetFileName(file)+": "+match.Groups[1].Value);
+					}
+				}
+			}
+			Assert.IsTrue(countFonts>0,"The allocator designers set fonts.");
+			Assert.AreEqual(0,listWrong.Count,"Allocator designer fonts that are not Segoe UI:"+Environment.NewLine+string.Join(Environment.NewLine,listWrong));
+		}
+
 		///<summary>UI-12F fix round: FormProgressViewer's size limits are set in LayoutManager's scale once FormODBase.OnLoad has applied the
 		///screen's dpi (in the constructor the scale is still 96 dpi's), and they always contain the window LayoutManager sized: at 175% the
 		///scaled window (596 px client at 96 dpi, 1043 px) is wider than the 1000 px limit at 96 dpi.</summary>

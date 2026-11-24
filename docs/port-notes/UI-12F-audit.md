@@ -35,4 +35,28 @@ Package notes: [UI-12.md](UI-12.md) section 7, "Final consistency pass (UI-12F)"
 - **Unchanged pictures** (6, `gallery.tsv`): ControlChart (its changed Movements page is not drawn) and windows whose change is a
   browser or picture area 4 to 8 px shorter that the harness draws blank.
 
+No finding open (first gallery).
+
+## Fix round (branch `ui/ui12f-2`, the review of G-UI3-ui12f)
+
+The thirteen findings fixed; every picture the fix changed drawn again (`<W>/fix-100`, `<W>/fix-100b`, `<W>/fix-150`, the build's
+OpenPmsDental.dll the same SHA-256 in both bins) and opened once, gaps measured on the pictures (rows and columns of ink).
+
+| Window | Finding | After (measured) |
+|---|---|---|
+| FormProgressViewer | size limits set before the dpi was applied | set after FormODBase.OnLoad (test at 100 to 250%); pictures unchanged (the harness runs no OnLoad) |
+| FormWarnToCloseComputers (100%, 150%) | Arial Black and Arial bold; dark frames on panel1 and the image animator | Segoe UI bold, the message in four lines at both scales, no dark frame |
+| FormInstallAllocator_Provider (150%) | REPORTS 143 x 23 in the 215 px panel | REPORTS spans the panel, flush on Provider Income; the four rows fill it at 100% and 150% |
+| FormFeesForIns | not in the gallery | before and after added: the grid ends 12 px over the Plan Type row (8 on main), the two field rows and the bar as on main |
+| FormClaimOverpay | Totals row detached from its grid | grid 8 to 294, Totals 299 to 321 (4 px under it), the bar 334 (12 px), window 367 |
+| FormEncounterTool | the gap moved with the bar | Code to the warning as on main, warning box to Run 12 px (its ink 16), Run 8 px from the bottom |
+| FormImageCatMerge | window grown with a 45 px empty band | 600 x 249: groups 8 to 83 and 112 to 187, Merge 217 to 240 (gaps 28 and 29, 8 px under Merge) |
+| FormEhrEncryption | 24 px band under Transmit, 12/13 px margins | boxes 29 to 270, Transmit 283 to 310 (12 px, 8 from the bottom), boxes and Transmit 8 px from both sides |
+| FormRepeatChargeEditMulti | gaps 11 to 19 | 14, 14, 14, 14, 14 between the six rows, 16 over Run |
+| FormReplicationEdit | gaps 8 to 17 | 10, 10, 10, 10, 10, 11 between the seven rows, 16 over the bar (box gap 12) |
+| FormRxAlertEdit | 30, 35, 35 | 33, 33, 34 |
+| FormHL7DefMessageEdit | grid and Note end 9 px short of Save | grid, Note and Save end at 717, the grid and Delete start at 8 |
+| FormPatientStatusTool | margins 19 and 12 | Criteria group, grid and Select All from 8; Create List, grid and Run to 1011 |
+| FormSigElementDefEdit | (keep_main's drawn gaps) | 16, 16, 16, 17 between its blocks (15 to 18 before) |
+
 No finding open.
