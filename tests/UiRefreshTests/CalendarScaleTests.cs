@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -41,14 +42,19 @@ namespace UiRefreshTests {
 		private static readonly DateTime _dateMonth=new DateTime(2020,5,1);
 
 		#region The calendar's measures
-		///<summary>Where the text of a calendar is, as drawn: the ink (pixels much darker than the background: the text, not the hover fill, the grid
-		///line or the outline) of each weekday cell and date cell, of the month's name and of the Today line, each as its bounds.</summary>
+		///<summary>Where the text of a calendar is, as drawn: the ink (pixels darker than the background: the text, also the other months' days in
+		///TextDisabled, not the hover fill, the grid line or the outline) of each weekday cell and date cell, of the month's name and of the Today
+		///line, each as its bounds from where the calendar draws it: a cell's from the cell's left and the top its text is drawn from (the cell's
+		///top as drawn, a whole pixel), the month's name from the calendar's top left, the Today line from the footer's top left. So the 100%
+		///calendar's whole-pixel rounding of the cells' tops is not scaled into the expected place.</summary>
 		private class CalendarInk {
 			public Size Size;
 			public float SizeFontPixels;
-			public Rectangle[] ArrayCells=new Rectangle[49];
-			public Rectangle RectangleMonth;
-			public Rectangle RectangleToday;
+			public RectangleF[] ArrayCells=new RectangleF[49];
+			///<summary>The number of characters of each cell's text (the weekday's short name, the day's digits).</summary>
+			public int[] ArrayGlyphs=new int[49];
+			public RectangleF RectangleMonth;
+			public RectangleF RectangleToday;
 		}
 
 		private static CalendarInk Measure(MonthCalendarOD monthCalendarOD) {
@@ -68,29 +74,46 @@ namespace UiRefreshTests {
 			float[] arrayY=(float[])typeof(MonthCalendarOD).GetField("_yPos",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(monthCalendarOD);
 			float heightCell=(float)typeof(MonthCalendarOD).GetField("_heightCell",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(monthCalendarOD);
 			float widthCell=monthCalendarOD.Width/7f;
+			DateTime[,] arrayDates=(DateTime[,])typeof(MonthCalendarOD).GetField("_arrayDates",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(monthCalendarOD);
 			Color colorBack=UiTheme.GetColor(EnumUiColor.SurfaceRaised);
 			for(int r=0;r<7;r++) {
 				for(int c=0;c<7;c++) {
 					//The cell's inside, a pixel in from its edges (the grid line under the weekdays is above the first row of dates).
 					Rectangle rectangleCell=Rectangle.FromLTRB((int)Math.Ceiling(arrayX[c])+1,(int)Math.Ceiling(arrayY[r])+1,
 						(int)(arrayX[c]+widthCell)-1,(int)(arrayY[r]+heightCell)-1);
-					calendarInk.ArrayCells[r*7+c]=GetInk(bitmap,rectangleCell,colorBack);
+					calendarInk.ArrayCells[r*7+c]=Offset(GetInk(bitmap,rectangleCell,colorBack),arrayX[c],(int)arrayY[r]);
+					if(r==0) {
+						int day=((int)DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek+c)%7;
+						calendarInk.ArrayGlyphs[c]=DateTimeFormatInfo.CurrentInfo.GetAbbreviatedDayName((DayOfWeek)day).Length;
+					}
+					else {
+						calendarInk.ArrayGlyphs[r*7+c]=arrayDates[c,r-1].Day.ToString().Length;
+					}
 				}
 			}
 			int widthArrows=(int)Math.Ceiling(60*monthCalendarOD.LayoutManager.ScaleMy());//the arrows and their letters at both ends of the header
-			calendarInk.RectangleMonth=GetInk(bitmap,Rectangle.FromLTRB(widthArrows,1,monthCalendarOD.Width-widthArrows,(int)arrayY[0]),colorBack);
+			calendarInk.RectangleMonth=Offset(GetInk(bitmap,Rectangle.FromLTRB(widthArrows,1,monthCalendarOD.Width-widthArrows,(int)arrayY[0]),colorBack),0,0);
 			int heightFooter=monthCalendarOD.LayoutManager.Scale(21);
-			calendarInk.RectangleToday=GetInk(bitmap,Rectangle.FromLTRB(2,monthCalendarOD.Height-heightFooter+1,monthCalendarOD.Width-2,monthCalendarOD.Height-2),colorBack);
+			calendarInk.RectangleToday=Offset(GetInk(bitmap,Rectangle.FromLTRB(2,monthCalendarOD.Height-heightFooter+1,monthCalendarOD.Width-2,monthCalendarOD.Height-2),colorBack),
+				0,monthCalendarOD.Height-heightFooter);
 			return calendarInk;
 		}
 
-		///<summary>The bounds of the ink in the area: pixels whose brightness is far under the background's; empty when none.</summary>
+		///<summary>The ink's bounds from an origin; empty stays empty.</summary>
+		private static RectangleF Offset(Rectangle rectangle,float x,float y) {
+			if(rectangle.IsEmpty) {
+				return RectangleF.Empty;
+			}
+			return new RectangleF(rectangle.X-x,rectangle.Y-y,rectangle.Width,rectangle.Height);
+		}
+
+		///<summary>The bounds of the ink in the area: pixels whose brightness is well under the background's; empty when none.</summary>
 		private static Rectangle GetInk(Bitmap bitmap,Rectangle rectangleArea,Color colorBack) {
 			float brightnessBack=GetBrightness(colorBack);
 			int left=int.MaxValue,top=int.MaxValue,right=int.MinValue,bottom=int.MinValue;
 			for(int y=Math.Max(0,rectangleArea.Top);y<Math.Min(bitmap.Height,rectangleArea.Bottom);y++) {
 				for(int x=Math.Max(0,rectangleArea.Left);x<Math.Min(bitmap.Width,rectangleArea.Right);x++) {
-					if(brightnessBack-GetBrightness(bitmap.GetPixel(x,y))<70) {
+					if(brightnessBack-GetBrightness(bitmap.GetPixel(x,y))<30) {
 						continue;
 					}
 					left=Math.Min(left,x);
@@ -109,9 +132,11 @@ namespace UiRefreshTests {
 			return 0.299f*color.R+0.587f*color.G+0.114f*color.B;
 		}
 
-		///<summary>The calendar at the scale is the 100% one scaled: its size within a pixel, its text's pixel size, and every cell's text, the
-		///month's name and the Today line where the 100% ones are times the scale, as large: within a pixel and a half per cell (rounding of the
-		///cell edges and of the glyphs' hinting), within 3% for the long texts. Returns the differences found, empty when none.</summary>
+		///<summary>The calendar at the scale is the 100% one scaled: its size within a pixel, its text's pixel size exactly, and every cell's text,
+		///the month's name and the Today line where the 100% ones are times the scale and as large, within a pixel of the 100% calendar per cell
+		///(that pixel scaled, and half a pixel for the rounding at the scale; a text's centre a pixel more, both its edges rounded): the glyphs' hinting rounds each size's outlines and advances to
+		///its own whole pixels, so a 100% glyph is up to a pixel wider, taller or lower than the 175% one over 1.75. A cell's width within a pixel
+		///per character; the long texts within 5% of their width. Returns the differences found, empty when none.</summary>
 		private static string CompareScaled(CalendarInk calendarInk100,CalendarInk calendarInk,float scale) {
 			StringBuilder stringBuilder=new StringBuilder();
 			Size sizeExpected=new Size((int)Math.Round(calendarInk100.Size.Width*scale),(int)Math.Round(calendarInk100.Size.Height*scale));
@@ -122,16 +147,19 @@ namespace UiRefreshTests {
 				stringBuilder.AppendLine("text "+calendarInk.SizeFontPixels+" px, expected "+calendarInk100.SizeFontPixels*scale);
 			}
 			for(int i=0;i<calendarInk.ArrayCells.Length;i++) {
-				CompareRectangle(stringBuilder,"cell "+i,calendarInk100.ArrayCells[i],calendarInk.ArrayCells[i],scale,1.5f);
+				CompareRectangle(stringBuilder,"cell "+i,calendarInk100.ArrayCells[i],calendarInk.ArrayCells[i],scale,1f+scale,0.5f+scale,
+					0.5f+scale*Math.Max(1,calendarInk.ArrayGlyphs[i]));
 			}
 			CompareRectangle(stringBuilder,"month's name",calendarInk100.RectangleMonth,calendarInk.RectangleMonth,scale,
-				Math.Max(1.5f,0.03f*calendarInk100.RectangleMonth.Width*scale));
+				Math.Max(0.5f+scale,0.025f*calendarInk100.RectangleMonth.Width*scale),0.5f+scale,Math.Max(0.5f+scale,0.05f*calendarInk100.RectangleMonth.Width*scale));
 			CompareRectangle(stringBuilder,"Today line",calendarInk100.RectangleToday,calendarInk.RectangleToday,scale,
-				Math.Max(1.5f,0.03f*calendarInk100.RectangleToday.Width*scale));
+				Math.Max(0.5f+scale,0.025f*calendarInk100.RectangleToday.Width*scale),0.5f+scale,Math.Max(0.5f+scale,0.05f*calendarInk100.RectangleToday.Width*scale));
 			return stringBuilder.ToString();
 		}
 
-		private static void CompareRectangle(StringBuilder stringBuilder,string name,Rectangle rectangle100,Rectangle rectangle,float scale,float tolerance) {
+		private static void CompareRectangle(StringBuilder stringBuilder,string name,RectangleF rectangle100,RectangleF rectangle,float scale,
+			float tolerancePlace,float toleranceHeight,float toleranceWidth)
+		{
 			if(rectangle100.IsEmpty || rectangle.IsEmpty) {
 				if(rectangle100.IsEmpty!=rectangle.IsEmpty) {
 					stringBuilder.AppendLine(name+": text at one scale only ("+rectangle100+", "+rectangle+")");
@@ -143,8 +171,7 @@ namespace UiRefreshTests {
 			float[] arrayFound=new float[] { (rectangle.Left+rectangle.Right)/2f,(rectangle.Top+rectangle.Bottom)/2f,rectangle.Width,rectangle.Height };
 			string[] arrayNames=new string[] { "centre x","centre y","width","height" };
 			for(int i=0;i<4;i++) {
-				//The height of a cell's few digits is the one measure the glyphs' hinting rounds by up to a pixel at each end.
-				float toleranceOne=tolerance+(i==3 ? 0.5f : 0f);
+				float toleranceOne=i<2 ? tolerancePlace : (i==2 ? toleranceWidth : toleranceHeight);
 				if(Math.Abs(arrayFound[i]-arrayExpected[i])>toleranceOne) {
 					stringBuilder.AppendLine(name+" "+arrayNames[i]+" "+arrayFound[i]+", expected "+arrayExpected[i].ToString("0.0")+" (100%: "+rectangle100+", now "+rectangle+")");
 				}
