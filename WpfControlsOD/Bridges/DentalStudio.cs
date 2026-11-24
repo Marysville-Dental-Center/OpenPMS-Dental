@@ -26,13 +26,13 @@ namespace OpenPmsDental.Bridges{
 			//The parameters must be in a specific order.
 			//Param1: UserName
 			string userName=ProgramProperties.GetPropVal(ProgramCur.ProgramNum,OpenPmsDentalBusiness.ForkMigrations.FeatureSteps.ProgramPropertyDescRenames.DentalStudioUserName);
-			if(userName=="") {//Give the customer the option to use OD usernames.
+			if(userName=="") {//Give the customer the option to use Open PMS usernames.
 				userName=Security.CurUser.UserName;
 			}
 			str+=Tidy(userName)+" ";
 			//Param2: UserPassword
 			string userPassword=Secrets.TryDecrypt(ProgramProperties.GetPropVal(ProgramCur.ProgramNum,"UserPassword"));
-			if(userName=="") {//Give the customer the option to use OD usernames.
+			if(userName=="") {//Give the customer the option to use Open PMS usernames.
 				//TODO: Dental Studio might need to be contacted or our bridge might need to be enhanced for sending / updating password hashes.
 				userPassword=Security.CurUser.PasswordHash;
 			}

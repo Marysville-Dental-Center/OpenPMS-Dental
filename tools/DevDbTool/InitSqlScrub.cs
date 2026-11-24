@@ -140,6 +140,9 @@ namespace DevDbTool {
 
 		private void SetPrefs() {
 			DataCore.NonQ("UPDATE preference SET ValueString='"+POut.String(SeedDocPath)+"' WHERE PrefName='DocPath'");
+			//UI-BRAND-2 review: the Office bridge's document folder default follows DocPath, so a new install's two defaults agree.
+			DataCore.NonQ("UPDATE programproperty SET PropertyValue='"+POut.String(SeedDocPath)+"' WHERE PropertyDesc='Document folder'"
+				+" AND PropertyValue='"+POut.String(@"C:\OpenDentImages\")+"'");
 			string level=ForkMigrationHandOff.Runner.LatestLevel;
 			string adoptedFrom=GetAdoptedFromValue(level);
 			ForkVersions.SetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM,adoptedFrom);

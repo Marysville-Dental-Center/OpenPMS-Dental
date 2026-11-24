@@ -169,10 +169,8 @@ The owner answered the six questions of section 5 on 2026-11-24 by taking every 
 | 5. Vendor and protocol fields | Keep until the vendor confirms | DemandForce `managementSystemName`, the CallFire campaign name, the Sirona and Vipersoft station names, the HL7 fields, the Direct MDN reporting agent and the Infobutton requester stay; their 21 rows in `brand-kept.tsv` say "kept until the vendor confirms another name". |
 | 6. The Preferences pop-ups | Strip the links, keep the texts readable | `PrefInfos.xml`: the 54 links to opendental.com are gone (52 manual pages, 2 unit test documentation), each link's text kept as plain text; the texts that were only a pointer ("see Auto Ortho", "See Report Server") say what the option does, and pointer sentences ("See Claim Snapshot.", "See Troubleshooting Slowness ...", "See Payment Plan Q and A ...") are dropped. The hidden `checkSubmitExceptions` says "Nothing is sent. This program never sends unhandled exception errors anywhere; this option has no effect." The Open Dental service (claim reports, Claim Snapshot, the radiology alerts) and Open Dental Cloud (Read-Only Server) are named as Open Dental's, which this program does not ship. |
 
-**Not changed, on purpose.** The init database's `DocPath` seed (`C:\OpenDentImages\`, `db/init/new-database.sql`, written by the seed
-dump and `tools/DevDbTool/InitSqlScrub.SeedDocPath`): a new install sets its A to Z folder in the Paths window or with Create AtoZ
-Folder, whose default is now OpenPmsImages; the seed value is the coordinator's call when the init file is regenerated (question below).
-Open Dental's conversion history (`ConvertDatabases3` and `4` write the old property texts; this program never runs them) and code
+**The init database (the lead, after the run).** New databases seed `DocPath` `C:\OpenPmsImages\` (`InitSqlScrub.SeedDocPath`) and the Office bridge's
+`Document folder` default follows it; `db/init/new-database.sql` was regenerated with step 2026112451. Open Dental's conversion history (`ConvertDatabases3` and `4` write the old property texts; this program never runs them) and code
 comments that mention `OpenDentImages` stay. The Program Links property texts in the init database are renamed by the step when the
 init file is regenerated.
 
@@ -204,8 +202,7 @@ OPMS_UI_BRAND2_GALLERY=<W> run-tests.ps1 -Mode Targeted -Platform x64 -Include U
 tools/New-UiGallery.ps1 -Before <W>/before -After <W>/after -Name G-UI3 -Out .git/od-tools/test-results/G-UI3-uibrand2
 ```
 
-**Question for the coordinator.** Should the regenerated init database's `DocPath` seed become `C:\OpenPmsImages\`
-(`InitSqlScrub.SeedDocPath` and the InitSqlTests that expect the seed)? UI-BRAND-2 left it, because the brief lists only the four sites.
+**Results after the lead's regeneration.** Targeted run `test-results/uibrand2-lead.txt` (x64): all eight suites, 0 failed (InitSqlTests 21, ForkMigrationTests 42 + 2 skipped, NoHqTests 137, UiRefreshTests 374 + 54 skipped). The first run's four failures below were the init file not yet regenerated.
 
 **Results.** Targeted run `test-results/uibrand2-targeted-1.txt` (`-Platform x64`): P262BillingTests 54 passed; PrintGuardTests 19 passed,
 1 skipped; NoHqTests 137 passed; WindowChecksTests 31 passed, 44 skipped (desktop-only); UnitTests 1728 passed, 3 skipped; UiRefreshTests
