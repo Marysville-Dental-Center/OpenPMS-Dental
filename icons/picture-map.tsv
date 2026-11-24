@@ -88,7 +88,6 @@ OpenPmsDentalGraph:deleteColumn	EnumIcons.TableDeleteColumn	delete the column (t
 OpenPmsDentalGraph:addChart	EnumIcons.ChartAdd	add a chart (bars with a plus, 16 x 16)
 OpenPmsDentalGraph:addColumn	EnumIcons.TableInsertColumn	add a column (table, 16 x 16)
 OpenPmsDentalGraph:addRow	EnumIcons.TableInsertRow	add a row (table, 16 x 16)
-OpenPmsDentalGraph:loadingAnim	keep	the spinner (section 4.5: a vector progress ring in UI-11)
 OpenPmsDentalBusiness:topazPen10	EnumIcons.Pen	sign with the Topaz pen (10 x 10)
 OpenPmsDentalBusiness:deleteX10	EnumIcons.DeleteX	clear the signature (red X, 10 x 10)
 OpenPmsDentalBusiness:eSig	EnumIcons.Signature	digitally sign (the letter E, 10 x 10)

@@ -57,7 +57,7 @@
 			this.splitContainerChart = new System.Windows.Forms.SplitContainer();
 			this.chartLegend1 = new OpenPmsDentalGraph.Legend();
 			this.panelChart = new System.Windows.Forms.Panel();
-			this.pictureBoxLoading = new System.Windows.Forms.PictureBox();
+			this.progressRingLoading = new CodeBase.UiProgressRing();
 			((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
 			this.groupBoxBreakdown.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericTop)).BeginInit();
@@ -72,7 +72,6 @@
 			this.splitContainerChart.Panel2.SuspendLayout();
 			this.splitContainerChart.SuspendLayout();
 			this.panelChart.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// chart1
@@ -466,23 +465,22 @@
 			// panelChart
 			// 
 			this.panelChart.Controls.Add(this.chart1);
-			this.panelChart.Controls.Add(this.pictureBoxLoading);
+			this.panelChart.Controls.Add(this.progressRingLoading);
 			this.panelChart.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelChart.Location = new System.Drawing.Point(0, 0);
 			this.panelChart.Name = "panelChart";
 			this.panelChart.Size = new System.Drawing.Size(789, 302);
 			this.panelChart.TabIndex = 4;
 			// 
-			// pictureBoxLoading
+			// progressRingLoading
 			// 
-			this.pictureBoxLoading.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pictureBoxLoading.Image = global::OpenPmsDentalGraph.Properties.Resources.loadingAnim;
-			this.pictureBoxLoading.Location = new System.Drawing.Point(0, 0);
-			this.pictureBoxLoading.Name = "pictureBoxLoading";
-			this.pictureBoxLoading.Size = new System.Drawing.Size(789, 302);
-			this.pictureBoxLoading.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.pictureBoxLoading.TabIndex = 3;
-			this.pictureBoxLoading.TabStop = false;
+			this.progressRingLoading.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.progressRingLoading.Location = new System.Drawing.Point(0, 0);
+			this.progressRingLoading.Name = "progressRingLoading";
+			this.progressRingLoading.Size = new System.Drawing.Size(789, 302);
+			this.progressRingLoading.TabIndex = 3;
+			this.progressRingLoading.TabStop = false;
+			this.progressRingLoading.Visible = false;
 			// 
 			// GraphQuantityOverTime
 			// 
@@ -508,7 +506,6 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainerChart)).EndInit();
 			this.splitContainerChart.ResumeLayout(false);
 			this.panelChart.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxLoading)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -542,7 +539,7 @@
 		private System.Windows.Forms.ComboBox comboLegendDock;
 		private System.Windows.Forms.TextBox textChartTitle;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.PictureBox pictureBoxLoading;
+		private CodeBase.UiProgressRing progressRingLoading;
 		private Legend chartLegend1;
 		private System.Windows.Forms.Panel panelChart;
 	}
