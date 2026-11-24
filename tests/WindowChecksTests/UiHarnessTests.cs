@@ -729,5 +729,23 @@ namespace WindowChecksTests {
 			}
 		}
 		#endregion U0
+
+		#region The reference set
+		///<summary>UI-11-final (docs/port-notes/UI-11-final.md section 3): baseline.tsv, the reference pictures of the final build (every window at
+		///100%, the densest tenth at 150%), in approved.tsv's format: every row parses, one picture once, all from one commit and one set, the
+		///pictures under windows-100/ and windows-150/. approved.tsv stays the owner's approvals.</summary>
+		[TestMethod]
+		public void Baseline_OneCommit_EveryPictureOnce() {
+			string path=Path.Combine(WinChkEnv.RepoRoot,"tests","WindowChecksTests","UiApproved","baseline.tsv");
+			List<UiApprovedRow> listRows=UiPictureMask.ParseApproved(File.ReadAllText(path),"baseline.tsv");
+			Assert.IsTrue(listRows.Count>=1000,"The reference pictures: "+listRows.Count);
+			Assert.AreEqual(listRows.Count,listRows.Select(x => x.Picture.ToLowerInvariant()).Distinct().Count(),"a picture twice");
+			Assert.AreEqual(1,listRows.Select(x => x.Commit).Distinct().Count(),"one commit");
+			StringAssert.Matches(listRows[0].Commit,new Regex("^[0-9a-f]{7,40}$"));
+			Assert.AreEqual(1,listRows.Select(x => x.Gallery).Distinct().Count(),"one set");
+			Assert.IsTrue(listRows.All(x => x.Picture.StartsWith("windows-100/") || x.Picture.StartsWith("windows-150/")),"windows-100/ or windows-150/");
+			Assert.IsTrue(listRows.Count(x => x.Picture.StartsWith("windows-150/"))>=100,"the densest tenth at 150%");
+		}
+		#endregion The reference set
 	}
 }

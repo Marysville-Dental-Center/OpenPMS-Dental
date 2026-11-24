@@ -90,7 +90,27 @@ row the sweep no longer finds. `OPMS_UI_SWEEP_OUT=<file>` writes every finding o
 
 ## 3. The reference pictures
 
-TBD
+The pictures later changes are compared with, taken again from this final build (the owner's approvals, `approved.tsv`, are kept as they
+are: an approval is the owner's, not a baseline):
+
+- **The windows** (the galleries' before set from now on): every window the harness builds at 100% and the densest tenth at 150%, drawn by
+  `FitGallery` in the program's font from the full x64 build of COMMIT, frozen in `.git/od-tools/test-results/ui-baseline-final/`
+  (`windows-100/`, `windows-150/`, `commit.txt`). `tests/WindowChecksTests/UiApproved/baseline.tsv` (new) records each picture with its
+  size and its masked pixel SHA-256 (the galleries' one rule, `UiPictureMask`), in `approved.tsv`'s format, with the commit: a later package
+  compares its pictures with it (`New-UiGallery.ps1 -Before .git/od-tools/test-results/ui-baseline-final`, or the hashes). Drawn again
+  with a Targeted x64 UiRefreshTests run and `OPMS_UI_FIT_GALLERY=<folder>`, `OPMS_UI_FIT_GALLERY_FONT=program`,
+  `OPMS_UI_FIT_GALLERY_WINDOWS=@all`; then `OPMS_UI_FIT_GALLERY_SCALE=1.5` with `OPMS_UI_FIT_GALLERY_WINDOWS=@densest`.
+- **The layout snapshot** (`Data/layout-snapshot/`, the designer bounds `LayoutSnapshotTests` compares with): written again from this
+  branch (`OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1`); it equals the committed files but for FormLanguageAndRegion's rows (section 2).
+- **Needs a connected desktop session** (WPF draws nothing in this disconnected one, `ControlPictures.RendersWpf()` is false, and the
+  window checks start the program with its windows, which a package may not do):
+  - the window checks' before set (`.git/od-tools/test-results/ui-before/`, from `3809f35db`, the bounds record U0 compares with): one full
+    harness run of groups A to K and U from the merged `main`, as UI-0c.md section 5 says, into `.git/od-tools/test-results/ui-before-final/`
+    with `commit.txt`, the dump's hash and the DPI; from then on `OPMS_WINDOW_CHECKS_UI_BEFORE` names that folder;
+  - the two pinned WPF content pictures (`Data/eform-fill-before.png`, `Data/text-pinned-before.png`): one Targeted x64 UiRefreshTests
+    run with `OPMS_UI_EFORM_BEFORE_WRITE=1` and `OPMS_UI_TEXT_PINNED_BEFORE_WRITE=1`, then commit the two files. They pin office content,
+    which the refresh did not change; their tests compare with the pictures recorded before UI-4a and UI-4b-3 (skipped where WPF draws
+    nothing).
 
 ## 4. Release notes
 
