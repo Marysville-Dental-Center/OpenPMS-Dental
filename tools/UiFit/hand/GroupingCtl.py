@@ -25,7 +25,7 @@ def layout(h):
     for b in ("bDelete", "bUp", "bDown"):
         y += h.H + 4
         h.set(b, B, y, s.PAGE_R - B, h.H)
-    y = 53 + gh + 8
+    y = 53 + gh + s.SECTION  # a section gap under the grid and its buttons (the button column's stack, 4 px apart, ends there)
     for lb, cb, bt in (("label2", "cbLabelExpr", "bLabelExpr"), ("lParent", "cbParentExpr", "bParentExpr")):
         h.set(lb, None, y, None, h.H)
         h.set(cb, F, y, R - F, None)

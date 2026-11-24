@@ -288,7 +288,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 165);
+			this.label2.Location = new System.Drawing.Point(16, 169);
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(40, 23);
@@ -305,7 +305,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbLabelExpr
 			// 
-			this.cbLabelExpr.Location = new System.Drawing.Point(62, 165);
+			this.cbLabelExpr.Location = new System.Drawing.Point(62, 169);
 			this.cbLabelExpr.Name = "cbLabelExpr";
 			this.cbLabelExpr.Size = new System.Drawing.Size(324, 23);
 			this.cbLabelExpr.TabIndex = 5;
@@ -313,7 +313,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// cbParentExpr
 			// 
-			this.cbParentExpr.Location = new System.Drawing.Point(62, 192);
+			this.cbParentExpr.Location = new System.Drawing.Point(62, 196);
 			this.cbParentExpr.Name = "cbParentExpr";
 			this.cbParentExpr.Size = new System.Drawing.Size(324, 23);
 			this.cbParentExpr.TabIndex = 6;
@@ -321,7 +321,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// lParent
 			// 
-			this.lParent.Location = new System.Drawing.Point(8, 192);
+			this.lParent.Location = new System.Drawing.Point(8, 196);
 			this.lParent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.lParent.Name = "lParent";
 			this.lParent.Size = new System.Drawing.Size(48, 23);
@@ -330,7 +330,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkPBS
 			// 
-			this.chkPBS.Location = new System.Drawing.Point(62, 219);
+			this.chkPBS.Location = new System.Drawing.Point(62, 223);
 			this.chkPBS.Name = "chkPBS";
 			this.chkPBS.Size = new System.Drawing.Size(129, 18);
 			this.chkPBS.TabIndex = 7;
@@ -338,7 +338,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkPBE
 			// 
-			this.chkPBE.Location = new System.Drawing.Point(212, 219);
+			this.chkPBE.Location = new System.Drawing.Point(212, 223);
 			this.chkPBE.Name = "chkPBE";
 			this.chkPBE.Size = new System.Drawing.Size(125, 18);
 			this.chkPBE.TabIndex = 8;
@@ -346,7 +346,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkRepeatHeader
 			// 
-			this.chkRepeatHeader.Location = new System.Drawing.Point(212, 241);
+			this.chkRepeatHeader.Location = new System.Drawing.Point(212, 245);
 			this.chkRepeatHeader.Name = "chkRepeatHeader";
 			this.chkRepeatHeader.Size = new System.Drawing.Size(141, 18);
 			this.chkRepeatHeader.TabIndex = 13;
@@ -354,7 +354,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkGrpHeader
 			// 
-			this.chkGrpHeader.Location = new System.Drawing.Point(62, 241);
+			this.chkGrpHeader.Location = new System.Drawing.Point(62, 245);
 			this.chkGrpHeader.Name = "chkGrpHeader";
 			this.chkGrpHeader.Size = new System.Drawing.Size(144, 18);
 			this.chkGrpHeader.TabIndex = 12;
@@ -362,7 +362,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkRepeatFooter
 			// 
-			this.chkRepeatFooter.Location = new System.Drawing.Point(212, 263);
+			this.chkRepeatFooter.Location = new System.Drawing.Point(212, 267);
 			this.chkRepeatFooter.Name = "chkRepeatFooter";
 			this.chkRepeatFooter.Size = new System.Drawing.Size(137, 18);
 			this.chkRepeatFooter.TabIndex = 15;
@@ -370,7 +370,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			// chkGrpFooter
 			// 
-			this.chkGrpFooter.Location = new System.Drawing.Point(62, 263);
+			this.chkGrpFooter.Location = new System.Drawing.Point(62, 267);
 			this.chkGrpFooter.Name = "chkGrpFooter";
 			this.chkGrpFooter.Size = new System.Drawing.Size(140, 18);
 			this.chkGrpFooter.TabIndex = 14;
@@ -391,7 +391,7 @@ namespace fyiReporting.RdlDesign
 			// bLabelExpr
 			// 
 			this.bLabelExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bLabelExpr.Location = new System.Drawing.Point(392, 165);
+			this.bLabelExpr.Location = new System.Drawing.Point(392, 169);
 			this.bLabelExpr.Name = "bLabelExpr";
 			this.bLabelExpr.Size = new System.Drawing.Size(22, 23);
 			this.bLabelExpr.TabIndex = 17;
@@ -403,7 +403,7 @@ namespace fyiReporting.RdlDesign
 			// bParentExpr
 			// 
 			this.bParentExpr.Font = new System.Drawing.Font("Arial", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.bParentExpr.Location = new System.Drawing.Point(392, 192);
+			this.bParentExpr.Location = new System.Drawing.Point(392, 196);
 			this.bParentExpr.Name = "bParentExpr";
 			this.bParentExpr.Size = new System.Drawing.Size(22, 23);
 			this.bParentExpr.TabIndex = 18;
