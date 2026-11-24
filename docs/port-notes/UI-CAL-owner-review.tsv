@@ -1,0 +1,4 @@
+picture	size	sha256	gallery	commit	date	answer	note
+dropdowns-150/GraphIncome-drop-150.png	1512x735	90a563bae9ca052204c612693c6e4737f72774fed2b9422137a5b22c5a2b015a	G-UI3-uical	696d331b1	2026-11-24	Change	calendar too compressed. Don't look right
+windows-100/UserControlTasks.png	941x510	9c0cbd37098cf75c18b104ae4ef7af6ad5a9afc77dbe5c397854ac1a6979c11c	G-UI3-uical	696d331b1	2026-11-24	Change	calendar is not on the top layer. or it's cut off?
+windows-150/UserControlTasks-150.png	1412x765	5c52899cf4cef44e84097107335d6ffe34e7b8fac681dc069f069a7325a86812	G-UI3-uical	696d331b1	2026-11-24	Change	calendar is cut off
