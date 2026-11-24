@@ -57,6 +57,7 @@
 			// 
 			// UserControlTooth
 			// 
+			this.BackColor = System.Drawing.SystemColors.Control;
 			this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.Controls.Add(this.sheetComboBox3);
 			this.Controls.Add(this.sheetComboBox2);

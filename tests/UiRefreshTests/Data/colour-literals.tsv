@@ -815,6 +815,7 @@ OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothA	BackColo
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothJ	BackColor	SystemColors.ActiveCaptionText	1	the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothK	BackColor	SystemColors.ActiveCaptionText	1	the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)
 OpenPmsDental/SheetFramework/ScreenToothChart.Designer.cs	controlToothT	BackColor	SystemColors.ActiveCaptionText	1	the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)
+OpenPmsDental/SheetFramework/UserControlScreenTooth.Designer.cs	.	BackColor	SystemColors.Control	1	the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)
 OpenPmsDental/Tables Old Grids/ContrPanelTable.cs	.	BackColor	SystemColors.Window	1	a drawn table: content
 OpenPmsDental/Tables Old Grids/ContrTable.cs	.	BackColor	SystemColors.Window	1	a drawn table: content
 OpenPmsDental/Tables Old Grids/ContrTable.cs	panelScroll	BackColor	SystemColors.Control	1	a drawn table: content

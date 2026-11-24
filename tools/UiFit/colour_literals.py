@@ -187,7 +187,7 @@ FILE_REASONS = [
     ("OpenPmsDental/UI/ComboBoxMulti.cs", "an input's box: SystemColors.Window, SurfaceRaised's value and its high-contrast partner"),
     ("OpenPmsDental/Tables Old Grids/", "a drawn table: content"),
     ("CodeBase/Controls/PrintPanel", "a print page: content (printouts keep their look, UQ-5)"),
-    ("OpenPmsDental/User Controls/UserControlScreenTooth", "the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)"),
+    ("OpenPmsDental/SheetFramework/UserControlScreenTooth", "the screening tooth: content (the tooth chart's drawing keeps Open Dental's look, section 1)"),
     ("OpenPmsDental/UI/ClinicSelector/FormComboPicker", "the combo box's drop-down list: SystemColors.Window, SurfaceRaised's value and its high-contrast partner"),
     ("OpenPmsDental/Forms/FormSplash", "the splash screen: the brand picture's colours"),
     ("OpenPmsDental/Forms/FormPopupFade", "the popup's own look (a notice that fades)"),
