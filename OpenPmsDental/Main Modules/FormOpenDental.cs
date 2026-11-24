@@ -1973,7 +1973,13 @@ namespace OpenPmsDental{
 				return;
 			}
 			userControlDashboard.SuspendLayout();//Prevents scrollbar flicker
-			LayoutManager.MoveLocation(lightSignalGrid1,new Point(0,LayoutManager.Scale(489)));
+			//UI-12 slice 14: the signal grid a section gap (UiGrid.SECTION_GAP) under the module bar's buttons. Main's fixed 489 px stood 3 px under
+			//the taller buttons of Open Dental's bar (65 px each); it stays the place while the bar has no buttons yet.
+			int topSignals=LayoutManager.Scale(489);
+			if(moduleBar.GetButtonsHeight()>0) {
+				topSignals=moduleBar.Top+moduleBar.GetButtonsHeight()+LayoutManager.Scale(UiGrid.SECTION_GAP);
+			}
+			LayoutManager.MoveLocation(lightSignalGrid1,new Point(0,topSignals));
 			LayoutManager.MoveWidth(lightSignalGrid1,moduleBar.Width-1);
 			//LayoutManager.SynchRecursive(userControlDashboard);
 			Point pointPosition=new Point(moduleBar.Width,ToolBarMain.Bottom);

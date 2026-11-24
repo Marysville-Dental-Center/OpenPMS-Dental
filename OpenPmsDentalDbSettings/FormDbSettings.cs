@@ -60,52 +60,77 @@ namespace OpenPmsDentalDbSettings {
 			catch(Exception ex) {
 				ex.DoNothing();
 			}
-			_textServer=AddRow("&Server:",12);
-			_textDatabase=AddRow("&Database:",40);
-			_textUser=AddRow("&User:",68);
+			//UI-12 slice 14: on the layout grid (UiGrid): label + field rows one pitch apart from the padding, the labels right-aligned a label gap
+			//before one field column, the CA's current file under its row, the credential group's choices with what each choice sets under its
+			//text (the stock radio button's 22 px text lead), the notes, the bar on the bottom padding a section gap under the status.
+			_textServer=AddRow("&Server:",UiGrid.PAD);
+			_textDatabase=AddRow("&Database:",UiGrid.PAD+UiGrid.PITCH);
+			_textUser=AddRow("&User:",UiGrid.PAD+2*UiGrid.PITCH);
 			_textServer.Leave+=(sender,e) => ShowRootWarning();
 			_textUser.Leave+=(sender,e) => ShowRootWarning();
-			Controls.Add(new Label() { Text="Office &CA certificate:",Location=new Point(12,103),Size=new Size(116,18) });
-			_textCaFile=new TextBox() { Location=new Point(130,100),Size=new Size(330,20) };
+			int yCa=UiGrid.PAD+3*UiGrid.PITCH;
+			Controls.Add(new Label() { Text="Office &CA certificate:",Location=new Point(UiGrid.PAD,yCa),Size=new Size(WIDTH_LABEL,UiGrid.FIELD_HEIGHT),
+				TextAlign=ContentAlignment.MiddleRight });
+			Button butBrowseCa=new Button() { Text="Browse...",Location=new Point(ClientSize.Width-UiGrid.PAD-76,yCa),Size=new Size(76,UiGrid.FIELD_HEIGHT) };
+			_textCaFile=new TextBox() { Location=new Point(X_FIELD,yCa),Size=new Size(butBrowseCa.Left-UiGrid.ITEM_GAP-X_FIELD,UiGrid.FIELD_HEIGHT) };
 			Controls.Add(_textCaFile);
-			Button butBrowseCa=new Button() { Text="Browse...",Location=new Point(466,98),Size=new Size(74,24) };
 			butBrowseCa.Click+=butBrowseCa_Click;
 			Controls.Add(butBrowseCa);
-			_labelCaCurrent=new Label() { Location=new Point(130,126),Size=new Size(410,28),ForeColor=SystemColors.GrayText };
-			Controls.Add(_labelCaCurrent);
-			GroupBox groupCredential=new GroupBox() { Text="Client credential",Location=new Point(12,158),Size=new Size(528,170) };
-			_radioCertificate=new RadioButton() { Text="Client &certificate from the computer's certificate store (recommended)",Location=new Point(12,20),
-				Size=new Size(500,20) };
-			_labelCertificateCurrent=new Label() { Location=new Point(32,44),Size=new Size(480,18),ForeColor=SystemColors.GrayText };
-			_butImportPfx=new Button() { Text="&Import .pfx...",Location=new Point(32,66),Size=new Size(110,24) };
-			_butImportPfx.Click+=butImportPfx_Click;
-			_labelPfxPending=new Label() { Location=new Point(150,71),Size=new Size(370,18) };
-			_radioPassword=new RadioButton() { Text="Database &password, stored on this computer (DPAPI, machine scope)",Location=new Point(12,100),
-				Size=new Size(500,20) };
-			_textPassword=new TextBox() { Location=new Point(32,126),Size=new Size(250,20),UseSystemPasswordChar=true };
-			Label labelPasswordHint=new Label() { Text="Blank keeps the stored password.",Location=new Point(290,129),Size=new Size(230,18),
+			_labelCaCurrent=new Label() { Location=new Point(X_FIELD,_textCaFile.Bottom+UiGrid.ROW_GAP),Size=new Size(ClientSize.Width-UiGrid.PAD-X_FIELD,34),
 				ForeColor=SystemColors.GrayText };
+			Controls.Add(_labelCaCurrent);
+			int widthContent=ClientSize.Width-2*UiGrid.PAD;
+			GroupBox groupCredential=new GroupBox() { Text="Client credential",Location=new Point(UiGrid.PAD,_labelCaCurrent.Bottom+UiGrid.SIBLING_GAP),
+				Size=new Size(widthContent,100) };
+			int widthGroupContent=widthContent-2*UiGrid.PAD;
+			int xUnder=UiGrid.PAD+22;//under a choice's text
+			int yGroup=18+UiGrid.TITLE_GAP;//under the title band
+			_radioCertificate=new RadioButton() { Text="Client &certificate from the computer's certificate store (recommended)",Location=new Point(UiGrid.PAD,yGroup),
+				Size=new Size(widthGroupContent,UiGrid.CHECK_HEIGHT) };
+			_labelCertificateCurrent=new Label() { Location=new Point(xUnder,_radioCertificate.Bottom+UiGrid.ROW_GAP),Size=new Size(widthGroupContent-22,18),
+				ForeColor=SystemColors.GrayText };
+			_butImportPfx=new Button() { Text="&Import .pfx...",Location=new Point(xUnder,_labelCertificateCurrent.Bottom+UiGrid.ROW_GAP),
+				Size=new Size(110,UiGrid.FIELD_HEIGHT) };
+			_butImportPfx.Click+=butImportPfx_Click;
+			_labelPfxPending=new Label() { Location=new Point(_butImportPfx.Right+UiGrid.ITEM_GAP,_butImportPfx.Top),
+				Size=new Size(UiGrid.PAD+widthGroupContent-_butImportPfx.Right-UiGrid.ITEM_GAP,UiGrid.FIELD_HEIGHT),TextAlign=ContentAlignment.MiddleLeft };
+			_radioPassword=new RadioButton() { Text="Database &password, stored on this computer (DPAPI, machine scope)",
+				Location=new Point(UiGrid.PAD,_butImportPfx.Bottom+UiGrid.SECTION_GAP),Size=new Size(widthGroupContent,UiGrid.CHECK_HEIGHT) };
+			_textPassword=new TextBox() { Location=new Point(xUnder,_radioPassword.Bottom+UiGrid.ROW_GAP),Size=new Size(250,UiGrid.FIELD_HEIGHT),
+				UseSystemPasswordChar=true };
+			Label labelPasswordHint=new Label() { Text="Blank keeps the stored password.",Location=new Point(_textPassword.Right+UiGrid.ITEM_GAP,_textPassword.Top),
+				Size=new Size(UiGrid.PAD+widthGroupContent-_textPassword.Right-UiGrid.ITEM_GAP,UiGrid.FIELD_HEIGHT),ForeColor=SystemColors.GrayText,
+				TextAlign=ContentAlignment.MiddleLeft };
+			groupCredential.Height=_textPassword.Bottom+UiGrid.PAD;
 			_radioCertificate.CheckedChanged+=(sender,e) => SetCredentialEnabled();
 			_radioPassword.CheckedChanged+=(sender,e) => SetCredentialEnabled();
 			groupCredential.Controls.AddRange(new Control[] { _radioCertificate,_labelCertificateCurrent,_butImportPfx,_labelPfxPending,_radioPassword,
 				_textPassword,labelPasswordHint });
 			Controls.Add(groupCredential);
-			Controls.Add(new Label() { Text="A server on this computer (localhost, 127.0.0.1, ::1) needs no CA or certificate. Any other server is reached "
-				+"only encrypted, and its certificate must come from the office CA and name the server.",Location=new Point(12,336),Size=new Size(528,32) });
-			_labelStatus=new Label() { Location=new Point(12,372),Size=new Size(528,50) };
+			Label labelNote=new Label() { Text="A server on this computer (localhost, 127.0.0.1, ::1) needs no CA or certificate. Any other server is reached "
+				+"only encrypted, and its certificate must come from the office CA and name the server.",
+				Location=new Point(UiGrid.PAD,groupCredential.Bottom+UiGrid.SIBLING_GAP),Size=new Size(widthContent,34) };
+			Controls.Add(labelNote);
+			int yBar=ClientSize.Height-UiGrid.PAD-26;
+			_labelStatus=new Label() { Location=new Point(UiGrid.PAD,labelNote.Bottom+UiGrid.ROW_GAP),
+				Size=new Size(widthContent,yBar-UiGrid.SECTION_GAP-labelNote.Bottom-UiGrid.ROW_GAP) };
 			Controls.Add(_labelStatus);
-			Button butTest=new Button() { Text="&Test connection",Location=new Point(12,432),Size=new Size(120,26) };
+			Button butTest=new Button() { Text="&Test connection",Location=new Point(UiGrid.PAD,yBar),Size=new Size(120,26) };
 			butTest.Click+=butTest_Click;
-			Button butSave=new Button() { Text="Save",Location=new Point(384,432),Size=new Size(75,26) };
+			Button butCancel=new Button() { Text="Cancel",Location=new Point(ClientSize.Width-UiGrid.PAD-75,yBar),Size=new Size(75,26),DialogResult=DialogResult.Cancel };
+			Button butSave=new Button() { Text="Save",Location=new Point(butCancel.Left-UiGrid.DIALOG_GAP-75,yBar),Size=new Size(75,26) };
 			butSave.Click+=butSave_Click;
-			Button butCancel=new Button() { Text="Cancel",Location=new Point(465,432),Size=new Size(75,26),DialogResult=DialogResult.Cancel };
 			Controls.AddRange(new Control[] { butTest,butSave,butCancel });
 			CancelButton=butCancel;
 		}
 
+		///<summary>UI-12 slice 14: the label column's width (Office CA certificate: on one line) and the field column after it.</summary>
+		private const int WIDTH_LABEL=132;
+		private const int X_FIELD=UiGrid.PAD+WIDTH_LABEL+UiGrid.LABEL_GAP;
+
 		private TextBox AddRow(string caption,int y) {
-			Controls.Add(new Label() { Text=caption,Location=new Point(12,y+3),Size=new Size(116,18) });
-			TextBox textBox=new TextBox() { Location=new Point(130,y),Size=new Size(410,20) };
+			Controls.Add(new Label() { Text=caption,Location=new Point(UiGrid.PAD,y),Size=new Size(WIDTH_LABEL,UiGrid.FIELD_HEIGHT),TextAlign=ContentAlignment.MiddleRight });
+			TextBox textBox=new TextBox() { Location=new Point(X_FIELD,y),Size=new Size(ClientSize.Width-UiGrid.PAD-X_FIELD,UiGrid.FIELD_HEIGHT) };
 			Controls.Add(textBox);
 			return textBox;
 		}

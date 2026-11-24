@@ -59,9 +59,9 @@ namespace OpenPmsDental{
 			// 
 			this.panelSplitter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panelSplitter.Cursor = System.Windows.Forms.Cursors.HSplit;
-			this.panelSplitter.Location = new System.Drawing.Point(71, 568);
+			this.panelSplitter.Location = new System.Drawing.Point(51, 540);
 			this.panelSplitter.Name = "panelSplitter";
-			this.panelSplitter.Size = new System.Drawing.Size(769, 7);
+			this.panelSplitter.Size = new System.Drawing.Size(1179, 7);
 			this.panelSplitter.TabIndex = 50;
 			this.panelSplitter.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelSplitter_MouseDown);
 			this.panelSplitter.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelSplitter_MouseMove);
@@ -118,9 +118,9 @@ namespace OpenPmsDental{
 			// 
 			// lightSignalGrid1
 			// 
-			this.lightSignalGrid1.Location = new System.Drawing.Point(0, 489);
+			this.lightSignalGrid1.Location = new System.Drawing.Point(0, 442);
 			this.lightSignalGrid1.Name = "lightSignalGrid1";
-			this.lightSignalGrid1.Size = new System.Drawing.Size(50, 206);
+			this.lightSignalGrid1.Size = new System.Drawing.Size(50, 254);
 			this.lightSignalGrid1.TabIndex = 20;
 			this.lightSignalGrid1.Text = "lightSignalGrid1";
 			this.lightSignalGrid1.ButtonClick += new OpenPmsDental.UI.ODLightSignalGridClickEventHandler(this.lightSignalGrid1_ButtonClick);
@@ -139,11 +139,11 @@ namespace OpenPmsDental{
 			this.splitContainer.Controls.Add(this.splitterPanel2);
 			this.splitContainer.Cursor = System.Windows.Forms.Cursors.Default;
 			this.splitContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.splitContainer.Location = new System.Drawing.Point(297, 67);
+			this.splitContainer.Location = new System.Drawing.Point(51, 49);
 			this.splitContainer.Name = "splitContainer";
 			this.splitContainer.Panel1 = this.splitterPanel1;
 			this.splitContainer.Panel2 = this.splitterPanel2;
-			this.splitContainer.Size = new System.Drawing.Size(491, 268);
+			this.splitContainer.Size = new System.Drawing.Size(1179, 491);
 			this.splitContainer.SplitterDistance = 314;
 			this.splitContainer.TabIndex = 59;
 			this.splitContainer.SplitterMoved += new System.EventHandler(this.splitContainer_SplitterMoved);

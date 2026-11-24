@@ -111,9 +111,15 @@ namespace OpenPmsDental {
 		}
 
 		private void ResizeControls() {
-			int top=LayoutManager.Scale(52);
-			LayoutManager.Move(textContent,new Rectangle(0,top,ClientRectangle.Width/2-2,ClientRectangle.Height-top));
-			LayoutManager.Move(webViewWiki,new Rectangle(ClientRectangle.Width/2,top,ClientRectangle.Width/2-1,ClientRectangle.Height-top));
+			//UI-12 slice 14: the markup and its preview on the layout grid (UiGrid): the padding under the two toolbars and around, the two halves
+			//one sibling gap apart (main: edge to edge, 52 px from the top, 2 px apart).
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			int gap=LayoutManager.Scale(UiGrid.SIBLING_GAP);
+			int top=LayoutManager.Scale(50+UiGrid.PAD);//under the two toolbars, 25 px each
+			int height=ClientRectangle.Height-pad-top;
+			int widthHalf=(ClientRectangle.Width-2*pad-gap)/2;
+			LayoutManager.Move(textContent,new Rectangle(pad,top,widthHalf,height));
+			LayoutManager.Move(webViewWiki,new Rectangle(pad+widthHalf+gap,top,ClientRectangle.Width-pad-(pad+widthHalf+gap),height));
 			LayoutToolBars();
 		}
 

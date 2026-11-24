@@ -17,6 +17,9 @@ namespace OpenPmsDental {
 	public class FormImageEnhance:FormODBase {
 		#region Fields - Private
 		private const int WIDTH_CONTENT=300;
+		///<summary>UI-12 slice 14: a slider row's label (Brightness, Contrast...) and value widths.</summary>
+		private const int WIDTH_LABEL=76;
+		private const int WIDTH_VALUE=44;
 		private UI.Button butClose;
 		private UI.Button butReset;
 		private UI.Button butSavePreset;
@@ -340,53 +343,57 @@ namespace OpenPmsDental {
 		#endregion Methods - Event Handlers
 
 		#region Methods - Private
-		///<summary>Makes the window's controls on the UI-12 grid: 8 px padding, labels 6 px before their field, a 27 px row pitch, the buttons at the
+		///<summary>Makes the window's controls on the UI-12 grid (UiGrid; slice 14 put the numbers in): the padding, labels a label gap before their
+		///field, the slider rows one pitch apart, the check boxes a check box list, the two rows of buttons a section gap under the note at the
 		///bottom.</summary>
 		private void BuildControls(){
 			SuspendLayout();
-			int y=8;
-			labelTarget=new Label { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,20),Name="labelTarget",TextAlign=ContentAlignment.MiddleLeft };
+			int x=UiGrid.PAD;
+			int y=UiGrid.PAD;
+			labelTarget=new Label { Location=new Point(x,y),Size=new Size(WIDTH_CONTENT,20),Name="labelTarget",TextAlign=ContentAlignment.MiddleLeft };
 			_fontTarget=new Font(UiTheme.FontBody,FontStyle.Bold);
 			labelTarget.Font=_fontTarget;
 			Controls.Add(labelTarget);
-			y+=24;
-			flowPresets=new FlowLayoutPanel { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,54),Name="flowPresets",WrapContents=true,AutoScroll=true };
+			y+=20+UiGrid.ROW_GAP;
+			flowPresets=new FlowLayoutPanel { Location=new Point(x,y),Size=new Size(WIDTH_CONTENT,54),Name="flowPresets",WrapContents=true,AutoScroll=true };
 			Controls.Add(flowPresets);
-			y+=58;
-			histogram=new ControlDoubleBuffered { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,40),Name="histogram",TabStop=false };
+			y+=54+UiGrid.ROW_GAP;
+			histogram=new ControlDoubleBuffered { Location=new Point(x,y),Size=new Size(WIDTH_CONTENT,40),Name="histogram",TabStop=false };
 			histogram.Paint+=histogram_Paint;
 			Controls.Add(histogram);
-			y+=48;
+			y+=40+UiGrid.SIBLING_GAP;
 			trackBrightness=AddTrackRow("Brightness",-100,100,ref y);
 			trackContrast=AddTrackRow("Contrast",0,100,ref y);
 			trackGamma=AddTrackRow("Gamma",50,200,ref y);
 			trackSharpen=AddTrackRow("Sharpen",0,100,ref y);
 			trackSmooth=AddTrackRow("Smooth",0,2,ref y);
-			checkAutoContrast=new UI.CheckBox { Location=new Point(90,y),Size=new Size(WIDTH_CONTENT-82,23),Name="checkAutoContrast",Text="Auto contrast",
+			int xField=x+WIDTH_LABEL+UiGrid.LABEL_GAP;//the sliders' column: the check boxes' boxes on it
+			checkAutoContrast=new UI.CheckBox { Location=new Point(xField,y),Size=new Size(x+WIDTH_CONTENT-xField,UiGrid.CHECK_HEIGHT),Name="checkAutoContrast",Text="Auto contrast",
 				CheckAlign=ContentAlignment.MiddleLeft };
 			checkAutoContrast.CheckedChanged+=check_Click;
 			Controls.Add(checkAutoContrast);
-			y+=27;
-			checkInvert=new UI.CheckBox { Location=new Point(90,y),Size=new Size(WIDTH_CONTENT-82,23),Name="checkInvert",Text="Invert",CheckAlign=ContentAlignment.MiddleLeft };
+			y+=UiGrid.LIST_PITCH;
+			checkInvert=new UI.CheckBox { Location=new Point(xField,y),Size=new Size(x+WIDTH_CONTENT-xField,UiGrid.CHECK_HEIGHT),Name="checkInvert",Text="Invert",CheckAlign=ContentAlignment.MiddleLeft };
 			checkInvert.CheckedChanged+=check_Click;
 			Controls.Add(checkInvert);
-			y+=27;
-			labelNote=new Label { Location=new Point(8,y),Size=new Size(WIDTH_CONTENT,34),Name="labelNote",ForeColor=UiTheme.TextSecondary };
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.ROW_GAP;
+			labelNote=new Label { Location=new Point(x,y),Size=new Size(WIDTH_CONTENT,34),Name="labelNote",ForeColor=UiTheme.TextSecondary };
 			Controls.Add(labelNote);
-			y+=38;
-			butReset=new UI.Button { Location=new Point(8,y),Size=new Size(75,26),Name="butReset",Text="Reset" };
+			y+=34+UiGrid.SECTION_GAP;
+			int yBar=y+26+UiGrid.DIALOG_GAP;//the bottom row: Save as preset and Close
+			butReset=new UI.Button { Location=new Point(x,y),Size=new Size(75,26),Name="butReset",Text="Reset" };
 			butReset.Click+=butReset_Click;
 			Controls.Add(butReset);
-			butSavePreset=new UI.Button { Location=new Point(8,y+34),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset..." };
-			butAllInMount=new UI.Button { Location=new Point(91,y),Size=new Size(120,26),Name="butAllInMount",Text="All in mount..." };
+			butSavePreset=new UI.Button { Location=new Point(x,yBar),Size=new Size(120,26),Name="butSavePreset",Text="Save as preset..." };
+			butAllInMount=new UI.Button { Location=new Point(butReset.Right+UiGrid.DIALOG_GAP,y),Size=new Size(120,26),Name="butAllInMount",Text="All in mount..." };
 			butAllInMount.Click+=butAllInMount_Click;
 			Controls.Add(butAllInMount);
 			butSavePreset.Click+=butSavePreset_Click;
 			Controls.Add(butSavePreset);
-			butClose=new UI.Button { Location=new Point(8+WIDTH_CONTENT-75,y+34),Size=new Size(75,26),Name="butClose",Text="Close" };//bottom right
+			butClose=new UI.Button { Location=new Point(x+WIDTH_CONTENT-75,yBar),Size=new Size(75,26),Name="butClose",Text="Close" };//bottom right
 			butClose.Click+=butClose_Click;
 			Controls.Add(butClose);
-			ClientSize=new Size(WIDTH_CONTENT+16,y+34+26+8);
+			ClientSize=new Size(WIDTH_CONTENT+2*UiGrid.PAD,yBar+26+UiGrid.PAD);
 			Name="FormImageEnhance";
 			Text="Enhance";
 			ShowIcon=false;
@@ -399,12 +406,12 @@ namespace OpenPmsDental {
 		}
 
 		private TrackBar AddTrackRow(string text,int min,int max,ref int y){
-			Label label=new Label { Location=new Point(8,y),Size=new Size(76,23),Text=text,TextAlign=ContentAlignment.MiddleRight,Name="label"+text };
+			Label label=new Label { Location=new Point(UiGrid.PAD,y),Size=new Size(WIDTH_LABEL,UiGrid.FIELD_HEIGHT),Text=text,TextAlign=ContentAlignment.MiddleRight,Name="label"+text };
 			Controls.Add(label);
 			//AutoSize off before the size: with it on, Windows keeps a track bar 45 px tall, over the rows below.
 			TrackBar trackBar=new TrackBar { AutoSize=false,TickStyle=TickStyle.None };
-			trackBar.Location=new Point(90,y);
-			trackBar.Size=new Size(170,23);
+			trackBar.Location=new Point(label.Right+UiGrid.LABEL_GAP,y);
+			trackBar.Size=new Size(WIDTH_CONTENT-WIDTH_LABEL-UiGrid.LABEL_GAP-UiGrid.ITEM_GAP-WIDTH_VALUE,UiGrid.FIELD_HEIGHT);
 			trackBar.Minimum=min;
 			trackBar.Maximum=max;
 			trackBar.Name="track"+text;
@@ -414,11 +421,11 @@ namespace OpenPmsDental {
 			trackBar.MouseUp+=track_Commit;
 			trackBar.KeyUp+=track_Commit;
 			Controls.Add(trackBar);
-			Label labelValue=new Label { Location=new Point(264,y),Size=new Size(44,23),TextAlign=ContentAlignment.MiddleRight,Name="labelValue"+text,
+			Label labelValue=new Label { Location=new Point(trackBar.Right+UiGrid.ITEM_GAP,y),Size=new Size(WIDTH_VALUE,UiGrid.FIELD_HEIGHT),TextAlign=ContentAlignment.MiddleRight,Name="labelValue"+text,
 				ForeColor=UiTheme.TextSecondary,Tag=trackBar };
 			Controls.Add(labelValue);
 			_listLabelsValue.Add(labelValue);
-			y+=27;
+			y+=UiGrid.PITCH;
 			return trackBar;
 		}
 

@@ -86,9 +86,9 @@ namespace OpenPmsDental {
 			// 
 			this.gridRecall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridRecall.Location = new System.Drawing.Point(585, 27);
+			this.gridRecall.Location = new System.Drawing.Point(588, 29);
 			this.gridRecall.Name = "gridRecall";
-			this.gridRecall.Size = new System.Drawing.Size(354, 100);
+			this.gridRecall.Size = new System.Drawing.Size(351, 100);
 			this.gridRecall.TabIndex = 32;
 			this.gridRecall.Title = "Recall";
 			this.gridRecall.TranslationName = "TableRecall";
@@ -99,7 +99,7 @@ namespace OpenPmsDental {
 			// gridFamily
 			// 
 			this.gridFamily.ColorSelectedRow = System.Drawing.Color.DarkSalmon;
-			this.gridFamily.Location = new System.Drawing.Point(103, 27);
+			this.gridFamily.Location = new System.Drawing.Point(104, 29);
 			this.gridFamily.Name = "gridFamily";
 			this.gridFamily.Size = new System.Drawing.Size(480, 100);
 			this.gridFamily.TabIndex = 31;
@@ -112,10 +112,10 @@ namespace OpenPmsDental {
 			// 
 			this.gridPat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.gridPat.Location = new System.Drawing.Point(0, 129);
+			this.gridPat.Location = new System.Drawing.Point(0, 133);
 			this.gridPat.Name = "gridPat";
 			this.gridPat.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridPat.Size = new System.Drawing.Size(252, 579);
+			this.gridPat.Size = new System.Drawing.Size(252, 575);
 			this.gridPat.TabIndex = 30;
 			this.gridPat.Title = "Patient Information";
 			this.gridPat.TranslationName = "TablePatient";
@@ -129,10 +129,10 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.gridIns.HScrollVisible = true;
-			this.gridIns.Location = new System.Drawing.Point(254, 129);
+			this.gridIns.Location = new System.Drawing.Point(256, 133);
 			this.gridIns.Name = "gridIns";
 			this.gridIns.SelectionMode = OpenPmsDental.UI.GridSelectionMode.None;
-			this.gridIns.Size = new System.Drawing.Size(685, 579);
+			this.gridIns.Size = new System.Drawing.Size(683, 575);
 			this.gridIns.TabIndex = 29;
 			this.gridIns.Title = "Insurance Plans";
 			this.gridIns.TranslationName = "TableCoverage";
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			// 
 			// pictureBoxPat
 			// 
-			this.pictureBoxPat.Location = new System.Drawing.Point(1, 27);
+			this.pictureBoxPat.Location = new System.Drawing.Point(0, 29);
 			this.pictureBoxPat.Name = "pictureBoxPat";
 			this.pictureBoxPat.Size = new System.Drawing.Size(100, 100);
 			this.pictureBoxPat.TabIndex = 28;
@@ -176,14 +176,14 @@ namespace OpenPmsDental {
 			this.splitContainerSuperClones.Controls.Add(this.splitterPanel2);
 			this.splitContainerSuperClones.Cursor = System.Windows.Forms.Cursors.Default;
 			this.splitContainerSuperClones.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-			this.splitContainerSuperClones.Location = new System.Drawing.Point(254, 129);
+			this.splitContainerSuperClones.Location = new System.Drawing.Point(256, 133);
 			this.splitContainerSuperClones.Name = "splitContainerSuperClones";
 			this.splitContainerSuperClones.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			this.splitContainerSuperClones.Panel1 = this.splitterPanel1;
 			this.splitContainerSuperClones.Panel1MinSize = 25;
 			this.splitContainerSuperClones.Panel2 = this.splitterPanel2;
 			this.splitContainerSuperClones.Panel2MinSize = 25;
-			this.splitContainerSuperClones.Size = new System.Drawing.Size(329, 579);
+			this.splitContainerSuperClones.Size = new System.Drawing.Size(329, 575);
 			this.splitContainerSuperClones.SplitterDistance = 285;
 			this.splitContainerSuperClones.TabIndex = 35;
 			// 

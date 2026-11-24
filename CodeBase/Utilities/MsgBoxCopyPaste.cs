@@ -63,7 +63,7 @@ namespace CodeBase{
 			// butOK
 			// 
 			this.butOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butOK.Location = new System.Drawing.Point(615,606);
+			this.butOK.Location = new System.Drawing.Point(619,608);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75,28);
 			this.butOK.TabIndex = 1;
@@ -77,7 +77,7 @@ namespace CodeBase{
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textMain.BackColor = System.Drawing.SystemColors.Window;
 			this.textMain.Font = new System.Drawing.Font("Courier New",8.25F,System.Drawing.FontStyle.Regular,System.Drawing.GraphicsUnit.Point,((byte)(0)));
-			this.textMain.Location = new System.Drawing.Point(12,12);
+			this.textMain.Location = new System.Drawing.Point(12,8);
 			this.textMain.Multiline = true;
 			this.textMain.Name = "textMain";
 			this.textMain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -89,7 +89,7 @@ namespace CodeBase{
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Image = global::CodeBase.UiIcons.GetBitmap("EnumIcons","Print",22,22);
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(530,606);
+			this.butPrint.Location = new System.Drawing.Point(530,610);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(79,26);
 			this.butPrint.TabIndex = 3;
@@ -100,7 +100,7 @@ namespace CodeBase{
 			// 
 			this.butCopyAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butCopyAll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butCopyAll.Location = new System.Drawing.Point(126,606);
+			this.butCopyAll.Location = new System.Drawing.Point(126,608);
 			this.butCopyAll.Name = "butCopyAll";
 			this.butCopyAll.Size = new System.Drawing.Size(79,28);
 			this.butCopyAll.TabIndex = 4;

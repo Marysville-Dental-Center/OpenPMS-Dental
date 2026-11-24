@@ -24,6 +24,13 @@ namespace OpenPmsDental {
 		//private List<TaskList> TaskListsAllGeneral;
 		///<summary>An arraylist of TaskLists beginning from the trunk and adding on branches.  If the count is 0, then we are in the trunk of one of the five categories.  The last TaskList in the TreeHistory is the one that is open in the main window.</summary>
 		private List<TaskList> _listTaskListTreeHistory;
+		///<summary>UI-12 slice 14: the tab strip's top on the layout grid (UiGrid, 96 dpi): the toolbar's 25 px, the filter row (a field row
+		///UiGrid.ROW_GAP under the toolbar), UiGrid.ROW_GAP under it.</summary>
+		private const int TOP_TABS=25+UiGrid.ROW_GAP+UiGrid.FIELD_HEIGHT+UiGrid.ROW_GAP;
+		///<summary>The tab strip's height (its pages hold nothing: the strip only picks the list).</summary>
+		private const int HEIGHT_TABS=20;
+		///<summary>The calendar's top, UiGrid.ROW_GAP under the tab strip.</summary>
+		private const int TOP_CALENDAR=TOP_TABS+HEIGHT_TABS+UiGrid.ROW_GAP;
 		///<summary>A TaskList that is on the 'clipboard' waiting to be pasted.  Will be null if nothing has been copied yet.</summary>
 		private TaskList _taskListClip;
 		///<summary>A Task that is on the 'clipboard' waiting to be pasted.  Will be null if nothing has been copied yet.</summary>
@@ -155,10 +162,12 @@ namespace OpenPmsDental {
 			//ToolBarMain is docked, h=25
 			SetImageListTree();
 			//Filter area always show
-			LayoutManager.Move(tabControl,new Rectangle(0,LayoutManager.Scale(49),Width,LayoutManager.Scale(20)));
-			LayoutManager.Move(monthCalendar,new Rectangle(0,LayoutManager.Scale(70),LayoutManager.Scale(227),LayoutManager.Scale(162)));
-			LayoutManager.MoveWidth(tree,Width);
-			LayoutManager.MoveWidth(gridMain,Width);
+			//UI-12 slice 14: the tabs, calendar, tree and grid on the layout grid: UiGrid.PAD from the control's edges, UiGrid.ROW_GAP apart.
+			int pad=LayoutManager.Scale(UiGrid.PAD);
+			LayoutManager.Move(tabControl,new Rectangle(pad,LayoutManager.Scale(TOP_TABS),Width-2*pad,LayoutManager.Scale(HEIGHT_TABS)));
+			LayoutManager.Move(monthCalendar,new Rectangle(pad,LayoutManager.Scale(TOP_CALENDAR),LayoutManager.Scale(227),LayoutManager.Scale(162)));
+			LayoutManager.MoveWidth(tree,Width-2*pad);
+			LayoutManager.MoveWidth(gridMain,Width-2*pad);
 			FillGrid(new List<Signalod>());//Sets height.  Does not run query.
 			LayoutTreeAndGrid();
 		}
@@ -523,15 +532,21 @@ namespace OpenPmsDental {
 			if(_listTaskListTreeHistory==null) {
 				return;
 			}
-			if(tabControl.SelectedTab==tabDate || tabControl.SelectedTab==tabWeek || tabControl.SelectedTab==tabMonth) {
-				LayoutManager.MoveLocation(tree,new Point(tree.Left,monthCalendar.Bottom+1));//Show the calendar.
+			//UI-12 slice 14: the tree UiGrid.ROW_GAP under the calendar or the tab strip, the grid UiGrid.ROW_GAP under the tree and down to the
+			//bottom padding. The calendar shows on the date tabs only (the tree and grid no longer cover it: there is a gap between them).
+			int gap=LayoutManager.Scale(UiGrid.ROW_GAP);
+			bool isDateTab=tabControl.SelectedTab==tabDate || tabControl.SelectedTab==tabWeek || tabControl.SelectedTab==tabMonth;
+			monthCalendar.Visible=isDateTab;
+			if(isDateTab) {
+				LayoutManager.MoveLocation(tree,new Point(tree.Left,monthCalendar.Bottom+gap));//Show the calendar.
 			}
 			else {
-				LayoutManager.MoveLocation(tree,new Point(tree.Left,tabControl.Bottom));//Hide the calendar.
+				LayoutManager.MoveLocation(tree,new Point(tree.Left,tabControl.Bottom+gap));//Hide the calendar.
 			}
 			LayoutManager.MoveHeight(tree,_listTaskListTreeHistory.Count*tree.ItemHeight+8);
 			tree.Refresh();
-			LayoutManager.MoveLocation(gridMain,new Point(0,tree.Bottom));
+			LayoutManager.Move(gridMain,new Rectangle(tree.Left,tree.Bottom+gap,gridMain.Width,
+				Math.Max(0,ClientSize.Height-LayoutManager.Scale(UiGrid.PAD)-tree.Bottom-gap)));
 		}
 
 		public void RefreshPatTicketsIfNeeded() {
@@ -837,7 +852,7 @@ namespace OpenPmsDental {
 				taskListNum=0;
 				dateTime=monthCalendar.SelectionStart;
 			}
-			LayoutManager.MoveHeight(gridMain,ClientSize.Height-gridMain.Top);
+			LayoutManager.MoveHeight(gridMain,ClientSize.Height-gridMain.Top-LayoutManager.Scale(UiGrid.PAD));//UI-12 slice 14: to the bottom padding
 			if(listSignalods==null) {//Full refresh.
 				if(!isFilterRefresh) {
 					RefreshMainLists(taskListNum,dateTime,isManualRefresh: isManualRefresh);

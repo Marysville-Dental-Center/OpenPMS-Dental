@@ -215,9 +215,13 @@ namespace OpenPmsDental {
 			SuspendLayout();
 			int widthChart=16*CELL_WIDTH+15*CELL_GAP;//510
 			int heightChart=4*CELL_HEIGHT+3*CELL_GAP+ARCH_GAP;//126
-			int xRight=8+widthChart;//518, the content's right edge
+			//UI-12 slice 14: on the layout grid (UiGrid): the padding, the hint a row gap over the chart, the quick buttons a sibling gap under
+			//it an item gap apart, the Teeth row one pitch under them, the slot check box (a check box row) one pitch under that, the bar a
+			//section gap under the last row.
+			int xLeft=UiGrid.PAD;
+			int xRight=xLeft+widthChart;//518, the content's right edge
 			labelHint=new Label();
-			labelHint.Location=new Point(8,8);
+			labelHint.Location=new Point(xLeft,UiGrid.PAD);
 			labelHint.Size=new Size(widthChart,20);
 			labelHint.Name="labelHint";
 			labelHint.Text="Click a tooth or drag along a row. The middle rows are the primary teeth.";
@@ -225,7 +229,7 @@ namespace OpenPmsDental {
 			labelHint.ForeColor=UiTheme.TextSecondary;
 			Controls.Add(labelHint);
 			chart=new ControlDoubleBuffered();
-			chart.Location=new Point(8,32);
+			chart.Location=new Point(xLeft,labelHint.Bottom+UiGrid.ROW_GAP);
 			chart.Size=new Size(widthChart,heightChart);
 			chart.Name="chart";
 			chart.TabStop=false;
@@ -239,12 +243,12 @@ namespace OpenPmsDental {
 			string[][] arrayGroups=new string[][] {
 				Range(1,8),Range(6,11),Range(9,16),Range(17,24),Range(22,27),Range(25,32),new string[0] };
 			string[] arrayTexts=new string[] { "UR","UA","UL","LL","LA","LR","Clear" };
-			int yQuick=32+heightChart+8;//166
-			int widthQuick=(widthChart-6*6)/7;//67
+			int yQuick=chart.Bottom+UiGrid.SIBLING_GAP;//166
+			int widthQuick=(widthChart-6*UiGrid.ITEM_GAP)/7;//67
 			for(int i=0;i<arrayGroups.Length;i++){
 				UI.Button button=new UI.Button();
-				button.Location=new Point(8+i*(widthQuick+6),yQuick);
-				button.Size=new Size(i==arrayGroups.Length-1 ? xRight-(8+i*(widthQuick+6)) : widthQuick,23);
+				button.Location=new Point(xLeft+i*(widthQuick+UiGrid.ITEM_GAP),yQuick);
+				button.Size=new Size(i==arrayGroups.Length-1 ? xRight-(xLeft+i*(widthQuick+UiGrid.ITEM_GAP)) : widthQuick,UiGrid.FIELD_HEIGHT);
 				button.Name="butQuick"+arrayTexts[i];
 				button.Text=arrayTexts[i];
 				button.Tag=arrayGroups[i];
@@ -252,33 +256,34 @@ namespace OpenPmsDental {
 				button.Click+=butQuick_Click;
 				Controls.Add(button);
 			}
-			int yTeeth=yQuick+27;//193
+			int yTeeth=yQuick+UiGrid.PITCH;//193
 			labelTeeth=new Label();
-			labelTeeth.Location=new Point(8,yTeeth);
-			labelTeeth.Size=new Size(44,23);
+			labelTeeth.Location=new Point(xLeft,yTeeth);
+			labelTeeth.Size=new Size(44,UiGrid.FIELD_HEIGHT);
 			labelTeeth.Name="labelTeeth";
 			labelTeeth.Text="Teeth";
 			labelTeeth.TextAlign=ContentAlignment.MiddleRight;
 			Controls.Add(labelTeeth);
 			textTeeth=new System.Windows.Forms.TextBox();
-			textTeeth.Location=new Point(58,yTeeth);
-			textTeeth.Size=new Size(xRight-58,23);
+			int xField=labelTeeth.Right+UiGrid.LABEL_GAP;//58
+			textTeeth.Location=new Point(xField,yTeeth);
+			textTeeth.Size=new Size(xRight-xField,UiGrid.FIELD_HEIGHT);
 			textTeeth.Name="textTeeth";
 			textTeeth.TabIndex=10;
 			textTeeth.TextChanged+=textTeeth_TextChanged;
 			textTeeth.Leave+=textTeeth_Leave;
 			Controls.Add(textTeeth);
-			int yButtons=yTeeth+27+8;//228
+			int yButtons=yTeeth+UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;//228
 			if(isMountItem){
 				checkSlot=new UI.CheckBox();
-				checkSlot.Location=new Point(58,yTeeth+27);//on the field column
-				checkSlot.Size=new Size(xRight-58,23);
+				checkSlot.Location=new Point(xField,yTeeth+UiGrid.PITCH);//on the field column
+				checkSlot.Size=new Size(xRight-xField,UiGrid.CHECK_HEIGHT);
 				checkSlot.Name="checkSlot";
 				checkSlot.Text="Also change this slot's teeth in this mount (the underlined teeth)";
 				checkSlot.CheckAlign=ContentAlignment.MiddleLeft;
 				checkSlot.TabIndex=11;
 				Controls.Add(checkSlot);
-				yButtons+=27;
+				yButtons=checkSlot.Bottom+UiGrid.SECTION_GAP;
 			}
 			butCancel=new UI.Button();
 			butCancel.Location=new Point(xRight-75,yButtons);
@@ -289,14 +294,14 @@ namespace OpenPmsDental {
 			butCancel.Click+=butCancel_Click;
 			Controls.Add(butCancel);
 			butOK=new UI.Button();
-			butOK.Location=new Point(xRight-75-8-75,yButtons);
+			butOK.Location=new Point(xRight-75-UiGrid.DIALOG_GAP-75,yButtons);
 			butOK.Size=new Size(75,26);
 			butOK.Name="butOK";
 			butOK.Text="OK";
 			butOK.TabIndex=20;
 			butOK.Click+=butOK_Click;
 			Controls.Add(butOK);
-			ClientSize=new Size(xRight+8,yButtons+26+8);
+			ClientSize=new Size(xRight+UiGrid.PAD,yButtons+26+UiGrid.PAD);
 			Name="FormToothPicker";
 			ShowIcon=false;
 			ShowInTaskbar=false;

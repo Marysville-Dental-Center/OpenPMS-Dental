@@ -110,7 +110,7 @@ namespace CodeBase {
 			this.flowLayoutPanel1.Controls.Add(this.tableLayoutPanel1);
 			this.flowLayoutPanel1.Controls.Add(this.panel1);
 			this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 1);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 8);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
 			this.flowLayoutPanel1.Size = new System.Drawing.Size(466, 260);
 			this.flowLayoutPanel1.TabIndex = 0;
@@ -136,7 +136,7 @@ namespace CodeBase {
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.AutoScroll = true;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(469, 262);
+			this.ClientSize = new System.Drawing.Size(479, 274);
 			this.Controls.Add(this.flowLayoutPanel1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MinimumSize = new System.Drawing.Size(100, 100);

@@ -40,7 +40,7 @@ namespace CodeBase {
 			// labelLeftText
 			// 
 			this.labelLeftText.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.labelLeftText.Location = new System.Drawing.Point(3, 19);
+			this.labelLeftText.Location = new System.Drawing.Point(8, 26);
 			this.labelLeftText.Name = "labelLeftText";
 			this.labelLeftText.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.labelLeftText.Size = new System.Drawing.Size(95, 26);
@@ -51,7 +51,7 @@ namespace CodeBase {
 			// labelTopText
 			// 
 			this.labelTopText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTopText.Location = new System.Drawing.Point(6, 3);
+			this.labelTopText.Location = new System.Drawing.Point(8, 8);
 			this.labelTopText.Name = "labelTopText";
 			this.labelTopText.Size = new System.Drawing.Size(461, 16);
 			this.labelTopText.TabIndex = 2;
@@ -61,7 +61,7 @@ namespace CodeBase {
 			// labelPercentComplete
 			// 
 			this.labelPercentComplete.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.labelPercentComplete.Location = new System.Drawing.Point(396, 26);
+			this.labelPercentComplete.Location = new System.Drawing.Point(396, 31);
 			this.labelPercentComplete.Name = "labelPercentComplete";
 			this.labelPercentComplete.Size = new System.Drawing.Size(71, 15);
 			this.labelPercentComplete.TabIndex = 4;
@@ -75,7 +75,7 @@ namespace CodeBase {
 			this.Controls.Add(this.labelTopText);
 			this.Controls.Add(this.labelLeftText);
 			this.Name = "ODProgressBar";
-			this.Size = new System.Drawing.Size(470, 51);
+			this.Size = new System.Drawing.Size(477, 60);
 			this.ResumeLayout(false);
 
 		}
