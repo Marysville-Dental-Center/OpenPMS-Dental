@@ -203,6 +203,8 @@ namespace UiRefreshTests {
 					}
 					catch(Exception exception) {
 						listFailed.Add(window+": "+TierOneScan.Describe(exception));
+						//UI-PLAIN-2 fix round: the whole exception next to the list, for the failures one frame does not explain.
+						File.AppendAllText(Path.Combine(folder,"gallery-failed-detail.txt"),windowAndState+Environment.NewLine+exception+Environment.NewLine+Environment.NewLine);
 					}
 					finally {
 						ClearSampleCache(window,state);
@@ -259,7 +261,9 @@ namespace UiRefreshTests {
 			using(Form formTry=(Form)Activator.CreateInstance(typeChild,new object[] { 400,300 })) {
 				typeChild.GetProperty("SourceRdl").SetValue(formTry,SAMPLE_REPORT_RDL);
 			}
-			IntPtr handle=form.Handle;//the MDI area's handle, which the child is made in
+			//The handles of the window and its controls, the MDI area's among them, which the child is made in (Show makes them all on screen;
+			//the window's handle alone leaves the MDI area without one, and the child's handle then fails when it is activated).
+			DesignSheetWindows.CreateHandles(form);
 			System.Reflection.MethodInfo methodInfo=form.GetType().GetMethod("CreateMDIChild",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
 			object mdiChild=methodInfo.Invoke(form,new object[] { null,SAMPLE_REPORT_RDL,false });
 			if(mdiChild==null) {

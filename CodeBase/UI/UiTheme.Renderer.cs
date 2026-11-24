@@ -150,6 +150,32 @@ namespace CodeBase {
 			UiIcons.Draw(e.Graphics,uiGlyph.Value,rectangleGlyph,UiTheme.GetColor(e.Item.Enabled ? EnumUiColor.Text : EnumUiColor.TextDisabled));
 		}
 
+		///<summary>UI-PLAIN-2 fix round: a status strip label's border (BorderSides; the report designer's selection and position panels) as a flat 1
+		///px Stroke line on those sides, not Windows' 3D border (BorderStyle). The label's text as before.</summary>
+		protected override void OnRenderToolStripStatusLabelBackground(ToolStripItemRenderEventArgs e) {
+			ToolStripStatusLabel toolStripStatusLabel=e.Item as ToolStripStatusLabel;
+			if(toolStripStatusLabel==null || toolStripStatusLabel.BorderSides==ToolStripStatusLabelBorderSides.None) {
+				base.OnRenderToolStripStatusLabelBackground(e);
+				return;
+			}
+			int widthLine=UiTheme.GetLineWidth(GetScale(e.ToolStrip));
+			SolidBrush solidBrushLine=UiTheme.GetBrush(EnumUiColor.Stroke);
+			Size size=toolStripStatusLabel.Size;
+			ToolStripStatusLabelBorderSides sides=toolStripStatusLabel.BorderSides;
+			if((sides & ToolStripStatusLabelBorderSides.Left)!=0) {
+				e.Graphics.FillRectangle(solidBrushLine,0,0,widthLine,size.Height);
+			}
+			if((sides & ToolStripStatusLabelBorderSides.Right)!=0) {
+				e.Graphics.FillRectangle(solidBrushLine,size.Width-widthLine,0,widthLine,size.Height);
+			}
+			if((sides & ToolStripStatusLabelBorderSides.Top)!=0) {
+				e.Graphics.FillRectangle(solidBrushLine,0,0,size.Width,widthLine);
+			}
+			if((sides & ToolStripStatusLabelBorderSides.Bottom)!=0) {
+				e.Graphics.FillRectangle(solidBrushLine,0,size.Height-widthLine,size.Width,widthLine);
+			}
+		}
+
 		protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e) {
 			UiGlyph uiGlyph=UiGlyph.ChevronDown;
 			switch(e.Direction) {
