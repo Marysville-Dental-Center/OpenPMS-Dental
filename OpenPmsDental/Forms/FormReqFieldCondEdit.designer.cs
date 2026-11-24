@@ -50,7 +50,7 @@ namespace OpenPmsDental{
 			// 
 			// listConditionType
 			// 
-			this.listConditionType.Location = new System.Drawing.Point(12, 29);
+			this.listConditionType.Location = new System.Drawing.Point(8, 29);
 			this.listConditionType.Name = "listConditionType";
 			this.listConditionType.Size = new System.Drawing.Size(111, 147);
 			this.listConditionType.TabIndex = 28;
@@ -58,7 +58,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(12, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(111, 17);
 			this.label1.TabIndex = 25;
@@ -75,7 +75,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(145, 63);
+			this.label2.Location = new System.Drawing.Point(145, 29);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(70, 17);
 			this.label2.TabIndex = 24;
@@ -118,7 +118,7 @@ namespace OpenPmsDental{
 			// 
 			// comboOperator1
 			// 
-			this.comboOperator1.Location = new System.Drawing.Point(145, 82);
+			this.comboOperator1.Location = new System.Drawing.Point(145, 48);
 			this.comboOperator1.Name = "comboOperator1";
 			this.comboOperator1.Size = new System.Drawing.Size(52, 23);
 			this.comboOperator1.TabIndex = 178;
@@ -126,7 +126,7 @@ namespace OpenPmsDental{
 			// 
 			// listRelationships
 			// 
-			this.listRelationships.Location = new System.Drawing.Point(145, 29);
+			this.listRelationships.Location = new System.Drawing.Point(145, 75);
 			this.listRelationships.Name = "listRelationships";
 			this.listRelationships.Size = new System.Drawing.Size(68, 30);
 			this.listRelationships.TabIndex = 179;
