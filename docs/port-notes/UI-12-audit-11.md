@@ -103,3 +103,20 @@ covered text, overlaps, margins, columns, gaps, crowding, empty bands, control l
 | FormTestLatency | ok | Both notes at the top of their groups, the boxes on one row, the units inside the Average group, the Test buttons on one line: nothing found. |
 
 The pass finds nothing: every after picture of the slice has been opened, and every one changed since its last opening has been opened again.
+
+## Pass 6 (fix round, `<W>/f6-100` and `<W>/f6-150`, the fix round's build)
+
+All 31 pictures at 100% and 6 at 150% drawn again from one build; each compared by bytes with its last opened picture (`f4-100`,
+FormTestLatency's `f5-100`, `f4-150`). 28 at 100% and 4 at 150% are byte-identical and were not opened again (FormPatListElementEditEHR2014
+and FormUpdateSetup among them: the wider compare string label and the taller Recopy note draw their designer texts where they stood).
+The run-time texts are not in the pictures (Load sets them); GridRulesTests sets each one in the laid-out window and finds none cut.
+
+| Picture | Status | What was checked and found |
+|---|---|---|
+| FormAutoNoteControlEdit | ok | Possible responses TopRight from the padding, its line on the box's first line, two lines' height for its run-time text; nothing else moved. |
+| FormQuickBooksOnlineSetup | ok | The three list rows 12 px apart, the six lists one width, the arrows centred between each pair, the notes beside their lists; 56 px left above Save. |
+| FormSheetFieldStatic | ok | TextW and TextH left-aligned after their boxes, room for "TextW: 9999" before the Calculate buttons. |
+| FormQuickBooksOnlineSetup-150 | ok | The same at 150%: nothing cut, the rows apart. |
+| FormSheetFieldStatic-150 | ok | The readouts and the Calculate buttons at 150%: nothing found. |
+
+The pass finds nothing.

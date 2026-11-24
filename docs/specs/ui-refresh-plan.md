@@ -1705,7 +1705,8 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   schedule group combos placed in code at their clinic rows; 46 files skipped with one reason each (owner-drawn and imaging surfaces,
   print previews, browsers, code-laid and multi-state windows, seven the harness cannot build, the report designer and ODR with their
   designer code in `.cs` files); re-plans 239 / 509 / 203 / 44 / 316 / 335 / 389 / 204 / 246 unchanged; audit `UI-12-audit-11.md`
-  (UI-12.md section 7, "Slice 11").
+  (UI-12.md section 7, "Slice 11"). Fix round (`ui/ui12-11-2`): 8 run-time texts recorded and sized for, FormQuickBooksOnlineSetup's
+  list rows; gallery `G-UI3-ui12-11`.
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
