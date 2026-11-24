@@ -129,6 +129,7 @@ namespace UiRefreshTests {
 					try {
 						//UI-PLAIN-2: the plain windows' frame at the gallery's scale (the harness is a 96 dpi process).
 						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
+						PlainLookCopy.SetLooksOffForGallery(scanType.Type.Assembly,isLooksOff);//the copy a window's constructor attaches
 						FillSampleCache(window,state);
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
@@ -209,6 +210,7 @@ namespace UiRefreshTests {
 					finally {
 						ClearSampleCache(window,state);
 						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
+						PlainLookCopy.SetLooksOffForGallery(scanType.Type.Assembly,false);
 						ToolStripManager.Renderer=toolStripRendererBefore;
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);

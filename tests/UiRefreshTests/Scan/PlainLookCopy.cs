@@ -57,6 +57,16 @@ namespace UiRefreshTests.Scan {
 			}
 		}
 
+		///<summary>UI-PLAIN-2 fix round: UiLooks.IsOffForGallery on the assembly's own copy (RdlDesign, UpdateFileCopier), which a window built by
+		///its constructor attaches itself; CodeBase's switch does not reach it.</summary>
+		public static void SetLooksOffForGallery(Assembly assembly,bool isOff) {
+			Type type=GetType(assembly,"UiLooks");
+			if(type==typeof(CodeBase.UiLooks)) {
+				return;//CodeBase's own switch is the gallery's (FitGallery sets it once)
+			}
+			type.GetField("IsOffForGallery",BindingFlags.Public|BindingFlags.Static).SetValue(null,isOff);
+		}
+
 		///<summary>The full window with its title bar, as the screen shows it. With the program's frame (UiPlainFrame on): the window laid out as
 		///its Load does (the content below the band), its client area drawn as the gallery draws it (each control printed alone, the band on the
 		///window's surface) inside the 1 px border Windows 11 draws in the frame's outline colour. Without it (the before pictures): the window
