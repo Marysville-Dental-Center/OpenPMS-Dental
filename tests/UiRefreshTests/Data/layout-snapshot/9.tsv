@@ -83,8 +83,8 @@ OpenPmsDental/Forms/FormProgramLinkOutputFile .designer.cs	butBrowse	505,33	29,2
 OpenPmsDental/Forms/FormProgramLinkOutputFile .designer.cs	.			542,626
 OpenPmsDental/Forms/FormProgramProperty.designer.cs	butSave	409,139	75,26	
 OpenPmsDental/Forms/FormProgramProperty.designer.cs	label1	100,8	56,23	
-OpenPmsDental/Forms/FormProgramProperty.designer.cs	textProperty	162,8	320,23	
-OpenPmsDental/Forms/FormProgramProperty.designer.cs	textValue	162,35	320,23	
+OpenPmsDental/Forms/FormProgramProperty.designer.cs	textProperty	162,8	322,23	
+OpenPmsDental/Forms/FormProgramProperty.designer.cs	textValue	162,35	322,23	
 OpenPmsDental/Forms/FormProgramProperty.designer.cs	label2	116,35	40,23	
 OpenPmsDental/Forms/FormProgramProperty.designer.cs	checkIsHighSecurity	162,62	95,20	
 OpenPmsDental/Forms/FormProgramProperty.designer.cs	.			492,173
@@ -418,8 +418,8 @@ OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	textSupply	115,8	300,20
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	labelLot	81,35	28,23	
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	comboLot	115,35	300,23	
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	labelChange	57,62	52,23	
-OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	textChange	115,62	72,23	
-OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	labelChangeNote	193,64	225,18	
+OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	textChange	115,62	73,23	
+OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	labelChangeNote	194,64	225,18	
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	labelReason	57,89	52,23	
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	textReason	115,89	300,20	
 OpenPmsDental/Forms/FormSupplyAdjust.Designer.cs	butSave	344,134	75,24	

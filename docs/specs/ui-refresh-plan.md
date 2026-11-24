@@ -1688,6 +1688,13 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   edges, margins and grid edges; shared helper `hand/_s7.py`), 20 runtime texts; slice 3 re-planned with the stored anchors (44 rows,
   its 6 new rows pinned in `grid-hand/3.tsv`), the other re-plans unchanged (239 / 509 / 203 / 316 / 335); gallery G-UI3-ui12-7 (120
   windows, 18 at 150%), audit `UI-12-audit-7.md` (UI-12.md section 7, "Slice 7 (batch 3)").
+  Slice 9 (UI-12-9, branch `ui/ui12-9-1`, batch 4 of UI-12-batches.tsv at the branch point, the small windows): 82 windows on the
+  grid (41 with a layout script, 2 of them at the planner's fixed point), 38 skipped with their reasons (the report designer exe, graph
+  files, library controls, owner-drawn and code-laid-out windows), 9 runtime texts; UI.Button draws an icon button's text beside its
+  icon when ImageAlign is the default MiddleCenter and the text fits (FormMaintBoard's Add Item, `ButtonIconTextTests`); FormAdjMulti's
+  Update takes Add's anchor (new Anchor hand row, `grid-hand/3.tsv`); re-plans unchanged (239 / 509 / 203 / 44 / 316 / 335 / 204),
+  slice 6 385 on main's build (298 recorded before the stored anchors: for the lead); gallery G-UI3-ui12-9 (82 windows, 12 at 150%,
+  2 earlier-slice fixes), audit `UI-12-audit-9.md` (UI-12.md section 7, "Slice 9 (batch 4)").
 - Gallery: G-UI3 per slice, the owner's rows first.
 
 **UI-13: every element type in the new look (the owner, 2026-11-22: "Overall make sure you modernize all element types")**
