@@ -57,11 +57,11 @@
 			// 
 			this.textInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-			this.textInput.Location = new System.Drawing.Point(12, 29);
+			this.textInput.Location = new System.Drawing.Point(8, 29);
 			this.textInput.Multiline = true;
 			this.textInput.Name = "textInput";
 			this.textInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textInput.Size = new System.Drawing.Size(273, 226);
+			this.textInput.Size = new System.Drawing.Size(277, 242);
 			this.textInput.TabIndex = 3;
 			// 
 			// textResult
@@ -72,12 +72,12 @@
 			this.textResult.Multiline = true;
 			this.textResult.Name = "textResult";
 			this.textResult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textResult.Size = new System.Drawing.Size(275, 226);
+			this.textResult.Size = new System.Drawing.Size(279, 242);
 			this.textResult.TabIndex = 4;
 			// 
 			// labelInput
 			// 
-			this.labelInput.Location = new System.Drawing.Point(12, 8);
+			this.labelInput.Location = new System.Drawing.Point(8, 8);
 			this.labelInput.Name = "labelInput";
 			this.labelInput.Size = new System.Drawing.Size(233, 17);
 			this.labelInput.TabIndex = 5;
@@ -96,7 +96,7 @@
 			// butTransmit
 			// 
 			this.butTransmit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butTransmit.Location = new System.Drawing.Point(583, 267);
+			this.butTransmit.Location = new System.Drawing.Point(587, 283);
 			this.butTransmit.Name = "butTransmit";
 			this.butTransmit.Size = new System.Drawing.Size(85, 28);
 			this.butTransmit.TabIndex = 8;

@@ -48,7 +48,7 @@ namespace OpenPmsDental{
 			// 
 			// textMessage
 			// 
-			this.textMessage.Location = new System.Drawing.Point(322, 167);
+			this.textMessage.Location = new System.Drawing.Point(322, 168);
 			this.textMessage.Multiline = true;
 			this.textMessage.Name = "textMessage";
 			this.textMessage.Size = new System.Drawing.Size(359, 91);
@@ -56,7 +56,7 @@ namespace OpenPmsDental{
 			// 
 			// labelMessage
 			// 
-			this.labelMessage.Location = new System.Drawing.Point(8, 167);
+			this.labelMessage.Location = new System.Drawing.Point(8, 168);
 			this.labelMessage.Name = "labelMessage";
 			this.labelMessage.Size = new System.Drawing.Size(308, 23);
 			this.labelMessage.TabIndex = 9;
@@ -112,7 +112,7 @@ namespace OpenPmsDental{
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(62, 145);
+			this.label1.Location = new System.Drawing.Point(62, 146);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(254, 20);
 			this.label1.TabIndex = 13;
@@ -123,7 +123,7 @@ namespace OpenPmsDental{
 			// 
 			this.groupBox.Controls.Add(this.textRxName);
 			this.groupBox.Controls.Add(this.labelRx);
-			this.groupBox.Location = new System.Drawing.Point(8, 61);
+			this.groupBox.Location = new System.Drawing.Point(8, 64);
 			this.groupBox.Name = "groupBox";
 			this.groupBox.Size = new System.Drawing.Size(681, 54);
 			this.groupBox.TabIndex = 16;
@@ -133,7 +133,7 @@ namespace OpenPmsDental{
 			// checkIsHighSignificance
 			// 
 			this.checkIsHighSignificance.CheckAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.checkIsHighSignificance.Location = new System.Drawing.Point(322, 262);
+			this.checkIsHighSignificance.Location = new System.Drawing.Point(322, 263);
 			this.checkIsHighSignificance.Name = "checkIsHighSignificance";
 			this.checkIsHighSignificance.Size = new System.Drawing.Size(129, 20);
 			this.checkIsHighSignificance.TabIndex = 18;

@@ -63,7 +63,7 @@ namespace OpenPmsDental{
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(38, 42);
+			this.label2.Location = new System.Drawing.Point(38, 45);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(140, 23);
 			this.label2.TabIndex = 7;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(66, 124);
+			this.label3.Location = new System.Drawing.Point(66, 127);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(112, 23);
 			this.label3.TabIndex = 8;
@@ -81,7 +81,7 @@ namespace OpenPmsDental{
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(291, 127);
+			this.label4.Location = new System.Drawing.Point(291, 130);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(346, 34);
 			this.label4.TabIndex = 10;
@@ -98,7 +98,7 @@ namespace OpenPmsDental{
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(291, 45);
+			this.label6.Location = new System.Drawing.Point(291, 48);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(346, 34);
 			this.label6.TabIndex = 12;
@@ -106,7 +106,7 @@ namespace OpenPmsDental{
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(291, 175);
+			this.label7.Location = new System.Drawing.Point(291, 178);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(346, 34);
 			this.label7.TabIndex = 14;
@@ -115,14 +115,14 @@ namespace OpenPmsDental{
 			// 
 			// textDateStart
 			// 
-			this.textDateStart.Location = new System.Drawing.Point(184, 220);
+			this.textDateStart.Location = new System.Drawing.Point(184, 223);
 			this.textDateStart.Name = "textDateStart";
 			this.textDateStart.Size = new System.Drawing.Size(101, 23);
 			this.textDateStart.TabIndex = 5;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(114, 220);
+			this.label8.Location = new System.Drawing.Point(114, 223);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(64, 23);
 			this.label8.TabIndex = 16;
@@ -131,7 +131,7 @@ namespace OpenPmsDental{
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(291, 223);
+			this.label9.Location = new System.Drawing.Point(291, 226);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(346, 34);
 			this.label9.TabIndex = 17;
@@ -168,7 +168,7 @@ namespace OpenPmsDental{
 			// 
 			// textChargeAmount
 			// 
-			this.textChargeAmount.Location = new System.Drawing.Point(184, 42);
+			this.textChargeAmount.Location = new System.Drawing.Point(184, 45);
 			this.textChargeAmount.MaxVal = 100000000D;
 			this.textChargeAmount.MinVal = -100000000D;
 			this.textChargeAmount.Name = "textChargeAmount";
@@ -186,7 +186,7 @@ namespace OpenPmsDental{
 			// 
 			// comboIsEnabled
 			// 
-			this.comboIsEnabled.Location = new System.Drawing.Point(184, 172);
+			this.comboIsEnabled.Location = new System.Drawing.Point(184, 175);
 			this.comboIsEnabled.Name = "comboIsEnabled";
 			this.comboIsEnabled.Size = new System.Drawing.Size(101, 23);
 			this.comboIsEnabled.TabIndex = 4;
@@ -194,7 +194,7 @@ namespace OpenPmsDental{
 			// 
 			// label12
 			// 
-			this.label12.Location = new System.Drawing.Point(54, 172);
+			this.label12.Location = new System.Drawing.Point(54, 175);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(124, 23);
 			this.label12.TabIndex = 22;
@@ -203,7 +203,7 @@ namespace OpenPmsDental{
 			// 
 			// textPatNumSuperFamilyHead
 			// 
-			this.textPatNumSuperFamilyHead.Location = new System.Drawing.Point(184, 124);
+			this.textPatNumSuperFamilyHead.Location = new System.Drawing.Point(184, 127);
 			this.textPatNumSuperFamilyHead.Name = "textPatNumSuperFamilyHead";
 			this.textPatNumSuperFamilyHead.Size = new System.Drawing.Size(101, 23);
 			this.textPatNumSuperFamilyHead.TabIndex = 3;

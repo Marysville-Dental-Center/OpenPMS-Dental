@@ -5,7 +5,9 @@ box column (its label right-aligned 6 px before it), Select All, Deselect All an
 Fix round: Run and Create List right-aligned on the grid's right edge (main's; the planner left them 7 px short), the window 8 px
 under the bottom row (the planner moved the row up 21 px and left the window's height, 36 px under it).
 UI-12F (the final consistency pass): main's 639 px high again (a window never shrinks): the bottom row on the bottom padding and
-the grid down to a section gap (12 px) over it (it ended 4 px over the row)."""
+the grid down to a section gap (12 px) over it (it ended 4 px over the row).
+UI-12F fix round (the review of G-UI3-ui12f): hand rows after the script (rule "by hand (UI-12F fix round)") put the column on the grid's
+8 px padding on both sides (it stood 19 px from the left, 12 from the right): the Criteria group and the grid 15 px wider."""
 
 
 def layout(h):

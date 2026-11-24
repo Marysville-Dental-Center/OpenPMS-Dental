@@ -2,7 +2,9 @@
 result box 5 px further right and the window 3 px wider on every pass): the result box under its caption (main's 389, 270 px wide) with
 Transmit right-aligned on its right edge (both 659, as on main), the window 12 px after them as before the input box.
 UI-12F (the final consistency pass; a window never shrinks, the lead's decision at slice 6): main's 680 px wide again: the input box
-4 px wider, the middle column, the result's caption and box 4 px to the right, the result box 5 px wider (both margins 12 px)."""
+4 px wider, the middle column, the result's caption and box 4 px to the right, the result box 5 px wider (both margins 12 px).
+UI-12F fix round (the review of G-UI3-ui12f): hand rows after the script (rule "by hand (UI-12F fix round)") put main's room under the
+boxes back into them (242 px tall, 12 px over Transmit on the bottom padding) and the side margins on the grid's 8 px."""
 
 
 def layout(h):

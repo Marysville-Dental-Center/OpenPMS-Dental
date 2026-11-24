@@ -3,7 +3,9 @@
 8 px under the grid, Delete on the grid's x, the note between Delete and Add (6 px from each), centred on the row; the window 8 px under the
 row.
 UI-12F (the final consistency pass): main's 534 px high again (a window never shrinks) and the button row a section gap (12 px)
-under the grid (the bottom bar's gap): the row on the bottom padding, the grid down to 12 px over it."""
+under the grid (the bottom bar's gap): the row on the bottom padding, the grid down to 12 px over it.
+UI-12F fix round (the review of G-UI3-ui12f): hand rows after the script (rule "by hand (UI-12F fix round)") give the grid, Note and
+the bar one edge on both sides, the grid's 8 px padding (8 to 717)."""
 
 
 def layout(h):

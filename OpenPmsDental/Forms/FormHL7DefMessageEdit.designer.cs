@@ -92,7 +92,7 @@ namespace OpenPmsDental{
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textNote.Size = new System.Drawing.Size(285, 109);
+			this.textNote.Size = new System.Drawing.Size(293, 109);
 			this.textNote.TabIndex = 17;
 			// 
 			// label12
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			// 
 			this.labelDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.labelDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelDelete.Location = new System.Drawing.Point(108, 498);
+			this.labelDelete.Location = new System.Drawing.Point(99, 498);
 			this.labelDelete.Name = "labelDelete";
 			this.labelDelete.Size = new System.Drawing.Size(311, 32);
 			this.labelDelete.TabIndex = 66;
@@ -141,9 +141,9 @@ namespace OpenPmsDental{
 			this.gridMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.gridMain.Location = new System.Drawing.Point(17, 137);
+			this.gridMain.Location = new System.Drawing.Point(8, 137);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(692, 353);
+			this.gridMain.Size = new System.Drawing.Size(709, 353);
 			this.gridMain.TabIndex = 7;
 			this.gridMain.Title = "Segments";
 			this.gridMain.TranslationName = "TableSegments";
@@ -164,7 +164,7 @@ namespace OpenPmsDental{
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(17, 502);
+			this.butDelete.Location = new System.Drawing.Point(8, 502);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(85, 24);
 			this.butDelete.TabIndex = 18;

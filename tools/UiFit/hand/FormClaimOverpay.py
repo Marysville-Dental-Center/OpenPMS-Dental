@@ -1,5 +1,8 @@
 """FormClaimOverpay on the grid (UI-12 slice 6, layout script on the planner's tree). The Totals row stood 40 px over the bottom bar with the
-band empty: the grid grows down so the Totals row stands 8 px over the bar."""
+band empty: the grid grows down so the Totals row stands 8 px over the bar.
+UI-12F fix round (the review of G-UI3-ui12f): the Totals row stays 4 px under the grid it sums; the bar stands the section gap under
+the Totals row, the window 4 px taller (grid_hand.bar_section_gap reads the Totals row 8 px over the bar as content and moves the bar;
+the hand rows of grid-hand/6.tsv record it)."""
 import importlib.util
 import os
 

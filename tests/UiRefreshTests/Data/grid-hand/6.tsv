@@ -109,7 +109,7 @@ OpenPmsDental/Forms/FormHL7Defs.designer.cs	OpenPmsDental.FormHL7Defs	butCopy	Lo
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	OpenPmsDental.FormHL7Defs	butDuplicate	Location	737,603	684,609	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	buttonChangeInto	Location	482,35	501,35	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	buttonChangeFrom	Location	482,35	501,35	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	butMerge	Location	515,176	517,176	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	butMerge	Location	515,176	517,217	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormGlidewellSetup.Designer.cs	OpenPmsDental.FormGlidewellSetup	textSendWithout	Location	12,450	8,450	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormGlidewellSetup.Designer.cs	OpenPmsDental.FormGlidewellSetup	textSendWithout	Size	570,130	578,130	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormGlidewellSetup.Designer.cs	OpenPmsDental.FormGlidewellSetup	labelSendWithout	Location	12,430	8,430	by hand (layout script): on the grid
@@ -857,7 +857,9 @@ OpenPmsDental/Forms Reports/FormRpUnfinalizedInsPay.designer.cs	OpenPmsDental.Fo
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	OpenPmsDental.FormCDSILabResult	butDelete	Location	8,328	8,332	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	OpenPmsDental.FormCDSILabResult	butOk	Location	328,328	328,332	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormCDSILabResult.Designer.cs	OpenPmsDental.FormCDSILabResult	.	ClientSize	415,364	415,368	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	OpenPmsDental.FormClaimOverpay	gridMain	Size	1142,287	1142,279	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	OpenPmsDental.FormClaimOverpay	butToSupplemental	Location	533,330	533,334	by hand (UI-12F fix round): the Totals row stays 4 px under the grid it sums; the bar a section gap (12 px) under the Totals row, the window as much taller (the review of G-UI3-ui12f)
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	OpenPmsDental.FormClaimOverpay	butSave	Location	1075,330	1075,334	by hand (UI-12F fix round): the Totals row stays 4 px under the grid it sums; the bar a section gap (12 px) under the Totals row, the window as much taller (the review of G-UI3-ui12f)
+OpenPmsDental/Forms/FormClaimOverpay.Designer.cs	OpenPmsDental.FormClaimOverpay	.	ClientSize	1158,363	1158,367	by hand (UI-12F fix round): the Totals row stays 4 px under the grid it sums; the bar a section gap (12 px) under the Totals row, the window as much taller (the review of G-UI3-ui12f)
 OpenPmsDental/Forms/FormClaimResend.designer.cs	OpenPmsDental.FormClaimResend	butSend	Location	310,70	310,78	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormClaimResend.designer.cs	OpenPmsDental.FormClaimResend	.	ClientSize	408,102	408,110	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormCodeSystemsImport.designer.cs	OpenPmsDental.FormCodeSystemsImport	gridStatus	Size	865,388	865,384	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
@@ -878,8 +880,6 @@ OpenPmsDental/Forms/FormFieldDefLink.designer.cs	OpenPmsDental.FormFieldDefLink	
 OpenPmsDental/Forms/FormFieldDefLink.designer.cs	OpenPmsDental.FormFieldDefLink	gridDisplayed	Size	286,391	286,387	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	OpenPmsDental.FormHL7Defs	grid1	Size	475,565	475,561	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormHL7Defs.designer.cs	OpenPmsDental.FormHL7Defs	grid2	Size	475,565	475,561	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	butMerge	Location	517,176	517,180	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
-OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	.	ClientSize	600,249	600,253	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormInnoDb.designer.cs	OpenPmsDental.FormInnoDb	textBox1	Size	709,464	709,460	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	OpenPmsDental.FormInsPlanSelectFam	gridMain	Size	590,212	590,208	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormInsPlanSelectFam.designer.cs	OpenPmsDental.FormInsPlanSelectFam	listRelat	Size	180,212	180,208	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
@@ -913,3 +913,4 @@ OpenPmsDental/Forms/FormUnschedListSetup.designer.cs	OpenPmsDental.FormUnschedLi
 OpenPmsDental/Forms/FormWikiAllPages.designer.cs	OpenPmsDental.FormWikiAllPages	webViewWiki	Size	655,646	655,642	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormWikiAllPages.designer.cs	OpenPmsDental.FormWikiAllPages	gridMain	Size	252,643	252,639	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
 OpenPmsDental/Forms/FormWikiSearch.designer.cs	OpenPmsDental.FormWikiSearch	gridMain	Size	252,592	252,588	by hand (UI-12F): the bottom bar a section gap (12 px) under the content above it (UI-12.md section 1)
+OpenPmsDental/Forms/FormImageCatMerge.designer.cs	OpenPmsDental.FormImageCatMerge	groupBoxFrom	Location	8,92	8,112	by hand (layout script): on the grid
