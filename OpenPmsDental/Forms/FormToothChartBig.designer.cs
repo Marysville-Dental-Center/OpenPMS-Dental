@@ -44,14 +44,16 @@ namespace OpenPmsDental {
 			this.toothChartWrapper.ColorBackground = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(145)))), ((int)(((byte)(152)))));
 			this.toothChartWrapper.Cursor = System.Windows.Forms.Cursors.Default;
 			this.toothChartWrapper.CursorTool = SparksToothChart.CursorTool.Pointer;
-			this.toothChartWrapper.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.toothChartWrapper.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.toothChartWrapper.DrawMode = OpenPmsDentalBusiness.DrawingMode.Simple2D;
-			this.toothChartWrapper.Location = new System.Drawing.Point(0, 0);
+			this.toothChartWrapper.Location = new System.Drawing.Point(8, 8);
 			this.toothChartWrapper.Name = "toothChartWrapper";
 			this.toothChartWrapper.PerioMode = false;
-			this.toothChartWrapper.Size = new System.Drawing.Size(926, 858);
+			this.toothChartWrapper.Size = new System.Drawing.Size(910, 842);
 			this.toothChartWrapper.TabIndex = 0;
-			toothChartData1.SizeControl = new System.Drawing.Size(926, 858);
+			toothChartData1.SizeControl = new System.Drawing.Size(910, 842);
 			this.toothChartWrapper.TcData = toothChartData1;
 			this.toothChartWrapper.Visible = false;
 			// 
