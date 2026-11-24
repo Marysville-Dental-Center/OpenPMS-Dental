@@ -32,7 +32,7 @@ namespace CodeBase {
 			// progressBar
 			// 
 			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.progressBar.Location = new System.Drawing.Point(104, 22);
+			this.progressBar.Location = new System.Drawing.Point(104, 23);
 			this.progressBar.Name = "progressBar";
 			this.progressBar.Size = new System.Drawing.Size(286, 23);
 			this.progressBar.TabIndex = 0;
@@ -40,10 +40,10 @@ namespace CodeBase {
 			// labelLeftText
 			// 
 			this.labelLeftText.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.labelLeftText.Location = new System.Drawing.Point(8, 26);
+			this.labelLeftText.Location = new System.Drawing.Point(0, 23);
 			this.labelLeftText.Name = "labelLeftText";
 			this.labelLeftText.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.labelLeftText.Size = new System.Drawing.Size(95, 26);
+			this.labelLeftText.Size = new System.Drawing.Size(98, 23);
 			this.labelLeftText.TabIndex = 1;
 			this.labelLeftText.Text = "title";
 			this.labelLeftText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -51,19 +51,19 @@ namespace CodeBase {
 			// labelTopText
 			// 
 			this.labelTopText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.labelTopText.Location = new System.Drawing.Point(8, 8);
+			this.labelTopText.Location = new System.Drawing.Point(104, 4);
 			this.labelTopText.Name = "labelTopText";
-			this.labelTopText.Size = new System.Drawing.Size(461, 16);
+			this.labelTopText.Size = new System.Drawing.Size(286, 17);
 			this.labelTopText.TabIndex = 2;
 			this.labelTopText.Text = "topTitle";
-			this.labelTopText.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+			this.labelTopText.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
 			// 
 			// labelPercentComplete
 			// 
 			this.labelPercentComplete.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.labelPercentComplete.Location = new System.Drawing.Point(396, 31);
+			this.labelPercentComplete.Location = new System.Drawing.Point(396, 23);
 			this.labelPercentComplete.Name = "labelPercentComplete";
-			this.labelPercentComplete.Size = new System.Drawing.Size(71, 15);
+			this.labelPercentComplete.Size = new System.Drawing.Size(74, 23);
 			this.labelPercentComplete.TabIndex = 4;
 			this.labelPercentComplete.Text = "0%";
 			this.labelPercentComplete.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -75,7 +75,7 @@ namespace CodeBase {
 			this.Controls.Add(this.labelTopText);
 			this.Controls.Add(this.labelLeftText);
 			this.Name = "ODProgressBar";
-			this.Size = new System.Drawing.Size(477, 60);
+			this.Size = new System.Drawing.Size(470, 51);
 			this.ResumeLayout(false);
 
 		}

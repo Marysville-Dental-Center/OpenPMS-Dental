@@ -40,27 +40,27 @@ namespace CodeBase {
 			this.textMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textMsg.Location = new System.Drawing.Point(12, 25);
+			this.textMsg.Location = new System.Drawing.Point(0, 19);
 			this.textMsg.Multiline = true;
 			this.textMsg.Name = "textMsg";
 			this.textMsg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.textMsg.Size = new System.Drawing.Size(439, 70);
+			this.textMsg.Size = new System.Drawing.Size(460, 70);
 			this.textMsg.TabIndex = 0;
 			this.textMsg.TabStop = false;
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(9, 3);
+			this.label4.Location = new System.Drawing.Point(0, 0);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(93, 19);
+			this.label4.Size = new System.Drawing.Size(96, 17);
 			this.label4.TabIndex = 0;
 			this.label4.Text = "Progress Log";
-			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
 			// 
 			// labelWarning
 			// 
 			this.labelWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelWarning.Location = new System.Drawing.Point(9, 98);
+			this.labelWarning.Location = new System.Drawing.Point(0, 93);
 			this.labelWarning.Name = "labelWarning";
 			this.labelWarning.Size = new System.Drawing.Size(292, 17);
 			this.labelWarning.TabIndex = 0;
@@ -78,13 +78,13 @@ namespace CodeBase {
 			this.panel1.Controls.Add(this.labelWarning);
 			this.panel1.Location = new System.Drawing.Point(3, 9);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(460, 155);
+			this.panel1.Size = new System.Drawing.Size(460, 145);
 			this.panel1.TabIndex = 0;
 			// 
 			// butCancel
 			// 
 			this.butCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butCancel.Location = new System.Drawing.Point(376, 118);
+			this.butCancel.Location = new System.Drawing.Point(385, 122);
 			this.butCancel.Name = "butCancel";
 			this.butCancel.Size = new System.Drawing.Size(75, 23);
 			this.butCancel.TabIndex = 1;
@@ -95,7 +95,7 @@ namespace CodeBase {
 			// butPause
 			// 
 			this.butPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPause.Location = new System.Drawing.Point(12, 118);
+			this.butPause.Location = new System.Drawing.Point(0, 122);
 			this.butPause.Name = "butPause";
 			this.butPause.Size = new System.Drawing.Size(75, 23);
 			this.butPause.TabIndex = 0;
