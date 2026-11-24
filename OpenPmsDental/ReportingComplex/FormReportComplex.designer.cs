@@ -38,9 +38,9 @@ namespace OpenPmsDental.ReportingComplex {
 			// printPreviewControl2
 			// 
 			this.printPreviewControl2.AutoZoom = false;
-			this.printPreviewControl2.Location = new System.Drawing.Point(0, 25);
+			this.printPreviewControl2.Location = new System.Drawing.Point(8, 33);
 			this.printPreviewControl2.Name = "printPreviewControl2";
-			this.printPreviewControl2.Size = new System.Drawing.Size(831, 591);
+			this.printPreviewControl2.Size = new System.Drawing.Size(815, 575);
 			this.printPreviewControl2.TabIndex = 6;
 			// 
 			// ToolBarMain

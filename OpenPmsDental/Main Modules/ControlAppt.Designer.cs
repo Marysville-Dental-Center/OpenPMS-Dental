@@ -158,14 +158,14 @@
 			this.panelCalendarLower.Controls.Add(this.textLab);
 			this.panelCalendarLower.Location = new System.Drawing.Point(0, 188);
 			this.panelCalendarLower.Name = "panelCalendarLower";
-			this.panelCalendarLower.Size = new System.Drawing.Size(219, 317);
+			this.panelCalendarLower.Size = new System.Drawing.Size(219, 351);
 			this.panelCalendarLower.TabIndex = 88;
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(5, 204);
+			this.label1.Location = new System.Drawing.Point(0, 238);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(79, 30);
+			this.label1.Size = new System.Drawing.Size(78, 30);
 			this.label1.TabIndex = 95;
 			this.label1.Text = "Confirmation\r\nStatus";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -174,28 +174,28 @@
 			// 
 			this.textProdGoal.BackColor = System.Drawing.Color.White;
 			this.textProdGoal.AutoSize = false;
-			this.textProdGoal.Location = new System.Drawing.Point(84, 182);
+			this.textProdGoal.Location = new System.Drawing.Point(84, 211);
 			this.textProdGoal.Name = "textProdGoal";
 			this.textProdGoal.ReadOnly = true;
-			this.textProdGoal.Size = new System.Drawing.Size(133, 20);
+			this.textProdGoal.Size = new System.Drawing.Size(135, 23);
 			this.textProdGoal.TabIndex = 93;
 			this.textProdGoal.Text = "$100";
 			this.textProdGoal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelProdGoal
 			// 
-			this.labelProdGoal.Location = new System.Drawing.Point(4, 186);
+			this.labelProdGoal.Location = new System.Drawing.Point(14, 211);
 			this.labelProdGoal.Name = "labelProdGoal";
-			this.labelProdGoal.Size = new System.Drawing.Size(79, 17);
+			this.labelProdGoal.Size = new System.Drawing.Size(64, 23);
 			this.labelProdGoal.TabIndex = 94;
 			this.labelProdGoal.Text = "Daily Goal";
 			this.labelProdGoal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(16, 125);
+			this.label2.Location = new System.Drawing.Point(42, 130);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(66, 16);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 34;
 			this.label2.Text = "View";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -204,19 +204,19 @@
 			// 
 			this.textProduction.BackColor = System.Drawing.Color.White;
 			this.textProduction.AutoSize = false;
-			this.textProduction.Location = new System.Drawing.Point(84, 164);
+			this.textProduction.Location = new System.Drawing.Point(84, 184);
 			this.textProduction.Name = "textProduction";
 			this.textProduction.ReadOnly = true;
-			this.textProduction.Size = new System.Drawing.Size(133, 20);
+			this.textProduction.Size = new System.Drawing.Size(135, 23);
 			this.textProduction.TabIndex = 38;
 			this.textProduction.Text = "$100";
 			this.textProduction.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// labelProduction
 			// 
-			this.labelProduction.Location = new System.Drawing.Point(1, 168);
+			this.labelProduction.Location = new System.Drawing.Point(10, 184);
 			this.labelProduction.Name = "labelProduction";
-			this.labelProduction.Size = new System.Drawing.Size(82, 18);
+			this.labelProduction.Size = new System.Drawing.Size(68, 23);
 			this.labelProduction.TabIndex = 39;
 			this.labelProduction.Text = "Daily Prod";
 			this.labelProduction.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -225,10 +225,10 @@
 			// 
 			this.textLab.BackColor = System.Drawing.Color.White;
 			this.textLab.AutoSize = false;
-			this.textLab.Location = new System.Drawing.Point(84, 144);
+			this.textLab.Location = new System.Drawing.Point(84, 157);
 			this.textLab.Name = "textLab";
 			this.textLab.ReadOnly = true;
-			this.textLab.Size = new System.Drawing.Size(133, 20);
+			this.textLab.Size = new System.Drawing.Size(135, 23);
 			this.textLab.TabIndex = 36;
 			this.textLab.Text = "All Received";
 			this.textLab.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -428,7 +428,7 @@
 			this.groupSearch.Controls.Add(this.butSearchNext);
 			this.groupSearch.Location = new System.Drawing.Point(600, 365);
 			this.groupSearch.Name = "groupSearch";
-			this.groupSearch.Size = new System.Drawing.Size(219, 367);
+			this.groupSearch.Size = new System.Drawing.Size(219, 380);
 			this.groupSearch.TabIndex = 86;
 			this.groupSearch.Text = "Openings in View";
 			this.groupSearch.Visible = false;
@@ -437,9 +437,9 @@
 			// 
 			this.groupBox1.Controls.Add(this.butProvHygenist);
 			this.groupBox1.Controls.Add(this.butProvDentist);
-			this.groupBox1.Location = new System.Drawing.Point(130, 253);
+			this.groupBox1.Location = new System.Drawing.Point(122, 262);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(85, 63);
+			this.groupBox1.Size = new System.Drawing.Size(89, 82);
 			this.groupBox1.TabIndex = 89;
 			this.groupBox1.Text = "Search by";
 			// 
@@ -447,9 +447,9 @@
 			// 
 			this.butProvHygenist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butProvHygenist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvHygenist.Location = new System.Drawing.Point(6, 37);
+			this.butProvHygenist.Location = new System.Drawing.Point(8, 50);
 			this.butProvHygenist.Name = "butProvHygenist";
-			this.butProvHygenist.Size = new System.Drawing.Size(73, 22);
+			this.butProvHygenist.Size = new System.Drawing.Size(73, 24);
 			this.butProvHygenist.TabIndex = 92;
 			this.butProvHygenist.Text = "Hygienists";
 			this.butProvHygenist.Click += new System.EventHandler(this.butProvHygenist_Click);
@@ -458,9 +458,9 @@
 			// 
 			this.butProvDentist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butProvDentist.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvDentist.Location = new System.Drawing.Point(6, 14);
+			this.butProvDentist.Location = new System.Drawing.Point(8, 22);
 			this.butProvDentist.Name = "butProvDentist";
-			this.butProvDentist.Size = new System.Drawing.Size(73, 22);
+			this.butProvDentist.Size = new System.Drawing.Size(73, 24);
 			this.butProvDentist.TabIndex = 91;
 			this.butProvDentist.Text = "Providers";
 			this.butProvDentist.Click += new System.EventHandler(this.butProvDentist_Click);
@@ -469,9 +469,9 @@
 			// 
 			this.butProvPick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butProvPick.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butProvPick.Location = new System.Drawing.Point(6, 340);
+			this.butProvPick.Location = new System.Drawing.Point(8, 348);
 			this.butProvPick.Name = "butProvPick";
-			this.butProvPick.Size = new System.Drawing.Size(82, 22);
+			this.butProvPick.Size = new System.Drawing.Size(75, 24);
 			this.butProvPick.TabIndex = 88;
 			this.butProvPick.Text = "Providers...";
 			this.butProvPick.Click += new System.EventHandler(this.butProvPick_Click);
@@ -480,9 +480,9 @@
 			// 
 			this.butRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butRefresh.Location = new System.Drawing.Point(153, 317);
+			this.butRefresh.Location = new System.Drawing.Point(89, 348);
 			this.butRefresh.Name = "butRefresh";
-			this.butRefresh.Size = new System.Drawing.Size(62, 22);
+			this.butRefresh.Size = new System.Drawing.Size(58, 24);
 			this.butRefresh.TabIndex = 88;
 			this.butRefresh.Text = "Search";
 			this.butRefresh.Click += new System.EventHandler(this.butRefresh_Click);
@@ -490,27 +490,27 @@
 			// listSearchResults
 			// 
 			this.listSearchResults.IntegralHeight = false;
-			this.listSearchResults.Location = new System.Drawing.Point(6, 32);
+			this.listSearchResults.Location = new System.Drawing.Point(8, 50);
 			this.listSearchResults.Name = "listSearchResults";
-			this.listSearchResults.Size = new System.Drawing.Size(193, 134);
+			this.listSearchResults.Size = new System.Drawing.Size(203, 89);
 			this.listSearchResults.TabIndex = 87;
 			this.listSearchResults.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listSearchResults_MouseDown);
 			// 
 			// _listBoxProviders
 			// 
-			this._listBoxProviders.Location = new System.Drawing.Point(6, 269);
+			this._listBoxProviders.Location = new System.Drawing.Point(8, 280);
 			this._listBoxProviders.Name = "_listBoxProviders";
 			this._listBoxProviders.SelectionMode = OpenPmsDental.UI.SelectionMode.None;
-			this._listBoxProviders.Size = new System.Drawing.Size(118, 69);
+			this._listBoxProviders.Size = new System.Drawing.Size(106, 64);
 			this._listBoxProviders.TabIndex = 86;
 			// 
 			// butSearchClose
 			// 
 			this.butSearchClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSearchClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSearchClose.Location = new System.Drawing.Point(153, 342);
+			this.butSearchClose.Location = new System.Drawing.Point(153, 348);
 			this.butSearchClose.Name = "butSearchClose";
-			this.butSearchClose.Size = new System.Drawing.Size(62, 22);
+			this.butSearchClose.Size = new System.Drawing.Size(58, 24);
 			this.butSearchClose.TabIndex = 85;
 			this.butSearchClose.Text = "Close";
 			this.butSearchClose.Click += new System.EventHandler(this.butSearchClose_Click);
@@ -526,32 +526,32 @@
 			this.groupBox2.Controls.Add(this.panel1);
 			this.groupBox2.Controls.Add(this.dateSearch);
 			this.groupBox2.Controls.Add(this.label9);
-			this.groupBox2.Location = new System.Drawing.Point(6, 168);
+			this.groupBox2.Location = new System.Drawing.Point(8, 147);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(193, 84);
+			this.groupBox2.Size = new System.Drawing.Size(203, 107);
 			this.groupBox2.TabIndex = 84;
 			this.groupBox2.Text = "Date/Time Restrictions";
 			// 
 			// textAfter
 			// 
 			this.textAfter.AutoSize = false;
-			this.textAfter.Location = new System.Drawing.Point(57, 60);
+			this.textAfter.Location = new System.Drawing.Point(62, 76);
 			this.textAfter.Name = "textAfter";
-			this.textAfter.Size = new System.Drawing.Size(44, 20);
+			this.textAfter.Size = new System.Drawing.Size(44, 23);
 			this.textAfter.TabIndex = 88;
 			// 
 			// label11
 			// 
-			this.label11.Location = new System.Drawing.Point(1, 62);
+			this.label11.Location = new System.Drawing.Point(8, 76);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(53, 16);
+			this.label11.Size = new System.Drawing.Size(48, 23);
 			this.label11.TabIndex = 87;
 			this.label11.Text = "After";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// radioBeforePM
 			// 
-			this.radioBeforePM.Location = new System.Drawing.Point(151, 41);
+			this.radioBeforePM.Location = new System.Drawing.Point(157, 50);
 			this.radioBeforePM.Name = "radioBeforePM";
 			this.radioBeforePM.Size = new System.Drawing.Size(39, 20);
 			this.radioBeforePM.TabIndex = 86;
@@ -560,7 +560,7 @@
 			// radioBeforeAM
 			// 
 			this.radioBeforeAM.Checked = true;
-			this.radioBeforeAM.Location = new System.Drawing.Point(106, 41);
+			this.radioBeforeAM.Location = new System.Drawing.Point(112, 50);
 			this.radioBeforeAM.Name = "radioBeforeAM";
 			this.radioBeforeAM.Size = new System.Drawing.Size(39, 20);
 			this.radioBeforeAM.TabIndex = 85;
@@ -570,16 +570,16 @@
 			// textBefore
 			// 
 			this.textBefore.AutoSize = false;
-			this.textBefore.Location = new System.Drawing.Point(57, 38);
+			this.textBefore.Location = new System.Drawing.Point(62, 49);
 			this.textBefore.Name = "textBefore";
-			this.textBefore.Size = new System.Drawing.Size(44, 20);
+			this.textBefore.Size = new System.Drawing.Size(44, 23);
 			this.textBefore.TabIndex = 84;
 			// 
 			// label10
 			// 
-			this.label10.Location = new System.Drawing.Point(1, 40);
+			this.label10.Location = new System.Drawing.Point(8, 49);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(53, 16);
+			this.label10.Size = new System.Drawing.Size(48, 23);
 			this.label10.TabIndex = 83;
 			this.label10.Text = "Before";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -588,14 +588,14 @@
 			// 
 			this.panel1.Controls.Add(this.radioAfterAM);
 			this.panel1.Controls.Add(this.radioAfterPM);
-			this.panel1.Location = new System.Drawing.Point(105, 60);
+			this.panel1.Location = new System.Drawing.Point(112, 77);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(84, 20);
 			this.panel1.TabIndex = 86;
 			// 
 			// radioAfterAM
 			// 
-			this.radioAfterAM.Location = new System.Drawing.Point(0, 2);
+			this.radioAfterAM.Location = new System.Drawing.Point(0, 0);
 			this.radioAfterAM.Name = "radioAfterAM";
 			this.radioAfterAM.Size = new System.Drawing.Size(39, 20);
 			this.radioAfterAM.TabIndex = 89;
@@ -604,7 +604,7 @@
 			// radioAfterPM
 			// 
 			this.radioAfterPM.Checked = true;
-			this.radioAfterPM.Location = new System.Drawing.Point(46, 2);
+			this.radioAfterPM.Location = new System.Drawing.Point(45, 0);
 			this.radioAfterPM.Name = "radioAfterPM";
 			this.radioAfterPM.Size = new System.Drawing.Size(39, 20);
 			this.radioAfterPM.TabIndex = 90;
@@ -614,25 +614,25 @@
 			// dateSearch
 			// 
 			this.dateSearch.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-			this.dateSearch.Location = new System.Drawing.Point(57, 16);
+			this.dateSearch.Location = new System.Drawing.Point(62, 22);
 			this.dateSearch.Name = "dateSearch";
-			this.dateSearch.Size = new System.Drawing.Size(130, 20);
+			this.dateSearch.Size = new System.Drawing.Size(130, 23);
 			this.dateSearch.TabIndex = 90;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(1, 19);
+			this.label9.Location = new System.Drawing.Point(8, 22);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(54, 16);
+			this.label9.Size = new System.Drawing.Size(48, 23);
 			this.label9.TabIndex = 89;
 			this.label9.Text = "After";
 			this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label8
 			// 
-			this.label8.Location = new System.Drawing.Point(6, 251);
+			this.label8.Location = new System.Drawing.Point(8, 262);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(92, 16);
+			this.label8.Size = new System.Drawing.Size(106, 16);
 			this.label8.TabIndex = 80;
 			this.label8.Text = "Providers";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -642,7 +642,7 @@
 			this.butSearchCloseX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.butSearchCloseX.ForeColor = System.Drawing.SystemColors.Control;
 			this.butSearchCloseX.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.DeleteX,16,16);
-			this.butSearchCloseX.Location = new System.Drawing.Point(185, 7);
+			this.butSearchCloseX.Location = new System.Drawing.Point(195, 26);
 			this.butSearchCloseX.Name = "butSearchCloseX";
 			this.butSearchCloseX.Size = new System.Drawing.Size(16, 16);
 			this.butSearchCloseX.TabIndex = 0;
@@ -652,9 +652,9 @@
 			// 
 			this.butSearchNext.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ArrowRight,13,15);
 			this.butSearchNext.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.butSearchNext.Location = new System.Drawing.Point(111, 9);
+			this.butSearchNext.Location = new System.Drawing.Point(118, 22);
 			this.butSearchNext.Name = "butSearchNext";
-			this.butSearchNext.Size = new System.Drawing.Size(71, 22);
+			this.butSearchNext.Size = new System.Drawing.Size(71, 24);
 			this.butSearchNext.TabIndex = 77;
 			this.butSearchNext.Text = "More";
 			this.butSearchNext.Click += new System.EventHandler(this.butSearchMore_Click);
@@ -671,7 +671,7 @@
 			// 
 			// toggleDayWeek
 			// 
-			this.toggleDayWeek.Location = new System.Drawing.Point(17, 27);
+			this.toggleDayWeek.Location = new System.Drawing.Point(0, 26);
 			this.toggleDayWeek.Name = "toggleDayWeek";
 			this.toggleDayWeek.Size = new System.Drawing.Size(80, 40);
 			this.toggleDayWeek.TabIndex = 99;
@@ -716,7 +716,7 @@
 			// 
 			// pinBoard
 			// 
-			this.pinBoard.Location = new System.Drawing.Point(118, 24);
+			this.pinBoard.Location = new System.Drawing.Point(120, 26);
 			this.pinBoard.Name = "pinBoard";
 			this.pinBoard.Size = new System.Drawing.Size(99, 96);
 			this.pinBoard.TabIndex = 89;
@@ -729,7 +729,7 @@
 			// listConfirmed
 			// 
 			this.listConfirmed.IntegralHeight = false;
-			this.listConfirmed.Location = new System.Drawing.Point(84, 202);
+			this.listConfirmed.Location = new System.Drawing.Point(84, 238);
 			this.listConfirmed.Name = "listConfirmed";
 			this.listConfirmed.Size = new System.Drawing.Size(86, 113);
 			this.listConfirmed.TabIndex = 75;
@@ -738,9 +738,9 @@
 			// butAdvSearch
 			// 
 			this.butAdvSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdvSearch.Location = new System.Drawing.Point(2, 96);
+			this.butAdvSearch.Location = new System.Drawing.Point(0, 98);
 			this.butAdvSearch.Name = "butAdvSearch";
-			this.butAdvSearch.Size = new System.Drawing.Size(63, 24);
+			this.butAdvSearch.Size = new System.Drawing.Size(60, 24);
 			this.butAdvSearch.TabIndex = 90;
 			this.butAdvSearch.Text = "Advanced";
 			this.butAdvSearch.Click += new System.EventHandler(this.ButAdvSearch_Click);
@@ -829,9 +829,9 @@
 			// butLab
 			// 
 			this.butLab.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLab.Location = new System.Drawing.Point(2, 144);
+			this.butLab.Location = new System.Drawing.Point(0, 157);
 			this.butLab.Name = "butLab";
-			this.butLab.Size = new System.Drawing.Size(79, 21);
+			this.butLab.Size = new System.Drawing.Size(78, 23);
 			this.butLab.TabIndex = 77;
 			this.butLab.Text = "Lab Cases";
 			this.butLab.Click += new System.EventHandler(this.ButLab_Click);
@@ -840,7 +840,7 @@
 			// 
 			this.butClearPin.Icon = OpenPmsDental.UI.EnumIcons.PinOff;
 			this.butClearPin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butClearPin.Location = new System.Drawing.Point(42, 71);
+			this.butClearPin.Location = new System.Drawing.Point(0, 70);
 			this.butClearPin.Name = "butClearPin";
 			this.butClearPin.Size = new System.Drawing.Size(75, 24);
 			this.butClearPin.TabIndex = 33;
@@ -850,18 +850,18 @@
 			// butSearch
 			// 
 			this.butSearch.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butSearch.Location = new System.Drawing.Point(66, 96);
+			this.butSearch.Location = new System.Drawing.Point(66, 98);
 			this.butSearch.Name = "butSearch";
-			this.butSearch.Size = new System.Drawing.Size(51, 24);
+			this.butSearch.Size = new System.Drawing.Size(48, 24);
 			this.butSearch.TabIndex = 40;
 			this.butSearch.Text = "Search";
 			this.butSearch.Click += new System.EventHandler(this.butSearch_Click);
 			// 
 			// comboView
 			// 
-			this.comboView.Location = new System.Drawing.Point(84, 123);
+			this.comboView.Location = new System.Drawing.Point(84, 130);
 			this.comboView.Name = "comboView";
-			this.comboView.Size = new System.Drawing.Size(133, 21);
+			this.comboView.Size = new System.Drawing.Size(135, 23);
 			this.comboView.TabIndex = 35;
 			this.comboView.SelectionChangeCommitted += new System.EventHandler(this.comboView_SelectionChangeCommitted);
 			// 

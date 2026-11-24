@@ -33,18 +33,18 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this._printPreviewControl2.AutoZoom = false;
-			this._printPreviewControl2.Location = new System.Drawing.Point(0, 0);
+			this._printPreviewControl2.Location = new System.Drawing.Point(8, 8);
 			this._printPreviewControl2.Name = "_printPreviewControl2";
-			this._printPreviewControl2.Size = new System.Drawing.Size(842, 538);
+			this._printPreviewControl2.Size = new System.Drawing.Size(826, 694);
 			this._printPreviewControl2.TabIndex = 7;
 			this._printPreviewControl2.Zoom = 1D;
 			// 
 			// butNext
 			// 
 			this.butNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butNext.Location = new System.Drawing.Point(91, 716);
+			this.butNext.Location = new System.Drawing.Point(91, 714);
 			this.butNext.Name = "butNext";
-			this.butNext.Size = new System.Drawing.Size(75, 23);
+			this.butNext.Size = new System.Drawing.Size(75, 24);
 			this.butNext.TabIndex = 8;
 			this.butNext.Text = "Next Page";
 			this.butNext.Click += new System.EventHandler(this.butNext_Click);
@@ -52,9 +52,9 @@ namespace OpenPmsDental {
 			// butPrev
 			// 
 			this.butPrev.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butPrev.Location = new System.Drawing.Point(10, 716);
+			this.butPrev.Location = new System.Drawing.Point(8, 714);
 			this.butPrev.Name = "butPrev";
-			this.butPrev.Size = new System.Drawing.Size(75, 23);
+			this.butPrev.Size = new System.Drawing.Size(75, 24);
 			this.butPrev.TabIndex = 9;
 			this.butPrev.Text = "Prev. Page";
 			this.butPrev.Click += new System.EventHandler(this.butPrev_Click);

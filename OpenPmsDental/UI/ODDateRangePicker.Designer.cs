@@ -44,18 +44,18 @@
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(17, 2);
+			this.label1.Location = new System.Drawing.Point(12, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(47, 18);
+			this.label1.Size = new System.Drawing.Size(47, 23);
 			this.label1.TabIndex = 58;
 			this.label1.Text = "From";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(263, 2);
+			this.label2.Location = new System.Drawing.Point(258, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(36, 18);
+			this.label2.Size = new System.Drawing.Size(36, 23);
 			this.label2.TabIndex = 60;
 			this.label2.Text = "To";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -101,7 +101,7 @@
 			// 
 			this.datePickerFrom.BackColor = System.Drawing.Color.Transparent;
 			this.datePickerFrom.HideCalendarOnLeave = false;
-			this.datePickerFrom.Location = new System.Drawing.Point(2, 1);
+			this.datePickerFrom.Location = new System.Drawing.Point(2, 0);
 			this.datePickerFrom.MaximumSize = new System.Drawing.Size(0, 184);
 			this.datePickerFrom.MinimumSize = new System.Drawing.Size(227, 23);
 			this.datePickerFrom.Name = "datePickerFrom";
@@ -115,7 +115,7 @@
 			// 
 			this.datePickerTo.BackColor = System.Drawing.Color.Transparent;
 			this.datePickerTo.HideCalendarOnLeave = false;
-			this.datePickerTo.Location = new System.Drawing.Point(237, 1);
+			this.datePickerTo.Location = new System.Drawing.Point(237, 0);
 			this.datePickerTo.MaximumSize = new System.Drawing.Size(0, 184);
 			this.datePickerTo.MinimumSize = new System.Drawing.Size(227, 23);
 			this.datePickerTo.Name = "datePickerTo";

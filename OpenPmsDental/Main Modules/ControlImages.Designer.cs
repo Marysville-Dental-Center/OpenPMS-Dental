@@ -118,7 +118,7 @@
 			// labelInvalidSig
 			// 
 			this.labelInvalidSig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelInvalidSig.Location = new System.Drawing.Point(398, 31);
+			this.labelInvalidSig.Location = new System.Drawing.Point(393, 28);
 			this.labelInvalidSig.Name = "labelInvalidSig";
 			this.labelInvalidSig.Size = new System.Drawing.Size(196, 59);
 			this.labelInvalidSig.TabIndex = 94;
@@ -128,7 +128,7 @@
 			// 
 			// sigBox
 			// 
-			this.sigBox.Location = new System.Drawing.Point(308, 20);
+			this.sigBox.Location = new System.Drawing.Point(310, 18);
 			this.sigBox.Name = "sigBox";
 			this.sigBox.Size = new System.Drawing.Size(362, 79);
 			this.sigBox.TabIndex = 90;
@@ -136,9 +136,9 @@
 			// 
 			// label15
 			// 
-			this.label15.Location = new System.Drawing.Point(305, 0);
+			this.label15.Location = new System.Drawing.Point(310, 0);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(63, 18);
+			this.label15.Size = new System.Drawing.Size(63, 16);
 			this.label15.TabIndex = 87;
 			this.label15.Text = "Signature";
 			this.label15.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -148,7 +148,7 @@
 			// 
 			this.label1.Location = new System.Drawing.Point(0, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(38, 18);
+			this.label1.Size = new System.Drawing.Size(38, 16);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Note";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -157,7 +157,7 @@
 			// textNote
 			// 
 			this.textNote.BackColor = System.Drawing.SystemColors.Window;
-			this.textNote.Location = new System.Drawing.Point(0, 20);
+			this.textNote.Location = new System.Drawing.Point(0, 18);
 			this.textNote.Multiline = true;
 			this.textNote.Name = "textNote";
 			this.textNote.ReadOnly = true;
@@ -181,50 +181,50 @@
 			// 
 			// butGoTo
 			// 
-			this.butGoTo.Location = new System.Drawing.Point(610, 21);
+			this.butGoTo.Location = new System.Drawing.Point(620, 18);
 			this.butGoTo.Name = "butGoTo";
-			this.butGoTo.Size = new System.Drawing.Size(60, 20);
+			this.butGoTo.Size = new System.Drawing.Size(60, 23);
 			this.butGoTo.TabIndex = 43;
 			this.butGoTo.Text = "Go To";
 			this.butGoTo.Click += new System.EventHandler(this.butGoTo_Click);
 			// 
 			// butImportStart
 			// 
-			this.butImportStart.Location = new System.Drawing.Point(670, 21);
+			this.butImportStart.Location = new System.Drawing.Point(686, 18);
 			this.butImportStart.Name = "butImportStart";
-			this.butImportStart.Size = new System.Drawing.Size(60, 20);
+			this.butImportStart.Size = new System.Drawing.Size(60, 23);
 			this.butImportStart.TabIndex = 42;
 			this.butImportStart.Text = "Start";
 			this.butImportStart.Click += new System.EventHandler(this.butImportStart_Click);
 			// 
 			// butImportClose
 			// 
-			this.butImportClose.Location = new System.Drawing.Point(730, 21);
+			this.butImportClose.Location = new System.Drawing.Point(752, 18);
 			this.butImportClose.Name = "butImportClose";
-			this.butImportClose.Size = new System.Drawing.Size(60, 20);
+			this.butImportClose.Size = new System.Drawing.Size(60, 23);
 			this.butImportClose.TabIndex = 41;
 			this.butImportClose.Text = "Close";
 			this.butImportClose.Click += new System.EventHandler(this.butImportClose_Click);
 			// 
 			// butBrowse
 			// 
-			this.butBrowse.Location = new System.Drawing.Point(550, 21);
+			this.butBrowse.Location = new System.Drawing.Point(554, 18);
 			this.butBrowse.Name = "butBrowse";
-			this.butBrowse.Size = new System.Drawing.Size(60, 20);
+			this.butBrowse.Size = new System.Drawing.Size(60, 23);
 			this.butBrowse.TabIndex = 40;
 			this.butBrowse.Text = "Change";
 			this.butBrowse.Click += new System.EventHandler(this.butBrowse_Click);
 			// 
 			// textImportAuto
 			// 
-			this.textImportAuto.Location = new System.Drawing.Point(0, 22);
+			this.textImportAuto.Location = new System.Drawing.Point(0, 18);
 			this.textImportAuto.Name = "textImportAuto";
-			this.textImportAuto.Size = new System.Drawing.Size(548, 20);
+			this.textImportAuto.Size = new System.Drawing.Size(548, 23);
 			this.textImportAuto.TabIndex = 39;
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(1, 3);
+			this.label3.Location = new System.Drawing.Point(0, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(616, 16);
 			this.label3.TabIndex = 38;

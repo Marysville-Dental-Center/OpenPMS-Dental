@@ -3635,7 +3635,7 @@ namespace OpenPmsDental {
 		private void ShowSearch() {
 			_listProvidersSearch=new List<Provider>();
 			List<Provider> listProvidersShort=Providers.GetDeepCopy(true);
-			LayoutManager.MoveLocation(groupSearch,new Point(panelCalendar.Location.X,panelCalendar.Location.Y+panelCalendarLower.Location.Y+pinBoard.Bottom+2));
+			LayoutManager.MoveLocation(groupSearch,new Point(panelCalendar.Location.X,panelCalendar.Location.Y+panelCalendarLower.Location.Y+pinBoard.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP)));//UI-12 slice 16: the grid's row gap under the pinboard
 			textBefore.Text="";
 			textAfter.Text="";
 			_listBoxProviders.Items.Clear();
@@ -3955,7 +3955,7 @@ namespace OpenPmsDental {
 			LayoutManager.Move(monthCalendarOD,new Rectangle(0,labelDate.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP),
 				LayoutManager.Scale(sizeMonthCalendar.Width),LayoutManager.Scale(sizeMonthCalendar.Height)));
 			int w=monthCalendarOD.Width;//a number of things will be set to this width
-			LayoutManager.Move(panelCalendarLower,new Rectangle(0,monthCalendarOD.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP),w,LayoutManager.Scale(317)));
+			LayoutManager.Move(panelCalendarLower,new Rectangle(0,monthCalendarOD.Bottom+LayoutManager.Scale(UiGrid.ROW_GAP),w,LayoutManager.Scale(351)));//its rows at the grid's pitch (317 before)
 			LayoutManager.Move(panelCalendar,new Rectangle(Width-pad-w,toolBarMain.Bottom+pad,w,panelCalendarLower.Bottom));
 			LayoutManager.Move(tabControl,new Rectangle(panelCalendar.Left,panelCalendar.Bottom+gap,w,Math.Max(0,Height-pad-(panelCalendar.Bottom+gap))));
 			LayoutManager.Move(contrApptPanel,new Rectangle(pad,toolBarMain.Bottom+pad,Math.Max(0,panelCalendar.Left-gap-pad),Math.Max(0,Height-toolBarMain.Bottom-2*pad)));
