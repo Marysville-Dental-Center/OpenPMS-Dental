@@ -36,6 +36,7 @@ namespace CodeBase {
 		///<summary>The program's zoom (ComputerPrefs' Zoom/100; 1 without a database). Set by the program (LayoutManagerForms); null in the plain
 		///exes, which have no zoom (1).</summary>
 		public static Func<float> FuncGetZoom;
+		private static readonly PropertyInfo _propertyInfoShowKeyboardCues=typeof(Control).GetProperty("ShowKeyboardCues",BindingFlags.Instance|BindingFlags.NonPublic);
 		///<summary>The data grid views whose frame the look paints (its Paint handler is attached once).</summary>
 		private static readonly ConditionalWeakTable<DataGridView,object> _tableDataGridViews=new ConditionalWeakTable<DataGridView,object>();
 		///<summary>True leaves the stock types as Windows draws them (no UI-13 look is attached): only the gallery harness sets it, for the before
@@ -174,6 +175,24 @@ namespace CodeBase {
 				zoom=1f;
 			}
 			return Math.Max(1f,Math.Max(1f,deviceDpi/96f)*zoom);
+		}
+
+		///<summary>UI-PLAIN: the mnemonic flag of a control's text as Windows Forms draws it: no prefix when the control does not use mnemonics, the
+		///access key's underline hidden until Windows shows the keyboard cues (the Alt key; Control.ShowKeyboardCues), as Windows draws a stock
+		///button, check box, label or group box. The looks drew the underline always (the plain windows' &amp;OK and &amp;Cancel).</summary>
+		public static TextFormatFlags GetPrefixFlags(Control control,bool useMnemonic) {
+			if(!useMnemonic) {
+				return TextFormatFlags.NoPrefix;
+			}
+			try {
+				if(_propertyInfoShowKeyboardCues!=null && !(bool)_propertyInfoShowKeyboardCues.GetValue(control)) {
+					return TextFormatFlags.HidePrefix;
+				}
+			}
+			catch(Exception) {
+				//The underline shows, as Windows shows it when the cues are on.
+			}
+			return TextFormatFlags.Default;
 		}
 
 		///<summary>The colour behind a control: its own when opaque, else its parent's, else the window colour.</summary>
@@ -445,6 +464,12 @@ namespace CodeBase {
 					g.DrawImage(button.BackgroundImage,GetAligned(rectangleBack,sizeImage,ContentAlignment.MiddleCenter));
 				}
 			}
+			if(button.Image!=null && !string.IsNullOrEmpty(button.Text) && button.TextImageRelation!=TextImageRelation.Overlay) {
+				//UI-PLAIN: the image beside, above or below the text (TextImageRelation) as Windows Forms lays them out (the dashboard's Add Col
+				//and Add Row: the text over its icon, the text before its icon); the look drew them where each alignment alone put them.
+				PaintImageAndText(g,button,rectangleContent,colorText,colorParent,scale);
+				return;
+			}
 			if(button.Image!=null) {
 				Rectangle rectangleImage=GetAligned(rectangleContent,button.Image.Size,button.ImageAlign);
 				if(button.Enabled) {
@@ -473,6 +498,94 @@ namespace CodeBase {
 			TextRenderer.DrawText(g,button.Text,button.Font,rectangleContent,colorText,textFormatFlags);
 		}
 
+		///<summary>UI-PLAIN: a button's image and text with a TextImageRelation other than Overlay, as one block: the image and the text side by side
+		///(ImageBeforeText, TextBeforeImage) or one over the other (ImageAboveText, TextAboveImage), the gap between them the icon-text gap, the
+		///text wrapped in the content's width when they stand one over the other. The block stands where both alignments put it on an axis where
+		///they agree, else centred on that axis (Windows Forms' own drawing of the dashboard's buttons: Add Row, image MiddleLeft and text
+		///MiddleRight, is centred; Add Col, image TopCenter and text BottomCenter, is centred).</summary>
+		public static void PaintImageAndText(Graphics g,System.Windows.Forms.Button button,Rectangle rectangleContent,Color colorText,Color colorParent,float scale) {
+			Size sizeImage=button.Image.Size;
+			int gap=UiTheme.ScaleI(UiTheme.GAP_ICON_TEXT,scale);
+			TextImageRelation textImageRelation=button.TextImageRelation;
+			bool isVertical=textImageRelation==TextImageRelation.ImageAboveText || textImageRelation==TextImageRelation.TextAboveImage;
+			bool isImageFirst=textImageRelation==TextImageRelation.ImageBeforeText || textImageRelation==TextImageRelation.ImageAboveText;
+			TextFormatFlags textFormatFlagsMeasure=UiLooks.GetPrefixFlags(button,button.UseMnemonic);
+			Size sizeText;
+			if(isVertical) {
+				textFormatFlagsMeasure|=TextFormatFlags.WordBreak;
+				sizeText=TextRenderer.MeasureText(g,button.Text,button.Font,new Size(Math.Max(1,rectangleContent.Width),int.MaxValue),textFormatFlagsMeasure);
+				sizeText=new Size(Math.Min(sizeText.Width,rectangleContent.Width),sizeText.Height);
+			}
+			else {
+				textFormatFlagsMeasure|=TextFormatFlags.SingleLine;
+				sizeText=TextRenderer.MeasureText(g,button.Text,button.Font,new Size(int.MaxValue,int.MaxValue),textFormatFlagsMeasure);
+				sizeText=new Size(Math.Min(sizeText.Width,Math.Max(0,rectangleContent.Width-sizeImage.Width-gap)),sizeText.Height);
+			}
+			Size sizeBlock=isVertical ? new Size(Math.Max(sizeImage.Width,sizeText.Width),sizeImage.Height+gap+sizeText.Height)
+				: new Size(sizeImage.Width+gap+sizeText.Width,Math.Max(sizeImage.Height,sizeText.Height));
+			Rectangle rectangleBlock=GetAligned(rectangleContent,sizeBlock,GetBlockAlign(button.ImageAlign,button.TextAlign));
+			Rectangle rectangleImage;
+			Rectangle rectangleText;
+			if(isVertical) {
+				int yImage=isImageFirst ? rectangleBlock.Y : rectangleBlock.Bottom-sizeImage.Height;
+				int yText=isImageFirst ? rectangleBlock.Y+sizeImage.Height+gap : rectangleBlock.Y;
+				rectangleImage=new Rectangle(rectangleBlock.X+(rectangleBlock.Width-sizeImage.Width)/2,yImage,sizeImage.Width,sizeImage.Height);
+				rectangleText=new Rectangle(rectangleBlock.X,yText,rectangleBlock.Width,sizeText.Height);
+			}
+			else {
+				int xImage=isImageFirst ? rectangleBlock.X : rectangleBlock.Right-sizeImage.Width;
+				int xText=isImageFirst ? rectangleBlock.X+sizeImage.Width+gap : rectangleBlock.X;
+				rectangleImage=new Rectangle(xImage,rectangleBlock.Y+(rectangleBlock.Height-sizeImage.Height)/2,sizeImage.Width,sizeImage.Height);
+				rectangleText=new Rectangle(xText,rectangleBlock.Y,sizeText.Width,rectangleBlock.Height);
+			}
+			if(button.Enabled) {
+				g.DrawImage(button.Image,rectangleImage);
+			}
+			else {
+				ControlPaint.DrawImageDisabled(g,button.Image,rectangleImage.X,rectangleImage.Y,colorParent);
+			}
+			TextFormatFlags textFormatFlags=TextFormatFlags.HorizontalCenter|TextFormatFlags.VerticalCenter|UiLooks.GetPrefixFlags(button,button.UseMnemonic)
+				|(isVertical ? TextFormatFlags.WordBreak : TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis);
+			TextRenderer.DrawText(g,button.Text,button.Font,rectangleText,colorText,textFormatFlags);
+		}
+
+		///<summary>Where a button's image and text stand as one block: on each axis the side both alignments name, else the centre.</summary>
+		public static ContentAlignment GetBlockAlign(ContentAlignment contentAlignmentImage,ContentAlignment contentAlignmentText) {
+			int columnImage=GetColumn(contentAlignmentImage);
+			int columnText=GetColumn(contentAlignmentText);
+			int rowImage=GetRow(contentAlignmentImage);
+			int rowText=GetRow(contentAlignmentText);
+			int column=columnImage==columnText ? columnImage : 1;
+			int row=rowImage==rowText ? rowImage : 1;
+			ContentAlignment[,] arrayAlignments=new ContentAlignment[,] {
+				{ ContentAlignment.TopLeft,ContentAlignment.TopCenter,ContentAlignment.TopRight },
+				{ ContentAlignment.MiddleLeft,ContentAlignment.MiddleCenter,ContentAlignment.MiddleRight },
+				{ ContentAlignment.BottomLeft,ContentAlignment.BottomCenter,ContentAlignment.BottomRight } };
+			return arrayAlignments[row,column];
+		}
+
+		///<summary>0 left, 1 centre, 2 right.</summary>
+		private static int GetColumn(ContentAlignment contentAlignment) {
+			if(contentAlignment==ContentAlignment.TopLeft || contentAlignment==ContentAlignment.MiddleLeft || contentAlignment==ContentAlignment.BottomLeft) {
+				return 0;
+			}
+			if(contentAlignment==ContentAlignment.TopRight || contentAlignment==ContentAlignment.MiddleRight || contentAlignment==ContentAlignment.BottomRight) {
+				return 2;
+			}
+			return 1;
+		}
+
+		///<summary>0 top, 1 middle, 2 bottom.</summary>
+		private static int GetRow(ContentAlignment contentAlignment) {
+			if(contentAlignment==ContentAlignment.TopLeft || contentAlignment==ContentAlignment.TopCenter || contentAlignment==ContentAlignment.TopRight) {
+				return 0;
+			}
+			if(contentAlignment==ContentAlignment.BottomLeft || contentAlignment==ContentAlignment.BottomCenter || contentAlignment==ContentAlignment.BottomRight) {
+				return 2;
+			}
+			return 1;
+		}
+
 		///<summary>The text flags of a stock button's caption in its content rectangle: wrapped (WordBreak) only when the rectangle holds two lines
 		///of its font, else one line (SingleLine), so a caption wider than a one-line button is never broken onto a line its bottom edge cuts.
 		///</summary>
@@ -484,9 +597,7 @@ namespace CodeBase {
 			else {
 				textFormatFlags|=TextFormatFlags.SingleLine;
 			}
-			if(!button.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(button,button.UseMnemonic);
 			return textFormatFlags;
 		}
 
@@ -590,9 +701,7 @@ namespace CodeBase {
 			}
 			EnumUiColor uiColorText=UiControlPaint.DrawButton(g,rectangle,buttonState,isPrimary:false,isFocused:false,scale);
 			TextFormatFlags textFormatFlags=UiButtonLook.GetTextFlags(label.TextAlign)|TextFormatFlags.WordBreak;
-			if(!label.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(label,label.UseMnemonic);
 			TextRenderer.DrawText(g,label.Text,label.Font,rectangle,UiTheme.GetColor(uiColorText),textFormatFlags);
 		}
 	}
@@ -644,9 +753,7 @@ namespace CodeBase {
 				return;
 			}
 			TextFormatFlags textFormatFlags=UiButtonLook.GetTextFlags(label.TextAlign)|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis;
-			if(!label.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(label,label.UseMnemonic);
 			using(Font font=GetFontTitle()) {
 				TextRenderer.DrawText(g,label.Text,font,Rectangle.Inflate(rectangle,-UiTheme.ScaleI(UiTheme.SPACE_4,UiLooks.GetScale(label)),0),UiTheme.GetColor(EnumUiColor.TextOnAccent),
 					textFormatFlags);
@@ -786,9 +893,7 @@ namespace CodeBase {
 				top=rectangle.Y+(int)Math.Round(rectangle.Height/2f-sizeBox/2f,0);
 				textFormatFlags|=TextFormatFlags.VerticalCenter;
 			}
-			if(!checkBox.UseMnemonic) {
-				textFormatFlags|=TextFormatFlags.NoPrefix;
-			}
+			textFormatFlags|=UiLooks.GetPrefixFlags(checkBox,checkBox.UseMnemonic);
 			int sizeDrawn=sizeBox+UiTheme.GetLineWidth(scale);
 			Rectangle rectangleBox=new Rectangle(rectangle.X,top,sizeDrawn,sizeDrawn);
 			Rectangle rectangleText=new Rectangle(rectangle.X+sizeBox+gap,rectangle.Y,Math.Max(0,rectangle.Width-sizeBox-gap),rectangle.Height);
@@ -1104,7 +1209,8 @@ namespace CodeBase {
 			}
 			Color colorText=groupBox.Enabled ? UiTheme.GetColor(EnumUiColor.Text) : UiTheme.GetColor(EnumUiColor.TextDisabled);
 			Point pointText=new Point(UiTheme.ScaleI(5,scale),1);
-			TextFormatFlags textFormatFlags=TextFormatFlags.Left|TextFormatFlags.Top|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis;
+			TextFormatFlags textFormatFlags=TextFormatFlags.Left|TextFormatFlags.Top|TextFormatFlags.SingleLine|TextFormatFlags.EndEllipsis
+				|UiLooks.GetPrefixFlags(groupBox,useMnemonic:true);
 			Rectangle rectangleText=new Rectangle(pointText.X,pointText.Y,Math.Max(0,groupBox.Width-pointText.X*2),groupBox.Font.Height+2);
 			TextRenderer.DrawText(g,groupBox.Text,groupBox.Font,rectangleText,colorText,textFormatFlags);
 		}

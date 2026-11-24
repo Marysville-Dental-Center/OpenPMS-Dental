@@ -51,6 +51,12 @@ namespace CodeBase {
 			return color==SystemColors.Control || color.ToArgb()==SystemColors.Control.ToArgb() || color.ToArgb()==_colorBackgroundOld.ToArgb();
 		}
 
+		///<summary>True for a window's own background the token replaces: an old background (IsOldBackground) or the light classic grey a window
+		///chose (SystemColors.ControlLight: the CodeBase progress windows).</summary>
+		public static bool IsOldWindowBackground(Color color) {
+			return IsOldBackground(color) || (color.A==255 && color.ToArgb()==SystemColors.ControlLight.ToArgb());
+		}
+
 		///<summary>True for a control that shows the window's background (the window, a panel or split container and its panels, a user control, a
 		///group box, a label, a check box or radio button), whose old background becomes the token. Not a stock tab page: the stock tab control
 		///keeps Windows' themed tabs and pages (UI-13's inventory). Inputs, lists, buttons and the rest keep their colours (their looks use them).
@@ -63,10 +69,11 @@ namespace CodeBase {
 				|| control is Label || control is CheckBox || control is RadioButton;
 		}
 
-		///<summary>The control and its children: an old background (IsOldBackground) on a background control (IsBackground) becomes the window
-		///background token. A child that takes its parent's colour reads the new one and stays as it is.</summary>
+		///<summary>The control and its children: an old background (IsOldBackground; on the window IsOldWindowBackground) on a background control
+		///(IsBackground) becomes the window background token. A child that takes its parent's colour reads the new one and stays as it is.</summary>
 		private static void SetBackColor(Control control) {
-			if(IsBackground(control) && IsOldBackground(control.BackColor)) {
+			bool isOld=control is Form ? IsOldWindowBackground(control.BackColor) : IsOldBackground(control.BackColor);
+			if(IsBackground(control) && isOld) {
 				control.BackColor=UiTheme.Surface;
 			}
 			foreach(Control child in control.Controls) {

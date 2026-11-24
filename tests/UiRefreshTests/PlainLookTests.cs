@@ -95,7 +95,8 @@ namespace UiRefreshTests {
 			int countFramed=0;
 			foreach(Control control in Walk(root)) {
 				string name=window+" "+(control==root ? "(window)" : control.Name);
-				if(UiPlainWindow.IsBackground(control) && UiPlainWindow.IsOldBackground(control.BackColor)) {
+				bool isOld=control is Form ? UiPlainWindow.IsOldWindowBackground(control.BackColor) : UiPlainWindow.IsOldBackground(control.BackColor);
+				if(UiPlainWindow.IsBackground(control) && isOld) {
 					listProblems.Add(name+": background "+control.BackColor.Name);
 				}
 				if(control!=root && UiInputFrame.IsFramed(control)) {
@@ -191,6 +192,75 @@ namespace UiRefreshTests {
 					Assert.AreEqual(UiTheme.Surface,form.BackColor);
 				}
 			});
+		}
+
+		[TestMethod]
+		public void UiPlainWindow_LightGreyWindow_TakesTheToken() {
+			StaRunner.Run(() => {
+				using(Form form=new Form { BackColor=SystemColors.ControlLight })
+				using(Panel panel=new Panel { BackColor=SystemColors.ControlLight }) {
+					form.Controls.Add(panel);
+					UiPlainWindow.Attach(form);
+					Assert.AreEqual(UiTheme.Surface,form.BackColor,"The progress windows' light grey window takes the token.");
+					Assert.AreEqual(SystemColors.ControlLight,panel.BackColor,"A light grey panel the window chose inside it stays.");
+				}
+			});
+		}
+
+		[TestMethod]
+		public void ButtonLook_ImageAndTextAsOneBlock() {
+			Assert.AreEqual(ContentAlignment.MiddleCenter,UiButtonLook.GetBlockAlign(ContentAlignment.MiddleLeft,ContentAlignment.MiddleRight),"Add Row");
+			Assert.AreEqual(ContentAlignment.MiddleCenter,UiButtonLook.GetBlockAlign(ContentAlignment.TopCenter,ContentAlignment.BottomCenter),"Add Col");
+			Assert.AreEqual(ContentAlignment.MiddleLeft,UiButtonLook.GetBlockAlign(ContentAlignment.MiddleLeft,ContentAlignment.MiddleLeft));
+			Assert.AreEqual(ContentAlignment.BottomRight,UiButtonLook.GetBlockAlign(ContentAlignment.BottomRight,ContentAlignment.BottomRight));
+			StaRunner.Run(() => {
+				using(Bitmap bitmapIcon=new Bitmap(16,16))
+				using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Text="Add Row",Size=new Size(200,30),Image=bitmapIcon,
+					ImageAlign=ContentAlignment.MiddleLeft,TextAlign=ContentAlignment.MiddleRight,TextImageRelation=TextImageRelation.TextBeforeImage })
+				using(Bitmap bitmap=new Bitmap(200,30,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					using(Graphics gIcon=Graphics.FromImage(bitmapIcon)) {
+						gIcon.Clear(Color.Red);
+					}
+					UiButtonLook.PaintButton(g,button,EnumUiButtonState.Normal,isFocused:false);
+					int xRedFirst=-1;
+					int xTextLast=-1;
+					for(int x=0;x<200;x++) {
+						Color color=bitmap.GetPixel(x,15);
+						if(xRedFirst<0 && color.R>200 && color.G<60 && color.B<60) {
+							xRedFirst=x;
+						}
+					}
+					for(int x=0;x<200;x++) {
+						for(int y=4;y<26;y++) {
+							Color color=bitmap.GetPixel(x,y);
+							if(color.R+color.G+color.B<300 && !(color.R>200 && color.G<60)) {
+								xTextLast=Math.Max(xTextLast,x);
+							}
+						}
+					}
+					Assert.IsTrue(xRedFirst>0,"The image is drawn.");
+					Assert.IsTrue(xTextLast>0 && xTextLast<xRedFirst,"The text before the image (text ends at "+xTextLast+", image at "+xRedFirst+").");
+					Assert.IsTrue(Math.Abs((200-(xRedFirst+16))-(xTextLast>0 ? FirstDark(bitmap) : 0))<=12,"The block centred.");
+				}
+			});
+			StaRunner.Run(() => {
+				using(System.Windows.Forms.Button button=new System.Windows.Forms.Button { Text="&OK",UseMnemonic=false }) {
+					Assert.AreEqual(TextFormatFlags.NoPrefix,UiLooks.GetPrefixFlags(button,button.UseMnemonic));
+				}
+			});
+		}
+
+		private static int FirstDark(Bitmap bitmap) {
+			for(int x=0;x<bitmap.Width;x++) {
+				for(int y=4;y<bitmap.Height-4;y++) {
+					Color color=bitmap.GetPixel(x,y);
+					if(color.R+color.G+color.B<300 && !(color.R>200 && color.G<60)) {
+						return x;
+					}
+				}
+			}
+			return -1;
 		}
 
 		[TestMethod]
