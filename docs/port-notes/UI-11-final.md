@@ -139,4 +139,15 @@ tools/New-UiGallery.ps1 -Before <W>/gal-before -After <W>/gal-after -Name G-UI3 
 
 ## 6. Tests
 
-TBD
+New: `FinalSweepTests` (the sweep: `Sweep_EveryWindow_NoClassicLookLeft`, `Sweep_EveryWindow_IsOnTheGridList`;
+`ReportViewerDialogs_TakeTheLookFromTheHost`), `WpfFocusTests.RadioButton_Group_IsOneTabStop_TheCheckedOne`, WindowChecksTests'
+`UiHarnessTests.Baseline_OneCommit_EveryPictureOnce` (the reference set's record). Changed: the real Tab walk passes the radio button group
+once; `PlainLookTests` counts five windows built by their constructor (the report viewer's two dialogs added to `WindowBuilder`'s list).
+FitGallery: the window lists `@all` and `@densest`.
+
+Full x64 build through the lane at `f20ec8b71` (the last code change; the commits after it are data and notes): 0 errors. Targeted x64 run
+(`.git/od-tools/test-results/ui11final-run1.txt`, 2026-11-24): UiRefreshTests 347 passed, 50 skipped (the WPF pictures of a disconnected
+session and the opt-in galleries), 0 failed, both real Tab walks passed; WindowChecksTests 31 passed, 44 skipped (opt-in); UnitTests 1728
+passed, 3 skipped; PrintGuardTests 19 passed, 1 skipped; NoHqTests 130 passed; P262BillingTests 54 passed. `tools/Test-NoEolFlips.ps1
+-Base e4eeb6760`: 0 flips. `python tools/UiFit/element_inventory.py --check` and `python tools/UiFit/colour_literals.py --check`: match.
+On `main` (`ui11final-before100.txt`) the same UiRefreshTests run had only the two new sweep tests failing (before `sweep-known.tsv`).
