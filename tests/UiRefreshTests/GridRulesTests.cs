@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using CodeBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDental;
+using UiRefreshTests.LayoutSnapshot;
 using UiRefreshTests.Scan;
 using UiRefreshTests.TextFit;
 
@@ -581,9 +582,8 @@ namespace UiRefreshTests {
 					}
 					//UI-12 slice 9 fix round: the label's text is centred on its field (the vertical centres within 1 px). The planner centred
 					//FormTaskListEdit's Date box on the two-line note beside it and left the label 4 px higher, its text over the box's centre.
-					//From slice 9 on: 14 labels of the pilot and slices 1, 2 and 5 stand 2 to 4 px off their fields (UI-12.md, "Slice 9, fix
-					//round"), left to those slices' owners; slice 8 ran at the same time.
-					if(IsLabelCentreChecked(gridWindow.Slice) && Math.Abs(CenterY(field)-CenterY(label))>1) {
+					//UI-12F (the final consistency pass): in every slice, the pilot's and slices 1 to 8's too (their 15 labels fixed).
+					if(Math.Abs(CenterY(field)-CenterY(label))>1) {
 						listFindings.Add(window+"\tlabel-centre\t"+label.Name+" "+field.Name);
 					}
 				}
@@ -607,7 +607,89 @@ namespace UiRefreshTests {
 						listFindings.Add(window+"\tpicker-column\t"+picker.Name+" "+fieldAbove.Name);
 					}
 				}
+				//UI-12F (the final consistency pass): the window's bottom bar stands a section gap (12 px, UI-12.md section 1) or more under the
+				//content above it; some slice 6 and 8 scripts put it 8 px under (the sibling gap). More is allowed: a window that keeps main's size
+				//shares the room it does not fill out as equal gaps, the one over the bar too.
+				if(container==root && GetBarGap(root,listKids,out Control controlAbove,out Control controlBar) is int gapBar && gapBar<UiGrid.SECTION_GAP) {
+					listFindings.Add(window+"\tbar-gap\t"+controlAbove.Name+" "+controlBar.Name);
+					ListTextDetails.Add(window+" bar gap "+gapBar+" px between "+controlAbove.Name+" and "+controlBar.Name);
+				}
 			}
+		}
+
+		///<summary>UI-12F: the gap between the window's bottom bar and the lowest control above it, null when the window has no bar. The bar is
+		///what the planner takes for it (grid_tools.layout_tree): the controls anchored to the bottom and not the top, and OK, Save, Cancel and
+		///Close, in the window's bottom 60 px, and the buttons on their row. The content is every other control that ends above the bar's top
+		///(a list beside the bar, down to the window's bottom, is no content above it).</summary>
+		public static int? GetBarGap(Control root,List<Control> listKids,out Control controlAbove,out Control controlBar) {
+			controlAbove=null;
+			controlBar=null;
+			string[] arrayDialogNames=new string[] { "butOK","butSave","butCancel","butClose" };
+			int heightRoot=root.ClientSize.Height;
+			List<Control> listBar=listKids.Where(x => x.Bottom>heightRoot-60 && ((x.Anchor & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+				|| (arrayDialogNames.Contains(x.Name) && IsAnyButton(x)))).ToList();
+			if(listBar.Count==0) {
+				return null;
+			}
+			List<Control> listBarButtons=listBar.Where(IsAnyButton).ToList();
+			foreach(Control control in listKids.Where(x => IsAnyButton(x) && !listBar.Contains(x))) {
+				if(listBarButtons.Any(x => Math.Min(x.Bottom,control.Bottom)-Math.Max(x.Top,control.Top)>4)) {
+					listBar.Add(control);
+				}
+			}
+			int yBar=listBar.Min(x => x.Top);
+			controlBar=listBar.OrderBy(x => x.Top).ThenBy(x => x.Left).First();
+			controlAbove=listKids.Where(x => !listBar.Contains(x) && x.Width>0 && x.Height>0 && x.Bottom<=yBar)
+				.OrderByDescending(x => x.Bottom).ThenBy(x => x.Name,StringComparer.Ordinal).FirstOrDefault();
+			if(controlAbove==null) {
+				return null;
+			}
+			return yBar-controlAbove.Bottom;
+		}
+
+		private static bool IsAnyButton(Control control) {
+			return control is System.Windows.Forms.Button || control.GetType().FullName=="OpenPmsDental.UI.Button";
+		}
+
+		///<summary>UI-12F (the final consistency pass; the lead's decision at slice 6, "a window never shrinks"): every designer file a slice owns
+		///(the grid windows' and the user controls laid out with them) is at least main's size before UI-12 (Data\grid-main-sizes.tsv: the window's
+		///or user control's ClientSize or Size in the layout snapshot of 79d92c89b, the last main before the pilot merged), in both directions.
+		///A window whose code sets its width or height (code_sized) is held to the other direction only. The sizes are read from the designer
+		///files as the layout snapshot reads them.</summary>
+		[TestMethod]
+		public void GridWindows_NeverShrink() {
+			Dictionary<string,string[]> dictMain=new Dictionary<string,string[]>();
+			foreach(string line in File.ReadAllLines(Path.Combine(RepoPaths.Root(),"tests","UiRefreshTests","Data","grid-main-sizes.tsv"))) {
+				if(line=="" || line.StartsWith("#") || line.StartsWith("file\t")) {
+					continue;
+				}
+				string[] arrayFields=line.Split('\t');
+				Assert.AreEqual(4,arrayFields.Length,"grid-main-sizes.tsv needs file, size, code_sized and why: "+line);
+				Assert.IsTrue(arrayFields[2]=="" || arrayFields[2]=="width" || arrayFields[2]=="height","code_sized is empty, width or height: "+line);
+				Assert.AreEqual(arrayFields[2]=="",arrayFields[3]=="","A code-sized row says why, and only such a row: "+line);
+				dictMain[arrayFields[0]]=arrayFields;
+			}
+			SliceData.SnapshotOwners snapshotOwners=SliceData.SnapshotOwners.FromData();
+			List<string> listProblems=new List<string>();
+			int countChecked=0;
+			foreach(LayoutSnapshotRow row in LayoutSnapshotBuilder.Build(RepoPaths.Root()).Where(x => x.Control==".")) {
+				if(snapshotOwners.Owner(row.File)==SliceData.UNSLICED || !dictMain.TryGetValue(row.File,out string[] arrayMain)) {
+					continue;
+				}
+				string sizeNow=row.ClientSize!="" ? row.ClientSize : row.Size;
+				int[] arrayNow=sizeNow.Split(',').Select(int.Parse).ToArray();
+				int[] arrayWas=arrayMain[1].Split(',').Select(int.Parse).ToArray();
+				countChecked++;
+				if((arrayNow[0]<arrayWas[0] && arrayMain[2]!="width") || (arrayNow[1]<arrayWas[1] && arrayMain[2]!="height")) {
+					listProblems.Add(row.File+" "+sizeNow+" (main "+arrayMain[1]+")");
+				}
+			}
+			Assert.IsTrue(countChecked>=900,"The grid windows' designer files: "+countChecked);
+			foreach(string[] arrayMain in dictMain.Values.Where(x => x[2]!="")) {
+				Assert.AreNotEqual(SliceData.UNSLICED,snapshotOwners.Owner(arrayMain[0]),"A code-sized row is a grid window's: "+arrayMain[0]);
+			}
+			Assert.AreEqual(0,listProblems.Count,"Grid windows smaller than on main before UI-12 (a window never shrinks):"+Environment.NewLine
+				+string.Join(Environment.NewLine,listProblems));
 		}
 
 		///<summary>Fields named by a label on their row share one left edge with the fields of other rows, group boxes and tab pages whose left edge
@@ -681,11 +763,6 @@ namespace UiRefreshTests {
 					yield return control2;
 				}
 			}
-		}
-
-		///<summary>UI-12 slice 9 fix round: the label-centre rule holds in the windows of slice 9 and later slices.</summary>
-		private static bool IsLabelCentreChecked(string slice) {
-			return int.TryParse(slice,out int number) && number>=9;
 		}
 
 		private static int CenterY(Control control) {
