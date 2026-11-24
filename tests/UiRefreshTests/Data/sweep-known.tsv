@@ -62,14 +62,7 @@ OpenPmsDental.FormWikiEdit	grid	(window)	not on the grid: UI-12.md, "Slice 9 (ba
 OpenPmsDental.ModuleSwitchBlurOverlay	classic-grey	(window)	its constructor sets white (colour-literals.tsv, ModuleSwitchBlur); it paints the snapshot over the whole window
 OpenPmsDental.ModuleSwitchBlurOverlay	grid	(window)	the module switch's borderless cover: no controls
 OpenPmsDental.ModuleSwitchBlurOverlay	plain-window	(window)	the module switch's borderless cover: a blurred snapshot or a white fade, no controls
-OpenPmsDental.MsgBoxCopyPaste	classic-grey	(window)	as the plain-window row: the base constructor gives it the token
 OpenPmsDental.MsgBoxCopyPaste	grid	(window)	not on the grid: UI-12.md, "Slice 11 (the large windows and the earlier skips)", Skipped: A message box whose designer code is in its `.cs` (no designer file for the planner and the applier); the scan builds no window of that name.
-OpenPmsDental.MsgBoxCopyPaste	input-frame	textMain	as the plain-window row: the base constructor attaches the input frame
-OpenPmsDental.MsgBoxCopyPaste	plain-window	(window)	the program's subclass of CodeBase.MsgBoxCopyPaste, whose constructor calls UiPlainWindow.Attach; the harness builds it without the base constructor
-OpenPmsDental.MsgBoxCopyPaste	scroll	textMain	as the plain-window row: the base constructor attaches the scroll look
-OpenPmsDental.MsgBoxCopyPaste	stock-button	butCopyAll	as the plain-window row: the base constructor attaches the button look
-OpenPmsDental.MsgBoxCopyPaste	stock-button	butOK	as the plain-window row: the base constructor attaches the button look
-OpenPmsDental.MsgBoxCopyPaste	stock-button	butPrint	as the plain-window row: the base constructor attaches the button look
 OpenPmsDental.Reporting.Allocators.MyAllocator1.FormInstallAllocator_Provider	grid	(window)	not on the grid: UI-12.md, "Slice 10 (batch 2 and 6)", Skipped: A FormODBase that never calls InitializeLayoutManager (no LayoutManager, no input frames), drawn in its own maroon-and-grey colours and bold fonts: the plain windows' ...
 OpenPmsDental.Reporting.Allocators.MyAllocator1.Images.ImageAnimator	grid	(window)	not on the grid: UI-12.md, "Slice 9 (batch 4)", Skipped: Owner-drawn controls (the first three are not scanned types: no control to place); ImageAnimator's picture fills it (the planner moved it 8 px in and grew the control ...
 OpenPmsDental.ReportingComplex.FormReportComplex	grid	(window)	not on the grid: UI-12.md, "Slice 9 (batch 4)", Skipped: The code lays out the preview and signature panel (FormTPsign), the print preview (FormReportComplex, FormPrntScrn, which puts it at 0, 0) and the kiosk screen ...

@@ -441,6 +441,9 @@ namespace UiRefreshTests.Scan {
 			//UI-11-final: the report viewer library's two dialogs, whose constructors take the look from the host (RdlViewer.ActionAttachLook).
 			{ "fyiReporting.RdlViewer.DialogMessages",new object[] { new System.Collections.ArrayList { "A synthetic message of the report." } } },
 			{ "fyiReporting.RdlViewer.DataSourcePassword",new object[0] },
+			//UI-11-final fix round: the program's message box, whose own InitializeComponent is empty; its base constructor
+			//(CodeBase.MsgBoxCopyPaste) makes the text box and buttons and attaches the look. No database or files.
+			{ "OpenPmsDental.MsgBoxCopyPaste",new object[] { "A synthetic message." } },
 		};
 
 		///<summary>True while the gallery (FitGallery) and PlainLookTests build: the windows of _dictBuiltByConstructor are made by their
