@@ -29,7 +29,7 @@ namespace OpenPmsDental{
 			// 
 			// labelInternal
 			// 
-			this.labelInternal.Location = new System.Drawing.Point(12, 8);
+			this.labelInternal.Location = new System.Drawing.Point(8, 8);
 			this.labelInternal.Name = "labelInternal";
 			this.labelInternal.Size = new System.Drawing.Size(366, 35);
 			this.labelInternal.TabIndex = 83;
@@ -38,7 +38,7 @@ namespace OpenPmsDental{
 			// 
 			// butPatImage
 			// 
-			this.butPatImage.Location = new System.Drawing.Point(12, 45);
+			this.butPatImage.Location = new System.Drawing.Point(8, 45);
 			this.butPatImage.Name = "butPatImage";
 			this.butPatImage.Size = new System.Drawing.Size(75, 24);
 			this.butPatImage.TabIndex = 84;

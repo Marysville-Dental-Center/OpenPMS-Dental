@@ -47,7 +47,7 @@ namespace OpenPmsDental{
 			this.butNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butNext.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butNext.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronRight,16,16);
-			this.butNext.Location = new System.Drawing.Point(654, 566);
+			this.butNext.Location = new System.Drawing.Point(766, 566);
 			this.butNext.Name = "butNext";
 			this.butNext.Size = new System.Drawing.Size(75, 23);
 			this.butNext.TabIndex = 1;
@@ -73,7 +73,7 @@ namespace OpenPmsDental{
 			this.butSkip.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butSkip.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.butSkip.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.ChevronDoubleRight,16,16);
-			this.butSkip.Location = new System.Drawing.Point(735, 566);
+			this.butSkip.Location = new System.Drawing.Point(847, 566);
 			this.butSkip.Name = "butSkip";
 			this.butSkip.Size = new System.Drawing.Size(75, 23);
 			this.butSkip.TabIndex = 2;

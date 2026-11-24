@@ -35,15 +35,15 @@ namespace OpenPmsDental {
 			this.listCats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.listCats.Location = new System.Drawing.Point(28, 28);
+			this.listCats.Location = new System.Drawing.Point(8, 28);
 			this.listCats.Name = "listCats";
-			this.listCats.Size = new System.Drawing.Size(262, 589);
+			this.listCats.Size = new System.Drawing.Size(294, 612);
 			this.listCats.TabIndex = 0;
 			this.listCats.DoubleClick += new System.EventHandler(this.listCats_DoubleClick);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(28, 8);
+			this.label1.Location = new System.Drawing.Point(8, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(214, 18);
 			this.label1.TabIndex = 1;

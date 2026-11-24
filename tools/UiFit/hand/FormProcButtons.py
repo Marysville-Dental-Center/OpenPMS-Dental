@@ -2,7 +2,7 @@
 buttons list (the stacked Quick Buttons panel and note made another row) and drew the note into the list. Main's two columns on the grid:
 each caption over its list (the two lists one top and one height), Edit Categories under the left list, Add and Delete, Up and Down under
 the right one; the Quick Buttons panel and its note, which the code shows instead of the list, on the list's place (the panel at its top,
-the note 8 px under the panel)."""
+the note 8 px under the panel); the lists down to the buttons under them, which end 8 px over the bottom (no empty band)."""
 import importlib.util
 import os
 
@@ -20,8 +20,9 @@ def layout(h):
     h.set("label2", x1, 8, LW, 18)
     h.set("label1", x2, 8, RW, 18)
     top = 8 + 18 + 2
-    LH = h.n("listCategories").nh
-    h.set("listCategories", x1, top, None, None)
+    HT = h.n(".").nh
+    LH = HT - 8 - h.n("butAdd").nh - 4 - h.n("butDelete").nh - 8 - top
+    h.set("listCategories", x1, top, None, LH)
     h.set("listViewButtons", x2, top, None, LH)
     h.set("panelQuickButtons", x2, top, None, None)
     pq = h.n("panelQuickButtons")

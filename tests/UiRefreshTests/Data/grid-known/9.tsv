@@ -1,0 +1,5 @@
+# UI-12: the grid findings GridRulesTests allows on the grid windows, each with why (the planner lists them in its run; UI-12.md section 4).
+# The test fails on a finding not listed here and on a row that no longer happens, so this list only shrinks.
+window	rule	key	why
+OpenPmsDental.FormProcButtons	overlap	labelEdit listViewButtons	UI-12 slice 9: the Quick Buttons panel and its note stand on the buttons list's place; the code shows them instead of the list (FormProcButtons.cs, the Quick Buttons category)
+OpenPmsDental.Reporting.Allocators.MyAllocator1.FormReport_GuarantorAllocationCheck	unframed	textBox1	UI-12 slice 9: a stock System.Windows.Forms.TextBox of the allocator check window (the input frame draws the program's own boxes); unchanged from main

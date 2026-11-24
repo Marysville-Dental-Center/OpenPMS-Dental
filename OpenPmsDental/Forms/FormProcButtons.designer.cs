@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			// 
 			this.listCategories.Location = new System.Drawing.Point(8, 28);
 			this.listCategories.Name = "listCategories";
-			this.listCategories.Size = new System.Drawing.Size(234, 316);
+			this.listCategories.Size = new System.Drawing.Size(234, 375);
 			this.listCategories.TabIndex = 37;
 			this.listCategories.Click += new System.EventHandler(this.listCategories_Click);
 			// 
@@ -76,7 +76,7 @@ namespace OpenPmsDental {
 			this.listViewButtons.Location = new System.Drawing.Point(338, 28);
 			this.listViewButtons.MultiSelect = false;
 			this.listViewButtons.Name = "listViewButtons";
-			this.listViewButtons.Size = new System.Drawing.Size(234, 316);
+			this.listViewButtons.Size = new System.Drawing.Size(234, 375);
 			this.listViewButtons.SmallImageList = this.imageListProcButtons;
 			this.listViewButtons.TabIndex = 189;
 			this.listViewButtons.UseCompatibleStateImageBehavior = false;
@@ -115,7 +115,7 @@ namespace OpenPmsDental {
 			// 
 			this.butEdit.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butEdit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEdit.Location = new System.Drawing.Point(8, 352);
+			this.butEdit.Location = new System.Drawing.Point(8, 411);
 			this.butEdit.Name = "butEdit";
 			this.butEdit.Size = new System.Drawing.Size(109, 26);
 			this.butEdit.TabIndex = 39;
@@ -126,7 +126,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDown.Icon = OpenPmsDental.UI.EnumIcons.Down;
 			this.butDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDown.Location = new System.Drawing.Point(490, 382);
+			this.butDown.Location = new System.Drawing.Point(490, 441);
 			this.butDown.Name = "butDown";
 			this.butDown.Size = new System.Drawing.Size(82, 26);
 			this.butDown.TabIndex = 34;
@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			// 
 			this.butUp.Icon = OpenPmsDental.UI.EnumIcons.Up;
 			this.butUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butUp.Location = new System.Drawing.Point(490, 352);
+			this.butUp.Location = new System.Drawing.Point(490, 411);
 			this.butUp.Name = "butUp";
 			this.butUp.Size = new System.Drawing.Size(82, 26);
 			this.butUp.TabIndex = 35;
@@ -148,7 +148,7 @@ namespace OpenPmsDental {
 			// 
 			this.butAdd.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butAdd.Location = new System.Drawing.Point(338, 352);
+			this.butAdd.Location = new System.Drawing.Point(338, 411);
 			this.butAdd.Name = "butAdd";
 			this.butAdd.Size = new System.Drawing.Size(82, 26);
 			this.butAdd.TabIndex = 32;
@@ -159,7 +159,7 @@ namespace OpenPmsDental {
 			// 
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(338, 382);
+			this.butDelete.Location = new System.Drawing.Point(338, 441);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(82, 26);
 			this.butDelete.TabIndex = 33;
