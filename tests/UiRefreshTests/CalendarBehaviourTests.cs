@@ -364,6 +364,9 @@ namespace UiRefreshTests {
 				bool isSkippedBefore=UiDateDropLook.IsShowSkippedForTest;
 				UiDateDropLook.IsShowSkippedForTest=true;
 				try {
+					//With Windows' visual styles, as the program runs: the picker's window class is registered from comctl32 version 6, as the
+					//themed picker tests (ElementLookTests) need it.
+					using VisualStylesScope visualStylesScope=new VisualStylesScope();
 					List<string> listEvents=new List<string>();
 					using Form form=new Form();//never shown: its handle and the picker's exist, hidden
 					DateTimePicker dateTimePicker=MakePicker(listEvents);

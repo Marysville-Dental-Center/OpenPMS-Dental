@@ -37,7 +37,7 @@ namespace NoHqTests {
 			@"CodeBase\UI\UiTrackBarLook.cs",@"CodeBase\UI\UiUpDownLook.cs",@"CodeBase\UI\UiPlainWindow.cs",@"CodeBase\UI\UiTabLook.cs" };
 		///<summary>The packages of section 7 a coverage row may name.</summary>
 		public static readonly string[] ArrayPackages=new string[] { "UI-1","UI-2a","UI-2b","UI-3","UI-4a","UI-4b","UI-4c","UI-5","UI-6","UI-7a","UI-7b",
-			"UI-8","UI-9a","UI-9b","UI-10","UI-11","UI-12","UI-13","UI-PLAIN","UI-PLAIN-2" };
+			"UI-8","UI-9a","UI-9b","UI-10","UI-11","UI-12","UI-13","UI-PLAIN","UI-PLAIN-2","UI-CAL" };
 		///<summary>The reasons a coverage row may give instead of packages.</summary>
 		public static readonly string[] ArrayReasons=new string[] { "keeps","no-drawing" };
 		///<summary>UiTheme's partial files that RdlDesign may link: Windows Forms, System.Drawing and Microsoft.Win32 only. The WPF part is the other.

@@ -169,7 +169,7 @@ namespace OpenPmsDental{
 			// date2
 			// 
 			this.date2.AllowKeyboard = true;
-			this.date2.Location = new System.Drawing.Point(206, 8);
+			this.date2.Location = new System.Drawing.Point(255, 8);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";

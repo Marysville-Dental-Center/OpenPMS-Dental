@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			// date2
 			// 
 			this.date2.AllowKeyboard = true;
-			this.date2.Location = new System.Drawing.Point(238, 8);
+			this.date2.Location = new System.Drawing.Point(266, 8);
 			this.date2.MaxSelectionCount = 1;
 			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";
@@ -80,7 +80,7 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(204, 84);
+			this.labelTO.Location = new System.Drawing.Point(237, 84);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 31;

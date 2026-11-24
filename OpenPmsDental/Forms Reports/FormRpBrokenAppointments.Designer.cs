@@ -99,7 +99,7 @@ namespace OpenPmsDental{
 			// dateEnd
 			// 
 			this.dateEnd.AllowKeyboard = true;
-			this.dateEnd.Location = new System.Drawing.Point(238, 34);
+			this.dateEnd.Location = new System.Drawing.Point(266, 34);
 			this.dateEnd.MaxSelectionCount = 7;
 			this.dateEnd.Size = new System.Drawing.Size(227, 162);
 			this.dateEnd.Name = "dateEnd";
@@ -116,7 +116,7 @@ namespace OpenPmsDental{
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(204, 110);
+			this.labelTO.Location = new System.Drawing.Point(237, 110);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 67;

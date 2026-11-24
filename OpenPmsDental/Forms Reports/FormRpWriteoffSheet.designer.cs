@@ -43,7 +43,7 @@ namespace OpenPmsDental {
 			// date2
 			// 
 			this.date2.AllowKeyboard = true;
-			this.date2.Location = new System.Drawing.Point(238, 8);
+			this.date2.Location = new System.Drawing.Point(266, 8);
 			this.date2.MaxSelectionCount = 7;
 			this.date2.Size = new System.Drawing.Size(227, 162);
 			this.date2.Name = "date2";
@@ -60,7 +60,7 @@ namespace OpenPmsDental {
 			// 
 			// labelTO
 			// 
-			this.labelTO.Location = new System.Drawing.Point(204, 84);
+			this.labelTO.Location = new System.Drawing.Point(237, 84);
 			this.labelTO.Name = "labelTO";
 			this.labelTO.Size = new System.Drawing.Size(28, 23);
 			this.labelTO.TabIndex = 28;
@@ -164,7 +164,7 @@ namespace OpenPmsDental {
 			// 
 			// checkAllClin
 			// 
-			this.checkAllClin.Location = new System.Drawing.Point(444, 28);
+			this.checkAllClin.Location = new System.Drawing.Point(501, 28);
 			this.checkAllClin.Name = "checkAllClin";
 			this.checkAllClin.Size = new System.Drawing.Size(134, 20);
 			this.checkAllClin.TabIndex = 54;
@@ -173,18 +173,18 @@ namespace OpenPmsDental {
 			// 
 			// listClin
 			// 
-			this.listClin.Location = new System.Drawing.Point(444, 50);
+			this.listClin.Location = new System.Drawing.Point(501, 50);
 			this.listClin.Name = "listClin";
 			this.listClin.SelectionMode = OpenPmsDental.UI.SelectionMode.MultiExtended;
-			this.listClin.Size = new System.Drawing.Size(227, 134);
+			this.listClin.Size = new System.Drawing.Size(170, 134);
 			this.listClin.TabIndex = 53;
 			this.listClin.Click += new System.EventHandler(this.listClin_Click);
 			// 
 			// labelClin
 			// 
-			this.labelClin.Location = new System.Drawing.Point(444, 8);
+			this.labelClin.Location = new System.Drawing.Point(501, 8);
 			this.labelClin.Name = "labelClin";
-			this.labelClin.Size = new System.Drawing.Size(227, 18);
+			this.labelClin.Size = new System.Drawing.Size(170, 18);
 			this.labelClin.TabIndex = 52;
 			this.labelClin.Text = "Clinics";
 			this.labelClin.TextAlign = System.Drawing.ContentAlignment.BottomLeft;

@@ -25,8 +25,8 @@ namespace UiRefreshTests {
 		public const string VARIABLE_WINDOWS="OPMS_UI_CAL_DROP_WINDOWS";
 		///<summary>A few windows with a stock date picker: a payment, a search, a report, a graph's filter.</summary>
 		public static readonly string[] ArrayWindows=new string[] {
-			"OpenPmsDental.FormPayment","OpenPmsDental.FormTaskSearch","OpenPmsDental.FormRpNetProdDetail","OpenPmsDental.FormIncomeTransferManage",
-			"OpenPmsDentalGraph.GraphIncome","OpenPmsDental.ControlTreat",
+			"OpenPmsDental.FormPayment#datePickFrom","OpenPmsDental.FormTaskSearch#dateCreatedFrom","OpenPmsDental.FormRpNetProdDetail#dtPickerFrom",
+			"OpenPmsDental.FormIncomeTransferManage#datePickerAsOf","OpenPmsDentalGraph.GraphIncome","OpenPmsDental.ControlTreat",
 		};
 
 		[TestMethod]
@@ -47,6 +47,8 @@ namespace UiRefreshTests {
 			int countPictures=0;
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
+				//With Windows' visual styles, as the program runs (and as the date pickers' window class is then registered for the later tests).
+				using VisualStylesScope visualStylesScope=new VisualStylesScope();
 				bool isBuildingBefore=WindowBuilder.IsBuildingByConstructor;
 				WindowBuilder.IsBuildingByConstructor=true;
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
@@ -77,7 +79,7 @@ namespace UiRefreshTests {
 								FitGallery.HideDatePickerCalendars(root);
 								FitGallery.FillSampleContent(root,window);
 								DateTimePicker dateTimePicker=FinalSweep.Walk(root).OfType<DateTimePicker>()
-									.FirstOrDefault(x => !x.ShowUpDown && IsShown(x,root) && (namePicker=="" || x.Name==namePicker));
+									.FirstOrDefault(x => !x.ShowUpDown && x.Width>0 && (namePicker=="" || x.Name==namePicker));
 								if(dateTimePicker==null) {
 									listFailed.Add(window+": no date picker with a drop-down shown");
 									continue;
@@ -114,15 +116,6 @@ namespace UiRefreshTests {
 			File.WriteAllLines(Path.Combine(folder,"drop-failed.txt"),listFailed);
 			Assert.AreEqual(0,listFailed.Count,string.Join(Environment.NewLine,listFailed));
 			Assert.IsTrue(countPictures>0);
-		}
-
-		private static bool IsShown(Control control,Control root) {
-			for(Control parent=control;parent!=null && parent!=root;parent=parent.Parent) {
-				if(!parent.Visible && parent.IsHandleCreated) {
-					return false;
-				}
-			}
-			return control.Width>0 && control.Height>0;
 		}
 
 		///<summary>The window's picture with the program's calendar of the picker's drop-down on it, where it opens; the picture grows when the
