@@ -148,7 +148,7 @@
 			// 
 			// labelProv
 			// 
-			this.labelProv.Location = new System.Drawing.Point(415, 27);
+			this.labelProv.Location = new System.Drawing.Point(415, 25);
 			this.labelProv.Name = "labelProv";
 			this.labelProv.Size = new System.Drawing.Size(57, 18);
 			this.labelProv.TabIndex = 73;

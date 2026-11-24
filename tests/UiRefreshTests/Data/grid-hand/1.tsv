@@ -1437,6 +1437,7 @@ OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	OpenPmsDental.FormR
 OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	OpenPmsDental.FormRpDPPOvercharged	butFix	Size	75,26	75,24	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	OpenPmsDental.FormRpDPPOvercharged	comboBoxMultiClinics	Location	432,34	430,50	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	OpenPmsDental.FormRpDPPOvercharged	comboBoxMultiClinics	Size	197,21	208,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpDPPOvercharged.designer.cs	OpenPmsDental.FormRpDPPOvercharged	labelProv	Location	415,27	415,25	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	groupBox2	Location	12,4	8,8	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	butRefresh	Location	928,39	933,8	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	butRefresh	Size	75,26	75,24	by hand (layout script): on the grid
@@ -1446,6 +1447,7 @@ OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpP
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	butPrint	Size	75,26	75,24	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	comboBoxMultiClinics	Location	432,34	430,50	by hand (layout script): on the grid
 OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	comboBoxMultiClinics	Size	197,21	208,23	by hand (layout script): on the grid
+OpenPmsDental/Forms Reports/FormRpProcOverpaid.designer.cs	OpenPmsDental.FormRpProcOverpaid	labelProv	Location	415,27	415,25	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	OpenPmsDental.FormFamilyBalancer	checkOutputVerbose	Location	15,623	8,645	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	OpenPmsDental.FormFamilyBalancer	textOutput	Location	12,465	8,486	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	OpenPmsDental.FormFamilyBalancer	textOutput	Size	1186,152	1210,152	by hand (layout script): on the grid
@@ -1732,3 +1734,4 @@ OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	label7
 OpenPmsDental/Forms/FormRxDefEdit.designer.cs	OpenPmsDental.FormRxDefEdit	butSave	Location	551,592	551,592	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (dialog button: bottom right, 8 px apart and from the edges)
 OpenPmsDental/Forms/FormCloneAdd.designer.cs	OpenPmsDental.FormCloneAdd	.	ClientSize	521,264	521,264	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (window grows to its content)
 OpenPmsDental/Forms/FormASAP.designer.cs	OpenPmsDental.FormASAP	.	ClientSize	1089,670	1089,670	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (window grows to its content)
+OpenPmsDental/Forms/FormFamilyBalancer.designer.cs	OpenPmsDental.FormFamilyBalancer	labelIncomeTransferDate	Location	10,136	10,140	by hand (UI-12F): the label-centre rule of slice 9 in every slice (the label's centre on its single-line field's)

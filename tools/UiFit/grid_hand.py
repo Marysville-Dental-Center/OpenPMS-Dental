@@ -448,23 +448,25 @@ BAR_RULE = "the bottom bar a section gap (12 px) under the content (UI-12F)"
 
 def bar_section_gap(hand):
     """UI-12F (the final consistency pass): the window's bottom bar stands the section gap (12 px, UI-12.md section 1) or more under the
-    content above it, as GridRulesTests checks it (GetBarGap): the bar is the controls anchored to the bottom and not the top, and OK, Save,
-    Cancel and Close, in the window's bottom 60 px, and the buttons on their row; the content is every other shown control that ends above
-    the bar's top. Where the gap is less (many scripts put the bar 8 px under a grid or a group, the sibling gap), the content that ends
-    less than 12 px over the bar takes it: a grid, list or note gets shorter by what it lacks (it scrolls); anything else (a group, a tab
-    control, a panel, a check box, a button) keeps its height, and the bar and what stands beside it move down by the most it lacks, the
-    window taller by as much (a window never shrinks). One rule for every window: a script with KEEP_BAR_GAP = True keeps its own."""
+    content above it, as GridRulesTests checks it (GetBarGap): the bar is the row of the lowest buttons anchored to the bottom and not the top
+    (or named OK, Save, Cancel or Close) and every control that starts on that row (a Delete button, a note or check box beside them); the
+    content is every other shown control that ends above the bar's top. Where the gap is less (many scripts put the bar 8 px under a grid
+    or a group, the sibling gap), the content that ends less than 12 px over the bar takes it: a grid, list or note gets shorter by what it
+    lacks (it scrolls); anything else (a group, a tab control, a panel, a check box, a button) keeps its height, and the bar and what stands
+    beside it move down by the most it lacks, the window taller by as much (a window never shrinks). One rule for every window: a script
+    with KEEP_BAR_GAP = True keeps its own."""
     t = hand.tree
     kids = [c for c in t.children if c.dock in ("None", "") and c.nw > 0 and c.nh > 0]
     shown = [c for c in kids if c.visible]
     hh = t.nh
-    bar = [c for c in shown if c.ny + c.nh > hh - 60 and (c.anchored_bottom_only or (c.name in g.DIALOG_NAMES and c.kind == "button"))]
-    if not bar:
+    buttons = [c for c in shown if c.kind == "button" and (c.anchored_bottom_only or c.name in g.DIALOG_NAMES)]
+    if not buttons:
         return
-    buttons = [c for c in bar if c.kind == "button"]
-    for c in shown:
-        if c.kind == "button" and c not in bar and any(min(b.ny + b.nh, c.ny + c.nh) - max(b.ny, c.ny) > 4 for b in buttons):
-            bar.append(c)
+    lowest = max(buttons, key=lambda c: c.ny + c.nh)
+    over = lambda a, b: min(a.ny + a.nh, b.ny + b.nh) - max(a.ny, b.ny) > 4
+    row = [c for c in buttons if over(c, lowest)]
+    y_row = min(c.ny for c in row)
+    bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row))]
     y_bar = min(c.ny for c in bar)
     above = [c for c in shown if c not in bar and c.ny + c.nh <= y_bar]
     low = [c for c in above if c.ny + c.nh > y_bar - GRID["section_gap"]]

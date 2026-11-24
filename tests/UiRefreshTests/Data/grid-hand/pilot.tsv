@@ -1808,6 +1808,12 @@ OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	b
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	butChartViewAdd	Location	317,185	317,185	by hand (layout script): on the grid
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Location	176,146	176,140	by hand (layout script): the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom
 OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label24	Size	150,90	150,96	by hand (layout script): the Draw page's note as tall as its six lines at 150% too, ending on the page's bottom
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label8	Location	3,20	3,22	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label9	Location	3,49	3,51	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label10	Location	3,77	3,79	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label11	Location	3,77	3,79	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label12	Location	3,49	3,51	by hand (layout script): on the grid
+OpenPmsDental/Main Modules/ControlChart.designer.cs	OpenPmsDental.ControlChart	label15	Location	3,20	3,22	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormHL7DefEdit.designer.cs	OpenPmsDental.FormHL7DefEdit	.	ClientSize	892,849	892,849	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (window grows to its content)
 OpenPmsDental/Forms/FormHL7DefEdit.designer.cs	OpenPmsDental.FormHL7DefEdit	butAdd	Location	511,817	511,817	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (bottom bar: its buttons 8 px from the window's bottom)
 OpenPmsDental/Forms/FormHL7DefEdit.designer.cs	OpenPmsDental.FormHL7DefEdit	butSave	Location	809,817	809,817	by hand (slice 5, stored anchors): pinned at the reviewed layout; the tree now has the anchors LayoutManager stores, and the planner would move it (dialog button: bottom right, 8 px apart and from the edges)

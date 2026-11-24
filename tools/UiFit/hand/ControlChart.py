@@ -4,7 +4,9 @@ grids are moved and sized from the sheet), so the tab pages keep their size: the
 Inside it the grid's rules with the numbers that fit the page: 2 px from the page's edges, 6 px between columns, captions 2 px over their
 lists, the lists' tops on one line and the bottom row (the date, Priority, Treatment Plans) on one line, the procedure buttons a 3 x 3 grid as
 wide as the surface box above them, the Entry Status radio buttons one list at a 19 px pitch (the page's height leaves no more). The button
-rows of the Planned, Show and Draw pages: one height, 6 px apart, ending at the edge of what they stand under."""
+rows of the Planned, Show and Draw pages: one height, 6 px apart, ending at the edge of what they stand under.
+UI-12F (the final consistency pass): the label-centre rule of slice 9 holds in every slice: label8, label9, label10, label11, label12, label15 centred on
+their fields (the planner left them 2 to 4 px off)."""
 
 from grid_tools import walk as g_walk
 
@@ -104,3 +106,7 @@ def layout(h):
     yb = lst.ny + lst.nh + 4
     h.set("butAddText", lst.nx, yb, None, H)
     h.set("butDeleteText", lst.nx + lst.nw - h.n("butDeleteText").nw, yb, None, H)
+    # UI-12F: the label-centre rule (a right-aligned label's centre within 1 px of its single-line field's)
+    for lab, fld in (('label8', 'textShiftM'), ('label9', 'textShiftO'), ('label10', 'textShiftB'), ('label11', 'textTipB'), ('label12', 'textTipM'), ('label15', 'textRotate')):
+        f, lb = h.n(fld), h.n(lab)
+        h.set(lab, None, f.ny + (f.nh - lb.nh) // 2, None, None)

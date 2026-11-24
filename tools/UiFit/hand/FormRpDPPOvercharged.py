@@ -1,7 +1,9 @@
 """FormRpDPPOvercharged on the grid (UI-12 slice 1, layout script of grid_hand.py, on the planner's tree). The planner kept the window's frame as drawn (the
 filter group and the grid at main's 12, Refresh apart from the group, the grid short of the content edge): the script puts the filter group
 at the content edge with Refresh 8 px after it on its top, the grid 8 px under the group from the content edge to the right content edge and
-down to 8 px over the bottom bar, the bottom bar's buttons at the bar's height (24) 8 px from the bottom."""
+down to 8 px over the bottom bar, the bottom bar's buttons at the bar's height (24) 8 px from the bottom.
+UI-12F (the final consistency pass): the label-centre rule of slice 9 holds in every slice: labelProv centred on
+its field (the planner left it 2 to 4 px off)."""
 
 
 def layout(h):
@@ -22,3 +24,7 @@ def layout(h):
     pv = h.n("comboBoxMultiProv")
     cw = h.clinic_w("comboBoxMultiClinics")
     h.set("comboBoxMultiClinics", pv.nx - cw, None, pv.nw + cw, None)
+    # UI-12F: the label-centre rule (a right-aligned label's centre within 1 px of its single-line field's)
+    for lab, fld in (('labelProv', 'comboBoxMultiProv'),):
+        f, lb = h.n(fld), h.n(lab)
+        h.set(lab, None, f.ny + (f.nh - lb.nh) // 2, None, None)

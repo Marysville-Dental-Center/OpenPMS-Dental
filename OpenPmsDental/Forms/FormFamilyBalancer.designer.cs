@@ -85,7 +85,7 @@ namespace OpenPmsDental{
 			// 
 			// labelIncomeTransferDate
 			// 
-			this.labelIncomeTransferDate.Location = new System.Drawing.Point(10, 136);
+			this.labelIncomeTransferDate.Location = new System.Drawing.Point(10, 140);
 			this.labelIncomeTransferDate.Name = "labelIncomeTransferDate";
 			this.labelIncomeTransferDate.Size = new System.Drawing.Size(124, 23);
 			this.labelIncomeTransferDate.TabIndex = 134;

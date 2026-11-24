@@ -188,6 +188,7 @@ OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	OpenPmsDental.FormCdsTriggerE
 OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	OpenPmsDental.FormCdsTriggerEdit	labelCardinality	Size	425,32	427,32	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	OpenPmsDental.FormCdsTriggerEdit	textInstruction	Size	494,84	498,84	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	OpenPmsDental.FormCdsTriggerEdit	textBibliography	Size	494,42	498,42	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormCdsTriggerEdit.designer.cs	OpenPmsDental.FormCdsTriggerEdit	label4	Location	64,35	64,39	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormChartView.designer.cs	OpenPmsDental.FormChartView	checkCommFamily	Location	8,71	24,71	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormChartView.designer.cs	OpenPmsDental.FormChartView	checkCommSuperFamily	Location	8,95	24,95	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormDiscountPlanSubEdit.designer.cs	OpenPmsDental.FormDiscountPlanSubEdit	butDiscountPlans	Location	372,35	402,35	by hand (layout script): on the grid
@@ -642,3 +643,6 @@ OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactio
 OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	butAttachDep	Location	340,23	324,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	textSourcePay	Size	232,23	216,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormTransactionEdit.designer.cs	OpenPmsDental.FormTransactionEdit	butAttachPay	Location	340,50	324,50	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormSupplyEdit.Designer.cs	OpenPmsDental.FormSupplyEdit	labelReorderLevel	Location	76,297	76,301	by hand (UI-12F): the label-centre rule of slice 9 in every slice (the label's centre on its single-line field's)
+OpenPmsDental/Forms/FormSupplyEdit.Designer.cs	OpenPmsDental.FormSupplyEdit	label4	Location	96,183	96,187	by hand (UI-12F): the label-centre rule of slice 9 in every slice (the label's centre on its single-line field's)
+OpenPmsDental/Forms/FormSupplyEdit.Designer.cs	OpenPmsDental.FormSupplyEdit	label6	Location	88,116	88,120	by hand (UI-12F): the label-centre rule of slice 9 in every slice (the label's centre on its single-line field's)

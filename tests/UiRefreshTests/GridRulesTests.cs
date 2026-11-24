@@ -394,6 +394,10 @@ namespace UiRefreshTests {
 			List<string[]> listRuntimeTexts=ReadRuntimeTexts();
 			List<string> listFindings=new List<string>();
 			List<string> listFailed=new List<string>();
+			//UI-12F: OPMS_UI_GRID_BAR_GAPS names a file for every window's bar gap as this test reads it (window, gap, the control above, the
+			//bar's first control, the root's client size): the record of the final consistency pass.
+			string pathBarGaps=Environment.GetEnvironmentVariable("OPMS_UI_GRID_BAR_GAPS");
+			List<string> listBarGaps=new List<string>();
 			StaRunner.Run(() => {
 				NoDatabaseGuard.Install();
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
@@ -413,6 +417,12 @@ namespace UiRefreshTests {
 							CheckWindow(gridWindow,root,listFindings,isPlain:IsPlain(scanType) || !(root.FindForm() is FormODBase));//slice 13: the report designer's and ODR's windows are no FormODBase either
 							CheckColumns(gridWindow,root,listFindings);
 							CheckText(gridWindow,root,listRuntimeTexts,listFindings);
+							if(!string.IsNullOrEmpty(pathBarGaps)) {
+								List<Control> listRootKids=root.Controls.Cast<Control>().Where(x => x.Dock==DockStyle.None && TextFitBoundsRecord.IsDesignedVisible(x)).ToList();
+								int? gap=GetBarGap(listRootKids,out Control controlAbove,out Control controlBar);
+								listBarGaps.Add(gridWindow.Window+"\t"+gap+"\t"+controlAbove?.Name+" "+controlAbove?.Bounds+"\t"+controlBar?.Name+" "+controlBar?.Bounds
+									+"\t"+root.ClientSize);
+							}
 						}
 					}
 					catch(Exception exception) {
@@ -424,6 +434,9 @@ namespace UiRefreshTests {
 					}
 				}
 			});
+			if(!string.IsNullOrEmpty(pathBarGaps)) {
+				File.WriteAllLines(pathBarGaps,listBarGaps);
+			}
 			Assert.AreEqual(0,listFailed.Count,"Windows that could not be built: "+string.Join("; ",listFailed));
 			List<string> listNew=listFindings.Where(x => !hashSetKnown.Contains(x)).ToList();
 			List<string> listGone=hashSetKnown.Where(x => !listFindings.Contains(x)).ToList();
@@ -610,7 +623,7 @@ namespace UiRefreshTests {
 				//UI-12F (the final consistency pass): the window's bottom bar stands a section gap (12 px, UI-12.md section 1) or more under the
 				//content above it; some slice 6 and 8 scripts put it 8 px under (the sibling gap). More is allowed: a window that keeps main's size
 				//shares the room it does not fill out as equal gaps, the one over the bar too.
-				if(container==root && GetBarGap(root,listKids,out Control controlAbove,out Control controlBar) is int gapBar && gapBar<UiGrid.SECTION_GAP) {
+				if(container==root && GetBarGap(listKids,out Control controlAbove,out Control controlBar) is int gapBar && gapBar<UiGrid.SECTION_GAP) {
 					listFindings.Add(window+"\tbar-gap\t"+controlAbove.Name+" "+controlBar.Name);
 					ListTextDetails.Add(window+" bar gap "+gapBar+" px between "+controlAbove.Name+" and "+controlBar.Name);
 				}
@@ -618,25 +631,24 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>UI-12F: the gap between the window's bottom bar and the lowest control above it, null when the window has no bar. The bar is
-		///what the planner takes for it (grid_tools.layout_tree): the controls anchored to the bottom and not the top, and OK, Save, Cancel and
-		///Close, in the window's bottom 60 px, and the buttons on their row. The content is every other control that ends above the bar's top
-		///(a list beside the bar, down to the window's bottom, is no content above it).</summary>
-		public static int? GetBarGap(Control root,List<Control> listKids,out Control controlAbove,out Control controlBar) {
+		///the row of the lowest buttons anchored to the bottom and not the top (or named OK, Save, Cancel or Close) and every control that
+		///starts on that row (a Delete button, a note or check box beside the buttons); grid_hand.bar_section_gap reads it the same way. The
+		///content is every other control that ends above the bar's top (a list beside the bar, down to the window's bottom, is no content
+		///above it).</summary>
+		public static int? GetBarGap(List<Control> listKids,out Control controlAbove,out Control controlBar) {
 			controlAbove=null;
 			controlBar=null;
 			string[] arrayDialogNames=new string[] { "butOK","butSave","butCancel","butClose" };
-			int heightRoot=root.ClientSize.Height;
-			List<Control> listBar=listKids.Where(x => x.Bottom>heightRoot-60 && ((x.Anchor & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
-				|| (arrayDialogNames.Contains(x.Name) && IsAnyButton(x)))).ToList();
-			if(listBar.Count==0) {
+			List<Control> listButtons=listKids.Where(x => IsAnyButton(x) && ((x.Anchor & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom
+				|| arrayDialogNames.Contains(x.Name))).ToList();
+			if(listButtons.Count==0) {
 				return null;
 			}
-			List<Control> listBarButtons=listBar.Where(IsAnyButton).ToList();
-			foreach(Control control in listKids.Where(x => IsAnyButton(x) && !listBar.Contains(x))) {
-				if(listBarButtons.Any(x => Math.Min(x.Bottom,control.Bottom)-Math.Max(x.Top,control.Top)>4)) {
-					listBar.Add(control);
-				}
-			}
+			Control controlLowest=listButtons.OrderByDescending(x => x.Bottom).First();
+			List<Control> listRow=listButtons.Where(x => Math.Min(x.Bottom,controlLowest.Bottom)-Math.Max(x.Top,controlLowest.Top)>4).ToList();
+			int yRow=listRow.Min(x => x.Top);
+			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)))
+				.ToList();
 			int yBar=listBar.Min(x => x.Top);
 			controlBar=listBar.OrderBy(x => x.Top).ThenBy(x => x.Left).First();
 			controlAbove=listKids.Where(x => !listBar.Contains(x) && x.Width>0 && x.Height>0 && x.Bottom<=yBar)
