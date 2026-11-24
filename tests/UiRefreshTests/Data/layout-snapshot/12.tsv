@@ -84,7 +84,7 @@ CentralManager/FormCentralGroupPermEdit.Designer.cs	butCancel	392,197	75,24
 CentralManager/FormCentralGroupPermEdit.Designer.cs	butOK	309,197	75,24	
 CentralManager/FormCentralGroupPermEdit.Designer.cs	.			475,229
 CentralManager/FormCentralLogOn.cs	butCancel	381,346	75,24	
-CentralManager/FormCentralLogOn.cs	butOK	381,54	75,24	
+CentralManager/FormCentralLogOn.cs	butOK	298,346	75,24	
 CentralManager/FormCentralLogOn.cs	listUser	8,27	180,343	
 CentralManager/FormCentralLogOn.cs	label1	8,8	180,17	
 CentralManager/FormCentralLogOn.cs	label2	196,8	260,17	
@@ -370,8 +370,8 @@ OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	checkShowGroupLabels	139,25	132,
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	numberDailyLabelDensity	409,23	40,23	
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label2	287,23	116,23	
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	dateTimeFrom	58,23	112,23	
-OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	dateTimeTo	220,23	93,23	
-OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox2	579,8	321,54	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	dateTimeTo	220,23	112,23	
+OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox2	579,8	340,54	
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label5	8,23	44,23	
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	label6	186,23	28,23	
 OpenPmsDentalGraph/Base/GraphIncome.Designer.cs	groupBox3	8,8	98,54	
@@ -482,8 +482,8 @@ OpenPmsDentalGraph/Dashboard/DashboardTabCtrl.Designer.cs	.		222,127
 OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	splitContainer	0,0	812,500	
 OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	labelChanges	79,5	574,18	
 OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butPrintPreview	3,0	28,28	
-OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butCancel	729,5	75,23	
-OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butOk	646,5	75,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butCancel	729,2	75,23	
+OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	butOk	646,2	75,23	
 OpenPmsDentalGraph/Dashboard/FormDashboardEditCell.Designer.cs	.			812,500
 OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	splitContainer1	0,27	1061,493	
 OpenPmsDentalGraph/Dashboard/FormDashboardEditTab.Designer.cs	butSaveChanges	8,461	124,24	
@@ -524,9 +524,9 @@ OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textWidth	66,23	53,23
 OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	textHeight	66,50	53,23	
 OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	labelHeight	8,50	52,23	
 OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	labelWidth	8,23	52,23	
-OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	splitContainer1	0,0	831,555	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	splitContainer1	0,0	831,547	
 OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	printPreviewControl	0,0	831,529	
-OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	butClose	748,3	75,23	
+OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	butClose	748,0	75,23	
 OpenPmsDentalGraph/Dashboard/FormPrintImage.Designer.cs	.			831,645
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	splitContainer	0,0	831,645	
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butExport	400,31	83,23	
@@ -547,9 +547,9 @@ OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textWidth	66,23	53,23
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	textHeight	66,50	53,23	
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	labelHeight	8,50	52,23	
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	labelWidth	8,23	52,23	
-OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	splitContainer1	0,0	831,555	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	splitContainer1	0,0	831,547	
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	printPreviewControl	0,0	831,529	
-OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butClose	748,3	75,23	
+OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	butClose	748,0	75,23	
 OpenPmsDentalGraph/Dashboard/FormPrintSettings.Designer.cs	.			831,645
 OpenPmsDentalHL7/FormDebug.Designer.cs	label1	8,8	498,18	
 OpenPmsDentalHL7/FormDebug.Designer.cs	butStart	371,329	135,24	
@@ -562,10 +562,10 @@ OpenPmsDentalHL7/FormDebug.Designer.cs	label4	8,30	108,23
 OpenPmsDentalHL7/FormDebug.Designer.cs	textHL7Name	122,30	384,23	
 OpenPmsDentalHL7/FormDebug.Designer.cs	label5	8,115	52,17	
 OpenPmsDentalHL7/FormDebug.Designer.cs	.			514,361
-xCrudGenerator/Form1.Designer.cs	label1	298,8	772,34	
-xCrudGenerator/Form1.Designer.cs	butRun	154,177	98,23	
-xCrudGenerator/Form1.Designer.cs	textDb	154,35	128,23	
-xCrudGenerator/Form1.Designer.cs	label3	8,35	140,23	
+xCrudGenerator/Form1.Designer.cs	label1	266,8	804,34	
+xCrudGenerator/Form1.Designer.cs	butRun	94,177	98,23	
+xCrudGenerator/Form1.Designer.cs	textDb	94,35	128,23	
+xCrudGenerator/Form1.Designer.cs	label3	8,35	80,23	
 xCrudGenerator/Form1.Designer.cs	label2	181,212	72,17	
 xCrudGenerator/Form1.Designer.cs	label4	8,150	149,17	
 xCrudGenerator/Form1.Designer.cs	label5	8,104	149,17	
@@ -574,17 +574,15 @@ xCrudGenerator/Form1.Designer.cs	butSnippet	8,23	96,23
 xCrudGenerator/Form1.Designer.cs	textSnippet	181,231	972,495	
 xCrudGenerator/Form1.Designer.cs	label6	8,50	149,50	
 xCrudGenerator/Form1.Designer.cs	listClass	8,169	149,337	
-xCrudGenerator/Form1.Designer.cs	checkRun	154,111	16,18	
-xCrudGenerator/Form1.Designer.cs	label8	8,111	140,18	
-xCrudGenerator/Form1.Designer.cs	label9	8,89	140,18	
-xCrudGenerator/Form1.Designer.cs	checkRunSchema	154,89	16,18	
-xCrudGenerator/Form1.Designer.cs	label10	298,46	772,18	
+xCrudGenerator/Form1.Designer.cs	checkRun	8,111	52,18	
+xCrudGenerator/Form1.Designer.cs	checkRunSchema	8,89	157,18	
+xCrudGenerator/Form1.Designer.cs	label10	266,46	804,18	
 xCrudGenerator/Form1.Designer.cs	checkRunQueries	8,155	250,18	
 xCrudGenerator/Form1.Designer.cs	checkAddToConvertScript	8,133	183,18	
-xCrudGenerator/Form1.Designer.cs	labelPortNum	8,8	140,23	
-xCrudGenerator/Form1.Designer.cs	textPortNum	154,8	64,23	
+xCrudGenerator/Form1.Designer.cs	labelPortNum	8,8	80,23	
+xCrudGenerator/Form1.Designer.cs	textPortNum	94,8	64,23	
 xCrudGenerator/Form1.Designer.cs	butPd	1078,8	75,23	
-xCrudGenerator/Form1.Designer.cs	textPassword	154,62	128,23	
-xCrudGenerator/Form1.Designer.cs	label7	8,62	140,23	
+xCrudGenerator/Form1.Designer.cs	textPassword	94,62	128,23	
+xCrudGenerator/Form1.Designer.cs	label7	8,62	80,23	
 xCrudGenerator/Form1.Designer.cs	groupBox1	8,212	165,514	
 xCrudGenerator/Form1.Designer.cs	.			1161,734

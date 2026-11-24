@@ -339,18 +339,18 @@ namespace UiRefreshTests {
 			StaRunner.Run(() => {
 				using(Form form=new Form { ClientSize=new Size(300,200) })
 				using(Button button=new Button { Name="butOK",Text="OK",Bounds=new Rectangle(216,168,76,24),Anchor=AnchorStyles.Bottom|AnchorStyles.Right })
-				using(ListBox listBox=new ListBox { Name="listMain",IntegralHeight=false,Bounds=new Rectangle(8,8,200,152) })
+				using(Panel panel=new Panel { Name="panelMain",Bounds=new Rectangle(8,8,200,152) })
 				{
 					form.Controls.Add(button);
-					form.Controls.Add(listBox);
+					form.Controls.Add(panel);
 					BuiltWindow builtWindow=new BuiltWindow { Form=form,Root=form,ScanType=new ScanType { Type=typeof(Form),Kind=BuildKind.PlainWindow } };
 					builtWindow.LayOutAt(1.5f);
 					Assert.AreEqual(new Size(450,300),form.ClientSize);
 					Assert.AreEqual(new Rectangle(324,252,114,36),button.Bounds,"The bottom-right button scaled with the window.");
-					Assert.AreEqual(new Rectangle(12,12,300,228),listBox.Bounds);
+					Assert.AreEqual(new Rectangle(12,12,300,228),panel.Bounds);
 					builtWindow.LayOutAt(1f);
 					Assert.AreEqual(new Size(300,200),form.ClientSize);
-					Assert.AreEqual(new Rectangle(8,8,200,152),listBox.Bounds);
+					Assert.AreEqual(new Rectangle(8,8,200,152),panel.Bounds);
 				}
 			});
 		}
