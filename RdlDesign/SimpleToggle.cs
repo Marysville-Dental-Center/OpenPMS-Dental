@@ -62,13 +62,20 @@ namespace fyiReporting.RdlDesign
 
 				// UI-PLAIN-2 fix round: the program's tool button (UiToolStripRenderer's): the toolbar's colour (UpColor) at rest and when disabled
 				// (was LightGray), checked AccentSubtle with a 1 px Accent border (was Azure with a blue rectangle), SubtleHover under the mouse,
-				// 4 px corners, a disabled picture or text faded. BackColor keeps its values (Up, Down, LightGray) as before.
-				b = new SolidBrush(this.UpColor);
+				// 4 px corners, a disabled picture or text faded. BackColor keeps its values (Up, Down, LightGray) as before. The gallery's before
+				// pictures (CodeBase.UiLooks.IsOffForGallery) draw as before.
+				bool isOldLook = CodeBase.UiLooks.IsOffForGallery;
+				b = new SolidBrush(isOldLook ? this.BackColor : this.UpColor);
 				g.FillRectangle(b, e.ClipRectangle);
 				float scale = this.DeviceDpi / 96f;
 				int inset = CodeBase.UiTheme.ScaleI(1, scale);
 				Rectangle rectShape = new Rectangle(inset, inset, this.Width - 2 * inset, this.Height - 2 * inset);
-				if (this.Enabled && this.Checked)
+				if (isOldLook)
+				{
+					if (this.Checked || bIn)
+						g.DrawRectangle(Pens.Blue, 0, 0, this.Width-1, this.Height-1);
+				}
+				else if (this.Enabled && this.Checked)
 				{
 					CodeBase.UiControlPaint.Fill(g, CodeBase.EnumUiColor.AccentSubtle, rectShape, CodeBase.UiTheme.CORNER_CONTROL, scale);
 					CodeBase.UiControlPaint.Outline(g, CodeBase.EnumUiColor.Accent, rectShape, CodeBase.UiTheme.GetLineWidth(scale), CodeBase.UiTheme.CORNER_CONTROL, scale);
@@ -86,7 +93,7 @@ namespace fyiReporting.RdlDesign
 					ImageAttributes imageAttr = new ImageAttributes();
 					imageAttr.SetColorKey(_Transparency, _Transparency,
 						ColorAdjustType.Default);
-					if (!this.Enabled)
+					if (!this.Enabled && !isOldLook)
 					{
 						ColorMatrix colorMatrix = new ColorMatrix();
 						colorMatrix.Matrix33 = 0.35f;
@@ -105,7 +112,7 @@ namespace fyiReporting.RdlDesign
 				else
 				{
 					StringFormat format = new StringFormat(StringFormatFlags.NoWrap);
-					g.DrawString(this.Text, this.Font, this.Enabled ? Brushes.Black : Brushes.Gray, new Rectangle(2, 2, this.Width, this.Height), format);
+					g.DrawString(this.Text, this.Font, this.Enabled || isOldLook ? Brushes.Black : Brushes.Gray, new Rectangle(2, 2, this.Width, this.Height), format);
 				}
 			}
 			catch {}	// todo draw the error message
