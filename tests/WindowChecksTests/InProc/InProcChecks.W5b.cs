@@ -1,7 +1,7 @@
 // The stage 3b checks WINCHK-5's fix round added from section 6 of docs/specs/net10-plan.md ("Stage 3b (net10)"), each as a picture and
-// without input: FormSnap (C21), MonthCalendar and DateTimePicker (C22), a TreeView with check boxes (C23), RichTextBox text (C24), the capture
-// notice and status windows of ImagingDeviceManager (C25), the EOB viewer with its hosted WPF strips (C26), the WPF Frm pop-ups (D6: the combo
-// box picker, the month calendar, the tool tip), an RDL report with VB <Code> functions (G4) and one whose <Code> does not compile, with the RDL
+// without input: FormSnap (C21), MonthCalendarOD and DateTimePicker with its drop-down (C22, UI-CAL), a TreeView with check boxes (C23),
+// RichTextBox text (C24), the capture notice and status windows of ImagingDeviceManager (C25), the EOB viewer with its hosted WPF strips
+// (C26), the WPF Frm pop-ups (D6: the combo box picker, the month calendar, the tool tip), an RDL report with VB <Code> functions (G4) and one whose <Code> does not compile, with the RDL
 // viewer's messages dialog (G5). Nothing is pressed that prints, saves, exports or sends; every row a check makes (C23's auto notes, C26's EOB)
 // is made by the business layer and deleted again, and checked gone.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -44,9 +44,10 @@ namespace WindowChecksTests.InProc {
 		}
 
 		///<summary>Opens a report of Reports > Standard (FormReportsMore) by its internal name, as a click on its row does (OpenReportLocalHelper),
-		///checks it holds visible controls of the type, prints it and closes it (Cancel). Returns the window's description or "".</summary>
+		///checks it holds visible controls of the type, prints it, runs actionOpen on the open window (its handle; may be null) and closes it
+		///(Cancel).</summary>
 		private static void ShootStandardReport(Ui ui,CheckResult checkResult,IntPtr hwndReports,string internalName,string typeName,Type typeControl,
-			string shot)
+			string shot,Action<IntPtr> actionOpen=null)
 		{
 			Ui.Opened opened=ui.Open("Reports > Standard > "+internalName,() => {
 				Form formReportsMore=(Form)Control.FromHandle(hwndReports);
@@ -72,23 +73,54 @@ namespace WindowChecksTests.InProc {
 				.Select(x => x.Name+(x is DateTimePicker dateTimePicker ? " ("+dateTimePicker.Format+", "+dateTimePicker.Value.ToShortDateString()+")" : ""))));
 			checkResult.Expect(controls!="",typeName+" shows its "+typeControl.Name+" controls: "+controls,controls);
 			checkResult.AddShot(ui.Shot(opened.Hwnd,shot),typeName+" with its "+typeControl.Name+" controls");
+			actionOpen?.Invoke(opened.Hwnd);
 			checkResult.Expect(ui.Close(opened.Hwnd),typeName+" closes (Cancel; the report is not run)");
 			opened.Posted?.Wait();
 		}
 
+		///<summary>UI-CAL: opens the drop-down of the window's first date picker with a calendar (not the up-down style) as its drop button opens
+		///it (UiDateDropLook.OpenForTest), checks the drop-down is the program's MonthCalendarOD, prints it and closes it (as Esc closes it; the
+		///picker's date is not changed).</summary>
+		private static void ShootDateDropDown(Ui ui,CheckResult checkResult,IntPtr hwnd,string shot) {
+			ToolStripDropDown toolStripDropDown=ui.Invoke(() => {
+				DateTimePicker dateTimePicker=Ui.AllControls(Control.FromHandle(hwnd)).OfType<DateTimePicker>().FirstOrDefault(x => x.Visible && !x.ShowUpDown);
+				if(dateTimePicker==null || !UiDateDropLook.OpenForTest(dateTimePicker)) {
+					return null;
+				}
+				return UiDateDropLook.GetDropDownForTest(dateTimePicker);
+			});
+			checkResult.Expect(toolStripDropDown!=null,"A date picker's drop-down opens as the program's calendar (UiDateDropLook)");
+			if(toolStripDropDown==null) {
+				return;
+			}
+			string description=ui.Invoke(() => string.Join(", ",toolStripDropDown.Items.OfType<ToolStripControlHost>().Select(x => x.Control.GetType().Name))
+				+(toolStripDropDown.Visible ? "" : " (not shown)"));
+			checkResult.Expect(description=="MonthCalendarOD","The drop-down holds the program's MonthCalendarOD, shown: "+description,description);
+			IntPtr hwndDropDown=ui.Invoke(() => toolStripDropDown.Visible ? toolStripDropDown.Handle : IntPtr.Zero);
+			if(hwndDropDown!=IntPtr.Zero) {
+				checkResult.AddShot(ui.Shot(hwndDropDown,shot),"The date picker's drop-down (MonthCalendarOD)");
+			}
+			ui.Invoke(() => {
+				if(!toolStripDropDown.IsDisposed) {
+					toolStripDropDown.Close(ToolStripDropDownCloseReason.Keyboard);
+				}
+			});
+		}
+
 		public static void CheckC22(Ui ui,CheckResult checkResult) {
-			//The Windows Forms MonthCalendar and DateTimePicker (the common controls of comctl32, drawn by Windows on both runtimes, with .NET 10's
-			//Windows Forms around them), in two standard report windows. Nothing is run.
+			//The calendars of two standard report windows (UI-CAL): the program's MonthCalendarOD where Windows' MonthCalendar was, and the Windows
+			//Forms DateTimePicker (comctl32's box, drawn by Windows on both runtimes) whose drop-down is the program's MonthCalendarOD
+			//(UiDateDropLook). Nothing is run.
 			Ui.Opened openedReports=OpenMenu(ui,"Reports","Standard");
 			if(!InspectWindow(ui,checkResult,openedReports,"FormReportsMore",null,close:false)) {
 				return;
 			}
 			IntPtr hwndReports=openedReports.Hwnd;
-			//Public Health > Raw Population Data (C6 opens it too): two MonthCalendars.
-			ShootStandardReport(ui,checkResult,hwndReports,"ODRawPopulationData","FormRpPHRawPop",typeof(System.Windows.Forms.MonthCalendar),"C22-monthcalendar.png");
-			//Lists > Payment Plans: two DateTimePickers.
-			ShootStandardReport(ui,checkResult,hwndReports,"ODPaymentPlans","FormRpPayPlans",typeof(DateTimePicker),"C22-datetimepicker.png");
-			checkResult.ForPerson("the DateTimePicker's drop-down calendar: it opens on a click on its arrow (no message opens it), which the harness does not send");
+			//Public Health > Raw Population Data (C6 opens it too): two MonthCalendarODs.
+			ShootStandardReport(ui,checkResult,hwndReports,"ODRawPopulationData","FormRpPHRawPop",typeof(OpenPmsDental.UI.MonthCalendarOD),"C22-monthcalendarod.png");
+			//Lists > Payment Plans: two DateTimePickers, the first one's drop-down opened as its drop button opens it (UiDateDropLook.OpenForTest).
+			ShootStandardReport(ui,checkResult,hwndReports,"ODPaymentPlans","FormRpPayPlans",typeof(DateTimePicker),"C22-datetimepicker.png",
+				hwnd => ShootDateDropDown(ui,checkResult,hwnd,"C22-datetimepicker-dropdown.png"));
 			checkResult.Expect(ui.Close(hwndReports),"Standard reports closes");
 			openedReports.Posted?.Wait();
 		}

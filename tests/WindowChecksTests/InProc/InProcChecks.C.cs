@@ -253,8 +253,8 @@ namespace WindowChecksTests.InProc {
 			if(InspectWindow(ui,checkResult,openedRawPop,"FormRpPHRawPop",null,close:false)) {
 				IntPtr hwndRawPop=openedRawPop.Hwnd;
 				ui.Invoke(() => {
-					((MonthCalendar)FindControl(ui,hwndRawPop,"date1",true)).SetDate(new DateTime(2026,11,1));
-					((MonthCalendar)FindControl(ui,hwndRawPop,"date2",true)).SetDate(new DateTime(2026,11,30));
+					((MonthCalendarOD)FindControl(ui,hwndRawPop,"date1",true)).SetDate(new DateTime(2026,11,1));
+					((MonthCalendarOD)FindControl(ui,hwndRawPop,"date2",true)).SetDate(new DateTime(2026,11,30));
 				});
 				Ui.Opened openedMessage=ui.Open("OK without an adjustment type",() => ((System.Windows.Forms.Button)FindControl(ui,hwndRawPop,"butOK",true)).PerformClick(),
 					allowMessage:true);
