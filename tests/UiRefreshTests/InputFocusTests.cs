@@ -120,7 +120,7 @@ namespace UiRefreshTests {
 					if((control is DateTimePicker || control is System.Windows.Forms.ComboBox) && !maskFrame[i]) {
 						continue;
 					}
-					if(pixelsUnfocused[i]!=pixelsFocused[i]) {
+					if(!IsNearlySame(pixelsUnfocused[i],pixelsFocused[i])) {
 						if(countMoved==0) {
 							firstMoved=" first at ("+x+","+y+") "+pixelsUnfocused[i].ToString("X6")+" to "+pixelsFocused[i].ToString("X6");
 						}
@@ -158,6 +158,13 @@ namespace UiRefreshTests {
 				listFailures.Add(name+": "+countLook+" frame pixels on screen differ from the printed frame;"+firstLook);
 			}
 			return paintProbe.CountPaints;
+		}
+
+		///<summary>True when two RGB values differ by at most 8 per channel: the anti-aliasing of a corner at 150% as Windows' theme fade ends a
+		///moment apart in the two captures (seen once on the up-down box, 12 pixels D4D4D4 against DBDBDB). A flash or moved text differs by far
+		///more, and the paint probe catches a flash on its own.</summary>
+		private static bool IsNearlySame(int rgb1,int rgb2) {
+			return Math.Abs(((rgb1>>16)&0xFF)-((rgb2>>16)&0xFF))<=8 && Math.Abs(((rgb1>>8)&0xFF)-((rgb2>>8)&0xFF))<=8 && Math.Abs((rgb1&0xFF)-(rgb2&0xFF))<=8;
 		}
 
 		private static void ClearSelection(Control control) {
