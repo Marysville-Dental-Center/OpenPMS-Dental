@@ -1793,7 +1793,7 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   changes). PlainLookTests and PlainFrameTests; gallery G-UI3-uiplain2 (149 pictures), audit `UI-PLAIN-2-audit.md`. UI-PLAIN.md section 8.
   Fix round (branch `ui/uiplain2-2`): the frame turns on at Load (the old AutoScale's ClientSize kept), the band shows the program icon
   as FormODBase does, the report designer's main window with a report open in the look (flat MDI area in the token, merged caption
-  buttons, bottom tabs, toolbar buttons, status panels). UI-PLAIN.md section 9.
+  buttons, bottom tabs, toolbar buttons, status panels); gallery G-UI3-uiplain2 drawn again (151 pictures). UI-PLAIN.md section 9.
 
 ---
 

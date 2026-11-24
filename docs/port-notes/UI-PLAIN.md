@@ -294,3 +294,18 @@ the gallery makes every handle and lays the window out as its Load does before i
 - The merged MDI system menu shows the report window's own icon (MDIChild.resx, the report designer's icon, kept by BrandingTests).
 - In the program the report designer's dialogs open at their AutoScale size (about 1.3 times the designer's under Segoe UI 9); the gallery
   draws them at the designer's size at 100%, as slice 13 did (it runs no OnLoad).
+- The print preview area of FormPrintImage and FormPrintSettings (the graph's print windows) is the stock PrintPreviewControl's
+  AppWorkspace grey, as before; not part of this round.
+- At 150% the gallery scales the report designer's window but not its 16 px toolbar pictures or the merged report buttons (the harness is
+  a 96 dpi process); the band between the report's tabs and the status strip in `RdlDesigner-report` is the MDI area below the report window
+  as the harness sizes the never-shown window.
+
+**Gallery** G-UI3-uiplain2 drawn again (`.git/od-tools/test-results/G-UI3-uiplain2`, `.zip`): 151 pictures, the 149 and
+`RdlDesigner-report` at 100% and 150%; before: this branch with the looks off. Commands: `G-UI3-uiplain2-src/work/ugal3.ps1 -Name
+after-100 -Scale 1` (`-LooksOff`, `-Scale 1.5`), the pictures sorted into `gal-before` and `gal-after`, then New-UiGallery. Audit:
+[UI-PLAIN-2-audit.md](UI-PLAIN-2-audit.md), section "Fix round" (pass 1: the findings above; pass 2: none).
+
+**Results** (`uiplain2-2-final.txt`; the whole filter built x64 through the lane: 0 errors): `UiRefreshTests` 314 passed, 49 skipped
+(opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped); `PrintGuardTests` 19 passed (1
+skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-*.txt`): UiRefreshTests 315 passed each. `tools/Test-NoEolFlips.ps1 -Base
+857b85266`: 0 flips. `element_inventory.py --check`: matches.
