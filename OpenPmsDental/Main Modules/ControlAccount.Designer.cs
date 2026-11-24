@@ -642,7 +642,6 @@
 			// 
 			// tabMain
 			// 
-			this.tabMain.BackColor = System.Drawing.Color.Transparent;
 			this.tabMain.Controls.Add(this.gridAcctPat);
 			this.tabMain.Controls.Add(this.butCreditCard);
 			this.tabMain.Controls.Add(this.textUrgFinNote);
@@ -736,7 +735,6 @@
 			// 
 			// tabShow
 			// 
-			this.tabShow.BackColor = System.Drawing.Color.Transparent;
 			this.tabShow.Controls.Add(this.checkShowCommAuto);
 			this.tabShow.Controls.Add(this.checkShowCompletePayPlans);
 			this.tabShow.Controls.Add(this.checkShowFamilyComm);

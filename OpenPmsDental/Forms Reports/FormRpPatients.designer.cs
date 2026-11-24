@@ -114,6 +114,7 @@ namespace OpenPmsDental {
 			this.textBox1.Location = new System.Drawing.Point(220, 24);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(714, 38);
 			this.textBox1.TabIndex = 13;
 			this.textBox1.Text = resources.GetString("textBox1.Text");

@@ -565,7 +565,6 @@
 			// 
 			// tabGeneral
 			// 
-			this.tabGeneral.BackColor = System.Drawing.Color.Transparent;
 			this.tabGeneral.Controls.Add(this.panel2);
 			this.tabGeneral.Location = new System.Drawing.Point(2, 21);
 			this.tabGeneral.Name = "tabGeneral";

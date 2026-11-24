@@ -1,6 +1,7 @@
 // The source scan of the UI refresh's package UI-11 (docs/specs/ui-refresh-plan.md section 7, UI-11; docs/port-notes/UI-11.md): every literal
-// BackColor and ForeColor value (a named colour, a system colour, Color.FromArgb with numbers, Color.Empty) that the designers and the code of
-// the program's projects set must be listed with its reason in the UI-11 section of tests\UiRefreshTests\Data\colour-literals.tsv. A chrome
+// BackColor and ForeColor value (a named colour, a system colour, Color.FromArgb with numbers, Color.FromName, Color.FromKnownColor,
+// Color.Empty; in code every literal of the right-hand side, each branch of a "?:") that the designers and the code of the program's projects
+// set must be listed with its reason in the UI-11 section of tests\UiRefreshTests\Data\colour-literals.tsv. A chrome
 // literal (a window, panel, group box, tab page, label or check box in an old background: Windows' grey, white, 252,253,254) is not listed: the
 // control takes its token from its parent and the looks (remove the designer line; in code use UiTheme). So a new chrome literal fails here, and
 // so does a row the source no longer has as often (cut the list). tools\UiFit\colour_literals.py reads the same lines, decides each by its
@@ -24,10 +25,21 @@ namespace NoHqTests {
 		public static readonly string[] ArrayRoots=new string[] { "OpenPmsDental","OpenPmsDentalBusiness","CodeBase","SparksToothChart","WpfControlsOD",
 			"RdlDesign","ODR","ImagingDeviceManager","CentralManager","DatabaseIntegrityCheck","DocumentationBuilder","MySQLManager",
 			"OpenPmsDentalDbSettings","OpenPmsDentalGraph","OpenPmsDentalHL7","ServiceManager","UpdateFileCopier","xCrudGenerator" };
-		private const string VALUE=@"(?:System\.Drawing\.)?(?:Color|SystemColors)\.(?:FromArgb\((?:[\s\d,()]|\(int\)|\(byte\))*\)|\w+)";
+		///<summary>A literal value: a named or system colour, Color.FromArgb with numbers, Color.FromName("..."), Color.FromKnownColor(...). Not a
+		///member of something else (x.Color.Red) and not a method call (Color.FromArgb(alpha,color)).</summary>
+		private const string VALUE=@"(?<![\w.])(?:System\.Drawing\.)?(?:Color|SystemColors)\.(?:FromArgb\((?:[\s\d,()]|\(int\)|\(byte\))*\)"
+			+@"|FromName\(""[^""]*""\)|FromKnownColor\([\w.]+\)|\w+\b(?!\s*\())";
 		private static readonly Regex _regexDesigner=new Regex(@"^\s*this\.(?:(?<ctl>[\w.]+)\.)?(?<prop>BackColor|ForeColor) = (?<val>"+VALUE+@");\s*$");
-		private static readonly Regex _regexCode=new Regex(@"(?<lhs>[\w.\[\]""]*?)\b(?<prop>BackColor|ForeColor)\s*=(?!=)\s*(?<val>"+VALUE+@")(?=\s*[;,})])");
+		///<summary>The code's assignment; its right-hand side (RightHandSide) holds the literals, each branch of a "?:" its own.</summary>
+		private static readonly Regex _regexCode=new Regex(@"(?<lhs>[\w.\[\]""]*?)\b(?<prop>BackColor|ForeColor)\s*=(?!=)\s*");
+		private static readonly Regex _regexLiteral=new Regex(VALUE);
 		private static readonly Regex _regexCast=new Regex(@"\(\(int\)\(\(\(byte\)\((\d+)\)\)\)\)");
+		///<summary>The designer's control types that cannot show a transparent colour (no ControlStyles.SupportsTransparentBackColor): under a
+		///transparent parent and without their own colour WinForms draws Windows' grey (UI.GroupBox white) in their place.</summary>
+		public static readonly string[] ArrayTypesNotTransparent=new string[] { "OpenPmsDental.UI.CheckBox","OpenPmsDental.UI.GroupBox",
+			"OpenPmsDental.UI.TabControl","System.Windows.Forms.TabControl" };
+		private static readonly Regex _regexNew=new Regex(@"^\s*this\.(?<name>\w+) = new (?<type>[\w.]+)\(");
+		private static readonly Regex _regexAdd=new Regex(@"^\s*this\.(?:(?<parent>[\w.]+)\.)?Controls\.Add\(this\.(?<child>\w+)\);");
 
 		[TestMethod]
 		public void ChromeColours_EveryLiteralIsListedWithItsReason() {
@@ -44,6 +56,40 @@ namespace NoHqTests {
 				+"(remove the designer line so the control takes its parent's colour, or use UiTheme in code); a colour that stays (content, a user "
 				+"setting, a status) needs its row with the reason; python tools/UiFit/colour_literals.py writes the section of "
 				+UiThemeScanTests.PATH_COLOUR_LITERALS+":\r\n"+string.Join("\r\n",listProblems));
+		}
+
+		///<summary>UI-11 fix round: a control that cannot show a transparent colour (UI.CheckBox, UI.GroupBox, a tab control) takes no token from a
+		///transparent parent: WinForms draws Windows' grey (UI.GroupBox white) in its place. So a designer that leaves such a control without its own
+		///colour under a Color.Transparent container fails here: remove the container's Transparent line, so the control takes the token.</summary>
+		[TestMethod]
+		public void ChromeColours_NoOpaqueControlOnTransparentParent() {
+			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
+			List<string> listProblems=new List<string>();
+			int countFiles=0;
+			foreach(string root in ArrayRoots) {
+				string pathFolder=Path.Combine(pathRoot,root);
+				if(!Directory.Exists(pathFolder)) {
+					continue;
+				}
+				foreach(string path in Directory.EnumerateFiles(pathFolder,"*.cs",SearchOption.AllDirectories)) {
+					string pathRelative=path.Substring(pathRoot.Length+1).Replace('\\','/');
+					if(pathRelative.Split('/').Any(x => x.Equals("bin",StringComparison.OrdinalIgnoreCase) || x.Equals("obj",StringComparison.OrdinalIgnoreCase))) {
+						continue;
+					}
+					string text=File.ReadAllText(path);
+					if(!text.Contains("Color.Transparent") || !text.Contains("void InitializeComponent()")) {
+						continue;
+					}
+					countFiles++;
+					foreach(string found in FindOpaqueOnTransparent(text.Split('\n'))) {
+						listProblems.Add(pathRelative+"\t"+found);
+					}
+				}
+			}
+			Assert.IsTrue(countFiles>10,"Expected designers with a transparent colour, found "+countFiles+".");
+			Assert.AreEqual(0,listProblems.Count,"A control that cannot show a transparent colour sits without its own colour under a transparent "
+				+"parent (file, control, type, parent): WinForms draws Windows' grey there. Remove the parent's Transparent line (UI-11, docs/port-notes/UI-11.md):\r\n"
+				+string.Join("\r\n",listProblems));
 		}
 
 		[TestMethod]
@@ -75,6 +121,44 @@ namespace NoHqTests {
 			//Outside InitializeComponent a designer-style line is code: its control is the expression without "this."
 			List<string> listCode=FindLiterals("A/FormX.cs",new string[] { "\t\t\tthis.panel1.BackColor = System.Drawing.SystemColors.Window;" });
 			CollectionAssert.AreEqual(new[] { "panel1\tBackColor\tSystemColors.Window" },listCode,string.Join("; ",listCode));
+			//Every literal of the right-hand side, each branch of a "?:" its own row; Color.FromName and Color.FromKnownColor; not a colour that is
+			//only an argument's part of a call (Color.FromArgb(alpha,...)'s name) or a member of something else.
+			listCode=FindLiterals("A/FormX.cs",new string[] {
+				"\t\t\tlabel.BackColor=isX?Color.White:SystemColors.Control;",
+				"\t\t\tbutM.BackColor=Color.FromName(\"Control\");",
+				"\t\t\tthis.ForeColor = this.Enabled? Color.Black: Color.Gray;",
+				"\t\t\tpanel.BackColor=Color.FromKnownColor(KnownColor.Window);",
+				"\t\t\tlabelInfo.ForeColor=isA ? Color.Firebrick : (isB ? Color.Blue : SystemColors.ControlText);",
+				"\t\t\tpanel.BackColor=Color.FromArgb(alpha,colorDef); label.ForeColor=theme.Color.Red;",
+				"\t\t\tnew Label { BackColor=isDark?Color.Black:Color.White,ForeColor=Color.Red };" });
+			CollectionAssert.AreEqual(new[] {
+				"label\tBackColor\tColor.White",
+				"label\tBackColor\tSystemColors.Control",
+				"butM\tBackColor\tColor.FromName(\"Control\")",
+				"this\tForeColor\tColor.Black",
+				"this\tForeColor\tColor.Gray",
+				"panel\tBackColor\tColor.FromKnownColor(KnownColor.Window)",
+				"labelInfo\tForeColor\tColor.Firebrick",
+				"labelInfo\tForeColor\tColor.Blue",
+				"labelInfo\tForeColor\tSystemColors.ControlText",
+				"(initializer)\tBackColor\tColor.Black",
+				"(initializer)\tBackColor\tColor.White",
+				"(initializer)\tForeColor\tColor.Red" },listCode,string.Join("; ",listCode));
+			//A UI.CheckBox without its own colour under a transparent tab page; a stock check box (it shows the transparent colour) and a UI.CheckBox
+			//with its own colour are not.
+			List<string> listOpaque=FindOpaqueOnTransparent(new string[] {
+				"\t\t\tthis.tabMain = new OpenPmsDental.UI.TabPage();",
+				"\t\t\tthis.checkA = new OpenPmsDental.UI.CheckBox();",
+				"\t\t\tthis.checkB = new System.Windows.Forms.CheckBox();",
+				"\t\t\tthis.checkC = new OpenPmsDental.UI.CheckBox();",
+				"\t\t\tthis.panel1 = new System.Windows.Forms.Panel();",
+				"\t\t\tthis.tabMain.BackColor = System.Drawing.Color.Transparent;",
+				"\t\t\tthis.tabMain.Controls.Add(this.panel1);",
+				"\t\t\tthis.panel1.Controls.Add(this.checkA);",
+				"\t\t\tthis.tabMain.Controls.Add(this.checkB);",
+				"\t\t\tthis.tabMain.Controls.Add(this.checkC);",
+				"\t\t\tthis.checkC.BackColor = System.Drawing.SystemColors.Window;" });
+			CollectionAssert.AreEqual(new[] { "checkA\tOpenPmsDental.UI.CheckBox\ttabMain" },listOpaque,string.Join("; ",listOpaque));
 			//The section: a row without its reason is a problem.
 			List<string> listProblems=new List<string>();
 			SortedDictionary<string,int> dictAllowed=ReadSection(new string[] { "file\tliteral\tcount","a.cs\tColor.FromArgb(1,2,3)\t1",SECTION_MARK+" ...",
@@ -144,10 +228,79 @@ namespace NoHqTests {
 						lhs=lhs.Substring(5);
 					}
 					string control=lhs=="" ? "(initializer)" : lhs;
-					listLiterals.Add(control+"\t"+match.Groups["prop"].Value+"\t"+Normalise(match.Groups["val"].Value));
+					foreach(Match matchLiteral in _regexLiteral.Matches(RightHandSide(line,match.Index+match.Length))) {
+						listLiterals.Add(control+"\t"+match.Groups["prop"].Value+"\t"+Normalise(matchLiteral.Value));
+					}
 				}
 			}
 			return listLiterals;
+		}
+
+		///<summary>An assignment's right-hand side from start: up to the statement's ";", or a "," "}" ")" outside its own brackets (an object
+		///initializer's next member, a call's end), or the line's end.</summary>
+		public static string RightHandSide(string line,int start) {
+			int depth=0;
+			for(int i=start;i<line.Length;i++) {
+				char c=line[i];
+				if(c=='(' || c=='[' || c=='{') {
+					depth++;
+				}
+				else if(c==')' || c==']' || c=='}') {
+					if(depth==0) {
+						return line.Substring(start,i-start);
+					}
+					depth--;
+				}
+				else if(c==';' || (c==',' && depth==0)) {
+					return line.Substring(start,i-start);
+				}
+			}
+			return line.Substring(start);
+		}
+
+		///<summary>The designer's controls of a type that cannot show a transparent colour (ArrayTypesNotTransparent), without a BackColor line of
+		///their own, whose nearest ancestor with a BackColor line has Color.Transparent: "control\ttype\tancestor". WinForms draws Windows' grey (UI.GroupBox
+		///white) there, not the parent's token.</summary>
+		public static List<string> FindOpaqueOnTransparent(string[] arrayLines) {
+			Dictionary<string,string> dictTypes=new Dictionary<string,string>();
+			Dictionary<string,string> dictParents=new Dictionary<string,string>();
+			Dictionary<string,string> dictBack=new Dictionary<string,string>();
+			foreach(string lineRaw in arrayLines) {
+				string line=lineRaw.TrimEnd('\r');
+				Match matchNew=_regexNew.Match(line);
+				if(matchNew.Success && !dictTypes.ContainsKey(matchNew.Groups["name"].Value)) {
+					string type=matchNew.Groups["type"].Value;
+					dictTypes[matchNew.Groups["name"].Value]=type.StartsWith("UI.",StringComparison.Ordinal) ? "OpenPmsDental."+type : type;
+				}
+				Match matchAdd=_regexAdd.Match(line);
+				if(matchAdd.Success) {
+					dictParents[matchAdd.Groups["child"].Value]=matchAdd.Groups["parent"].Success ? matchAdd.Groups["parent"].Value : ".";
+				}
+				Match matchDesigner=_regexDesigner.Match(line);
+				if(matchDesigner.Success && matchDesigner.Groups["prop"].Value=="BackColor") {
+					dictBack[matchDesigner.Groups["ctl"].Success ? matchDesigner.Groups["ctl"].Value : "."]=Normalise(matchDesigner.Groups["val"].Value);
+				}
+			}
+			List<string> listFound=new List<string>();
+			foreach(KeyValuePair<string,string> pair in dictParents) {
+				string type;
+				if(!dictTypes.TryGetValue(pair.Key,out type) || !ArrayTypesNotTransparent.Contains(type) || dictBack.ContainsKey(pair.Key)) {
+					continue;
+				}
+				string parent=pair.Value;
+				for(int depth=0;parent!=null && parent!="." && depth<50;depth++) {
+					string back;
+					if(dictBack.TryGetValue(parent,out back)) {
+						if(back=="Color.Transparent") {
+							listFound.Add(pair.Key+"\t"+type+"\t"+parent);
+						}
+						break;
+					}
+					dictParents.TryGetValue(parent,out parent);
+				}
+			}
+			listFound.Sort(StringComparer.Ordinal);
+			return listFound;
 		}
 
 		///<summary>The value as the list writes it: no namespace, no designer casts, no whitespace.</summary>

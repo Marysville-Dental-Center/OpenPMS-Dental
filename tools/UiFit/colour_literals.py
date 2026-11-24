@@ -1,7 +1,7 @@
 """UI-11 (docs/port-notes/UI-11.md): the chrome colour literals of every window.
 
-Lists every literal BackColor and ForeColor value the designers and the code of the program's projects set (a named colour, a system colour
-or Color.FromArgb with numbers), with its file, control, the control's type and the value, and decides each one by role: the literal that
+Lists every literal BackColor and ForeColor value the designers and the code of the program's projects set (a named colour, a system colour,
+Color.FromArgb with numbers, Color.FromName, Color.FromKnownColor; in code every literal of the right-hand side, each branch of a "?:"), with its file, control, the control's type and the value, and decides each one by role: the literal that
 means chrome (a window, panel, group box, tab page, label, splitter or status strip in the classic grey or the old background) goes, so the
 control takes its token from the looks; the rest stays, with the reason (content the office sets or the program shows as data, a deliberate
 status colour, a system colour the looks read as the token's own value and high-contrast partner).
@@ -29,10 +29,40 @@ LIST = "tests/UiRefreshTests/Data/colour-literals.tsv"
 HEADER = "file\tcontrol\tproperty\tvalue\tcount\twhy"
 MARK = "# UI-11: the chrome colour literals"
 
-# A literal value: a named colour, a system colour, Color.FromArgb with numbers only (the designer's casts removed), Color.Empty.
-RX_VALUE = r"(?:System\.Drawing\.)?(?:Color|SystemColors)\.(?:FromArgb\((?:[\s\d,()]|\(int\)|\(byte\))*\)|\w+)"
+# A literal value: a named colour, a system colour, Color.FromArgb with numbers only (the designer's casts removed), Color.FromName("..."),
+# Color.FromKnownColor(...), Color.Empty. Not a member of something else (x.Color.Red) and not a method call (Color.FromArgb(alpha,c)).
+RX_VALUE = (r"(?<![\w.])(?:System\.Drawing\.)?(?:Color|SystemColors)\.(?:FromArgb\((?:[\s\d,()]|\(int\)|\(byte\))*\)|FromName\(\"[^\"]*\"\)"
+            r"|FromKnownColor\([\w.]+\)|\w+\b(?!\s*\())")
 RX_DESIGNER = re.compile(r"^\s*this\.(?:(?P<ctl>[\w.]+)\.)?(?P<prop>BackColor|ForeColor) = (?P<val>" + RX_VALUE + r");\s*$")
-RX_CODE = re.compile(r"(?P<lhs>[\w.\[\]\"]*?)\b(?P<prop>BackColor|ForeColor)\s*=(?!=)\s*(?P<val>" + RX_VALUE + r")(?=\s*[;,})])")
+# The code: "x.BackColor=" or "ForeColor=" (an object initializer); its right-hand side runs to the statement's ";" (or the initializer's
+# "," or "}", or the call's ")", at its own depth; or the line's end), and every literal in it is one row: each branch of a "?:" its own.
+RX_CODE = re.compile(r"(?P<lhs>[\w.\[\]\"]*?)\b(?P<prop>BackColor|ForeColor)\s*=(?!=)\s*")
+RX_LITERAL = re.compile(RX_VALUE)
+
+
+def right_hand_side(line, start):
+    """The assignment's right-hand side from start: up to ";", or a "," "}" ")" outside its own brackets, or the line's end."""
+    depth = 0
+    for i in range(start, len(line)):
+        c = line[i]
+        if c in "([{":
+            depth += 1
+        elif c in ")]}":
+            if depth == 0:
+                return line[start:i]
+            depth -= 1
+        elif c == ";" or (c == "," and depth == 0):
+            return line[start:i]
+    return line[start:]
+
+
+def code_literals(line):
+    """(lhs, property, value) of every literal the code assigns in this line."""
+    out = []
+    for m in RX_CODE.finditer(line):
+        for v in RX_LITERAL.finditer(right_hand_side(line, m.end())):
+            out.append((m.group("lhs"), m.group("prop"), v.group(0)))
+    return out
 RX_FIELD = re.compile(r"^\s*(?:private|protected|internal|public)\s+(?:readonly\s+)?(?P<type>[\w.]+)\s+(?P<name>\w+)\s*;")
 RX_NEW = re.compile(r"^\s*this\.(?P<name>\w+) = new (?P<type>[\w.]+)\(")
 
@@ -121,14 +151,13 @@ def scan(root):
                         found.append(dict(file=rel, line=n + 1, control=ctl, type=types.get(ctl.split(".")[0], "?") if ctl != "." else "(window)",
                                           property=m.group("prop"), value=normalise(m.group("val")), kind="designer"))
                         continue
-                for m in RX_CODE.finditer(line):
-                    lhs = m.group("lhs").rstrip(".")
+                for lhs, prop, val in code_literals(line):
+                    lhs = lhs.rstrip(".")
                     if lhs.startswith("this."):
                         lhs = lhs[5:]
                     ctl = lhs if lhs else "(initializer)"
                     t = types.get(ctl.split(".")[0], "(code)")
-                    found.append(dict(file=rel, line=n + 1, control=ctl, type=t, property=m.group("prop"), value=normalise(m.group("val")),
-                                      kind="code"))
+                    found.append(dict(file=rel, line=n + 1, control=ctl, type=t, property=prop, value=normalise(val), kind="code"))
     return found
 
 
@@ -141,7 +170,10 @@ CONTAINERS = {"(window)", "System.Windows.Forms.Panel", "OpenPmsDental.UI.PanelO
               "System.Windows.Forms.Label", "System.Windows.Forms.CheckBox", "OpenPmsDental.UI.CheckBox", "System.Windows.Forms.RadioButton",
               "System.Windows.Forms.FlowLayoutPanel", "System.Windows.Forms.TableLayoutPanel", "OpenPmsDental.User_Controls.UserControlReportSetup",
               "OpenPmsDental.EmailPreviewControl", "OpenPmsDental.UI.ODDatePicker"}
-# The old window backgrounds: Windows' classic grey and its light shades, white (Open Dental's module and setup pages), the old look's
+# The containers that cannot show a transparent colour (no ControlStyles.SupportsTransparentBackColor): under a Transparent parent and without
+# their own colour, WinForms gives them Control.DefaultBackColor (Windows' grey), so their own line cannot simply go.
+NO_TRANSPARENT = {"OpenPmsDental.UI.CheckBox", "OpenPmsDental.UI.GroupBox", "OpenPmsDental.UI.TabControl", "System.Windows.Forms.TabControl"}
+# The old window backgrounds:Windows' classic grey and its light shades, white (Open Dental's module and setup pages), the old look's
 # 252,253,254 (ColorOD.Background before UI-3) and its near-whites.
 OLD_BACKGROUNDS = {"SystemColors.Control", "SystemColors.ControlLight", "SystemColors.ControlLightLight", "SystemColors.Window", "Color.White",
                    "Color.WhiteSmoke", "Color.FromArgb(252,253,254)", "Color.FromArgb(249,249,249)", "Color.FromArgb(250,250,250)"}
@@ -214,6 +246,8 @@ def decide(r, parents_stay):
     if key in HAND:
         return HAND[key]
     t, prop, value = r["type"], r["property"], r["value"]
+    if r["kind"] == "code" and (os.path.basename(r["file"]), r["control"]) in CODE_HAND_FIRST:
+        return CODE_HAND_FIRST[(os.path.basename(r["file"]), r["control"])]
     why = file_reason(r["file"])
     if why:
         return why
@@ -278,6 +312,7 @@ CODE_HAND = {
     ("ControlImages.cs", "form"): "the full-screen picture's black: content",
     ("ControlVideoPlayer.cs", "(initializer)"): "the video's black: content",
     ("ControlCameraSession.cs", "(initializer)"): "the camera view's dark surface and its captions over the live picture: content (the imaging design)",
+    ("ControlCameraSession.cs", "panelLive"): "the camera view's dark surface, yellow while the picture is frozen: content (the imaging design)",
     ("ControlImageDisplay.cs", "labelHover"): "the caption over a picture: content",
     ("FormOpenDentalBShell.cs", "(initializer)"): "the module switch's white fade when no blurred picture is at hand (ModuleSwitchBlur)",
     ("FormProgressStatus.cs", "labelMinimize"): "the minimize label's hover state",
@@ -285,6 +320,13 @@ CODE_HAND = {
     ("FormDbSettings.cs", "(initializer)"): "a hint in Windows' grey text (GrayText, TextDisabled's high-contrast partner)",
     ("FormEligibilityResponseDisplay.cs", "dataGridView1.ColumnHeadersDefaultCellStyle"): "a data grid's own header and row colours (data)",
     ("FormEligibilityResponseDisplay.cs", "dataGridView1.AlternatingRowsDefaultCellStyle"): "a data grid's own header and row colours (data)",
+}
+# Code rows decided before the whole-file reasons: a file reason would name the wrong role.
+CODE_HAND_FIRST = {
+    ("SimpleButton.cs", "this"): "the report designer's flat toolbar button: its text black, grey while disabled (its own enabled state, "
+                                 "drawn by the button itself; the report designer keeps its own toolbar, section 7's UI-11 row)",
+    ("SimpleToggle.cs", "this"): "the report designer's flat toolbar toggle: its text black, grey (and its face light grey) while disabled "
+                                 "(its own enabled state, drawn by the toggle itself; the report designer keeps its own toolbar, section 7's UI-11 row)",
 }
 INPUT_NAMES = re.compile(r"^(?:base|text\w*|textBox\w*|listControls\[i\])$")
 SURFACE_BUTTONS = re.compile(r"^but(?:M|OI|L|V|BF|D|B|F|I|O)$")
@@ -299,7 +341,7 @@ def decide_code(r):
         return "a deliberate status colour: a warning, an error or a note in colour"
     if prop == "ForeColor" and value in DEFAULT_TEXT | {"SystemColors.WindowText"}:
         return "a status colour's reset to the default text colour (Windows' ControlText, which every label and box draws in)"
-    if prop == "BackColor" and SURFACE_BUTTONS.match(ctl) and value in ("SystemColors.Control", "Color.White"):
+    if prop == "BackColor" and SURFACE_BUTTONS.match(ctl) and value in ("SystemColors.Control", "Color.White", "Color.FromName(\"Control\")"):
         return "a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)"
     if prop == "BackColor" and INPUT_NAMES.match(ctl) and value in ("SystemColors.Control", "SystemColors.Window", "Color.White"):
         return "an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)"
@@ -346,8 +388,23 @@ def decide_all(root, found):
                 if p == ".":
                     break
                 p = parents.get(p)
+        # the controls whose nearest coloured ancestor (a designer BackColor line) is Transparent
+        back = {r["control"]: r["value"] for r in rows if r["kind"] == "designer" and r["property"] == "BackColor"}
+        on_transparent = set()
+        for r in rows:
+            p = parents.get(r["control"])
+            while p and p != ".":
+                if p in back:
+                    if back[p] == "Color.Transparent":
+                        on_transparent.add(r["control"])
+                    break
+                p = parents.get(p)
         for r in rows:
             r["decision"] = decide(r, parents_stay if r["property"] == "BackColor" else set())
+            if (r["decision"] == "map" and r["property"] == "BackColor" and r["control"] in on_transparent
+                    and r["type"] in NO_TRANSPARENT):
+                r["decision"] = ("on a transparent parent: this control cannot show a transparent colour (WinForms would draw Windows' grey "
+                                 "in its place, UI.GroupBox white), so its own colour stays; remove the parent's Transparent line instead")
     return found
 
 

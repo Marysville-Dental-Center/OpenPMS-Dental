@@ -108,7 +108,7 @@ namespace OpenPmsDental {
 
 		private void panelSheetPreview_Paint(object sender,PaintEventArgs e) {
 			Graphics g=e.Graphics;
-			g.Clear(Color.FromArgb(252,253,254));
+			g.Clear(panelSheetPreview.BackColor);//UI-11: the surround takes the window's Surface token (its parent's colour), as the designer does
 			if(gridMain.GetSelectedIndex()==-1) {
 				return;
 			}

@@ -213,7 +213,6 @@ OpenPmsDental/Forms/FormClaimAttachmentItemEdit.designer.cs	pictureBoxImagePrevi
 OpenPmsDental/Forms/FormClaimCustomTrackingUpdate.designer.cs	textErrorDesc	BackColor	SystemColors.Control	1	a read-only or locked box's grey: the state, as Windows shows a read-only box
 OpenPmsDental/Forms/FormClaimCustomTrackingUpdate.designer.cs	textNotes	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/Forms/FormClaimEdit.cs	contrPerioGrid	BackColor	SystemColors.Window	1	the perio grid: content (UQ-6)
-OpenPmsDental/Forms/FormClaimEdit.designer.cs	tabGeneral	BackColor	Color.Transparent	1	transparent: shows the colour behind it (its parent's token)
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	textAttachImages	ForeColor	SystemColors.WindowText	1	an input's text: Windows' input text colour and its high-contrast partner
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	textAttachModels	ForeColor	SystemColors.WindowText	1	an input's text: Windows' input text colour and its high-contrast partner
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	textEDSAttachmentID	BackColor	SystemColors.Control	1	a read-only or locked box's grey: the state, as Windows shows a read-only box
@@ -516,18 +515,18 @@ OpenPmsDental/Forms/FormProcCodes2.designer.cs	comboFeeSchedGroup2	ForeColor	Sys
 OpenPmsDental/Forms/FormProcCodes2.designer.cs	comboFeeSchedGroup3	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/Forms/FormProcCodes2.designer.cs	comboFeeSchedGroup3	ForeColor	SystemColors.WindowText	1	an input's text: Windows' input text colour and its high-contrast partner
 OpenPmsDental/Forms/FormProcCodes2.designer.cs	label20	BackColor	Color.Transparent	1	transparent: shows the colour behind it (its parent's token)
-OpenPmsDental/Forms/FormProcEdit.cs	butBF	BackColor	Color.White	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butBF	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butD	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butD	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butL	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butL	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butM	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butM	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butOI	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butOI	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butV	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
-OpenPmsDental/Forms/FormProcEdit.cs	butV	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butBF	BackColor	Color.White	3	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butBF	BackColor	SystemColors.Control	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butD	BackColor	Color.White	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butD	BackColor	SystemColors.Control	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butL	BackColor	Color.White	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butL	BackColor	SystemColors.Control	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butM	BackColor	Color.White	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butM	BackColor	SystemColors.Control	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butOI	BackColor	Color.White	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butOI	BackColor	SystemColors.Control	2	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butV	BackColor	Color.White	3	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Forms/FormProcEdit.cs	butV	BackColor	SystemColors.Control	3	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Forms/FormProcEdit.cs	listControls[i]	BackColor	SystemColors.Control	1	an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)
 OpenPmsDental/Forms/FormProcEdit.cs	textNotes	BackColor	SystemColors.Control	1	an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)
 OpenPmsDental/Forms/FormProcEdit.cs	textSurfaces	BackColor	SystemColors.Control	1	an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)
@@ -659,6 +658,9 @@ OpenPmsDental/Forms/FormUserEdit.designer.cs	securityTreeUser	BackColor	Color.Tr
 OpenPmsDental/Forms/FormUserEdit.designer.cs	textUserNum	BackColor	SystemColors.Control	1	a read-only or locked box's grey: the state, as Windows shows a read-only box
 OpenPmsDental/Forms/FormUspsAddressSetup.cs	labelTestResult	ForeColor	Color.DarkGreen	1	a deliberate status colour: a warning, an error or a note in colour
 OpenPmsDental/Forms/FormUspsAddressSetup.cs	labelTestResult	ForeColor	Color.Firebrick	1	a deliberate status colour: a warning, an error or a note in colour
+OpenPmsDental/Forms/FormVideo.cs	labelInfo	ForeColor	Color.Blue	1	a deliberate status colour: a warning, an error or a note in colour
+OpenPmsDental/Forms/FormVideo.cs	labelInfo	ForeColor	Color.Firebrick	1	a deliberate status colour: a warning, an error or a note in colour
+OpenPmsDental/Forms/FormVideo.cs	labelInfo	ForeColor	SystemColors.ControlText	1	a status colour's reset to the default text colour (Windows' ControlText, which every label and box draws in)
 OpenPmsDental/Forms/FormVideo.designer.cs	labelStatus	BackColor	SystemColors.Info	1	a deliberate colour: a status, a legend or a highlight the window means
 OpenPmsDental/Forms/FormVideo.designer.cs	labelStatus	ForeColor	SystemColors.InfoText	1	a deliberate colour: a status, a legend or a highlight the window means
 OpenPmsDental/Forms/FormVitalsignEdit2014.Designer.cs	labelPregNotice	ForeColor	Color.Red	1	a deliberate status colour: a warning, an error or a note in colour
@@ -684,9 +686,7 @@ OpenPmsDental/Main Modules/ControlAccount.Designer.cs	labelUnearnedAmt	ForeColor
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panel1	BackColor	SystemColors.ControlDark	1	a dark line or frame: UiSeparatorLook draws a thin one as one Stroke line, UiBorderLook a frame
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panel2	BackColor	SystemColors.ControlDark	1	a dark line or frame: UiSeparatorLook draws a thin one as one Stroke line, UiBorderLook a frame
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	panelAgeLine	BackColor	SystemColors.ControlDark	1	a dark line or frame: UiSeparatorLook draws a thin one as one Stroke line, UiBorderLook a frame
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	tabMain	BackColor	Color.Transparent	1	transparent: shows the colour behind it (its parent's token)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	tabPageHiddenSplits	ForeColor	SystemColors.Window	1	text on a caption or a dark block: UiCaptionLook and UiBlockLook read it as TextOnAccent
-OpenPmsDental/Main Modules/ControlAccount.Designer.cs	tabShow	BackColor	Color.Transparent	1	transparent: shows the colour behind it (its parent's token)
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	textDateStart	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	textDateStart	ForeColor	SystemColors.WindowText	1	an input's text: Windows' input text colour and its high-contrast partner
 OpenPmsDental/Main Modules/ControlAccount.Designer.cs	textFamPriDed	BackColor	Color.White	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
@@ -721,16 +721,22 @@ OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textProdGoal	BackColor	Color.
 OpenPmsDental/Main Modules/ControlAppt.Designer.cs	textProduction	BackColor	Color.White	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/Main Modules/ControlAppt.cs	textLab	ForeColor	Color.Black	1	a status colour's reset to the default text colour (Windows' ControlText, which every label and box draws in)
 OpenPmsDental/Main Modules/ControlAppt.cs	textLab	ForeColor	Color.DarkRed	1	a deliberate status colour: a warning, an error or a note in colour
+OpenPmsDental/Main Modules/ControlChart.cs	butBF	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butBF	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butBF	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Main Modules/ControlChart.cs	butD	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butD	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butD	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Main Modules/ControlChart.cs	butL	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butL	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butL	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Main Modules/ControlChart.cs	butM	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butM	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butM	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Main Modules/ControlChart.cs	butOI	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butOI	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butOI	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
+OpenPmsDental/Main Modules/ControlChart.cs	butV	BackColor	Color.FromName("Control")	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butV	BackColor	Color.White	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	butV	BackColor	SystemColors.Control	1	a surface button's state: white while its surface is chosen, else Windows' button face (UiButtonLook)
 OpenPmsDental/Main Modules/ControlChart.cs	panelDrawColor	BackColor	Color.Black	1	a colour swatch: the drawing colour (content)
@@ -837,6 +843,8 @@ OpenPmsDental/User Controls/ControlCameraSession.cs	(initializer)	BackColor	Colo
 OpenPmsDental/User Controls/ControlCameraSession.cs	(initializer)	ForeColor	Color.FromArgb(232,236,241)	1	the camera view's dark surface and its captions over the live picture: content (the imaging design)
 OpenPmsDental/User Controls/ControlCameraSession.cs	(initializer)	ForeColor	Color.FromArgb(255,107,107)	1	the camera view's dark surface and its captions over the live picture: content (the imaging design)
 OpenPmsDental/User Controls/ControlCameraSession.cs	(initializer)	ForeColor	Color.White	1	the camera view's dark surface and its captions over the live picture: content (the imaging design)
+OpenPmsDental/User Controls/ControlCameraSession.cs	panelLive	BackColor	Color.FromArgb(14,16,18)	1	the camera view's dark surface, yellow while the picture is frozen: content (the imaging design)
+OpenPmsDental/User Controls/ControlCameraSession.cs	panelLive	BackColor	Color.FromArgb(255,210,74)	1	the camera view's dark surface, yellow while the picture is frozen: content (the imaging design)
 OpenPmsDental/User Controls/ControlImageDisplay.cs	labelHover	ForeColor	Color.Black	1	the caption over a picture: content
 OpenPmsDental/User Controls/ControlImageDisplay.cs	labelHover	ForeColor	Color.White	1	the caption over a picture: content
 OpenPmsDental/User Controls/ControlVideoPlayer.cs	(initializer)	BackColor	Color.Black	1	the video's black: content
@@ -847,13 +855,10 @@ OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textBccAddress	BackC
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textBodyText	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textCcAddress	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textFromAddress	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
-OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textMsgDateTime	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textMsgDateTime	ForeColor	Color.Red	1	a deliberate status colour: a warning, an error or a note in colour
-OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textSentOrReceived	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textSignedBy	BackColor	SystemColors.Control	1	a read-only or locked box's grey: the state, as Windows shows a read-only box
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textSubject	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textToAddress	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
-OpenPmsDental/User Controls/EmailPreviewControl.Designer.cs	textUserName	BackColor	SystemColors.Window	1	an input's box: SurfaceRaised's value (SystemColors.Window is also its high-contrast partner); the input frame draws the box in it
 OpenPmsDental/User Controls/EmailPreviewControl.cs	textMsgDateTime	ForeColor	Color.Black	1	a status colour's reset to the default text colour (Windows' ControlText, which every label and box draws in)
 OpenPmsDental/User Controls/ODtextBox.cs	base	BackColor	SystemColors.Control	1	an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)
 OpenPmsDental/User Controls/ODtextBox.cs	base	BackColor	SystemColors.Window	2	an input's state: the read-only or locked grey, or the editable box (SystemColors.Window, SurfaceRaised's high-contrast partner)
@@ -925,9 +930,12 @@ RdlDesign/GroupingCtl.cs	dgGroup.ColumnHeadersDefaultCellStyle	ForeColor	SystemC
 RdlDesign/ModulesClassesCtl.cs	dgClasses.ColumnHeadersDefaultCellStyle	ForeColor	SystemColors.ControlText	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
 RdlDesign/ModulesClassesCtl.cs	dgCodeModules.ColumnHeadersDefaultCellStyle	ForeColor	SystemColors.ControlText	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
 RdlDesign/QueryParametersCtl.cs	dgParms.ColumnHeadersDefaultCellStyle	ForeColor	SystemColors.ControlText	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
-RdlDesign/SimpleToggle.cs	this	BackColor	Color.LightGray	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
-RdlDesign/SimpleToggle.cs	this	ForeColor	Color.Black	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
-RdlDesign/SimpleToggle.cs	this	ForeColor	Color.LightGray	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
+RdlDesign/SimpleButton.cs	this	ForeColor	Color.Black	1	the report designer's flat toolbar button: its text black, grey while disabled (its own enabled state, drawn by the button itself; the report designer keeps its own toolbar, section 7's UI-11 row)
+RdlDesign/SimpleButton.cs	this	ForeColor	Color.Gray	1	the report designer's flat toolbar button: its text black, grey while disabled (its own enabled state, drawn by the button itself; the report designer keeps its own toolbar, section 7's UI-11 row)
+RdlDesign/SimpleToggle.cs	this	BackColor	Color.LightGray	1	the report designer's flat toolbar toggle: its text black, grey (and its face light grey) while disabled (its own enabled state, drawn by the toggle itself; the report designer keeps its own toolbar, section 7's UI-11 row)
+RdlDesign/SimpleToggle.cs	this	ForeColor	Color.Black	2	the report designer's flat toolbar toggle: its text black, grey (and its face light grey) while disabled (its own enabled state, drawn by the toggle itself; the report designer keeps its own toolbar, section 7's UI-11 row)
+RdlDesign/SimpleToggle.cs	this	ForeColor	Color.Gray	1	the report designer's flat toolbar toggle: its text black, grey (and its face light grey) while disabled (its own enabled state, drawn by the toggle itself; the report designer keeps its own toolbar, section 7's UI-11 row)
+RdlDesign/SimpleToggle.cs	this	ForeColor	Color.LightGray	1	the report designer's flat toolbar toggle: its text black, grey (and its face light grey) while disabled (its own enabled state, drawn by the toggle itself; the report designer keeps its own toolbar, section 7's UI-11 row)
 RdlDesign/SortingCtl.cs	dgSorting.ColumnHeadersDefaultCellStyle	ForeColor	SystemColors.ControlText	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
 RdlDesign/SubreportCtl.cs	dgParms.ColumnHeadersDefaultCellStyle	ForeColor	SystemColors.ControlText	1	the report designer: report content (the report canvas, its styles and the expression editor's colours), section 7's UI-11 row
 WpfControlsOD/Frame/FormFrame.cs	.	BackColor	SystemColors.Control	1	FormFrame's own designer method, never called: the constructor sets UiTheme.Surface
