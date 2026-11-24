@@ -38,6 +38,8 @@ namespace AdoptionValidation {
 	///- program and toolbutitem: what the DXC Patient Credit Score step plans (DxcCreditScorePlan) and what the Trojan Express Collect step plans
 	///  (TrojanExpressCollectPlan): each planned row of those discontinued links changes only Enabled, to 0, and each of their planned toolbar
 	///  buttons is deleted; no other program row or column may change, no other toolbutitem row may go, and no row may be added to either;
+	///- programproperty: what the program property description step plans (ProgramPropertyDescPlan): each planned row changes only PropertyDesc, to
+	///  the planned text; no other row or column may change, and no row may be added or go;
 	///- claimpayment.Note: only NULL notes become empty strings, as many as migration-preview counts; insverify and insverifyhist.DateLastAssigned: every
 	///  value is the original date at midnight;
 	///- supplyledger, the inventory stock ledger (a table of this program, InventoryTables), the one table of this program adoption writes rows into:
@@ -101,6 +103,10 @@ namespace AdoptionValidation {
 			public List<long> ListProgramNumsDisabledTrojan=new List<long>();
 			///<summary>The toolbutitem rows of the Trojan Express Collect link the step deleted as planned.</summary>
 			public List<long> ListToolButItemNumsDeletedTrojan=new List<long>();
+			///<summary>The program property description step's plan made from the original (what migration-preview lists for it).</summary>
+			public ProgramPropertyDescPlan.Plan PlanPropertyDescs;
+			///<summary>The programproperty rows the step renamed as planned (PropertyDesc only).</summary>
+			public List<long> ListProgramPropertyNumsRenamed=new List<long>();
 			///<summary>The inventory tracking steps' plan made from the original (what migration-preview lists for it).</summary>
 			public InventoryPlan.Plan PlanInventory;
 			///<summary>True when adoption added the stock ledger (supplyledger).</summary>
@@ -147,6 +153,7 @@ namespace AdoptionValidation {
 			result.PlanInsHist=InsHistCodeGroupPlan.Make(db,original,result.Plan26_1.IsFromBefore25_4);
 			result.PlanDxc=DxcCreditScorePlan.Make(db,original);
 			result.PlanTrojan=TrojanExpressCollectPlan.Make(db,original);
+			result.PlanPropertyDescs=ProgramPropertyDescPlan.Make(db,original);
 			result.PlanMaintGrants=MaintenanceGrantPlan.Make(db,original);
 			result.PlanImageAdjustGrants=ImageAdjustGrantPlan.Make(db,original);
 			result.PlanInventory=InventoryPlan.Make(db,original);
@@ -159,6 +166,7 @@ namespace AdoptionValidation {
 			CheckCodeGroup(db,original,adopted,result);
 			CheckProgram(db,original,adopted,result);
 			CheckToolButItem(db,original,adopted,result);
+			CheckProgramProperty(db,original,adopted,result);
 			CheckValueChangingColumns(db,original,adopted,result);
 			CheckNewTablesAndColumns(db,original,adopted,result);
 			CheckInventoryLedger(db,original,adopted,result);
@@ -838,6 +846,71 @@ namespace AdoptionValidation {
 				listParts.Add(DescribeLinkRows(result.ListProgramNumsDisabledTrojan,listPlannedTrojan.Count,nameTrojan+" row(s)","disabled, Enabled only","ProgramNum"));
 			}
 			result.ListLines.Add("program: "+string.Join("; ",listParts)+(isClean ? "; no other row or column changed, none added or removed." : " (see the failures)."));
+		}
+
+		///<summary>The program property description step (ProgramPropertyDescRenameStep, UI-BRAND-2), as migration-preview plans it from the original
+		///(ProgramPropertyDescPlan): each planned programproperty row changes only PropertyDesc, to the planned text. No other programproperty row or
+		///column may change, and no row may be added or go. allowed-differences.adoption.json allows programproperty.PropertyDesc as a whole column.
+		///</summary>
+		private static void CheckProgramProperty(Db db,string original,string adopted,Result result) {
+			string table=ProgramPropertyDescPlan.TABLE_PROGRAMPROPERTY;
+			bool hasOriginal=Migration26_1Plan.HasTable(db,original,table);
+			bool hasAdopted=Migration26_1Plan.HasTable(db,adopted,table);
+			if(!hasOriginal || !hasAdopted) {
+				if(hasOriginal || hasAdopted) {
+					result.ListFailures.Add("programproperty is missing from "+(hasOriginal ? adopted : original)+".");
+				}
+				result.ListLines.Add("programproperty: no such table"+(hasOriginal==hasAdopted ? " in either database." : " in one of them (see the failures)."));
+				return;
+			}
+			List<ProgramPropertyDescRenames.RenamedRow> listPlanned=result.PlanPropertyDescs==null ? new List<ProgramPropertyDescRenames.RenamedRow>()
+				: result.PlanPropertyDescs.Rows.ListRenamed;
+			int countFailuresBefore=result.ListFailures.Count;
+			RowComparer.TableDiff diff=RowComparer.Compare(db,original,adopted,table);
+			if(diff.ListColumnsInOneOnly.Count>0) {
+				result.ListFailures.Add("programproperty columns differ: "+string.Join(", ",diff.ListColumnsInOneOnly)+"; the fork migration changes no programproperty "
+					+"column's definition.");
+			}
+			if(diff.CountOnlyFirst>0) {
+				result.ListFailures.Add("programproperty row(s) of "+original+" are missing (ProgramPropertyNum "+string.Join(", ",diff.ListOnlyFirst.Take(20))+"); the "
+					+"fork migration removes no programproperty row.");
+			}
+			if(diff.CountOnlySecond>0) {
+				result.ListFailures.Add("programproperty row(s) were added (ProgramPropertyNum "+string.Join(", ",diff.ListOnlySecond.Take(20))+"); the fork migration "
+					+"adds no programproperty row to an Open Dental 25.3.48 database.");
+			}
+			if(diff.CountChanged>diff.ListChanged.Count) {
+				result.ListFailures.Add(diff.CountChanged+" programproperty rows changed; the program property description step renames "+listPlanned.Count+".");
+			}
+			Dictionary<long,ProgramPropertyDescRenames.RenamedRow> dictPlanned=listPlanned.ToDictionary(x => x.Row.ProgramPropertyNum);
+			foreach(RowComparer.ChangedRow changed in diff.ListChanged) {
+				if(!dictPlanned.TryGetValue(changed.Key,out ProgramPropertyDescRenames.RenamedRow renamedRow)) {
+					result.ListFailures.Add("programproperty row "+changed.Key+" changed ("+string.Join(", ",changed.ListColumns)+"); the fork migration renames only the "
+						+"row(s) migration-preview lists for "+original+", PropertyDesc only.");
+					continue;
+				}
+				string descNew=Convert.ToString(db.Scalar("SELECT PropertyDesc FROM `"+adopted+"`.programproperty WHERE ProgramPropertyNum="
+					+changed.Key.ToString(CultureInfo.InvariantCulture)),CultureInfo.InvariantCulture);
+				if(changed.ListColumns.Count!=1 || !string.Equals(changed.ListColumns[0],ProgramPropertyDescPlan.COLUMN_PROPERTYDESC,StringComparison.OrdinalIgnoreCase)
+					|| descNew!=renamedRow.DescNew)
+				{
+					result.ListFailures.Add("programproperty row "+changed.Key+" (the "+renamedRow.ProgName+" link): "+string.Join(", ",changed.ListColumns)+" changed "
+						+"(PropertyDesc now '"+descNew+"'); the fork migration only renames its PropertyDesc to '"+renamedRow.DescNew+"'.");
+					continue;
+				}
+				result.ListProgramPropertyNumsRenamed.Add(changed.Key);
+			}
+			foreach(ProgramPropertyDescRenames.RenamedRow row in listPlanned.Where(x => !diff.ListChanged.Any(y => y.Key==x.Row.ProgramPropertyNum))) {
+				result.ListFailures.Add("programproperty row "+row.Row.ProgramPropertyNum+" (the "+row.ProgName+" link) was not renamed, though the fork migration "
+					+"renames it.");
+			}
+			bool isClean=result.ListFailures.Count==countFailuresBefore;
+			if(isClean && listPlanned.Count==0) {
+				result.ListLines.Add("programproperty: identical row by row (migration-preview lists no change).");
+				return;
+			}
+			result.ListLines.Add("programproperty: "+DescribeLinkRows(result.ListProgramPropertyNumsRenamed,listPlanned.Count,"Dental Studio and Podium row(s)",
+				"renamed, PropertyDesc only","ProgramPropertyNum")+(isClean ? "; no other row or column changed, none added or removed." : " (see the failures)."));
 		}
 
 		///<summary>"n of the m {what} migration-preview lists {done} ({key} a, b)", the summary of one discontinued link's planned rows.</summary>

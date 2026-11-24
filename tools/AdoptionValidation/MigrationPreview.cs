@@ -22,6 +22,8 @@ namespace AdoptionValidation {
 	///- the DXC Patient Credit Score step (DxcCreditScoreRemovedStep, B-SHELL) disables that discontinued program link and deletes its toolbar
 	///  buttons, on every database (DxcCreditScorePlan); the Trojan Express Collect step (TrojanExpressCollectRemovedStep, P262-LINKS) does the same
 	///  for that discontinued link (TrojanExpressCollectPlan);
+	///- the program property description step (ProgramPropertyDescRenameStep, UI-BRAND-2) renames Dental Studio's and Podium's property
+	///  descriptions that named Open Dental, PropertyDesc only (ProgramPropertyDescPlan);
 	///- the UDS+ report row step (ReportRowUdsPlusStep, M2-UDS) adds the row of the 25.4 UDS+ report after the FQHC Dental Sealant Measure, moves the
 	///  later Public Health rows down one place and copies the sealant measure's report permissions to it (UdsPlusRowPlan);
 	///- the Insurance History step (InsHistCodeGroupsStep, M2-HIST) marks the code groups of the InsHist*Codes preferences Show In History, adds
@@ -51,6 +53,8 @@ namespace AdoptionValidation {
 			public DxcCreditScorePlan.Plan PlanDxc=new DxcCreditScorePlan.Plan();
 			///<summary>What the Trojan Express Collect step changes.</summary>
 			public TrojanExpressCollectPlan.Plan PlanTrojan=new TrojanExpressCollectPlan.Plan();
+			///<summary>What the program property description step changes.</summary>
+			public ProgramPropertyDescPlan.Plan PlanPropertyDescs=new ProgramPropertyDescPlan.Plan();
 			///<summary>What the UDS+ report row step changes.</summary>
 			public UdsPlusRowPlan.Plan PlanUdsPlus=new UdsPlusRowPlan.Plan();
 			///<summary>What the Insurance History step changes.</summary>
@@ -109,6 +113,7 @@ namespace AdoptionValidation {
 				listLines.Add(GetSettingsReadLine(ListSettingReads));
 				listLines.Add(GetSettingsMoveLine(ListSettingMoves));
 				listLines.AddRange(PlanTrojan.Lines());
+				listLines.AddRange(PlanPropertyDescs.Lines());
 				listLines.Add(GetPluginLine(ListPluginRows));
 				return listLines;
 			}
@@ -222,6 +227,7 @@ namespace AdoptionValidation {
 			result.ListSettingReads=OdSettingNames.DescribeReads(funcGetRaw);
 			result.ListSettingMoves=OdSettingNames.Plan(funcGetRaw);
 			result.PlanTrojan=TrojanExpressCollectPlan.Make(db,database);
+			result.PlanPropertyDescs=ProgramPropertyDescPlan.Make(db,database);
 			result.ListPluginRows=ReadPluginRows(db,database);
 			return result;
 		}

@@ -121,7 +121,7 @@
     <value>Export Path (Optional): for exporting tables.  If you use a network path (like \\SERVER\OpenPmsExport\ ), the data will be exported to one central computer.   But it is usually easier to use a local path (like C:\OpenPmsExport\ ), and the data will be stored on the local hard drive of the computer you export on.  The folder will be created later if it does not exist.</value>
   </data>
   <data name="labelPathSameForAll.Text" xml:space="preserve">
-    <value>This path is the same for every computer.  If you have only one computer, then the folder can be local (like C:\OpenDentImages ), otherwise it should be a folder shared on the network (like \\SERVER\OpenDentImages ).  A path is valid if it contains the A - Z folders.</value>
+    <value>This path is the same for every computer.  If you have only one computer, then the folder can be local (like C:\OpenPmsImages ), otherwise it should be a folder shared on the network (like \\SERVER\OpenPmsImages ).  A path is valid if it contains the A - Z folders.</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Letter Merge Path (Optional): The location where your letter templates are stored.   Letters are usually stored in one central location, so use a network path (like \\server\OpenPmsLetters\ ).   Don't forget to share the folder so all the computers can access it.  However, if you only have one computer with no network, then use a local path (like C:\OpenPmsLetters\ ). </value>

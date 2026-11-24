@@ -315,7 +315,8 @@ namespace OpenPmsDentalBusiness {
 			public static string ComputerNameOrIP="Enter your computer name or IP (required)";
 			public static string APIToken="Enter your API Token (required)";
 			public static string LocationID="Enter your Location ID (required)";
-			public static string UseService="Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service";
+			///<summary>Renamed from the text Open Dental used by fork migration step 2026112451 (ProgramPropertyDescRenameStep).</summary>
+			public static string UseService=ForkMigrations.FeatureSteps.ProgramPropertyDescRenames.PodiumUseService;
 			public static string ApptSetCompletedMinutes="Send after appointment completed (minutes)";
 			public static string ApptTimeArrivedMinutes="Send after appointment time arrived (minutes)";
 			public static string ApptTimeDismissedMinutes="Send after appointment time dismissed (minutes)";

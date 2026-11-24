@@ -32,7 +32,13 @@ comes with the update, and every setting, colour and picture the office chose st
 - **The name.** The program calls itself Open PMS (Open PMS - Dental) where it said "OD" or "Open Dental": the report allocator's
   warning ("Close Other Open PMS Programs Now!!"), the X-Charge reconcile window, the example folders of the Paths window, the Query
   Monitor's log. Open Dental is still named where the text is about Open Dental itself: the licence and copyright, adopting an Open
-  Dental database, and Open Dental's own services and programs.
+  Dental database, and Open Dental's own services and programs. QuickBooks Desktop now knows the program as "Open PMS - Dental" and
+  asks its administrator once more to allow it (the Setup QuickBooks window says so). The Preferences window's info pop-ups no longer
+  link to Open Dental's online manual, and they say plainly that Open Dental's own service and Open Dental Cloud belong to Open Dental.
+  A new A to Z images folder is called OpenPmsImages (an office's existing folder stays where it is, under its name). Two settings in
+  Program Links have new names, with their values kept: Dental Studio's "UserName (clear to use the Open PMS username)" and Podium's
+  "Enter 0 to use Open PMS for sending review invitations, or 1 to use the Service". Practice by Numbers' button opens Practice by
+  Numbers' own site.
 
 ## What changed in the layout
 

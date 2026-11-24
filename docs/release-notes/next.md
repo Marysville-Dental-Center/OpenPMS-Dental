@@ -148,9 +148,11 @@ This version is a 64-bit program on .NET 10 (Open Dental and version 0.0 are 32-
 - **Topaz: the patient signs in the signature box again.** The strokes appear in the box in the program's window, as before. The helper's
   own small signing window ("Sign on the Topaz pad", with OK, Clear and Cancel) appears only on the helper's path. Stored Topaz signatures
   show and check as before: their data does not change.
-- **QuickBooks Desktop does not ask again.** The program itself still connects to QuickBooks Desktop, so the access QuickBooks granted
-  before stays. (Only a release whose program cannot run QuickBooks' 32-bit connector itself goes through the helper, and then QuickBooks
-  asks once whether to allow it.)
+- **QuickBooks Desktop asks once more.** The program now connects to QuickBooks Desktop under its own name, "Open PMS - Dental" (it
+  connected as "Open Dental" before), so QuickBooks asks once whether to allow it, even where it allowed the program before. The
+  office's QuickBooks administrator opens the company file in QuickBooks, pushes Connect in the program's Setup QuickBooks window and
+  allows "Open PMS - Dental"; after that QuickBooks does not ask again. (A release whose program cannot run QuickBooks' 32-bit connector
+  itself goes through the helper, under the same name.)
 - **On the helper's path** (not in this release): while CDR DICOM starts after the Schick button, or while its window for creating a
   patient's exam is open, Open PMS - Dental keeps drawing its windows but takes no clicks until CDR's window is answered; if CDR does not
   answer within 30 minutes, the program says so and starts the helper again on the next click.

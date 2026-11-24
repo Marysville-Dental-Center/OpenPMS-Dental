@@ -217,7 +217,7 @@ namespace Helper32Tests.QuickBooks {
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",1,0)",
 				"request.Attributes.OnError=roeContinue",
-				"session.OpenConnection(\"\",\"Open Dental\")",
+				"session.OpenConnection(\"\",\"Open PMS - Dental\")",
 				"session.BeginSession(\""+COMPANY_FILE+"\",omDontCare)",
 				"session.DoRequests(request)",
 				"session.EndSession()",
@@ -249,7 +249,7 @@ namespace Helper32Tests.QuickBooks {
 				module => Join(module.Handle(Request(QuickBooksCommands.TEST_CONNECTION,COMPANY_FILE)).Results),
 				() => InProcess(() => QuickBooksInProcess.TestConnection(COMPANY_FILE)));
 			Assert.AreEqual("Error: Synthetic: QuickBooks is not installed.",run.Result);
-			Assert.AreEqual("session.OpenConnection(\"\",\"Open Dental\")",run.ListCalls.Last());
+			Assert.AreEqual("session.OpenConnection(\"\",\"Open PMS - Dental\")",run.ListCalls.Last());
 		}
 		#endregion TestConnection
 
@@ -272,7 +272,7 @@ namespace Helper32Tests.QuickBooks {
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",8,0)",
 				"request.Attributes.OnError=roeContinue",
-				"session.OpenConnection(\"\",\"Open Dental\")",
+				"session.OpenConnection(\"\",\"Open PMS - Dental\")",
 				"session.BeginSession(\""+COMPANY_FILE+"\",omDontCare)",
 				"request.AppendAccountQueryRq()",
 				"request.AppendAccountQueryRq().ORAccountListQuery.AccountListFilter.ActiveStatus.SetValue(asActiveOnly)",
@@ -358,7 +358,7 @@ namespace Helper32Tests.QuickBooks {
 			CollectionAssert.AreEqual(new[] {
 				"session.CreateMsgSetRequest(\"US\",9,0)",
 				"request.Attributes.OnError=roeContinue",
-				"session.OpenConnection(\"\",\"Open Dental\")",
+				"session.OpenConnection(\"\",\"Open PMS - Dental\")",
 				"session.BeginSession(\""+COMPANY_FILE+"\",omDontCare)",
 				"request.AppendDepositAddRq()",
 				"request.AppendDepositAddRq().TxnDate.SetValue("+_dateDeposit.ToString("o",CultureInfo.InvariantCulture)+")",

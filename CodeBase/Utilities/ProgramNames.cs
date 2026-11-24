@@ -47,6 +47,11 @@ namespace CodeBase {
 		#endregion Local configuration files
 
 		#region Folders
+		///<summary>The default name of a new A to Z images folder (the Create AtoZ Folder window, FrmAtoZFoldersCreate, which also shares it under
+		///this name) and the folder of the windows' examples (Paths, Backup) and of UpdateFileCopier's debugging default. Open Dental's name was
+		///OpenDentImages. Only new folders get it: an office's configured A to Z folder (the DocPath preference) is read as it is, never moved or
+		///renamed.</summary>
+		public const string DefaultAtoZFolderName="OpenPmsImages";
 		///<summary>The program's folder under %LOCALAPPDATA%: window sizes, Query Monitor filters, the Waiting Room position and the working
 		///copies of chart letters with unsaved edits.</summary>
 		public const string LocalAppDataFolderName="OpenPMS-Dental";

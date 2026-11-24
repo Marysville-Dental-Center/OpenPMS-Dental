@@ -54,10 +54,11 @@ namespace OpenPmsDental {
 				string rootDir=ODFileUtils.CombinePaths(requestDir,rootFolderName);
 				//Enable file sharing for the A to Z folder.
 				if(Environment.OSVersion.Platform==PlatformID.Unix) {
-					//Process.Start("net","usershare add OpenDentImages \""+rootDir+"\"");//for future use.
+					//Process.Start("net","usershare add "+ProgramNames.DefaultAtoZFolderName+" \""+rootDir+"\"");//for future use.
 				}
 				else {//Windows
-					ODFileUtils.ProcessStart("NET","SHARE OpenDentImages=\""+rootDir+"\"");
+					//UI-BRAND-2: the share of a new A to Z folder has this program's name (an existing office's folder and share are never touched).
+					ODFileUtils.ProcessStart("NET","SHARE "+ProgramNames.DefaultAtoZFolderName+"=\""+rootDir+"\"");
 				}
 				//All folder names to be created should be put in this list, so that each folder is created exactly
 				//the same way.

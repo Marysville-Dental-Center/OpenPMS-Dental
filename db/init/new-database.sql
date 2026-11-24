@@ -1,7 +1,7 @@
 /*
 Open PMS - Dental: a new database.
 
-Creates the 462 tables of a database at fork schema level 2026112312 (the Open Dental 26.2.0 schema and the
+Creates the 462 tables of a database at fork schema level 2026112451 (the Open Dental 26.2.0 schema and the
 fork's), with the rows the program needs to start: preferences, definitions, user groups and permissions, the user Admin,
 program links (all off) and procedure codes (named by their code only). No patients and no office data. Admin has a blank
 password, which the program asks to set at the first logon.
@@ -24787,7 +24787,7 @@ CREATE TABLE `preference` (
 
 INSERT INTO `preference` (`PrefName`,`ValueString`,`PrefNum`,`Comments`) VALUES
 ('DataBaseVersion','99.0.0.0',1,''),
-('DocPath','C:\\OpenDentImages\\',3,''),
+('DocPath','C:\\OpenPmsImages\\',3,''),
 ('ExportPath','C:\\OpenDentalExports\\',4,''),
 ('PracticeTitle','',5,''),
 ('PracticeAddress','',6,''),
@@ -25946,11 +25946,11 @@ INSERT INTO `preference` (`PrefName`,`ValueString`,`PrefNum`,`Comments`) VALUES
 ('BackupIndexesDisabled','1',1163,NULL),
 ('InsOutOfNetworkBlankLikeZero','0',1164,NULL),
 ('EformsSpaceToRightEachField','10',1165,NULL),
-('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026112312;adopted=db/init/new-database.sql',1166,''),
+('ForkAdoptedFrom','new=1;source=24.3.63.0;level=2026112451;adopted=db/init/new-database.sql',1166,''),
 ('OdSchemaCompat','26.2.0',1167,''),
-('ForkSchemaLevel','2026112312',1168,''),
+('ForkSchemaLevel','2026112451',1168,''),
 ('ForkMigrationInProgress','',1169,NULL),
-('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801,2026111401,2026112301,2026112302,2026112303,2026112311,2026112312',1170,NULL),
+('ForkMigrationsApplied','2026101901,2026101902,2026101903,2026101904,2026101905,2026101906,2026101907,2026101951,2026101971,2026102401,2026102402,2026102403,2026102501,2026110101,2026110103,2026110104,2026110201,2026110202,2026110203,2026110204,2026110205,2026110206,2026110207,2026110211,2026110212,2026110213,2026110221,2026110701,2026110731,2026110781,2026110801,2026111401,2026112301,2026112302,2026112303,2026112311,2026112312,2026112451',1170,NULL),
 ('ApptMirrorSecondary','0',1171,NULL),
 ('TaskCategoryShow','0',1172,NULL),
 ('IncomeTransfersLimitToPatPayments','0',1173,NULL),
@@ -27200,7 +27200,7 @@ INSERT INTO `programproperty` (`ProgramPropertyNum`,`ProgramNum`,`PropertyDesc`,
 (89,67,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
 (90,67,'Guru image path','C:','',0,0,0),
 (91,68,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
-(92,68,'UserName (clear to use OD username)','Admin','',0,0,0),
+(92,68,'UserName (clear to use the Open PMS username)','Admin','',0,0,0),
 (93,68,'UserPassword','osd1$NnhFXY2oFwN/KbxMApkTjepIN0CpTo/XEgF27HdqLqgqCkt+IlwUiQsV5fHZvDjE+oNMATghNGrExkvsJFp9ng==','',0,1,1),
 (94,42,'IsQuadAsToothNum','0','',0,0,0),
 (95,42,'IsLBSessionIdExcluded','0','',0,0,0),
@@ -27219,7 +27219,7 @@ INSERT INTO `programproperty` (`ProgramPropertyNum`,`ProgramNum`,`PropertyDesc`,
 (108,42,'HideChartRxButtons','0','',0,0,0),
 (109,79,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
 (110,80,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
-(111,80,'Document folder','C:\\OpenDentImages\\','',0,0,0),
+(111,80,'Document folder','C:\\OpenPmsImages\\','',0,0,0),
 (112,80,'File extension','.doc','',0,0,0),
 (113,81,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
 (114,81,'Import.ini path','C:\\Program Files\\Triana\\Import.ini','',0,0,0),
@@ -27244,7 +27244,7 @@ INSERT INTO `programproperty` (`ProgramPropertyNum`,`ProgramNum`,`PropertyDesc`,
 (133,87,'Disable Advertising','0','',0,0,0),
 (134,88,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
 (135,89,'Enter 0 to use PatientNum, or 1 to use ChartNum','0','',0,0,0),
-(136,85,'Enter 0 to use Open Dental for sending review invitations, or 1 to use the Service','0','',0,0,0),
+(136,85,'Enter 0 to use Open PMS for sending review invitations, or 1 to use the Service','0','',0,0,0),
 (137,85,'Send after appointment completed (minutes)','5','',0,0,0),
 (138,85,'Send after appointment time arrived (minutes)','5','',0,0,0),
 (139,85,'Send after appointment time dismissed (minutes)','5','',0,0,0),

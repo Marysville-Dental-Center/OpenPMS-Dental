@@ -34,7 +34,7 @@ namespace UpdateFileCopier {
 				Application.Run(new FormMain(arguments[0],arguments[1],CodeBase.ProgramNames.DefaultInstallFolder,true,true));
 			}
 			else {//just for rare debugging situations
-				Application.Run(new FormMain(@"C:\OpenDentImages\UpdateFiles","0",CodeBase.ProgramNames.DefaultInstallFolder,true,true));
+				Application.Run(new FormMain(@"C:\"+CodeBase.ProgramNames.DefaultAtoZFolderName+@"\UpdateFiles","0",CodeBase.ProgramNames.DefaultInstallFolder,true,true));
 			}
 		}
 	}
