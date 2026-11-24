@@ -308,7 +308,12 @@ namespace CodeBase {
 			//Never shown (off screen): Close raises nothing, so close it as Closed would.
 			_toolStripDropDown=null;
 			Raise(_dateTimePicker,"OnCloseUp");
-			toolStripDropDown.Dispose();
+			if(_dateTimePicker.IsHandleCreated) {
+				_dateTimePicker.BeginInvoke((Action)(() => toolStripDropDown.Dispose()));//the calendar may be raising the event that closed it
+			}
+			else {
+				toolStripDropDown.Dispose();
+			}
 		}
 
 		///<summary>Raises the picker's event through its protected On method (OnDropDown, OnCloseUp, OnValueChanged), as Windows' drop-down makes the

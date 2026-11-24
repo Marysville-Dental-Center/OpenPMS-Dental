@@ -647,6 +647,12 @@ namespace OpenPmsDental.UI{
 			return new Rectangle((int)_xPos[column]+LayoutManager.Scale(4),(int)_yPos[rowIndex],(int)widthCell-LayoutManager.Scale(8),(int)_heightCell);
 		}
 
+		///<summary>UI-CAL: the day in a column and a row of the dates (row 0 is the first row of dates, GetRectangleDay's row 1). Valid after the
+		///first paint. For the behaviour tests.</summary>
+		protected DateTime GetDateInCell(int column,int row){
+			return _arrayDates[column,row];
+		}
+
 		///<summary>The 1 px Gridline under the weekdays. Valid after the first paint.</summary>
 		protected Rectangle GetRectangleLineUnderDays(){
 			return new Rectangle(0,(int)(_yPos[1]-1),Width,UiTheme.GetLineWidth(LayoutManager.ScaleMy()));
