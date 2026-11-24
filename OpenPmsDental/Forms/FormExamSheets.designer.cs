@@ -68,7 +68,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.gridMain.Location = new System.Drawing.Point(8, 102);
 			this.gridMain.Name = "gridMain";
-			this.gridMain.Size = new System.Drawing.Size(423, 550);
+			this.gridMain.Size = new System.Drawing.Size(423, 554);
 			this.gridMain.TabIndex = 2;
 			this.gridMain.Title = "Exam Sheets";
 			this.gridMain.TranslationName = "FormPatientForms";

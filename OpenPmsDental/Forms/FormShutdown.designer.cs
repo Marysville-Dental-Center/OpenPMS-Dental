@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			// butShutdown
 			// 
 			this.butShutdown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butShutdown.Location = new System.Drawing.Point(530, 444);
+			this.butShutdown.Location = new System.Drawing.Point(530, 436);
 			this.butShutdown.Name = "butShutdown";
 			this.butShutdown.Size = new System.Drawing.Size(110, 24);
 			this.butShutdown.TabIndex = 6;
@@ -70,7 +70,7 @@ namespace OpenPmsDental{
 			// 
 			// FormShutdown
 			// 
-			this.ClientSize = new System.Drawing.Size(648, 476);
+			this.ClientSize = new System.Drawing.Size(648, 468);
 			this.Controls.Add(this.butCloseSessions);
 			this.Controls.Add(this.gridActiveInstances);
 			this.Controls.Add(this.butShutdown);

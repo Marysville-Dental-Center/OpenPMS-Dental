@@ -267,7 +267,7 @@
 			// label9
 			// 
 			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label9.Location = new System.Drawing.Point(98, 742);
+			this.label9.Location = new System.Drawing.Point(98, 739);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(203, 30);
 			this.label9.TabIndex = 141;
@@ -277,7 +277,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1028, 748);
+			this.butSave.Location = new System.Drawing.Point(1028, 745);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 998;
@@ -289,7 +289,7 @@
 			this.butDeletePayment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDeletePayment.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDeletePayment.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDeletePayment.Location = new System.Drawing.Point(8, 748);
+			this.butDeletePayment.Location = new System.Drawing.Point(8, 745);
 			this.butDeletePayment.Name = "butDeletePayment";
 			this.butDeletePayment.Size = new System.Drawing.Size(84, 24);
 			this.butDeletePayment.TabIndex = 997;
@@ -301,7 +301,7 @@
 			this.butPrintReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butPrintReceipt.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Print,16,16);
 			this.butPrintReceipt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrintReceipt.Location = new System.Drawing.Point(389, 748);
+			this.butPrintReceipt.Location = new System.Drawing.Point(389, 745);
 			this.butPrintReceipt.Name = "butPrintReceipt";
 			this.butPrintReceipt.Size = new System.Drawing.Size(101, 24);
 			this.butPrintReceipt.TabIndex = 135;
@@ -315,7 +315,7 @@
 			this.butEmailReceipt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butEmailReceipt.Icon = OpenPmsDental.UI.EnumIcons.Email;
 			this.butEmailReceipt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butEmailReceipt.Location = new System.Drawing.Point(499, 748);
+			this.butEmailReceipt.Location = new System.Drawing.Point(499, 745);
 			this.butEmailReceipt.Name = "butEmailReceipt";
 			this.butEmailReceipt.Size = new System.Drawing.Size(113, 24);
 			this.butEmailReceipt.TabIndex = 140;
@@ -1433,7 +1433,7 @@
 			// 
 			// FormPayment
 			// 
-			this.ClientSize = new System.Drawing.Size(1111, 780);
+			this.ClientSize = new System.Drawing.Size(1111, 777);
 			this.Controls.Add(this.butPayConnect);
 			this.Controls.Add(this.textSurcharge);
 			this.Controls.Add(this.labelSurchargeFee);

@@ -84,7 +84,7 @@ namespace OpenPmsDental {
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(43, 124);
+			this.label3.Location = new System.Drawing.Point(43, 116);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(92, 23);
 			this.label3.TabIndex = 6;
@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			// 
 			// textWidthMin
 			// 
-			this.textWidthMin.Location = new System.Drawing.Point(141, 97);
+			this.textWidthMin.Location = new System.Drawing.Point(141, 89);
 			this.textWidthMin.Name = "textWidthMin";
 			this.textWidthMin.ReadOnly = true;
 			this.textWidthMin.Size = new System.Drawing.Size(72, 23);
@@ -101,7 +101,7 @@ namespace OpenPmsDental {
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(35, 97);
+			this.label4.Location = new System.Drawing.Point(35, 89);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(100, 23);
 			this.label4.TabIndex = 8;
@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(219, 100);
+			this.label5.Location = new System.Drawing.Point(219, 92);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(175, 17);
 			this.label5.TabIndex = 10;
@@ -119,7 +119,7 @@ namespace OpenPmsDental {
 			// 
 			// textWidth
 			// 
-			this.textWidth.Location = new System.Drawing.Point(141, 124);
+			this.textWidth.Location = new System.Drawing.Point(141, 116);
 			this.textWidth.MaxVal = 2000;
 			this.textWidth.MinVal = 1;
 			this.textWidth.Name = "textWidth";
@@ -129,7 +129,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(514, 128);
+			this.butSave.Location = new System.Drawing.Point(514, 120);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 26);
 			this.butSave.TabIndex = 1;
@@ -173,7 +173,7 @@ namespace OpenPmsDental {
 			// 
 			// FormDisplayFieldEdit
 			// 
-			this.ClientSize = new System.Drawing.Size(597, 162);
+			this.ClientSize = new System.Drawing.Size(597, 154);
 			this.Controls.Add(this.labelDescriptionOverrideOption);
 			this.Controls.Add(this.textDescriptionOverride);
 			this.Controls.Add(this.labelDescriptionOverride);

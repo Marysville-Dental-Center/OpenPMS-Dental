@@ -449,8 +449,10 @@ BAR_RULE = "the bottom bar a section gap (12 px) under the content (UI-12F)"
 def bar_section_gap(hand):
     """UI-12F (the final consistency pass): the window's bottom bar stands the section gap (12 px, UI-12.md section 1) or more under the
     content above it, as GridRulesTests checks it (GetBarGap): the bar is the row of the lowest buttons anchored to the bottom and not the top
-    (or named OK, Save, Cancel or Close) and every control that starts on that row (a Delete button, a note or check box beside them); the
-    content is every other shown control that ends above the bar's top. Where the gap is less (many scripts put the bar 8 px under a grid
+    (or named OK, Save, Cancel or Close), the buttons and bottom-anchored controls that start on that row (a Delete button, a note or check
+    box beside them) and a caption ending 0 to 4 px over one of them; a row the bar shares with other controls (a field row with Save
+    beside it, a list or group beside a column of buttons) is no bottom bar. The content is every other shown control that ends above the
+    bar's top. Where the gap is less (many scripts put the bar 8 px under a grid
     or a group, the sibling gap), the content that ends less than 12 px over the bar takes it: a grid, list or note gets shorter by what it
     lacks (it scrolls); anything else (a group, a tab control, a panel, a check box, a button) keeps its height, and the bar and what stands
     beside it move down by the most it lacks, the window taller by as much (a window never shrinks). One rule for every window: a script
@@ -466,11 +468,17 @@ def bar_section_gap(hand):
     over = lambda a, b: min(a.ny + a.nh, b.ny + b.nh) - max(a.ny, b.ny) > 4
     row = [c for c in buttons if over(c, lowest)]
     y_row = min(c.ny for c in row)
-    bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row))]
+    bar = [c for c in shown if c in row or (c.ny >= y_row - 4 and any(over(c, b) for b in row)
+                                            and (c.kind == "button" or c.anchored_bottom_only))]
+    # a control the bar's row shares with content (a field row with Save beside it, a list or group beside a column of buttons that ends
+    # at the window's bottom): no bottom bar of its own
+    if any(c not in bar and any(over(c, b) for b in bar) for c in shown):
+        return
     # a caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
     # Write-off) belongs to the bar and moves with it
     bar += [c for c in shown if c.kind == "label" and c not in bar
-            and any(0 <= b.ny - (c.ny + c.nh) <= 4 and min(c.nx + c.nw, b.nx + b.nw) - max(c.nx, b.nx) > 0 for b in bar)]
+            and any(b.kind == "button" and 0 <= b.ny - (c.ny + c.nh) <= 4 and min(c.nx + c.nw, b.nx + b.nw) - max(c.nx, b.nx) > 0
+                    for b in bar)]
     y_bar = min(c.ny for c in bar)
     above = [c for c in shown if c not in bar and c.ny + c.nh <= y_bar]
     low = [c for c in above if c.ny + c.nh > y_bar - GRID["section_gap"]]

@@ -48,7 +48,7 @@ namespace OpenPmsDental {
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.listCounties.Location = new System.Drawing.Point(8, 29);
 			this.listCounties.Name = "listCounties";
-			this.listCounties.Size = new System.Drawing.Size(354, 617);
+			this.listCounties.Size = new System.Drawing.Size(354, 609);
 			this.listCounties.TabIndex = 2;
 			this.listCounties.DoubleClick += new System.EventHandler(this.listCounties_DoubleClick);
 			// 
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(370, 620);
+			this.butDelete.Location = new System.Drawing.Point(370, 612);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(86, 26);
 			this.butDelete.TabIndex = 72;
@@ -87,7 +87,7 @@ namespace OpenPmsDental {
 			// 
 			// FormCounties
 			// 
-			this.ClientSize = new System.Drawing.Size(464, 654);
+			this.ClientSize = new System.Drawing.Size(464, 646);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.butDelete);
 			this.Controls.Add(this.butAdd);

@@ -777,7 +777,7 @@ namespace OpenPmsDental {
 			// 
 			this.groupChanges.Controls.Add(this.radioCreateNew);
 			this.groupChanges.Controls.Add(this.radioChangeAll);
-			this.groupChanges.Location = new System.Drawing.Point(992, 878);
+			this.groupChanges.Location = new System.Drawing.Point(992, 869);
 			this.groupChanges.Name = "groupChanges";
 			this.groupChanges.Size = new System.Drawing.Size(381, 26);
 			this.groupChanges.TabIndex = 13;
@@ -866,7 +866,7 @@ namespace OpenPmsDental {
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(1381, 879);
+			this.butSave.Location = new System.Drawing.Point(1381, 870);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(75, 24);
 			this.butSave.TabIndex = 14;
@@ -878,7 +878,7 @@ namespace OpenPmsDental {
 			this.butLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butLabel.Image = OpenPmsDental.UI.IconLibrary.GetBitmap(OpenPmsDental.UI.EnumIcons.Label,18,16);
 			this.butLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butLabel.Location = new System.Drawing.Point(97, 879);
+			this.butLabel.Location = new System.Drawing.Point(97, 870);
 			this.butLabel.Name = "butLabel";
 			this.butLabel.Size = new System.Drawing.Size(81, 24);
 			this.butLabel.TabIndex = 15;
@@ -890,7 +890,7 @@ namespace OpenPmsDental {
 			this.butDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butDelete.Icon = OpenPmsDental.UI.EnumIcons.DeleteX;
 			this.butDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butDelete.Location = new System.Drawing.Point(8, 879);
+			this.butDelete.Location = new System.Drawing.Point(8, 870);
 			this.butDelete.Name = "butDelete";
 			this.butDelete.Size = new System.Drawing.Size(81, 24);
 			this.butDelete.TabIndex = 16;
@@ -2015,7 +2015,7 @@ namespace OpenPmsDental {
 			// 
 			// FormInsPlan
 			// 
-			this.ClientSize = new System.Drawing.Size(1464, 911);
+			this.ClientSize = new System.Drawing.Size(1464, 902);
 			this.Controls.Add(this.panelPlan);
 			this.Controls.Add(this.panelOrthInfo);
 			this.Controls.Add(this.groupCanadian);

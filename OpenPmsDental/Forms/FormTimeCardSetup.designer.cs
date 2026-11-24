@@ -64,7 +64,7 @@ namespace OpenPmsDental {
 			this.groupBox1.Controls.Add(this.checkShowSeconds);
 			this.groupBox1.Controls.Add(this.checkAdjOverBreaks);
 			this.groupBox1.Controls.Add(this.checkUseDecimal);
-			this.groupBox1.Location = new System.Drawing.Point(299, 599);
+			this.groupBox1.Location = new System.Drawing.Point(299, 591);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(380, 99);
 			this.groupBox1.TabIndex = 14;
@@ -146,7 +146,7 @@ namespace OpenPmsDental {
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label2.Location = new System.Drawing.Point(13, 649);
+			this.label2.Location = new System.Drawing.Point(13, 641);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(120, 23);
 			this.label2.TabIndex = 17;
@@ -156,7 +156,7 @@ namespace OpenPmsDental {
 			// textADPCompanyCode
 			// 
 			this.textADPCompanyCode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textADPCompanyCode.Location = new System.Drawing.Point(139, 649);
+			this.textADPCompanyCode.Location = new System.Drawing.Point(139, 641);
 			this.textADPCompanyCode.Name = "textADPCompanyCode";
 			this.textADPCompanyCode.Size = new System.Drawing.Size(96, 23);
 			this.textADPCompanyCode.TabIndex = 16;
@@ -166,7 +166,7 @@ namespace OpenPmsDental {
 			this.butGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.butGenerate.Icon = OpenPmsDental.UI.EnumIcons.Add;
 			this.butGenerate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butGenerate.Location = new System.Drawing.Point(19, 595);
+			this.butGenerate.Location = new System.Drawing.Point(19, 587);
 			this.butGenerate.Name = "butGenerate";
 			this.butGenerate.Size = new System.Drawing.Size(114, 23);
 			this.butGenerate.TabIndex = 18;
@@ -212,7 +212,7 @@ namespace OpenPmsDental {
 			// labelADPRunIID
 			// 
 			this.labelADPRunIID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.labelADPRunIID.Location = new System.Drawing.Point(61, 622);
+			this.labelADPRunIID.Location = new System.Drawing.Point(61, 614);
 			this.labelADPRunIID.Name = "labelADPRunIID";
 			this.labelADPRunIID.Size = new System.Drawing.Size(72, 23);
 			this.labelADPRunIID.TabIndex = 23;
@@ -222,14 +222,14 @@ namespace OpenPmsDental {
 			// textADPRunIID
 			// 
 			this.textADPRunIID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.textADPRunIID.Location = new System.Drawing.Point(139, 622);
+			this.textADPRunIID.Location = new System.Drawing.Point(139, 614);
 			this.textADPRunIID.Name = "textADPRunIID";
 			this.textADPRunIID.Size = new System.Drawing.Size(96, 23);
 			this.textADPRunIID.TabIndex = 22;
 			// 
 			// FormTimeCardSetup
 			// 
-			this.ClientSize = new System.Drawing.Size(1020, 706);
+			this.ClientSize = new System.Drawing.Size(1020, 698);
 			this.Controls.Add(this.labelADPRunIID);
 			this.Controls.Add(this.textADPRunIID);
 			this.Controls.Add(this.butDeleteRules);

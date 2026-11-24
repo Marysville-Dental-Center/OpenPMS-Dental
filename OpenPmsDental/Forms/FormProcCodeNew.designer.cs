@@ -180,14 +180,14 @@ namespace OpenPmsDental {
 			// 
 			// comboCategory
 			// 
-			this.comboCategory.Location = new System.Drawing.Point(433, 309);
+			this.comboCategory.Location = new System.Drawing.Point(433, 301);
 			this.comboCategory.Name = "comboCategory";
 			this.comboCategory.Size = new System.Drawing.Size(164, 23);
 			this.comboCategory.TabIndex = 9;
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(367, 309);
+			this.label7.Location = new System.Drawing.Point(367, 301);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(60, 23);
 			this.label7.TabIndex = 19;
@@ -230,14 +230,14 @@ namespace OpenPmsDental {
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
-			this.panel1.Location = new System.Drawing.Point(8, 425);
+			this.panel1.Location = new System.Drawing.Point(8, 417);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(798, 2);
 			this.panel1.TabIndex = 23;
 			// 
 			// label9
 			// 
-			this.label9.Location = new System.Drawing.Point(8, 435);
+			this.label9.Location = new System.Drawing.Point(8, 427);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(777, 36);
 			this.label9.TabIndex = 24;
@@ -245,7 +245,7 @@ namespace OpenPmsDental {
 			// 
 			// butDefault
 			// 
-			this.butDefault.Location = new System.Drawing.Point(8, 473);
+			this.butDefault.Location = new System.Drawing.Point(8, 465);
 			this.butDefault.Name = "butDefault";
 			this.butDefault.Size = new System.Drawing.Size(104, 26);
 			this.butDefault.TabIndex = 25;
@@ -255,7 +255,7 @@ namespace OpenPmsDental {
 			// 
 			// butAnother
 			// 
-			this.butAnother.Location = new System.Drawing.Point(400, 336);
+			this.butAnother.Location = new System.Drawing.Point(400, 328);
 			this.butAnother.Name = "butAnother";
 			this.butAnother.Size = new System.Drawing.Size(114, 24);
 			this.butAnother.TabIndex = 10;
@@ -264,7 +264,7 @@ namespace OpenPmsDental {
 			// 
 			// butOK
 			// 
-			this.butOK.Location = new System.Drawing.Point(522, 336);
+			this.butOK.Location = new System.Drawing.Point(522, 328);
 			this.butOK.Name = "butOK";
 			this.butOK.Size = new System.Drawing.Size(75, 24);
 			this.butOK.TabIndex = 11;
@@ -274,7 +274,7 @@ namespace OpenPmsDental {
 			// FormProcCodeNew
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(814, 520);
+			this.ClientSize = new System.Drawing.Size(814, 512);
 			this.Controls.Add(this.butDefault);
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.panel1);

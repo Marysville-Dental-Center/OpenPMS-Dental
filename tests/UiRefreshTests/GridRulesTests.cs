@@ -672,8 +672,9 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>UI-12F: the gap between the window's bottom bar and the lowest control above it, null when the window has no bar. The bar is
-		///the row of the lowest buttons anchored to the bottom and not the top (or named OK, Save, Cancel or Close) and every control that
-		///starts on that row (a Delete button, a note or check box beside the buttons); grid_hand.bar_section_gap reads it the same way. The
+		///the row of the lowest buttons anchored to the bottom and not the top (or named OK, Save, Cancel or Close), the buttons and
+		///bottom-anchored controls that start on that row (a Delete button, a note or check box beside the buttons) and a caption over one of
+		///them; a row it shares with other controls is no bottom bar. grid_hand.bar_section_gap reads it the same way. The
 		///content is every other control that ends above the bar's top (a list beside the bar, down to the window's bottom, is no content
 		///above it).</summary>
 		public static int? GetBarGap(List<Control> listKids,Func<Control,AnchorStyles> funcAnchor,out Control controlAbove,out Control controlBar) {
@@ -688,11 +689,16 @@ namespace UiRefreshTests {
 			Control controlLowest=listButtons.OrderByDescending(x => x.Bottom).First();
 			List<Control> listRow=listButtons.Where(x => Math.Min(x.Bottom,controlLowest.Bottom)-Math.Max(x.Top,controlLowest.Top)>4).ToList();
 			int yRow=listRow.Min(x => x.Top);
-			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)))
-				.ToList();
+			List<Control> listBar=listKids.Where(x => listRow.Contains(x) || (x.Top>=yRow-4 && listRow.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4)
+				&& (IsAnyButton(x) || (funcAnchor(x) & (AnchorStyles.Top|AnchorStyles.Bottom))==AnchorStyles.Bottom))).ToList();
+			//A row the bar shares with other controls (FormDisplayFieldEdit's Column Width row with Save beside it, a list or group beside a column
+			//of buttons that ends at the window's bottom: FormCounties, FormRpOutstandingIns) is no bottom bar.
+			if(listKids.Any(x => !listBar.Contains(x) && listBar.Any(y => Math.Min(x.Bottom,y.Bottom)-Math.Max(x.Top,y.Top)>4))) {
+				return null;
+			}
 			//A caption over a bar control (a label ending 0 to 4 px over it, beside it: FormClaimPayTotal's "On all unpaid amounts:" over
 			//Write-off) belongs to the bar: the gap is the one over the caption.
-			listBar.AddRange(listKids.Where(x => x is Label && !listBar.Contains(x) && listBar.Any(y => y.Top-x.Bottom>=0 && y.Top-x.Bottom<=4
+			listBar.AddRange(listKids.Where(x => x is Label && !listBar.Contains(x) && listBar.Any(y => IsAnyButton(y) && y.Top-x.Bottom>=0 && y.Top-x.Bottom<=4
 				&& Math.Min(x.Right,y.Right)-Math.Max(x.Left,y.Left)>0)).ToList());
 			int yBar=listBar.Min(x => x.Top);
 			controlBar=listBar.OrderBy(x => x.Top).ThenBy(x => x.Left).First();

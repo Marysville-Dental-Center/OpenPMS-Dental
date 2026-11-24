@@ -60,7 +60,7 @@ namespace OpenPmsDental{
 			// butSearch
 			// 
 			this.butSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.butSearch.Location = new System.Drawing.Point(322, 310);
+			this.butSearch.Location = new System.Drawing.Point(322, 302);
 			this.butSearch.Name = "butSearch";
 			this.butSearch.Size = new System.Drawing.Size(75, 24);
 			this.butSearch.TabIndex = 3;
@@ -316,7 +316,7 @@ namespace OpenPmsDental{
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.groupBox1.Controls.Add(this.butProvHygenist);
 			this.groupBox1.Controls.Add(this.butProvDentist);
-			this.groupBox1.Location = new System.Drawing.Point(8, 279);
+			this.groupBox1.Location = new System.Drawing.Point(8, 271);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(172, 55);
 			this.groupBox1.TabIndex = 281;
@@ -347,7 +347,7 @@ namespace OpenPmsDental{
 			// 
 			// FormApptSearchAdvanced
 			// 
-			this.ClientSize = new System.Drawing.Size(687, 342);
+			this.ClientSize = new System.Drawing.Size(687, 334);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.butMore);

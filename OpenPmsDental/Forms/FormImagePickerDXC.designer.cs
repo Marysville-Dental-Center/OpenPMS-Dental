@@ -46,7 +46,7 @@ namespace OpenPmsDental{
 			// butSend
 			// 
 			this.butSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSend.Location = new System.Drawing.Point(1147, 672);
+			this.butSend.Location = new System.Drawing.Point(1147, 664);
 			this.butSend.Name = "butSend";
 			this.butSend.Size = new System.Drawing.Size(75, 24);
 			this.butSend.TabIndex = 19;
@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pictureBox.Location = new System.Drawing.Point(256, 8);
 			this.pictureBox.Name = "pictureBox";
-			this.pictureBox.Size = new System.Drawing.Size(730, 688);
+			this.pictureBox.Size = new System.Drawing.Size(730, 680);
 			this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 			this.pictureBox.TabIndex = 22;
 			this.pictureBox.TabStop = false;
@@ -72,7 +72,7 @@ namespace OpenPmsDental{
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.elementHostImageSelector.Location = new System.Drawing.Point(8, 8);
 			this.elementHostImageSelector.Name = "elementHostImageSelector";
-			this.elementHostImageSelector.Size = new System.Drawing.Size(240, 688);
+			this.elementHostImageSelector.Size = new System.Drawing.Size(240, 680);
 			this.elementHostImageSelector.TabIndex = 39;
 			this.elementHostImageSelector.Text = "elementHost1";
 			this.elementHostImageSelector.Child = null;
@@ -222,7 +222,7 @@ namespace OpenPmsDental{
 			// butSendFile
 			//
 			this.butSendFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSendFile.Location = new System.Drawing.Point(1028, 672);
+			this.butSendFile.Location = new System.Drawing.Point(1028, 664);
 			this.butSendFile.Name = "butSendFile";
 			this.butSendFile.Size = new System.Drawing.Size(113, 24);
 			this.butSendFile.TabIndex = 62;
@@ -231,7 +231,7 @@ namespace OpenPmsDental{
 			//
 			// FormImagePickerDXC
 			//
-			this.ClientSize = new System.Drawing.Size(1230, 704);
+			this.ClientSize = new System.Drawing.Size(1230, 696);
 			this.Controls.Add(this.butSendFile);
 			this.Controls.Add(this.labelCharCount);
 			this.Controls.Add(this.labelNarrative);

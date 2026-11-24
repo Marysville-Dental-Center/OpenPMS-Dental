@@ -47,7 +47,7 @@
 			this.butPrint.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butPrint.Icon = OpenPmsDental.UI.EnumIcons.Print;
 			this.butPrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.butPrint.Location = new System.Drawing.Point(672, 72);
+			this.butPrint.Location = new System.Drawing.Point(672, 64);
 			this.butPrint.Name = "butPrint";
 			this.butPrint.Size = new System.Drawing.Size(88, 24);
 			this.butPrint.TabIndex = 220;
@@ -57,7 +57,7 @@
 			// butSave
 			// 
 			this.butSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.butSave.Location = new System.Drawing.Point(672, 44);
+			this.butSave.Location = new System.Drawing.Point(672, 36);
 			this.butSave.Name = "butSave";
 			this.butSave.Size = new System.Drawing.Size(88, 24);
 			this.butSave.TabIndex = 219;
@@ -78,7 +78,7 @@
 			// 
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.Color.Red;
-			this.label1.Location = new System.Drawing.Point(672, 104);
+			this.label1.Location = new System.Drawing.Point(672, 96);
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(88, 121);
@@ -89,7 +89,7 @@
 			// 
 			// FormPerioGraphical
 			// 
-			this.ClientSize = new System.Drawing.Size(768, 704);
+			this.ClientSize = new System.Drawing.Size(768, 696);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.butSetup);
 			this.Controls.Add(this.butPrint);
