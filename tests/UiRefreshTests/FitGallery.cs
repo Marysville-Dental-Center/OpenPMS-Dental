@@ -594,6 +594,11 @@ namespace UiRefreshTests {
 			if(window=="OpenPmsDental.ControlAccount" && state=="totalowed") {
 				return FindByName(root,"panelTotalOwes");
 			}
+			//UI-11 fix round: the Show tab of the side panel (its four check boxes on the page's colour).
+			if(window=="OpenPmsDental.ControlAccount" && state=="show") {
+				SelectTabPage(root,"tabControlShow","tabShow");
+				return root;
+			}
 			if(window=="OpenPmsDental.ControlChart" && (state=="show" || state=="draw")) {
 				SelectTabPage(root,"tabControlProc",state=="show" ? "tabShow" : "tabDraw");
 				return root;
