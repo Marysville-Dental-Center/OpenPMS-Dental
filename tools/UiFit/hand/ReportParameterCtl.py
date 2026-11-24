@@ -4,7 +4,8 @@ planner reached no fixed point (its last pass spread the groups' rows over 2936 
 rows with its Up and Down buttons beside them and Add and Remove under it; Name and Datatype, Prompt with Multi Value after it, Allow null
 and Allow blank, on one label column 16 px after the arrows; Default Values and Valid Values over the width, each radio button row with
 its box (Values with "..." on the content's right edge, Data Set Name with its box and Value Field), Valid Values' Display Field under
-Value Field. Everything fits the page's 300 px (the control 298 tall, main 296)."""
+Value Field. Remove as wide as its text (main cut it). Everything fits the page's 450 x 300 (the control 456 x 298, main
+456 x 296; the planner made it 2936 wide)."""
 import importlib.util
 import os
 
@@ -27,14 +28,14 @@ def chk(h, name, x, y):
 
 def layout(h):
     R = 448
-    h.set(".", None, None, None, 298)
-    h.set("lbParameters", 8, 8, 112, 27 + h.H)
-    h.set("bParmUp", 126, 8, 20, h.H)
-    h.set("bParmDown", 126, 35, 20, h.H)
+    h.set(".", None, None, 456, 298)
+    h.set("lbParameters", 8, 8, 120, 27 + h.H)
+    h.set("bParmUp", 134, 8, 20, h.H)
+    h.set("bParmDown", 134, 35, 20, h.H)
     h.set("bAdd", 8, 62, 54, h.H)
-    h.set("bRemove", 66, 62, 54, h.H)
+    h.set("bRemove", 66, 62, 62, h.H)
     lw = max(h.lw(n) for n in ("lParmName", "lParmPrompt"))
-    lx = 126 + 20 + 16
+    lx = 134 + 20 + 16
     fx = lx + lw + 6
     lab(h, "lParmName", lx, 8, lw)
     h.set("tbParmName", fx, 8, 80, h.H)

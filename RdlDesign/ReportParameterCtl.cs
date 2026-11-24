@@ -252,7 +252,7 @@ namespace fyiReporting.RdlDesign
             // bParmDown
             // 
             this.bParmDown.Font = new System.Drawing.Font("Wingdings", 7.25F, System.Drawing.FontStyle.Bold);
-            this.bParmDown.Location = new System.Drawing.Point(126, 35);
+            this.bParmDown.Location = new System.Drawing.Point(134, 35);
             this.bParmDown.Name = "bParmDown";
             this.bParmDown.Size = new System.Drawing.Size(20, 23);
             this.bParmDown.TabIndex = 4;
@@ -262,7 +262,7 @@ namespace fyiReporting.RdlDesign
             // bParmUp
             // 
             this.bParmUp.Font = new System.Drawing.Font("Wingdings", 7.25F, System.Drawing.FontStyle.Bold);
-            this.bParmUp.Location = new System.Drawing.Point(126, 8);
+            this.bParmUp.Location = new System.Drawing.Point(134, 8);
             this.bParmUp.Name = "bParmUp";
             this.bParmUp.Size = new System.Drawing.Size(20, 23);
             this.bParmUp.TabIndex = 3;
@@ -279,7 +279,7 @@ namespace fyiReporting.RdlDesign
             // 
             // ckbParmAllowBlank
             // 
-            this.ckbParmAllowBlank.Location = new System.Drawing.Point(316, 64);
+            this.ckbParmAllowBlank.Location = new System.Drawing.Point(324, 64);
             this.ckbParmAllowBlank.Name = "ckbParmAllowBlank";
             this.ckbParmAllowBlank.Size = new System.Drawing.Size(161, 18);
             this.ckbParmAllowBlank.TabIndex = 9;
@@ -288,16 +288,16 @@ namespace fyiReporting.RdlDesign
             // 
             // tbParmPrompt
             // 
-            this.tbParmPrompt.Location = new System.Drawing.Point(220, 35);
+            this.tbParmPrompt.Location = new System.Drawing.Point(228, 35);
             this.tbParmPrompt.Name = "tbParmPrompt";
-            this.tbParmPrompt.Size = new System.Drawing.Size(129, 23);
+            this.tbParmPrompt.Size = new System.Drawing.Size(121, 23);
             this.tbParmPrompt.TabIndex = 7;
             this.tbParmPrompt.TextChanged += new System.EventHandler(this.tbParmPrompt_TextChanged);
             // 
             // lParmPrompt
             // 
             this.lParmPrompt.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lParmPrompt.Location = new System.Drawing.Point(162, 35);
+            this.lParmPrompt.Location = new System.Drawing.Point(170, 35);
             this.lParmPrompt.Name = "lParmPrompt";
             this.lParmPrompt.Size = new System.Drawing.Size(52, 23);
             this.lParmPrompt.TabIndex = 23;
@@ -313,15 +313,15 @@ namespace fyiReporting.RdlDesign
             "Integer",
             "Float",
             "String"});
-            this.cbParmType.Location = new System.Drawing.Point(382, 8);
+            this.cbParmType.Location = new System.Drawing.Point(390, 8);
             this.cbParmType.Name = "cbParmType";
-            this.cbParmType.Size = new System.Drawing.Size(66, 23);
+            this.cbParmType.Size = new System.Drawing.Size(58, 23);
             this.cbParmType.TabIndex = 6;
             this.cbParmType.SelectedIndexChanged += new System.EventHandler(this.cbParmType_SelectedIndexChanged);
             // 
             // lParmType
             // 
-            this.lParmType.Location = new System.Drawing.Point(316, 8);
+            this.lParmType.Location = new System.Drawing.Point(324, 8);
             this.lParmType.Name = "lParmType";
             this.lParmType.Size = new System.Drawing.Size(60, 23);
             this.lParmType.TabIndex = 21;
@@ -330,7 +330,7 @@ namespace fyiReporting.RdlDesign
             // 
             // tbParmName
             // 
-            this.tbParmName.Location = new System.Drawing.Point(220, 8);
+            this.tbParmName.Location = new System.Drawing.Point(228, 8);
             this.tbParmName.Name = "tbParmName";
             this.tbParmName.Size = new System.Drawing.Size(80, 23);
             this.tbParmName.TabIndex = 5;
@@ -338,7 +338,7 @@ namespace fyiReporting.RdlDesign
             // 
             // lParmName
             // 
-            this.lParmName.Location = new System.Drawing.Point(162, 8);
+            this.lParmName.Location = new System.Drawing.Point(170, 8);
             this.lParmName.Name = "lParmName";
             this.lParmName.Size = new System.Drawing.Size(52, 23);
             this.lParmName.TabIndex = 19;
@@ -349,7 +349,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.bRemove.Location = new System.Drawing.Point(66, 62);
             this.bRemove.Name = "bRemove";
-            this.bRemove.Size = new System.Drawing.Size(54, 23);
+            this.bRemove.Size = new System.Drawing.Size(62, 23);
             this.bRemove.TabIndex = 2;
             this.bRemove.Text = "Remove";
             this.bRemove.Click += new System.EventHandler(this.bRemove_Click);
@@ -367,7 +367,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.lbParameters.Location = new System.Drawing.Point(8, 8);
             this.lbParameters.Name = "lbParameters";
-            this.lbParameters.Size = new System.Drawing.Size(112, 50);
+            this.lbParameters.Size = new System.Drawing.Size(120, 50);
             this.lbParameters.TabIndex = 0;
             this.lbParameters.SelectedIndexChanged += new System.EventHandler(this.lbParameters_SelectedIndexChanged);
             // 
@@ -541,7 +541,7 @@ namespace fyiReporting.RdlDesign
             // 
             // ckbParmAllowNull
             // 
-            this.ckbParmAllowNull.Location = new System.Drawing.Point(220, 64);
+            this.ckbParmAllowNull.Location = new System.Drawing.Point(228, 64);
             this.ckbParmAllowNull.Name = "ckbParmAllowNull";
             this.ckbParmAllowNull.Size = new System.Drawing.Size(80, 18);
             this.ckbParmAllowNull.TabIndex = 8;
@@ -576,7 +576,7 @@ namespace fyiReporting.RdlDesign
             this.Controls.Add(this.lbParameters);
             this.Controls.Add(this.groupBox2);
             this.Name = "ReportParameterCtl";
-            this.Size = new System.Drawing.Size(2936, 298);
+            this.Size = new System.Drawing.Size(456, 298);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

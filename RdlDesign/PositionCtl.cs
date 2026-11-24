@@ -421,16 +421,16 @@ namespace fyiReporting.RdlDesign
 			// cbHideDuplicates
 			// 
 			this.cbHideDuplicates.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbHideDuplicates.Location = new System.Drawing.Point(305, 23);
+			this.cbHideDuplicates.Location = new System.Drawing.Point(336, 23);
 			this.cbHideDuplicates.Name = "cbHideDuplicates";
-			this.cbHideDuplicates.Size = new System.Drawing.Size(119, 23);
+			this.cbHideDuplicates.Size = new System.Drawing.Size(88, 23);
 			this.cbHideDuplicates.TabIndex = 3;
 			this.cbHideDuplicates.SelectedIndexChanged += new System.EventHandler(this.cbHideDuplicates_SelectedIndexChanged);
 			// 
 			// label2
 			// 
 			this.label2.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-			this.label2.Location = new System.Drawing.Point(203, 23);
+			this.label2.Location = new System.Drawing.Point(234, 23);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(96, 23);
 			this.label2.TabIndex = 2;

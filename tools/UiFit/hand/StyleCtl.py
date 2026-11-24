@@ -2,7 +2,7 @@
 read and edited in InitializeComponent's body). PropertyDialog docks it in its tab page (the control keeps main's size). The planner left
 the Padding group's left labels 2 px in from its content edge and its right boxes at two left edges (266 and 278), and the XML labels 7 to
 11 px in. Padding: the left labels from the content edge, the boxes 128 px with their fx buttons, the right band 16 px after them with one
-label column (Bottom) and one box column; XML: the labels from the content edge, Data Element Name's box to the content's right edge."""
+label column (Bottom) and one box column; the groups to 448 px (the page's width); XML: the labels from the content edge, Data Element Name's box to the content's right edge."""
 import importlib.util
 import os
 
@@ -12,7 +12,10 @@ _spec.loader.exec_module(s)
 
 
 def layout(h):
-    gw = h.n("grpBoxPadding").nw
+    # the three groups from the padding to 448 (PropertyDialog's page is about 450 px wide; the planner spanned them to 464)
+    gw = 448 - 8
+    for i, g in enumerate(("groupBox1", "grpBoxPadding", "gbXML")):
+        h.set(g, 8, None, gw, None)
     lwl = max(h.lw(n) for n in ("label11", "label13"))
     lwr = max(h.lw(n) for n in ("label12", "label14"))
     fx = 8 + lwl + 6

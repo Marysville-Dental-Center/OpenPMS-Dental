@@ -2,8 +2,8 @@
 PositionCtl.cs, read and edited in InitializeComponent's body). PropertyDialog docks it in a 450 px tab page. The planner kept the two
 groups at main's x 24 with 64 px of empty room on their right, the Hide Duplicates label over its box and the XML Element Style label on
 two lines (cut). The groups from the padding over the content's width; Name and Position's left boxes on one field column, Span Table
-Columns and Top/Height as the right band 16 px after; in Text Processing the two check boxes and Hide Duplicates on one row (each 16 px after
-the one before), XML Element Style and Toggle Image as label + box rows, Toggle Image's box to the content's right edge."""
+Columns and Top/Height as the right band 16 px after; in Text Processing the two check boxes and Hide Duplicates on one row (its box on Span
+Table Columns' column), XML Element Style and Toggle Image as label + box rows, Toggle Image's box to the content's right edge."""
 import importlib.util
 import os
 
@@ -48,9 +48,11 @@ def layout(h):
         w = 16 + h.n(c).text_w + 4
         h.set(c, x, 23 + (h.H - h.CH) // 2, w, h.CH)
         x += w + 16
+    # Hide Duplicates' box on Span Table Columns' column (the group's content is 8 px further in), its label before it
+    hx = h.n("tbColSpan").nx - 8
     hw = h.lw("label2")
-    lab(h, "label2", x, 23, hw)
-    h.set("cbHideDuplicates", x + hw + 6, 23, gw - 8 - (x + hw + 6), h.H)
+    lab(h, "label2", hx - 6 - hw, 23, hw)
+    h.set("cbHideDuplicates", hx, 23, gw - 8 - hx, h.H)
     tw = max(h.lw(n) for n in ("label3", "label4"))
     lab(h, "label3", 8, 50, tw)
     h.set("cbDataElementStyle", 8 + tw + 6, 50, 120, h.H)

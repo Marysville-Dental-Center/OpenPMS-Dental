@@ -29,7 +29,7 @@ def layout(h):
     for tb, fx, y in (("tbHyperlink", "bHyperlink", 50), ("tbBookmarkLink", "bBookmarkLink", 77)):
         h.set(fx, cr - 22, y, 22, h.H)
         h.set(tb, bx, y, cr - 22 - 6 - bx, h.H)
-    pw = h.n("bParameters").nw
+    pw = max(h.n("bParameters").nw, h.n("bParameters").text_w + 14)  # main cut "Parameters..."
     h.set("bParameters", cr - pw, 104, pw, h.H)
     h.set("bDrillthrough", cr - pw - 6 - 24, 104, 24, h.H)
     h.set("tbDrillthrough", bx, 104, cr - pw - 6 - 24 - 6 - bx, h.H)

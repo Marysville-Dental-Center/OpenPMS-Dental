@@ -263,7 +263,7 @@ namespace fyiReporting.RdlDesign
             this.grpBoxPadding.Controls.Add(this.tbPadLeft);
             this.grpBoxPadding.Location = new System.Drawing.Point(8, 90);
             this.grpBoxPadding.Name = "grpBoxPadding";
-            this.grpBoxPadding.Size = new System.Drawing.Size(456, 81);
+            this.grpBoxPadding.Size = new System.Drawing.Size(440, 81);
             this.grpBoxPadding.TabIndex = 1;
             this.grpBoxPadding.TabStop = false;
             this.grpBoxPadding.Text = "Padding";
@@ -331,7 +331,7 @@ namespace fyiReporting.RdlDesign
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(8, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(456, 74);
+            this.groupBox1.Size = new System.Drawing.Size(440, 74);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Background";
@@ -458,7 +458,7 @@ namespace fyiReporting.RdlDesign
             this.gbXML.Controls.Add(this.label1);
             this.gbXML.Location = new System.Drawing.Point(8, 179);
             this.gbXML.Name = "gbXML";
-            this.gbXML.Size = new System.Drawing.Size(456, 81);
+            this.gbXML.Size = new System.Drawing.Size(440, 81);
             this.gbXML.TabIndex = 24;
             this.gbXML.TabStop = false;
             this.gbXML.Text = "XML";
@@ -481,7 +481,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.tbDEName.Location = new System.Drawing.Point(130, 23);
             this.tbDEName.Name = "tbDEName";
-            this.tbDEName.Size = new System.Drawing.Size(318, 23);
+            this.tbDEName.Size = new System.Drawing.Size(302, 23);
             this.tbDEName.TabIndex = 2;
             this.tbDEName.Text = "textBox1";
             this.tbDEName.TextChanged += new System.EventHandler(this.tbDEName_TextChanged);

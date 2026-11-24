@@ -316,16 +316,16 @@ namespace fyiReporting.RdlDesign
 			// 
 			// bParameters
 			// 
-			this.bParameters.Location = new System.Drawing.Point(352, 104);
+			this.bParameters.Location = new System.Drawing.Point(343, 104);
 			this.bParameters.Name = "bParameters";
-			this.bParameters.Size = new System.Drawing.Size(80, 23);
+			this.bParameters.Size = new System.Drawing.Size(89, 23);
 			this.bParameters.TabIndex = 6;
 			this.bParameters.Text = "Parameters...";
 			this.bParameters.Click += new System.EventHandler(this.bParameters_Click);
 			// 
 			// bDrillthrough
 			// 
-			this.bDrillthrough.Location = new System.Drawing.Point(322, 104);
+			this.bDrillthrough.Location = new System.Drawing.Point(313, 104);
 			this.bDrillthrough.Name = "bDrillthrough";
 			this.bDrillthrough.Size = new System.Drawing.Size(24, 23);
 			this.bDrillthrough.TabIndex = 5;
@@ -336,7 +336,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.tbDrillthrough.Location = new System.Drawing.Point(120, 104);
 			this.tbDrillthrough.Name = "tbDrillthrough";
-			this.tbDrillthrough.Size = new System.Drawing.Size(196, 23);
+			this.tbDrillthrough.Size = new System.Drawing.Size(187, 23);
 			this.tbDrillthrough.TabIndex = 4;
 			this.tbDrillthrough.Text = "";
 			this.tbDrillthrough.TextChanged += new System.EventHandler(this.tbAction_TextChanged);

@@ -257,26 +257,26 @@ namespace OpenPmsDental {
 			// 
 			// textDecimals
 			// 
-			this.textDecimals.Location = new System.Drawing.Point(134, 77);
+			this.textDecimals.Location = new System.Drawing.Point(138, 77);
 			this.textDecimals.MaxVal = 20;
 			this.textDecimals.Name = "textDecimals";
-			this.textDecimals.Size = new System.Drawing.Size(50, 23);
+			this.textDecimals.Size = new System.Drawing.Size(46, 23);
 			this.textDecimals.TabIndex = 2;
 			// 
 			// textScale
 			// 
-			this.textScale.Location = new System.Drawing.Point(134, 50);
+			this.textScale.Location = new System.Drawing.Point(138, 50);
 			this.textScale.MaxVal = 100000000D;
 			this.textScale.MinVal = -100000000D;
 			this.textScale.Name = "textScale";
-			this.textScale.Size = new System.Drawing.Size(50, 23);
+			this.textScale.Size = new System.Drawing.Size(46, 23);
 			this.textScale.TabIndex = 1;
 			// 
 			// textUnits
 			// 
-			this.textUnits.Location = new System.Drawing.Point(134, 23);
+			this.textUnits.Location = new System.Drawing.Point(138, 23);
 			this.textUnits.Name = "textUnits";
-			this.textUnits.Size = new System.Drawing.Size(50, 23);
+			this.textUnits.Size = new System.Drawing.Size(46, 23);
 			this.textUnits.TabIndex = 0;
 			this.textUnits.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -284,7 +284,7 @@ namespace OpenPmsDental {
 			// 
 			this.label12.Location = new System.Drawing.Point(8, 50);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(120, 23);
+			this.label12.Size = new System.Drawing.Size(124, 23);
 			this.label12.TabIndex = 46;
 			this.label12.Text = "Scale, pixels per unit";
 			this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -293,7 +293,7 @@ namespace OpenPmsDental {
 			// 
 			this.label11.Location = new System.Drawing.Point(8, 23);
 			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(120, 23);
+			this.label11.Size = new System.Drawing.Size(124, 23);
 			this.label11.TabIndex = 45;
 			this.label11.Text = "Optional Units (mm)";
 			this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -302,7 +302,7 @@ namespace OpenPmsDental {
 			// 
 			this.label10.Location = new System.Drawing.Point(8, 77);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(120, 23);
+			this.label10.Size = new System.Drawing.Size(124, 23);
 			this.label10.TabIndex = 44;
 			this.label10.Text = "Decimal Places";
 			this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

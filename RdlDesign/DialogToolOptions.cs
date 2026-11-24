@@ -255,7 +255,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bOK
             // 
-            this.bOK.Location = new System.Drawing.Point(210, 286);
+            this.bOK.Location = new System.Drawing.Point(217, 273);
             this.bOK.Name = "bOK";
             this.bOK.Size = new System.Drawing.Size(75, 23);
             this.bOK.TabIndex = 1;
@@ -266,7 +266,7 @@ namespace fyiReporting.RdlDesign
             // 
             this.bCancel.CausesValidation = false;
             this.bCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.bCancel.Location = new System.Drawing.Point(291, 286);
+            this.bCancel.Location = new System.Drawing.Point(300, 273);
             this.bCancel.Name = "bCancel";
             this.bCancel.Size = new System.Drawing.Size(75, 23);
             this.bCancel.TabIndex = 2;
@@ -280,7 +280,7 @@ namespace fyiReporting.RdlDesign
             this.tabControl1.Location = new System.Drawing.Point(8, 8);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(519, 270);
+            this.tabControl1.Size = new System.Drawing.Size(450, 253);
             this.tabControl1.TabIndex = 0;
             // 
             // tpGeneral
@@ -303,9 +303,9 @@ namespace fyiReporting.RdlDesign
             // cbTabInterface
             // 
             this.cbTabInterface.AutoSize = false;
-            this.cbTabInterface.Location = new System.Drawing.Point(78, 140);
+            this.cbTabInterface.Location = new System.Drawing.Point(8, 133);
             this.cbTabInterface.Name = "cbTabInterface";
-            this.cbTabInterface.Size = new System.Drawing.Size(145, 18);
+            this.cbTabInterface.Size = new System.Drawing.Size(149, 18);
             this.cbTabInterface.TabIndex = 7;
             this.cbTabInterface.Text = "Show tabbed interface";
             this.cbTabInterface.UseVisualStyleBackColor = true;
@@ -314,9 +314,9 @@ namespace fyiReporting.RdlDesign
             // cbOutline
             // 
             this.cbOutline.AutoSize = false;
-            this.cbOutline.Location = new System.Drawing.Point(78, 118);
+            this.cbOutline.Location = new System.Drawing.Point(8, 111);
             this.cbOutline.Name = "cbOutline";
-            this.cbOutline.Size = new System.Drawing.Size(195, 18);
+            this.cbOutline.Size = new System.Drawing.Size(199, 18);
             this.cbOutline.TabIndex = 6;
             this.cbOutline.Text = "Outline report items in Designer";
             this.cbOutline.UseVisualStyleBackColor = true;
@@ -324,47 +324,48 @@ namespace fyiReporting.RdlDesign
             // cbEditLines
             // 
             this.cbEditLines.AutoSize = false;
-            this.cbEditLines.Location = new System.Drawing.Point(78, 96);
+            this.cbEditLines.Location = new System.Drawing.Point(8, 89);
             this.cbEditLines.Name = "cbEditLines";
-            this.cbEditLines.Size = new System.Drawing.Size(189, 18);
+            this.cbEditLines.Size = new System.Drawing.Size(193, 18);
             this.cbEditLines.TabIndex = 5;
             this.cbEditLines.Text = "Show line numbers in RDL Text";
             this.cbEditLines.UseVisualStyleBackColor = true;
             // 
             // tbHelpUrl
             // 
-            this.tbHelpUrl.Location = new System.Drawing.Point(8, 69);
+            this.tbHelpUrl.Location = new System.Drawing.Point(8, 58);
             this.tbHelpUrl.Name = "tbHelpUrl";
-            this.tbHelpUrl.Size = new System.Drawing.Size(404, 20);
+            this.tbHelpUrl.Size = new System.Drawing.Size(426, 23);
             this.tbHelpUrl.TabIndex = 4;
             this.tbHelpUrl.Text = "tbHelpUrl";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(8, 44);
+            this.label3.Location = new System.Drawing.Point(8, 39);
+            this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(404, 23);
+            this.label3.Size = new System.Drawing.Size(426, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "Help System URL  (Empty string means use default help url.)";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(116, 8);
+            this.label2.Location = new System.Drawing.Point(104, 11);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(178, 32);
+            this.label2.Size = new System.Drawing.Size(330, 18);
             this.label2.TabIndex = 2;
             this.label2.Text = "items in most recently used lists.";
             // 
             // tbRecentFilesMax
             // 
-            this.tbRecentFilesMax.Location = new System.Drawing.Point(78, 12);
+            this.tbRecentFilesMax.Location = new System.Drawing.Point(66, 8);
             this.tbRecentFilesMax.Name = "tbRecentFilesMax";
             this.tbRecentFilesMax.Size = new System.Drawing.Size(32, 23);
             this.tbRecentFilesMax.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(20, 8);
+            this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 23);
@@ -391,7 +392,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bRemove
             // 
-            this.bRemove.Location = new System.Drawing.Point(179, 62);
+            this.bRemove.Location = new System.Drawing.Point(168, 54);
             this.bRemove.Name = "bRemove";
             this.bRemove.Size = new System.Drawing.Size(23, 23);
             this.bRemove.TabIndex = 2;
@@ -400,7 +401,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bReset
             // 
-            this.bReset.Location = new System.Drawing.Point(374, 89);
+            this.bReset.Location = new System.Drawing.Point(359, 81);
             this.bReset.Name = "bReset";
             this.bReset.Size = new System.Drawing.Size(53, 23);
             this.bReset.TabIndex = 6;
@@ -409,7 +410,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bDown
             // 
-            this.bDown.Location = new System.Drawing.Point(374, 62);
+            this.bDown.Location = new System.Drawing.Point(359, 54);
             this.bDown.Name = "bDown";
             this.bDown.Size = new System.Drawing.Size(53, 23);
             this.bDown.TabIndex = 5;
@@ -418,7 +419,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bUp
             // 
-            this.bUp.Location = new System.Drawing.Point(374, 35);
+            this.bUp.Location = new System.Drawing.Point(359, 27);
             this.bUp.Name = "bUp";
             this.bUp.Size = new System.Drawing.Size(53, 23);
             this.bUp.TabIndex = 4;
@@ -427,7 +428,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bCopyItem
             // 
-            this.bCopyItem.Location = new System.Drawing.Point(179, 35);
+            this.bCopyItem.Location = new System.Drawing.Point(168, 27);
             this.bCopyItem.Name = "bCopyItem";
             this.bCopyItem.Size = new System.Drawing.Size(23, 23);
             this.bCopyItem.TabIndex = 1;
@@ -436,32 +437,34 @@ namespace fyiReporting.RdlDesign
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(213, 8);
+            this.label5.Location = new System.Drawing.Point(199, 8);
+            this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 23);
+            this.label5.Size = new System.Drawing.Size(152, 17);
             this.label5.TabIndex = 8;
             this.label5.Text = "Toolbar Layout";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(15, 8);
+            this.label4.Location = new System.Drawing.Point(8, 8);
+            this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 23);
+            this.label4.Size = new System.Drawing.Size(152, 17);
             this.label4.TabIndex = 7;
             this.label4.Text = "ToolBar Operations";
             // 
             // lbToolbar
             // 
-            this.lbToolbar.Location = new System.Drawing.Point(213, 35);
+            this.lbToolbar.Location = new System.Drawing.Point(199, 27);
             this.lbToolbar.Name = "lbToolbar";
-            this.lbToolbar.Size = new System.Drawing.Size(152, 199);
+            this.lbToolbar.Size = new System.Drawing.Size(152, 190);
             this.lbToolbar.TabIndex = 3;
             // 
             // lbOperation
             // 
-            this.lbOperation.Location = new System.Drawing.Point(14, 35);
+            this.lbOperation.Location = new System.Drawing.Point(8, 27);
             this.lbOperation.Name = "lbOperation";
-            this.lbOperation.Size = new System.Drawing.Size(152, 199);
+            this.lbOperation.Size = new System.Drawing.Size(152, 190);
             this.lbOperation.TabIndex = 0;
             // 
             // tpDesktop
@@ -483,7 +486,7 @@ namespace fyiReporting.RdlDesign
             // 
             // bBrowse
             // 
-            this.bBrowse.Location = new System.Drawing.Point(420, 99);
+            this.bBrowse.Location = new System.Drawing.Point(408, 109);
             this.bBrowse.Name = "bBrowse";
             this.bBrowse.Size = new System.Drawing.Size(26, 23);
             this.bBrowse.TabIndex = 2;
@@ -492,16 +495,16 @@ namespace fyiReporting.RdlDesign
             // 
             // tbDirectory
             // 
-            this.tbDirectory.Location = new System.Drawing.Point(78, 99);
+            this.tbDirectory.Location = new System.Drawing.Point(78, 109);
             this.tbDirectory.Name = "tbDirectory";
-            this.tbDirectory.Size = new System.Drawing.Size(336, 23);
+            this.tbDirectory.Size = new System.Drawing.Size(324, 23);
             this.tbDirectory.TabIndex = 1;
             this.tbDirectory.Text = "textBox1";
             this.tbDirectory.TextChanged += new System.EventHandler(this.Desktop_Changed);
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(8, 99);
+            this.label9.Location = new System.Drawing.Point(8, 109);
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(64, 23);
@@ -510,9 +513,9 @@ namespace fyiReporting.RdlDesign
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(78, 148);
+            this.label8.Location = new System.Drawing.Point(78, 166);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(425, 47);
+            this.label8.Size = new System.Drawing.Size(356, 50);
             this.label8.TabIndex = 4;
             this.label8.Text = "Important: Desktop server is not intended to be used as a production web server. " +
                 " Use an ASP enabled server for anything other than local desktop use.";
@@ -521,22 +524,22 @@ namespace fyiReporting.RdlDesign
             // 
             this.label7.Location = new System.Drawing.Point(8, 8);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(435, 62);
+            this.label7.Size = new System.Drawing.Size(426, 66);
             this.label7.TabIndex = 3;
             this.label7.Text = resources.GetString("label7.Text");
             // 
             // ckLocal
             // 
-            this.ckLocal.Location = new System.Drawing.Point(78, 126);
+            this.ckLocal.Location = new System.Drawing.Point(78, 140);
             this.ckLocal.Name = "ckLocal";
-            this.ckLocal.Size = new System.Drawing.Size(194, 18);
+            this.ckLocal.Size = new System.Drawing.Size(198, 18);
             this.ckLocal.TabIndex = 3;
             this.ckLocal.Text = "Restrict access to local machine";
             this.ckLocal.CheckedChanged += new System.EventHandler(this.Desktop_Changed);
             // 
             // tbPort
             // 
-            this.tbPort.Location = new System.Drawing.Point(78, 72);
+            this.tbPort.Location = new System.Drawing.Point(78, 82);
             this.tbPort.Name = "tbPort";
             this.tbPort.Size = new System.Drawing.Size(48, 23);
             this.tbPort.TabIndex = 0;
@@ -544,16 +547,16 @@ namespace fyiReporting.RdlDesign
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(36, 72);
+            this.label6.Location = new System.Drawing.Point(8, 82);
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(36, 23);
+            this.label6.Size = new System.Drawing.Size(64, 23);
             this.label6.TabIndex = 0;
             this.label6.Text = "Port";
             // 
             // bApply
             // 
-            this.bApply.Location = new System.Drawing.Point(372, 286);
+            this.bApply.Location = new System.Drawing.Point(383, 273);
             this.bApply.Name = "bApply";
             this.bApply.Size = new System.Drawing.Size(75, 23);
             this.bApply.TabIndex = 3;

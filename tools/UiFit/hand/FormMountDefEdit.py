@@ -4,8 +4,8 @@ and the settings column panelRight; Description, Width and Height (with their la
 The planner moved the drawing and the column 8 px in, widened the column to 286 px for a 146 px field column (the combo past its edge),
 left Width and Height over the colour rows and Flip on Acquire on the field column. The drawing and the column at main's bounds (the drawing
 edge to edge as on main); in the 208 px column: Description and Default Cat as captions over boxes of the content's width, Width, Height
-and the three colours as label + field rows on one field column, the three check boxes as a list, Measurement Scale with its own label
-column, Generate with its note beside it, Add Item, Item Order (Up and Down with their notes, Reorder All, its note as tall as its lines),
+and the three colours as label + field rows on one field column, the three check boxes as a list, Measurement Scale with its boxes on the
+same field column, Generate with its note beside it, Add Item, Item Order (Up and Down with their notes, Reorder All, its note as tall as its lines),
 the warning Load shows (hidden in the designer) under it, the save note over the bar, Delete and Save on the bar. The window grows down to
 hold the column (main cut the notes)."""
 import importlib.util
@@ -52,11 +52,12 @@ def layout(h):
     y += 4
     # Measurement Scale: its own label column from the group's content edge
     h.set("groupBoxOD1", 8, y, CW, None)
-    glw = max(h.lw(n) for n in ("label11", "label12", "label10"))
+    # its boxes on the column's field column (the group's content is 8 px further in)
+    gfx = fx - 8
     for i, (label, field) in enumerate((("label11", "textUnits"), ("label12", "textScale"), ("label10", "textDecimals"))):
         h.text_align(label, "MiddleRight")
-        h.set(label, 8, 23 + i * 27, glw, h.H)
-        h.set(field, 8 + glw + 6, 23 + i * 27, CW - 16 - glw - 6, h.H)
+        h.set(label, 8, 23 + i * 27, gfx - 6 - 8, h.H)
+        h.set(field, gfx, 23 + i * 27, CW - 8 - gfx, h.H)
     h.set("groupBoxOD1", None, None, None, 23 + 2 * 27 + h.H + 8)
     y += h.n("groupBoxOD1").nh + 8
     # Generate and its note

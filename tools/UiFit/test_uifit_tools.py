@@ -380,6 +380,24 @@ class CodeFileTests(unittest.TestCase):
         self.assertIn("Point(1, 1)", code)
         self.assertNotIn("Point(16, 16)", code)
 
+    def test_a_plain_form_is_laid_out_in_its_client_area(self):
+        # UI-12 slice 13 (the plain-Form rule): a plain Form's root is the window with its frame; a UserControl's root is its client area.
+        cols = ["window", "path", "name", "type", "index", "x", "y", "width", "height", "client_x", "client_y", "client_width", "client_height",
+                "visible", "dock", "anchor", "auto_size", "sizes_itself", "layout_panel_child", "check_align", "text_align", "multiline",
+                "font_height", "text_width", "text_height", "title_bottom", "preferred_height", "text"]
+        rows = [("N.DialogX", ".", "DialogX", "N.DialogX", 0, 0, 0, 482, 343, 0, 0, 466, 304),
+                ("N.CtlY", ".", "CtlY", "N.CtlY", 0, 0, 0, 472, 288, 0, 0, 472, 288)]
+        tmp = tempfile.mkdtemp(prefix="ui12-13-tree-")
+        self.addCleanup(shutil.rmtree, tmp, True)
+        path = os.path.join(tmp, "tree.tsv")
+        with open(path, "w", encoding="utf-8", newline="\n") as f:
+            f.write("\t".join(cols) + "\n")
+            for r in rows:
+                f.write("\t".join(str(x) for x in r) + "\t1\tNone\t5\t0\t0\t0\t\t\t0\t16\t0\t0\t0\t0\t\n")
+        trees = grid_tools.load_tree(path)
+        self.assertEqual((466, 304), (trees["N.DialogX"].nw, trees["N.DialogX"].nh))
+        self.assertEqual((472, 288), (trees["N.CtlY"].nw, trees["N.CtlY"].nh))
+
     def test_a_report_designer_window_finds_its_code_file(self):
         wf = fit_tools.window_files(ROOT, ["fyiReporting.RdlDesign.DialogNewTable", "ODR.FormParameterInput", "OpenPmsDental.FormCvxs"])
         self.assertEqual(["RdlDesign/DialogNewTable.cs"], wf["fyiReporting.RdlDesign.DialogNewTable"])

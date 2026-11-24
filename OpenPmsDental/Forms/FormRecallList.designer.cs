@@ -1003,7 +1003,7 @@
 			// 
 			// FormRecallList
 			// 
-			this.ClientSize = new System.Drawing.Size(1067, 797);
+			this.ClientSize = new System.Drawing.Size(1067, 696);
 			this.Controls.Add(this.tabControl);
 			this.Name = "FormRecallList";
 			this.Text = "Recall List";

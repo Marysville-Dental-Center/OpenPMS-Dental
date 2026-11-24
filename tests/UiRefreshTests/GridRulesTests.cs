@@ -493,7 +493,10 @@ namespace UiRefreshTests {
 				//rich text boxes too (FormEmailInbox's address boxes and ControlChart's search box are single-line ODtextBoxes and drew plain
 				//white bars). A single-line stock TextBox keeps the one-line rule (framed with a 3-D border), and the text inside an up-down box
 				//has its box's frame. In a window the harness builds as a form, the frame is attached too.
-				foreach(Control control in listKids.Where(x => x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
+				//UI-12 slice 13 (the plain-Form rule; slice 12 adds the same for the plain exes): the input frame is FormODBase's (LayoutManager
+				//attaches it), so a window that is no FormODBase (the report designer's dialogs and controls, ODR's) keeps the stock text boxes.
+				bool isFormODBase=root.FindForm() is FormODBase;
+				foreach(Control control in listKids.Where(x => isFormODBase && x is TextBoxBase && !(x.Parent is UpDownBase) && ((TextBoxBase)x).BorderStyle!=BorderStyle.None)) {
 					if(control is TextBox textBox && (!textBox.Multiline || OpenPmsDental.UI.UiInputFrame.IsOneLineTall(textBox)) && textBox.BorderStyle!=BorderStyle.Fixed3D) {
 						continue;
 					}

@@ -433,9 +433,14 @@ namespace UiRefreshTests {
 				return root;
 			}
 			//UI-12 slice 3 fix round (review of 2026-11-23): the slice's other tab pages and views, laid out by its scripts.
-			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state);
+			string[] arrayTab=GetSliceThreeTabState(window,state) ?? GetSliceElevenTabState(window,state) ?? GetSliceThirteenTabState(window,state);
 			if(arrayTab!=null) {
-				SelectTabPage(root,arrayTab[0],arrayTab[1]);
+				if(FindByName(root,arrayTab[0]) is System.Windows.Forms.TabControl) {
+					SelectStockTabPage(root,arrayTab[0],arrayTab[1]);
+				}
+				else {
+					SelectTabPage(root,arrayTab[0],arrayTab[1]);
+				}
 				return root;
 			}
 			if(window=="OpenPmsDental.FormCertifications" && state=="certcomplete") {
@@ -510,6 +515,39 @@ namespace UiRefreshTests {
 				case "OpenPmsDental.FormFeeSchedTools#copycode": return new string[] { "tabControlTools","tabPageCopyCode" };
 			}
 			return null;
+		}
+
+		///<summary>UI-12 slice 13: the other tab pages of FormRecallList (its program tab control) and of the report designer's FindTab,
+		///DialogToolOptions and DialogDatabase (stock tab controls).</summary>
+		private static string[] GetSliceThirteenTabState(string window,string state) {
+			switch(window+"#"+state) {
+				case "OpenPmsDental.FormRecallList#reminders": return new string[] { "tabControl","tabPageReminders" };
+				case "OpenPmsDental.FormRecallList#reactivations": return new string[] { "tabControl","tabPageReactivations" };
+				case "fyiReporting.RdlDesign.FindTab#replace": return new string[] { "tcFRG","tabReplace" };
+				case "fyiReporting.RdlDesign.FindTab#goto": return new string[] { "tcFRG","tabGoTo" };
+				case "fyiReporting.RdlDesign.DialogToolOptions#toolbar": return new string[] { "tabControl1","tpToolbar" };
+				case "fyiReporting.RdlDesign.DialogToolOptions#desktop": return new string[] { "tabControl1","tpDesktop" };
+				case "fyiReporting.RdlDesign.DialogDatabase#connection": return new string[] { "tcDialog","DBConnection" };
+				case "fyiReporting.RdlDesign.DialogDatabase#parameters": return new string[] { "tcDialog","ReportParameters" };
+				case "fyiReporting.RdlDesign.DialogDatabase#grouping": return new string[] { "tcDialog","TabularGroup" };
+			}
+			return null;
+		}
+
+		///<summary>UI-12 slice 13: a stock tab control's page shown without the window's SelectedIndexChanged handler (DialogDatabase's builds the
+		///report from its data source): the handlers are taken off the control, then the page is selected.</summary>
+		private static void SelectStockTabPage(Control root,string nameTabControl,string namePage) {
+			System.Windows.Forms.TabControl tabControl=(System.Windows.Forms.TabControl)FindByName(root,nameTabControl);
+			System.Reflection.BindingFlags bindingFlags=System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic;
+			object key=typeof(System.Windows.Forms.TabControl).GetField("s_selectedIndexChangedEvent",bindingFlags)?.GetValue(null)
+				??typeof(System.Windows.Forms.TabControl).GetField("EVENT_SELECTEDINDEXCHANGED",bindingFlags)?.GetValue(null);
+			if(key==null) {
+				throw new InvalidOperationException("TabControl's SelectedIndexChanged event key not found.");
+			}
+			System.ComponentModel.EventHandlerList eventHandlerList=(System.ComponentModel.EventHandlerList)typeof(System.ComponentModel.Component)
+				.GetProperty("Events",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(tabControl);
+			eventHandlerList.RemoveHandler(key,eventHandlerList[key]);
+			tabControl.SelectedTab=tabControl.TabPages.Cast<System.Windows.Forms.TabPage>().First(x => x.Name==namePage);
 		}
 
 		///<summary>Shows the tab control's page as a click on its tab does, without SelectedIndexChanged (the windows' handlers read the database,

@@ -385,7 +385,7 @@ namespace fyiReporting.RdlDesign
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.CancelButton = this.btnCancel;
-			this.ClientSize = new System.Drawing.Size(451, 208);
+			this.ClientSize = new System.Drawing.Size(448, 206);
 			this.Controls.Add(this.tcFRG);
 			this.Name = "FindTab";
 			this.Text = "Find";

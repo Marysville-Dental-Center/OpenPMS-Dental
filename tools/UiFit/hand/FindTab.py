@@ -18,7 +18,8 @@ def lab(h, name, y, w):
 
 
 def layout(h):
-    W0, H0 = s.W(h), s.H(h)
+    W0, H0 = 448, 206  # main's client size (the planner grew it 3 x 2 px for nothing the script keeps)
+    h.set(".", None, None, W0, H0)
     h.set("tcFRG", 8, 8, W0 - 16, H0 - 16)
     pw = W0 - 16 - 8
     bx = pw - 8 - 75
