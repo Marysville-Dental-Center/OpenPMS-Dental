@@ -211,7 +211,10 @@ class Designer:
         self.path = os.path.join(root, rel)
         with open(self.path, "rb") as f:
             self.text = f.read().decode("latin-1")
-        self.declared = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+) ?= ?new ([\w.]+)\(", self.text)}
+        # UI-12 slice 13: in a code file (designer code in the window's .cs) only InitializeComponent's body is designer code.
+        start, end = fit_tools.designer_code(rel, self.text)
+        self.text = self.text[start:end]
+        self.declared ={m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+) ?= ?new ([\w.]+)\(", self.text)}
         self.docked = {m.group(1): m.group(2) for m in re.finditer(r"this\.(\w+)\.Dock ?= ?System\.Windows\.Forms\.DockStyle\.(\w+);", self.text)}
         # A control whose Name differs from its field (this.checkLong.Name = "checkShort"): the tree has the Name, the designer the field.
         self.name_to_field = {m.group(2): m.group(1) for m in re.finditer(r'this\.(\w+)\.Name ?= ?"(\w+)";', self.text) if m.group(1) != m.group(2)}
@@ -303,7 +306,7 @@ def runtime_positioned(root, simple, names):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(fit_tools.runtime_code(f, fh.read().decode("latin-1")))  # UI-12 slice 13: not InitializeComponent
     code = "\n".join(texts)
     if not code:
         return found
@@ -347,7 +350,7 @@ def runtime_window_sized(root, simple):
     texts = []
     for f in code_files_for(root, simple):
         with open(os.path.join(root, f), "rb") as fh:
-            texts.append(fh.read().decode("latin-1"))
+            texts.append(fit_tools.runtime_code(f, fh.read().decode("latin-1")))  # UI-12 slice 13: not InitializeComponent
     code = "\n".join(texts)
     code = re.sub(r'(?m)^((?:[^"\n/]|"(?:[^"\\\n]|\\.)*"|/(?!/))*)//[^\n]*', r"\1", code)
     out = []
@@ -2522,7 +2525,15 @@ def cmd_apply(args):
         p = os.path.join(root, rel)
         with open(p, "rb") as f:
             raw = f.read()
-        text = raw.decode("latin-1")
+        whole = raw.decode("latin-1")
+        # UI-12 slice 13: a code file (designer code in the window's .cs: the report designer, ODR) is edited in InitializeComponent's body
+        # only; everything around it stays byte for byte.
+        start, end = fit_tools.designer_code(rel, whole)
+        if end <= start:
+            errors += len(rs)
+            print("%s: no InitializeComponent body" % rel)
+            continue
+        text = whole[start:end]
         for r in rs:
             text2, err = apply_row(text, r["control"], r["property"], r["new"])
             if err:
@@ -2530,7 +2541,7 @@ def cmd_apply(args):
                 print("%s %s %s: %s" % (rel, r["control"], r["property"], err))
                 continue
             text = text2
-        data = text.encode("latin-1")
+        data = (whole[:start] + text + whole[end:]).encode("latin-1")
         if data != raw:
             with open(p, "wb") as f:
                 f.write(data)
