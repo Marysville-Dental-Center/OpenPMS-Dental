@@ -40,7 +40,7 @@
 			// 
 			// butRefresh
 			// 
-			this.butRefresh.Location = new System.Drawing.Point(378, 62);
+			this.butRefresh.Location = new System.Drawing.Point(378, 85);
 			this.butRefresh.Name = "butRefresh";
 			this.butRefresh.Size = new System.Drawing.Size(75, 23);
 			this.butRefresh.TabIndex = 4;
@@ -94,7 +94,7 @@
 			// 
 			// textStatus
 			// 
-			this.textStatus.Location = new System.Drawing.Point(156, 62);
+			this.textStatus.Location = new System.Drawing.Point(156, 85);
 			this.textStatus.Name = "textStatus";
 			this.textStatus.ReadOnly = true;
 			this.textStatus.Size = new System.Drawing.Size(216, 23);
@@ -102,7 +102,7 @@
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(106, 62);
+			this.label2.Location = new System.Drawing.Point(106, 85);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(44, 23);
 			this.label2.TabIndex = 2;
