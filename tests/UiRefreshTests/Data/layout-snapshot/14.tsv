@@ -1,0 +1,280 @@
+# The layout snapshot of the UI refresh (docs/specs/ui-refresh-plan.md section 3.7, docs/port-notes/UI-0b.md): every designer
+# control's Location, Size and ClientSize as InitializeComponent sets them, "." for the window or UserControl itself. Written by
+# LayoutSnapshotTests with OPMS_UI_LAYOUT_SNAPSHOT_WRITE=1; the test fails on any change that Data/fit-fixes.tsv does not list.
+# One file per rollout slice (UI-12T): the designer files a slice owns; unsliced.tsv the rest (a slice file wins over it).
+file	control	location	size	client_size
+CodeBase/Progress/FormProgressExtended.designer.cs	textMsg	0,19	460,70	
+CodeBase/Progress/FormProgressExtended.designer.cs	label4	0,0	96,17	
+CodeBase/Progress/FormProgressExtended.designer.cs	labelWarning	0,93	292,17	
+CodeBase/Progress/FormProgressExtended.designer.cs	panel1	3,9	460,145	
+CodeBase/Progress/FormProgressExtended.designer.cs	butCancel	385,122	75,23	
+CodeBase/Progress/FormProgressExtended.designer.cs	butPause	0,122	75,23	
+CodeBase/Progress/FormProgressExtended.designer.cs	flowLayoutPanel1	8,8	466,260	
+CodeBase/Progress/FormProgressExtended.designer.cs	tableLayoutPanel1	3,3	460,0	
+CodeBase/Progress/FormProgressExtended.designer.cs	.			482,173
+CodeBase/Progress/FormProgressStatus.designer.cs	labelMsg	8,48	453,36	
+CodeBase/Progress/FormProgressStatus.designer.cs	progressBar	8,86	453,23	
+CodeBase/Progress/FormProgressStatus.designer.cs	textHistoryMsg	8,34	453,40	
+CodeBase/Progress/FormProgressStatus.designer.cs	butCopyToClipboard	8,86	100,23	
+CodeBase/Progress/FormProgressStatus.designer.cs	butClose	386,86	75,23	
+CodeBase/Progress/FormProgressStatus.designer.cs	panelMinimize	439,8	22,22	
+CodeBase/Progress/FormProgressStatus.designer.cs	labelMinimize	0,0	22,22	
+CodeBase/Progress/FormProgressStatus.designer.cs	.			469,117
+CodeBase/Progress/ODProgressBar.designer.cs	progressBar	104,23	286,23	
+CodeBase/Progress/ODProgressBar.designer.cs	labelLeftText	0,23	98,23	
+CodeBase/Progress/ODProgressBar.designer.cs	labelTopText	104,4	286,17	
+CodeBase/Progress/ODProgressBar.designer.cs	labelPercentComplete	396,23	74,23	
+CodeBase/Progress/ODProgressBar.designer.cs	.		470,51	
+CodeBase/Utilities/MsgBoxCopyPaste.cs	butOK	619,610	75,26	
+CodeBase/Utilities/MsgBoxCopyPaste.cs	textMain	8,8	686,590	
+CodeBase/Utilities/MsgBoxCopyPaste.cs	butPrint	531,610	80,26	
+CodeBase/Utilities/MsgBoxCopyPaste.cs	butCopyAll	8,610	80,26	
+CodeBase/Utilities/MsgBoxCopyPaste.cs	.			702,644
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	grid2	0,48	1214,452	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	labelGridCaption	0,27	1214,19	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	textQuery	0,0	557,140	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butExportExcel	148,74	80,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPaste	73,54	67,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butCopy	0,54	67,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	textTitle	42,0	220,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	label1	0,0	36,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butAdd	0,27	140,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butFavorite	0,0	140,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	groupBox1	148,0	132,70	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	radioHuman	8,22	116,18	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	radioRaw	8,44	116,18	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butSubmit	0,81	104,23	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	printPreviewDialog2			400,300
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	printPreviewControl2	8,8	1214,644	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	panelZoom	711,664	144,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	labelTotPages	30,0	86,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butBack	6,0	18,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butFwd	120,0	18,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPrint	1152,664	70,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butExport	1065,664	79,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butQView	863,664	92,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	butPrintPreview	963,664	94,24	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	panel1	565,0	280,126	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	checkReportServer	0,108	140,18	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitContainer	8,8	1214,644	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitterPanel1	0,0	1214,140	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	splitterPanel2	0,144	1214,500	
+OpenPmsDental/Forms Reports/FormQuery.designer.cs	.			1230,696
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label2	8,8	142,17	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listBoxFields	8,27	142,597	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label5	308,8	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label6	538,8	55,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label7	308,35	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label8	538,35	55,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	label3	8,22	132,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	checkRequired	454,70	72,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	groupRadioMisc	308,116	359,107	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	comboRadioGroupNameMisc	146,22	205,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textUiLabelMobileMisc	146,49	205,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelUiLabelMobileMisc	8,49	132,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textUiLabelMobileRadioButtonMisc	146,76	205,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelUiLabelMobileRadioButtonMisc	8,76	132,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listRadio	146,49	205,56	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	groupRadio	308,116	359,140	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelItemOverride	8,109	132,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textItemOverride	146,109	205,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelAlsoActs	8,51	132,34	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textUiLabelMobile	146,22	205,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelUiLabelMobile	8,22	132,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelTabOrder	308,629	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	listMedical	158,27	142,597	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMedical	158,8	142,17	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	radioYes	454,116	56,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	radioNo	454,138	56,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelRequired	532,71	135,34	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textReportableName	454,602	213,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelReportableName	308,602	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMiscInstructions	454,580	213,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelYesNo	516,117	151,18	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textTabOrder	454,629	68,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butDelete	8,664	77,24	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textHeight	599,35	68,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textWidth	454,35	68,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textYPos	599,8	68,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textXPos	454,8	68,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butSave	592,664	75,24	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textUiLabelMobileCheckBoxNonMisc	454,116	213,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelUiLabelMobileCheckBoxNonMisc	308,116	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butAddAllergy	158,628	105,24	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butAddProblem	158,628	105,24	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	butAddProc	8,628	124,24	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textMobileMedicalNameOverride	454,195	213,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMobileMedicalNameOverride	308,195	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	textMobileCheckOverride	454,168	213,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	labelMobileCheckOverride	308,168	140,23	
+OpenPmsDental/Forms/FormSheetFieldCheckBox.designer.cs	.			675,696
+OpenPmsDental/Forms/FormTasks.designer.cs	userControlTasks1	0,0	1230,539	
+OpenPmsDental/Forms/FormTasks.designer.cs	splitContainer	0,0	1230,696	
+OpenPmsDental/Forms/FormTasks.designer.cs	splitterPanel1	0,0	1230,539	
+OpenPmsDental/Forms/FormTasks.designer.cs	splitterPanel2	0,543	1230,153	
+OpenPmsDental/Forms/FormTasks.designer.cs	.			1230,696
+OpenPmsDental/Forms/FormUpdate.designer.cs	labelVersion	8,32	631,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label1	0,0	100,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textUpdateCode	94,93	112,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textWebsitePath	94,66	529,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label3	8,66	80,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textResult	94,147	529,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textResult2	94,174	529,66	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label4	8,93	80,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label6	8,8	615,50	
+OpenPmsDental/Forms/FormUpdate.designer.cs	panelClassic	8,160	631,275	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butCheck	94,120	120,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butDownload	94,244	84,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textConnectionMessage	8,86	631,66	
+OpenPmsDental/Forms/FormUpdate.designer.cs	groupBuild	8,160	631,100	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butDownloadMsiBuild	457,69	84,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textBuild	8,42	615,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butInstallBuild	549,69	74,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label2	8,22	615,18	
+OpenPmsDental/Forms/FormUpdate.designer.cs	groupBeta	8,376	631,116	
+OpenPmsDental/Forms/FormUpdate.designer.cs	checkAcknowledgeBeta	8,87	397,18	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butDownloadMsiBeta	457,85	84,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textBeta	8,58	615,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butInstallBeta	549,85	74,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label5	8,22	615,34	
+OpenPmsDental/Forms/FormUpdate.designer.cs	groupStable	8,268	631,100	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butDownloadMsiStable	457,69	84,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textStable	8,42	615,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butInstallStable	549,69	74,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label11	8,22	615,18	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butCheck2	8,59	120,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butShowUpdateHistory	507,59	132,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	groupAlpha	8,500	631,100	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butDownloadMsiAlpha	457,69	84,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	textAlpha	8,42	615,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	butInstallAlpha	549,69	74,23	
+OpenPmsDental/Forms/FormUpdate.designer.cs	label7	8,22	615,18	
+OpenPmsDental/Forms/FormUpdate.designer.cs	menuMain	0,0	647,24	
+OpenPmsDental/Forms/FormUpdate.designer.cs	.			647,608
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	contextMenuMain		104,98	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemCut		103,22	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemCopy		103,22	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemPaste		103,22	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	toolStripMenuItem2		100,6	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	menuItemUndo		103,22	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	toolBar2	0,25	944,25	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	webViewWiki	476,58	460,507	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	ToolBarMain	0,0	944,25	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	textContent	8,58	460,507	
+OpenPmsDental/Forms/FormWikiEdit.designer.cs	.			944,573
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridSuperFam	0,0	329,285	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridRecall	588,29	351,100	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridFamily	104,29	480,100	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridPat	0,133	252,575	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridIns	256,133	683,575	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	gridPatientClones	0,0		
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	pictureBoxPat	0,29	100,100	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	toolBarMain	0,0	939,25	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitContainerSuperClones	256,133	329,575	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitterPanel1	0,0	329,285	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	splitterPanel2	0,289	329,290	
+OpenPmsDental/Main Modules/ControlFamily.designer.cs	.		939,708	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	panelSplitter	51,540	1179,7	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	lightSignalGrid1	0,442	50,254	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	menuMain	0,0	1230,24	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitContainer	51,49	1179,491	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitterPanel1	0,0	314,268	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	splitterPanel2	318,0	173,268	
+OpenPmsDental/Main Modules/FormOpenDental.Designer.cs	.			1230,696
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	label1	8,8	244,26	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	richTextBox1	8,48	466,197	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	panel1	482,48	159,120	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	button4	8,8	143,23	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	butProviderIncomeReport	8,35	143,23	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	butGuarnDetailReport	8,62	143,23	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	butUneardedIncomeReport	8,89	143,23	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	butRunAllocatorTool	250,253	143,23	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	rbIhaveNotRead	0,0	204,18	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	panel2	8,253	234,40	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	rbutIHaveRead	0,22	204,18	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	lblAllocatorStatus	250,280	143,20	
+OpenPmsDental/ReportingForRdl/Allocators/MyAllocator1/FormInstallAllocator_Provider.Designer.cs	.			649,308
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	viewer	0,25	987,687	
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	ToolBarMain	0,0	987,25	
+OpenPmsDental/ReportingForRdl/FormReportCustom.designer.cs	.			987,712
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	viewer	0,25	987,687	
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	ToolBarMain	0,0	987,25	
+OpenPmsDental/ReportingForRdl/FormReportForRdl.designer.cs	.			987,712
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	monthCalendar	8,80		
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tree	8,80	925,8	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	menuJobs		61,4	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	contextMenuStrip1		61,4	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	menuAttachments		61,4	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	gridMain	8,92	925,410	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	textListFilter	98,29	132,23	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	label1	8,29	84,23	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	butClearFilter	236,29	52,23	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	butRefresh	304,29	68,23	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabControl	8,56	925,20	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabUser	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	groupBoxOD2	0,0	200,100	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabNew	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabOpenTickets	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabPatientTickets	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabMain	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabReminders	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabRepeating	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabDate	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabWeek	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	tabMonth	2,21	937,0	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	ToolBarMain	0,0	941,25	
+OpenPmsDental/User Controls/UserControlTasks.Designer.cs	.		941,510	
+ServiceManager/FormMain.Designer.cs	listMain	8,150	174,275	
+ServiceManager/FormMain.Designer.cs	label1	8,8	337,138	
+ServiceManager/FormMain.Designer.cs	butAdd	8,437	75,24	
+ServiceManager/FormMain.Designer.cs	.			353,469
+ServiceManager/FormServiceManage.Designer.cs	butRefresh	378,62	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butStop	359,89	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butStart	278,89	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butUninstall	197,89	75,23	
+ServiceManager/FormServiceManage.Designer.cs	butInstall	116,89	75,23	
+ServiceManager/FormServiceManage.Designer.cs	textStatus	156,62	216,23	
+ServiceManager/FormServiceManage.Designer.cs	label2	106,62	44,23	
+ServiceManager/FormServiceManage.Designer.cs	label1	66,8	84,23	
+ServiceManager/FormServiceManage.Designer.cs	textName	156,8	216,23	
+ServiceManager/FormServiceManage.Designer.cs	label3	62,35	88,23	
+ServiceManager/FormServiceManage.Designer.cs	textPathToExe	156,35	472,23	
+ServiceManager/FormServiceManage.Designer.cs	butBrowse	634,35	75,23	
+ServiceManager/FormServiceManage.Designer.cs	.			719,166
+ServiceManager/FormWebConfigSettings.Designer.cs	butCancel	296,497	75,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	butOk	211,497	75,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	groupBox1	8,8	363,243	
+ServiceManager/FormWebConfigSettings.Designer.cs	label8	54,185	88,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	comboDatabaseType	148,185	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label7	78,212	64,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label6	58,158	84,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label5	86,131	56,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label4	78,104	64,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label3	106,77	36,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label2	82,50	60,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	label1	98,23	44,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	comboLogLevel	148,212	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textPasswordLow	148,158	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textUserLow	148,131	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textPassword	148,104	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textUser	148,77	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textDatabase	148,50	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textServer	148,23	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	groupReplicationMaster	8,312	363,162	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelReplicationMasterDbType	54,131	88,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	comboReplicationMasterDbType	148,131	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelReplicationMasterPass	78,104	64,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelReplicationMasterUser	106,77	36,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelReplicationMasterDatabase	82,50	60,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelReplicationMasterServer	98,23	44,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textReplicationMasterPass	148,104	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textReplicationMasterUser	148,77	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textReplicationMasterDatabase	148,50	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	textReplicationMasterServer	148,23	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	checkIsOneWayReplication	156,286	145,18	
+ServiceManager/FormWebConfigSettings.Designer.cs	textPEM	156,259	188,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	labelpem	66,259	84,23	
+ServiceManager/FormWebConfigSettings.Designer.cs	.			379,528
+UpdateFileCopier/FormMain.Designer.cs	labelFile	8,8	368,90	
+UpdateFileCopier/FormMain.Designer.cs	butRetry	154,110	75,23	
+UpdateFileCopier/FormMain.Designer.cs	.			384,141

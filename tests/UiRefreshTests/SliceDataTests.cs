@@ -93,7 +93,9 @@ namespace UiRefreshTests {
 				}
 				dictBatchOfGroup[arrayFields[6]]=arrayFields[0];
 			}
-			Assert.IsTrue(dictBatchOfFile.Count>100,"Batched files: "+dictBatchOfFile.Count);
+			//UI-12 slice 14: no lower bound on the count (it was more than 100): slices 14 to 16 lay the last files out, so the batches shrink to
+			//none; every line is still checked above.
+			Assert.AreEqual(arrayLines.Skip(1).Count(x => x.Trim()!=""),dictBatchOfFile.Count,"Batched files: "+dictBatchOfFile.Count);
 		}
 
 		[TestMethod]

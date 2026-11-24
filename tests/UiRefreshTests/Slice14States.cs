@@ -54,10 +54,11 @@ namespace UiRefreshTests {
 					textMessage.Text="Checking for updates with Open Dental is not available in this build. Install new versions manually.\r\n"
 						+"After a new version is installed on one computer, the other computers update themselves from this database.";
 					Form formUpdate=root.FindForm();
-					int heightLess=root.ClientSize.Height-textMessage.Bottom-CodeBase.UiGrid.PAD;
-					formUpdate.Height-=heightLess;
-					if(root!=formUpdate) {
-						root.Height-=heightLess;//the harness's client panel follows the window as FormODBase lays it out on screen
+					int heightLessUpdate=root.ClientSize.Height-textMessage.Bottom-CodeBase.UiGrid.PAD;
+					int heightRoot=root.Height;
+					formUpdate.Height-=heightLessUpdate;
+					if(root!=formUpdate && root.Height==heightRoot) {
+						root.Height-=heightLessUpdate;//the client panel, when it does not follow the window off screen
 					}
 					return root;
 				case "OpenPmsDental.FormUpdate#classic":

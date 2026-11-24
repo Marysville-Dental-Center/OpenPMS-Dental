@@ -23,4 +23,5 @@ def layout(h):
     # the window as tall as its content with no bar (AutoSize, GrowOnly: it grows by each bar the code adds; main's 262 left an empty
     # band under the log), as wide as the flow panel and its margins
     fl = h.n("flowLayoutPanel1")
+    h.set("flowLayoutPanel1", None, None, 3 + pw + 3, 9 + (yb + 23) + 3)  # AutoSize: as big as its children and their margins
     h.set(".", None, None, PAD + 3 + pw + 3 + PAD, PAD + 9 + (yb + 23) + 3 + PAD)
