@@ -58,6 +58,7 @@ namespace fyiReporting.RdlDesign
 			_QueryParameters = queryParameters;
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look and title bar
 
 			// Initialize form using the style node values
 			InitValues(sql);			

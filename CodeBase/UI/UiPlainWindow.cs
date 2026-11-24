@@ -7,6 +7,8 @@
 // the rest), on the controls the window has and on those its code adds later. The fonts are the exes' default font (Segoe UI 9, the body
 // token, set in each Main) and the menus the token renderer (UiTheme.InitWinForms, in each Main). Each plain window calls Attach once, in its
 // constructor after InitializeComponent. Only pictures change: no size, place, text, event, value or behaviour.
+// UI-PLAIN-2 (docs/port-notes/UI-PLAIN.md section 8): Attach also gives the window the program's title bar and frame (UiPlainFrame), which
+// adds the title band to the window and moves its content below it when the window loads.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
@@ -35,6 +37,8 @@ namespace CodeBase {
 			SetBackColor(form);
 			AttachTree(form);
 			Watch(form);
+			//UI-PLAIN-2: the program's title bar and frame (UiPlainFrame), from the window's handle on; its content moves below the band at Load.
+			UiPlainFrame.Attach(form);
 		}
 
 		///<summary>True when Attach was called for the window.</summary>

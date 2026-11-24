@@ -44,6 +44,7 @@ namespace fyiReporting.RdlDesign
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look and title bar
 
 			string[] items = RdlEngineConfig.GetProviders();
 

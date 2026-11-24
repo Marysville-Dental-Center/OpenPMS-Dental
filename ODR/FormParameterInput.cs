@@ -26,6 +26,7 @@ namespace ODR{
 		///<summary></summary>
 		public FormParameterInput(ref ParameterCollection parameters){
 			InitializeComponent();// Required for Windows Form Designer support
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look and title bar
 			//Lan.C("All", new System.Windows.Forms.Control[] {
 			//	butOK,
 			//	butCancel,

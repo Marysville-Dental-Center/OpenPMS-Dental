@@ -83,6 +83,7 @@ namespace fyiReporting.RdlDesign
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.MDIChild_Closing);
 
 			this.ResumeLayout(false);
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look (an MDI child keeps Windows' MDI frame)
 		}
 
         internal TabPage Tab

@@ -254,6 +254,7 @@ namespace fyiReporting.RdlDesign
 			GetStartupState();
 			BuildMenus();
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look and title bar
             
 			this.MdiChildActivate +=new EventHandler(RdlDesigner_MdiChildActivate);
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.RdlDesigner_Closing);
