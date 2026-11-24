@@ -445,8 +445,6 @@ OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	text
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	textContent	Size	384,622	384,622	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	webViewWiki	Location	678,8	678,8	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormWikiDrafts.designer.cs	OpenPmsDental.FormWikiDrafts	webViewWiki	Size	384,622	384,622	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Location	68,229	76,229	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Size	239,23	235,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	textProcCode	Size	100,20	101,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Location	290,10	291,11	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormRepeatChargeEditMulti.Designer.cs	OpenPmsDental.FormRepeatChargeEditMulti	label5	Size	333,18	346,18	by hand (layout script): on the grid
@@ -501,3 +499,4 @@ OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designe
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	groupBox1	Size	542,229	663,229	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	label1	Location	631,324	626,274	by hand (layout script): on the grid
 OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizFeatures.Designer.cs	OpenPmsDental.User_Controls.SetupWizard.UserControlSetupWizFeatures	butAdvanced	Location	845,401	840,325	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormPayPlanChargeEdit.designer.cs	OpenPmsDental.FormPayPlanChargeEdit	comboBoxClinic	Size	239,23	243,23	by hand (layout script): on the grid

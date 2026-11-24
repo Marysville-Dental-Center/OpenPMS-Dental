@@ -1,5 +1,5 @@
 """FormPayPlanChargeEdit on the grid (UI-12 slice 10, layout script on the planner's tree). The clinic picker's box ended 4 px short of the
-provider combo over it: the box (after the picker's own 35 px label) on the field column and the combo's right edge."""
+provider combo over it: the box (after the picker's own label area) on the field column and the combo's right edge."""
 import importlib.util
 import os
 
@@ -10,5 +10,5 @@ _spec.loader.exec_module(s)
 
 def layout(h):
     p = h.n("comboBoxProv")
-    x = p.nx - 35
+    x = p.nx - h.clinic_w("comboBoxClinic")
     h.set("comboBoxClinic", x, None, p.nx + p.nw - x, None)
