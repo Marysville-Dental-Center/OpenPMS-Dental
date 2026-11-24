@@ -261,10 +261,15 @@ namespace OpenPmsDental {
 			return string.Join("\r\n",listTriggerNotes??new List<string>());
 		}
 
-		///<summary>UI-12 slice 14 fix round: the trigger notes' height for their text at the label's width and font (one line at least).</summary>
+		///<summary>UI-12 slice 14 fix round: the trigger notes' height for their text: its lines at the label's width and font (as the label wraps
+		///them) and 2 px, as the grid's notes (one line at least: the check box height).</summary>
 		private int GetHeightTriggerNotes() {
-			int heightLine=labelTriggerNotes.GetPreferredSize(new Size(labelTriggerNotes.Width,0)).Height;
-			return Math.Max(LayoutManager==null ? UiGrid.CHECK_HEIGHT : LayoutManager.Scale(UiGrid.CHECK_HEIGHT),heightLine);
+			int heightText=TextRenderer.MeasureText(labelTriggerNotes.Text,labelTriggerNotes.Font,new Size(labelTriggerNotes.Width,int.MaxValue),
+				TextFormatFlags.WordBreak|TextFormatFlags.TextBoxControl).Height;
+			//BuildControls measures before InitializeLayoutManager (96 dpi: no LayoutManager yet); Learn, at the window's scale
+			int heightMin=LayoutManager==null ? UiGrid.CHECK_HEIGHT : LayoutManager.Scale(UiGrid.CHECK_HEIGHT);
+			int heightSlack=LayoutManager==null ? 2 : LayoutManager.Scale(2);
+			return Math.Max(heightMin,heightText+heightSlack);
 		}
 
 		///<summary>UI-12 slice 14 fix round: after Learn changes the notes, the label as tall as its new lines; the sections under it and the
