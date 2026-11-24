@@ -1,6 +1,7 @@
 // The source scan of UI-BRAND (docs/port-notes/UI-BRAND.md): the program is "Open PMS - Dental" ("Open PMS" for short) and no longer calls
 // itself OD or Open Dental. Every string literal of the shipped sources (C# literals, .resx strings, XAML attribute values and texts, and the
-// lines of the setup script and its pages) that names OD, Open Dental or OpenDental as a word must be listed with its reason in
+// lines of the setup script and its pages, and the help texts of OpenPmsDental\Resources\PrefInfos.xml, which the program embeds and shows
+// as the Preferences window's info pop-ups, each link of them read on its own) that names OD, Open Dental or OpenDental as a word must be listed with its reason in
 // NoHqTests\Data\brand-kept.tsv: the GPL attribution, Open Dental's own programs and services, origin notes for adopted databases, database,
 // file and preference names, vendor and protocol fields, identifiers and developer-only texts. So a new text in which the program names itself
 // OD or Open Dental fails here, and so does a kept row the source no longer has (cut the list) and a kept row without a reason.
@@ -26,6 +27,13 @@ namespace NoHqTests {
 		private static readonly Regex _regexResxData=new Regex(@"<data\s+name=""([^""]*)""([^>]*)>\s*<value>(.*?)</value>",RegexOptions.Singleline);
 		private static readonly Regex _regexXamlAttribute=new Regex(@"(\w[\w.:]*)=""([^""]*)""");
 		private static readonly Regex _regexXamlText=new Regex(@">([^<>]+)<");
+		///<summary>A help text of PrefInfos.xml: the text of a ControlText or Details element (its HTML written with XML escapes).</summary>
+		private static readonly Regex _regexPrefInfoText=new Regex(@"<(ControlText|Details)>([^<]*)</\1>");
+		///<summary>A link in a help text, up to the quote, space, tag or escape that ends it ("https:/" too, as one of the texts writes it).</summary>
+		private static readonly Regex _regexUrl=new Regex(@"https?:/+[^\s'""<>&]+");
+		///<summary>Text files outside the scanned extensions that the program embeds and shows: the preferences' help texts (Properties.Resources.PrefInfos,
+		///shown by FormPreferences in FormWebBrowserPrefs).</summary>
+		private static readonly string[] _arrayEmbeddedTextFiles=new string[] { "OpenPmsDental/Resources/PrefInfos.xml" };
 		///<summary>Top-level folders that hold no shipped program: tests, developer tools, documentation, data, third-party and build input.</summary>
 		private static readonly string[] _arrayFoldersSkipped=new string[] { "tests","UnitTests","UnitTestsCore","xCrudGenerator","DocumentationBuilder",
 			"tools","third-party","site","docs","db","Required dlls","packages","icons","branding","NoHqTests","PluginExample" };
@@ -119,6 +127,32 @@ namespace NoHqTests {
 			Assert.AreEqual(5,GetLine(GetLineStarts(source),listLiterals.Single(x => x.Value=="one OD").Key));
 		}
 
+		///<summary>The PrefInfos reader reads the ControlText and Details texts only, each link on its own and the text without its links, and the
+		///scan reads PrefInfos.xml, which the program embeds as a string resource and shows in the Preferences window.</summary>
+		[TestMethod]
+		public void PrefInfosLexer_ReadsHelpTextsAndLinksApart() {
+			string source=string.Join("\n",new string[] {
+				"<PrefInf>",
+				"  <PrefName>OpenDentalPref</PrefName>",
+				"  <ControlText>Open Dental option</ControlText>",
+				"  <Details>See &lt;a href='https://www.opendental.com/manual/a.html' target='_blank'&gt;A&lt;/a&gt; and https:/opendental.com/b.html</Details>",
+				"  <Details />",
+				"</PrefInf>",
+			});
+			List<KeyValuePair<int,string>> listLiterals=LexPrefInfos(source);
+			CollectionAssert.AreEqual(new List<string> {
+				"Open Dental option",
+				"https://www.opendental.com/manual/a.html",
+				"https:/opendental.com/b.html",
+				"See &lt;a href='' target='_blank'&gt;A&lt;/a&gt; and ",
+			},listLiterals.Select(x => x.Value).ToList(),string.Join(" | ",listLiterals.Select(x => x.Value)));
+			Assert.AreEqual(4,GetLine(GetLineStarts(source),listLiterals.Single(x => x.Value=="https:/opendental.com/b.html").Key));
+			string pathRoot=RemovedAssembliesTests.GetRepositoryRoot();
+			string resx=File.ReadAllText(Path.Combine(pathRoot,"OpenPmsDental","Properties","Resources.resx"));
+			Assert.IsTrue(resx.Contains(@"<value>..\Resources\PrefInfos.xml;System.String"),"PrefInfos.xml is no longer an embedded string resource.");
+			Assert.IsTrue(FindBrandHits(pathRoot).Any(x => x.File=="OpenPmsDental/Resources/PrefInfos.xml"),"The scan does not read PrefInfos.xml.");
+		}
+
 		///<summary>A row keeps a literal of its file when its text is the whole literal, or a part of it of at least MIN_PART_LENGTH characters.</summary>
 		private static bool IsMatch(KeptRow row,BrandHit hit) {
 			if(row.File!=hit.File) {
@@ -177,6 +211,9 @@ namespace NoHqTests {
 				else if(extension==".xaml") {
 					listLiterals=LexXaml(text);
 				}
+				else if(_arrayEmbeddedTextFiles.Contains(pathRelative)) {
+					listLiterals=LexPrefInfos(text);
+				}
 				else {
 					string[] arrayLines=text.Split('\n');
 					listLiterals=new List<KeyValuePair<int,string>>();
@@ -211,6 +248,11 @@ namespace NoHqTests {
 					continue;
 				}
 				AddFiles(pathFolder,name.Equals("installer",StringComparison.OrdinalIgnoreCase),listPaths);
+			}
+			foreach(string pathEmbedded in _arrayEmbeddedTextFiles) {
+				string path=Path.Combine(pathRoot,pathEmbedded.Replace('/',Path.DirectorySeparatorChar));
+				Assert.IsTrue(File.Exists(path),path+" is missing: the scan reads it.");
+				listPaths.Add(path);
 			}
 			listPaths.Sort(StringComparer.Ordinal);
 			return listPaths;
@@ -443,6 +485,20 @@ namespace NoHqTests {
 					continue;
 				}
 				listLiterals.Add(new KeyValuePair<int,string>(match.Index,match.Groups[1].Value+"="+match.Groups[3].Value));
+			}
+			return listLiterals;
+		}
+
+		///<summary>The help texts of PrefInfos.xml (ControlText and Details), as the file writes them (XML escapes not decoded), with the index where
+		///each starts. Each link is a literal of its own, and the text is read without its links, so that a kept link never keeps the words around it.</summary>
+		public static List<KeyValuePair<int,string>> LexPrefInfos(string text) {
+			List<KeyValuePair<int,string>> listLiterals=new List<KeyValuePair<int,string>>();
+			foreach(Match match in _regexPrefInfoText.Matches(text)) {
+				Group group=match.Groups[2];
+				foreach(Match matchUrl in _regexUrl.Matches(group.Value)) {
+					listLiterals.Add(new KeyValuePair<int,string>(group.Index+matchUrl.Index,matchUrl.Value));
+				}
+				listLiterals.Add(new KeyValuePair<int,string>(group.Index,_regexUrl.Replace(group.Value,"")));
 			}
 			return listLiterals;
 		}
