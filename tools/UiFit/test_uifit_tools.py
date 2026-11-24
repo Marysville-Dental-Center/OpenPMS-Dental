@@ -33,6 +33,17 @@ class SplitTests(unittest.TestCase):
         for name in sd.FOLDERS:
             shutil.copytree(os.path.join(src, name), os.path.join(dst, name))
         shutil.copy(os.path.join(src, "fit-fixes.tsv"), dst)
+        # The split reads a designer file whose name differs from its class (UI-12 slice 13: FormToothChartBig.designer.cs declares
+        # FormToothChartingBig) to give it its slice: copy those files, the only source files the split reads, so the copy splits as the repository.
+        simple_names = set()
+        for _, ln in sd.read_folder(os.path.join(src, "grid-windows"))[2]:
+            simple_names.add(ln.split("	")[0].split(".")[-1].split("@")[0])
+        for _, ln in sd.read_folder(os.path.join(src, "layout-snapshot"))[2]:
+            rel = ln.split("	")[0]
+            stem = os.path.basename(rel).split(".")[0]
+            if stem not in simple_names and os.path.exists(os.path.join(ROOT, rel)) and not os.path.exists(os.path.join(tmp, rel)):
+                os.makedirs(os.path.dirname(os.path.join(tmp, rel)), exist_ok=True)
+                shutil.copy(os.path.join(ROOT, rel), os.path.join(tmp, rel))
         return tmp, dst
 
     def folder_texts(self, data):
