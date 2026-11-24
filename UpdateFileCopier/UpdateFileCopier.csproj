@@ -208,5 +208,12 @@
     <Compile Include="..\CodeBase\UI\UiPlainWindow.cs">
       <Link>CodeBase\UI\UiPlainWindow.cs</Link>
     </Compile>
+    <!-- UI-PLAIN-2: the title bar and frame of the program's windows (UiPlainWindow.Attach turns it on). -->
+    <Compile Include="..\CodeBase\UI\UiFramePainter.cs">
+      <Link>CodeBase\UI\UiFramePainter.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeBase\UI\UiPlainFrame.cs">
+      <Link>CodeBase\UI\UiPlainFrame.cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>

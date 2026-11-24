@@ -55,6 +55,7 @@ namespace fyiReporting.RdlDesign
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+			CodeBase.UiPlainWindow.Attach(this);//UI-PLAIN-2: the program's look and title bar
 
 #if DEBUG
 			tbLicense.Text = @"RDL Designer creates reports defined using the Report Definition Language Specification.

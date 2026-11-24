@@ -170,3 +170,142 @@ passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in 
 `PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-after3-100.txt`, `after3-150`,
 `before3-100`): UiRefreshTests 302 passed each. `tools/Test-NoEolFlips.ps1 -Base 2268b57b0`: 0 flips. `element_inventory.py --check`:
 matches.
+
+## 8. UI-PLAIN-2: the report designer and ODR, and the program's title bar on every plain window (branch `ui/uiplain2-1`)
+
+Why: the owner reviewed slice 13's gallery on 2026-11-23 and marked all 21 report designer and ODR pictures "Change: old style"
+(UI-12-owner-review-13.tsv); on the UI-PLAIN gallery: "window title is the old style. Not matching the rest". Branch point 857b85266.
+
+**The report designer and ODR.** RdlDesign references no CodeBase: it links the shared looks, their painters, UiPlainWindow and the
+frame as files (`ReportDesigner.csproj`, as UpdateFileCopier does; no new project reference). Each of its windows and dialogs (DialogAbout
+to SingleCtlDialog, FindTab's two constructors, PropertyDialog with one line, RdlDesigner's main window) calls
+`CodeBase.UiPlainWindow.Attach(this)` right after InitializeComponent, MDIChild after its own layout code; the property pages
+(ChartAxisCtl, InteractivityCtl, PositionCtl, ReportCtl, ReportParameterCtl, StyleCtl, StyleBorderCtl, StyleTextCtl and the rest) get the
+look from the dialog that hosts them, also when it adds them later (ControlAdded). ODR references CodeBase: FormParameterInput calls
+Attach; ComboBoxMulti draws the program's combo box frame (UiListPaint: the parent's colour in the corners, StrokeStrong, the Accent focus
+line) instead of its blue line, and its list in the program's colours (AccentSubtle with TextSelected, SurfaceRaised with Text). No
+licence header, event, value, tab order or dialog result changes.
+
+**The title bar and frame.** FormODBase's frame drawing (FramePaintArgs, FrameColors, FramePaintResult, FrameTitleFonts, EnumFrameLook, the
+painter, the DWM corners) moved from WpfControlsOD's FramePainter to `CodeBase/UI/UiFramePainter.cs` (namespace CodeBase). FramePainter
+keeps the office's Misc Colors (DefCatMiscColors is the business layer's) and forwards everything else under the names FormODBase,
+FormFrame and the tests call; their pixels are unchanged (FrameTests green; PlainFrameTests compares the two painters pixel for pixel).
+`CodeBase.UiPlainFrame` puts that frame on a plain window; `UiPlainWindow.Attach` turns it on:
+- like FormODBase the window keeps its Windows styles (taskbar entry and icon, system menu, Alt+Space, modal dialogs, a dialog's fixed
+  border) and WM_NCCALCSIZE gives the client area the whole window less the invisible resize borders left, right and below
+  (`UiFramePainter.GetWidthBorderMS`: 8 px at 100%, 11 at 150%); a maximized window also less that border on top, so its band starts at the
+  screen's top row. When the handle is made the window gets the size that keeps the designer's client area; Windows 11's rounded corners
+  and border colour are asked for as FormODBase asks them;
+- FormODBase moves its controls into a PanelClient; a plain window keeps its controls and moves its content once, at Load (after Windows
+  Forms' scaling and the window's own Load code): the band (26 px at 96 dpi) is added to the window's height (on a maximized window to the
+  size it restores to) and to its Padding (the docked controls: menus, tool and status strips, the MDI area), and every other control on
+  the window moves as its anchors say (`GetShiftedBounds`); a centred window moves up by half the band. A control the code adds later
+  moves down too, one it takes off moves back;
+- the band is painted on the window's surface (its Paint event) by UiFramePainter with FormODBase's numbers: the band 26 px, the space
+  right of the close button 15 px, the 8.25 pt title in the title font token, the icon, the Fluent caption glyphs, the token colours (a plain
+  window has no office Misc Colors). The icon is the window's own where Windows showed one (none on a dialog frame or tool window);
+- WM_NCHITTEST: the band is HTCAPTION (Windows drags, snaps, maximizes on a double-click, shows the system menu on a right-click), its top
+  5 px and left 5 px and corner the resize edges on a resizable window that is not maximized (FormODBase's PanelBorders_MouseDown), the
+  caption buttons HTCLOSE, HTMAXBUTTON (Windows 11's snap layouts) and HTMINBUTTON at the painter's hit areas; Windows answers for the
+  invisible borders. A click on a caption button (button down and up on the same one) sends the system command Windows' own button sends
+  (SC_CLOSE, SC_MINIMIZE, SC_MAXIMIZE or SC_RESTORE); the hover follows WM_NCMOUSEMOVE and WM_NCMOUSELEAVE. The band repaints when the
+  code changes the window's text;
+- a per-monitor dpi change (WM_DPICHANGED): the content goes back up, Windows Forms scales the window, then the content moves down by the
+  new band;
+- not for an MDI child (Windows' MDI frame), a window without a border (FormProgressStatus), a window inside another, every window when
+  NoCustomBorders.txt is next to the exe (FormODBase's switch), nor while the gallery draws its before pictures. High contrast: the frame
+  in the high-contrast tokens, as FormODBase draws it (FormODBase keeps no Windows frame there).
+
+**Seen, for the lead**
+- Code that sets a window's ClientSize after its handle exists gets a client area a caption taller than asked (Windows Forms computes the
+  window from Windows' standard frame); none of the plain windows does (FormDbSettings and FormSecretPrompt set it in their constructors).
+- Code that places a control on the window itself, in the window's coordinates, after Load would place it under the band; none found.
+- Windows draws a plain window's title at the system dpi, as FormODBase's: on a 150% screen beside a 100% primary the title text is small
+  in both.
+- The harness builds RdlDesigner's main window from InitializeComponent only (its menus and toolbar are made in code before it).
+- The frame was checked through its messages on hidden windows and in pictures; dragging, snapping and the system menu are Windows' own
+  (HTCAPTION) and were not driven on screen (no window is shown in this package). The owner's launch check should try a plain window.
+
+**Tests** (UiRefreshTests): `PlainLookTests` (the constructor check covers RdlDesigner and ODR;
+`PlainWindows_Slice13_ReportDesignerAndOdr_DrawTheNewLook`: the 14 report designer and ODR windows of `grid-windows/13.tsv` checked like the
+plain exes', with the designer's own copy of the looks, `Scan/PlainLookCopy.cs`); `PlainFrameTests` on real window handles that are never
+shown: the client area over the band and the content below it (docked, top, all-sides and bottom anchored controls, a control added and
+taken off later), WM_NCHITTEST of the caption, top and left edges and corner, the three buttons, the client area and Windows' borders, a
+fixed dialog without maximize and minimize, the close button's click raising FormClosing, the caption text painted and repainted, the
+maximized client area and the 150% sizes, FormODBase's pixels, the windows that keep Windows' frame, a report designer dialog's frame.
+`WindowBuilder` attaches a library's own copy to the test host of its user controls. NoHqTests: coverage rows for the two new files.
+
+**Gallery** G-UI3-uiplain2 (`.git/od-tools/test-results/G-UI3-uiplain2`, `.zip`): 149 pictures. `1-slice-windows`: slice 13's 21 pictures
+(the same states), a window with its title bar; `2-at-150`: the 6 densest at 150%; `3-title-bars` and `4-title-bars-150`: the 61 plain
+windows whole at 100% and 150%. Before: this branch with the looks off, whose 21 slice pictures are byte for byte slice 13's `main`
+pictures; the title-bar before pictures are Windows' frame as Windows prints it in the 96 dpi test process. Commands:
+`G-UI3-uiplain2-src/work/ugal2.ps1 -Name after-100 -Scale 1` (`-LooksOff` for the before; `-Scale 1.5`), then New-UiGallery as in section
+6. Every picture opened: [UI-PLAIN-2-audit.md](UI-PLAIN-2-audit.md) (pass 1: four findings, fixed; pass 2: none).
+
+**Results** (`uiplain2-final.txt`; the whole filter `OpenDental.Local.slnf` built x64 through the lane: 0 errors): `UiRefreshTests` 311
+passed, 49 skipped (opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped);
+`PrintGuardTests` 19 passed (1 skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-*.txt`): UiRefreshTests 312 passed each.
+`tools/Test-NoEolFlips.ps1 -Base 857b85266`: 0 flips. `element_inventory.py --check`: matches.
+
+## 9. UI-PLAIN-2 fix round (branch `ui/uiplain2-2`, the review of `ui/uiplain2-1`)
+
+Three findings, all real, fixed:
+1. **The frame at Load.** The frame took the window when its handle was made. The report designer's dialogs (all but PropertyDialog and
+   SingleCtlDialog) and ODR's FormParameterInput keep Windows Forms' old AutoScale (their designer code sets only AutoScaleBaseSize):
+   Form.OnLoad scales them (ApplyAutoScaling, about 1.3 under Segoe UI 9) and sets ClientSize, which Windows Forms turns into a window size
+   with Windows' standard caption and borders (SizeFromClientSize); with the frame already on (8 px of border below, none on top) the client
+   area came out about 31 px taller at 100%, before the band was added. `UiPlainFrame` now turns on at Load (its Load handler runs after
+   Form.OnLoad's scaling and after the window's own designer-subscribed Load handlers, before the window shows): it reads the client area,
+   hooks the handle (SWP_FRAMECHANGED), sets the window's size so that client area is kept within its borders (a centred window keeps its
+   centre), then adds the band. A handle made again after Load is hooked at once and keeps its size. `PlainFrameTests`
+   (`Frame_LegacyAutoScale_ClientAreaIsTheScaledDesignAndTheBand`): a window with only AutoScaleBaseSize(5,13) under Segoe UI 9, sizable
+   and a fixed dialog, through Form.OnLoad by reflection: its client area is the scaled design (as the same window without the frame gets
+   it) plus 26, its bottom-anchored button at its scaled distance.
+2. **The band's icon.** The band showed the window's own icon where Windows showed one: Windows Forms' default icon (two windows) on many
+   plain windows, the tooth on some, nothing on dialogs. It now shows what FormODBase shows (ShowIcon as the window has it, whatever its
+   border): the window's own icon on a normal frame, else the program icon (`UiPlainFrame.IconProgram`: branding/app.ico, which CodeBase now
+   embeds as `CodeBase.Branding.app.ico`; in a linked copy (RdlDesign, UpdateFileCopier) the exe's own icon, the program's in
+   OpenPmsDental.exe), never the default icon. Only the band's picture changes; the window's Icon (taskbar, Alt+Tab) stays. The gallery
+   harness, whose exe is the test host, gives the copies the program icon (`IconProgramForTest`). `Frame_Icon_TheProgramIconNeverTheDefault`.
+3. **The report designer's main window.** The gallery builds RdlDesigner by its constructor (`new RdlDesigner(false)`: menus, toolbar,
+   tab strip, status strip, MDI area; `WindowBuilder` and `PlainLookTests` too) and draws it with one new report open (`RdlDesigner#report`:
+   CreateMDIChild with a synthetic RDL, activated as Windows activates it on screen). What still showed the old look, fixed:
+   - the MDI area: Windows' AppWorkspace grey with a sunken 3D edge: the background token, flat (`UiPlainWindow`: WS_EX_CLIENTEDGE taken off
+     at every handle);
+   - the maximized report's minimize, restore and close buttons, which Windows Forms merges into the menu bar as classic caption button
+     pictures: the title bar's Fluent glyphs (`UiToolStripRenderer.OnRenderItemImage`, by the system command each sends);
+   - the Designer, RDL Text and Preview tabs along the report's bottom (Windows' classic tabs): `UiTabLook` draws bottom tabs too, mirrored;
+   - the toolbar's buttons (`SimpleButton`, `SimpleToggle`): LightGray tiles when disabled, a blue rectangle on hover, Azure when checked:
+     the toolbar's colour, SubtleHover, SubtlePressed, checked in AccentSubtle with the Accent border (the token renderer's tool buttons), a
+     disabled picture faded; their BackColor values, events and behaviour unchanged;
+   - the status panels' 3D borders (BorderSides): a flat Stroke line (`UiToolStripRenderer`; no other status label in the repository has one).
+   The gallery now draws the plain windows' menus and strips with the token renderer, as their Main sets it (the stock renderer in the
+   before pictures). Tests: `Frame_ReportDesignerMainWindow_MdiAreaAndMergedButtons` (the MDI area's colour and edge, the three merged
+   buttons and their glyphs), `PlainWindows_BuiltByTheirConstructor_DrawTheNewLook` (RdlDesigner by its constructor, its MDI area),
+   `TabLook_TheProgramsTabs` (bottom tabs).
+
+Harness: a maximized MDI child is drawn as the screen shows it (its client area over the MDI area; Windows places its frame outside it);
+the gallery makes every handle and lays the window out as its Load does before it opens the report; each failure's whole exception goes to
+`gallery-failed-detail.txt`.
+
+**Seen, for the lead**
+- A plain window whose constructor subscribes Load after Attach, or that overrides OnLoad and sets ClientSize after base.OnLoad, would set
+  it with the frame on (a client area a caption taller); none found.
+- The merged MDI system menu shows the report window's own icon (MDIChild.resx, the report designer's icon, kept by BrandingTests).
+- In the program the report designer's dialogs open at their AutoScale size (about 1.3 times the designer's under Segoe UI 9); the gallery
+  draws them at the designer's size at 100%, as slice 13 did (it runs no OnLoad).
+- The print preview area of FormPrintImage and FormPrintSettings (the graph's print windows) is the stock PrintPreviewControl's
+  AppWorkspace grey, as before; not part of this round.
+- At 150% the gallery scales the report designer's window but not its 16 px toolbar pictures or the merged report buttons (the harness is
+  a 96 dpi process); the band between the report's tabs and the status strip in `RdlDesigner-report` is the MDI area below the report window
+  as the harness sizes the never-shown window.
+
+**Gallery** G-UI3-uiplain2 drawn again (`.git/od-tools/test-results/G-UI3-uiplain2`, `.zip`): 151 pictures, the 149 and
+`RdlDesigner-report` at 100% and 150%; before: this branch with the looks off. Commands: `G-UI3-uiplain2-src/work/ugal3.ps1 -Name
+after-100 -Scale 1` (`-LooksOff`, `-Scale 1.5`), the pictures sorted into `gal-before` and `gal-after`, then New-UiGallery. Audit:
+[UI-PLAIN-2-audit.md](UI-PLAIN-2-audit.md), section "Fix round" (pass 1: the findings above; pass 2: none).
+
+**Results** (`uiplain2-2-final.txt`; the whole filter built x64 through the lane: 0 errors): `UiRefreshTests` 314 passed, 49 skipped
+(opt-in), 0 failed; `WindowChecksTests` 30 passed (44 opt-in skipped); `UnitTests` 1728 passed (3 skipped); `PrintGuardTests` 19 passed (1
+skipped); `NoHqTests` 127 passed. The gallery runs (`work/tests-*.txt`): UiRefreshTests 315 passed each. `tools/Test-NoEolFlips.ps1 -Base
+857b85266`: 0 flips. `element_inventory.py --check`: matches.

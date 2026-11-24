@@ -328,6 +328,21 @@ namespace UiRefreshTests {
 				if(control is System.Windows.Forms.TabControl tabControl && child!=tabControl.SelectedTab) {
 					continue;
 				}
+				if(child is Form formMdiChild && formMdiChild.IsMdiChild && formMdiChild.WindowState==FormWindowState.Maximized) {
+					//UI-PLAIN-2 fix round: a maximized MDI child (the report designer's tabbed reports) as the screen shows it: its client area over the
+					//whole MDI area, its frame outside it (Windows places the frame past the MDI area's edges, which the screen clips).
+					Point pointChildClient=new Point(pointOffset.X+pointClient.X,pointOffset.Y+pointClient.Y);
+					using(SolidBrush brush=new SolidBrush(formMdiChild.BackColor)) {
+						g.FillRectangle(brush,new Rectangle(pointChildClient,formMdiChild.ClientSize));
+					}
+					for(int j=formMdiChild.Controls.Count-1;j>=0;j--) {
+						Control grandChild=formMdiChild.Controls[j];
+						if(TextFitBoundsRecord.IsDesignedVisible(grandChild)) {
+							DrawTree(g,grandChild,new Point(pointChildClient.X+grandChild.Left,pointChildClient.Y+grandChild.Top));
+						}
+					}
+					continue;
+				}
 				DrawTree(g,child,new Point(pointOffset.X+pointClient.X+child.Left,pointOffset.Y+pointClient.Y+child.Top));
 			}
 			g.Restore(graphicsState);

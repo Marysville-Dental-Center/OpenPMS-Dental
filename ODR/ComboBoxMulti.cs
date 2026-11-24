@@ -25,6 +25,9 @@ namespace ODR
 			InitializeComponent();
 			selectedIndices=new ArrayList();
 			items=new ArrayList();
+			//UI-PLAIN-2: the frame's focus line follows the text's focus (ComboBoxMulti_Paint).
+			textMain.GotFocus+=(sender,e) => Invalidate();
+			textMain.LostFocus+=(sender,e) => Invalidate();
 		}
 
 		/// <summary> 
@@ -133,8 +136,19 @@ namespace ODR
 		}
 		
 		private void ComboBoxMulti_Paint(object sender, System.Windows.Forms.PaintEventArgs e) {
-			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(127,157,185))//blue
-				,0,0,Width-1,Height-1);
+			//UI-PLAIN-2: the program's combo box frame (UiListPaint, as UiInputFrame frames the stock combo box) instead of the old blue line: the
+			//parent's colour in the corners, the box in the control's colour with the StrokeStrong outline, the Accent focus line while the text has
+			//focus. The chevron is the drop button's picture, as before.
+			float scale=CodeBase.UiLooks.GetScale(this);
+			Rectangle rectangle=new Rectangle(0,0,Width,Height);
+			Color colorParent=Parent==null || Parent.BackColor.A<255 ? CodeBase.UiTheme.Surface : Parent.BackColor;
+			using(SolidBrush brushParent=new SolidBrush(colorParent)) {
+				e.Graphics.FillRectangle(brushParent,rectangle);
+			}
+			CodeBase.UiListPaint.DrawComboBoxBox(e.Graphics,rectangle,false,Enabled,scale,BackColor);
+			if(ContainsFocus && Enabled) {
+				CodeBase.UiListPaint.DrawComboFocusLine(e.Graphics,rectangle,scale);
+			}
 		}
 
 		private void dropButton_Click(object sender, System.EventArgs e) {
@@ -213,14 +227,17 @@ namespace ODR
 			ToolStripItem toolStripItem=(ToolStripItem)sender;
 			int index=toolStripItem.Owner.Items.IndexOf(toolStripItem);
 			string myCaption=items[index].ToString();
-			Brush brushBack;
-			if(selectedIndices.Contains(index))
-				brushBack=SystemBrushes.Highlight;
-			else
-				brushBack=SystemBrushes.Window;
+			//UI-PLAIN-2: the program's list colours: a selected item in the selection fill (AccentSubtle) with TextSelected, the others on
+			//SurfaceRaised with Text (were the system highlight and window colours with black).
+			bool isSelected=selectedIndices.Contains(index);
+			Color colorBack=CodeBase.UiTheme.GetColor(isSelected ? CodeBase.EnumUiColor.AccentSubtle : CodeBase.EnumUiColor.SurfaceRaised);
+			Color colorText=CodeBase.UiTheme.GetColor(isSelected ? CodeBase.EnumUiColor.TextSelected : CodeBase.EnumUiColor.Text);
 			Rectangle bounds=new Rectangle(Point.Empty,toolStripItem.Size);
-			e.Graphics.FillRectangle(brushBack,bounds);
-			e.Graphics.DrawString(myCaption,toolStripItem.Font,Brushes.Black,bounds.X,bounds.Y);
+			using(SolidBrush brushBack=new SolidBrush(colorBack))
+			using(SolidBrush brushText=new SolidBrush(colorText)) {
+				e.Graphics.FillRectangle(brushBack,bounds);
+				e.Graphics.DrawString(myCaption,toolStripItem.Font,brushText,bounds.X,bounds.Y);
+			}
 		}
 
 		private void FillText(){

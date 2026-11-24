@@ -57,10 +57,22 @@ namespace fyiReporting.RdlDesign
 
 			try			// never want to die in here
 			{
-				b = new SolidBrush(this.Enabled? this.BackColor: Color.LightGray);
+				// UI-PLAIN-2 fix round: the program's tool button (UiToolStripRenderer's): the toolbar's colour at rest and when disabled (was
+				// LightGray), SubtleHover under the mouse and SubtlePressed while pressed with 4 px corners (was a blue rectangle), a disabled
+				// picture faded. The gallery's before pictures (CodeBase.UiLooks.IsOffForGallery) draw as before.
+				bool isOldLook = CodeBase.UiLooks.IsOffForGallery;
+				b = new SolidBrush(this.Enabled || !isOldLook ? this.BackColor: Color.LightGray);
 				g.FillRectangle(b, e.ClipRectangle);
-				if (bIn && this.Enabled)
+				if (bIn && this.Enabled && isOldLook)
 					g.DrawRectangle(Pens.Blue, 0, 0, this.Width-1, this.Height-1);
+				else if (bIn && this.Enabled)
+				{
+					float scale = this.DeviceDpi / 96f;
+					int inset = CodeBase.UiTheme.ScaleI(1, scale);
+					Rectangle rectShape = new Rectangle(inset, inset, this.Width - 2 * inset, this.Height - 2 * inset);
+					CodeBase.UiControlPaint.Fill(g, bDown ? CodeBase.EnumUiColor.SubtlePressed : CodeBase.EnumUiColor.SubtleHover, rectShape,
+						CodeBase.UiTheme.CORNER_CONTROL, scale);
+				}
 
 				if (this.Image != null)
 				{
@@ -76,6 +88,12 @@ namespace fyiReporting.RdlDesign
 					ImageAttributes imageAttr = new ImageAttributes();
 					imageAttr.SetColorKey(_Transparency, _Transparency,
 						ColorAdjustType.Default);
+					if (!this.Enabled && !isOldLook)
+					{
+						ColorMatrix colorMatrix = new ColorMatrix();
+						colorMatrix.Matrix33 = 0.35f;
+						imageAttr.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Default);
+					}
 
 					g.DrawImage(this.Image,         // Image
 						new Rectangle(x, y, this.Image.Width, this.Image.Height),    // Dest. rect.
@@ -89,7 +107,7 @@ namespace fyiReporting.RdlDesign
 				else
 				{
 					StringFormat format = new StringFormat(StringFormatFlags.NoWrap);
-					g.DrawString(this.Text, this.Font, Brushes.Black, new Rectangle(2, 2, this.Width, this.Height), format);
+					g.DrawString(this.Text, this.Font, this.Enabled || isOldLook ? Brushes.Black : Brushes.Gray, new Rectangle(2, 2, this.Width, this.Height), format);
 				}
 			}
 			catch {}	// todo draw the error message

@@ -29,6 +29,11 @@ namespace UiRefreshTests {
 		public const string VARIABLE_OWNER="OPMS_UI_FIT_GALLERY_OWNER";
 		public const string VARIABLE_FONT="OPMS_UI_FIT_GALLERY_FONT";
 		public const string VARIABLE_SCALE="OPMS_UI_FIT_GALLERY_SCALE";
+		///<summary>UI-PLAIN-2: OPMS_UI_FIT_GALLERY_FRAME=1 draws each plain window whole, with its title bar (PlainLookCopy.CaptureWindow: the
+		///program's frame when the window has it, else Windows' frame as Windows prints it), named <window>-frame; so does the state "frame"
+		///(<window>#frame) for one window. In the window list, "@plainframes" stands for every plain window of PlainLookTests.ArrayPlainAssemblies
+		///with the state "frame".</summary>
+		public const string VARIABLE_FRAME="OPMS_UI_FIT_GALLERY_FRAME";
 
 		///<summary>Slice 1 (UI-10-1): FormPatientEdit, FormProvEdit, FormClaimEdit, FormProcEdit, ControlAccount and the preference pages.</summary>
 		public static readonly string[] ArraySlice1Windows=new string[] {
@@ -68,6 +73,7 @@ namespace UiRefreshTests {
 			//UI-13 fix round: OPMS_UI_FIT_GALLERY_VISUAL_STYLES=1 draws the windows with Windows' visual styles (comctl32 version 6, as the program
 			//runs; VisualStylesScope), for the windows that show a native type the looks leave to Windows (tree and list views, month calendars).
 			bool isVisualStyles=Environment.GetEnvironmentVariable("OPMS_UI_FIT_GALLERY_VISUAL_STYLES")=="1";
+			bool isFrame=Environment.GetEnvironmentVariable(VARIABLE_FRAME)=="1";
 			//UI-12 slice 1: OPMS_UI_FIT_GALLERY_SCALE (for example 1.5) draws the windows at that scale, as the style pictures do (LayoutManager's
 			//scale, the date pickers' and up-down boxes' fonts as Windows scales them); the pictures are named <window>-<percent>.png.
 			float scale=1f;
@@ -86,6 +92,14 @@ namespace UiRefreshTests {
 				DesignSheetWindows.IsPrintingWithoutChildren=true;
 				DesignSheetWindows.PaintDpiScale=scale;//the insurance summaries' text at the scale's dpi (DesignSheetWindows.PaintDpiScale)
 				List<ScanType> listScanTypes=WindowBuilder.GetScanTypes();
+				if(arrayWindows.Contains("@plainframes")) {
+					List<string> listExpanded=arrayWindows.Where(x => x!="@plainframes").ToList();
+					listExpanded.AddRange(listScanTypes.Where(x => x.Kind==BuildKind.PlainWindow && PlainLookTests.ArrayPlainAssemblies.Contains(x.Assembly)
+						&& !PlainLookTests.ArrayNotWindows.Contains(x.Type.FullName)
+						&& x.Type.FullName!="fyiReporting.RdlDesign.MDIChild")//only ever an MDI child: Windows' MDI frame, not the program's
+						.Select(x => x.WindowKey+"#frame"));
+					arrayWindows=listExpanded.ToArray();
+				}
 				foreach(string windowAndState in arrayWindows) {
 					//UI-12 slice 2 fix round: "<window>#<state>" draws the window in one of the states of FillSampleState, named <window>-<state>.
 					string window=windowAndState;
@@ -95,13 +109,27 @@ namespace UiRefreshTests {
 						window=windowAndState.Substring(0,indexHash);
 						state=windowAndState.Substring(indexHash+1);
 					}
+					bool isFrameHere=isFrame;
+					if(state=="frame") {
+						isFrameHere=true;
+						state="";
+					}
 					ScanType scanType=listScanTypes.FirstOrDefault(x => x.WindowKey==window);
 					if(scanType==null) {
 						listFailed.Add(window+": not a scanned type");
 						continue;
 					}
 					SetGalleryFont(font);
+					//UI-PLAIN-2 fix round: a plain exe's menus and tool strips as its Main has them, the token renderer (UiTheme.InitWinForms) in the
+					//after pictures, the stock renderer in the before pictures.
+					ToolStripRenderer toolStripRendererBefore=ToolStripManager.Renderer;
+					if(!isLooksOff && scanType.Kind==BuildKind.PlainWindow) {
+						ToolStripManager.Renderer=new CodeBase.UiToolStripRenderer();
+					}
 					try {
+						//UI-PLAIN-2: the plain windows' frame at the gallery's scale (the harness is a 96 dpi process).
+						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,scale);
+						PlainLookCopy.SetLooksOffForGallery(scanType.Type.Assembly,isLooksOff);//the copy a window's constructor attaches
 						FillSampleCache(window,state);
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							Control root=builtWindow.Root;
@@ -127,7 +155,13 @@ namespace UiRefreshTests {
 							HideDatePickerCalendars(root);
 							FillSampleContent(root,window,state);
 							List<string[]> listOwnerHere=controlPicture==root ? listOwner.Where(x => x[1]==window).ToList() : new List<string[]>();
-							using(Bitmap bitmap=DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
+							//UI-PLAIN-2: a plain window with the program's frame is drawn whole, its title bar on top, in every picture of it (its
+							//content is below the band); the before pictures (the looks off: no frame) keep the window's printing, unless "frame" asks
+							//for the whole window with Windows' frame.
+							bool isWindowPicture=builtWindow.ScanType.Kind==BuildKind.PlainWindow && controlPicture==root;
+							bool isFramePicture=isWindowPicture && (isFrameHere
+								|| PlainLookCopy.IsTrue(builtWindow.Form.GetType().Assembly,"UiPlainFrame","IsAttached",builtWindow.Form));
+							using(Bitmap bitmap=isFramePicture ? PlainLookCopy.CaptureWindow(builtWindow.Form) : DesignSheetWindows.Capture(controlPicture,Rectangle.Empty)) {
 								string name=window.Substring(window.LastIndexOf('.')+1);
 								//UI-12 slice 12: two windows of one class name in the list (xCrudGenerator's and DocumentationBuilder's Form1) are named
 								//<namespace>-<class>, so one picture does not overwrite the other.
@@ -136,6 +170,9 @@ namespace UiRefreshTests {
 								}
 								if(state!="") {
 									name+="-"+state;
+								}
+								if(isFrameHere && isWindowPicture) {
+									name+="-frame";
 								}
 								if(scale!=1f) {
 									name+="-"+(int)Math.Round(scale*100);
@@ -167,9 +204,14 @@ namespace UiRefreshTests {
 					}
 					catch(Exception exception) {
 						listFailed.Add(window+": "+TierOneScan.Describe(exception));
+						//UI-PLAIN-2 fix round: the whole exception next to the list, for the failures one frame does not explain.
+						File.AppendAllText(Path.Combine(folder,"gallery-failed-detail.txt"),windowAndState+Environment.NewLine+exception+Environment.NewLine+Environment.NewLine);
 					}
 					finally {
 						ClearSampleCache(window,state);
+						PlainLookCopy.SetFrameScaleForTest(scanType.Type.Assembly,0);
+						PlainLookCopy.SetLooksOffForGallery(scanType.Type.Assembly,false);
+						ToolStripManager.Renderer=toolStripRendererBefore;
 						UiTheme.SetFontForTest(null);
 						DefaultFontOverride.Set(TextFitFontOption.Today,1f);
 					}
@@ -181,6 +223,66 @@ namespace UiRefreshTests {
 			WindowBuilder.IsBuildingByConstructor=false;
 			File.WriteAllLines(Path.Combine(folder,"gallery-failed.txt"),listFailed);
 			Assert.IsTrue(countPictures>0,"No picture made: "+string.Join("; ",listFailed));
+		}
+
+		///<summary>UI-PLAIN-2 fix round: a new report of synthetic content, as the report designer's File, New Report opens the wizard's RDL.</summary>
+		private const string SAMPLE_REPORT_RDL=@"<?xml version='1.0' encoding='UTF-8'?>
+<Report xmlns='http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition' xmlns:rd='http://schemas.microsoft.com/SQLServer/reporting/reportdesigner'>
+	<Description>Sample</Description>
+	<Width>7.5in</Width>
+	<TopMargin>.25in</TopMargin>
+	<LeftMargin>.25in</LeftMargin>
+	<RightMargin>.25in</RightMargin>
+	<BottomMargin>.25in</BottomMargin>
+	<PageHeader>
+		<Height>.5in</Height>
+		<ReportItems>
+			<Textbox Name='Title'><Top>.1in</Top><Left>.1in</Left><Width>4in</Width><Height>.3in</Height><Value>Sample Report</Value><Style><FontSize>15pt</FontSize><FontWeight>Bold</FontWeight></Style></Textbox>
+		</ReportItems>
+		<PrintOnFirstPage>true</PrintOnFirstPage>
+		<PrintOnLastPage>true</PrintOnLastPage>
+	</PageHeader>
+	<Body>
+		<Height>1.5in</Height>
+		<ReportItems>
+			<Textbox Name='Note'><Top>.2in</Top><Left>.1in</Left><Width>3in</Width><Height>.25in</Height><Value>Synthetic text</Value></Textbox>
+		</ReportItems>
+	</Body>
+	<PageFooter>
+		<Height>.3in</Height>
+		<PrintOnFirstPage>true</PrintOnFirstPage>
+		<PrintOnLastPage>true</PrintOnLastPage>
+	</PageFooter>
+</Report>";
+
+		///<summary>UI-PLAIN-2 fix round, RdlDesigner "report": one new report open, as File, New Report opens it (RdlDesigner.CreateMDIChild with the
+		///RDL): a maximized MDI child (the tabbed interface), its tab in the toolbar's tab strip, its buttons merged into the menu bar. The RDL is
+		///first tried on a child of its own, because CreateMDIChild shows a message box on an error.</summary>
+		internal static void OpenSampleReport(Form form) {
+			Type typeChild=form.GetType().Assembly.GetType("fyiReporting.RdlDesign.MDIChild",throwOnError:true);
+			using(Form formTry=(Form)Activator.CreateInstance(typeChild,new object[] { 400,300 })) {
+				typeChild.GetProperty("SourceRdl").SetValue(formTry,SAMPLE_REPORT_RDL);
+			}
+			//The handles of the window and its controls, the MDI area's among them, which the child is made in (Show makes them all on screen;
+			//the window's handle alone leaves the MDI area without one, and the child's handle then fails when it is activated).
+			DesignSheetWindows.CreateHandles(form);
+			//The window has loaded (its frame on, its content below the band) before a report is opened, as on screen.
+			if(PlainLookCopy.IsTrue(form.GetType().Assembly,"UiPlainFrame","IsAttached",form)) {
+				PlainLookCopy.Call(form.GetType().Assembly,"UiPlainFrame","LayOutAsOnLoad",form);
+			}
+			System.Reflection.MethodInfo methodInfo=form.GetType().GetMethod("CreateMDIChild",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+			object mdiChild=methodInfo.Invoke(form,new object[] { null,SAMPLE_REPORT_RDL,false });
+			if(mdiChild==null) {
+				throw new InvalidOperationException("RdlDesigner.CreateMDIChild opened no report.");
+			}
+			//A hidden MDI window activates no child (Windows does on screen): activated as Windows Forms does it on WM_MDIACTIVATE, which merges
+			//the maximized child's caption buttons into the menu bar and raises MdiChildActivate (the designer's toolbar follows the report).
+			if(form.ActiveMdiChild==null) {
+				System.Reflection.MethodInfo methodInfoActivate=typeof(Form).GetMethod("ActivateMdiChild",
+					System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic,null,new Type[] { typeof(Form) },null);
+				methodInfoActivate.Invoke(form,new object[] { mdiChild });
+			}
+			Application.DoEvents();
 		}
 
 		///<summary>UI-12 slice 13 fix round: whether a plain Form scales itself to the screen's dpi as a whole: the old Form.AutoScale (on for a
@@ -477,6 +579,10 @@ namespace UiRefreshTests {
 		///page), and FormCertifications "certcomplete": its Cert Complete view as radioCertification_Click shows it.</para></summary>
 		public static Control FillSampleState(Control root,string window,string state) {
 			if(state=="") {
+				return root;
+			}
+			if(window=="fyiReporting.RdlDesign.RdlDesigner" && state=="report") {
+				OpenSampleReport((Form)root);
 				return root;
 			}
 			if(window=="OpenPmsDental.ControlAccount" && state=="summary") {

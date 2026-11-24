@@ -4,7 +4,8 @@
 // the 2 px Accent line (UiTabPaint), a tab's ImageList image where Windows puts it (the dashboard's add tab and delete X). Painted over Windows' picture after each WM_PAINT and into WM_PRINT, at the tab rectangles Windows
 // reports (TabControl.GetTabRect), so a click selects the tab drawn there; Windows keeps the selection, the keys, the events and the pages. The
 // pages (stock TabPage) show the colour behind the tab control, as the program's pages do. Only the top strip with normal tabs (the only kind
-// the plain windows use): bottom, side and button tabs and owner-drawn tab controls keep Windows' drawing.
+// the plain windows use): bottom, side and button tabs and owner-drawn tab controls keep Windows' drawing. UI-PLAIN-2 fix round: the bottom
+// strip too (the report designer's Designer, RDL Text and Preview tabs), mirrored: the page above, the Accent line along the tab's top.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
@@ -46,13 +47,15 @@ namespace CodeBase {
 		}
 
 		#region Methods - Public
-		///<summary>True for a stock tab control drawn by Windows with normal tabs along its top, that its owner does not draw.</summary>
+		///<summary>True for a stock tab control drawn by Windows with normal tabs along its top or bottom, that its owner does not draw.</summary>
 		public static bool IsDrawn(Control control) {
 			if(control==null || control.GetType()!=typeof(System.Windows.Forms.TabControl)) {
 				return false;
 			}
 			System.Windows.Forms.TabControl tabControl=(System.Windows.Forms.TabControl)control;
-			return tabControl.Alignment==TabAlignment.Top && tabControl.Appearance==TabAppearance.Normal && tabControl.DrawMode==TabDrawMode.Normal
+			//UI-PLAIN-2 fix round: tabs along the bottom too (the report designer's Designer, RDL Text and Preview tabs, RdlEditPreview).
+			bool isTopOrBottom=tabControl.Alignment==TabAlignment.Top || tabControl.Alignment==TabAlignment.Bottom;
+			return isTopOrBottom && tabControl.Appearance==TabAppearance.Normal && tabControl.DrawMode==TabDrawMode.Normal
 				&& tabControl.RightToLeftLayout==false && !UiButtonLook.IsPaintedByOwner(control);
 		}
 
@@ -75,20 +78,35 @@ namespace CodeBase {
 			using(SolidBrush brush=new SolidBrush(GetColorBehind(tabControl))) {
 				g.FillRectangle(brush,rectangle);
 			}
-			int bottomStrip=0;
-			for(int i=0;i<tabControl.TabCount;i++) {
-				bottomStrip=Math.Max(bottomStrip,tabControl.GetTabRect(i).Bottom);
+			bool isBottom=tabControl.Alignment==TabAlignment.Bottom;
+			EnumUiTabSide tabSide=isBottom ? EnumUiTabSide.Bottom : EnumUiTabSide.Top;
+			if(isBottom) {
+				//The strip along the bottom, from the tabs' top; the page above it.
+				int topStrip=tabControl.Height;
+				for(int i=0;i<tabControl.TabCount;i++) {
+					topStrip=Math.Min(topStrip,tabControl.GetTabRect(i).Top);
+				}
+				if(topStrip<tabControl.Height) {
+					UiTabPaint.DrawStrip(g,new Rectangle(0,topStrip,tabControl.Width,tabControl.Height-topStrip),scale);
+				}
+				UiTabPaint.DrawPageBorder(g,new Rectangle(0,0,tabControl.Width,Math.Min(tabControl.Height,topStrip+1)),scale);
 			}
-			if(bottomStrip>0) {
-				UiTabPaint.DrawStrip(g,new Rectangle(0,0,tabControl.Width,bottomStrip),scale);
+			else {
+				int bottomStrip=0;
+				for(int i=0;i<tabControl.TabCount;i++) {
+					bottomStrip=Math.Max(bottomStrip,tabControl.GetTabRect(i).Bottom);
+				}
+				if(bottomStrip>0) {
+					UiTabPaint.DrawStrip(g,new Rectangle(0,0,tabControl.Width,bottomStrip),scale);
+				}
+				Rectangle rectanglePage=new Rectangle(0,Math.Max(0,bottomStrip-1),tabControl.Width,tabControl.Height-Math.Max(0,bottomStrip-1));
+				UiTabPaint.DrawPageBorder(g,rectanglePage,scale);
 			}
-			Rectangle rectanglePage=new Rectangle(0,Math.Max(0,bottomStrip-1),tabControl.Width,tabControl.Height-Math.Max(0,bottomStrip-1));
-			UiTabPaint.DrawPageBorder(g,rectanglePage,scale);
 			for(int i=0;i<tabControl.TabCount;i++) {
 				Rectangle rectangleHeader=tabControl.GetTabRect(i);
 				System.Windows.Forms.TabPage tabPage=tabControl.TabPages[i];
 				bool isEnabled=tabControl.Enabled && tabPage.Enabled;
-				EnumUiColor uiColorText=UiTabPaint.DrawHeader(g,rectangleHeader,EnumUiTabSide.Top,isSelected:tabControl.SelectedIndex==i,isHover:idxHover==i,isEnabled,
+				EnumUiColor uiColorText=UiTabPaint.DrawHeader(g,rectangleHeader,tabSide,isSelected:tabControl.SelectedIndex==i,isHover:idxHover==i,isEnabled,
 					Color.Empty,scale);
 				Rectangle rectangleText=rectangleHeader;
 				Rectangle rectangleImage=GetImageRectangle(tabControl,i);
