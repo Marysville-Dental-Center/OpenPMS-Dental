@@ -279,9 +279,9 @@ namespace OpenPmsDental {
 		private void FillGridNotes() {
 			gridNotes.BeginUpdate();
 			gridNotes.Columns.Clear();
-			GridColumn col=new GridColumn("Note Num",60);
+			GridColumn col=new GridColumn("Note Num",65);
 			gridNotes.Columns.Add(col);
-			col=new GridColumn("Comments",300);
+			col=new GridColumn("Comments",295);
 			gridNotes.Columns.Add(col);
 			gridNotes.ListGridRows.Clear();
 			GridRow row;
@@ -337,7 +337,7 @@ namespace OpenPmsDental {
 			gridSpecimen.Columns.Clear();
 			GridColumn col=new GridColumn("Rej",30,HorizontalAlignment.Center);//arbitrary width, only column in grid.
 			gridSpecimen.Columns.Add(col);
-			col=new GridColumn("Specimen Type",60);//arbitrary width, only column in grid.
+			col=new GridColumn("Specimen Type",92);//arbitrary width, only column in grid.
 			gridSpecimen.Columns.Add(col);
 			gridSpecimen.ListGridRows.Clear();
 			GridRow row;

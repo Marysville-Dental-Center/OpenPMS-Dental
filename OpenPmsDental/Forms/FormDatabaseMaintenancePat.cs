@@ -97,8 +97,8 @@ namespace OpenPmsDental {
 			}
 			gridOld.BeginUpdate();
 			gridOld.Columns.Clear();
-			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Name"),300));
-			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Hidden"),45,HorizontalAlignment.Center));
+			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Name"),298));
+			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Hidden"),47,HorizontalAlignment.Center));
 			gridOld.Columns.Add(new GridColumn(Lan.g(this,BREAKDOWN_COLUMN_NAME),40,HorizontalAlignment.Center));
 			gridOld.Columns.Add(new GridColumn(Lan.g(this,RESULTS_COLUMN_NAME),300){ IsWidthDynamic=true });
 			gridOld.ListGridRows.Clear();

@@ -38,15 +38,15 @@ namespace OpenPmsDental{
 			_listHL7DefsInternal=HL7Defs.GetDeepInternalList();
 			grid1.BeginUpdate();
 			grid1.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Description"),100);
+			GridColumn col=new GridColumn(Lan.g(this,"Description"),92);
 			grid1.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Mode"),40);
 			grid1.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"In Folder / Socket"),130);
+			col=new GridColumn(Lan.g(this,"In Folder / Socket"),122);
 			grid1.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Out Folder / Socket"),130);
 			grid1.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Enabled"),35);
+			col=new GridColumn(Lan.g(this,"Enabled"),51);
 			grid1.Columns.Add(col);
 			grid1.ListGridRows.Clear();
 			for(int i=0;i<_listHL7DefsInternal.Count;i++) {
@@ -77,15 +77,15 @@ namespace OpenPmsDental{
 			_listHL7DefsCustom=HL7Defs.GetDeepCustomList();
 			grid2.BeginUpdate();
 			grid2.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Description"),100);
+			GridColumn col=new GridColumn(Lan.g(this,"Description"),92);
 			grid2.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Mode"),40);
 			grid2.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"In Folder / Socket"),130);
+			col=new GridColumn(Lan.g(this,"In Folder / Socket"),122);
 			grid2.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Out Folder / Socket"),130);
 			grid2.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Enabled"),35);
+			col=new GridColumn(Lan.g(this,"Enabled"),51);
 			grid2.Columns.Add(col);
 			grid2.ListGridRows.Clear();
 			for(int i=0;i<_listHL7DefsCustom.Count;i++) {

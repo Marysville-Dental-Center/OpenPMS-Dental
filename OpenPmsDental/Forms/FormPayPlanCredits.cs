@@ -56,13 +56,13 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Fee"),55,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Rem Before"),70,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Rem Before"),73,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Credit Date"),70);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Amount"),55,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Rem After"),60,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Rem After"),65,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlanProcsAndCreds","Note"),70){ IsWidthDynamic=true };
 			gridMain.Columns.Add(col);

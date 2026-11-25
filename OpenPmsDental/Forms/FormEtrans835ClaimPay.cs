@@ -243,7 +243,7 @@ namespace OpenPmsDental {
 			//the payment itself is imaginary and is simply the sum of the claimprocs on this form
 			gridPayments.BeginUpdate();
 			gridPayments.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableClaimProc","Split"),30,HorizontalAlignment.Center);//Split proc selection column
+			GridColumn col=new GridColumn(Lan.g("TableClaimProc","Split"),31,HorizontalAlignment.Center);//Split proc selection column
 			gridPayments.Columns.Add(col);
 			_idxSplit=gridPayments.Columns.Count-1;
 			col=new GridColumn(Lan.g("TableClaimProc","Date"),70);
@@ -252,7 +252,7 @@ namespace OpenPmsDental {
 			gridPayments.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableClaimProc","Code"),50);
 			gridPayments.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableClaimProc","Tth"),25);
+			col=new GridColumn(Lan.g("TableClaimProc","Tth"),27);
 			gridPayments.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableClaimProc","Description"),126);
 			gridPayments.Columns.Add(col);

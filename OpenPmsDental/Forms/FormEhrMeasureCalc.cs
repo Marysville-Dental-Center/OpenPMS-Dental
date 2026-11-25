@@ -206,10 +206,10 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Measure"),190));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Numerator"),75,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Denominator"),80,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Percent"),230));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Denominator"),82,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Percent"),226));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Requirement"),200));
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Exclusion Count"),95,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableEhrMeasureCalc","Exclusion Count"),97,HorizontalAlignment.Center));
 			gridMain.ListGridRows.Clear();
 			for(int i=0;i<_listEhrMeasures.Count;i++) {
 				EhrMeasure ehrMeasure=_listEhrMeasures[i];

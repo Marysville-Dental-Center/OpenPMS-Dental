@@ -140,14 +140,14 @@ namespace OpenPmsDental{
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","ProvNum"),60,GridSortingStrategy.AmountParse));
 			}
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Abbrev"),90));
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Last Name"),90));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Last Name"),88));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","First Name"),90));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","User Name"),90));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Hidden"),50,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","HideOnReports"),100,HorizontalAlignment.Center));
 			if(!PrefC.GetBool(PrefName.EasyHideDentalSchools)) {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Class"),90));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Instructor"),60,HorizontalAlignment.Center));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","Instructor"),62,HorizontalAlignment.Center));
 			}
 			if(checkShowPatientCount.Checked) {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableProviderSetup","PriPats"),50,HorizontalAlignment.Center,GridSortingStrategy.AmountParse));

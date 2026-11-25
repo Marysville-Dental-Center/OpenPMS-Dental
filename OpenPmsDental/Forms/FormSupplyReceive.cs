@@ -60,10 +60,10 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Catalog #"),80));
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Description"),250));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Description"),248));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Ordered"),55,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Received"),60,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Receive Now"),78,HorizontalAlignment.Center,isEditable:true));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Receive Now"),80,HorizontalAlignment.Center,isEditable:true));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Lot"),110,isEditable:true));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Expires"),80,isEditable:true));
 			gridMain.ListGridRows.Clear();

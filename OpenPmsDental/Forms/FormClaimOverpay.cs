@@ -61,15 +61,15 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),50));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),25));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),27));
 			}
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),130));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Fee"),62,HorizontalAlignment.Right));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Pay"),62,HorizontalAlignment.Right));
 			_colInsOverpaidIndex=gridMain.Columns.Count;
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Overpaid"),62,HorizontalAlignment.Right,true));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Overpaid"),78,HorizontalAlignment.Right,true));
 			_colInsUnderpaidIndex=gridMain.Columns.Count;
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Underpaid"),62,HorizontalAlignment.Right,true));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Underpaid"),86,HorizontalAlignment.Right,true));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Status"),50,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Pmt"),30,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Remarks"),130){ IsWidthDynamic=true });

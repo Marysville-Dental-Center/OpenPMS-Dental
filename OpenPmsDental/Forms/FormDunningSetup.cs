@@ -46,9 +46,9 @@ namespace OpenPmsDental {
 			gridDunning.Columns.Add(new GridColumn("Billing Type",80));
 			gridDunning.Columns.Add(new GridColumn("Aging",70));
 			gridDunning.Columns.Add(new GridColumn("Ins",40));
-			gridDunning.Columns.Add(new GridColumn("Message",150));
+			gridDunning.Columns.Add(new GridColumn("Message",149));
 			gridDunning.Columns.Add(new GridColumn("Bold Message",150));
-			gridDunning.Columns.Add(new GridColumn("Email",35,HorizontalAlignment.Center));
+			gridDunning.Columns.Add(new GridColumn("Email",36,HorizontalAlignment.Center));
 			if(PrefC.GetBool(PrefName.ShowFeatureSuperfamilies)) {
 				gridDunning.Columns.Add(new GridColumn("SF",30,HorizontalAlignment.Center));
 			}

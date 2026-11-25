@@ -40,7 +40,7 @@ namespace OpenPmsDental.User_Controls.SetupWizard {
 			gridMain.Columns.Add(col);
 			col = new GridColumn("Phone",100);
 			gridMain.Columns.Add(col);
-			col = new GridColumn("Address",120);
+			col = new GridColumn("Address",116);
 			gridMain.Columns.Add(col);
 			col = new GridColumn("City",90);
 			gridMain.Columns.Add(col);
@@ -48,9 +48,9 @@ namespace OpenPmsDental.User_Controls.SetupWizard {
 			gridMain.Columns.Add(col);
 			col = new GridColumn("ZIP",80);
 			gridMain.Columns.Add(col);
-			col = new GridColumn("Default Prov",75);
+			col = new GridColumn("Default Prov",78);
 			gridMain.Columns.Add(col);
-			col = new GridColumn("IsHidden",55,HorizontalAlignment.Center);
+			col = new GridColumn("IsHidden",56,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

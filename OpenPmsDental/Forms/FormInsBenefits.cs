@@ -739,14 +739,14 @@ namespace OpenPmsDental {
 			listStringsType.AddRange(GetEnumStrings<InsBenefitType>("enumInsBenefitType"));
 			col.ListDisplayStrings=listStringsType;
 			gridBenefits.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Category"),95);
+			col=new GridColumn(Lan.g(this,"Category"),93);
 			List<string> listStringsCategory=new List<string>() { "" };
 			listStringsCategory.AddRange(_listCovCats.Select(x => x.Description));
 			col.ListDisplayStrings=listStringsCategory;
 			gridBenefits.Columns.Add(col);
 			col=new GridColumn("%",35,HorizontalAlignment.Center,isEditable:true);
 			gridBenefits.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Amt"),50,HorizontalAlignment.Right,isEditable:true);
+			col=new GridColumn(Lan.g(this,"Amt"),51,HorizontalAlignment.Right,isEditable:true);
 			gridBenefits.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Time Period"),85);
 			col.ListDisplayStrings=GetEnumStrings<BenefitTimePeriod>("enumBenefitTimePeriod");
@@ -756,7 +756,7 @@ namespace OpenPmsDental {
 			col=new GridColumn(Lan.g(this,"Qualifier"),80);
 			col.ListDisplayStrings=GetEnumStrings<BenefitQuantity>("enumBenefitQuantity");
 			gridBenefits.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Treat Area"),65);
+			col=new GridColumn(Lan.g(this,"Treat Area"),66);
 			col.ListDisplayStrings=GetEnumStrings<TreatmentArea>("enumTreatmentArea");
 			gridBenefits.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Teeth"),55,isEditable:true);

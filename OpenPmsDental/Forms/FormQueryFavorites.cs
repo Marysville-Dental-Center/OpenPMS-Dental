@@ -58,9 +58,9 @@ namespace OpenPmsDental{
 			}
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn(Lan.g(gridMain.TranslationName,"Query"),350));
+			gridMain.Columns.Add(new GridColumn(Lan.g(gridMain.TranslationName,"Query"),349));
 			if(isAuthorized) {
-				gridMain.Columns.Add(new GridColumn(Lan.g(gridMain.TranslationName,"Released"),55,HorizontalAlignment.Center));
+				gridMain.Columns.Add(new GridColumn(Lan.g(gridMain.TranslationName,"Released"),56,HorizontalAlignment.Center));
 			}
 			gridMain.ListGridRows.Clear();
 			for(int i=0;i<listUserQueryDisplay.Count;i++) {

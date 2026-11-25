@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"APR"),64,HorizontalAlignment.Center);//2
 			gridPayPlanTemplates.Columns.Add(col);
-			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Interest Delay"),105,HorizontalAlignment.Center);//3
+			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Interest Delay"),88,HorizontalAlignment.Center);//3
 			gridPayPlanTemplates.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Payment Amount"),110,HorizontalAlignment.Right);//4
 			gridPayPlanTemplates.Columns.Add(col);
@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 			gridPayPlanTemplates.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Frequency"),100,HorizontalAlignment.Center);//7
 			gridPayPlanTemplates.Columns.Add(col);
-			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Treatment Plan Option"),120,HorizontalAlignment.Center);//8
+			col=new GridColumn(Lan.g(gridPayPlanTemplates.TranslationName,"Treatment Plan Option"),137,HorizontalAlignment.Center);//8
 			gridPayPlanTemplates.Columns.Add(col);
 			gridPayPlanTemplates.ListGridRows.Clear();
 			List<PayPlanTemplate> listTemplates;

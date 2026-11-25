@@ -75,7 +75,7 @@ namespace OpenPmsDental {
 			col=new GridColumn(Lan.g(this,"Name"),100,HorizontalAlignment.Left){ IsWidthDynamic=true };
 			grid.Columns.Add(col);
 			if(grid==gridCustom) {
-				col=new GridColumn(Lan.g(this,"Allowed"),52,HorizontalAlignment.Center);
+				col=new GridColumn(Lan.g(this,"Allowed"),53,HorizontalAlignment.Center);
 				grid.Columns.Add(col);
 				_colAllowed=gridCustom.Columns.Count-1;//Dynamically determines the 'Allowed' column index in case we add others later.
 			}

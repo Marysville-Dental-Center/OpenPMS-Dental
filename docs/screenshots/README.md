@@ -21,7 +21,7 @@ staff and an insurance carrier, phone numbers in the 555-01xx range kept for fic
 
 **DocScreenshots** is the opt-in test `tests/UiRefreshTests/DocScreenshots.cs`. It builds a scratch database `docs_screens_<run>` on the
 local MariaDB (127.0.0.1:3306 only) from `db/init/new-database.sql` and the fork migrations, fills it with its fictional practice, draws
-the module controls (with the module bar and the main toolbar, as the main window lays them out) and two dialogs off screen at 100%, as
+the module controls (with the module bar, the light signal grid of message buttons under it and the main toolbar, as the main window lays them out) and two dialogs off screen at 100%, as
 the UI galleries draw windows, and drops the database. Nothing is shown. Run it after a build of `UiRefreshTests`:
 
 ```powershell

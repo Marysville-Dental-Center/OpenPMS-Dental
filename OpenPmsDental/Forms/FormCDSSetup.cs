@@ -86,7 +86,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn column;
-			column=new GridColumn("User Name",120);
+			column=new GridColumn("User Name",117);
 			gridMain.Columns.Add(column);
 			column=new GridColumn("Group Name",120);
 			gridMain.Columns.Add(column);
@@ -104,7 +104,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(column);
 			column=new GridColumn("Allergy",80,HorizontalAlignment.Center);
 			gridMain.Columns.Add(column);
-			column=new GridColumn("Demographic",80,HorizontalAlignment.Center);
+			column=new GridColumn("Demographic",83,HorizontalAlignment.Center);
 			gridMain.Columns.Add(column);
 			column=new GridColumn("Labs",80,HorizontalAlignment.Center);
 			gridMain.Columns.Add(column);

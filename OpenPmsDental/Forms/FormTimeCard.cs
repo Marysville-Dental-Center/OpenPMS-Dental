@@ -247,7 +247,7 @@ namespace OpenPmsDental{
 			//M2-EMP: a second time on a later date than the first (a clock-out entered for a later day) also shows its date, so its column widens.
 			int widthSecondTime=ClockEvents.GetSecondTimeColumnWidth(_listClockEvents,64);
 			if(IsBreaks){
-				col=new GridColumn(Lan.g(this,"Out"),64,HorizontalAlignment.Right);
+				col=new GridColumn(Lan.g(this,"Out"),63,HorizontalAlignment.Right);
 				gridMain.Columns.Add(col);
 				col=new GridColumn(Lan.g(this,"In"),widthSecondTime,HorizontalAlignment.Right);
 				gridMain.Columns.Add(col);
@@ -258,7 +258,7 @@ namespace OpenPmsDental{
 				col=new GridColumn(Lan.g(this,"Out"),widthSecondTime,HorizontalAlignment.Right);
 				gridMain.Columns.Add(col);
 			}
-			col=new GridColumn(Lan.g(this,"Total"),50,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g(this,"Total"),51,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Adjust"),45,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);

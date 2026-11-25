@@ -64,9 +64,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("FormRxNorms","Code"),80);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormRxNorms","InMedList"),60,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("FormRxNorms","InMedList"),62,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormRxNorms","MedCount"),60,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("FormRxNorms","MedCount"),66,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("FormRxNorms","Description"),80){ IsWidthDynamic=true };
 			gridMain.Columns.Add(col);

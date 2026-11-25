@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 		private void FillGrid(string fileNameToSelect=null) {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Image Name"),70);
+			GridColumn col=new GridColumn(Lan.g(this,"Image Name"),79);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			List<string> listFileNames=null;

@@ -78,11 +78,11 @@ namespace OpenPmsDental {
 		private void FillGrid(ref GridOD grid) {
 			grid.BeginUpdate();
 			grid.Columns.Clear();
-			grid.Columns.Add(new GridColumn(Lan.g(this,"Status"),40));
+			grid.Columns.Add(new GridColumn(Lan.g(this,"Status"),41));
 			grid.Columns.Add(new GridColumn(Lan.g(this,"Tth"),30));
 			grid.Columns.Add(new GridColumn(Lan.g(this,"Surf"),46));
 			grid.Columns.Add(new GridColumn(Lan.g(this,"Code"),40));
-			grid.Columns.Add(new GridColumn(Lan.g(this,"Description"),189));
+			grid.Columns.Add(new GridColumn(Lan.g(this,"Description"),188));
 			grid.Columns.Add(new GridColumn(Lan.g(this,"TPs"),35));
 			grid.Columns.Add(new GridColumn(Lan.g(this,"Apt"),40));
 			grid.ListGridRows.Clear();

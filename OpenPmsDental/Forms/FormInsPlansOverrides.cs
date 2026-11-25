@@ -53,9 +53,9 @@ namespace OpenPmsDental {
 			}
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lans.g("TableInsurancePlans","Employer"),140);
+			GridColumn col=new GridColumn(Lans.g("TableInsurancePlans","Employer"),115);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lans.g("TableInsurancePlans","Carrier"),140);
+			col=new GridColumn(Lans.g("TableInsurancePlans","Carrier"),114);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lans.g("TableInsurancePlans",groupNum),70);
 			gridMain.Columns.Add(col);
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 				col=new GridColumn(Lans.g("TableInsurancePlans","TrojanID"),60);
 				gridMain.Columns.Add(col);
 			}
-			col=new GridColumn(Lans.g("TableInsurancePlans","NoBillIns Override"),60);
+			col=new GridColumn(Lans.g("TableInsurancePlans","NoBillIns Override"),111);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

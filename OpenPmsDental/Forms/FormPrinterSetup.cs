@@ -38,10 +38,10 @@ namespace OpenPmsDental{
 			gridPrinters.Columns.Add(col);
 			col=new GridColumn("Virtual",50,HorizontalAlignment.Center);
 			gridPrinters.Columns.Add(col);
-			col=new GridColumn("File Extension",50,HorizontalAlignment.Center);
+			col=new GridColumn("File Extension",84,HorizontalAlignment.Center);
 			gridPrinters.Columns.Add(col);
 			//25.4: the printer that prints for the situation on this workstation, the rule that picked it, and what Windows reports about it.
-			col=new GridColumn("Printer Used",220);
+			col=new GridColumn("Printer Used",186);
 			gridPrinters.Columns.Add(col);
 			col=new GridColumn("Rule",130);
 			gridPrinters.Columns.Add(col);

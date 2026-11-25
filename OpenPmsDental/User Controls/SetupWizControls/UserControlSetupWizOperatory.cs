@@ -28,7 +28,7 @@ namespace OpenPmsDental.User_Controls.SetupWizard {
 			gridMain.Columns.Clear();
 			GridColumn col;
 			if(PrefC.HasClinicsEnabled) {
-				col = new GridColumn(Lan.g("FormSetupWizard","OpName"),110);
+				col = new GridColumn(Lan.g("FormSetupWizard","OpName"),108);
 				gridMain.Columns.Add(col);
 				col = new GridColumn(Lan.g("FormSetupWizard","Abbrev"),110);
 				gridMain.Columns.Add(col);
@@ -38,7 +38,7 @@ namespace OpenPmsDental.User_Controls.SetupWizard {
 				gridMain.Columns.Add(col);
 				col = new GridColumn(Lan.g("FormSetupWizard","ProvHygienist"),110);
 				gridMain.Columns.Add(col);
-				col = new GridColumn(Lan.g("FormSetupWizard","IsHygiene"),60,HorizontalAlignment.Center);
+				col = new GridColumn(Lan.g("FormSetupWizard","IsHygiene"),62,HorizontalAlignment.Center);
 				gridMain.Columns.Add(col);
 				col = new GridColumn(Lan.g("FormSetupWizard","IsHidden"),60,HorizontalAlignment.Center);
 				gridMain.Columns.Add(col);

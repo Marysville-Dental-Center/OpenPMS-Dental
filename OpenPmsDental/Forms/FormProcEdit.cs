@@ -1019,11 +1019,11 @@ namespace OpenPmsDental {
 			gridIns.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcIns","Ins Pay"),55,HorizontalAlignment.Right);
 			gridIns.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableProcIns","Write-off"),59,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TableProcIns","Write-off"),62,HorizontalAlignment.Right);
 			gridIns.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcIns","Estimate Note"),100);
 			gridIns.Columns.Add(col);		 
-			col=new GridColumn(Lan.g("TableProcIns","Remarks"),161);
+			col=new GridColumn(Lan.g("TableProcIns","Remarks"),158);
 			gridIns.Columns.Add(col);		 
 			gridIns.ListGridRows.Clear();
 			GridRow row;

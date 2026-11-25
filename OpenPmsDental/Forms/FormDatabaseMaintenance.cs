@@ -94,7 +94,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Name"),300));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Break\r\nDown"),40,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Explain"),45,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Explain"),47,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Results"),300){ IsWidthDynamic=true });
 			gridMain.ListGridRows.Clear();
 			GridRow row;
@@ -116,8 +116,8 @@ namespace OpenPmsDental {
 			_listMethodInfosHidden=GetDbmMethodsForGrid(isHidden:true,isOld:false);
 			gridHidden.BeginUpdate();
 			gridHidden.Columns.Clear();
-			gridHidden.Columns.Add(new GridColumn(Lan.g(this,"Name"),740));
-			gridHidden.Columns.Add(new GridColumn(Lan.g(this,"Explain"),45,HorizontalAlignment.Center));
+			gridHidden.Columns.Add(new GridColumn(Lan.g(this,"Name"),738));
+			gridHidden.Columns.Add(new GridColumn(Lan.g(this,"Explain"),47,HorizontalAlignment.Center));
 			gridHidden.ListGridRows.Clear();
 			GridRow row;
 			for(int i=0;i<_listMethodInfosHidden.Count;i++) {
@@ -139,10 +139,10 @@ namespace OpenPmsDental {
 			gridOld.Columns.Clear();
 			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Name"),300));
 			if(checkShowHidden.Checked) {
-				gridOld.Columns.Add(new GridColumn(Lan.g(this,"Hidden"),45,HorizontalAlignment.Center));
+				gridOld.Columns.Add(new GridColumn(Lan.g(this,"Hidden"),47,HorizontalAlignment.Center));
 			}
 			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Break\r\nDown"),40,HorizontalAlignment.Center));
-			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Explain"),45,HorizontalAlignment.Center));
+			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Explain"),47,HorizontalAlignment.Center));
 			gridOld.Columns.Add(new GridColumn(Lan.g(this,"Results"),300){ IsWidthDynamic=true });
 			gridOld.ListGridRows.Clear();
 			GridRow row;

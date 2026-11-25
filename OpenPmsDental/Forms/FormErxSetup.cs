@@ -326,9 +326,9 @@ namespace OpenPmsDental {
 		private void FillGridNewCropProviders() {
 			gridNewCropProviders.BeginUpdate();
 			gridNewCropProviders.Columns.Clear();
-			gridNewCropProviders.Columns.Add(new GridColumn(Lan.g(this,"Provider"),110));
+			gridNewCropProviders.Columns.Add(new GridColumn(Lan.g(this,"Provider"),109));
 			gridNewCropProviders.Columns.Add(new GridColumn(Lan.g(this,"NPI"),80));
-			gridNewCropProviders.Columns.Add(new GridColumn(Lan.g(this,"Enabled"),50,HorizontalAlignment.Center));
+			gridNewCropProviders.Columns.Add(new GridColumn(Lan.g(this,"Enabled"),51,HorizontalAlignment.Center));
 			gridNewCropProviders.ListGridRows.Clear();
 			foreach(Provider provider in GetNewCropProviders()) {
 				string npi=NewCropConfig.NormalizeNpi(provider.NationalProvID);

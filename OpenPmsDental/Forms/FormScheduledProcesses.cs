@@ -29,9 +29,9 @@ namespace OpenPmsDental {
 			GridColumn col;
 			col=new GridColumn(Lan.g(this,"Scheduled Action"),120);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Frequency to Run"),150);
+			col=new GridColumn(Lan.g(this,"Frequency to Run"),148);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Time To Run"),75);
+			col=new GridColumn(Lan.g(this,"Time To Run"),77);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Time of Last Run"),155);
 			gridMain.Columns.Add(col);

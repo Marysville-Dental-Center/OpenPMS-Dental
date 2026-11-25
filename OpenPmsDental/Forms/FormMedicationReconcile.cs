@@ -31,9 +31,9 @@ namespace OpenPmsDental {
 			gridMeds.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("TableMedications","Medication"),140);
 			gridMeds.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableMedications","Notes for Patient"),225);
+			col=new GridColumn(Lan.g("TableMedications","Notes for Patient"),207);
 			gridMeds.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableMedications","Disc"),10,HorizontalAlignment.Center);//discontinued
+			col=new GridColumn(Lan.g("TableMedications","Disc"),28,HorizontalAlignment.Center);//discontinued
 			gridMeds.Columns.Add(col);
 			gridMeds.ListGridRows.Clear();
 			GridRow row;

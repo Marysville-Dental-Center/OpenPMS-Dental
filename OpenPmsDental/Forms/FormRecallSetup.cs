@@ -155,13 +155,13 @@ namespace OpenPmsDental{
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g("TableRecallMsgs","Remind#"),50);
+			col=new GridColumn(Lan.g("TableRecallMsgs","Remind#"),56);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableRecallMsgs","Mode"),61);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("",300);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRecallMsgs","Message"),500);
+			col=new GridColumn(Lan.g("TableRecallMsgs","Message"),494);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

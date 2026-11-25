@@ -51,7 +51,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g(this,"Patient"),125);
+			col=new GridColumn(Lan.g(this,"Patient"),124);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Referred To"),125);
 			gridMain.Columns.Add(col);
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Note"),125);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Date Referred"),86);
+			col=new GridColumn(Lan.g(this,"Date Referred"),87);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Date Done"),86);
 			gridMain.Columns.Add(col);

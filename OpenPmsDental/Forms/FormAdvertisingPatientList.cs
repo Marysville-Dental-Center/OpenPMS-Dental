@@ -93,7 +93,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Birthdate"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Email"),199,GridSortingStrategy.StringCompare);
+			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Email"),195,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Address"),170,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
@@ -109,10 +109,10 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Status"),50,HorizontalAlignment.Center,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Last Appointment"),80,HorizontalAlignment.Center,
+			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Last Appointment"),82,HorizontalAlignment.Center,
 				GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Next Appointment"),80,HorizontalAlignment.Center,
+			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Next Appointment"),82,HorizontalAlignment.Center,
 				GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn();

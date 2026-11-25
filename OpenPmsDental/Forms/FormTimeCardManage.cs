@@ -253,11 +253,11 @@ namespace OpenPmsDental {
 			gridTimeCard.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Day"),45);
 			gridTimeCard.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"In"),60,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g(this,"In"),59,HorizontalAlignment.Right);
 			gridTimeCard.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Out"),60,HorizontalAlignment.Right);
 			gridTimeCard.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Total"),50,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g(this,"Total"),51,HorizontalAlignment.Right);
 			gridTimeCard.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Adjust"),45,HorizontalAlignment.Right);
 			gridTimeCard.Columns.Add(col);

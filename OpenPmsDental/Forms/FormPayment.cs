@@ -1867,7 +1867,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g(this,"Code"),45,GridSortingStrategy.StringCompare) { IsWidthDynamic=true };
 			gridCharges.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Tth"),25,GridSortingStrategy.ToothNumberParse);
+			col=new GridColumn(Lan.g(this,"Tth"),27,GridSortingStrategy.ToothNumberParse);
 			gridCharges.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Type"),120,GridSortingStrategy.StringCompare) { IsWidthDynamic=true,DynamicWeight=2 };
 			gridCharges.Columns.Add(col);
@@ -2100,7 +2100,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g(this,"Code"),45,GridSortingStrategy.StringCompare) { IsWidthDynamic=true };
 			gridTreatPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Tth"),25,GridSortingStrategy.ToothNumberParse);
+			col=new GridColumn(Lan.g(this,"Tth"),27,GridSortingStrategy.ToothNumberParse);
 			gridTreatPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Type"),120,GridSortingStrategy.StringCompare) { IsWidthDynamic=true,DynamicWeight=2 };
 			gridTreatPlan.Columns.Add(col);

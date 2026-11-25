@@ -48,11 +48,11 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("TableJournal","Chk #"),60,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableJournal","Date"),80);
+			col=new GridColumn(Lan.g("TableJournal","Date"),78);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableJournal","Deposits"),70,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableJournal","Withdrawals"),75,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TableJournal","Withdrawals"),77,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("X",30,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);

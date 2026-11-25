@@ -56,11 +56,11 @@ namespace OpenPmsDental {
 			_listProvidersInstructors=Providers.GetInstructors();
 			gridInstructors.BeginUpdate();
 			gridInstructors.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","ProvNum"),50);
+			GridColumn col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","ProvNum"),60);
 			gridInstructors.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","Last Name"),80);
+			col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","Last Name"),75);
 			gridInstructors.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","First Name"),80);
+			col=new GridColumn(Lan.g("FormEvaluationReport - Instructors","First Name"),75);
 			gridInstructors.Columns.Add(col);
 			gridInstructors.ListGridRows.Clear();
 			GridRow row;

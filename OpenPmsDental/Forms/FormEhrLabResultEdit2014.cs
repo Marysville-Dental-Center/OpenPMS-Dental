@@ -207,9 +207,9 @@ namespace OpenPmsDental {
 		private void FillGridNotes() {
 			gridNotes.BeginUpdate();
 			gridNotes.Columns.Clear();
-			GridColumn col=new GridColumn("Note Num",60);
+			GridColumn col=new GridColumn("Note Num",65);
 			gridNotes.Columns.Add(col);
-			col=new GridColumn("Comments",300);
+			col=new GridColumn("Comments",295);
 			gridNotes.Columns.Add(col);
 			gridNotes.ListGridRows.Clear();
 			GridRow row;

@@ -168,8 +168,8 @@ namespace OpenPmsDental {
 
 		private void butPickFeeSched_Click(object sender,EventArgs e) {
 			List<GridColumn> listGridColumnHeaders=new List<GridColumn>(); 
-			listGridColumnHeaders.Add(new GridColumn(Lan.g(this,"Description"),250));
-			listGridColumnHeaders.Add(new GridColumn(Lan.g(this,"Hidden"),25));
+			listGridColumnHeaders.Add(new GridColumn(Lan.g(this,"Description"),228));
+			listGridColumnHeaders.Add(new GridColumn(Lan.g(this,"Hidden"),47));
 			List<GridRow> listGridRowValues=new List<GridRow>();
 			for(int i=0;i<_listFeeScheds.Count();i++) {
 				GridRow row=new GridRow(_listFeeScheds[i].Description,_listFeeScheds[i].IsHidden?"X":"");

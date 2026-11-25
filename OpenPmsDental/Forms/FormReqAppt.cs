@@ -122,9 +122,9 @@ namespace OpenPmsDental{
 			gridAttached.Columns.Clear();
 			GridColumn col=new GridColumn("Student",130);
 			gridAttached.Columns.Add(col);
-			col=new GridColumn("Descript",150);
+			col=new GridColumn("Descript",122);
 			gridAttached.Columns.Add(col);
-			col=new GridColumn("Completed",40);
+			col=new GridColumn("Completed",68);
 			gridAttached.Columns.Add(col);
 			gridAttached.ListGridRows.Clear();
 			GridRow row;

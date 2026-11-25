@@ -66,9 +66,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Can Repeat"),73,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Is Optional"),67,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g(this,"Is Optional"),68,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Note"),100);
+			col=new GridColumn(Lan.g(this,"Note"),99);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			if(HL7DefMessageCur!=null && HL7DefMessageCur.ListHL7DefSegments!=null) {

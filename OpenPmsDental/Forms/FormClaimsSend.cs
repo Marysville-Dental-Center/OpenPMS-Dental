@@ -361,9 +361,9 @@ namespace OpenPmsDental{
 			}
 			col=new GridColumn(Lan.g("TableQueue","Provider"),55);//Just large enough to show the title
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableQueue","M/D"),30);//Just large enough to hold 4 characters (see below)
+			col=new GridColumn(Lan.g("TableQueue","M/D"),32);//Just large enough to hold 4 characters (see below)
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableQueue","Clearinghouse"),85);//Just large enough for the title
+			col=new GridColumn(Lan.g("TableQueue","Clearinghouse"),88);//Just large enough for the title
 			gridMain.Columns.Add(col);
 			clearinghouseIndex=gridMain.Columns.Count-1;
 			col=new GridColumn(Lan.g("TableQueue","Warnings"),120);

@@ -35,13 +35,13 @@ namespace OpenPmsDental{
 			_listAppointmentRules=AppointmentRules.GetDeepCopy();
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn("Description",200);
+			GridColumn col=new GridColumn("Description",199);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Start Code",100);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("End Code",100);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Enabled",50,HorizontalAlignment.Center);
+			col=new GridColumn("Enabled",51,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			UI.GridRow row;

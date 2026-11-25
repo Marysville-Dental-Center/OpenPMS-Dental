@@ -71,9 +71,9 @@ namespace OpenPmsDental {
 			gridGroups.BeginUpdate();
 			gridGroups.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g(this,"Group Name"),200);
+			col=new GridColumn(Lan.g(this,"Group Name"),195);
 			gridGroups.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Fee Schedule"),75);
+			col=new GridColumn(Lan.g(this,"Fee Schedule"),80);
 			gridGroups.Columns.Add(col);
 			gridGroups.ListGridRows.Clear();
 			GridRow row;
