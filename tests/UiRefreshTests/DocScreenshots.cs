@@ -302,7 +302,7 @@ namespace UiRefreshTests {
 				"101 Example Way","555-0101","alex.sampleton@example.com",null);
 			Patient patientJamie=InsertPatient("Sampleton","Jamie","",new DateTime(1985,7,4),PatientGender.Male,PatientPosition.Married,
 				"101 Example Way","555-0102","jamie.sampleton@example.com",patientAlex);
-			Patient patientSam=InsertPatient("Sampleton","Samuel","Sam",new DateTime(2015,9,20),PatientGender.Male,PatientPosition.Child,
+			Patient patientSam=InsertPatient("Sampleton","Sam","",new DateTime(2015,9,20),PatientGender.Male,PatientPosition.Child,
 				"101 Example Way","555-0101","",patientAlex);
 			Patient patientMorgan=InsertPatient("Placeholder","Morgan","",new DateTime(1972,11,2),PatientGender.Unknown,PatientPosition.Single,
 				"22 Fixture Lane","555-0110","morgan.placeholder@example.com",null);
