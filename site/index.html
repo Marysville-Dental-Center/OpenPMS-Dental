@@ -131,6 +131,17 @@ h2 { font-size: 26px; margin: 0 0 8px; text-wrap: balance; }
 code { font-family: "Cascadia Mono", Consolas, ui-monospace, monospace; font-size: 0.92em; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
 ul.plain { margin: 0; padding-left: 20px; }
 ul.plain li { margin: 4px 0; }
+.stats { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); margin-bottom: 28px; }
+.stat { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; min-width: 0; }
+.stat .num { display: block; font-size: 30px; font-weight: 700; line-height: 1.2; color: var(--brand-ink); }
+.stat .what { display: block; margin-top: 4px; font-size: 15px; color: var(--fg-muted); }
+.note { font-size: 14px; color: var(--fg-muted); max-width: 80ch; margin: 24px 0 0; }
+.shots { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+figure.shot { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 10px; min-width: 0; }
+figure.shot.wide { grid-column: 1 / -1; }
+figure.shot a { display: block; }
+figure.shot img { display: block; width: 100%; height: auto; border-radius: 4px; }
+figure.shot figcaption { margin-top: 8px; font-size: 14px; color: var(--fg-muted); }
 footer { border-top: 1px solid var(--line); padding-block: 28px 40px; font-size: 14px; color: var(--fg-muted); }
 footer p { margin: 0 0 8px; max-width: 80ch; }
 @media (max-width: 860px) {
@@ -148,7 +159,8 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
   <div class="wrap">
     <a class="brand" href="./"><img src="logo.svg" alt="" width="28" height="28">Open PMS - Dental</a>
     <nav class="top" aria-label="Sections">
-      <a href="#philosophy">Philosophy</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#differences">How it differs</a>
       <a href="#features">Features</a>
       <a href="#status">Status</a>
       <a href="#get-started">Get started</a>
@@ -161,7 +173,7 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
   <div class="wrap hero">
     <div class="hero-text">
     <h1>Free, open-source practice management for dental offices</h1>
-    <p class="lead">Open PMS - Dental (OpenPMS) runs a dental practice on Windows: scheduling, charting, billing, insurance, imaging and reports. It grew from the Open Dental source code, rebuilt in the open, on a modern 64-bit .NET, and it never phones home.</p>
+    <p class="lead">Open PMS - Dental (OpenPMS) runs a dental practice on Windows: scheduling, charting, billing, insurance, imaging and reports. Derived from Open Dental, heavily extended: it grew from the Open Dental source code, rebuilt in the open, on a modern 64-bit .NET, and it never phones home.</p>
     <div class="actions">
       <a class="btn primary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases">Releases</a>
       <a class="btn secondary" href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental">Source code</a>
@@ -176,6 +188,47 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
     </div>
     <img class="hero-logo" src="logo.svg" alt="" width="220" height="220">
   </div>
+
+  <section id="screenshots" class="soft">
+    <div class="wrap">
+      <h2>Screenshots</h2>
+      <p class="sub">The program's own windows, with fictional patients and data only. Select a picture to see it full size.</p>
+      <div class="shots">
+        <figure class="shot wide"><a href="screenshots/appointments.png"><img src="screenshots/appointments.png" width="1440" height="865" loading="lazy" alt="The Appointments module: a day of appointments in three operatories, with the module bar on the left and the main toolbar on top"></a><figcaption>Appointments: the day's schedule by operatory.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/family.png"><img src="screenshots/family.png" width="1440" height="865" loading="lazy" alt="The Family module: a family of three with their recall and dental plan"></a><figcaption>Family: members, recall and insurance.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/treatment-plan.png"><img src="screenshots/treatment-plan.png" width="1440" height="865" loading="lazy" alt="The Treatment Plan module: four planned procedures with insurance estimates and the patient's portion"></a><figcaption>Treatment plan with insurance estimates.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/tooth-chart.png"><img src="screenshots/tooth-chart.png" width="926" height="858" loading="lazy" alt="The 3D tooth chart with a crown, a filling, a sealant, an extraction and a root canal"></a><figcaption>The new 3D tooth chart, drawn in WPF.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/perio-chart.png"><img src="screenshots/perio-chart.png" width="649" height="696" loading="lazy" alt="The perio chart of a full exam: probing depths, gingival margin, bleeding, suppuration and furcations"></a><figcaption>The perio chart of a full exam.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/camera-capture.png"><img src="screenshots/camera-capture.png" width="1100" height="640" loading="lazy" alt="Intraoral camera capture: five photos taken into a template, shown with a synthetic camera picture"></a><figcaption>Native intraoral camera capture into a template.</figcaption></figure>
+        <figure class="shot"><a href="screenshots/dialog-patient-edit.png"><img src="screenshots/dialog-patient-edit.png" width="998" height="956" loading="lazy" alt="The Edit Patient Information window in the new look"></a><figcaption>Edit Patient Information, in the new look.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="differences">
+    <div class="wrap">
+      <h2>How it differs from Open Dental</h2>
+      <p class="sub">Derived from Open Dental, heavily extended. Most of the program is still Open Dental's code; around it is a large body of new and rewritten work.</p>
+      <div class="stats">
+        <div class="stat"><span class="num">about 80%</span><span class="what">of the program's lines are unchanged from Open Dental (78% counting only lines of 25 characters or more)</span></div>
+        <div class="stat"><span class="num">158,000</span><span class="what">lines of the program new or rewritten</span></div>
+        <div class="stat"><span class="num">360,000</span><span class="what">lines of entirely new tests, tools and native imaging</span></div>
+        <div class="stat"><span class="num">1,206</span><span class="what">Open Dental files removed, mostly its own services and internal tools</span></div>
+      </div>
+      <div class="grid">
+        <div class="card"><h3>No Open Dental HQ</h3><p>No eServices, registration keys, update servers or help browser. A test suite checks on every run that nothing calls Open Dental's servers.</p></div>
+        <div class="card"><h3>Features up to 26.1, re-implemented</h3><p>Open Dental's public source stops at 24.3.63. Later features are written again from the public manual, release notes and database documents, on the Open Dental 26.2.0 schema.</p></div>
+        <div class="card"><h3>.NET 10, 64-bit</h3><p>Moved from .NET Framework 4.8 (32-bit) to .NET 10 x64, self-contained; the Middle Tier is an ASP.NET Core server.</p></div>
+        <div class="card"><h3>A new look</h3><p>Segoe UI, Fluent icons, colour tokens, the program's own window frame, every window on one spacing grid, new calendars and a progress ring.</p></div>
+        <div class="card"><h3>A new 3D tooth chart</h3><p>Drawn in WPF in place of the DirectX and OpenGL engines, with free text and orthodontic hardware.</p></div>
+        <div class="card"><h3>Native imaging capture</h3><p>64-bit TWAIN scanning, sensor capture with 16-bit X-rays once a test capture verifies the device, intraoral camera and video capture, an in-house DICOM reader.</p></div>
+        <div class="card"><h3>New tools for the practice</h3><p>Inventory tracking and routine maintenance tracking.</p></div>
+        <div class="card"><h3>Security on the client side</h3><p>Network database connections encrypted and verified against the office's own certificate authority; updated libraries; WebView2 in place of Internet Explorer.</p></div>
+        <div class="card"><h3>Tested</h3><p>128 new test projects, about 269,000 lines, on scratch databases with synthetic data.</p></div>
+      </div>
+      <p class="note">What stayed: the database schema (an Open Dental 24.3.63 or 25.3.48 database can be adopted), the modules and workflows staff know, and the GPL with every Open Dental copyright notice. Measured at commit 1616a3683 against the fork point, Open Dental 24.3.63.0: in code files, a line counts as Open Dental's when the paired Open Dental file holds the same line, with whitespace and the product rename folded; 1,407,829 hand-written lines in all, 60.7% of them unchanged. The method, the full table and the command to measure again are in <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/differences.md">How Open PMS - Dental differs from Open Dental</a> and <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/tree/main/tools/ForkMeasure">tools/ForkMeasure</a>.</p>
+    </div>
+  </section>
 
   <section id="philosophy" class="soft">
     <div class="wrap">
@@ -213,12 +266,12 @@ footer p { margin: 0 0 8px; max-width: 80ch; }
   <section id="status" class="soft">
     <div class="wrap">
       <h2>Where the project stands</h2>
-      <p class="sub">As of November 22, 2026.</p>
+      <p class="sub">As of November 24, 2026.</p>
       <ul class="plain">
         <li><strong>Independent:</strong> nothing calls Open Dental Software's servers, and tests check that on every run.</li>
         <li><strong>Released:</strong> <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases/tag/v0.0">version 0.0</a> (November 1, 2026), built from Open Dental 24.3.63 on .NET Framework 4.8.</li>
         <li><strong>Done for the next version:</strong> .NET 10, 64-bit and self-contained; a new 3D tooth chart on WPF with free text and orthodontic hardware; EHR rebuilt; Open Dental features through 26.1 plus the chosen 26.2 changes, on Open Dental's 26.2 database schema; updated libraries with encrypted database connections; WebView2 in place of Internet Explorer; inventory and routine maintenance tracking. An Open Dental 24.3.63 or 25.3.48 database can be adopted.</li>
-        <li><strong>In progress:</strong> the UI refresh. Fluent icons, Segoe UI and the new look for every type of control are done; every window is being laid out again on one spacing grid, followed by a final colour pass.</li>
+        <li><strong>Done:</strong> the UI refresh, approved on November 24, 2026: Fluent icons, Segoe UI, the new look for every type of control, every window laid out again on one spacing grid, calendars in the new style and a progress ring.</li>
         <li><strong>Next:</strong> the next release, and the first office switch-over from Open Dental once the 64-bit imaging sensor drivers pass in the clinic. See the <a href="https://github.com/Marysville-Dental-Center/OpenPMS-Dental/blob/main/docs/roadmap.md">roadmap</a>.</li>
       </ul>
     </div>
