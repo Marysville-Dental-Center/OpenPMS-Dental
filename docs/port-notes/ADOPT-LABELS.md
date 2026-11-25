@@ -1,6 +1,6 @@
 # ADOPT-LABELS: adoption accepts the office database's real version labels
 
-Package ADOPT-LABELS, on branch `adopt/od25347-1` from `main` (3220e2299). A read-only validation of the office's production database on
+Package ADOPT-LABELS, on branch `adopt/od25347-1` from `main` (3220e2299, rebased onto 4241f2a8a). A read-only validation of the office's production database on
 2026-11-25 found `DataBaseVersion` 25.3.47.0 and `ProgramVersion` 25.3.54.0 (one `updatehistory` row, 25.3.54.0 on 2026-05-04), and its 422
 tables and 4,409 columns equal the schema-only dump of 2026-10-18 that `Reference/OdSchema-25.3.48.sql` was built from. Open Dental changes
 `DataBaseVersion` only when a convert step runs, so the database was never labelled 25.3.48 although it has that schema. Before this package
@@ -63,8 +63,8 @@ No fork migration step, schema, reference or seed changes: the pair is adopted a
 ### 4. Documents
 
 - Runbook step 0.2 expects 25.3.47.0 / 25.3.54.0 (or 25.3.48.0 twice) and the "Versions: adoptable" line; step 4's expected first lines and
-  the checklist row 0.2 follow. The branch `runbook/r4-1` (not merged) rewrites other parts of the runbook; whichever merges second takes
-  these three spots.
+  the checklist row 0.2 follow. Rebased onto `main` after RUNBOOK-R4 (`runbook/r4-1`, merge 4241f2a8a) rewrote other parts of the
+  runbook; the rebase applied without conflict.
 - Release notes of the next version, the READMEs of ForkMigrations, AdoptionValidation and SyntheticData.
 
 ## Tests
