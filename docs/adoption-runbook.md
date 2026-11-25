@@ -2,7 +2,8 @@
 
 Status: 2026-10-25, third revision after review (M1-Z r3), plus steps 0.11 and 7.1 (combined review, 2026-11-01), which since 2026-11-07
 list only the five settings Open Dental has no name for (the others carry over under Open Dental's names, SWMAP); milestone M1 switch
-gate (M1-Z in [specs/port-backlog.md](specs/port-backlog.md)).
+gate (M1-Z in [specs/port-backlog.md](specs/port-backlog.md)). Brought up to date with the code on 2026-11-25 (RUNBOOK-R4): the fork steps
+up to 2026112451, the .NET 10 tools and setup, and the programs that share the database (steps 0.0.1, 0.4, 1.2 and 9).
 Rehearsed on synthetic data with [tools/AdoptionValidation](../tools/AdoptionValidation/README.md); results in
 [m1-validation-report.md](m1-validation-report.md). The tool commands of steps 0.2, 1.1, 3.2 to 6.1 (everything before the program's first
 start), 10.1 and 10.2 are the commands the dry run ran, in its order, through a forwarded port as on the admin PC (step 0.0). The commands
@@ -130,7 +131,8 @@ owner's decision (validation report, "For the owner", item 5).
 | `<datadir>` | MariaDB's data folder on `<db-server>` (`@@datadir`, step 0.0.1; normally `/var/lib/mysql/`). The database `opendental` is the folder `<datadir>opendental`. The bash commands below write it as `/var/lib/mysql/`: if step 0.0.1 shows another folder, use that one instead, and the database's real name instead of `opendental`. |
 | `<backup>` | `/var/backups/opendental-adoption` on `<db-server>`: the folder copies and dumps of this procedure. Never inside `<datadir>`. |
 | `C:\Adoption` | A folder on the admin PC for the reports and logs. |
-| `<tools>` | A folder on the admin PC holding a copy of the built `tools\AdoptionValidation\bin\Release` (or `bin\Debug`) folder: `AdoptionValidation.exe`, `SyntheticData.exe`, their DLLs, `allowed-differences.adoption.json`, `sql\business-totals.sql` and `Invoke-RunbookDryRun.ps1`. They need .NET Framework 4.8, which Windows 10 and 11 include, and no MariaDB program on the PC. |
+| `<tools>` | A folder on the admin PC holding a copy of the built `tools\AdoptionValidation\bin\Release` (or `bin\Debug`) folder: `AdoptionValidation.exe`, `SyntheticData.exe`, their DLLs, `allowed-differences.adoption.json`, `sql\business-totals.sql` and `Invoke-RunbookDryRun.ps1`. Build them as `Release|x64` with the .NET SDK that `global.json` pins (README.md, "Building") and copy the whole folder:
+they are self-contained 64-bit .NET 10 programs that carry their own runtime, so the PC needs no .NET and no MariaDB program. |
 | `<date>` | The switch date, `yyyy-MM-dd`, for every `--as-of`. All reports of one switch use the same date, so their totals can be compared. |
 
 ## Timing
@@ -169,6 +171,8 @@ sudo mariadb -e "SELECT @@version, @@version_compile_os, @@datadir, @@port, @@bi
 sudo mariadb -e "SELECT ENGINE, COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='opendental' GROUP BY ENGINE"
 sudo mariadb -e "SELECT ROUTINE_TYPE, ROUTINE_NAME FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA='opendental'; SELECT TRIGGER_NAME FROM information_schema.TRIGGERS WHERE EVENT_OBJECT_SCHEMA='opendental'; SELECT EVENT_NAME FROM information_schema.EVENTS WHERE EVENT_SCHEMA='opendental'; SELECT TABLE_NAME FROM information_schema.VIEWS WHERE TABLE_SCHEMA='opendental'"
 sudo mariadb -e "SHOW DATABASES"
+sudo mariadb -e "SELECT @@GLOBAL.sql_mode, @@GLOBAL.time_zone, @@system_time_zone"
+grep -rhs '^ *sql[_-]mode' /etc/mysql/ || echo 'no sql_mode in the option files'
 ```
 
 Expect: a Debian or Ubuntu release, `x86_64`, `active`; a version `10.11.x-MariaDB-` with the package's suffix (for example
@@ -189,6 +193,14 @@ and so stops it too.
   `<db-server>` to the network for the tools instead; they refuse any address but the PC's own anyway.
 - **A table that is not MyISAM**, or a routine, trigger, event or view: stop and tell the developers. The folder copy of step 3.1 is a
   complete backup only of MyISAM tables, and the copy of step 3.2 refuses what it would not carry.
+- **`sql_mode`**: write down the global value and whether an option file sets it. Open Dental and this program set the global `sql_mode`
+  to blank at every start, but MariaDB forgets that when it restarts (step 3.1 restarts it) and goes back to the option files, whose default
+  on MariaDB 10.11 includes `STRICT_TRANS_TABLES`. Under a strict mode, a program of step 0.4 that inserts rows naming its columns fails on
+  the tables to which Open Dental 25.4 to 26.2 add a NOT NULL column without a default (step 0.4 lists them). If no option file sets
+  `sql_mode`, give this to the developers before the day: the usual answer is `sql_mode=""` in the server's option file
+  ([db-connection-security.md](db-connection-security.md), section 4), set by the office's server administrator, not during the switch.
+- **Time zone**: write it down. Open Dental stores office wall-clock times; the switch does not change the server, so other programs that
+  read those times as local time keep working.
 
 0.0.2. **[server] The tools' MariaDB account.** With the Debian and Ubuntu packages, MariaDB's `root` logs in only through the server's local socket, which a program on
 another computer cannot use, so the tools get an account of their own with a password. Choose a password of at least 20 letters and digits
@@ -354,6 +366,31 @@ office uses it. Write the list down, per computer.
 [server] `sudo mariadb -e "SELECT user,host FROM mysql.user"`, the jobs on `<db-server>` (`sudo crontab -l; ls /etc/cron.d /etc/cron.daily;
 systemctl list-timers --all --no-pager`), and ask each vendor. They are paused in step 1.2 and pointed at `opendental_pms` in step 9.
 
+For each such program, also write down, from its configuration and its owner (vendor, or whoever wrote it):
+
+- **Where it is pointed at `opendental`**: the file, setting or environment variable that names the database, and the computer.
+- **Its account's rights** [server]: `sudo mariadb -e "SHOW GRANTS FOR '<user>'@'<host>'"`. Rights on `` `opendental`.* `` or on single
+  tables and columns of `opendental` do not exist on `opendental_pms`: prepare, before the day, the same `GRANT` statements with the database
+  name changed (step 9). A `GRANT` that names a column the 26.2.0 schema does not have is refused as a whole; no column of Open Dental
+  25.3.48 is removed or renamed by adoption, so the statements apply as they are.
+- **What it writes**: the tables it inserts rows into. Open Dental 25.4 to 26.2 add NOT NULL columns without a default to existing tables
+  (the 26.2.0 schema reference, `OpenPmsDentalBusiness/Misc/ForkMigrations/Reference/OdSchema-26.2.0.sql`): `apisubscription`
+  (`FailureReason`, `SubsequentFailures`), `carrier` (`PaySuiteTransSup`, `PreAuthCodes`), `chatuserod` (`PlayNotificationSound`),
+  `claimproc` (`Etrans835AttachNum`), `codegroup` (`ShowInHistory`, `HistProcCode`, `IsPerioFourQuads`), `definition` (`Supp`), `dunning`
+  (`EmailType`), `employee` (`Title`), `evaluationdef` (`SchoolCourseDefNum`), `inseditlog` and `inseditpatlog` (`OldValueBig`, `NewValueBig`),
+  `payterminal` (`CCIntegration`), `procedurelog` (`NoBillIns`), `procnote` (`UserNum2`, `SigIsTopaz2`), `provider` (`ClaimFormNum`,
+  `GlidewellAcctNum`), `schoolcoursedef` (`GradingScaleNum`), `smstomobile` (`SecUserNumEntry`) and `statement` (`IsServiceDateView`). A program
+  that inserts into one of these naming its columns fails after the switch if `sql_mode` is strict (step 0.0.1), and must then be changed,
+  or the server's `sql_mode` set blank, before the day. A program that must run on both databases (for a rollback) can check at its start
+  whether the columns exist.
+- **What it added to the database**: columns, indexes, tables, triggers or views of its own. Adoption keeps only Open Dental's schema and
+  this program's tables: it drops `patient._portal_active_email` and its index `portal_active_email_uniq` (see "What adoption does"), and
+  step 0.0.1 stops at a trigger or view. A program that relies on such an addition must be changed, or the addition re-created on
+  `opendental_pms` in step 9 with the developers' agreement.
+- **Whether it loads files from the Open Dental program folder** (for example Open Dental's `MySqlConnector.dll` from
+  `C:\Program Files (x86)\Open Dental`): step 2.1 uninstalls Open Dental, so such a program stops working. Give it its own copy before the
+  day.
+
 0.5. **Workstations.** For every computer that runs Open Dental, write down: its name, the Open Dental folder (usually
 `C:\Program Files (x86)\Open Dental`), and the server, database and user in that folder's `FreeDentalConfig.xml`. This list is used in steps
 2.1, 8 and 10, and in Rollback step 1. If the user is not `root`, also record that account's rights: [server] `sudo mariadb -e "SHOW GRANTS FOR '<user>'@'<host>'"`
@@ -498,7 +535,10 @@ until step 2 stops them, so lines from the computers that run them (step 0.3 lis
 close Open Dental there, and run the command again until only the services' lines remain, or "No connection uses opendental." (exit code 0).
 Step 3.1 repeats this check after step 2, and there it must say "No connection uses opendental.".
 
-1.2. Pause anything else that writes to the database (step 0.4 programs and jobs).
+1.2. Stop every program and job of step 0.4, also those that only read: `connections`, `copy` and `adopt` refuse while any of them is
+connected, and a program that connects every minute or so makes them fail now and then. A program that keeps the keys of Open Dental
+rows in a database of its own (a `PatNum`, for example) must not write to `opendental` after step 3.1: that row would be missing from
+`opendental_pms`.
 
 ## 2. Stop and uninstall the Open Dental services and clients
 
@@ -653,12 +693,20 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   different codes
 - step 2026110206 ("Routine maintenance: grant Maintenance Setup and Maintenance Record Completion to the Security Admin groups") "changed the
   database:", followed by "Granted MaintenanceSetup to N Security Admin user group(s)" and "Granted MaintenanceRecord to N Security Admin user
-  group(s)" with the step 0.2 numbers (or "found nothing to change" if step 0.2 said it changes nothing); then
-  "Fork migrations: 30 step(s) run, 0 already done. Fork schema level 2026110781.", "The schema matches Open Dental 26.2.0 (OdSchemaCompat)."
+  group(s)" with the step 0.2 numbers (or "found nothing to change" if step 0.2 said it changes nothing)
+- the steps of this program's own tables (2026110201 to 2026110213, 2026110221, 2026111401 "EHR value sets: add the ehrcode table",
+  2026112301, 2026112302, 2026112311 and 2026112312) "changed the database:", each followed by its `CREATE TABLE`; step 2026112303 ("Image
+  adjust tools: grant Image Adjust Presets to the Setup groups") with the grants step 0.2 listed; step 2026110801 ("Fill the blank
+  OrthoComposite patient arguments with its public arguments") "found nothing to change" (an Open Dental database has no OrthoComposite row)
+- step 2026112451 ("Rename the Dental Studio and Podium program property descriptions") "changed the database:", followed by one line for each
+  `programproperty` row step 0.2 listed (Open Dental's conversions wrote both rows into every database, so normally two); then
+  "Fork migrations: 38 step(s) run, 0 already done. Fork schema level 2026112451.", "The schema matches Open Dental 26.2.0 (OdSchemaCompat)."
   and "Adoption finished."
-- "Fork migration, every step again: 30 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 12 table(s) of this program that match their declarations."
+- "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations."
 - the rehash of step 5
-- "Row check against opendental ..." with fourteen lines and no line starting `FAIL`: `preference` (the markers added, "N of the N 25.4 and 26.1
+- "Row check against opendental ..." with one line for each table it checks and no line starting `FAIL`: `programproperty` (the Dental Studio
+  and Podium rows step 0.2 listed, `PropertyDesc` only, to this program's text; no other row or column changed, none added or removed),
+  `preference` (the markers added, "N of the N 25.4 and 26.1
   preference(s) migration-preview lists added with their defaults", `DataBaseVersion` and `ProgramVersion` set to 99.0.0.0, the preferences of
   the "Blanked" line blanked, "no other row changed or removed"), `documentmisc` (the update-file rows deleted, "0 other row(s) deleted; 0
   added; 0 changed"), `securitylog` ("2 entries added (1 adoption, 1 rehash); no existing row changed or removed"), `securityloghash`,
@@ -679,10 +727,11 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   lists deleted (ToolButItemNum N)", after the DXC part if there is one), "Changed columns:" ("claimpayment.Note: N of the N NULL note(s)
   migration-preview counts now empty, every other note unchanged", and `insverify` and `insverifyhist.DateLastAssigned` "the original date at
   midnight in all N row(s)"), "New tables and columns:" ("8 new table(s), all empty (...); 35 new column(s) in 24 table(s) hold their default
-  in every row (insbluebook.DateTStamp: one time in every row, that of the ALTER TABLE)."), "Fork tables:" ("16 new table(s) of this program, all empty (documentadjust, imageadjustpreset, maintfield, maintitem, maintrecord, maintrecordvalue,
+  in every row (insbluebook.DateTStamp: one time in every row, that of the ALTER TABLE)."), "Fork tables:" ("17 new table(s) of this program, all empty (documentadjust, ehrcode, imageadjustpreset, maintfield, maintitem, maintrecord, maintrecordvalue,
   maintstep, mountitemdefguide, mountitemguide, sshhostkey, supplycount, supplycountline, supplylot, supplyproccode, supplyprocpending, supplysetting).": the routine maintenance
   tables, the SSH host keys table (no server's key is stored yet: the first connection to each server stores it), the Imaging adjust tables
-  (no image has saved filters and the office has no preset yet), the Image camera session tables (no photo mount slot has a guide yet) and the inventory tables
+  (no image has saved filters and the office has no preset yet), the Image camera session tables (no photo mount slot has a guide yet), the EHR
+  value sets table (empty until the office imports its own value sets) and the inventory tables
   but the stock ledger, so no stock count is open), "Stock ledger:" ("supplyledger added (inventory tracking), N of the N
   opening balance row(s) migration-preview lists and no other row.") and `updatehistory` ("identical row by row")
 - "Adopt: PASS." with the report rows renamed (or "the fork migration renamed no report row"), the UDS+ report row added and, if step 0.2
@@ -757,6 +806,11 @@ person reads them all):
   Adjust Presets, FKey 0, no date limit) for each user group with Setup, as step 0.2 lists; step 4's row check requires exactly those rows;
 - this program's own tables of the Image camera session (steps 2026112311 and 2026112312): `TableAdded` for `mountitemdefguide` and
   `mountitemguide` (0 rows); step 4's row check printed them under "Fork tables:", empty;
+- this program's own table of EHR value sets (step 2026111401): `TableAdded` for `ehrcode` (0 rows); step 4's row check printed it under
+  "Fork tables:", empty;
+- the program property descriptions (step 2026112451): `ColumnChanged programproperty.PropertyDesc`. A report can only allow it as a
+  whole column; step 4's row check printed that only the Dental Studio and Podium rows
+  step 0.2 listed changed, `PropertyDesc` only;
 - `ChecksumTableChanged` lines "explained by the differences listed for this table", for the tables above.
 
 A line for any other table in the Allowed section: stop, go to Rollback, and give `compare.txt` to the developers. Every business total
@@ -765,7 +819,7 @@ release client line says `Exits` with `database writes no`, and the last line is
 (exit code 0). This comparison holds only now: once the program has started (6.2), its own writes are in the database.
 
 6.2. **[workstation] First start and smoke test.** On the update server (the workstation named in Update Setup, `WebServiceServerName`),
-install this program's release build in its own folder (for example `C:\Program Files (x86)\Open PMS - Dental`), never over the Open Dental
+install this program's release build with its setup, which installs into `C:\Program Files\Open PMS - Dental\` (64-bit; [installing.md](installing.md)), never over the Open Dental
 folder. Start it (`OpenPmsDental.exe`); in the Choose Database window enter the server (`<db-server>` or `<db-server-ip>`, as in the workstations' `FreeDentalConfig.xml`) and the database
 `opendental_pms`. The version guard says the database is adopted and up to date (if it offers to publish this build, see step 8.1); log in. If
 it says instead that the database "has not been adopted" and offers the adoption tool, it is pointed at the wrong database: answer No and
@@ -826,8 +880,19 @@ Fill this table; every line needs both marks before step 10. A workstation that 
 
 ## 9. Point the other programs at the adopted database
 
-Repoint every program and job from step 0.4 at `opendental_pms` (same server, same accounts; grant the accounts on `opendental_pms` if they
-were database-specific grants) and resume them. Set the office's backup jobs on `<db-server>` to back up `opendental_pms`.
+Repoint every program and job from step 0.4 at `opendental_pms` and resume them, one at a time, each with its own check. Set the office's
+backup jobs on `<db-server>` to back up `opendental_pms`. For each program, in this order:
+
+1. [server] Its account's rights on `opendental_pms`: run the `GRANT` statements step 0.4 prepared (table and column grants included), then
+   `sudo mariadb -e "SHOW GRANTS FOR '<user>'@'<host>'"` shows the same rights on `opendental_pms` as on `opendental`. An account with rights
+   on `*.*` needs nothing.
+2. [server] Only if step 0.4 found that it relies on an addition adoption drops, and the developers agreed: re-create that addition on
+   `opendental_pms` now (after step 6.1's comparison, which expects it gone, and before the program starts).
+3. Change only the database name in its configuration, from `opendental` to `opendental_pms`, and start it (with the build step 0.4 prepared,
+   if it needed a change for the 26.2 schema).
+4. Its own check (its health check or log, a read and, if it writes, a test record that is deleted afterwards in this program).
+
+Note on the checklist which programs were repointed, and when.
 
 ## 10. Go live
 
@@ -924,7 +989,10 @@ are skipped.
    installer (step 0.10), using the lists from steps 0.3 and 0.5; rename `FreeDentalConfig.xml.before-switch` back where it exists. Re-grant the
    workstations' MariaDB account on `opendental` if step 2.1 revoked it. Re-enable the scheduled tasks of step 2. Move `Setup.exe` and
    `UpdateFiles` back into the A to Z folder.
-5. **Point the other programs back at `opendental`** (step 0.4) and resume them, backup jobs included.
+5. **Point the other programs back at `opendental`** (step 0.4) and resume them, backup jobs included, with the build they ran before if
+   step 9 started a new one. What they wrote to `opendental_pms` since step 9 is missing from `opendental`: list it from their own records
+   or with the security log query of step 2 (a program that writes rows without a security log entry, list from its own dates, for
+   example `patient.SecDateEntry`, `appointment.SecDateTEntry`).
 6. When the analysis no longer needs it: [server] drop the tools' account
    (`sudo mariadb -e "DROP USER 'adoption_admin'@'localhost', 'adoption_admin'@'127.0.0.1'"`), close the forward, and delete `<backup>` once the
    owner agrees.
@@ -938,13 +1006,13 @@ Sign each line with time and initials.
 
 | # | Step | Expected | Done |
 |---|---|---|---|
-| 0.0.1 | Platform recorded | Debian or Ubuntu, MariaDB 10.11 (version with its package suffix, compile OS linux), `<datadir>` and port written down; bind address lets `127.0.0.1` in; MyISAM 422; no routine, trigger, event or view; other databases noted | |
+| 0.0.1 | Platform recorded | Debian or Ubuntu, MariaDB 10.11 (version with its package suffix, compile OS linux), `<datadir>` and port written down; bind address lets `127.0.0.1` in; MyISAM 422; no routine, trigger, event or view; other databases noted; `sql_mode` (global, and the option file's or none) and time zone written down | |
 | 0.0.2 | `adoption_admin` created, history file removed | Password in the password manager | |
 | 0.0.3, 0.0.4 | Forward and tools checked from the admin PC | `connections` lists the workstations' connections, or none | |
 | 0.1 | Validation report signed, release build ready | Owner signature | |
 | 0.2 | Versions; FLOAT check filed; fork migration preview | 25.3.48.0 / 25.3.48.0, not corrupted, no update running; `float-check` exit 0 or 6, file kept; `migration-preview` exit 0, each report row rename written here (old name, new name, DisplayReportNum), or "none"; NULL notes ___, preferences ___, PhoneExtension grants moved ___, user groups BlockoutAdd ___ / BlockoutDelete ___; DXC Patient Credit Score row disabled ___ (ProgramNum or none), buttons deleted ___; Trojan Express Collect row disabled ___ (ProgramNum or none), buttons deleted ___; UDS+ row after DisplayReportNum ___, rows moved ___, user groups granted ___; Insurance History code groups added ___ (name and History Proc Code); settings read under Open Dental's names, each shown value written here (or the line kept with the file); step 2026110731 changes no preference row | |
 | 0.3 | Services and tasks listed, per computer (both service queries) | List filed | |
-| 0.4 | Direct database users and jobs listed | List filed | |
+| 0.4 | Direct database users and jobs listed | List filed: per program its configuration, account and grants (`GRANT` statements for `opendental_pms` prepared), the tables it writes, its additions to the database, files it loads from the Open Dental folder; each problem solved or given to the developers | |
 | 0.5 | Workstations listed, with folder, database and MariaDB user | List filed | |
 | 0.6 | Owner's answer on the preparation dry run | Yes / no, signed | |
 | 0.6 | If yes, outside office hours: services stopped, nobody connected, folder copy, dry run, `credentials` | `connections` exit 0; `IDENTICAL`, `active`; `Dry run: PASS`; times filed | |
@@ -954,7 +1022,7 @@ Sign each line with time and initials.
 | 0.9 | Rollback deadline agreed | Date and time | |
 | 0.11 | Settings that do not carry over, recorded in Open Dental 25.3.48 by the second person | Table of step 0.11, fourth column filled for all 5 rows (a value, or "not found") | |
 | 1.1 | Everyone out | `connections`: only the services' connections left, or none | |
-| 1.2 | Other writers paused | Checked | |
+| 1.2 | Every program and job of 0.4 stopped, readers too | Checked | |
 | 2 | Open Dental services stopped and removed, tasks disabled, A to Z Setup moved | Both service queries empty, tasks `Disabled`, on every computer of 0.3 | |
 | 2.1 | Open Dental removed from every workstation (not just shortcuts), `FreeDentalConfig.xml` renamed; account revoked on `opendental` where possible | Table of step 8, first column complete | |
 | 3.1 | Nobody connected; folder copy, start time noted | `connections` exit 0; `IDENTICAL`, `active`; off-server copy if the owner agreed | |
@@ -966,7 +1034,7 @@ Sign each line with time and initials.
 | 7 | Passwords re-entered | `credentials` list empty or explained | |
 | 7.1 | Recorded settings set again in this program | Table of step 0.11, fifth column "set" (or "refused", given to the developers) and initialled by the second person on every row not "not found"; the settings that carry over by Open Dental's name show the values `migration-preview` listed (or the differences given to the developers) | |
 | 8 | Every workstation switched | Table of step 8 complete | |
-| 9 | Other programs repointed, backups on `opendental_pms` | Checked | |
+| 9 | Other programs repointed, backups on `opendental_pms` | Per program: grants on `opendental_pms` shown, configuration changed, own check passed | |
 | 10.1 | No connection to `opendental` | `connections` exit 0 | |
 | 10.2 | `opendental` unchanged since the backup | 0 unexpected differences | |
 | 10.3 | Live | Announced | |
