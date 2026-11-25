@@ -199,7 +199,9 @@ namespace UiRefreshTests {
 				foreach(ColumnSite columnSite in listSites.Where(x => x.Width>0)) {
 					HorizontalAlignment horizontalAlignment=columnSite.Alignment=="Right" ? HorizontalAlignment.Right
 						: (columnSite.Alignment=="Center" ? HorizontalAlignment.Center : HorizontalAlignment.Left);
-					gridOD.Columns.Add(new GridColumn(columnSite.Title,columnSite.Width,horizontalAlignment) { IsWidthDynamic=columnSite.IsDynamic });
+					//A heading of two lines is "Date\r\nShowing" in the source, as GridOD gets it from the compiled string.
+					string heading=columnSite.Title.Replace("\\r\\n","\r\n").Replace("\\n","\n");
+					gridOD.Columns.Add(new GridColumn(heading,columnSite.Width,horizontalAlignment) { IsWidthDynamic=columnSite.IsDynamic });
 				}
 				gridOD.ListGridRows.Clear();
 				for(int row=0;row<3;row++) {

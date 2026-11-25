@@ -48,7 +48,9 @@ window's buttons at the bottom right. Some windows grew a little so that everyth
 
 The grid columns that hold dates, times, amounts, phone numbers or tooth surfaces are wide enough for them in the new font: a date such as
 12/31/2026 no longer wraps onto two lines (the Account module, payment plans, claims and many lists), and the Fee column of Edit
-Appointment is no longer cut at the grid's right edge. The description or note column beside them gave up the few pixels.
+Appointment is no longer cut at the grid's right edge. A date or time keeps a small gap before the next column instead of running into it,
+the headings of these columns are whole (Amount in the Chart's progress notes, Write-off, Adjustment and others), and Edit Appointment's
+procedure descriptions stay on one line. The description or note column beside them gave up the few pixels.
 
 ## What stayed as it was
 
