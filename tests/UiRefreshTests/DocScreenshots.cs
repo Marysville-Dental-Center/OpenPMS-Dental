@@ -1,8 +1,8 @@
 // The screenshots of the README and the project site (package DOCS-SITE, docs/differences.md, docs/screenshots/README.md): the program's own
 // module controls (with the module bar and the light signal grid under it, UI-COLS-2) and two dialogs, drawn off screen as the galleries
 // draw them (DesignSheetWindows.Capture), with a fictional patient selected and the module's data loaded from a scratch database.
-// Opt-in: OPMS_UI_DOC_SCREENSHOTS names the folder for the pictures; skipped otherwise, so the default runs keep the no-database rule of this project (Scan\NoDatabaseGuard). The database is local only (127.0.0.1:3306, root,
-// blank password), named docs_screens_<utc time>_<process id>, built from db/init/new-database.sql and the fork migrations, filled with the fictional practice of
+// Opt-in: OPMS_UI_DOC_SCREENSHOTS names the folder for the pictures; skipped otherwise, so the default runs keep the
+// no-database rule of this project (Scan\NoDatabaseGuard). The database is local only (127.0.0.1:3306, root, blank password), named docs_screens_<utc time>_<process id>, built from db/init/new-database.sql and the fork migrations, filled with the fictional practice of
 // DocSampleData (the names of tools/DevDbTool's sample data) and dropped at the end; OPMS_UI_DOC_SCREENSHOTS_KEEP_DB=1 keeps it. When the
 // test ends, the process's connection is the no-database guard's again. Nothing is shown; message boxes throw (ODBuild.IsUnitTest).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
