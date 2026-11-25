@@ -290,11 +290,11 @@ namespace OpenPmsDental {
 			gridProbReconcile.Columns.Add(col);
 			col=new GridColumn("Problem Name",260);
 			gridProbReconcile.Columns.Add(col);
-			col=new GridColumn("Notes",300);
+			col=new GridColumn("Notes",278);
 			gridProbReconcile.Columns.Add(col);
 			col=new GridColumn("Status",80,HorizontalAlignment.Center);
 			gridProbReconcile.Columns.Add(col);
-			col=new GridColumn("Is Incoming",50,HorizontalAlignment.Center);
+			col=new GridColumn("Is Incoming",72,HorizontalAlignment.Center);
 			gridProbReconcile.Columns.Add(col);
 			gridProbReconcile.ListGridRows.Clear();
 			GridRow row;

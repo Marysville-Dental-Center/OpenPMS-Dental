@@ -37,6 +37,11 @@ namespace UiRefreshTests {
 			Assert.AreEqual("surface",GridColumnFit.GetKind("Surf"));
 			Assert.IsNull(GridColumnFit.GetKind("Description"));
 			Assert.IsNull(GridColumnFit.GetKind("Patient"));
+			//UI-COLS-2: a balance or an adjustment can be negative.
+			Assert.AreEqual("9,999.99",GridColumnFit.GetValue("money","Fee"));
+			Assert.AreEqual(GridColumnFit.MONEY_NEGATIVE,GridColumnFit.GetValue("money","Balance"));
+			Assert.AreEqual(GridColumnFit.MONEY_NEGATIVE,GridColumnFit.GetValue("money","Adj Amt"));
+			Assert.AreEqual("",GridColumnFit.GetValue(null,"Patient"));
 		}
 
 		[TestMethod]
@@ -106,8 +111,8 @@ namespace UiRefreshTests {
 				string kind=GridColumnFit.GetKind(title);
 				bool isLast=i==listDisplayFields.Count-1;
 				int widthShown=isLast ? right-x : Math.Min(width,right-x);
-				//The value and the heading (GridColumnFit.GetProblemAt), at the width the column shows.
-				string problem=kind==null ? "" : GridColumnFit.GetProblemAt(title,kind,GridColumnFit.DictValues[kind],"Left",widthShown,scale);
+				//The value and the heading (GridColumnFit.GetProblemAt), at the width the column shows. UI-COLS-2: every column's heading.
+				string problem=GridColumnFit.GetProblemAt(title,kind??"other",GridColumnFit.GetValue(kind,title),"Left",widthShown,scale);
 				if(problem!="" || (!isLast && x+width>right)) {
 					listProblems.Add("\""+title+"\" from "+x+" to "+(x+width)+" shows "+widthShown+" px of the grid's "+right+" ("+problem+")");
 				}

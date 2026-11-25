@@ -32,7 +32,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g("TableDiscountPlans","Description"),200);
+			col=new GridColumn(Lan.g("TableDiscountPlans","Description"),173);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableDiscountPlans","Fee Schedule"),170);
 			gridMain.Columns.Add(col);
@@ -41,7 +41,7 @@ namespace OpenPmsDental {
 			col=new GridColumn(Lan.g("TableDiscountPlans","Pats"),40);
 			gridMain.Columns.Add(col);
 			if(checkShowHidden.Checked) {
-				col=new GridColumn(Lan.g("TableDiscountPlans","Hidden"),20,HorizontalAlignment.Center);
+				col=new GridColumn(Lan.g("TableDiscountPlans","Hidden"),47,HorizontalAlignment.Center);
 				gridMain.Columns.Add(col);
 			}
 			gridMain.ListGridRows.Clear();

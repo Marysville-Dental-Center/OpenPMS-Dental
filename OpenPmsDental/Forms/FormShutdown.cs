@@ -37,10 +37,10 @@ namespace OpenPmsDental {
 			gridActiveInstances.BeginUpdate();
 			//Columns
 			gridActiveInstances.Columns.Clear();
-			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"Computer Name"),120));
+			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"Computer Name"),118));
 			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"User"),110));
 			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"Last Active"),140,GridSortingStrategy.DateParse));
-			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"Connection Type"),100));
+			gridActiveInstances.Columns.Add(new GridColumn(Lan.g(this,"Connection Type"),102));
 			//Rows
 			gridActiveInstances.ListGridRows.Clear();
 			GridRow row;

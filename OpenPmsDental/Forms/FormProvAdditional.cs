@@ -35,7 +35,7 @@ namespace OpenPmsDental {
 			Cursor=Cursors.WaitCursor;
 			gridProvProperties.BeginUpdate();
 			gridProvProperties.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableProviderProperties","Clinic"),120);
+			GridColumn col=new GridColumn(Lan.g("TableProviderProperties","Clinic"),103);
 			gridProvProperties.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProviderProperties","DEA Num"),120,true);
 			gridProvProperties.Columns.Add(col);
@@ -43,9 +43,9 @@ namespace OpenPmsDental {
 			gridProvProperties.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProviderProperties","State Rx ID"),120,true);
 			gridProvProperties.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableProviderProperties","State Where Licensed"),120,true);
+			col=new GridColumn(Lan.g("TableProviderProperties","State Where Licensed"),129,true);
 			gridProvProperties.Columns.Add(col);
-			gridProvProperties.Columns.Add(new GridColumn(Lan.g("TableProviderProperties","CareCredit Merch Num"),130,true));
+			gridProvProperties.Columns.Add(new GridColumn(Lan.g("TableProviderProperties","CareCredit Merch Num"),138,true));
 			gridProvProperties.ListGridRows.Clear();
 			GridRow row;
 			ProviderClinicDefault=_listProviderClinics.Find(x => x.ClinicNum==0);

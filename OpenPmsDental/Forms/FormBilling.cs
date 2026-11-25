@@ -128,7 +128,7 @@ namespace OpenPmsDental {
 				column=new GridColumn(Lan.g("TableBilling","Name"),150);
 			}
 			else {
-				column=new GridColumn(Lan.g("TableBilling","Name"),180);
+				column=new GridColumn(Lan.g("TableBilling","Name"),176);
 			}
 			gridBill.Columns.Add(column);
 			column=new GridColumn(Lan.g("TableBilling","BillType"),110);
@@ -143,7 +143,7 @@ namespace OpenPmsDental {
 			gridBill.Columns.Add(column);
 			column=new GridColumn(Lan.g("TableBilling","=AmtDue"),70,HorizontalAlignment.Right);
 			gridBill.Columns.Add(column);
-			column=new GridColumn(Lan.g("TableBilling","PayPlanDue"),70,HorizontalAlignment.Right);
+			column=new GridColumn(Lan.g("TableBilling","PayPlanDue"),74,HorizontalAlignment.Right);
 			gridBill.Columns.Add(column);
 			if(PrefC.GetBool(PrefName.ShowFeatureSuperfamilies)) {
 				column=new GridColumn(Lan.g("TableBilling","SF"),30);

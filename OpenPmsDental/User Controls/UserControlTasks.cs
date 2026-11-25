@@ -1013,10 +1013,10 @@ namespace OpenPmsDental {
 				gridMain.Columns.Add(gridColumn);
 			}
 			if(tabControl.SelectedTab==tabNew || tabControl.SelectedTab==tabOpenTickets || tabControl.SelectedTab==tabPatientTickets) {
-				gridColumn=new GridColumn(Lan.g("TableTasks","Task List"),90);
+				gridColumn=new GridColumn(Lan.g("TableTasks","Task List"),83);
 				gridMain.Columns.Add(gridColumn);
 			}
-			gridColumn=new GridColumn(Lan.g(this,"+/-"),17,HorizontalAlignment.Center);
+			gridColumn=new GridColumn(Lan.g(this,"+/-"),24,HorizontalAlignment.Center);
 			gridColumn.HeaderClick+=GridHeaderClickEvent;
 			gridMain.Columns.Add(gridColumn);
 			//Everything that is not HQ's triage task list will have the attachments column

@@ -407,11 +407,11 @@ namespace OpenPmsDental{
 			gridDunning.Columns.Add(column);
 			column=new GridColumn("Ins",40);
 			gridDunning.Columns.Add(column);
-			column=new GridColumn("Message",150);
+			column=new GridColumn("Message",144);
 			gridDunning.Columns.Add(column);
 			column=new GridColumn("Bold Message",150);
 			gridDunning.Columns.Add(column);
-			column=new GridColumn("Email",30, HorizontalAlignment.Center);
+			column=new GridColumn("Email",36, HorizontalAlignment.Center);
 			gridDunning.Columns.Add(column);
 			gridDunning.ListGridRows.Clear();
 			GridRow row;

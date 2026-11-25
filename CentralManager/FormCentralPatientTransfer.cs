@@ -34,8 +34,8 @@ namespace CentralManager {
 			gridDatabasesTo.BeginUpdate();
 			gridDatabasesTo.Columns.Clear();
 			gridDatabasesTo.Columns.Add(new GridColumn(Lan.g("TableDatabases","Databases"),150));
-			gridDatabasesTo.Columns.Add(new GridColumn(Lan.g("TableDatabases","Note"),200));
-			gridDatabasesTo.Columns.Add(new GridColumn("Status",30,HorizontalAlignment.Center));
+			gridDatabasesTo.Columns.Add(new GridColumn(Lan.g("TableDatabases","Note"),189));
+			gridDatabasesTo.Columns.Add(new GridColumn("Status",41,HorizontalAlignment.Center));
 			gridDatabasesTo.ListGridRows.Clear();
 			GridRow row;
 			foreach(CentralConnection conn in _listConnectionsToTransferTo) {

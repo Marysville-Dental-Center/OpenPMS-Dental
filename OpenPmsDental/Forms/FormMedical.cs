@@ -489,9 +489,9 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g("TableDiseases","Name"),200);//total is about 325
 			gridDiseases.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableDiseases","Patient Note"),450);
+			col=new GridColumn(Lan.g("TableDiseases","Patient Note"),449);
 			gridDiseases.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableDisease","Status"),40,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableDisease","Status"),41,HorizontalAlignment.Center);
 			gridDiseases.Columns.Add(col);
 			gridDiseases.ListGridRows.Clear();
 			GridRow row;
@@ -614,9 +614,9 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g("TableAllergies","Allergy"),150);
 			gridAllergies.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableAllergies","Reaction"),500);
+			col=new GridColumn(Lan.g("TableAllergies","Reaction"),499);
 			gridAllergies.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableAllergies","Status"),40,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableAllergies","Status"),41,HorizontalAlignment.Center);
 			gridAllergies.Columns.Add(col);
 			gridAllergies.ListGridRows.Clear();
 			GridRow row;

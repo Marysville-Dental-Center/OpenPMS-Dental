@@ -134,7 +134,7 @@ namespace OpenPmsDental {
 		public void FillGrid() {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableAlerts","Alert #"),45,HorizontalAlignment.Center);
+			GridColumn col=new GridColumn(Lan.g("TableAlerts","Alert #"),46,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableAlerts","Read"),45,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);

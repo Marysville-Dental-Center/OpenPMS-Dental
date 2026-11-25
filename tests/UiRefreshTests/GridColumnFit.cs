@@ -44,6 +44,9 @@ namespace UiRefreshTests {
 		public string Case;
 		///<summary>Left, Right or Center, from the GridColumn's arguments.</summary>
 		public string Alignment="Left";
+		///<summary>UI-COLS-2: the window's designer file sets HasAutoWrappedHeaders on a grid (GridOD wraps a heading at its spaces and makes the
+		///header as high as the most lines): each word of the heading fits, not the whole line. Read per file, so it holds for every grid of it.</summary>
+		public bool IsHeadingWrapped;
 
 		public override string ToString() {
 			return File+":"+Line+" "+Source+" \""+Title+"\" "+Width;
@@ -77,6 +80,8 @@ namespace UiRefreshTests {
 			{ "surface","MODBL" },
 			{ "code","D0120" },
 		};
+		///<summary>UI-COLS-2: the widest normal value of a money column that can show a negative amount (a balance, an adjustment): GetValue.</summary>
+		public const string MONEY_NEGATIVE="-9,999.99";
 		///<summary>The scales the columns are checked at.</summary>
 		public static readonly float[] ArrayScales=new float[] { 1f,1.5f };
 		///<summary>The clear pixels a value needs between its ink and a gridline (GetWidthNeededClear): the cell padding GDI+ gives it on the
@@ -132,6 +137,19 @@ namespace UiRefreshTests {
 				return "code";
 			}
 			return null;
+		}
+
+		///<summary>UI-COLS-2: the widest normal value of the value type for a column with this heading: DictValues' value, MONEY_NEGATIVE for a
+		///money column whose heading says a balance or an adjustment (the account module shows a credit balance and an adjustment as -50.00).
+		///"" for "other".</summary>
+		public static string GetValue(string kind,string title) {
+			if(kind==null || !DictValues.ContainsKey(kind)) {
+				return "";
+			}
+			if(kind=="money" && Regex.IsMatch(title.ToLowerInvariant(),@"\bbal(ance)?\b|\badj(ustments?)?\b")) {
+				return MONEY_NEGATIVE;
+			}
+			return DictValues[kind];
 		}
 
 		///<summary>A width at the scale, as GridOD.ScaleI rounds it.</summary>
@@ -211,22 +229,26 @@ namespace UiRefreshTests {
 		///clear between its ink and the gridline on the side the column's alignment leaves free: the right for Left and Center, the left for
 		///Right. A value drawn up to the gridline runs into the next column's value ("06/10/2025|Alex"). The
 		///side the alignment holds the value to keeps GDI+'s own padding (about 1/6 em), which no width changes.</summary>
-		public static int GetWidthNeededClear(string text,float scale,string alignment="Left") {
-			int width=GetWidthNeeded(text,scale);
-			while(width<2000 && GetClear(text,scale,width,alignment)<CLEAR_MIN) {
+		///<remarks>UI-COLS-2: isBoth checks both sides (the headings, which GridOD draws centered), isBold measures in the header font.</remarks>
+		public static int GetWidthNeededClear(string text,float scale,string alignment="Left",bool isBold=false,bool isBoth=false) {
+			int width=GetWidthNeeded(text,scale,isBold);
+			while(width<2000 && GetClear(text,scale,width,alignment,isBold,isBoth)<CLEAR_MIN) {
 				width++;
 			}
 			return width;
 		}
 
 		///<summary>The clear pixels on the side the alignment leaves free, at this width. See GetInk.</summary>
-		public static int GetClear(string text,float scale,int width,string alignment="Left") {
-			int[] arrayInk=GetInk(text,scale,width,alignment);
+		public static int GetClear(string text,float scale,int width,string alignment="Left",bool isBold=false,bool isBoth=false) {
+			int[] arrayInk=GetInk(text,scale,width,alignment,isBold);
 			if(arrayInk[0]<0) {
 				return width;
 			}
 			int clearLeft=arrayInk[0]-1;
 			int clearRight=width-1-arrayInk[1];
+			if(isBoth) {
+				return Math.Min(clearLeft,clearRight);
+			}
 			if(alignment=="Right") {
 				return clearLeft;
 			}
@@ -269,6 +291,7 @@ namespace UiRefreshTests {
 					List<ColumnSite> listFile=new List<ColumnSite>();
 					AddMatches(listFile,text,fileRelative,"GridColumn",_regexGridColumn);
 					AddMatches(listFile,text,fileRelative,"DisplayField",_regexDisplayField);
+					bool isHeadingWrapped=IsHeadingWrappedInDesigner(file);
 					int lineBefore=-100;
 					string caseBefore=null;
 					foreach(ColumnSite columnSite in listFile.OrderBy(x => x.Line)) {
@@ -276,6 +299,7 @@ namespace UiRefreshTests {
 							block++;
 						}
 						columnSite.Block=block;
+						columnSite.IsHeadingWrapped=isHeadingWrapped;
 						lineBefore=columnSite.Line;
 						caseBefore=columnSite.Case;
 						ApplyKind(columnSite,listKnown);
@@ -284,6 +308,18 @@ namespace UiRefreshTests {
 				}
 			}
 			return listSites;
+		}
+
+		///<summary>UI-COLS-2: the file's designer file (Form.Designer.cs or Form.designer.cs next to Form.cs) sets HasAutoWrappedHeaders true.</summary>
+		private static bool IsHeadingWrappedInDesigner(string file) {
+			if(file.EndsWith(".designer.cs",StringComparison.OrdinalIgnoreCase)) {
+				return false;
+			}
+			string pathDesigner=file.Substring(0,file.Length-3)+".Designer.cs";//Windows: the name's case does not matter
+			if(!File.Exists(pathDesigner)) {
+				return false;
+			}
+			return Regex.IsMatch(File.ReadAllText(pathDesigner),@"\.HasAutoWrappedHeaders\s*=\s*true");
 		}
 
 		private static void AddMatches(List<ColumnSite> listFile,string text,string fileRelative,string source,Regex regex) {
@@ -325,12 +361,12 @@ namespace UiRefreshTests {
 
 		private static void ApplyKind(ColumnSite columnSite,List<ColumnKnown> listKnown) {
 			string kind=GetKind(columnSite.Title)??"other";
-			string value=kind=="other" ? "" : DictValues[kind];
+			string value=GetValue(kind,columnSite.Title);
 			ColumnKnown columnKnown=listKnown?.FirstOrDefault(x => x.File==columnSite.File && x.Title==columnSite.Title && x.Width==columnSite.Width);
 			if(columnKnown!=null) {
 				columnKnown.IsUsed=true;
 				kind=columnKnown.Kind;
-				value=columnKnown.Value!="" ? columnKnown.Value : (DictValues.ContainsKey(kind) ? DictValues[kind] : "");
+				value=columnKnown.Value!="" ? columnKnown.Value : GetValue(kind,columnSite.Title);
 			}
 			columnSite.Kind=kind;
 			columnSite.Value=value;
@@ -377,14 +413,17 @@ namespace UiRefreshTests {
 		///<summary>The problems of a column at the scales: "" when its value fits on one line with CLEAR_MIN pixels clear of the gridline
 		///(GetWidthNeededClear) and its heading fits on one line in the header font (GridOD.DrawHeaders draws it in UiTheme.FontGridBold, centered,
 		///and the header is one line high, so a wider heading is cut: "Amoun"). A column without a value (no value type, or "other" without a
-		///value in the known list), a dynamic column and a hidden one (width 0, or sized by its grid, not by its width) have none.</summary>
+		///value in the known list) has its heading checked only (UI-COLS-2: every visible column's heading, 2 px clear of both gridlines); a
+		///dynamic column and a hidden one (width 0, or sized by its grid, not by its width) have none.</summary>
 		public static string GetProblem(ColumnSite columnSite) {
-			if(columnSite.Value=="" || columnSite.IsDynamic || columnSite.Width==0) {
+			//UI-COLS-2: a column without a value has its heading checked (GetProblemAt).
+			if(columnSite.IsDynamic || columnSite.Width==0) {
 				return "";
 			}
 			List<string> listProblems=new List<string>();
 			foreach(float scale in ArrayScales) {
-				string problem=GetProblemAt(columnSite.Title,columnSite.Kind,columnSite.Value,columnSite.Alignment,ScaleI(columnSite.Width,scale),scale);
+				string problem=GetProblemAt(columnSite.Title,columnSite.Kind,columnSite.Value,columnSite.Alignment,ScaleI(columnSite.Width,scale),scale,
+					columnSite.IsHeadingWrapped);
 				if(problem!="") {
 					listProblems.Add(problem);
 				}
@@ -394,17 +433,25 @@ namespace UiRefreshTests {
 
 		///<summary>The problem of a column of a value this wide (in pixels at the scale): its value or its heading does not fit (GetProblem), ""
 		///when both do.</summary>
-		public static string GetProblemAt(string title,string kind,string value,string alignment,int width,float scale) {
+		public static string GetProblemAt(string title,string kind,string value,string alignment,int width,float scale,bool isHeadingWrapped=false) {
 			List<string> listProblems=new List<string>();
-			//Money stands clear only of wrapping: 9,999.99 is the top of the range (most amounts are formatted without the separator, as Edit
-			//Appointment's 1260.00, and are narrower), while a date, a time, a phone number or a code is always as wide as its value.
-			int widthNeeded=kind=="money" ? GetWidthNeeded(value,scale) : GetWidthNeededClear(value,scale,alignment);
+			//UI-COLS-2: money stands CLEAR_MIN pixels clear of the gridline its alignment leaves free (9,999.99, -9,999.99 where it can be
+			//negative), like a date; the side it is held to keeps GDI+'s padding (1 px at 100%, 3 px at 150% for 9,999.99), which no width changes.
+			int widthNeeded=value=="" ? 0 : GetWidthNeededClear(value,scale,alignment);
 			if(width<widthNeeded) {
 				listProblems.Add("\""+value+"\" needs "+widthNeeded+(width<GetWidthNeeded(value,scale) ? "" : " (to stand "+CLEAR_MIN+" px clear)"));
 			}
-			//A heading of two lines ("Date\r\nShowing" in the source) has a header two lines high: each line fits.
-			foreach(string line in title.Split(new string[] { "\\r\\n","\\n" },StringSplitOptions.None)) {
-				int widthHeading=GetWidthNeeded(line,scale,isBold:true);
+			//A heading of two lines ("Date\r\nShowing" in the source) has a header two lines high: each line fits. UI-COLS-2: every visible
+			//column's heading, centered as GridOD.DrawHeaders draws it, with CLEAR_MIN pixels clear of both gridlines.
+			List<string> listLines=title.Split(new string[] { "\\r\\n","\\n" },StringSplitOptions.None).ToList();
+			if(isHeadingWrapped) {
+				listLines=listLines.SelectMany(x => x.Split(' ')).ToList();//each word on a line of its own at the narrowest
+			}
+			foreach(string line in listLines) {
+				if(line.Trim()=="") {
+					continue;
+				}
+				int widthHeading=GetWidthNeededClear(line,scale,"Center",isBold:true,isBoth:true);
 				if(width<widthHeading) {
 					listProblems.Add("the heading \""+line+"\" needs "+widthHeading);
 				}

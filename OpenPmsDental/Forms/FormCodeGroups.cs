@@ -39,7 +39,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(new GridColumn(Lan.g(trans,"Age"),35,HorizontalAlignment.Center));
 			gridMain.Columns.Add(new GridColumn(Lan.g(trans,"Hist"),35,HorizontalAlignment.Center));//Open Dental 26.1: Show In History.
 			gridMain.Columns.Add(new GridColumn(Lan.g(trans,"Other"),40,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn(Lan.g(trans,"Hidden"),45,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn(Lan.g(trans,"Hidden"),47,HorizontalAlignment.Center));
 			gridMain.ListGridRows.Clear();
 			int index=-1;
 			for(int i=0;i<_listCodeGroups.Count;i++) {

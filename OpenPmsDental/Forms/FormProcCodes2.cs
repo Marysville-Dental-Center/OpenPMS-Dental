@@ -566,17 +566,17 @@ namespace OpenPmsDental {
 			//The order of these columns are important for gridMain_CellDoubleClick(), gridMain_CellLeave(), and GridMain_CellEnter()
 			GridColumn col=new GridColumn(Lan.g("TableProcedures","Category"),90);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableProcedures","Description"),206);
+			col=new GridColumn(Lan.g("TableProcedures","Description"),203);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcedures","Abbr"),90);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcedures","Code"),50);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Fee 1",50,HorizontalAlignment.Right,true);
+			col=new GridColumn("Fee 1",51,HorizontalAlignment.Right,true);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Fee 2",50,HorizontalAlignment.Right,true);
+			col=new GridColumn("Fee 2",51,HorizontalAlignment.Right,true);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Fee 3",50,HorizontalAlignment.Right,true);
+			col=new GridColumn("Fee 3",51,HorizontalAlignment.Right,true);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

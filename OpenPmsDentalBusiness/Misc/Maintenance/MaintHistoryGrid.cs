@@ -26,7 +26,7 @@ namespace OpenPmsDentalBusiness {
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Done By"),90));
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Due"),70));
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Late"),40,HorizontalAlignment.Right));
-			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Flagged"),50,HorizontalAlignment.Center));
+			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Flagged"),51,HorizontalAlignment.Center));
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Checklist"),100));
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Results"),200){ IsWidthDynamic=true });
 			listGridColumns.Add(new GridColumn(Lans.g(translationName,"Note"),110));

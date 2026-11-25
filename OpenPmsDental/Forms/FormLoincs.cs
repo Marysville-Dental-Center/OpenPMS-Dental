@@ -35,11 +35,11 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Status",80);//,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Long Name",500);//,HorizontalAlignment.Center);
+			col=new GridColumn("Long Name",472);//,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("UCUM Units",100);//,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Order or Observation",100);//,HorizontalAlignment.Center);
+			col=new GridColumn("Order or Observation",128);//,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

@@ -3569,9 +3569,9 @@ namespace OpenPmsDental {
 			}
 			gridAcctPat.BeginUpdate();
 			gridAcctPat.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableAccountPat","Patient"),104);
+			GridColumn col=new GridColumn(Lan.g("TableAccountPat","Patient"),98);
 			gridAcctPat.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableAccountPat","Bal"),50,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TableAccountPat","Bal"),56,HorizontalAlignment.Right);
 			gridAcctPat.Columns.Add(col);
 			gridAcctPat.ListGridRows.Clear();
 			GridRow row;
@@ -3679,22 +3679,22 @@ namespace OpenPmsDental {
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","Patient"),77);
 			gridPayPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlans","Type"),30,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TablePaymentPlans","Type"),35,HorizontalAlignment.Center);
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","Category"),60,HorizontalAlignment.Center);
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","Principal"),60,HorizontalAlignment.Right);
 			gridPayPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlans","Total Cost"),60,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TablePaymentPlans","Total Cost"),63,HorizontalAlignment.Right);
 			gridPayPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlans","Paid"),50,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TablePaymentPlans","Paid"),51,HorizontalAlignment.Right);
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","PrincPaid"),60,HorizontalAlignment.Right);
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","Balance"),60,HorizontalAlignment.Right);
 			gridPayPlan.Columns.Add(col);
 			if(PrefC.GetBool(PrefName.PayPlanHideDueNow)) {
-				col=new GridColumn("Closed",60,HorizontalAlignment.Center);
+				col=new GridColumn("Closed",51,HorizontalAlignment.Center);
 			}
 			else {
 				col=new GridColumn(Lan.g("TablePaymentPlans","Due Now"),60,HorizontalAlignment.Right);

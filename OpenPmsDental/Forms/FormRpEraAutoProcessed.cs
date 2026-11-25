@@ -328,7 +328,7 @@ namespace OpenPmsDental {
 			gridClaims.ListGridRows.Clear();
 			#region Init columns
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","Recd"),65,HorizontalAlignment.Center));
-			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","Patient Name"),250));
+			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","Patient Name"),236));
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","Type"),80,HorizontalAlignment.Center));
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","DateService"),80,GridSortingStrategy.DateParse));
 			if(PrefC.HasClinicsEnabled) {
@@ -343,7 +343,7 @@ namespace OpenPmsDental {
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","W/O Var"),60,HorizontalAlignment.Right,GridSortingStrategy.AmountParse));
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","Supp?"),65,HorizontalAlignment.Center));
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","ClaimAdj?"),65,HorizontalAlignment.Center));
-			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","MoreClaims?"),65,HorizontalAlignment.Center));
+			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","MoreClaims?"),79,HorizontalAlignment.Center));
 			//B-ERA (25.2): for a claim that is not received, the entries of "Don't auto-process claims w/ these CARCs" it carries, e.g. "CO-97 on procedure Z0220".
 			gridClaims.Columns.Add(new GridColumn(Lan.g("TableEtrans835Claims","CARC Hold"),100));//Last column: the grid widens it to fill the rest.
 			#endregion Init columns

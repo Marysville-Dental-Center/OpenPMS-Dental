@@ -33,20 +33,20 @@ namespace OpenPmsDental {
 		private void FillGrid() {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn("Card Number",140));
+			gridMain.Columns.Add(new GridColumn("Card Number",125));
 			if(PrefC.HasClinicsEnabled) {
-				gridMain.Columns.Add(new GridColumn("Clinic",80,HorizontalAlignment.Center));
+				gridMain.Columns.Add(new GridColumn("Clinic",64,HorizontalAlignment.Center));
 			}
-			gridMain.Columns.Add(new GridColumn("Start Date",80,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn("Stop Date",80,HorizontalAlignment.Center));
-			gridMain.Columns.Add(new GridColumn("Amount",80));
-			gridMain.Columns.Add(new GridColumn("Charge Frequency",140));
+			gridMain.Columns.Add(new GridColumn("Start Date",73,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn("Stop Date",73,HorizontalAlignment.Center));
+			gridMain.Columns.Add(new GridColumn("Amount",64));
+			gridMain.Columns.Add(new GridColumn("Charge Frequency",139));
 			gridMain.Columns.Add(new GridColumn("Pay Plan",70,HorizontalAlignment.Center));
 			if(Programs.IsEnabled(ProgramName.EdgeExpress)) {
-				gridMain.Columns.Add(new GridColumn("Global Payments V1",90,HorizontalAlignment.Center));
+				gridMain.Columns.Add(new GridColumn("Global Payments V1",121,HorizontalAlignment.Center));
 			}
 			if(Programs.IsEnabled(ProgramName.MeetInTheCloud)) {//25.4: cards saved through Global Payments V2.
-				gridMain.Columns.Add(new GridColumn("Global Payments V2",90,HorizontalAlignment.Center));
+				gridMain.Columns.Add(new GridColumn("Global Payments V2",121,HorizontalAlignment.Center));
 			}
 			if(Programs.IsEnabled(ProgramName.Xcharge)) {
 				gridMain.Columns.Add(new GridColumn("X-Charge",70,HorizontalAlignment.Center));

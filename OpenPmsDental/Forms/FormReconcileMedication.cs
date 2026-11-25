@@ -216,11 +216,11 @@ namespace OpenPmsDental {
 			gridMedReconcile.Columns.Add(col);
 			col=new GridColumn("Date Stop",100,HorizontalAlignment.Center);
 			gridMedReconcile.Columns.Add(col);
-			col=new GridColumn("Description",350);
+			col=new GridColumn("Description",328);
 			gridMedReconcile.Columns.Add(col);
 			col=new GridColumn("Notes",150);
 			gridMedReconcile.Columns.Add(col);
-			col=new GridColumn("Is Incoming",50,HorizontalAlignment.Center);
+			col=new GridColumn("Is Incoming",72,HorizontalAlignment.Center);
 			gridMedReconcile.Columns.Add(col);
 			gridMedReconcile.ListGridRows.Clear();
 			GridRow row;

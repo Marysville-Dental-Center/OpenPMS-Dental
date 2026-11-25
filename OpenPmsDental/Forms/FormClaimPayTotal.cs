@@ -110,7 +110,7 @@ namespace OpenPmsDental {
 			}
 			else {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),50));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),25));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),27));
 			}
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),126));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Fee"),62,HorizontalAlignment.Right));

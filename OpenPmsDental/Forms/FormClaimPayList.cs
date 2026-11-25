@@ -59,9 +59,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Amount"),75,HorizontalAlignment.Right);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Partial"),40,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g(this,"Partial"),42,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Carrier"),178);
+			col=new GridColumn(Lan.g(this,"Carrier"),163);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"PayGroup"),80);
 			gridMain.Columns.Add(col);
@@ -71,7 +71,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g(this,"Note"),177);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Scanned"),40,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g(this,"Scanned"),53,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);			
 			gridMain.ListGridRows.Clear();
 			GridRow row;

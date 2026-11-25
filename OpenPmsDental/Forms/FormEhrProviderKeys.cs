@@ -21,11 +21,11 @@ namespace OpenPmsDental {
 		private void FillGrid(){
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn("Last Name",80);
+			GridColumn col=new GridColumn("Last Name",78);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("First Name",80);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Year",30);
+			col=new GridColumn("Year",32);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Key",100);
 			gridMain.Columns.Add(col);

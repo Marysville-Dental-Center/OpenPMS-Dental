@@ -101,8 +101,8 @@ namespace OpenPmsDental {
 			gridStatus.BeginUpdate();
 			gridStatus.Columns.Clear();
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Code System"),110));
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Rows in Database"),105,HorizontalAlignment.Right));
-			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Minimum Expected"),105,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Rows in Database"),106,HorizontalAlignment.Right));
+			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Minimum Expected"),117,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Value-Set Codes"),100,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Direct Codes"),80,HorizontalAlignment.Right));
 			gridStatus.Columns.Add(new GridColumn(Lan.g("TableCodeSystemStatus","Loaded Version"),95));

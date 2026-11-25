@@ -2149,7 +2149,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn gridColumn; 
-			gridColumn=new GridColumn(Lan.g(this,"FieldName"),140);
+			gridColumn=new GridColumn(Lan.g(this,"FieldName"),135);
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lan.g(this,"Current Value"),175);
 			gridMain.Columns.Add(gridColumn);
@@ -2157,7 +2157,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lan.g(this,"Import Value"),175);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lan.g(this,"Do Import"),60,HorizontalAlignment.Center);
+			gridColumn=new GridColumn(Lan.g(this,"Do Import"),65,HorizontalAlignment.Center);
 			gridMain.Columns.Add(gridColumn);
 			gridMain.ListGridRows.Clear();
 			GridRow gridRow;

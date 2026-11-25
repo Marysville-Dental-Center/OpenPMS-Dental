@@ -156,20 +156,20 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","PatNum"),55));
 			if(PrefC.HasClinicsEnabled) {
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Name"),190));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Clinic"),75));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Date"),80,HorizontalAlignment.Right));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Family Bal"),70,HorizontalAlignment.Right));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","PayPlan Due"),75,HorizontalAlignment.Right));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Total Due"),65,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Name"),160));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Clinic"),60));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Date"),75,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Family Bal"),66,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","PayPlan Due"),77,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Total Due"),64,HorizontalAlignment.Right));
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Repeat Amt"),75,HorizontalAlignment.Right));//RptChrgAmt
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Charge Amt"),85,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Charge Amt"),76,HorizontalAlignment.Right));
 				if(Programs.HasMultipleCreditCardProgramsEnabled()) {
 					if(Programs.IsEnabled(ProgramName.EdgeExpress)) {
-						gridMain.Columns.Add(new GridColumn("Global Payments V1",90,HorizontalAlignment.Center));
+						gridMain.Columns.Add(new GridColumn("Global Payments V1",121,HorizontalAlignment.Center));
 					}
 					if(Programs.IsEnabled(ProgramName.MeetInTheCloud)) {
-						gridMain.Columns.Add(new GridColumn("Global Payments V2",90,HorizontalAlignment.Center));
+						gridMain.Columns.Add(new GridColumn("Global Payments V2",121,HorizontalAlignment.Center));
 					}
 					if(Programs.IsEnabled(ProgramName.Xcharge)) {
 						gridMain.Columns.Add(new GridColumn("X-Charge",70,HorizontalAlignment.Center));
@@ -183,19 +183,19 @@ namespace OpenPmsDental {
 				}
 			}
 			else { //Clinics disabled
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Name"),220));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Name"),170));
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Date"),80,HorizontalAlignment.Right));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Family Bal"),85,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Family Bal"),83,HorizontalAlignment.Right));
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","PayPlan Due"),85,HorizontalAlignment.Right));
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Total Due"),80,HorizontalAlignment.Right));
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Repeat Amt"),90,HorizontalAlignment.Right));//RptChrgAmt
-				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Charge Amt"),100,HorizontalAlignment.Right));
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Repeat Amt"),80,HorizontalAlignment.Right));//RptChrgAmt
+				gridMain.Columns.Add(new GridColumn(Lan.g("TableRecurring","Charge Amt"),80,HorizontalAlignment.Right));
 				if(Programs.HasMultipleCreditCardProgramsEnabled()) {
 					if(Programs.IsEnabled(ProgramName.EdgeExpress)) {
-						gridMain.Columns.Add(new GridColumn("Global Payments V1",80,HorizontalAlignment.Center));
+						gridMain.Columns.Add(new GridColumn("Global Payments V1",121,HorizontalAlignment.Center));
 					}
 					if(Programs.IsEnabled(ProgramName.MeetInTheCloud)) {
-						gridMain.Columns.Add(new GridColumn("Global Payments V2",80,HorizontalAlignment.Center));
+						gridMain.Columns.Add(new GridColumn("Global Payments V2",121,HorizontalAlignment.Center));
 					}
 					if(Programs.IsEnabled(ProgramName.Xcharge)) {
 						gridMain.Columns.Add(new GridColumn("X-Charge",80,HorizontalAlignment.Center));

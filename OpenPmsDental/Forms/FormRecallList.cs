@@ -1478,11 +1478,11 @@ namespace OpenPmsDental {
 				gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Site"),75));
 			}
 			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Billing Type"),85));
-			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"#Remind"),55,GridSortingStrategy.AmountParse));
+			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"#Remind"),56,GridSortingStrategy.AmountParse));
 			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Last Contacted"),100,GridSortingStrategy.DateParse));
 			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Contact"),100));
 			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Status"),80));
-			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Note"),150));
+			gridReactivations.Columns.Add(new GridColumn(Lan.g(this,"Note"),149));
 			gridReactivations.ListGridRows.Clear();
 			for(int i=0;i<tableReacts.Rows.Count;i++) {
 				GridRow rowNew=new GridRow();

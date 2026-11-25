@@ -28,9 +28,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Source",80);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Description",170);
+			col=new GridColumn("Description",142);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Scanned",25);
+			col=new GridColumn("Scanned",53);
 			col.TextAlign=HorizontalAlignment.Center;
 			gridMain.Columns.Add(col);
 			_listEhrAmendments=EhrAmendments.Refresh(PatientCur.PatNum);

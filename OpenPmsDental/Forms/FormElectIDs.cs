@@ -71,11 +71,11 @@ namespace OpenPmsDental{
 			gridElectIDs.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableApptProcs","Payer ID"),60);
 			gridElectIDs.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableApptProcs","Is Medicaid"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableApptProcs","Is Medicaid"),71,HorizontalAlignment.Center);
 			gridElectIDs.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableApptProcs","CommBridge"),100,HorizontalAlignment.Center);
 			gridElectIDs.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableApptProcs","Comments"),350);
+			col=new GridColumn(Lan.g("TableApptProcs","Comments"),349);
 			gridElectIDs.Columns.Add(col);
 			gridElectIDs.ListGridRows.Clear();
 			GridRow row;

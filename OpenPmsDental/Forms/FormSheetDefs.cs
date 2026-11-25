@@ -89,7 +89,7 @@ namespace OpenPmsDental{
 			grid2.Columns.Clear();
 			grid2.Columns.Add(new GridColumn(Lan.g("TableSheetDef","Description"),100){ IsWidthDynamic=true });
 			grid2.Columns.Add(new GridColumn(Lan.g("TableSheetDef","Type"),100));
-			grid2.Columns.Add(new GridColumn(Lan.g("TableSheetDef","Use Mobile\r\nLayout"),65,HorizontalAlignment.Center));
+			grid2.Columns.Add(new GridColumn(Lan.g("TableSheetDef","Use Mobile\r\nLayout"),70,HorizontalAlignment.Center));
 			grid2.ListGridRows.Clear();
 			int selectedIndex=-1;
 			for(int i=0;i<_listSheetDefs.Count;i++){
