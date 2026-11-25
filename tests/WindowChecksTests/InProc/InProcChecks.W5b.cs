@@ -99,6 +99,8 @@ namespace WindowChecksTests.InProc {
 			IntPtr hwndDropDown=ui.Invoke(() => toolStripDropDown.Visible ? toolStripDropDown.Handle : IntPtr.Zero);
 			if(hwndDropDown!=IntPtr.Zero) {
 				//Paint it before the shot: a shot taken right after it opened was blank once on a connected desktop (2026-11-24); the rerun was whole.
+				//The drop-down fades in (the system's menu animation): wait it out, then paint.
+				System.Threading.Thread.Sleep(500);
 				ui.Invoke(() => toolStripDropDown.Refresh());
 				checkResult.AddShot(ui.Shot(hwndDropDown,shot),"The date picker's drop-down (MonthCalendarOD)");
 			}
