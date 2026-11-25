@@ -20,3 +20,4 @@ OpenPmsDental/Main Modules/ControlAccount.cs	Time	42	other	12:00p	The commlog ti
 OpenPmsDental/Main Modules/ControlManage.cs	Sent	63	time		The text message's time sent (ToShortTimeString).
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	Time	42	other	12:00p	The progress notes' time as the chart formats it (h:mm and a or p, ChartModules).
 OpenPmsDental/Forms/FormPayPlanDynamic.cs	Due	75	money		The amortization schedule's amount due, not a date.
+OpenPmsDental/Forms/FormFeeSchedGroups.cs	Fee Schedule	75	other		The fee schedule's name (a description), not money.

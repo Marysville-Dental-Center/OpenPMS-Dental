@@ -79,7 +79,11 @@ namespace UiRefreshTests {
 		};
 		///<summary>The scales the columns are checked at.</summary>
 		public static readonly float[] ArrayScales=new float[] { 1f,1.5f };
+		///<summary>The clear pixels a value needs between its ink and a gridline (GetWidthNeededClear): the cell padding GDI+ gives it on the
+		///aligned side (2 px at 100%) on the other side too.</summary>
+		public const int CLEAR_MIN=2;
 		private static readonly Dictionary<string,int> _dictNeeded=new Dictionary<string,int>();
+		private static readonly Dictionary<string,int[]> _dictInk=new Dictionary<string,int[]>();
 		private static readonly object _lock=new object();
 		private static readonly Regex _regexGridColumn=new Regex(
 			@"new\s+(?:OpenPmsDental\.UI\.)?GridColumn\(\s*(?:Lans?\.g\([^,""()]*(?:""[^""]*"")?[^,""()]*,\s*)?""(?<t>[^""]*)""\)?\s*,\s*(?<w>\d+)(?<rest>[^;\r\n]*)");
@@ -160,6 +164,74 @@ namespace UiRefreshTests {
 					return width;
 				}
 			}
+		}
+
+		///<summary>The pixels of a value drawn as GridOD draws a cell (GetWidthNeeded's font, hint and StringFormat, black on white) in a
+		///rectangle this wide from x=0: the first and the last column with ink, -1 and -1 for none. Pixel 0 is where the gridline left of a
+		///column stands and pixel width the next one, so the value has inkLeft-1 clear pixels on its left and width-1-inkRight on its right.</summary>
+		public static int[] GetInk(string text,float scale,int width,string alignment="Left",bool isBold=false) {
+			string key="ink\t"+text+"\t"+scale.ToString(CultureInfo.InvariantCulture)+"\t"+width+"\t"+alignment+"\t"+isBold;
+			lock(_lock) {
+				int[] arrayCached;
+				if(_dictInk.TryGetValue(key,out arrayCached)) {
+					return arrayCached;
+				}
+				Font fontToken=isBold ? UiTheme.FontGridBold : UiTheme.FontGrid;
+				using(Font font=new Font(fontToken.FontFamily,fontToken.SizeInPoints*scale,fontToken.Style))
+				using(Bitmap bitmap=new Bitmap(width+8,(int)Math.Ceiling(font.GetHeight(96f)*3)+4,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap))
+				using(StringFormat stringFormat=NewGridStringFormat()) {
+					g.Clear(Color.White);
+					g.TextRenderingHint=TextRenderingHint.ClearTypeGridFit;
+					stringFormat.Alignment=alignment=="Right" ? StringAlignment.Far
+						: (alignment=="Center" ? StringAlignment.Center : StringAlignment.Near);
+					g.DrawString(text,font,Brushes.Black,new RectangleF(0,0,width,bitmap.Height),stringFormat);
+					int inkLeft=-1;
+					int inkRight=-1;
+					for(int x=0;x<bitmap.Width;x++) {
+						for(int y=0;y<bitmap.Height;y++) {
+							Color color=bitmap.GetPixel(x,y);
+							if(color.R<255 || color.G<255 || color.B<255) {
+								if(inkLeft<0) {
+									inkLeft=x;
+								}
+								inkRight=x;
+								break;
+							}
+						}
+					}
+					int[] arrayInk=new int[] { inkLeft,inkRight };
+					_dictInk[key]=arrayInk;
+					return arrayInk;
+				}
+			}
+		}
+
+		///<summary>The narrowest column, in pixels at the scale, that shows the value on one line (GetWidthNeeded) with at least CLEAR_MIN pixels
+		///clear between its ink and the gridline on the side the column's alignment leaves free: the right for Left and Center, the left for
+		///Right. A value drawn up to the gridline runs into the next column's value ("06/10/2025|Alex"). The
+		///side the alignment holds the value to keeps GDI+'s own padding (about 1/6 em), which no width changes.</summary>
+		public static int GetWidthNeededClear(string text,float scale,string alignment="Left") {
+			int width=GetWidthNeeded(text,scale);
+			while(width<2000 && GetClear(text,scale,width,alignment)<CLEAR_MIN) {
+				width++;
+			}
+			return width;
+		}
+
+		///<summary>The clear pixels on the side the alignment leaves free, at this width. See GetInk.</summary>
+		public static int GetClear(string text,float scale,int width,string alignment="Left") {
+			int[] arrayInk=GetInk(text,scale,width,alignment);
+			if(arrayInk[0]<0) {
+				return width;
+			}
+			int clearLeft=arrayInk[0]-1;
+			int clearRight=width-1-arrayInk[1];
+			if(alignment=="Right") {
+				return clearLeft;
+			}
+			//Center: GDI+ rounds the odd pixel of the room to the left (12/31/2026 in 70 px: 3 left, 1 right), so the right side decides.
+			return clearRight;
 		}
 
 		///<summary>GridOD's StringFormat on screen: a tab stop at 50, the top line, wrapping on (WrapText).</summary>
@@ -302,21 +374,45 @@ namespace UiRefreshTests {
 			return listKnown;
 		}
 
-		///<summary>The problems of a column at the scales: "" when its value fits on one line. A column without a value (no value type, or "other"
-		///without a value in the known list), a dynamic column and a hidden one (width 0, or sized by its grid, not by its width) have none.</summary>
+		///<summary>The problems of a column at the scales: "" when its value fits on one line with CLEAR_MIN pixels clear of the gridline
+		///(GetWidthNeededClear) and its heading fits on one line in the header font (GridOD.DrawHeaders draws it in UiTheme.FontGridBold, centered,
+		///and the header is one line high, so a wider heading is cut: "Amoun"). A column without a value (no value type, or "other" without a
+		///value in the known list), a dynamic column and a hidden one (width 0, or sized by its grid, not by its width) have none.</summary>
 		public static string GetProblem(ColumnSite columnSite) {
 			if(columnSite.Value=="" || columnSite.IsDynamic || columnSite.Width==0) {
 				return "";
 			}
 			List<string> listProblems=new List<string>();
 			foreach(float scale in ArrayScales) {
-				int width=ScaleI(columnSite.Width,scale);
-				int widthNeeded=GetWidthNeeded(columnSite.Value,scale);
-				if(width<widthNeeded) {
-					listProblems.Add((int)Math.Round(scale*100)+"%: "+width+" px, \""+columnSite.Value+"\" needs "+widthNeeded);
+				string problem=GetProblemAt(columnSite.Title,columnSite.Kind,columnSite.Value,columnSite.Alignment,ScaleI(columnSite.Width,scale),scale);
+				if(problem!="") {
+					listProblems.Add(problem);
 				}
 			}
 			return string.Join("; ",listProblems);
+		}
+
+		///<summary>The problem of a column of a value this wide (in pixels at the scale): its value or its heading does not fit (GetProblem), ""
+		///when both do.</summary>
+		public static string GetProblemAt(string title,string kind,string value,string alignment,int width,float scale) {
+			List<string> listProblems=new List<string>();
+			//Money stands clear only of wrapping: 9,999.99 is the top of the range (most amounts are formatted without the separator, as Edit
+			//Appointment's 1260.00, and are narrower), while a date, a time, a phone number or a code is always as wide as its value.
+			int widthNeeded=kind=="money" ? GetWidthNeeded(value,scale) : GetWidthNeededClear(value,scale,alignment);
+			if(width<widthNeeded) {
+				listProblems.Add("\""+value+"\" needs "+widthNeeded+(width<GetWidthNeeded(value,scale) ? "" : " (to stand "+CLEAR_MIN+" px clear)"));
+			}
+			//A heading of two lines ("Date\r\nShowing" in the source) has a header two lines high: each line fits.
+			foreach(string line in title.Split(new string[] { "\\r\\n","\\n" },StringSplitOptions.None)) {
+				int widthHeading=GetWidthNeeded(line,scale,isBold:true);
+				if(width<widthHeading) {
+					listProblems.Add("the heading \""+line+"\" needs "+widthHeading);
+				}
+			}
+			if(listProblems.Count==0) {
+				return "";
+			}
+			return (int)Math.Round(scale*100)+"%: "+width+" px, "+string.Join(", ",listProblems);
 		}
 	}
 }

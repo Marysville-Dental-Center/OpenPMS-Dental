@@ -104,11 +104,12 @@ namespace UiRefreshTests {
 				string title=listDisplayFields[i].Description=="" ? listDisplayFields[i].InternalName : listDisplayFields[i].Description;
 				int width=GridColumnFit.ScaleI(listDisplayFields[i].ColumnWidth,scale);
 				string kind=GridColumnFit.GetKind(title);
-				int widthNeeded=kind==null ? 1 : GridColumnFit.GetWidthNeeded(GridColumnFit.DictValues[kind],scale);
 				bool isLast=i==listDisplayFields.Count-1;
 				int widthShown=isLast ? right-x : Math.Min(width,right-x);
-				if(widthShown<widthNeeded || (!isLast && x+width>right)) {
-					listProblems.Add("\""+title+"\" from "+x+" to "+(x+width)+" shows "+widthShown+" px of the grid's "+right+" (needs "+widthNeeded+")");
+				//The value and the heading (GridColumnFit.GetProblemAt), at the width the column shows.
+				string problem=kind==null ? "" : GridColumnFit.GetProblemAt(title,kind,GridColumnFit.DictValues[kind],"Left",widthShown,scale);
+				if(problem!="" || (!isLast && x+width>right)) {
+					listProblems.Add("\""+title+"\" from "+x+" to "+(x+width)+" shows "+widthShown+" px of the grid's "+right+" ("+problem+")");
 				}
 				x+=width;
 			}
