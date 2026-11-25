@@ -25,6 +25,7 @@ The program's own windows, with fictional patients and data only ([how they are 
 Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDental`, `OpenPmsDentalBusiness`, `WpfControlsOD`) about 80% of the lines are still Open Dental's and about 158,000 are new or rewritten; the tests, tools and native imaging, about 360,000 lines, are almost entirely new. The full list, the numbers and how to measure them again are in [docs/differences.md](docs/differences.md).
 
 - **No Open Dental HQ dependencies:** no eServices, registration keys, update servers or help browser, checked by `NoHqTests` on every run.
+- **No limits and no licence fees:** no cap on the number of providers, users, clinics or workstations, and nothing to pay per provider; there are no registration keys.
 - **Open code for Open Dental's closed parts:** the EHR features of Open Dental's closed `EHR.dll` rebuilt from public specifications (quality measures on CMS's 2027 catalog), `ODCrypt` rebuilt, the `Bridges.dll` vendor links and the `Sparks3D` and `ImagingDeviceManager` engines replaced by source in this repository; nothing decompiled ([details](docs/differences.md)).
 - **Open Dental features through 26.2, re-implemented** from Open Dental's public documents, on the Open Dental 26.2.0 schema (all of 24.4 to 26.1, and the 26.2 changes chosen for the office).
 - **.NET 10, 64-bit, self-contained**, in place of .NET Framework 4.8, 32-bit.

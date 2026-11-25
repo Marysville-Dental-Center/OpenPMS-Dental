@@ -10,6 +10,8 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
 
 ## What is different
 
+- **No limits and no licence fees.** The program puts no cap on the number of providers, users, clinics or workstations, and there is
+  nothing to pay per provider: there are no registration keys or support-plan checks.
 - **No Open Dental HQ dependencies.** No eServices, registration keys, update servers or help browser; nothing calls Open Dental
   Software's servers, and `NoHqTests` checks that on every test run ([decoupling-plan.md](decoupling-plan.md), [NoHqTests/](../NoHqTests/)).
 - **Open code for Open Dental's closed parts.** Open Dental shipped several parts of the program only as closed DLLs, without source.
