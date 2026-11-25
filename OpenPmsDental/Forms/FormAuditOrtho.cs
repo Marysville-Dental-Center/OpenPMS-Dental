@@ -53,13 +53,13 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g("TableOrthoAudit","Date Time"),122,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g("TableOrthoAudit","Date Time"),123,GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableOrthoAudit","User"),70);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableOrthoAudit","Permission"),110);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableOrthoAudit","Log Text"),567);
+			col=new GridColumn(Lan.g("TableOrthoAudit","Log Text"),566);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

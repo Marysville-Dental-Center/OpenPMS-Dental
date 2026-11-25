@@ -468,8 +468,9 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
-					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
+					//UI-COLS: 522 px in all (was 540), inside FormApptEdit's 538 px grid: no horizontal scroll bar, and Fee, which fills to the grid's
+					//edge, keeps 57 px beside the vertical one (9,999.99 needs 50).
+					listDisplayFields.Add(new DisplayField("Description",250,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Abbreviation",80,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Layman's Term",100,displayFieldCategory));
@@ -487,8 +488,9 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
-					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
+					//UI-COLS: 522 px in all (was 540), inside FormApptEdit's 538 px grid: no horizontal scroll bar, and Fee, which fills to the grid's
+					//edge, keeps 57 px beside the vertical one (9,999.99 needs 50).
+					listDisplayFields.Add(new DisplayField("Description",250,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField(InternalNames.PlannedAppointmentEdit.Abbreviation,80,displayFieldCategory));
 					break;
@@ -977,8 +979,9 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
-					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
+					//UI-COLS: 522 px in all (was 540), inside FormApptEdit's 538 px grid: no horizontal scroll bar, and Fee, which fills to the grid's
+					//edge, keeps 57 px beside the vertical one (9,999.99 needs 50).
+					listDisplayFields.Add(new DisplayField("Description",250,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField(InternalNames.PlannedAppointmentEdit.Abbreviation,80,displayFieldCategory));
 					break;

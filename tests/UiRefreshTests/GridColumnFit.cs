@@ -68,8 +68,8 @@ namespace UiRefreshTests {
 		///(DateTimeOD.NormalizeApplicationShortDateFormat).</summary>
 		public static readonly Dictionary<string,string> DictValues=new Dictionary<string,string> {
 			{ "date","12/31/2026" },
-			{ "datetime","12/31/2026 12:00 PM" },
-			{ "time","12:00 PM" },
+			{ "datetime","12/31/2026 11:00 AM" },//AM is wider than PM in Segoe UI (the gallery's first pass: 11:15 AM wrapped in 122 px)
+			{ "time","11:00 AM" },
 			{ "money","9,999.99" },
 			{ "percent","100%" },
 			{ "phone","(555)555-5555" },
