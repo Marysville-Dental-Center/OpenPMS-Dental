@@ -77,6 +77,7 @@ namespace UiRefreshTests {
 					List<DisplayField> listDisplayFields=GetDefaultDisplayFields(tuple.Item3);
 					foreach(float scale in GridColumnFit.ArrayScales) {
 						ScanType scanType=listScanTypes.Single(x => x.Type==tuple.Item1);
+						using(new PrefCacheEmptyScope())
 						using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 							if(scale!=1f) {
 								builtWindow.LayOutAt(scale);
@@ -118,6 +119,26 @@ namespace UiRefreshTests {
 		public static List<DisplayField> GetDefaultDisplayFields(DisplayFieldCategory displayFieldCategory) {
 			using(new SampleData.PrefScope(PrefName.PracticeIsMedicalOnly.ToString(),"0")) {
 				return DisplayFields.GetDefaultList(displayFieldCategory);
+			}
+		}
+
+		///<summary>The preference cache empty while a window is built and laid out, filled again afterwards with what it held: ControlAccount's
+		///Resize handler lays its panels out only when the cache is filled (PrefC.HListIsNull: "helps on startup"), and a cache another test
+		///filled with a few preferences of its own would make it read ones that are not there.</summary>
+		public sealed class PrefCacheEmptyScope:IDisposable {
+			private readonly System.Data.DataTable _table;
+
+			public PrefCacheEmptyScope() {
+				if(!Prefs.DictIsNull()) {
+					_table=Prefs.GetTableFromCache(false);
+					Prefs.ClearCache();
+				}
+			}
+
+			public void Dispose() {
+				if(_table!=null) {
+					Prefs.FillCacheFromTable(_table);
+				}
 			}
 		}
 

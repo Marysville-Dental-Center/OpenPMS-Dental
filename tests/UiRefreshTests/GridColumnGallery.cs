@@ -88,6 +88,7 @@ namespace UiRefreshTests {
 		private static Bitmap DrawWindow(Type type,string nameGrid,DisplayFieldCategory displayFieldCategory,float scale) {
 			ScanType scanType=WindowBuilder.GetScanTypes().Single(x => x.Type==type);
 			List<DisplayField> listDisplayFields=GridColumnFitTests.GetDefaultDisplayFields(displayFieldCategory);
+			using(new GridColumnFitTests.PrefCacheEmptyScope())
 			using(BuiltWindow builtWindow=WindowBuilder.Build(scanType)) {
 				Control root=builtWindow.Root;
 				if(root is FormODBase formODBase && formODBase.PanelClient!=null) {
@@ -192,7 +193,7 @@ namespace UiRefreshTests {
 				DesignSheetWindows.CreateHandles(form);
 				gridOD.SetScaleAndZoom(scale,1f);
 				int width96=listSites.Where(x => x.Width>0).Sum(x => x.Width);
-				gridOD.Bounds=new Rectangle(0,0,GridColumnFit.ScaleI(width96,scale)+2,GridColumnFit.ScaleI(130,scale));
+				gridOD.Bounds=new Rectangle(0,0,GridColumnFit.ScaleI(width96,scale)+2,GridColumnFit.ScaleI(170,scale));
 				gridOD.BeginUpdate();
 				gridOD.Columns.Clear();
 				foreach(ColumnSite columnSite in listSites.Where(x => x.Width>0)) {
