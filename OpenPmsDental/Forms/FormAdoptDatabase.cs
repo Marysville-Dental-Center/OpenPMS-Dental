@@ -22,7 +22,7 @@ namespace OpenPmsDental {
 
 		private void FormAdoptDatabase_Load(object sender,EventArgs e) {
 			labelExplain.Text=Lan.g(this,"Adoption lets this program use a database that Open Dental created. It is done once, on a restored copy, "
-				+"never on the live database. It drops the office-only patient column _portal_active_email and its unique index, deletes Open Dental's "
+				+"never on the live database. It keeps the office-only patient column _portal_active_email and its unique index, deletes Open Dental's "
 				+"update files from the database without reading them, blanks the addresses of Open Dental's servers, and sets DataBaseVersion and "
 				+"ProgramVersion to")+" "+ForkVersions.SentinelVersion.ToString(4)+" "
 				+Lan.g(this,"so Open Dental programs can no longer use the copy. Then this program's version markers take over. "

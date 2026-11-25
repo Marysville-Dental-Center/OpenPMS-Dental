@@ -245,7 +245,7 @@ verifier, the rehash and further checks, twice, and times every step. The steps 
 2. Copy the database (for example to `synth_253_adopted`) and run the adoption tool on the copy.
 3. `validate --database synth_253_adopted --out after.json`.
 4. `compare before.json after.json --allowed allowed-differences.adoption.json`. The allowed differences are the ones adoption is
-   meant to make: `patient._portal_active_email` and its unique key dropped (owner decision), `SecurityHash` rehashed, preference
+   meant to make (`patient._portal_active_email` and its unique key are kept since 2026-11-25, so not among them): `SecurityHash` rehashed, preference
    rows (fork markers, version sentinel, the 25.4 and 26.1 preferences), Open Dental update files, the security-log rows of adoption and
    the rehash, and what the Open Dental 25.4 and 26.1 steps change on the way to the 26.1.70 schema (M2-01: the new tables and columns,
    `claimpayment.Note` NULLs becoming empty, `DateLastAssigned` read back as datetime; M2-02: the blockout permission split in

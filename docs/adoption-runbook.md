@@ -25,8 +25,12 @@ version this program follows; the office's database stays at 25.3.48 until then)
 same code):
 
 1. records the start in the `ForkAdoptedFrom` preference
-2. drops the office-only column `patient._portal_active_email` and its unique index `portal_active_email_uniq` (owner decision), so family
-   members can share an e-mail address again
+2. keeps the office-only column `patient._portal_active_email` and its unique index `portal_active_email_uniq` exactly as they are (owner
+   decision of 2026-11-25, which replaces the earlier decision to drop them): the office's patient portal relies on them for sign-in, so two
+   active patients still cannot share an e-mail address. Saving a second active patient with an address already in use stops with a database
+   error that names `portal_active_email_uniq` (MariaDB's duplicate-key error; a clear message comes with a later setting, see
+   [docs/roadmap.md](roadmap.md)): give that patient another address, or none. Any other key on that column is dropped, and the schema check
+   after adoption allows the column and key only with the office's definitions
 3. deletes Open Dental's update files (`documentmisc` rows of types `UpdateFiles` and `UpdateFilesSegment`) without reading them
 4. blanks the preferences that point at Open Dental's servers
 5. sets `DataBaseVersion` and `ProgramVersion` to `99.0.0.0`, so Open Dental programs can no longer use the database
@@ -257,6 +261,8 @@ changes `DataBaseVersion` only when a convert step runs (25.3.47 had the last on
 pair only when the schema equals the 25.3.48 reference exactly, the office's `patient._portal_active_email` aside; `migration-preview` below
 says so in its first line ("Versions: adoptable. ... Its schema equals the Open Dental 25.3.48 reference"). `25.3.48.0` twice is accepted too.
 Any other version or pair, or a "NOT adoptable" line naming schema differences: stop; the office must not update Open Dental before the switch.
+`migration-preview` also prints "patient._portal_active_email and its unique key portal_active_email_uniq: adoption keeps them as they are
+... They have the office's definitions"; if it says they differ: stop and ask.
 
 Then, outside office hours (it reads every table that has FLOAT or DOUBLE columns, and MyISAM makes writers wait while a table is read),
 [admin PC] `& $av float-check --database opendental @db > C:\Adoption\float-check.txt`. Exit code 0 ("no value that a logical backup
@@ -387,8 +393,9 @@ For each such program, also write down, from its configuration and its owner (ve
   or the server's `sql_mode` set blank, before the day. A program that must run on both databases (for a rollback) can check at its start
   whether the columns exist.
 - **What it added to the database**: columns, indexes, tables, triggers or views of its own. Adoption keeps only Open Dental's schema and
-  this program's tables: it drops `patient._portal_active_email` and its index `portal_active_email_uniq` (see "What adoption does"), and
-  step 0.0.1 stops at a trigger or view. A program that relies on such an addition must be changed, or the addition re-created on
+  this program's tables, with one exception: it keeps the office's `patient._portal_active_email` and its index `portal_active_email_uniq`
+  (see "What adoption does"), so a program that relies on them keeps working. Anything else is not kept, and step 0.0.1 stops at a trigger or
+  view. A program that relies on such an addition must be changed, or the addition re-created on
   `opendental_pms` in step 9 with the developers' agreement.
 - **Whether it loads files from the Open Dental program folder** (for example Open Dental's `MySqlConnector.dll` from
   `C:\Program Files (x86)\Open Dental`): step 2.1 uninstalls Open Dental, so such a program stops working. Give it its own copy before the
@@ -667,7 +674,8 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   (N tables). It can be adopted as Open Dental 25.3.48." and "Adoption from Open Dental 25.3.48.0 started. The database is labelled
   DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0; its schema equals the 25.3.48 reference." (a database labelled 25.3.48.0 twice says
   "Open Dental 25.3.48 database. It can be adopted." and "Adoption from Open Dental 25.3.48.0 started.")
-- "Dropped index patient.portal_active_email_uniq." and "Dropped column patient._portal_active_email."
+- "Kept column patient._portal_active_email and its unique key portal_active_email_uniq (the office's patient portal: one active patient per
+  e-mail address)." (no "Dropped index" line: the office has no other key on the column)
 - "Deleted N Open Dental update file row(s)." and "Blanked N preference(s) that pointed at Open Dental's servers: ..." Check the names: they
   are preferences that held an address of Open Dental's servers (such as `UpdateServerAddress`, `WebServiceHQServerURL`, `UpdateWebsitePath`).
   The second person initials the list on the checklist.
@@ -779,7 +787,6 @@ window, and "Rehash finished.".
 Expect in `compare.txt`: `Unexpected differences: 0` (exit code 0), and in its "Allowed differences" only lines of these kinds (the second
 person reads them all):
 
-- `ColumnRemoved patient._portal_active_email` and `TotalChanged patients.portal_active_email_nonnull`;
 - `ColumnChanged <table>.SecurityHash` for the rehashed tables (appointment, claim, claimproc, inssub, insverify, insverifyhist, patient,
   payplan, paysplit);
 - lines for the tables `preference`, `documentmisc`, `securitylog`, `securityloghash`, `displayreport`, `grouppermission`, `codegroup` and

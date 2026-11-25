@@ -253,7 +253,7 @@ namespace SyntheticData.Tests {
 					db.Execute("INSERT INTO `"+DbAdopted+"`.`"+table.Name+"` ("+columns+") SELECT "+columns+" FROM `"+DbA+"`.`"+table.Name+"` ORDER BY 1");
 				}
 				db.Use(DbAdopted);
-				db.Execute("ALTER TABLE patient DROP INDEX portal_active_email_uniq, DROP COLUMN _portal_active_email");
+				//Adoption keeps the office's patient._portal_active_email and its key (owner decision of 2026-11-25), so the copy keeps them too.
 				//A rehash that forgets the ON UPDATE timestamp changes SecDateTEdit on every row; the comparison must catch that.
 				db.Execute("UPDATE inssub SET SecurityHash=CONCAT('osd1$',SHA2(InsSubNum,256))");
 				List<Difference> listCareless=ReportComparer.Compare(_reportA,Validator.Run(db,DbAdopted,null,null),
@@ -267,12 +267,16 @@ namespace SyntheticData.Tests {
 				AllowedDifferences allowed=AllowedDifferences.Load(allowedPath);
 				ValidationReport adopted=Validator.Run(db,DbAdopted,null,null);
 				List<Difference> listDiffs=ReportComparer.Compare(_reportA,adopted,allowed);
-				Assert.IsTrue(listDiffs.Any(x => x.Kind==DifferenceKind.ColumnRemoved && x.Column=="_portal_active_email"));
+				Assert.IsFalse(listDiffs.Any(x => x.Column=="_portal_active_email" || x.Name=="patients.portal_active_email_nonnull"),ReportComparer.Format(listDiffs));
 				Assert.IsTrue(listDiffs.All(x => x.IsAllowed),ReportComparer.Format(listDiffs));
 				db.Execute("UPDATE guardian SET Relationship=23 WHERE Relationship=6");
 				adopted=Validator.Run(db,DbAdopted,null,null);
 				listDiffs=ReportComparer.Compare(_reportA,adopted,allowed);
 				Assert.IsTrue(listDiffs.Any(x => !x.IsAllowed && x.Table=="guardian" && x.Column=="Relationship"),ReportComparer.Format(listDiffs));
+				//Dropping the office's column is no longer an adoption difference.
+				db.Execute("ALTER TABLE patient DROP INDEX portal_active_email_uniq, DROP COLUMN _portal_active_email");
+				listDiffs=ReportComparer.Compare(_reportA,Validator.Run(db,DbAdopted,null,null),allowed);
+				Assert.IsTrue(listDiffs.Any(x => !x.IsAllowed && x.Kind==DifferenceKind.ColumnRemoved && x.Column=="_portal_active_email"),ReportComparer.Format(listDiffs));
 			}
 		}
 

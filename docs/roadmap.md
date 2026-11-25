@@ -164,6 +164,12 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
+- A setting "each active patient has a different e-mail address" (owner, 2026-11-25). Off by default. When on, it is checked before saving,
+  with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient. Patient saves from
+  elsewhere (HL7, X834, bridges) get a catch-all that turns a duplicate-key error into the same message. Turning it on first lists the
+  existing duplicates, then creates the column and index. Adoption turns it on when the office database has the patient portal's index.
+  Until then, adoption keeps the office's `patient._portal_active_email` and its unique key, and a duplicate shows MariaDB's error
+  (ADOPT-PORTAL-EMAIL).
 - Remove tamper detection (owner, 2026-11-24: Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing, the
   warning triangles, the Security Hashes tool in Database Maintenance and their tests). The separate Database Integrity Check tool (table
   check and repair) stays.

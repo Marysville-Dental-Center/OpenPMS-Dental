@@ -194,7 +194,8 @@ namespace M201Tests {
 		[TestMethod]
 		public void Od253_AdoptionRunsEveryM1AndM2StepAndMarks26_1_70() {
 			Assert.AreEqual(new Version(25,3,48,0),_adoptionResult.VersionSource);
-			Assert.IsTrue(_adoptionResult.WasPortalEmailColumnDropped);
+			Assert.IsTrue(_adoptionResult.IsPortalEmailColumnKept);
+			Assert.IsTrue(_adoptionResult.IsPortalEmailIndexKept);
 			//The chain goes on to Open Dental 26.2.0 since package P262-SCHEMA (tests/P262SchemaTests); the default reference moved with it.
 			Assert.AreEqual(SchemaVerifier.ReferenceVersion,_forkDbStateAfter.OdSchemaCompat);
 			Assert.AreEqual(ForkMigrationRunner.GetSteps().Max(x => x.Level).ToString(),_forkDbStateAfter.ForkSchemaLevel);

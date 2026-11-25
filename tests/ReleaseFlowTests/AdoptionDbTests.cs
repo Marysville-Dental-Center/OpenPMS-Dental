@@ -69,11 +69,19 @@ namespace ReleaseFlowTests {
 			Assert.IsTrue(adoptionPreflight.CanAdopt,adoptionPreflight.Message);
 			FakeRunner fakeRunner=new FakeRunner("3");
 			AdoptionResult adoptionResult=Adoption.Run(null,fakeRunner,_dateTimeUtc);
-			//The office-only column and index are gone, so family members can share an e-mail again.
-			Assert.IsTrue(adoptionResult.WasPortalEmailColumnDropped);
-			Assert.IsFalse(HasColumn(Adoption.PATIENT_PORTAL_EMAIL_COLUMN));
-			Assert.IsFalse(HasIndex(Adoption.PATIENT_PORTAL_EMAIL_INDEX));
-			ScratchDb.Exec(DB_NAME,"INSERT INTO patient (LName,FName,PatStatus,Email) VALUES ('Synthetic','Child',0,'family@example.test')");
+			//The office-only column and key stay (owner decision of 2026-11-25): the patient portal keeps one active patient per e-mail.
+			Assert.IsTrue(adoptionResult.IsPortalEmailColumnKept);
+			Assert.IsTrue(adoptionResult.IsPortalEmailIndexKept);
+			Assert.AreEqual(0,adoptionResult.ListIndexesDropped.Count);
+			Assert.IsTrue(HasColumn(Adoption.PATIENT_PORTAL_EMAIL_COLUMN));
+			Assert.IsTrue(HasIndex(Adoption.PATIENT_PORTAL_EMAIL_INDEX));
+			try {
+				ScratchDb.Exec(DB_NAME,"INSERT INTO patient (LName,FName,PatStatus,Email) VALUES ('Synthetic','Child',0,'family@example.test')");
+				Assert.Fail("After adoption the unique key still rejects a second active patient with the same e-mail.");
+			}
+			catch(MySqlConnector.MySqlException) {
+			}
+			ScratchDb.Exec(DB_NAME,"INSERT INTO patient (LName,FName,PatStatus,Email) VALUES ('Synthetic','Child',1,'family@example.test')");
 			Assert.IsTrue(HasIndex("indexLName"),"Other patient indexes stay.");
 			//Open Dental's update rows are deleted; other rows stay.
 			Assert.AreEqual(3,adoptionResult.CountUpdateFileRowsDeleted);
@@ -129,7 +137,8 @@ namespace ReleaseFlowTests {
 			AdoptionPreflight adoptionPreflight=Adoption.Preflight();
 			Assert.IsTrue(adoptionPreflight.CanAdopt && adoptionPreflight.IsResume,adoptionPreflight.Message);
 			Adoption.Run(null,new BaselineForkMigrationRunner(),_dateTimeUtc);
-			Assert.IsFalse(HasColumn(Adoption.PATIENT_PORTAL_EMAIL_COLUMN));
+			Assert.IsTrue(HasColumn(Adoption.PATIENT_PORTAL_EMAIL_COLUMN),"Kept on a resumed adoption too.");
+			Assert.IsTrue(HasIndex(Adoption.PATIENT_PORTAL_EMAIL_INDEX));
 			Assert.AreEqual("25.3.48",ScratchDb.GetPref(DB_NAME,"OdSchemaCompat"));
 			Assert.AreEqual("source=25.3.48.0;started=2026-10-18T07:00:00Z;adopted=2026-10-19T08:00:00Z",ScratchDb.GetPref(DB_NAME,"ForkAdoptedFrom"));
 		}
@@ -172,7 +181,8 @@ namespace ReleaseFlowTests {
 			CreateOpenDentalCopy("24.3.63.0",is253:false);
 			Assert.AreEqual(ForkGuardAction.ProceedCompat,ForkVersionGuard.Evaluate(ForkVersions.ReadState(),new BaselineForkMigrationRunner()).Action);
 			AdoptionResult adoptionResult=Adoption.Run(null,new BaselineForkMigrationRunner(),_dateTimeUtc);
-			Assert.IsFalse(adoptionResult.WasPortalEmailColumnDropped,"A 24.3.63 database has no office-only column.");
+			Assert.IsFalse(adoptionResult.IsPortalEmailColumnKept,"A 24.3.63 database has no office-only column.");
+			Assert.IsFalse(adoptionResult.IsPortalEmailIndexKept);
 			Assert.AreEqual("24.3.63",ScratchDb.GetPref(DB_NAME,"OdSchemaCompat"));
 			Assert.AreEqual("99.0.0.0",ScratchDb.GetPref(DB_NAME,"DataBaseVersion"));
 			Assert.AreEqual(ForkGuardAction.ProceedFork,ForkVersionGuard.Evaluate(ForkVersions.ReadState(),new BaselineForkMigrationRunner()).Action);

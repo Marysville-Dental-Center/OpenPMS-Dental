@@ -70,7 +70,8 @@ namespace ForkMigrationTests {
 			AdoptionResult adoptionResult=Adoption.Run(null,new BaselineForkMigrationRunner(),_dateTimeUtc);
 			Assert.AreEqual(new Version(25,3,48,0),adoptionResult.VersionSource);
 			Assert.IsNotNull(adoptionResult.Labels);
-			Assert.IsTrue(adoptionResult.WasPortalEmailColumnDropped);
+			Assert.IsTrue(adoptionResult.IsPortalEmailColumnKept);
+			Assert.IsTrue(adoptionResult.IsPortalEmailIndexKept);
 			Assert.AreEqual("source=25.3.48.0;odDataBaseVersion=25.3.47.0;odProgramVersion=25.3.54.0;started=2026-11-25T08:00:00Z;adopted=2026-11-25T08:00:00Z",
 				GetPref(ForkVersions.PREF_FORK_ADOPTED_FROM));
 			Assert.IsTrue(adoptionResult.ListLog.Any(x => x.Contains("DataBaseVersion 25.3.47.0") && x.Contains("ProgramVersion 25.3.54.0")),

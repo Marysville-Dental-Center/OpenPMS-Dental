@@ -50,6 +50,10 @@ namespace AdoptionValidation {
 			///</summary>
 			public bool IsFrom24_3;
 			public int CountRows;
+			///<summary>The office's patient._portal_active_email and its unique key portal_active_email_uniq, as the database has them (null when it
+			///has none). Adoption keeps both (owner decision of 2026-11-25).</summary>
+			public string PortalEmailColumnDefinition;
+			public string PortalEmailIndexDefinition;
 			public List<ReportRows25_3.ReportTargetPlan> ListPlans=new List<ReportRows25_3.ReportTargetPlan>();
 			///<summary>What the Open Dental 25.4 and 26.1 steps change.</summary>
 			public Migration26_1Plan.Plan Plan26_1=new Migration26_1Plan.Plan();
@@ -112,6 +116,7 @@ namespace AdoptionValidation {
 					listLines.Add("The Open Dental 24.4 to 25.3 steps change no row of an Open Dental 25.3.48 database: their schema steps find the 25.3.48 "
 						+"schema, and their seed and XConnect steps run only on a database from 24.3.");
 				}
+				listLines.Add(GetPortalEmailLine(PortalEmailColumnDefinition,PortalEmailIndexDefinition));
 				listLines.AddRange(Plan26_1.Lines());
 				listLines.AddRange(PlanDxc.Lines());
 				listLines.AddRange(PlanUdsPlus.Lines());
@@ -207,6 +212,20 @@ namespace AdoptionValidation {
 				}).ToList();
 		}
 
+		///<summary>The preview's line about the office's patient._portal_active_email and its key: adoption keeps them as they are (owner decision of
+		///2026-11-25); the schema check after adoption allows them only with the office's definitions.</summary>
+		public static string GetPortalEmailLine(string definitionColumn,string definitionIndex) {
+			if(definitionColumn==null && definitionIndex==null) {
+				return "patient."+SchemaVerifier.PortalActiveEmailColumn+": not present; adoption adds nothing.";
+			}
+			bool isOffice=definitionColumn==SchemaVerifier.PortalActiveEmailColumnDefinition && definitionIndex==SchemaVerifier.PortalActiveEmailIndexDefinition;
+			return "patient."+SchemaVerifier.PortalActiveEmailColumn+" and its unique key "+SchemaVerifier.PortalActiveEmailIndex
+				+": adoption keeps them as they are (the patient portal's rule, one active patient per e-mail address). "
+				+(isOffice ? "They have the office's definitions, which the schema check after adoption allows."
+				: "They differ from the office's definitions (column "+(definitionColumn??"missing")+"; key "+(definitionIndex??"missing")
+				+"), so the schema check after adoption will fail. Stop and ask before adopting.");
+		}
+
 		///<summary>The level of the report rows step, for messages.</summary>
 		public static long StepReportRows {
 			get { return new ReportRows25_3Step().Level; }
@@ -233,6 +252,7 @@ namespace AdoptionValidation {
 			result.IsFrom24_3=state.ForkAdoptedFrom==null && Seed25_3.IsVersionFrom24_3(state.DataBaseVersion);
 			List<ReportRows25_3.DisplayReportRow> listRows=ReadRows(db,database);
 			result.CountRows=listRows.Count;
+			ReadPortalEmail(db,database,out result.PortalEmailColumnDefinition,out result.PortalEmailIndexDefinition);
 			result.ListPlans=ReportRows25_3.PlanRenames(listRows);
 			result.Plan26_1=Migration26_1Plan.Make(db,database);
 			result.PlanDxc=DxcCreditScorePlan.Make(db,database);
@@ -268,6 +288,24 @@ namespace AdoptionValidation {
 					Category=(DisplayReportCategory)Convert.ToInt32(x[4],CultureInfo.InvariantCulture),
 					IsHidden=Convert.ToInt32(x[5],CultureInfo.InvariantCulture)!=0,
 				}).ToList();
+		}
+
+		///<summary>The definitions of patient._portal_active_email and its key as SchemaSnapshot prints them (from SHOW CREATE TABLE), or null.
+		///</summary>
+		public static void ReadPortalEmail(Db db,string database,out string definitionColumn,out string definitionIndex) {
+			LocalOnly.EnsureSafeIdentifier(database);
+			definitionColumn=null;
+			definitionIndex=null;
+			if(db.ScalarLong("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA="+SqlLiteral.Quote(database)+" AND TABLE_NAME='patient'")==0) {
+				return;
+			}
+			object[] row=db.Rows("SHOW CREATE TABLE `"+database+"`.patient").FirstOrDefault();
+			if(row==null) {
+				return;
+			}
+			SchemaTable table=SchemaSnapshot.Parse(Convert.ToString(row[1],CultureInfo.InvariantCulture)).GetTable("patient");
+			definitionColumn=table?.GetColumn(SchemaVerifier.PortalActiveEmailColumn)?.Definition;
+			definitionIndex=table?.GetIndex(SchemaVerifier.PortalActiveEmailIndex)?.Definition;
 		}
 
 		public static bool HasTable(Db db,string database) {

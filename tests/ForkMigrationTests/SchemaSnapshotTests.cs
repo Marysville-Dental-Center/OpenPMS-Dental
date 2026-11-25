@@ -1,5 +1,6 @@
 // Unit tests of the CREATE TABLE parser and the schema comparison. No database.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness.ForkMigrations;
@@ -119,11 +120,73 @@ CREATE TABLE `extra` (
 			Assert.AreEqual(13,result.ListDifferences.Count,report);
 		}
 
+		///<summary>Package ADOPT-PORTAL-EMAIL: adoption keeps the office's patient._portal_active_email and its key, and every reference allows them
+		///only with exactly the office's definitions. Any other definition, kind or table is a mismatch.</summary>
+		[TestMethod]
+		public void Compare_PortalActiveEmail_AllowedOnlyWithTheOfficesDefinition() {
+			const string patientStart="CREATE TABLE `patient` (\n  `PatNum` bigint(20) NOT NULL,\n  `PatStatus` tinyint(3) unsigned NOT NULL DEFAULT 0,\n"
+				+"  `Email` varchar(100) DEFAULT '',\n";
+			const string patientEnd="  PRIMARY KEY (`PatNum`)";
+			const string options="\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n";
+			string columnOffice="  `_portal_active_email` "+SchemaVerifier.PortalActiveEmailColumnDefinition+",\n";
+			string indexOffice=",\n  UNIQUE KEY `portal_active_email_uniq` (`_portal_active_email`)";
+			SchemaSnapshot expected=SchemaSnapshot.Parse(patientStart+patientEnd+options);
+			SchemaSnapshot actualOffice=SchemaSnapshot.Parse(patientStart+columnOffice+patientEnd+indexOffice+options);
+			//The constants are what the parser (and SHOW CREATE TABLE) gives for the office's DDL.
+			Assert.AreEqual(SchemaVerifier.PortalActiveEmailColumnDefinition,actualOffice.GetTable("patient").GetColumn("_portal_active_email").Definition);
+			Assert.AreEqual(SchemaVerifier.PortalActiveEmailIndexDefinition,actualOffice.GetTable("patient").GetIndex("portal_active_email_uniq").Definition);
+			foreach(List<SchemaException> listExceptions in new[] { SchemaVerifier.DocumentedExceptions,SchemaVerifier.DocumentedExceptions26_1_70,
+				SchemaVerifier.DocumentedExceptions25_3_48 })
+			{
+				SchemaVerifyResult result=SchemaVerifier.Compare(expected,actualOffice,listExceptions);
+				Assert.IsTrue(result.IsMatch,result.GetReport());
+				Assert.AreEqual(2,result.ListAllowed.Count,result.GetReport());
+				Assert.IsTrue(result.ListAllowed.All(x => x.ExceptionReason.Contains("keep")),result.GetReport());
+				//Without the column and key it matches too (a database that never had them).
+				Assert.AreEqual(0,SchemaVerifier.Compare(expected,expected,listExceptions).ListDifferences.Count);
+			}
+			string[] arrayColumnsOther=new[] {
+				"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 then `Email` else NULL end) VIRTUAL,\n",
+				"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) STORED,\n",
+				"  `_portal_active_email` varchar(255) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) VIRTUAL,\n",
+				"  `_portal_active_email` varchar(100) DEFAULT NULL,\n",
+			};
+			foreach(string columnOther in arrayColumnsOther) {
+				SchemaVerifyResult result=SchemaVerifier.Compare(expected,SchemaSnapshot.Parse(patientStart+columnOther+patientEnd+indexOffice+options),
+					SchemaVerifier.DocumentedExceptions);
+				Assert.IsFalse(result.IsMatch,columnOther);
+				Assert.AreEqual(1,result.ListMismatches.Count,result.GetReport());
+				Assert.AreEqual(SchemaDifferenceKind.ExtraColumn,result.ListMismatches[0].Kind);
+			}
+			string[] arrayIndexesOther=new[] {
+				",\n  KEY `portal_active_email_uniq` (`_portal_active_email`)",
+				",\n  UNIQUE KEY `portal_active_email_uniq` (`_portal_active_email`,`PatNum`)",
+				",\n  UNIQUE KEY `portal_active_email_uniq` (`Email`)",
+			};
+			foreach(string indexOther in arrayIndexesOther) {
+				SchemaVerifyResult result=SchemaVerifier.Compare(expected,SchemaSnapshot.Parse(patientStart+columnOffice+patientEnd+indexOther+options),
+					SchemaVerifier.DocumentedExceptions);
+				Assert.IsFalse(result.IsMatch,indexOther);
+				Assert.AreEqual(1,result.ListMismatches.Count,result.GetReport());
+				Assert.AreEqual(SchemaDifferenceKind.ExtraIndex,result.ListMismatches[0].Kind);
+			}
+			//Another key on the column, or the column on another table, is not allowed.
+			SchemaVerifyResult resultExtraKey=SchemaVerifier.Compare(expected,SchemaSnapshot.Parse(patientStart+columnOffice+patientEnd+indexOffice
+				+",\n  KEY `idx_portal` (`_portal_active_email`)"+options),SchemaVerifier.DocumentedExceptions);
+			Assert.AreEqual(1,resultExtraKey.ListMismatches.Count,resultExtraKey.GetReport());
+			Assert.AreEqual("idx_portal",resultExtraKey.ListMismatches[0].Item);
+			string definition="CREATE TABLE `definition` (\n  `DefNum` bigint(20) NOT NULL,\n  PRIMARY KEY (`DefNum`)"+options;
+			string definitionWithColumn="CREATE TABLE `definition` (\n  `DefNum` bigint(20) NOT NULL,\n"+columnOffice+"  PRIMARY KEY (`DefNum`)"+options;
+			SchemaVerifyResult resultOtherTable=SchemaVerifier.Compare(SchemaSnapshot.Parse(definition),SchemaSnapshot.Parse(definitionWithColumn),
+				SchemaVerifier.DocumentedExceptions);
+			Assert.IsFalse(resultOtherTable.IsMatch,resultOtherTable.GetReport());
+		}
+
 		[TestMethod]
 		public void Compare_ExceptionsAllowDifferencesWithAReason() {
 			SchemaSnapshot expected=SchemaSnapshot.Parse("CREATE TABLE `patient` (\n  `PatNum` bigint(20) NOT NULL\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n");
 			SchemaSnapshot actual=SchemaSnapshot.Parse("CREATE TABLE `patient` (\n  `PatNum` bigint(20) NOT NULL,\n"
-				+"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 then `Email` else NULL end) VIRTUAL,\n"
+				+"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) VIRTUAL,\n"
 				+"  UNIQUE KEY `portal_active_email_uniq` (`_portal_active_email`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n"
 				+"CREATE TABLE `job` (\n  `JobNum` bigint(20) NOT NULL\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n"
 				+"CREATE TABLE `mystery` (\n  `Num` bigint(20) NOT NULL\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n");

@@ -115,17 +115,23 @@ namespace AdoptionValidation {
 			}
 			step("Schema verifier",() => result.Verify=SchemaVerifier.VerifyDatabase(database));
 			//This program's own tables (ForkTables, for example routine maintenance) are extra tables the verifier allows; each must match its
-			//declaration exactly, which ForkTables.VerifyDatabase checks. Every other difference is a failure.
+			//declaration exactly, which ForkTables.VerifyDatabase checks. The office's patient._portal_active_email and its key, which adoption keeps
+			//(owner decision of 2026-11-25), are allowed only with the office's definitions (the verifier's exception says so). Every other difference
+			//is a failure.
 			SchemaVerifyResult resultForkTables=ForkTables.VerifyDatabase(database);
 			List<SchemaDifference> listDifferencesOd=result.Verify.ListDifferences
-				.Where(x => !(x.Kind==SchemaDifferenceKind.ExtraTable && ForkTables.IsForkTable(x.Table))).ToList();
-			int countForkTables=result.Verify.ListDifferences.Count-listDifferencesOd.Count;
+				.Where(x => !(x.Kind==SchemaDifferenceKind.ExtraTable && ForkTables.IsForkTable(x.Table)))
+				.Where(x => !IsKeptPortalEmail(x)).ToList();
+			int countPortalEmail=result.Verify.ListDifferences.Count(x => IsKeptPortalEmail(x));
+			int countForkTables=result.Verify.ListDifferences.Count-listDifferencesOd.Count-countPortalEmail;
 			bool isSchemaMatch=result.Verify.IsMatch && listDifferencesOd.Count==0 && resultForkTables.ListDifferences.Count==0;
 			result.IsSchemaExactMatch=isSchemaMatch;
 			result.CountForkTables=countForkTables;
 			log(isSchemaMatch
 				? "The schema matches Open Dental "+SchemaVerifier.ReferenceVersion+" exactly ("+(result.Verify.CountTablesActual-countForkTables)+" of "
-					+result.Verify.CountTablesExpected+" tables), plus "+countForkTables+" table(s) of this program that match their declarations."
+					+result.Verify.CountTablesExpected+" tables), plus "+countForkTables+" table(s) of this program that match their declarations"
+					+(countPortalEmail==0 ? "." : ", and the office's patient."+SchemaVerifier.PortalActiveEmailColumn+" and its key "
+					+SchemaVerifier.PortalActiveEmailIndex+" as the office has them (kept).")
 				: "The schema differs from Open Dental "+SchemaVerifier.ReferenceVersion+": "+listDifferencesOd.Count+" difference(s), "
 					+result.Verify.ListMismatches.Count+" mismatch(es): "+string.Join("; ",listDifferencesOd.Take(20).Select(x => x.Table+"."+x.Item))
 					+(resultForkTables.ListDifferences.Count==0 ? "" : "; tables of this program: "
@@ -174,6 +180,15 @@ namespace AdoptionValidation {
 				}
 			}
 			return result;
+		}
+
+		///<summary>True for the verifier's allowed difference of the office's patient._portal_active_email or its key portal_active_email_uniq, which
+		///adoption keeps. The verifier allows them only with the office's definitions, so a different definition is a mismatch and never true here.
+		///</summary>
+		public static bool IsKeptPortalEmail(SchemaDifference difference) {
+			return difference.IsExcepted && string.Equals(difference.Table,"patient",StringComparison.OrdinalIgnoreCase)
+				&& ((difference.Kind==SchemaDifferenceKind.ExtraColumn && difference.Item==SchemaVerifier.PortalActiveEmailColumn)
+				|| (difference.Kind==SchemaDifferenceKind.ExtraIndex && difference.Item==SchemaVerifier.PortalActiveEmailIndex));
 		}
 
 		///<summary>What "AdoptionValidation adopt" checks before it changes anything: the copy and the original are two different local databases,

@@ -16,3 +16,9 @@ are [v0.1.md](v0.1.md).
   (with the schema check), `adopt` accepts the pair as its `--original`, and `startup-check` also models an Open Dental 25.3.54 client.
   `SyntheticData generate` and the rehearsal (`Invoke-AdoptionRehearsal.ps1 -VersionLabels office`) can label a synthetic database the same
   way. Runbook step 0.2 now expects 25.3.47.0 / 25.3.54.0.
+- **Adoption keeps the office's patient portal column.** The office-only `patient._portal_active_email` and its unique key
+  `portal_active_email_uniq` stay as they are (owner decision of 2026-11-25, replacing the earlier decision to drop them). The office's
+  patient portal relies on them for sign-in. The schema check allows them only with the office's exact definitions, both after adoption and
+  at the program's start. Two active patients still cannot share an e-mail address: saving one stops with a database error naming
+  `portal_active_email_uniq` (a clear message comes with a later setting). Backups made by the program (Backup, and the backup before an
+  update) skip the generated column, which the backup table computes again. `migration-preview` says the column and key are kept.
