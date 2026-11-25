@@ -23,6 +23,7 @@ Usage:
   AdoptionValidation rehearse [--size small|medium|large] [--seed N] [--as-of yyyy-MM-dd] [--runs 2] [--fill-remaining 2]
                               [--families N] [--years N] [--copy server|dump] [--out DIR] [--keep] [--skip-roundtrip]
                               [--prefix synth_m1z_] [--tag TAG] [--schema-sql PATH | --schema-from DB] [--allowed FILE]
+                              [--version-labels reference|office]
   AdoptionValidation connections --database DB
   AdoptionValidation float-check --database DB
   AdoptionValidation migration-preview --database DB
@@ -40,6 +41,8 @@ Commands:
                  row counts, checksums, business totals, the rows adoption may change, the 24.4-25.3 columns through
                  OpenPmsDentalBusiness, the dropped office column, the removed update files, the version sentinels and an Open
                  Dental-style startup check. Then everything a second time on the adopted copy.
+                 --version-labels office labels the generated database as the office's is (DataBaseVersion 25.3.47.0,
+                 ProgramVersion 25.3.54.0, the 25.3.48 schema), which adoption accepts only after its exact schema check.
                  Repeats the whole run --runs times (default 2) and checks the runs agree. Every step is timed. Writes
                  rehearsal-result.json, rehearsal-result.md and the reports to --out. Scratch databases are named
                  <prefix><tag>_r<n>_src, _adopted and _snap and are dropped afterwards unless --keep.
@@ -160,6 +163,7 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 					case "--as-of": options.AsOf=DateTime.ParseExact(Next(),"yyyy-MM-dd",CultureInfo.InvariantCulture); break;
 					case "--runs": options.Runs=Math.Max(1,ParseInt(arg,Next())); break;
 					case "--fill-remaining": options.FillRemaining=ParseInt(arg,Next()); break;
+					case "--version-labels": options.Labels=GenerationSettings.ParseLabels(Next()); break;
 					case "--families": options.Families=ParseInt(arg,Next()); break;
 					case "--years": options.Years=ParseInt(arg,Next()); break;
 					case "--copy":
@@ -236,8 +240,10 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 					}
 				case "migration-preview":
 					RequireDatabase(database);
+					//Read-only: the business layer connection only reads information_schema, for the schema check of a version labels pair.
+					BusinessLayer.Connect(options.Server,database);
 					using(Db db=Db.Open(options.Server)) {
-						foreach(string line in MigrationPreview.Run(db,database).Lines()) {
+						foreach(string line in MigrationPreview.Run(db,database,x => OpenPmsDentalBusiness.ForkMigrations.SchemaVerifier.VerifyDatabase25_3_48(x)).Lines()) {
 							log(line);
 						}
 					}

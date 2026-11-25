@@ -252,8 +252,11 @@ wrong.
 and the same build is installed on one test workstation (pointed at a synthetic or empty database, never at `opendental`).
 
 0.2. **Versions and FLOAT values.** [server] `sudo mariadb opendental -e "SELECT PrefName,ValueString FROM preference WHERE PrefName IN ('DataBaseVersion','ProgramVersion','CorruptedDatabase','UpdateInProgressOnComputerName')"`.
-Expect `25.3.48.0`, `25.3.48.0`, `0` and blank. Any other version: stop; adoption refuses every version except 25.3.48.0, and the office must
-not update Open Dental before the switch.
+Expect `25.3.47.0` (`DataBaseVersion`), `25.3.54.0` (`ProgramVersion`), `0` and blank: the office runs Open Dental 25.3.54, and Open Dental
+changes `DataBaseVersion` only when a convert step runs (25.3.47 had the last one). The schema is the 25.3.48 one, and adoption accepts this
+pair only when the schema equals the 25.3.48 reference exactly, the office's `patient._portal_active_email` aside; `migration-preview` below
+says so in its first line ("Versions: adoptable. ... Its schema equals the Open Dental 25.3.48 reference"). `25.3.48.0` twice is accepted too.
+Any other version or pair, or a "NOT adoptable" line naming schema differences: stop; the office must not update Open Dental before the switch.
 
 Then, outside office hours (it reads every table that has FLOAT or DOUBLE columns, and MyISAM makes writers wait while a table is read),
 [admin PC] `& $av float-check --database opendental @db > C:\Adoption\float-check.txt`. Exit code 0 ("no value that a logical backup
@@ -660,7 +663,10 @@ to adopt; `opendental` is a different, unadopted Open Dental database; nobody is
 `opendental`'s tables and exactly its row counts, and was created after it (so the two names are not the wrong way round). Then it adopts and
 prints each step with its time; `adoption-log.txt` keeps everything. Expect, in this order:
 
-- "Open Dental 25.3.48 database. It can be adopted." and "Adoption from Open Dental 25.3.48.0 started."
+- "Open Dental 25.3.54 database (DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0). Its schema equals the Open Dental 25.3.48 reference
+  (N tables). It can be adopted as Open Dental 25.3.48." and "Adoption from Open Dental 25.3.48.0 started. The database is labelled
+  DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0; its schema equals the 25.3.48 reference." (a database labelled 25.3.48.0 twice says
+  "Open Dental 25.3.48 database. It can be adopted." and "Adoption from Open Dental 25.3.48.0 started.")
 - "Dropped index patient.portal_active_email_uniq." and "Dropped column patient._portal_active_email."
 - "Deleted N Open Dental update file row(s)." and "Blanked N preference(s) that pointed at Open Dental's servers: ..." Check the names: they
   are preferences that held an address of Open Dental's servers (such as `UpdateServerAddress`, `WebServiceHQServerURL`, `UpdateWebsitePath`).
@@ -1010,7 +1016,7 @@ Sign each line with time and initials.
 | 0.0.2 | `adoption_admin` created, history file removed | Password in the password manager | |
 | 0.0.3, 0.0.4 | Forward and tools checked from the admin PC | `connections` lists the workstations' connections, or none | |
 | 0.1 | Validation report signed, release build ready | Owner signature | |
-| 0.2 | Versions; FLOAT check filed; fork migration preview | 25.3.48.0 / 25.3.48.0, not corrupted, no update running; `float-check` exit 0 or 6, file kept; `migration-preview` exit 0, each report row rename written here (old name, new name, DisplayReportNum), or "none"; NULL notes ___, preferences ___, PhoneExtension grants moved ___, user groups BlockoutAdd ___ / BlockoutDelete ___; DXC Patient Credit Score row disabled ___ (ProgramNum or none), buttons deleted ___; Trojan Express Collect row disabled ___ (ProgramNum or none), buttons deleted ___; UDS+ row after DisplayReportNum ___, rows moved ___, user groups granted ___; Insurance History code groups added ___ (name and History Proc Code); settings read under Open Dental's names, each shown value written here (or the line kept with the file); step 2026110731 changes no preference row | |
+| 0.2 | Versions; FLOAT check filed; fork migration preview | 25.3.47.0 / 25.3.54.0 (or 25.3.48.0 / 25.3.48.0), `migration-preview` first line "Versions: adoptable", not corrupted, no update running; `float-check` exit 0 or 6, file kept; `migration-preview` exit 0, each report row rename written here (old name, new name, DisplayReportNum), or "none"; NULL notes ___, preferences ___, PhoneExtension grants moved ___, user groups BlockoutAdd ___ / BlockoutDelete ___; DXC Patient Credit Score row disabled ___ (ProgramNum or none), buttons deleted ___; Trojan Express Collect row disabled ___ (ProgramNum or none), buttons deleted ___; UDS+ row after DisplayReportNum ___, rows moved ___, user groups granted ___; Insurance History code groups added ___ (name and History Proc Code); settings read under Open Dental's names, each shown value written here (or the line kept with the file); step 2026110731 changes no preference row | |
 | 0.3 | Services and tasks listed, per computer (both service queries) | List filed | |
 | 0.4 | Direct database users and jobs listed | List filed: per program its configuration, account and grants (`GRANT` statements for `opendental_pms` prepared), the tables it writes, its additions to the database, files it loads from the Open Dental folder; each problem solved or given to the developers | |
 | 0.5 | Workstations listed, with folder, database and MariaDB user | List filed | |

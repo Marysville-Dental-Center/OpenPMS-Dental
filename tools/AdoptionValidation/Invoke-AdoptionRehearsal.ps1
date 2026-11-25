@@ -15,6 +15,10 @@ Medium preset, two runs, results in .\adoption-rehearsal-<time>.
 
 .EXAMPLE
 .\tools\AdoptionValidation\Invoke-AdoptionRehearsal.ps1 -Size small -Runs 1 -Out C:\Temp\rehearsal -Keep
+
+.EXAMPLE
+.\tools\AdoptionValidation\Invoke-AdoptionRehearsal.ps1 -VersionLabels office
+The database labelled as the office's is: DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0, the 25.3.48 schema.
 #>
 [CmdletBinding()]
 param(
@@ -23,6 +27,9 @@ param(
 	[int]$Runs=2,
 	[long]$Seed=0,
 	[int]$FillRemaining=-1,
+	#office: DataBaseVersion 25.3.47.0 with ProgramVersion 25.3.54.0, as the office database reads (same 25.3.48 schema).
+	[ValidateSet('reference','office')]
+	[string]$VersionLabels='reference',
 	[ValidateSet('','server','dump')]
 	[string]$Copy='',
 	[string]$Out,
@@ -58,6 +65,7 @@ if(-not $SkipBuild) {
 $arguments=@('rehearse','--size',$Size,'--runs',$Runs,'--server',$Server,'--port',$Port,'--user',$User)
 if($Seed -ne 0) { $arguments+=@('--seed',$Seed) }
 if($FillRemaining -ge 0) { $arguments+=@('--fill-remaining',$FillRemaining) }
+if($VersionLabels -ne 'reference') { $arguments+=@('--version-labels',$VersionLabels) }
 if($Copy) { $arguments+=@('--copy',$Copy) }
 if($Out) { $arguments+=@('--out',$Out) }
 if($Keep) { $arguments+='--keep' }

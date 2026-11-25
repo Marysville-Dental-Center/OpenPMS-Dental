@@ -45,6 +45,29 @@ namespace OpenPmsDentalBusiness {
 			return version!=null && ListAdoptableVersions.Contains(version);
 		}
 
+		///<summary>Version labels that real Open Dental databases carry for an adoptable schema. Open Dental changes DataBaseVersion only when a convert
+		///step runs, so a database whose program was updated past its last convert step reads, for example, DataBaseVersion 25.3.47.0 and
+		///ProgramVersion 25.3.54.0 while its schema is that of 25.3.48. Such a pair is adopted as its SchemaVersion, and only after the schema
+		///verifier finds the database equal to that version's reference (Adoption.Preflight). Exact match of both labels, all four parts.</summary>
+		public static readonly List<AdoptableVersionLabels> ListAdoptableLabels=new List<AdoptableVersionLabels>() {
+			new AdoptableVersionLabels(new Version(25,3,47,0),new Version(25,3,54,0),new Version(25,3,48,0)),
+		};
+
+		///<summary>True when the database's version preferences allow adoption: DataBaseVersion on ListAdoptableVersions, or the pair on
+		///ListAdoptableLabels (whose schema Adoption.Preflight still verifies). Says nothing about the fork markers.</summary>
+		public static bool HasAdoptableVersions(ForkDbState forkDbState) {
+			Version versionDb=ParseVersion(forkDbState.DataBaseVersion);
+			return IsAdoptable(versionDb) || FindAdoptableLabels(versionDb,ParseVersion(forkDbState.ProgramVersion))!=null;
+		}
+
+		///<summary>The labels entry for this DataBaseVersion and ProgramVersion pair, or null.</summary>
+		public static AdoptableVersionLabels FindAdoptableLabels(Version versionDb,Version versionProgram) {
+			if(versionDb==null || versionProgram==null) {
+				return null;
+			}
+			return ListAdoptableLabels.FirstOrDefault(x => x.DataBaseVersion==versionDb && x.ProgramVersion==versionProgram);
+		}
+
 		///<summary>The release version of the running program: the AssemblyInformationalVersion of the entry assembly (OpenPmsDental.exe), e.g. "0.0".
 		///Falls back to the given assembly, then to "0.0".</summary>
 		public static string GetReleaseVersion(Assembly assembly=null) {
@@ -156,6 +179,25 @@ namespace OpenPmsDentalBusiness {
 			return forkDbState;
 		}
 		#endregion Marker rows
+	}
+
+	///<summary>A DataBaseVersion and ProgramVersion pair that differs from the Open Dental schema version the database has (ForkVersions.ListAdoptableLabels).
+	///</summary>
+	public class AdoptableVersionLabels {
+		public Version DataBaseVersion;
+		public Version ProgramVersion;
+		///<summary>The Open Dental schema the database must match exactly; on ForkVersions.ListAdoptableVersions. Adoption records it as source=.</summary>
+		public Version SchemaVersion;
+
+		public AdoptableVersionLabels(Version versionDb,Version versionProgram,Version versionSchema) {
+			DataBaseVersion=versionDb;
+			ProgramVersion=versionProgram;
+			SchemaVersion=versionSchema;
+		}
+
+		public override string ToString() {
+			return "DataBaseVersion "+DataBaseVersion.ToString(4)+" with ProgramVersion "+ProgramVersion.ToString(4)+" (schema "+SchemaVersion.ToString(3)+")";
+		}
 	}
 
 	///<summary>The version preferences and fork markers of one database. A null field means the preference row does not exist.</summary>
