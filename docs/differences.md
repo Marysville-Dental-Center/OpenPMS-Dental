@@ -12,7 +12,7 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
 
 - **No Open Dental HQ dependencies.** No eServices, registration keys, update servers or help browser; nothing calls Open Dental
   Software's servers, and `NoHqTests` checks that on every test run ([decoupling-plan.md](decoupling-plan.md), [NoHqTests/](../NoHqTests/)).
-- **Open Dental features up to 26.1, re-implemented.** Open Dental's public source stops at 24.3.63. The features of 24.4 to 26.1 and the
+- **Open Dental features through 26.2, re-implemented.** Open Dental's public source stops at 24.3.63. The features of 24.4 to 26.1 and the
   chosen 26.2 changes are written again from Open Dental's public manual, release notes and database documents, on the Open Dental 26.2.0
   schema ([features-24.4.md](specs/features-24.4.md) to [features-26.1.md](specs/features-26.1.md),
   [schema-changes-24.3-to-26.1.md](specs/schema-changes-24.3-to-26.1.md)).

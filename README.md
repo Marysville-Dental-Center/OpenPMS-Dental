@@ -2,7 +2,7 @@
 
 # Open PMS - Dental
 
-**Free, open-source practice management software for dental offices, for Windows: derived from Open Dental, heavily extended.** Open PMS - Dental started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports, on Open Dental's database schema. Around that code it adds the Open Dental features up to 26.1 written again from public documents, .NET 10 64-bit, a new look, a new 3D tooth chart, native imaging capture, new tools and its own test suites. It is written for one dental practice and published for anyone to use.
+**Free, open-source practice management software for dental offices, for Windows: derived from Open Dental, heavily extended.** Open PMS - Dental started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports, on Open Dental's database schema. Around that code it adds the Open Dental features through 26.2 written again from public documents, .NET 10 64-bit, a new look, a new 3D tooth chart, native imaging capture, new tools and its own test suites. It is written for one dental practice and published for anyone to use.
 
 Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
 
@@ -24,7 +24,7 @@ The program's own windows, with fictional patients and data only ([how they are 
 Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDental`, `OpenPmsDentalBusiness`, `WpfControlsOD`) about 80% of the lines are still Open Dental's and about 158,000 are new or rewritten; the tests, tools and native imaging, about 360,000 lines, are almost entirely new. The full list, the numbers and how to measure them again are in [docs/differences.md](docs/differences.md).
 
 - **No Open Dental HQ dependencies:** no eServices, registration keys, update servers or help browser, checked by `NoHqTests` on every run.
-- **Open Dental features up to 26.1, re-implemented** from Open Dental's public documents, on the Open Dental 26.2.0 schema.
+- **Open Dental features through 26.2, re-implemented** from Open Dental's public documents, on the Open Dental 26.2.0 schema (all of 24.4 to 26.1, and the 26.2 changes chosen for the office).
 - **.NET 10, 64-bit, self-contained**, in place of .NET Framework 4.8, 32-bit.
 - **A new look:** Segoe UI, Fluent icons, colour tokens, every window on one spacing grid, new calendars, a progress ring.
 - **A new 3D tooth chart** in WPF, in place of the DirectX and OpenGL engines.
@@ -43,7 +43,7 @@ Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDenta
 
 ## How we work
 
-- **Re-implemented, not merged.** Open Dental's public source stops at 24.3.63. Features of later versions, up to 26.1, are written again from Open Dental's public manual, release notes and database documents; the schema follows Open Dental 26.2.
+- **Re-implemented, not merged.** Open Dental's public source stops at 24.3.63. Features of later versions, through 26.2, are written again from Open Dental's public manual, release notes and database documents; the schema follows Open Dental 26.2.
 - **Small packages.** Every change is a package with a plan, a port note in [docs/port-notes/](docs/port-notes/) and its own tests. It gets an independent review and reaches `main` only after a full build and the test suites pass.
 - **Practice-neutral and synthetic.** No practice names, server names or developer paths in tracked files; tests use synthetic data on scratch databases that they drop afterwards. A test checks every tracked file for the names.
 
@@ -65,7 +65,7 @@ Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDenta
 November 2026, on `main`:
 
 - **Independent of Open Dental Software, Inc.:** no eServices, registration keys, update servers or help browser; `NoHqTests` checks on every run that nothing calls Open Dental's servers.
-- **Open Dental features up to 26.1** on Open Dental's 26.2.0 schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted (rehearsed on synthetic data).
+- **Open Dental features through 26.2** (the 26.2 changes chosen for the office) on Open Dental's 26.2.0 schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted (rehearsed on synthetic data).
 - **Version 0.0** was released (the last .NET Framework 4.8, 32-bit build). `main` is .NET 10, 64-bit.
 - **The UI refresh is done** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)), approved by the owner on 2026-11-24: new colours, controls, window frame, Fluent icons, Segoe UI 9 pt, every window laid out on one spacing grid, calendars in the new style and a progress ring.
 
