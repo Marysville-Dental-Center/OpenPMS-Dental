@@ -48,7 +48,7 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
   [third-party-binaries-audit.md](third-party-binaries-audit.md)).
 - **Tests.** 128 test projects under `tests/`, about 269,000 lines, all new, run on scratch databases with synthetic data; next to Open
   Dental's own `UnitTests` and `UnitTestsCore` (about 2,000 test methods at the fork point), which are kept and run on every full check.
-  Together about 11,500 test methods today.
+  Together about 11,500 test methods today ([testing.md](testing.md)).
 
 ## What stayed
 

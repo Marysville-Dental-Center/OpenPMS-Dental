@@ -32,7 +32,7 @@ Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDenta
 - **Native imaging capture:** 64-bit TWAIN, sensor capture with 16-bit X-rays after a test capture verifies the device, camera and video capture.
 - **Inventory and routine maintenance tracking**, new in this project.
 - **Client-side security:** encrypted database connections verified against the office's own CA.
-- **Tests:** 128 new test projects, about 269,000 lines.
+- **Tests:** about 11,500 test methods (Open Dental's public source had about 2,000), 128 new test projects, about 269,000 lines; see [docs/testing.md](docs/testing.md).
 
 ## Philosophy
 
@@ -111,6 +111,7 @@ The full reference, with the solution layout, version numbers and every option, 
 
 - [Installing in an office](docs/installing.md): the database server, the workstations and updates.
 - [How Open PMS - Dental differs from Open Dental](docs/differences.md): the changes, what stayed, what was removed, and the numbers.
+- [Testing](docs/testing.md): what the tests cover and how to run them.
 - [Repository layout](docs/repository-layout.md): what each folder holds, the branches, Open Dental's own resources.
 - [Owner decisions and questions](docs/owner-questions.md) and the [port notes](docs/port-notes/) of every package.
 
