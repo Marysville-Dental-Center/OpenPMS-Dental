@@ -1,0 +1,161 @@
+# The release build on GitHub's own Windows runner: tools/Build-Release.ps1 from source (Release x64, the checked staging folder,
+# SHA256SUMS.txt, the Inno Setup 6 installer and the source archive), uploaded UNSIGNED as an artifact for code signing to sign later.
+# Started by hand only (Actions > Release build > Run workflow, or: gh workflow run release-build.yml --ref <branch>). No secrets.
+# Outbound: GitHub (checkout, the TWAIN DSM release, Inno Setup's release) and nuget.org for the packages the committed lock files
+# pin (restored in locked mode, so a package whose content hash differs from the lock file fails); Microsoft's Build Tools 2026
+# installer only on an image without MSBuild 18.
+name: Release build
+
+on:
+  push:
+    branches: [ci/release-1]
+  workflow_dispatch:
+    inputs:
+      label:
+        description: "Label for the artifact name (default: the commit's short SHA)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-build-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # Inno Setup 6.7.4, the version of the 0.0 release (docs/release-process.md), from its official release (jrsoftware.org links it).
+  INNO_URL: https://github.com/jrsoftware/issrc/releases/download/is-6_7_4/innosetup-6.7.4.exe
+  INNO_SHA256: a549929319f9120716677c685535ca4671e4b937b5fdc87e2585f32d8eb30e8c
+  INNO_VERSION: 6.7.4
+  # The approved TWAIN DSM release (Build-Release.ps1 checks the DLLs inside and the source zip against its own pins as well).
+  TWAINDSM_URL: https://github.com/twain/twain-dsm/releases/download/v2.5.1/dsm_020501.zip
+  TWAINDSM_SHA256: 6d5b520e0d4d524a195aa6ed749edb09d7118eed96c7defb4952bfcdb1590cee
+  TWAINDSM_SOURCE_URL: https://github.com/twain/twain-dsm/releases/download/v2.5.1/twain-dsm-2.5.1.zip
+  TWAINDSM_SOURCE_SHA256: 67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f
+  # The Build Tools 2026 installer and the components of docs/building.md a release build needs (no test tools).
+  VS_BUILDTOOLS_URL: https://aka.ms/vs/18/stable/vs_buildtools.exe
+  DOTNET_NOLOGO: "1"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+jobs:
+  build:
+    # Windows Server 2025 with Visual Studio 2026 (MSBuild 18, MSVC 14.44 v143, Windows 11 SDK 10.0.26100, .NET Framework 4.8 SDK).
+    runs-on: windows-2025-vs2026
+    timeout-minutes: 150
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: recursive
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: MSBuild 18 (Build Tools 2026 if the image has none)
+        id: msbuild
+        run: |
+          $ErrorActionPreference = 'Stop'
+          . .\tools\Initialize-BuildEnvironment.ps1
+          $msbuild = Get-BuildToolPath -Tool MSBuild
+          if (-not $msbuild) {
+            Write-Host "No MSBuild 18 on the image: installing Build Tools for Visual Studio 2026 from $env:VS_BUILDTOOLS_URL"
+            $installer = Join-Path $env:RUNNER_TEMP 'vs_buildtools.exe'
+            Invoke-WebRequest -UseBasicParsing -Uri $env:VS_BUILDTOOLS_URL -OutFile $installer
+            $signature = Get-AuthenticodeSignature -LiteralPath $installer
+            if ($signature.Status -ne 'Valid' -or $signature.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') { throw "vs_buildtools.exe is not signed by Microsoft: $($signature.Status) $($signature.SignerCertificate.Subject)" }
+            $arguments = @('--quiet','--wait','--norestart','--nocache',
+              '--add','Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools',
+              '--add','Microsoft.VisualStudio.Workload.VCTools','--includeRecommended',
+              '--add','Microsoft.VisualStudio.Component.VC.14.44.17.14.x86.x64',
+              '--add','Microsoft.Net.Component.4.8.TargetingPack','--add','Microsoft.Net.Component.4.8.SDK',
+              '--add','Microsoft.Net.Component.4.7.2.TargetingPack',
+              '--add','Microsoft.VisualStudio.Component.NuGet.BuildTools',
+              '--add','Microsoft.VisualStudio.Component.Windows11SDK.26100')
+            $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
+            # 3010: installed, a restart pending (not needed for a build).
+            if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 3010) { throw "The Build Tools installer ended with exit code $($process.ExitCode)" }
+            $msbuild = Get-BuildToolPath -Tool MSBuild
+            if (-not $msbuild) { throw 'MSBuild 18 is still not found after the Build Tools install.' }
+          }
+          Write-Host "MSBuild: $msbuild"
+          "path=$msbuild" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: Inno Setup 6
+        id: inno
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          $have = if (Test-Path -LiteralPath $iscc) { [version](Get-Item -LiteralPath $iscc).VersionInfo.ProductVersion } else { $null }
+          if (-not $have -or $have -lt [version]$env:INNO_VERSION) {
+            Write-Host "Inno Setup on the image: $(if ($have) { $have } else { 'none' }); installing $env:INNO_VERSION"
+            $installer = Join-Path $env:RUNNER_TEMP 'innosetup.exe'
+            Invoke-WebRequest -UseBasicParsing -Uri $env:INNO_URL -OutFile $installer
+            $hash = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($hash -ne $env:INNO_SHA256) { throw "The Inno Setup installer has SHA-256 $hash, not $env:INNO_SHA256" }
+            $folder = Join-Path $env:RUNNER_TEMP 'InnoSetup6'
+            $process = Start-Process -FilePath $installer -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-','/CURRENTUSER','/NOICONS',"/DIR=`"$folder`"") -Wait -PassThru
+            if ($process.ExitCode -ne 0) { throw "The Inno Setup installer ended with exit code $($process.ExitCode)" }
+            $iscc = Join-Path $folder 'ISCC.exe'
+            if (-not (Test-Path -LiteralPath $iscc)) { throw "No ISCC.exe in $folder after the install" }
+          }
+          Write-Host "ISCC: $iscc $((Get-Item -LiteralPath $iscc).VersionInfo.ProductVersion)"
+          "path=$iscc" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - name: TWAIN DSM release
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $folder = Join-Path $env:RUNNER_TEMP 'twaindsm'
+          New-Item -ItemType Directory -Force -Path $folder | Out-Null
+          foreach ($file in @(@($env:TWAINDSM_URL, $env:TWAINDSM_SHA256), @($env:TWAINDSM_SOURCE_URL, $env:TWAINDSM_SOURCE_SHA256))) {
+            $target = Join-Path $folder ([System.IO.Path]::GetFileName($file[0]))
+            Invoke-WebRequest -UseBasicParsing -Uri $file[0] -OutFile $target
+            $hash = (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($hash -ne $file[1]) { throw "$target has SHA-256 $hash, not $($file[1])" }
+          }
+
+      # nuget.config restores only from the offline folder OPMS_NUGET_OFFLINE names; a runner has none, so this fills one, laid out as
+      # the local one (a global packages folder), with exactly the packages the lock files pin, in locked mode, from nuget.org.
+      - name: Offline NuGet folder
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $offline = Join-Path $env:RUNNER_TEMP 'nuget-offline'
+          New-Item -ItemType Directory -Force -Path $offline | Out-Null
+          "OPMS_NUGET_OFFLINE=$offline" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          . .\tools\Initialize-BuildEnvironment.ps1
+          $env:OPMS_NUGET_OFFLINE = $offline
+          Initialize-BuildEnvironment -RepoRoot (Get-Location).Path | Format-List | Out-String | Write-Host
+          & '${{ steps.msbuild.outputs.path }}' OpenDental.Local.slnf /t:Restore /p:RestoreLockedMode=true "/p:RestoreSources=https://api.nuget.org/v3/index.json" "/p:RestorePackagesPath=$offline" /p:NuGetAudit=false /p:Configuration=Release /p:Platform=x64 /m /nodeReuse:false /v:minimal /nologo
+          if ($LASTEXITCODE -ne 0) { throw "The restore from nuget.org failed (exit $LASTEXITCODE)" }
+          # The build then restores again, from the offline folder into the usual global packages folder, as on a local PC.
+
+      - name: Build-Release.ps1
+        run: |
+          $out = Join-Path $env:RUNNER_TEMP 'release'
+          powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -OutDir $out -MSBuildPath '${{ steps.msbuild.outputs.path }}' -Iscc '${{ steps.inno.outputs.path }}' -TwainDsmZip (Join-Path $env:RUNNER_TEMP 'twaindsm\dsm_020501.zip') -TwainDsmSourceZip (Join-Path $env:RUNNER_TEMP 'twaindsm\twain-dsm-2.5.1.zip')
+          if ($LASTEXITCODE -ne 0) { Write-Host "Build-Release.ps1 ended with exit code $LASTEXITCODE"; exit $LASTEXITCODE }
+          Get-ChildItem -LiteralPath $out | Format-Table Name, Length -AutoSize | Out-String | Write-Host
+
+      - name: Artifact name
+        id: name
+        env:
+          LABEL: ${{ inputs.label }}
+        run: |
+          $label = if ($env:LABEL) { $env:LABEL -replace '[^A-Za-z0-9._-]', '-' } else { $env:GITHUB_SHA.Substring(0, 9) }
+          "name=OpenPmsDental-unsigned-$label" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.name.outputs.name }}
+          path: |
+            ${{ runner.temp }}/release/OpenPmsDental-*-Setup.exe
+            ${{ runner.temp }}/release/OpenPmsDental-*-source.zip
+            ${{ runner.temp }}/release/SHA256SUMS.txt
+            ${{ runner.temp }}/release/staging/
+            ${{ runner.temp }}/release/setup-files/
+          if-no-files-found: error
+          retention-days: 30
