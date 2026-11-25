@@ -54,8 +54,12 @@ namespace AdoptionValidation.Tests {
 			Assert.IsFalse(allowed.Rules.Any(x => x.Kind!="TableAdded" && ForkTables.IsForkTable(x.Table)),"A fork table is only ever added, empty.");
 			CollectionAssert.AreEqual(Sorted(changes.ListColumnsAdded),Sorted(allowed.Rules.Where(x => x.Kind=="ColumnAdded").Select(x => x.Table+"."+x.Column)));
 			//The 25.4 and 26.1 value changes; program.Enabled is the DXC Patient Credit Score step's (AllowedDifferences_TheDxcStepAllowsOnlyItsColumnAndTable).
+			//programproperty.PropertyDesc is the fork's program property description step's (2026112451, UI-BRAND-2: the brand texts), the one rule of
+			//that table, whose rows AdoptionRowCheck checks against ProgramPropertyDescPlan.
+			List<AllowedRule> listRulesPropertyDesc=allowed.Rules.Where(x => x.Table==ProgramPropertyDescPlan.TABLE_PROGRAMPROPERTY).ToList();
+			Assert.AreEqual("ColumnChanged PropertyDesc",string.Join(", ",listRulesPropertyDesc.Select(x => x.Kind+" "+x.Column)),"UI-BRAND-2's rule.");
 			List<string> listColumnsChanged=allowed.Rules.Where(x => x.Kind=="ColumnChanged" && x.Column!="SecurityHash" && x.Table!="displayreport"
-				&& x.Table!=DxcCreditScorePlan.TABLE_PROGRAM).Select(x => x.Table+"."+x.Column).ToList();
+				&& x.Table!=DxcCreditScorePlan.TABLE_PROGRAM && x.Table!=ProgramPropertyDescPlan.TABLE_PROGRAMPROPERTY).Select(x => x.Table+"."+x.Column).ToList();
 			CollectionAssert.AreEqual(Sorted(Migration26_1Plan.ArrayValueChangingColumns),Sorted(listColumnsChanged));
 			foreach(string item in Migration26_1Plan.ArrayValueChangingColumns) {
 				CollectionAssert.Contains(changes.ListColumnsChanged,item,"The reference changes "+item+".");

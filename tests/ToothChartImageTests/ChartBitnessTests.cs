@@ -262,6 +262,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void BigChartAt3x_RendersInThisBitness_AndKeepsItsMemory() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//The largest picture of the image tests: the big chart window (926x858, FormToothChartBig), whose 3D layer is drawn at 3x (2778x2574, under the
 			//8-megapixel cap) and reduced. Drawn against its baseline, then six more times alternating with another scene, so each draw makes a new 3D layer:
 			//the private bytes the big chart adds, and what the repeats add (a layer kept per draw would add about 27 MB each), in this bitness.

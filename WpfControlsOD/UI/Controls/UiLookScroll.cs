@@ -87,7 +87,7 @@ namespace WpfControls.UI {
 				return "<Style x:Key='"+key+"' TargetType='Thumb'>"
 					+"<Setter Property='Focusable' Value='False'/><Setter Property='IsTabStop' Value='False'/>"
 					+"<Setter Property='Template'><Setter.Value><ControlTemplate TargetType='Thumb'>"
-					+"<Border x:Name='pill' Margin='"+margin+"' CornerRadius='"+radius.ToString(System.Globalization.CultureInfo.InvariantCulture)+"' Background='"+thumb+"'/>"
+					+"<Border x:Name='pill' Margin='"+margin+"' CornerRadius='"+radius.ToStringNetFx(System.Globalization.CultureInfo.InvariantCulture)+"' Background='"+thumb+"'/>"
 					+"<ControlTemplate.Triggers>"
 					+"<Trigger Property='IsMouseOver' Value='True'><Setter TargetName='pill' Property='Background' Value='"+thumbHover+"'/></Trigger>"
 					+"<Trigger Property='IsDragging' Value='True'><Setter TargetName='pill' Property='Background' Value='"+thumbPressed+"'/></Trigger>"

@@ -74,7 +74,7 @@ namespace CodeBase {
 			UiTheme.FONT_FAMILY_SEMIBOLD,UiTheme.FONT_SIZE_TITLE,FontStyle.Regular,UiTheme.FONT_FAMILY,UiTheme.FONT_SIZE_MODULE_CAPTION,UiTheme.FONT_FAMILY);
 
 		public override string ToString() {
-			return Name+" ("+FamilyBody+" "+SizeBody.ToString(System.Globalization.CultureInfo.InvariantCulture)+")";
+			return Name+" ("+FamilyBody+" "+SizeBody.ToStringNetFx(System.Globalization.CultureInfo.InvariantCulture)+")";
 		}
 	}
 

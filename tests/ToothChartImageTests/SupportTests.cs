@@ -345,6 +345,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void WpfRecorderGateAndGallery_ReportAForcedRenderFailure_AndNeverUseTheFallbackPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//A render that fails makes GetBitmap return the Simple 2D chart's image while Engine stays Wpf3D. The recorder must not write that image
 			//as the WPF baseline, the gate must not compare it (a 2D baseline would match it), and the gallery must not show it as the WPF chart's.
 			ChartScene scene=ChartScenes.Get("treatment-plan");
@@ -451,6 +452,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void Gallery_ComparesWithTheApprovedSet_AndMarksThePixelsOfTheBranchBaseline() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//From G1 on the approved pictures come from main, not from this branch's Baselines\wpf-net48: a picture this branch re-recorded must show
 			//its difference from the approved one, and each picture says whether it is exactly the file the branch merges.
 			ChartScene scene=ChartScenes.Get("restored-adult");

@@ -210,6 +210,10 @@ namespace BINATests {
 						form.Controls.Remove(wrapper);
 						Assert.AreEqual(engineExpected,engineStarted,line);
 						Assert.AreEqual(0,listFallbacks.Count,line);
+						if(engineStarted==ToothChartEngine.Wpf3D && countColours<=1) {
+							//REL-0.1-FIX: where WPF draws nothing (a disconnected session) the WPF chart's picture is one colour.
+							ToothChartImageTests.WpfSession.RequireRendering("The engine and fallback checks ran: "+line);
+						}
 						Assert.IsTrue(countColours>1,"The picture is one colour: "+line);
 					}
 					Assert.IsFalse(form.Visible,"The form was shown.");

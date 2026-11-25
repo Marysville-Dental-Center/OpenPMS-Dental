@@ -32,7 +32,8 @@ namespace BACCTTests {
 			Assert.IsFalse(resx.Contains("label2.Text"));
 			Assert.IsFalse(resx.Contains("label4.Text"));
 			StringAssert.Contains(designer,"toolTipOrthoCase.SetToolTip(this.labelBandingProc");
-			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(1019, 410);","The window closes the gaps the texts left.");
+			//UI-12 slice 1 laid the window out on the layout grid (owner-approved): 1035x508 since then.
+			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(1035, 508);","The window closes the gaps the texts left.");
 		}
 
 		[TestMethod]

@@ -1,0 +1,6 @@
+# REL-0.1-FIX: the pilot's texts of this table (the format of 1.tsv below). FormInsPlan's constructor gives the city and group
+# number labels their Canadian and British texts; the layout script (tools/UiFit/hand/FormInsPlan.py, Hand.lw) sizes the labels for them.
+window	control	text	width	why
+OpenPmsDental.FormInsPlan	labelCitySTZip	City,Prov,Post	81	the constructor, Canadian culture: the carrier's city row
+OpenPmsDental.FormInsPlan	labelCitySTZip	City,Postcode	80	the constructor, British culture (en-GB): the carrier's city row
+OpenPmsDental.FormInsPlan	labelGroupNum	Plan Number	77	the constructor, Canadian culture: the group number label

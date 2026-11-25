@@ -251,9 +251,12 @@ namespace M2INSPLANTests {
 				Control butBenefits=GetControl(formInsPlan,"butBenefits");
 				Control label18=GetControl(formInsPlan,"label18");
 				Control textPlanNote=GetControl(formInsPlan,"textPlanNote");
-				float scale=panelPlan.Height/554f;//the designer height; works at any dpi or zoom
-				Assert.IsTrue(Math.Abs(textPlanNote.Bottom-panelPlan.Bottom)<=2,"The plan note should end with the columns: "+textPlanNote.Bottom+" "+panelPlan.Bottom);
-				Assert.IsTrue(Math.Abs(gridBenefits.Height-(233+67)*scale)<=3,"Grid height "+gridBenefits.Height);
+				//UI-12 round 3 (the layout script tools/UiFit/hand/FormInsPlan.py, owner-approved): the panels are 736 high in the designer and end
+				//8 px below the columns' content, where the Canadian group ends; the grid is 332 high and grows by the Canadian group's 89 px
+				//(its 81 and the 8 above it).
+				float scale=panelPlan.Height/736f;//the designer height; works at any dpi or zoom
+				Assert.IsTrue(Math.Abs(textPlanNote.Bottom-(panelPlan.Bottom-8*scale))<=2,"The plan note should end with the columns' content: "+textPlanNote.Bottom+" "+panelPlan.Bottom);
+				Assert.IsTrue(Math.Abs(gridBenefits.Height-(332+89)*scale)<=3,"Grid height "+gridBenefits.Height);
 				Assert.IsTrue(gridBenefits.Bottom<=butBenefits.Top);
 				Assert.IsTrue(gridBenefits.Bottom<=label18.Top);
 				Assert.IsTrue(butBenefits.Bottom<=textPlanNote.Top);

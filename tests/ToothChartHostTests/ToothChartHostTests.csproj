@@ -33,6 +33,10 @@
     <Compile Include="..\ToothChartImageTests\Support\StaRunner.cs">
       <Link>Shared\StaRunner.cs</Link>
     </Compile>
+    <!-- REL-0.1-FIX: the guard of the tests that need WPF to draw (inconclusive in a disconnected session). -->
+    <Compile Include="..\ToothChartImageTests\Support\WpfSession.cs">
+      <Link>Shared\WpfSession.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <!-- The program: SheetPrinting.GetToothChartHelper, DashToothChart, FormSheetDefEdit, FormToothChartingBig, FormPerioGraphical and

@@ -807,6 +807,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void LiveView_At150Percent_ItsCachedLayerIsRasterizedAtTheDevicePixels() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//The 3D layer's BitmapCache (RenderAtScale 1.0) sits under the 1/DPI layout transform. WPF rasterizes a cache in the element's own units and
 			//composites it through the transforms above it, so at 150% the cache of a 615-pixel chart has 615 pixels and lands 1:1 on the device
 			//pixels, not 410 resampled or 922 reduced. Drawn at 144 dpi (RenderTargetBitmap, WPF's software rasterizer, as the program draws the view)

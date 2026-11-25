@@ -271,7 +271,7 @@ namespace OpenPmsDental {
 		}
 
 		private static string ToSeconds(int milliseconds) {
-			return (milliseconds/1000d).ToString("0.###",CultureInfo.InvariantCulture);
+			return (milliseconds/1000d).ToStringNetFx("0.###",CultureInfo.InvariantCulture);
 		}
 
 		///<summary>Runs a statement on the page's video element v (scripts the program runs itself work whatever the page may run).</summary>

@@ -90,6 +90,9 @@ namespace ToothChartHostTests {
 				new object[] { false,YN.Yes,DrawingMode.Simple2D,FORMAT_DIRECTX,true,true,STATUS_3D_SOFTWARE },
 				new object[] { false,YN.No,DrawingMode.Simple2D,ToothChartWrapper.DirectXFormatWpfLiveView,false,false,STATUS_2D },
 			};
+			//REL-0.1-FIX: where WPF draws nothing (a disconnected session) the 3D preview's sample is blank; the other checks of every case run.
+			bool canRenderWpf=WpfSession.CanRender();
+			bool isPictureSkipped=false;
 			foreach(object[] arrayCase in arrayCases) {
 				bool isChart3DOnAllComputers=(bool)arrayCase[0];
 				YN chart3DThisComputer=(YN)arrayCase[1];
@@ -116,11 +119,19 @@ namespace ToothChartHostTests {
 						Assert.AreEqual((string)arrayCase[6],GetField<Label>(formGraphics,"labelPreviewStatus").Text,what+": the preview's status line");
 						using(Bitmap bitmap=wrapper.GetBitmap()) {
 							Assert.AreEqual(new Size(410,307),bitmap.Size);
-							Assert.IsFalse(ChartImageCompare.DescribeBitmap(bitmap).IsBlank,what+": the preview's sample is drawn");
+							if(is3D && !canRenderWpf) {
+								isPictureSkipped=true;
+							}
+							else {
+								Assert.IsFalse(ChartImageCompare.DescribeBitmap(bitmap).IsBlank,what+": the preview's sample is drawn");
+							}
 						}
 					}
 				});
 				Assert.AreEqual(rowBefore,ReadStoredRow(),what+": Load changes nothing.");
+			}
+			if(isPictureSkipped) {
+				Assert.Inconclusive(WpfSession.REASON_NO_RENDER+" Every other check of each case ran; the 3D preview's sample was not checked.");
 			}
 		}
 

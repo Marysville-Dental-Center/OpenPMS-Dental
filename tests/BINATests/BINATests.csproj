@@ -6,6 +6,9 @@
     <!-- S3b-5 of docs/specs/net10-plan.md: every test project is .NET 10 (tests\Directory.Build.props). Windows Forms (the tooth chart's
          control) in place of the System.Windows.Forms reference; it also keeps the Windows Desktop packages out of the restore. -->
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- REL-0.1-FIX: WPF for the probe of tests\ToothChartImageTests\Support\WpfSession.cs (WpfChart_StartsOnAHiddenForm is inconclusive where WPF
+         draws nothing, a disconnected session). -->
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
     <!-- Reads the references of built assemblies without loading them (S3a-8 of the .NET 10 move: .NET has no reflection-only load). The
@@ -24,6 +27,10 @@
     <!-- The program's managed assembly: OpenPmsDental.dll on .NET (the .exe is the apphost), OpenPmsDental.exe on .NET Framework (S3a-8). -->
     <Compile Include="..\ProjectFileTests\ProgramAssembly.cs">
       <Link>ProgramAssembly.cs</Link>
+    </Compile>
+    <!-- REL-0.1-FIX: the guard of the tests that need WPF to draw. -->
+    <Compile Include="..\ToothChartImageTests\Support\WpfSession.cs">
+      <Link>WpfSession.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

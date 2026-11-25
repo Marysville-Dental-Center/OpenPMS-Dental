@@ -33,7 +33,8 @@ namespace M2NOTESTests {
 		[TestMethod]
 		public void GroupNoteWindow_LargerAndResizable_NotesTakeTheSpace() {
 			string designer=FormProcGroupDesigner();
-			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(990, 690);");
+			//UI-12 slice 2 (the planner on the layout grid, owner-approved): 990x709 since then.
+			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(990, 709);");
 			StringAssert.DoesNotMatch(designer,new Regex(@"FormBorderStyle\.FixedSingle"),"Resizable.");
 			StringAssert.DoesNotMatch(designer,new Regex(@"this\.MaximizeBox = false"));
 			//The Notes box grows in both directions.

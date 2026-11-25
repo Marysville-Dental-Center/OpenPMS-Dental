@@ -353,6 +353,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void SpaceMaintainerBar_IsDrawnInItsColourExactly_AndTheBracketIsLit() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=WpfCharts.CreateWrapper(ChartScenes.SizeModule.Size);
 				ToothChartRelay relay=WpfCharts.CreateRelay(wrapper);

@@ -33,7 +33,9 @@ namespace BPERIOTests {
 		[TestMethod]
 		public void FormPerio_PrintsTheTallerGrid() {
 			string code=FormPerio();
-			StringAssert.Contains(code,"LayoutManager.MoveSize(contrPerio,new Size(602, 642+3*13));");
+			//UI-2a-3: the print setup is SetUpForPrint(contrPerio,layoutManager), moved by the LayoutManager of the window the chart is on.
+			StringAssert.Contains(code,"layoutManager.MoveSize(contrPerio,new Size(602, 642+3*13));");
+			StringAssert.Contains(code,"SetUpForPrint(contrPerio,LayoutManager);");
 			StringAssert.Contains(code,"yPos+=688+3*13-19;");
 		}
 
@@ -69,15 +71,19 @@ namespace BPERIOTests {
 		///<summary>Reads the sizes from FormClaimEdit.butAttachPerioHelper. Sizes may be written as sums of products, such as 665+3*13.</summary>
 		internal static ClaimPerioAttachmentSizes ReadClaimPerioAttachmentSizes() {
 			string code=TestDb.ReadRepoFile("OpenPmsDental","Forms","FormClaimEdit.cs");
-			int indexStart=code.IndexOf("private void butAttachPerioHelper() {",StringComparison.Ordinal);
-			Assert.IsTrue(indexStart>0,"FormClaimEdit.butAttachPerioHelper not found.");
-			int indexEnd=code.IndexOf("private void ",indexStart+1,StringComparison.Ordinal);
+			//UI-2a-3 moved the picture into GetPerioAttachmentBitmap (the sheet canvas grids and the claim perio attachment picture), which
+			//butAttachPerioHelper calls with the window's LayoutManager; the sizes are read there.
+			int indexStart=code.IndexOf("public static Bitmap GetPerioAttachmentBitmap(Patient patient,LayoutManagerForms layoutManager) {",StringComparison.Ordinal);
+			Assert.IsTrue(indexStart>0,"FormClaimEdit.GetPerioAttachmentBitmap not found.");
+			int indexEnd=code.IndexOf("private void butAttachPerioHelper() {",indexStart+1,StringComparison.Ordinal);
+			Assert.IsTrue(indexEnd>0,"FormClaimEdit.butAttachPerioHelper not found after GetPerioAttachmentBitmap.");
+			StringAssert.Contains(code.Substring(indexEnd),"GetPerioAttachmentBitmap(_patient,LayoutManager);","butAttachPerioHelper attaches that picture.");
 			string method=code.Substring(indexStart,indexEnd-indexStart);
 			const string SIZE=@"\s*([0-9+*\s]+?)\s*";
 			ClaimPerioAttachmentSizes sizes=new ClaimPerioAttachmentSizes();
 			sizes.SizeGrid=MatchSize(method,@"contrPerioGrid\.Size\s*=\s*new System\.Drawing\.Size\("+SIZE+","+SIZE+@"\);");
-			sizes.SizeBitmapGrid=MatchSize(method,@"Bitmap bitmap\s*=\s*new Bitmap\(LayoutManager\.Scale\("+SIZE+@"\),\s*LayoutManager\.Scale\("+SIZE+@"\)\);");
-			sizes.SizeBitmapImage=MatchSize(method,@"Bitmap bitmapBig\s*=\s*new Bitmap\(LayoutManager\.Scale\("+SIZE+@"\),\s*LayoutManager\.Scale\("+SIZE+@"\)\);");
+			sizes.SizeBitmapGrid=MatchSize(method,@"Bitmap bitmap\s*=\s*new Bitmap\(layoutManager\.Scale\("+SIZE+@"\),\s*layoutManager\.Scale\("+SIZE+@"\)\);");
+			sizes.SizeBitmapImage=MatchSize(method,@"Bitmap bitmapBig\s*=\s*new Bitmap\(layoutManager\.Scale\("+SIZE+@"\),\s*layoutManager\.Scale\("+SIZE+@"\)\);");
 			Point pointGrid=(Point)MatchSize(method,@"g\.DrawImage\(bitmap,"+SIZE+","+SIZE+@"\);");
 			Assert.AreEqual(0,pointGrid.X);
 			sizes.YGrid=pointGrid.Y;
