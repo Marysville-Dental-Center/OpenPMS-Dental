@@ -155,3 +155,8 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
+- A sensor's driver settings saved per device in the database (owner, 2026-11-24). Today Capture settings keeps them in each computer's
+  capture.ini, so a USB sensor moved between computers needs the same `Source.*` values entered on each one. They belong to the sensor,
+  so storing them with the imaging device would let every computer use them after one save. Only what is truly local would stay per
+  computer: the driver install, the sensor's calibration files, and the hardware binding. Needs moving any values already saved in
+  capture.ini, and keeping the gated-settings check and its log working across computers.

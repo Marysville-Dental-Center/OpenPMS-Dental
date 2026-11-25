@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace ImagingDeviceManager.TwainProtocol {
@@ -181,6 +182,177 @@ namespace ImagingDeviceManager.TwainProtocol {
 			Log("\""+SourceName+"\" did not accept the "+what+" ("+(rc==Tw.TWRC_FAILURE ? "condition code "+ToHex(LastConditionCode)
 				: "return code "+rc)+"); the feature counts as absent.");
 			return TwainCustomCapOutcome.Refused;
+		}
+
+		///<summary>The most TWTY_STR1024 chunks a settings description may have (about 64 KB): the description is untrusted input.</summary>
+		private const int SettingsSchemaChunksMax=64;
+		///<summary>The size of a TW_STR1024 item, terminating NUL included.</summary>
+		private const int Str1024Size=1026;
+
+		///<summary>The settings capability (twain-contract 1.4 "host settings", IMG-SRCSET): MSG_SET in state 4 with a TW_ONEVALUE of TWTY_STR1024
+		///holding `Section.Key=value;...`. Only TWRC_SUCCESS counts as set. error: why not, for the operator ("" when set).</summary>
+		internal TwainCustomCapOutcome SetSettingsCapability(ushort capability,string text,out string error) {
+			error="";
+			if(State!=4) {
+				error="the source is not in state 4";
+				return TwainCustomCapOutcome.NotSent;
+			}
+			byte[] arrayBytes=System.Text.Encoding.UTF8.GetBytes(text??"");
+			if(arrayBytes.Length>=Str1024Size) {
+				error="the settings are longer than the capability's 1025 bytes";
+				return TwainCustomCapOutcome.NotSent;
+			}
+			IntPtr hContainer=_memory.Allocate((uint)(TwContainer.OneValueItemOffset+Str1024Size));
+			if(hContainer==IntPtr.Zero) {
+				error="out of memory";
+				return TwainCustomCapOutcome.NotSent;
+			}
+			IntPtr pCapability=Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TW_CAPABILITY)));
+			ushort rc;
+			try {
+				IntPtr pContainer=_memory.Lock(hContainer);
+				if(pContainer==IntPtr.Zero) {
+					error="out of memory";
+					return TwainCustomCapOutcome.NotSent;
+				}
+				byte[] arrayItem=new byte[Str1024Size];//NUL-filled
+				Array.Copy(arrayBytes,arrayItem,arrayBytes.Length);
+				Marshal.WriteInt16(pContainer,0,(short)Tw.TWTY_STR1024);
+				Marshal.Copy(arrayItem,0,pContainer+TwContainer.OneValueItemOffset,arrayItem.Length);
+				_memory.Unlock(hContainer);
+				TW_CAPABILITY twCapability=new TW_CAPABILITY { Cap=capability,ConType=Tw.TWON_ONEVALUE,hContainer=hContainer };
+				Marshal.StructureToPtr(twCapability,pCapability,false);
+				rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_CAPABILITY,Tw.MSG_SET,pCapability);
+			}
+			finally {
+				Marshal.FreeHGlobal(pCapability);
+				_memory.Free(hContainer);
+			}
+			if(rc==Tw.TWRC_SUCCESS) {
+				return TwainCustomCapOutcome.Set;
+			}
+			ushort conditionCode=rc==Tw.TWRC_FAILURE ? LastConditionCode : (ushort)0;
+			if(conditionCode==Tw.TWCC_CAPUNSUPPORTED) {
+				error="the source has no settings capability "+ToHex(capability)+" (TWCC_CAPUNSUPPORTED; a driver before twain-contract 1.4)";
+				return TwainCustomCapOutcome.Unsupported;
+			}
+			error=rc==Tw.TWRC_FAILURE ? "the source refused them (condition code "+ToHex(conditionCode)+(conditionCode==Tw.TWCC_BADVALUE ? ": a key or value it "
+				+"does not take; its log names it" : "")+")" : "return code "+rc;
+			return TwainCustomCapOutcome.Refused;
+		}
+
+		///<summary>The driver's description of its settings (twain-contract 1.4, the settings-description capability): MSG_GET answers a TW_ARRAY
+		///of TWTY_STR1024 chunks of one UTF-8 JSON document, joined in order. Null when it does not answer that way.</summary>
+		internal string GetSettingsSchemaCapability(ushort capability) {
+			if(State<4) {
+				return null;
+			}
+			IntPtr pCapability=Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TW_CAPABILITY)));
+			try {
+				Marshal.StructureToPtr(new TW_CAPABILITY { Cap=capability,ConType=Tw.TWON_DONTCARE16,hContainer=IntPtr.Zero },pCapability,false);
+				ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_CAPABILITY,Tw.MSG_GET,pCapability);
+				if(rc!=Tw.TWRC_SUCCESS) {
+					Log("\""+SourceName+"\" does not describe its settings (settings-description capability "+ToHex(capability)+": "
+						+(rc==Tw.TWRC_FAILURE ? "condition code "+ToHex(LastConditionCode) : "return code "+rc)+").");
+					return null;
+				}
+				TW_CAPABILITY twCapability=(TW_CAPABILITY)Marshal.PtrToStructure(pCapability,typeof(TW_CAPABILITY));
+				if(twCapability.hContainer==IntPtr.Zero) {
+					return null;
+				}
+				try {
+					IntPtr pContainer=_memory.Lock(twCapability.hContainer);
+					if(pContainer==IntPtr.Zero) {
+						return null;
+					}
+					try {
+						if(twCapability.ConType!=Tw.TWON_ARRAY || (ushort)Marshal.ReadInt16(pContainer,0)!=Tw.TWTY_STR1024) {
+							Log("\""+SourceName+"\" answered its settings description in another form than a TW_ARRAY of TWTY_STR1024; ignored.");
+							return null;
+						}
+						int count=Marshal.ReadInt32(pContainer,2);
+						long sizeBlock=_memory.GetSize(twCapability.hContainer);
+						if(sizeBlock>0 && count>=0 && count<=SettingsSchemaChunksMax && 6L+(long)count*Str1024Size>sizeBlock) {
+							Log("\""+SourceName+"\" answered a settings description of "+count+" chunks in a block of "+sizeBlock+" bytes. Ignored.");
+							return null;
+						}
+						if(count<0 || count>SettingsSchemaChunksMax) {
+							Log("\""+SourceName+"\" answered a settings description of "+count+" chunks; at most "+SettingsSchemaChunksMax+" are read. Ignored.");
+							return null;
+						}
+						List<byte> listBytes=new List<byte>();
+						byte[] arrayItem=new byte[Str1024Size];
+						for(int i=0;i<count;i++) {
+							Marshal.Copy(pContainer+6+i*Str1024Size,arrayItem,0,arrayItem.Length);
+							int length=Array.IndexOf(arrayItem,(byte)0);
+							listBytes.AddRange(arrayItem.Take(length<0 ? arrayItem.Length : length));
+						}
+						return System.Text.Encoding.UTF8.GetString(listBytes.ToArray());
+					}
+					finally {
+						_memory.Unlock(twCapability.hContainer);
+					}
+				}
+				finally {
+					_memory.Free(twCapability.hContainer);
+				}
+			}
+			catch(Exception ex) {
+				Log("The settings description could not be read: "+ex.Message);
+				return null;
+			}
+			finally {
+				Marshal.FreeHGlobal(pCapability);
+			}
+		}
+
+		///<summary>The source's effective settings through the settings capability (MSG_GET, TWTY_STR1024), or null when it does not answer.</summary>
+		internal string GetSettingsCapability(ushort capability) {
+			if(State<4) {
+				return null;
+			}
+			IntPtr pCapability=Marshal.AllocHGlobal(Marshal.SizeOf(typeof(TW_CAPABILITY)));
+			try {
+				Marshal.StructureToPtr(new TW_CAPABILITY { Cap=capability,ConType=Tw.TWON_DONTCARE16,hContainer=IntPtr.Zero },pCapability,false);
+				ushort rc=SourceEntry(Tw.DG_CONTROL,Tw.DAT_CAPABILITY,Tw.MSG_GET,pCapability);
+				if(rc!=Tw.TWRC_SUCCESS) {
+					return null;
+				}
+				TW_CAPABILITY twCapability=(TW_CAPABILITY)Marshal.PtrToStructure(pCapability,typeof(TW_CAPABILITY));
+				if(twCapability.hContainer==IntPtr.Zero) {
+					return null;
+				}
+				try {
+					IntPtr pContainer=_memory.Lock(twCapability.hContainer);
+					if(pContainer==IntPtr.Zero) {
+						return null;
+					}
+					try {
+						if(twCapability.ConType!=Tw.TWON_ONEVALUE || (ushort)Marshal.ReadInt16(pContainer,0)!=Tw.TWTY_STR1024) {
+							return null;
+						}
+						long sizeBlock=_memory.GetSize(twCapability.hContainer);
+						int sizeItem=sizeBlock>0 ? (int)Math.Max(0,Math.Min(Str1024Size,sizeBlock-TwContainer.OneValueItemOffset)) : Str1024Size;
+						byte[] arrayItem=new byte[sizeItem];
+						Marshal.Copy(pContainer+TwContainer.OneValueItemOffset,arrayItem,0,arrayItem.Length);
+						int length=Array.IndexOf(arrayItem,(byte)0);
+						return System.Text.Encoding.UTF8.GetString(arrayItem,0,length<0 ? arrayItem.Length : length);
+					}
+					finally {
+						_memory.Unlock(twCapability.hContainer);
+					}
+				}
+				finally {
+					_memory.Free(twCapability.hContainer);
+				}
+			}
+			catch(Exception ex) {
+				Log("The settings capability could not be read: "+ex.Message);
+				return null;
+			}
+			finally {
+				Marshal.FreeHGlobal(pCapability);
+			}
 		}
 
 		///<summary>Called on the TWAIN thread with the TWDE_ code of each device event the source reports (MSG_DEVICEEVENT, then

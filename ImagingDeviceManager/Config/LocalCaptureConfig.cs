@@ -590,6 +590,20 @@ namespace ImagingDeviceManager.Config {
 			}
 		}
 
+		///<summary>The key names of section as the file has them (each once), or an empty list when the section is missing.</summary>
+		public List<string> GetKeyNames(string section) {
+			if(section==null) {
+				return new List<string>();
+			}
+			lock(_lock) {
+				Dictionary<string,string> dictKeys;
+				if(!_dictSections.TryGetValue(section.Trim(),out dictKeys)) {
+					return new List<string>();
+				}
+				return new List<string>(dictKeys.Keys);
+			}
+		}
+
 		private string GetRaw(string section,string key) {
 			if(section==null || key==null) {
 				return null;

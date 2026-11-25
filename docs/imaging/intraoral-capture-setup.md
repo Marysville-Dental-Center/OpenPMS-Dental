@@ -538,6 +538,24 @@ in Capture settings (Setup permission), and only after the 1.3 build passed its 
 source whose installation setting `[Sensor] UsbDevice` names the sensor's USB instance ID, the answer is a real check, and an unplugged
 sensor shows "Sensor not connected" instead of opening the sensor software. Without that setting, and with 1.2, the answer is always yes.
 
+**The source's own settings from Open PMS - Dental (1.4).** With a 1.4 source, its installation settings are set in Capture settings
+instead of in its INI file on each computer. Open PMS - Dental has no list of any source's settings: the source describes them.
+1. Set `[Device.N] SettingsSchemaCap` and `SettingsCap` to the two capability numbers from the source's published contract.
+2. Run Test capture once on the sensor computer. Opening the source reads its description and saves it beside capture.ini; Test capture
+   says how many settings it describes, or why the description was refused.
+3. Reopen Capture settings: one `Source.<Section>.<Key>` row per setting, with the source's own choices, ranges and help.
+
+The rows are gated, so a change needs the Setup permission and is logged. An empty row keeps the source's own value. They are sent once
+each time a capture opens the source, and the source keeps them for every image of that capture. If they cannot be applied (no
+`SettingsCap`, a source before 1.4, a value it refuses), the capture does not start and says why. Test capture lists the settings sent and, after a test image, the ones the source reports in effect; every image's sidecar
+records them. Rows whose help says they change the delivered image stay empty for diagnostic captures. A description that is too long, has
+an unknown type or a key or value with other characters than letters, digits and a few separators is refused as a whole: no rows, and the
+capture log says why.
+
+**Headless (1.4).** With a 1.4 source, `[Device.N] Headless=1` keeps the sensor software's window hidden. The source shows it only when
+something needs the operator: a sensor error, the sensor unplugged, a lost exposure. Use it only after the clinic confirmed that the
+sensor captures with its window hidden.
+
 **The source's own settings in 1.3** (its own INI file, set on the computer, not in Open PMS - Dental): `[Capture] HdMode=caries`
 delivers the vendor's caries enhancement instead of its HD rendering, and `[Adjust]` has five more adjustments (Invert, Levels, Relief,
 Sharpen, Gamma). They apply to 8-bit images only. When any adjustment was applied, the image's metadata lists it and Open PMS - Dental

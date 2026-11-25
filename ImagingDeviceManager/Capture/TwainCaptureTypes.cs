@@ -319,6 +319,9 @@ namespace ImagingDeviceManager.Capture {
 	///<summary>What the open source reported in state 4: its identity and the capabilities the capture session reads, never sets (design 7.1
 	///CAP-3). For Test capture and the log. A value is null when the source did not answer.</summary>
 	public sealed class TwainCaptureSourceInfo {
+		///<summary>The driver's description of its settings, read at open through [Device.N] SettingsSchemaCap (twain-contract 1.4), or null.
+		///The session also saves it beside capture.ini (TwainSourceSettings.GetSchemaFileName) for Capture settings.</summary>
+		public string SettingsSchemaJson { get; set; }
 		public string ProductName { get; set; }
 		public string Manufacturer { get; set; }
 		public string ProductFamily { get; set; }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ImagingCapture.Settings;
+using ImagingDeviceManager.Capture;
 using ImagingDeviceManager.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenPmsDentalBusiness;
@@ -188,6 +189,64 @@ namespace ImagingCapture.Tests {
 			}
 		}
 
+		private const string SchemaJson="{\"schema\":\"source-settings-schema/1\",\"source\":\"Example Sensor DS\",\"version\":\"1.4\",\"settings\":[{\"key\":\"Sensor.XRayMa\",\"type\":\"choice\",\"values\":[\"0.2\",\"0.5\",\"1\",\"2\",\"3\"],\"default\":\"\",\"changesImage\":false,\"help\":\"The generator's tube current.\"},{\"key\":\"Capture.Timeout\",\"type\":\"integer\",\"min\":10,\"max\":600,\"default\":\"180\",\"help\":\"Seconds per arming.\"},{\"key\":\"Adjust.Gamma\",\"type\":\"number\",\"min\":0.1,\"max\":5,\"default\":\"1.0\",\"changesImage\":true,\"help\":\"Gamma.\"},{\"key\":\"Sensor.UsbDevice\",\"type\":\"text\",\"default\":\"\",\"help\":\"The sensor's USB ID.\"}]}";
+
+		///<summary>The driver's description as the session saves it beside capture.ini (IMG-SRCSET).</summary>
+		private void WriteSchema(string json) {
+			File.WriteAllText(Path.Combine(_tempDir,TwainSourceSettings.GetSchemaFileName(12)),json);
+		}
+
+		[TestMethod]
+		public void SourceSettings_RowsFromTheDriversDescription_ValuesChecked_EmptyMeansTheDriversOwn() {
+			Assert.IsFalse(Model().ListRows.Any(x => x.Def.Key.StartsWith("Source.")),"No description: no Source.* rows.");
+			WriteSchema(SchemaJson);
+			CaptureSettingsModel model=Model();
+			CollectionAssert.AreEqual(new[] { "Source.Sensor.XRayMa","Source.Capture.Timeout","Source.Adjust.Gamma","Source.Sensor.UsbDevice" },
+				model.ListRows.Where(x => x.Def.Key.StartsWith("Source.")).Select(x => x.Def.Key).ToArray());
+			Assert.IsTrue(model.ListRows.Where(x => x.Def.Key.StartsWith("Source.")).All(x => x.Def.IsGated));
+			StringAssert.Contains(Row(model,"Device","Source.Adjust.Gamma").Def.Help,"leave it empty for diagnostic X-rays");
+			AssertProblem("Device","Source.Sensor.XRayMa","4","is not one of");
+			AssertProblem("Device","Source.Capture.Timeout","5","is not between 10 and 600");
+			AssertProblem("Device","Source.Capture.Timeout","ten","is not a whole number");
+			AssertProblem("Device","Source.Adjust.Gamma","9","is not between 0.1 and 5");
+			AssertProblem("Device","Source.Adjust.Gamma","1,5","is not a number");
+			AssertProblem("Device","Source.Sensor.UsbDevice","a=b","has ';' or '='");
+			AssertProblem("Device","SettingsCap","zz","is not a capability number");
+			foreach(string[] arrayValid in new[] {
+				new[] { "Source.Sensor.XRayMa","0.5" },new[] { "Source.Capture.Timeout","180" },new[] { "Source.Adjust.Gamma","0.8" },
+				new[] { "Source.Sensor.UsbDevice",@"USB\VID_1234&PID_5678" },new[] { "Source.Sensor.XRayMa","" },new[] { "SettingsCap","0x8005" },
+				new[] { "SettingsSchemaCap","0x8006" } })
+			{
+				CaptureSettingsModel modelValid=Model();
+				modelValid.SetText(Idx(modelValid,"Device",arrayValid[0]),arrayValid[1]);
+				Assert.AreEqual("",Row(modelValid,"Device",arrayValid[0]).Problem,string.Join("=",arrayValid));
+			}
+		}
+
+		[TestMethod]
+		public void SourceSettings_TogetherLongerThanTheDriverTakes_Refused() {
+			File.WriteAllText(_path,"[Device.12]\r\n"+string.Concat(Enumerable.Range(0,30).Select(i => "Source.Sensor.Long"+i+"="+new string('a',30)+"\r\n")));
+			CaptureSettingsModel model=Model();
+			CaptureSettingRow row=Row(model,"Device","Source.Sensor.Long0");
+			StringAssert.Contains(row.Problem,"the driver takes at most 1025");
+			model.SetText(Idx(model,"Device","Source.Sensor.Long0"),"");
+			for(int i=1;i<10;i++) {
+				model.SetText(Idx(model,"Device","Source.Sensor.Long"+i),"");
+			}
+			Assert.AreEqual("",Row(model,"Device","Source.Sensor.Long10").Problem,"Short enough once some are cleared.");
+		}
+
+		[TestMethod]
+		public void SourceSettings_ARefusedDescription_GivesNoRows_AndSaysWhy_AKeyItDoesNotList_StaysAsARow() {
+			WriteSchema("{\"schema\":\"source-settings-schema/1\",\"settings\":[{\"key\":\"Sensor.X=Y\",\"type\":\"text\"}]}");
+			File.WriteAllText(_path,"[Device.12]\r\nSource.Sensor.Old=1\r\n");
+			CaptureSettingsModel model=Model();
+			StringAssert.Contains(model.SourceSettingsSchemaError,"its key is not Section.Key");
+			CollectionAssert.AreEqual(new[] { "Source.Sensor.Old" },model.ListRows.Where(x => x.Def.Key.StartsWith("Source.")).Select(x => x.Def.Key).ToArray(),
+				"A value in the file stays visible (and is still sent) without a description.");
+			StringAssert.Contains(Row(model,"Device","Source.Sensor.Old").Def.Help,"not in the driver's description");
+		}
+
 		private void AssertProblem(string section,string key,string text,string fragment) {
 			CaptureSettingsModel model=Model();
 			model.SetText(Idx(model,section,key),text);
@@ -268,8 +327,8 @@ namespace ImagingCapture.Tests {
 			Assert.IsFalse(entry.ListChanges[2].IsGated);
 			Assert.AreEqual("Invert",entry.GetGatedValue("Device.Polarity"));
 			Assert.AreEqual("Example Sensor DS",entry.GetGatedValue("Twain.AllowedSources"));
-			Assert.AreEqual(GatedSettingsHash.ListSessionKeys.Count+GatedSettingsHash.ListTwainKeys.Count+GatedSettingsHash.ListDeviceKeys.Count,
-				entry.DictGatedValues.Count,"Every gated value, as saved.");
+			Assert.AreEqual(GatedSettingsHash.ListSessionKeys.Count+GatedSettingsHash.ListTwainKeys.Count+GatedSettingsHash.ListDeviceKeys.Count+1,
+				entry.DictGatedValues.Count,"Every gated value, as saved (SettingsCap too; no driver description here).");
 			Assert.AreEqual(CaptureSettingsStatus.Verified,model.SettingsCheck.Status,"The screen shows the file as saved.");
 			Assert.IsFalse(model.HasChanges);
 			Assert.AreEqual("1",Row(model,"Session","Enabled").SavedText);

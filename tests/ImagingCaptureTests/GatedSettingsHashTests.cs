@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using ImagingCapture.Settings;
+using ImagingDeviceManager.Capture;
 using ImagingDeviceManager.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -181,6 +182,30 @@ Headless=0
 			Assert.AreEqual(hashBase,Hash(IniBase.Replace("[Device.13]\r\nBits=8","[Device.13]\r\nBits=16").Replace("[Device.13]\nBits=8","[Device.13]\nBits=16")));
 			Assert.AreEqual(hashBase,Hash(IniBase+"[Sounds]\nSaved=SystemHand\n[Twain]\nNotAGatedKey=1\n[Device.12]\nAnotherKey=x\n"));
 			Assert.AreEqual(hashBase,Hash(IniBase.Replace("Version=1","Version=2")));
+		}
+
+		[TestMethod]
+		public void SourceSettingsKeys_HashOnlyWhenSet_SoEarlierFilesAndRecordsKeepTheirHash() {
+			string hashBase=Hash(IniBase);
+			HashSet<string> hashSetHashes=new HashSet<string> { hashBase };
+			foreach(string key in new[] { GatedSettingsHash.KeySettingsCap,"Source.Sensor.XRayMa","Source.Adjust.Gamma","Source.Anything.Else" }) {
+				Assert.IsTrue(GatedSettingsHash.IsGatedKey("Device.12",key),key);
+				LocalCaptureConfig configEmpty=Load(IniBase);
+				Assert.IsTrue(configEmpty.Set("Device.12",key,""));
+				Assert.AreEqual(hashBase,GatedSettingsHash.Compute(configEmpty,12),key+" empty: the hash of a file without it.");
+				LocalCaptureConfig config=Load(IniBase);
+				Assert.IsTrue(config.Set("Device.12",key,"1"));
+				Assert.IsTrue(hashSetHashes.Add(GatedSettingsHash.Compute(config,12)),key+" set: a hash of its own.");
+			}
+			LocalCaptureConfig configLower=Load(IniBase);
+			LocalCaptureConfig configUpper=Load(IniBase);
+			Assert.IsTrue(configLower.Set("Device.12","source.sensor.mode","Auto"));
+			Assert.IsTrue(configUpper.Set("Device.12","Source.Sensor.Mode","Auto"));
+			Assert.AreEqual(GatedSettingsHash.Compute(configLower,12),GatedSettingsHash.Compute(configUpper,12),"The key's spelling does not count.");
+			Assert.IsTrue(configUpper.Set("Device.12","Source.Sensor.Mode","auto"));
+			Assert.AreNotEqual(GatedSettingsHash.Compute(configLower,12),GatedSettingsHash.Compute(configUpper,12),"The value is sent as written.");
+			Assert.IsFalse(GatedSettingsHash.IsGatedKey("Device.12","Source."),"A bare prefix is no setting.");
+			Assert.IsFalse(GatedSettingsHash.IsGatedKey("Device.12","SettingsSchemaCap"),"The description's capability changes no image.");
 		}
 
 		[TestMethod]

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ImagingDeviceManager.Capture;
 using ImagingCapture.Session;
 using ImagingDeviceManager.Config;
 
@@ -27,6 +28,10 @@ namespace ImagingCapture.Settings {
 		Key,
 		///<summary>A Windows system sound name (CaptureSoundNames); empty means silent.</summary>
 		Sound,
+		///<summary>A positive number, decimals allowed, written with a '.' (a sensor driver setting).</summary>
+		Decimal,
+		///<summary>Free text without ';' or '=' (a sensor driver setting the driver checks itself).</summary>
+		Text,
 	}
 
 	///<summary>One key of capture.ini that the Capture settings screen edits.</summary>
@@ -58,6 +63,9 @@ namespace ImagingCapture.Settings {
 		public int MinValue { get; internal set; }
 		///<summary>Why a value below MinValue is refused, one sentence after "[Twain] JournalKeep=0 ", or "" for "is below N.".</summary>
 		public string TextBelowMinimum { get; internal set; }="";
+		///<summary>A WholeNumber or Decimal sensor driver setting: the range the driver describes (null: none on that side).</summary>
+		public double? RangeMin { get; internal set; }
+		public double? RangeMax { get; internal set; }
 
 		///<summary>"Session.Enabled", "Device.Bits": the name GatedSettingsHash's canonical text and the security-log entry use.</summary>
 		public string Label => Section+"."+Key;
@@ -89,6 +97,56 @@ namespace ImagingCapture.Settings {
 
 		///<summary>Every key the screen edits, in the order it shows them.</summary>
 		public static readonly ReadOnlyCollection<CaptureSettingDef> ListSettings=new ReadOnlyCollection<CaptureSettingDef>(Build());
+
+		///<summary>Every key the screen edits for one device (IMG-SRCSET): ListSettings, then one gated `Source.*` row per setting the driver
+		///describes (SourceSettingsSchema, saved beside config's file), then a row for each `Source.*` key that config or listExtraLabels
+		///("Device.Source.X", from a log entry) has and the description does not. schema: the description to use, or null to load the saved one.
+		///A description that cannot be used adds no rows; schemaError says why ("" when there is none or it is fine).</summary>
+		public static List<CaptureSettingDef> GetSettings(long imagingDeviceNum,LocalCaptureConfig config,IEnumerable<string> listExtraLabels,
+			out string schemaError,SourceSettingsSchema schema=null)
+		{
+			schemaError="";
+			List<CaptureSettingDef> listSettings=new List<CaptureSettingDef>(ListSettings);
+			if(imagingDeviceNum<=0) {
+				return listSettings;
+			}
+			if(schema==null) {
+				schema=SourceSettingsSchema.LoadForDevice(config,imagingDeviceNum,out schemaError);
+			}
+			HashSet<string> hashSetKeys=new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			if(schema!=null) {
+				foreach(SourceSettingsSchemaEntry entry in schema.ListEntries) {
+					listSettings.Add(CreateSourceDef(entry));
+					hashSetKeys.Add(TwainSourceSettings.KeyPrefix+entry.Key);
+				}
+			}
+			string section=LocalCaptureConfig.GetDeviceSection(imagingDeviceNum);
+			List<string> listOther=(config==null ? new List<string>() : config.GetKeyNames(section)).Where(x => TwainSourceSettings.IsSourceKey(x))
+				.Concat((listExtraLabels??Enumerable.Empty<string>()).Where(x => x!=null && x.StartsWith(SectionDevice+".",StringComparison.OrdinalIgnoreCase))
+				.Select(x => x.Substring(SectionDevice.Length+1)).Where(x => TwainSourceSettings.IsSourceKey(x)))
+				.Select(x => x.Trim()).OrderBy(x => x,StringComparer.OrdinalIgnoreCase).ToList();
+			foreach(string key in listOther) {
+				if(hashSetKeys.Add(key)) {
+					listSettings.Add(new CaptureSettingDef(SectionDevice,key,CaptureSettingKind.Text,"",true,"Sensor driver setting "
+						+key.Substring(TwainSourceSettings.KeyPrefix.Length)+", not in the driver's description of its settings. It is still sent; clear "
+						+"it if the driver no longer has it."));
+				}
+			}
+			return listSettings;
+		}
+
+		///<summary>The row of one setting the driver describes: gated, its type as the screen's kind, its values, range and help.</summary>
+		private static CaptureSettingDef CreateSourceDef(SourceSettingsSchemaEntry entry) {
+			CaptureSettingKind kind=entry.Type=="choice" ? CaptureSettingKind.Choice : entry.Type=="integer" ? CaptureSettingKind.WholeNumber
+				: entry.Type=="number" ? CaptureSettingKind.Decimal : CaptureSettingKind.Text;
+			string help="Sensor driver setting "+entry.Key+" (empty: the driver's own value"+(entry.Default=="" ? "" : ", "+entry.Default)+"). "+entry.Help
+				+(entry.ChangesImage ? " It changes the delivered image: leave it empty for diagnostic X-rays." : "");
+			string[] arrayChoices=kind==CaptureSettingKind.Choice ? new[] { "" }.Concat(entry.ListValues).ToArray() : new string[0];
+			CaptureSettingDef settingDef=new CaptureSettingDef(SectionDevice,TwainSourceSettings.KeyPrefix+entry.Key,kind,"",true,help.Trim(),arrayChoices);
+			settingDef.RangeMin=entry.Min;
+			settingDef.RangeMax=entry.Max;
+			return settingDef;
+		}
 
 		///<summary>The definition of section.key ("Device" for any [Device.N]), names ignoring case, or null.</summary>
 		public static CaptureSettingDef Find(string section,string key) {
@@ -147,6 +205,13 @@ namespace ImagingCapture.Settings {
 			Add(SectionDevice,"RedeliverCap",CaptureSettingKind.Capability,"",true,"The redelivery capability. "+HelpCapability);
 			Add(SectionDevice,"NoActivateCap",CaptureSettingKind.Capability,"",true,"The capability that keeps the source's window from taking "
 				+"activation. "+HelpCapability);
+			//IMG-SRCSET: the sensor driver's own settings, sent before each enable through its settings capability (twain-contract 1.4 "host
+			//settings") instead of a hand edit of the driver's INI file on each computer. Empty = the driver's own value applies. Gated.
+			Add(SectionDevice,"SettingsCap",CaptureSettingKind.Capability,"",true,"The driver-settings capability. "+HelpCapability+" Needed for the "
+				+"Source.* rows; with any of them set and this empty, the session does not start.");
+			Add(SectionDevice,"SettingsSchemaCap",CaptureSettingKind.Capability,"",false,"The driver's settings-description capability. "+HelpCapability
+				+" With it, the session reads the driver's list of settings each time it opens the source, and this screen then shows them as "
+				+"Source.* rows (reopen it after a capture or Test capture).");
 			Add(SectionDevice,"DeviceEvents",CaptureSettingKind.Switch,"0",false,"1: ask the source for device events (twain-contract 1.3 and "
 				+"later), so the session shows when the sensor is ready, when an exposure was captured, and when it went offline. A source without "
 				+"them is left as it is.");

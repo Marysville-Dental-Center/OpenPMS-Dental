@@ -194,7 +194,10 @@ namespace ImagingCapture.Settings {
 				return listLabels;
 			}
 			bool isSavedBeforeDefaultChange=IsSavedBefore20261101(entry,imagingDeviceNum);
-			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings.Where(x => x.IsGated)) {
+			string schemaError;
+			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.GetSettings(imagingDeviceNum,config,entry.DictGatedValues.Keys,out schemaError)
+				.Where(x => x.IsGated))
+			{
 				string valueSaved=entry.GetGatedValue(settingDef.Label)??"";
 				string valueNow=config==null ? "" : config.GetString(settingDef.GetSectionName(imagingDeviceNum),settingDef.Key,"");
 				string valueDefaultBefore=null;
@@ -257,6 +260,9 @@ namespace ImagingCapture.Settings {
 			options.ContinuousCap=null;
 			options.RedeliverCap=null;
 			options.NoActivateCap=null;
+			options.SettingsCap=null;//IMG-SRCSET: the driver keeps its own settings
+			options.SourceSettings="";
+			options.SourceSettingsError="";
 			options.Allow16Bit=false;
 			options.JournalKeep=new TwainCaptureOptions().JournalKeep;
 			if(Status==CaptureSettingsStatus.ChangedOutside && LastSaved!=null && LastSaved.GetGatedValue("Twain.RestrictSources")!=null) {

@@ -6,6 +6,7 @@ using System.Linq;
 using ImagingCapture.Dicom;
 using ImagingCapture.Metadata;
 using ImagingCapture.Save;
+using ImagingCapture.Settings;
 using ImagingCapture.UI;
 using ImagingCapture.Video;
 using ImagingDeviceManager.Capture;
@@ -622,6 +623,12 @@ namespace ImagingCapture.Session {
 				_isSessionOpen=true;
 				TwainCaptureSourceInfo sourceInfo=result.SourceInfo;
 				Log("Open: \""+(sourceInfo?.ProductName??"")+"\""+(sourceInfo?.DeviceOnline==false ? ", CAP_DEVICEONLINE FALSE" : "")+".");
+				if(sourceInfo?.SettingsSchemaJson!=null) {
+					string errorSchema;
+					SourceSettingsSchema schema=SourceSettingsSchema.Parse(sourceInfo.SettingsSchemaJson,out errorSchema);
+					Log(schema==null ? "The driver's description of its settings was refused (Capture settings shows no Source.* rows for it): "+errorSchema
+						: "The driver describes "+schema.ListEntries.Count+" settings (Source.* rows in Capture settings).");
+				}
 				if(_isEndRequested) {
 					Finish(CaptureSessionEndReason.Ended);
 					return;

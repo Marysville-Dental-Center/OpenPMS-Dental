@@ -21,7 +21,10 @@ namespace ImagingCapture.Settings {
 		public static Dictionary<CaptureSettingDef,string> Validate(IDictionary<CaptureSettingDef,string> dictTexts,long imagingDeviceNum) {
 			Dictionary<CaptureSettingDef,string> dictProblems=new Dictionary<CaptureSettingDef,string>();
 			LocalCaptureConfig config=LocalCaptureConfig.Load((string)null);
-			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings) {
+			//The catalog's keys, and the device's sensor driver rows (CaptureSettingsCatalog.GetSettings) the caller passes.
+			List<CaptureSettingDef> listDefs=CaptureSettingsCatalog.ListSettings.Concat((dictTexts?.Keys??Enumerable.Empty<CaptureSettingDef>())
+				.Where(x => !CaptureSettingsCatalog.ListSettings.Contains(x))).ToList();
+			foreach(CaptureSettingDef settingDef in listDefs) {
 				string text=GetText(dictTexts,settingDef);
 				if(!config.Set(settingDef.GetSectionName(imagingDeviceNum),settingDef.Key,text)) {
 					dictProblems[settingDef]=config.LastError;
@@ -30,7 +33,7 @@ namespace ImagingCapture.Settings {
 			//TwainCaptureOptions' own warnings for [Device.N], in the library's words.
 			List<string> listOptionWarnings=imagingDeviceNum>0 ? TwainCaptureOptions.FromConfig(config,imagingDeviceNum).ListWarnings : new List<string>();
 			Dictionary<CaptureSessionKey,string> dictKeyTexts=new Dictionary<CaptureSessionKey,string>();
-			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings) {
+			foreach(CaptureSettingDef settingDef in listDefs) {
 				if(dictProblems.ContainsKey(settingDef)) {
 					continue;
 				}
@@ -49,6 +52,16 @@ namespace ImagingCapture.Settings {
 					dictProblems[settingDef]=problem;
 				}
 			}
+			//IMG-SRCSET: the sensor driver settings together must fit the settings capability's one string.
+			List<CaptureSettingDef> listSourceSet=listDefs.Where(x => TwainSourceSettings.IsSourceKey(x.Key) && GetText(dictTexts,x)!="").ToList();
+			int bytesSource=System.Text.Encoding.UTF8.GetByteCount(string.Join(";",listSourceSet
+				.Select(x => x.Key.Substring(TwainSourceSettings.KeyPrefix.Length)+"="+GetText(dictTexts,x))));
+			if(bytesSource>TwainSourceSettings.TextBytesMax) {
+				foreach(CaptureSettingDef settingDef in listSourceSet.Where(x => !dictProblems.ContainsKey(x))) {
+					dictProblems[settingDef]="The sensor driver settings together are "+bytesSource+" bytes; the driver takes at most "
+						+TwainSourceSettings.TextBytesMax+". Clear some of them.";
+				}
+			}
 			//A key the session would leave out because another key has its chord (CaptureKeyBindings), when the key itself parses.
 			CaptureKeyBindings bindings=CaptureKeyBindings.FromTexts(dictKeyTexts);
 			foreach(string warning in bindings.ListWarnings) {
@@ -59,6 +72,15 @@ namespace ImagingCapture.Settings {
 				}
 			}
 			return dictProblems;
+		}
+
+		///<summary>"... is not between 0 and 100." for a value outside the range a sensor driver setting has, or "".</summary>
+		private static string GetRangeProblem(CaptureSettingDef settingDef,string name,double value) {
+			if((settingDef.RangeMin!=null && value<settingDef.RangeMin.Value) || (settingDef.RangeMax!=null && value>settingDef.RangeMax.Value)) {
+				return name+" is not between "+(settingDef.RangeMin?.ToString(System.Globalization.CultureInfo.InvariantCulture)??"-")+" and "
+					+(settingDef.RangeMax?.ToString(System.Globalization.CultureInfo.InvariantCulture)??"-")+".";
+			}
+			return "";
 		}
 
 		private static string GetText(IDictionary<CaptureSettingDef,string> dictTexts,CaptureSettingDef settingDef) {
@@ -96,7 +118,7 @@ namespace ImagingCapture.Settings {
 					if(valueMin<settingDef.MinValue) {
 						return name+" "+(settingDef.TextBelowMinimum!="" ? settingDef.TextBelowMinimum : "is below "+settingDef.MinValue+".");
 					}
-					return "";
+					return GetRangeProblem(settingDef,name,valueMin);
 				case CaptureSettingKind.Choice:
 					if(!settingDef.ArrayChoices.Any(x => string.Equals(x,text,StringComparison.OrdinalIgnoreCase))) {
 						return name+" is not one of "+string.Join(", ",settingDef.ArrayChoices)+".";
@@ -128,6 +150,19 @@ namespace ImagingCapture.Settings {
 					CaptureSystemSound? systemSound;
 					if(!CaptureSoundNames.TryParse(text,out systemSound)) {
 						return name+" is not a sound name: SystemAsterisk, SystemHand, SystemExclamation, SystemQuestion, SystemDefault or Beep, or empty.";
+					}
+					return "";
+				case CaptureSettingKind.Decimal:
+					double numberDecimal;
+					if(!double.TryParse(text,System.Globalization.NumberStyles.AllowDecimalPoint,System.Globalization.CultureInfo.InvariantCulture,out numberDecimal)
+						|| numberDecimal<0)
+					{
+						return name+" is not a number (digits, with a '.' for decimals).";
+					}
+					return GetRangeProblem(settingDef,name,numberDecimal);
+				case CaptureSettingKind.Text:
+					if(text.IndexOf(';')>=0 || text.IndexOf('=')>=0) {
+						return name+" has ';' or '=', which the driver's settings cannot carry.";
 					}
 					return "";
 				default:
