@@ -716,7 +716,7 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   `programproperty` row step 0.2 listed (Open Dental's conversions wrote both rows into every database, so normally two); then
   "Fork migrations: 38 step(s) run, 0 already done. Fork schema level 2026112451.", "The schema matches Open Dental 26.2.0 (OdSchemaCompat)."
   and "Adoption finished."
-- "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations."
+- "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations, and the office's patient._portal_active_email and its key portal_active_email_uniq as the office has them (kept)."
 - the rehash of step 5
 - "Row check against opendental ..." with one line for each table it checks and no line starting `FAIL`: `programproperty` (the Dental Studio
   and Podium rows step 0.2 listed, `PropertyDesc` only, to this program's text; no other row or column changed, none added or removed),

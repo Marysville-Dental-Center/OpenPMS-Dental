@@ -83,7 +83,23 @@ schema-only dump; the column is the last of patient's 85):
 
 ## Checks
 
-- Build (Debug x64, SDK 10.0.115, OpenDental.Local.slnf): 0 errors. A second incremental build after the HeadlessAdoption change was started
-  together with the targeted test run; their results were not read before this commit.
-- Targeted tests, `Invoke-AdoptionRehearsal.ps1 -VersionLabels office` and the default rehearsal: NOT yet reported. To do before main.
+On the development PC, 2026-11-25, local MariaDB 10.11.
 
+- Build: `OpenDental.Local.slnf`, Debug x64, SDK 10.0.115: 0 errors.
+- Targeted tests, x64 (`tools/run-tests.ps1 -Mode Targeted -Platform x64`): ForkMigrationTests 51 passed (2 skipped), ReleaseFlowTests 270
+  (7 skipped), SyntheticData.Tests 59 (1 skipped), AdoptionValidation.Tests 70, RegistryTests 39, P262SchemaTests 24 (4 skipped),
+  UiRefreshTests 415 (26 skipped), all with 0 failed. The first run had 2 failures in M201Tests (`Od253_MatchesThe26_1ReferenceExactly`,
+  `Od253_MatchesTheLoadedOd261SchemaDatabase`, which expected the column gone) and 2 in NoHqTests (a new verifier message); commit
+  f2acfc024 updated those tests and `brand-kept.tsv`, after which M201Tests 24 passed (2 skipped) and NoHqTests 137/137. That commit
+  changed test code only, so the other suites were not re-run.
+- Rehearsal `Invoke-AdoptionRehearsal.ps1 -VersionLabels office` (medium, 2 runs): PASS, 32 of 32 checks in each run, X1 to X3 PASS.
+  A3: the 25.3.47.0 / 25.3.54.0 database matches the 25.3.48 reference (422 tables). A4: kept column True, kept key True, other keys
+  dropped none. M2: 430 of 430 tables plus 18 of this program; 2 differences, 0 mismatches (the column and the key). V3: 126 allowed, 0
+  unexpected. V4: 146 of 146 totals identical (`patients.portal_active_email_nonnull` no longer changes). V5: both definitions the
+  office's, 1 key on the column. V10: 14 of 14 release-client scenarios refused.
+- Rehearsal, default labels (medium, 2 runs): PASS, 32 of 32 checks in each run, X1 to X3 PASS.
+- Runbook dry run (`Invoke-RunbookDryRun.ps1`, on a source kept by a one-run office-label rehearsal, 30 of 30): Dry run PASS. Step 6.1:
+  0 unexpected differences, and no `_portal_active_email` line. The adopt log lines equal the runbook's step 4 and 5 lines. The
+  schema-match line of step 5 now ends with "and the office's patient._portal_active_email and its key portal_active_email_uniq as the
+  office has them (kept)."; the runbook was corrected to say so. The step 0.2 preview line equals the runbook's.
+- The scratch databases of the dry run were dropped afterwards.
