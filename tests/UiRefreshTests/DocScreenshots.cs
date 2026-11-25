@@ -1,5 +1,5 @@
 // The screenshots of the README and the project site (package DOCS-SITE, docs/differences.md, docs/screenshots/README.md): the program's own
-// module controls and two dialogs, drawn off screen as the galleries draw them (DesignSheetWindows.Capture), with a fictional patient selected
+// module controls (with the module bar and the light signal grid under it, UI-COLS-2) and two dialogs, drawn off screen as the galleries draw them (DesignSheetWindows.Capture), with a fictional patient selected
 // and the module's data loaded from a scratch database. Opt-in: OPMS_UI_DOC_SCREENSHOTS names the folder for the pictures; skipped otherwise,
 // so the default runs keep the no-database rule of this project (Scan\NoDatabaseGuard). The database is local only (127.0.0.1:3306, root,
 // blank password), named docs_screens_<utc time>_<process id>, built from db/init/new-database.sql and the fork migrations, filled with the fictional practice of
@@ -143,7 +143,9 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>The main window's client area as FormOpenDental lays it out: the module bar on the left, the main toolbar on top and the module
-		///below it. The menu bar and the title bar are the window's own and are not drawn.</summary>
+		///below it. The menu bar and the title bar are the window's own and are not drawn. UI-COLS-2: with the light signal grid (the message
+		///buttons, FormOpenDental.lightSignalGrid1) under the module bar's buttons, as the main window shows it when the computer has signal
+		///button definitions (the scratch database's: Op 1, Op 2, Op 3 and the others of db/init/new-database.sql).</summary>
 		private static Bitmap DrawModule(EnumModuleType moduleType,UserControl controlModule,Action<UserControl> actionSelect) {
 			using(HostFormOD hostFormOD=new HostFormOD(SizeMain)) {
 				LayoutManagerForms layoutManager=hostFormOD.GetLayoutManager();
@@ -151,6 +153,11 @@ namespace UiRefreshTests {
 					layoutManager.SetPanelClient(hostFormOD);
 				}
 				Size sizeClient=hostFormOD.PanelClient.ClientSize;
+				//Added before the module bar, as FormOpenDental's designer adds it before the bar: it stands in front of the bar.
+				LightSignalGrid lightSignalGrid=new LightSignalGrid();
+				lightSignalGrid.Name="lightSignalGrid1";
+				lightSignalGrid.Bounds=new Rectangle(0,442,50,254);
+				layoutManager.Add(lightSignalGrid,hostFormOD.PanelClient);
 				ModuleBar moduleBar=new ModuleBar();
 				moduleBar.Bounds=new Rectangle(0,0,51,sizeClient.Height);
 				layoutManager.Add(moduleBar,hostFormOD.PanelClient);
@@ -165,12 +172,30 @@ namespace UiRefreshTests {
 				DesignSheetWindows.CreateHandles(hostFormOD);
 				moduleBar.RefreshButtons();
 				moduleBar.SelectedModule=moduleType;
+				LayOutSignalGrid(layoutManager,moduleBar,lightSignalGrid,hostFormOD.PanelClient);
 				FillMainToolBar(toolBarMain);
 				actionSelect(controlModule);
 				Settle();
 				ThrowIfCallbackFailed();
 				return DesignSheetWindows.Capture(hostFormOD.PanelClient,Rectangle.Empty);
 			}
+		}
+
+		///<summary>The light signal grid placed and filled as FormOpenDental places it (LayoutControls: a section gap under the module bar's buttons,
+		///one pixel narrower than the bar) and fills it (FillSignalButtons: this computer's signal button definitions, 25 px a button), with no
+		///signal lit.</summary>
+		private static void LayOutSignalGrid(LayoutManagerForms layoutManager,ModuleBar moduleBar,LightSignalGrid lightSignalGrid,Control panelClient) {
+			int topSignals=layoutManager.Scale(489);
+			if(moduleBar.GetButtonsHeight()>0) {
+				topSignals=moduleBar.Top+moduleBar.GetButtonsHeight()+layoutManager.Scale(UiGrid.SECTION_GAP);
+			}
+			layoutManager.MoveLocation(lightSignalGrid,new Point(0,topSignals));
+			layoutManager.MoveWidth(lightSignalGrid,moduleBar.Width-1);
+			SigButDef[] arraySigButDefs=SigButDefs.GetByComputer(ODEnvironment.MachineName);
+			lightSignalGrid.SetButtons(arraySigButDefs);
+			lightSignalGrid.Visible=arraySigButDefs.Length>0;
+			int maxButton=arraySigButDefs.Select(x => x.ButtonIndex).DefaultIfEmpty(-1).Max()+1;
+			layoutManager.MoveHeight(lightSignalGrid,Math.Min(maxButton*layoutManager.Scale(25)+1,panelClient.Height-lightSignalGrid.Location.Y));
 		}
 
 		///<summary>The buttons FormOpenDental.LayoutToolBar puts on the main toolbar without a texting integration or a program link.</summary>

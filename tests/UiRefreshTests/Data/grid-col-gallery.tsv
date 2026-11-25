@@ -1,58 +1,112 @@
-# UI-COLS gallery (GridColumnGallery): the grids drawn as strips before and after, each block (one grid's columns, or one display-field
-# category of DisplayFields) of the file that has a column with this heading, or for DisplayFields.cs the method and category.
+# UI-COLS-2 gallery G-UI3-uicols2 (GridColumnGallery; UI-COLS's G-UI3-uicols list was replaced): the grids drawn as strips before and after, each
+# block (one grid's columns, or one display-field category of DisplayFields) of the file that has a column with this heading, or for
+# DisplayFields.cs the method and category.
 file	title
-OpenPmsDental/Forms Reports/FormRpProcNote.cs	Surf
-OpenPmsDental/Forms/FormASAP.cs	Date
-OpenPmsDental/Forms/FormAuditOrtho.cs	Date Time
-OpenPmsDental/Forms/FormCertifications.cs	Date
-OpenPmsDental/Forms/FormClaimEdit.cs	Date
-OpenPmsDental/Forms/FormClaimOverpay.cs	Date
-OpenPmsDental/Forms/FormClaimPayList.cs	Date
-OpenPmsDental/Forms/FormClaimPayTotal.cs	Date
-OpenPmsDental/Forms/FormEtrans835ClaimPay.cs	Date
-OpenPmsDental/Forms/FormExamSheets.cs	Time
-OpenPmsDental/Forms/FormIncomeTransferManage.cs	Date
-OpenPmsDental/Forms/FormInsPlans.cs	Phone
-OpenPmsDental/Forms/FormInsPlansMerge.cs	Phone
-OpenPmsDental/Forms/FormLabCases.cs	Appt Date Time
-OpenPmsDental/Forms/FormPatientForms.cs	Updated
-OpenPmsDental/Forms/FormPayment.cs	Date
-OpenPmsDental/Forms/FormPayPlan.cs	Date
-OpenPmsDental/Forms/FormPayPlanDynamic.cs	Date
-OpenPmsDental/Forms/FormPreAuthReminder.cs	Surf
-OpenPmsDental/Forms/FormSheetProcSelect.cs	Surf
-OpenPmsDental/Forms/FormTaskEdit.cs	Date Time
-OpenPmsDental/Forms/FormTrackNext.cs	Date
-OpenPmsDental/Forms/FormTreatPlanCurEdit.cs	Surf
-OpenPmsDental/Forms/FormUnsched.cs	Date
-OpenPmsDental/Forms/FormUnschedListPatient.cs	Date
+CentralManager/FormCentralPatientTransfer.cs	Status
+OpenPmsDental/Forms/FormAdjMulti.cs	Rem Before
+OpenPmsDental/Forms/FormAdvertisingPatientList.cs	Last Appointment
+OpenPmsDental/Forms/FormAdvertisingPatientList.cs	Next Appointment
+OpenPmsDental/Forms/FormAlerts.cs	Alert #
+OpenPmsDental/Forms/FormApptRules.cs	Enabled
+OpenPmsDental/Forms/FormBilling.cs	PayPlanDue
+OpenPmsDental/Forms/FormBillingOptions.cs	Email
+OpenPmsDental/Forms/FormCDSSetup.cs	Demographic
+OpenPmsDental/Forms/FormClaimEdit.cs	Tth
+OpenPmsDental/Forms/FormClaimOverpay.cs	Tth
+OpenPmsDental/Forms/FormClaimOverpay.cs	Ins Overpaid
+OpenPmsDental/Forms/FormClaimOverpay.cs	Ins Underpaid
+OpenPmsDental/Forms/FormClaimPayList.cs	Partial
+OpenPmsDental/Forms/FormClaimPayList.cs	Scanned
+OpenPmsDental/Forms/FormClaimPayTotal.cs	Tth
+OpenPmsDental/Forms/FormClaimsSend.cs	M/D
+OpenPmsDental/Forms/FormClaimsSend.cs	Clearinghouse
+OpenPmsDental/Forms/FormCodeGroups.cs	Hidden
+OpenPmsDental/Forms/FormCodeSystemsImport.cs	Rows in Database
+OpenPmsDental/Forms/FormCodeSystemsImport.cs	Minimum Expected
+OpenPmsDental/Forms/FormCreditCardManage.cs	Global Payments V1
+OpenPmsDental/Forms/FormCreditCardManage.cs	Global Payments V2
+OpenPmsDental/Forms/FormCreditRecurringCharges.cs	PayPlan Due
+OpenPmsDental/Forms/FormCreditRecurringCharges.cs	Global Payments V1
+OpenPmsDental/Forms/FormCreditRecurringCharges.cs	Global Payments V2
+OpenPmsDental/Forms/FormDashboardWidgetSetup.cs	Allowed
+OpenPmsDental/Forms/FormDatabaseMaintenance.cs	Explain
+OpenPmsDental/Forms/FormDatabaseMaintenance.cs	Hidden
+OpenPmsDental/Forms/FormDatabaseMaintenancePat.cs	Hidden
+OpenPmsDental/Forms/FormDiscountPlans.cs	Hidden
+OpenPmsDental/Forms/FormDunningSetup.cs	Email
+OpenPmsDental/Forms/FormEhrAmendments.cs	Scanned
+OpenPmsDental/Forms/FormEhrLabOrderEdit2014.cs	Note Num
+OpenPmsDental/Forms/FormEhrLabOrderEdit2014.cs	Specimen Type
+OpenPmsDental/Forms/FormEhrLabResultEdit2014.cs	Note Num
+OpenPmsDental/Forms/FormEhrMeasureCalc.cs	Denominator
+OpenPmsDental/Forms/FormEhrMeasureCalc.cs	Exclusion Count
+OpenPmsDental/Forms/FormEhrProviderKeys.cs	Year
+OpenPmsDental/Forms/FormElectIDs.cs	Is Medicaid
+OpenPmsDental/Forms/FormErxSetup.cs	Enabled
+OpenPmsDental/Forms/FormEtrans835ClaimPay.cs	Split
+OpenPmsDental/Forms/FormEtrans835ClaimPay.cs	Tth
+OpenPmsDental/Forms/FormEvaluationReport.cs	ProvNum
+OpenPmsDental/Forms/FormFeeSchedGroupEdit.cs	Hidden
+OpenPmsDental/Forms/FormFeeSchedGroups.cs	Fee Schedule
+OpenPmsDental/Forms/FormHL7DefMessageEdit.cs	Is Optional
+OpenPmsDental/Forms/FormHL7Defs.cs	Enabled
+OpenPmsDental/Forms/FormImagePicker.cs	Image Name
+OpenPmsDental/Forms/FormInsBenefits.cs	Amt
+OpenPmsDental/Forms/FormInsBenefits.cs	Treat Area
+OpenPmsDental/Forms/FormInsCatsSetup.cs	Hidden
+OpenPmsDental/Forms/FormInsCatsSetup.cs	E-Benefit Category
+OpenPmsDental/Forms/FormInsPlansOverrides.cs	NoBillIns Override
+OpenPmsDental/Forms/FormLoincs.cs	Order or Observation
+OpenPmsDental/Forms/FormMedical.cs	Status
+OpenPmsDental/Forms/FormMedicationReconcile.cs	Disc
+OpenPmsDental/Forms/FormPayPlan.cs	Provider
+OpenPmsDental/Forms/FormPayPlanCredits.cs	Rem Before
+OpenPmsDental/Forms/FormPayPlanCredits.cs	Rem After
+OpenPmsDental/Forms/FormPayPlanTemplates.cs	Treatment Plan Option
+OpenPmsDental/Forms/FormPayment.cs	Tth
+OpenPmsDental/Forms/FormPrinterSetup.cs	File Extension
+OpenPmsDental/Forms/FormProcCodes2.cs	Fee 1
+OpenPmsDental/Forms/FormProcCodes2.cs	Fee 2
+OpenPmsDental/Forms/FormProcCodes2.cs	Fee 3
+OpenPmsDental/Forms/FormProcEdit.cs	Write-off
+OpenPmsDental/Forms/FormProvAdditional.cs	State Where Licensed
+OpenPmsDental/Forms/FormProvAdditional.cs	CareCredit Merch Num
+OpenPmsDental/Forms/FormProviderSetup.cs	Instructor
+OpenPmsDental/Forms/FormQueryFavorites.cs	Released
+OpenPmsDental/Forms/FormRecallList.cs	#Remind
+OpenPmsDental/Forms/FormRecallSetup.cs	Remind#
+OpenPmsDental/Forms/FormReconcileEdit.cs	Withdrawals
+OpenPmsDental/Forms/FormReconcileMedication.cs	Is Incoming
+OpenPmsDental/Forms/FormReconcileProblem.cs	Is Incoming
+OpenPmsDental/Forms/FormReferralProcTrack.cs	Date Referred
+OpenPmsDental/Forms/FormReqAppt.cs	Completed
+OpenPmsDental/Forms/FormRpEraAutoProcessed.cs	MoreClaims?
+OpenPmsDental/Forms/FormRxNorms.cs	InMedList
+OpenPmsDental/Forms/FormRxNorms.cs	MedCount
+OpenPmsDental/Forms/FormScheduledProcesses.cs	Time To Run
+OpenPmsDental/Forms/FormScreenGroupEdit.cs	NoTeeth
+OpenPmsDental/Forms/FormSheetDefs.cs	Use Mobile\r\nLayout
+OpenPmsDental/Forms/FormSheetImport.cs	Do Import
+OpenPmsDental/Forms/FormShutdown.cs	Connection Type
+OpenPmsDental/Forms/FormSupplyReceive.cs	Receive Now
+OpenPmsDental/Forms/FormTimeCard.cs	Total
+OpenPmsDental/Forms/FormTimeCardManage.cs	Total
+OpenPmsDental/Forms/FormTreatPlanCurEdit.cs	Status
 OpenPmsDental/Main Modules/ControlAccount.cs	Bal
-OpenPmsDental/Main Modules/ControlAccount.cs	Principal
-OpenPmsDental/Main Modules/ControlAccount.cs	Total
-OpenPmsDental/Main Modules/ControlChart.cs	Surf
+OpenPmsDental/Main Modules/ControlAccount.cs	Type
+OpenPmsDental/Main Modules/ControlAccount.cs	Total Cost
+OpenPmsDental/Main Modules/ControlAccount.cs	Paid
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizClinic.cs	Default Prov
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizClinic.cs	IsHidden
+OpenPmsDental/User Controls/SetupWizControls/UserControlSetupWizOperatory.cs	IsHygiene
+OpenPmsDental/User Controls/UserControlTasks.cs	+/-
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.None
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.PatientSelect
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.AccountModule
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.RecallList
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.ProcedureGroupNote
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.TreatmentPlanModule
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.AppointmentEdit
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.PlannedAppointmentEdit
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.LimitedCustomStatement
-OpenPmsDental/Forms Reports/FormRpClaimNotSent.cs	Date of Service
-OpenPmsDental/Forms/FormAdjMulti.cs	Date
-OpenPmsDental/Forms/FormAdjustSelect.cs	Date
-OpenPmsDental/Forms/FormAdvertisingPatientList.cs	Birthdate
-OpenPmsDental/Forms/FormCareCreditTransactions.cs	Date Processed
-OpenPmsDental/Forms/FormClaimEdit.cs	Check Date
-OpenPmsDental/Forms/FormClaimProcBlueBookLog.cs	Date
-OpenPmsDental/Forms/FormClaimsSend.cs	Date
-OpenPmsDental/Forms/FormDashboardWidgetSetup.cs	Allowed
-OpenPmsDental/Forms/FormEquipment.cs	DatePurchased
-OpenPmsDental/Forms/FormEvaluations.cs	Date
-OpenPmsDental/Forms/FormMedLabPatSelect.cs	Date & Time Reported
-OpenPmsDental/Forms/FormMedLabs.cs	Date & Time Reported
-OpenPmsDental/Forms/FormPayPlanDynamic.cs	Date\r\nShowing
-OpenPmsDental/Forms/FormProcEdit.cs	Entry Date
-OpenPmsDental/Forms/FormProcEdit.cs	Write-off
-OpenPmsDental/Forms/FormProcSelect.cs	Date
-OpenPmsDental/Forms/FormProdSelect.cs	Date
-OpenPmsDental/Forms/FormQueryMonitor.cs	DateTimeStart
-OpenPmsDental/Forms/FormRecallsPat.cs	PreviousDate
-OpenPmsDental/Main Modules/ControlAccount.cs	Start Date
-OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.OutstandingInsReport
+OpenPmsDentalBusiness/Misc/Maintenance/MaintHistoryGrid.cs	Flagged
