@@ -35,12 +35,12 @@ namespace WindowChecksTests.InProc {
 		///<summary>AddShot for a picture of a line of text on one background (a tooltip, a menu bar): such a picture has few colours (text drawn
 		///without smoothing), so not AddShot's "more than 5 colours" of a window; it is drawn when it has two colours or more and part of it is not
 		///background.</summary>
-		private static void AddTextShot(CheckResult checkResult,ShotInfo shotInfo,string whatItShows) {
+		private static void AddTextShot(CheckResult checkResult,ShotInfo shotInfo,string whatItShows,double shareMin=0.05) {
 			if(!checkResult.Expect(shotInfo.Error=="",shotInfo.FileName+" is taken",shotInfo.Error)) {
 				return;
 			}
 			checkResult.ListShots.Add(shotInfo.FileName);
-			checkResult.Expect(shotInfo.Width>0 && shotInfo.Height>0 && shotInfo.CountColors>=2 && shotInfo.ShareNonBackground>0.05,
+			checkResult.Expect(shotInfo.Width>0 && shotInfo.Height>0 && shotInfo.CountColors>=2 && shotInfo.ShareNonBackground>shareMin,
 				whatItShows+" is drawn: its text on its background ("+shotInfo+")",shotInfo.ToString());
 		}
 
@@ -172,7 +172,8 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(arrayRenderers[2]=="True","The main thread's renderer is the token renderer (UI-6)",arrayRenderers[0]);
 			checkResult.Expect(arrayRenderers[3]=="True","MenuOD's strip draws with the token renderer (UI-6)",arrayRenderers[1]);
 			Control controlMenu=ui.Invoke(() => (Control)Ui.GetField(ui.FormMain,"menuMain"));
-			AddTextShot(checkResult,ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar");
+			//The bar spans the whole window: eight short words are about 1% of a 2376 px strip (2026-11-24, a connected desktop), so 0.5%.
+			AddTextShot(checkResult,ui.ShotDraw(controlMenu,"C20-menu.png"),"The main menu bar",shareMin:0.005);
 		}
 
 		public static void CheckF5(Ui ui,CheckResult checkResult) {
