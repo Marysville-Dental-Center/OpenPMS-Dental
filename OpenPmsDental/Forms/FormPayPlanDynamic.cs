@@ -287,11 +287,11 @@ namespace OpenPmsDental {
 			gridLinkedProduction.BeginUpdate();
 			gridLinkedProduction.Columns.Clear();
 			int widthClinic=140;
-			int widthDesc=(PrefC.HasClinicsEnabled ? 170 : 170 + widthClinic);
+			int widthDesc=(PrefC.HasClinicsEnabled ? 168 : 168 + widthClinic);
 			GridColumn col;
-			col=new GridColumn(Lan.g(gridLinkedProduction.TranslationName,"Date\r\nShowing"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g(gridLinkedProduction.TranslationName,"Date\r\nShowing"),71,HorizontalAlignment.Center);
 			gridLinkedProduction.Columns.Add(col);
-			col=new GridColumn(Lan.g(gridLinkedProduction.TranslationName,"Date\r\nProduction"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g(gridLinkedProduction.TranslationName,"Date\r\nProduction"),71,HorizontalAlignment.Center);
 			gridLinkedProduction.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridLinkedProduction.TranslationName,"Provider"),70);
 			gridLinkedProduction.Columns.Add(col);
@@ -327,9 +327,9 @@ namespace OpenPmsDental {
 			GridColumn col;
 			//If this column is changed from a date column then the comparer method (ComparePayPlanRows) needs to be updated.
 			//If changes are made to the order of the grid, changes need to also be made for butPrint_Click
-			col=new GridColumn(Lan.g("PayPlanAmortization","Date"),68,HorizontalAlignment.Center);//0
+			col=new GridColumn(Lan.g("PayPlanAmortization","Date"),71,HorizontalAlignment.Center);//0
 			gridCharges.Columns.Add(col);
-			col=new GridColumn(Lan.g("PayPlanAmortization","Description"),143);//1
+			col=new GridColumn(Lan.g("PayPlanAmortization","Description"),140);//1
 			gridCharges.Columns.Add(col);
 			col=new GridColumn(Lan.g("PayPlanAmortization","Principal"),75,HorizontalAlignment.Right);//2
 			gridCharges.Columns.Add(col);

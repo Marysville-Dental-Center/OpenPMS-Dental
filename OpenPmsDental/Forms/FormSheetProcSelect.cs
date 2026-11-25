@@ -28,10 +28,10 @@ namespace OpenPmsDental {
 			gridProcs.BeginUpdate();
 			gridProcs.ListGridRows.Clear();
 			gridProcs.Columns.Clear();
-			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Date"),68,HorizontalAlignment.Left));
+			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Date"),70,HorizontalAlignment.Left));
 			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Th"),27,HorizontalAlignment.Left));
 			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Surf"),46,HorizontalAlignment.Left));
-			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Description"),311,HorizontalAlignment.Left));
+			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Description"),309,HorizontalAlignment.Left));
 			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Stat"),30,HorizontalAlignment.Left));
 			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Amount"),63,HorizontalAlignment.Right));
 			gridProcs.Columns.Add(new GridColumn(Lan.g("TableProc","Code"),0,HorizontalAlignment.Center));

@@ -1075,7 +1075,7 @@ namespace OpenPmsDental{
 				gridHistory.Columns.Add(col);
 				col=new GridColumn(Lan.g("TableClaimHistory","Clearinghouse"),90);
 				gridHistory.Columns.Add(col);
-				col=new GridColumn(Lan.g("TableClaimHistory","Date"),70,HorizontalAlignment.Center);
+				col=new GridColumn(Lan.g("TableClaimHistory","Date"),71,HorizontalAlignment.Center);
 				gridHistory.Columns.Add(col);
 				col=new GridColumn(Lan.g("TableClaimHistory","Type"),90);
 				gridHistory.Columns.Add(col);
@@ -1117,7 +1117,7 @@ namespace OpenPmsDental{
 				gridHistory.Columns.Add(col);
 				col=new GridColumn(Lan.g("TableClaimHistory","Clearinghouse"),90);
 				gridHistory.Columns.Add(col);
-				col=new GridColumn(Lan.g("TableClaimHistory","Date"),70,HorizontalAlignment.Center);
+				col=new GridColumn(Lan.g("TableClaimHistory","Date"),71,HorizontalAlignment.Center);
 				gridHistory.Columns.Add(col);
 				col=new GridColumn(Lan.g("TableClaimHistory","Type"),100);
 				gridHistory.Columns.Add(col);

@@ -147,7 +147,7 @@ namespace OpenPmsDental {
 			gridLabs.BeginUpdate();
 			gridLabs.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn("Test Description",175);
+			col=new GridColumn("Test Description",174);
 			gridLabs.Columns.Add(col);
 			col=new GridColumn("Provider",100);
 			gridLabs.Columns.Add(col);
@@ -158,7 +158,7 @@ namespace OpenPmsDental {
 			col=new GridColumn("Date & Time Entered",135);
 			col.SortingStrategy=GridSortingStrategy.DateParse;
 			gridLabs.Columns.Add(col);
-			col=new GridColumn("Date & Time Reported",135);
+			col=new GridColumn("Date & Time Reported",136);
 			col.SortingStrategy=GridSortingStrategy.DateParse;
 			gridLabs.Columns.Add(col);
 			gridLabs.ListGridRows.Clear();

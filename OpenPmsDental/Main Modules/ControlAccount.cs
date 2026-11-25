@@ -3672,12 +3672,12 @@ namespace OpenPmsDental {
 			_showGridPayPlan=true;
 			gridPayPlan.BeginUpdate();
 			gridPayPlan.Columns.Clear();
-			//UI-COLS: Date and Paid hold 12/31/2026 and 9,999.99 in Segoe UI 9; the names give the 13 px.
-			GridColumn col=new GridColumn(Lan.g("TablePaymentPlans","Date"),68);
+			//UI-COLS: Date and Paid hold 12/31/2026 and 9,999.99 in Segoe UI 9; the names give the 15 px.
+			GridColumn col=new GridColumn(Lan.g("TablePaymentPlans","Date"),70);
 			gridPayPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlans","Guarantor"),79);
+			col=new GridColumn(Lan.g("TablePaymentPlans","Guarantor"),78);
 			gridPayPlan.Columns.Add(col);
-			col=new GridColumn(Lan.g("TablePaymentPlans","Patient"),78);
+			col=new GridColumn(Lan.g("TablePaymentPlans","Patient"),77);
 			gridPayPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g("TablePaymentPlans","Type"),30,HorizontalAlignment.Center);
 			gridPayPlan.Columns.Add(col);
@@ -3792,13 +3792,13 @@ namespace OpenPmsDental {
 			gridRepeat.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableRepeatCharges","Amount"),60,HorizontalAlignment.Right);
 			gridRepeat.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRepeatCharges","Start Date"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableRepeatCharges","Start Date"),71,HorizontalAlignment.Center);
 			gridRepeat.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRepeatCharges","Stop Date"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableRepeatCharges","Stop Date"),71,HorizontalAlignment.Center);
 			gridRepeat.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableRepeatCharges","Enabled"),55,HorizontalAlignment.Center);
 			gridRepeat.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRepeatCharges","Note"),355);
+			col=new GridColumn(Lan.g("TableRepeatCharges","Note"),353);
 			gridRepeat.Columns.Add(col);
 			gridRepeat.ListGridRows.Clear();
 			GridRow row;
@@ -3973,7 +3973,7 @@ namespace OpenPmsDental {
 			List<Procedure> listProceduresForHiddenSplits=Procedures.GetManyProc(_listPaySplitsHidden.ConvertAll(x => x.ProcNum),includeNote:false);
 			gridTpSplits.BeginUpdate();
 			gridTpSplits.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableTpUnearned","Date"),68);
+			GridColumn col=new GridColumn(Lan.g("TableTpUnearned","Date"),70);
 			gridTpSplits.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableTpUnearned","Patient"),150);
 			gridTpSplits.Columns.Add(col);
@@ -3985,7 +3985,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g("TableTpUnearned","Code"),80);
 			gridTpSplits.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableTpUnearned","Description"),177);
+			col=new GridColumn(Lan.g("TableTpUnearned","Description"),175);
 			gridTpSplits.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableTpUnearned","Amount"),60,HorizontalAlignment.Right);
 			gridTpSplits.Columns.Add(col);

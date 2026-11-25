@@ -211,7 +211,7 @@ namespace OpenPmsDental {
 			gridFeed.Columns.Add(new GridColumn(Lan.g(gridFeed.TranslationName,"Server"),100));
 			gridFeed.Columns.Add(new GridColumn(Lan.g(gridFeed.TranslationName,"Command"),100){ IsWidthDynamic=true });
 			gridFeed.Columns.Add(new GridColumn(
-				Lan.g(gridFeed.TranslationName,"DateTimeStart"),125,HorizontalAlignment.Center,GridSortingStrategy.DateParse)
+				Lan.g(gridFeed.TranslationName,"DateTimeStart"),126,HorizontalAlignment.Center,GridSortingStrategy.DateParse)
 			);
 			gridFeed.Columns.Add(new GridColumn(Lan.g(gridFeed.TranslationName,"Elapsed"),100,HorizontalAlignment.Center));
 			gridFeed.EndUpdate();

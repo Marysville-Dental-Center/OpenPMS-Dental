@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			gridAdjusts.BeginUpdate();
 			gridAdjusts.ListGridRows.Clear();
 			gridAdjusts.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableAdjustSelect","Date"),70,HorizontalAlignment.Center);
+			GridColumn col=new GridColumn(Lan.g("TableAdjustSelect","Date"),71,HorizontalAlignment.Center);
 			gridAdjusts.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableAdjustSelect","Prov"),60){ IsWidthDynamic=true };
 			gridAdjusts.Columns.Add(col);
@@ -63,7 +63,7 @@ namespace OpenPmsDental {
 			}
 			col=new GridColumn(Lan.g("TableAdjustSelect","Amt Orig"),60,HorizontalAlignment.Right);
 			gridAdjusts.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableAdjustSelect","Amt Avail"),60,HorizontalAlignment.Right);
+			col=new GridColumn(Lan.g("TableAdjustSelect","Amt Avail"),61,HorizontalAlignment.Right);
 			gridAdjusts.Columns.Add(col);
 			GridRow row;
 			for(int i=0;i<_listAccountEntriesAdjPat.Count;i++) {

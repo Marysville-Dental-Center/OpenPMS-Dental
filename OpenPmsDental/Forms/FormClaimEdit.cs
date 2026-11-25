@@ -1058,7 +1058,7 @@ namespace OpenPmsDental{
 			gridProc.BeginUpdate();
 			gridProc.Columns.Clear();
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","#"),25));
-			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),68));
+			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),70));
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),62));
 			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));
@@ -1067,7 +1067,7 @@ namespace OpenPmsDental{
 				gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),50));
 				gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),25));
 			}
-			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),130));
+			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),128));
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Fee"),62,HorizontalAlignment.Right));
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Billed to Ins"),75,HorizontalAlignment.Right));
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Deduct"),62,HorizontalAlignment.Right));
@@ -2223,7 +2223,7 @@ namespace OpenPmsDental{
 			claimPayment=null;
 			List<GridColumn> listGridColumnHeaders=new List<GridColumn>() {
 				new GridColumn(Lan.g(this,"Carrier"),80){ IsWidthDynamic=true },
-				new GridColumn(Lan.g(this,"Check Date"),70,HorizontalAlignment.Center),
+				new GridColumn(Lan.g(this,"Check Date"),71,HorizontalAlignment.Center),
 				new GridColumn(Lan.g(this,"Amount"),80,HorizontalAlignment.Right)
 			};
 			List<GridRow> listGridRowValues=new List<GridRow>();

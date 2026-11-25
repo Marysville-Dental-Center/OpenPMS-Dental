@@ -95,13 +95,13 @@ namespace OpenPmsDental {
 			Application.DoEvents();
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn("Date & Time Reported",135,GridSortingStrategy.DateParse));//most recent date and time a result came in
+			gridMain.Columns.Add(new GridColumn("Date & Time Reported",136,GridSortingStrategy.DateParse));//most recent date and time a result came in
 			gridMain.Columns.Add(new GridColumn("Date & Time Entered",135,GridSortingStrategy.DateParse));
 			gridMain.Columns.Add(new GridColumn("Status",75));
 			gridMain.Columns.Add(new GridColumn("Patient",180));
 			gridMain.Columns.Add(new GridColumn("Provider",70));
 			gridMain.Columns.Add(new GridColumn("Specimen ID",100));//should be the ID sent on the specimen container to lab
-			gridMain.Columns.Add(new GridColumn("Test(s) Description",235));//description of the test ordered
+			gridMain.Columns.Add(new GridColumn("Test(s) Description",234));//description of the test ordered
 			if(PrefC.HasClinicsEnabled) {
 				gridMain.Columns.Add(new GridColumn("Clinic",150));
 			}

@@ -53,7 +53,7 @@ namespace OpenPmsDental {
 			_listClaimPayments=ClaimPaymentCrud.TableToList(table);
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Date"),68);
+			GridColumn col=new GridColumn(Lan.g(this,"Date"),70);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Type"),70);
 			gridMain.Columns.Add(col);
@@ -61,7 +61,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Partial"),40,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Carrier"),180);
+			col=new GridColumn(Lan.g(this,"Carrier"),178);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"PayGroup"),80);
 			gridMain.Columns.Add(col);

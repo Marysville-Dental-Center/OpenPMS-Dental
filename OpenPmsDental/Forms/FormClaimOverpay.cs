@@ -57,13 +57,13 @@ namespace OpenPmsDental {
 		private void FillGrid(){
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),68));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),70));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),50));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),25));
 			}
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),130));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),128));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Fee"),62,HorizontalAlignment.Right));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Ins Pay"),62,HorizontalAlignment.Right));
 			_colInsOverpaidIndex=gridMain.Columns.Count;

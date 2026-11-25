@@ -34,3 +34,25 @@ OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.None
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.ProcedureGroupNote
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.TreatmentPlanModule
 OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.LimitedCustomStatement
+OpenPmsDental/Forms Reports/FormRpClaimNotSent.cs	Date of Service
+OpenPmsDental/Forms/FormAdjMulti.cs	Date
+OpenPmsDental/Forms/FormAdjustSelect.cs	Date
+OpenPmsDental/Forms/FormAdvertisingPatientList.cs	Birthdate
+OpenPmsDental/Forms/FormCareCreditTransactions.cs	Date Processed
+OpenPmsDental/Forms/FormClaimEdit.cs	Check Date
+OpenPmsDental/Forms/FormClaimProcBlueBookLog.cs	Date
+OpenPmsDental/Forms/FormClaimsSend.cs	Date
+OpenPmsDental/Forms/FormDashboardWidgetSetup.cs	Allowed
+OpenPmsDental/Forms/FormEquipment.cs	DatePurchased
+OpenPmsDental/Forms/FormEvaluations.cs	Date
+OpenPmsDental/Forms/FormMedLabPatSelect.cs	Date & Time Reported
+OpenPmsDental/Forms/FormMedLabs.cs	Date & Time Reported
+OpenPmsDental/Forms/FormPayPlanDynamic.cs	Date\r\nShowing
+OpenPmsDental/Forms/FormProcEdit.cs	Entry Date
+OpenPmsDental/Forms/FormProcEdit.cs	Write-off
+OpenPmsDental/Forms/FormProcSelect.cs	Date
+OpenPmsDental/Forms/FormProdSelect.cs	Date
+OpenPmsDental/Forms/FormQueryMonitor.cs	DateTimeStart
+OpenPmsDental/Forms/FormRecallsPat.cs	PreviousDate
+OpenPmsDental/Main Modules/ControlAccount.cs	Start Date
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.OutstandingInsReport

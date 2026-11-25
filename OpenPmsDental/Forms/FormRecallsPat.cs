@@ -47,7 +47,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			//col=new ODGridColumn(Lan.g("TableRecallsPat","Disabled"),60,HorizontalAlignment.Center);
 			//gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRecallsPat","PreviousDate"),80);
+			col=new GridColumn(Lan.g("TableRecallsPat","PreviousDate"),82);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableRecallsPat","Due Date"),80);
 			gridMain.Columns.Add(col);
@@ -59,7 +59,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableRecallsPat","Time Override"),90);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableRecallsPat","Note"),100);
+			col=new GridColumn(Lan.g("TableRecallsPat","Note"),98);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

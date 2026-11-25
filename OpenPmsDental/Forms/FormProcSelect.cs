@@ -120,20 +120,20 @@ namespace OpenPmsDental{
 			List<Def> listDefsPosAdj=Defs.GetPositiveAdjTypes();
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableProcSelect","Date"),70,HorizontalAlignment.Center);
+			GridColumn col=new GridColumn(Lan.g("TableProcSelect","Date"),71,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcSelect","Prov"),55);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableProcSelect","Code"),55);
 			gridMain.Columns.Add(col);
 			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
-				col=new GridColumn(Lan.g("TableProcSelect","Description"),290);
+				col=new GridColumn(Lan.g("TableProcSelect","Description"),289);
 				gridMain.Columns.Add(col);
 			}
 			else {
 				col=new GridColumn(Lan.g("TableProcSelect","Tooth"),40);
 				gridMain.Columns.Add(col);
-				col=new GridColumn(Lan.g("TableProcSelect","Description"),250);
+				col=new GridColumn(Lan.g("TableProcSelect","Description"),249);
 				gridMain.Columns.Add(col);
 			}
 			if(creditCalcType == CreditCalcType.ExcludeAll) {

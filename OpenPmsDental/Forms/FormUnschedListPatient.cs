@@ -27,7 +27,7 @@ namespace OpenPmsDental {
 			this.Cursor=Cursors.WaitCursor;
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(gridMain.TranslationName,"Date"),68,HorizontalAlignment.Center);
+			GridColumn col=new GridColumn(Lan.g(gridMain.TranslationName,"Date"),71,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridMain.TranslationName,"AptStatus"),90);
 			gridMain.Columns.Add(col);
@@ -37,7 +37,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridMain.TranslationName,"Procedures"),150);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(gridMain.TranslationName,"Notes"),197);
+			col=new GridColumn(Lan.g(gridMain.TranslationName,"Notes"),194);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

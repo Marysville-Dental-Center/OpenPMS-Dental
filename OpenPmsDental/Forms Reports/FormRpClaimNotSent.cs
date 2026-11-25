@@ -72,13 +72,13 @@ namespace OpenPmsDental{
 				col=new GridColumn(Lan.g(gridMain.TranslationName,"Clinic"),90);
 				gridMain.Columns.Add(col);
 			}
-			col=new GridColumn(Lan.g(gridMain.TranslationName,"Date of Service"),90,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g(gridMain.TranslationName,"Date of Service"),92,GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridMain.TranslationName,"Claim Type"),90);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridMain.TranslationName,"Claim Status"),100);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(gridMain.TranslationName,"Patient Name"),150);
+			col=new GridColumn(Lan.g(gridMain.TranslationName,"Patient Name"),148);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(gridMain.TranslationName,"Carrier Name"),150);
 			gridMain.Columns.Add(col);

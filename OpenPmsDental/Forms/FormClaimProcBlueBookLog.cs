@@ -31,7 +31,7 @@ namespace OpenPmsDental {
 			gridInsBlueBookLog.BeginUpdate();
 			gridInsBlueBookLog.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g(this,"Date"),70,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g(this,"Date"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridInsBlueBookLog.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Time"),60,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridInsBlueBookLog.Columns.Add(col);

@@ -137,7 +137,7 @@ namespace OpenPmsDental {
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g("TableMultiAdjs","Date"),70,HorizontalAlignment.Center);
+			col=new GridColumn(Lan.g("TableMultiAdjs","Date"),71,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
 			col=new GridColumn() { Heading=Lan.g("TableMultiAdjs","Provider"), IsWidthDynamic=true };
 			gridMain.Columns.Add(col);
