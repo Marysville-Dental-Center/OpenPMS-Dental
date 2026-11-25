@@ -302,6 +302,7 @@ namespace UiRefreshTests {
 				"101 Example Way","555-0101","alex.sampleton@example.com",null);
 			Patient patientJamie=InsertPatient("Sampleton","Jamie","",new DateTime(1985,7,4),PatientGender.Male,PatientPosition.Married,
 				"101 Example Way","555-0102","jamie.sampleton@example.com",patientAlex);
+			//Unlike DevDbTool's "Samuel" with the preferred name "Sam": "Sampleton, 'Sam' Samuel" wraps in the Family Members grid at 100%.
 			Patient patientSam=InsertPatient("Sampleton","Sam","",new DateTime(2015,9,20),PatientGender.Male,PatientPosition.Child,
 				"101 Example Way","555-0101","",patientAlex);
 			Patient patientMorgan=InsertPatient("Placeholder","Morgan","",new DateTime(1972,11,2),PatientGender.Unknown,PatientPosition.Single,
