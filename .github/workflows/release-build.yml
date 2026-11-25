@@ -7,8 +7,6 @@
 name: Release build
 
 on:
-  push:
-    branches: [ci/release-1]
   workflow_dispatch:
     inputs:
       label:
@@ -85,25 +83,21 @@ jobs:
           Write-Host "MSBuild: $msbuild"
           "path=$msbuild" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
+      # Always the pinned version, into its own folder: the image has another 6.x, and ISCC.exe carries no version resource to compare.
       - name: Inno Setup 6
         id: inno
         run: |
           $ErrorActionPreference = 'Stop'
-          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
-          $have = if (Test-Path -LiteralPath $iscc) { [version](Get-Item -LiteralPath $iscc).VersionInfo.ProductVersion } else { $null }
-          if (-not $have -or $have -lt [version]$env:INNO_VERSION) {
-            Write-Host "Inno Setup on the image: $(if ($have) { $have } else { 'none' }); installing $env:INNO_VERSION"
-            $installer = Join-Path $env:RUNNER_TEMP 'innosetup.exe'
-            Invoke-WebRequest -UseBasicParsing -Uri $env:INNO_URL -OutFile $installer
-            $hash = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
-            if ($hash -ne $env:INNO_SHA256) { throw "The Inno Setup installer has SHA-256 $hash, not $env:INNO_SHA256" }
-            $folder = Join-Path $env:RUNNER_TEMP 'InnoSetup6'
-            $process = Start-Process -FilePath $installer -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-','/CURRENTUSER','/NOICONS',"/DIR=`"$folder`"") -Wait -PassThru
-            if ($process.ExitCode -ne 0) { throw "The Inno Setup installer ended with exit code $($process.ExitCode)" }
-            $iscc = Join-Path $folder 'ISCC.exe'
-            if (-not (Test-Path -LiteralPath $iscc)) { throw "No ISCC.exe in $folder after the install" }
-          }
-          Write-Host "ISCC: $iscc $((Get-Item -LiteralPath $iscc).VersionInfo.ProductVersion)"
+          $installer = Join-Path $env:RUNNER_TEMP 'innosetup.exe'
+          Invoke-WebRequest -UseBasicParsing -Uri $env:INNO_URL -OutFile $installer
+          $hash = (Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($hash -ne $env:INNO_SHA256) { throw "The Inno Setup installer has SHA-256 $hash, not $env:INNO_SHA256" }
+          $folder = Join-Path $env:RUNNER_TEMP 'InnoSetup6'
+          $process = Start-Process -FilePath $installer -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-','/CURRENTUSER','/NOICONS',"/DIR=`"$folder`"") -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "The Inno Setup installer ended with exit code $($process.ExitCode)" }
+          $iscc = Join-Path $folder 'ISCC.exe'
+          if (-not (Test-Path -LiteralPath $iscc)) { throw "No ISCC.exe in $folder after the install" }
+          Write-Host "ISCC $env:INNO_VERSION`: $iscc"
           "path=$iscc" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: TWAIN DSM release
