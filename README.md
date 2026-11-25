@@ -21,7 +21,7 @@ The program's own windows, with fictional patients and data only ([how they are 
 
 ## How it differs from Open Dental
 
-Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDental`, `OpenPmsDentalBusiness`, `WpfControlsOD`) about 80% of the lines are still Open Dental's and about 158,000 are new or rewritten; the tests, tools and native imaging, about 360,000 lines, are entirely new. The full list, the numbers and how to measure them again are in [docs/differences.md](docs/differences.md).
+Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDental`, `OpenPmsDentalBusiness`, `WpfControlsOD`) about 80% of the lines are still Open Dental's and about 158,000 are new or rewritten; the tests, tools and native imaging, about 360,000 lines, are almost entirely new. The full list, the numbers and how to measure them again are in [docs/differences.md](docs/differences.md).
 
 - **No Open Dental HQ dependencies:** no eServices, registration keys, update servers or help browser, checked by `NoHqTests` on every run.
 - **Open Dental features up to 26.1, re-implemented** from Open Dental's public documents, on the Open Dental 26.2.0 schema.

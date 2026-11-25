@@ -75,7 +75,7 @@ Measured at commit `1616a3683` (November 24, 2026) against the fork point `d804c
   (179,741 hand-written).
 - **For comparison:** Open Dental at the fork point has 6,187 code files and 1,449,417 lines (1,071,221 hand-written).
 - **In short:** about 80% of the program itself is Open Dental's code, unchanged apart from the product name; about 158,000 lines of the
-  program are new or rewritten; the tests, tools and native imaging (about 360,000 lines) are entirely new.
+  program are new or rewritten; the tests, tools and native imaging (about 360,000 lines) are almost entirely new.
 
 **How it is measured.** Code files only (`.cs .xaml .sql .ps1 .psm1 .py .js .cpp .h .vb .cshtml .css .html`). A line counts when it has a
 letter or a digit; whitespace is removed and the product rename is folded (`OpenPmsDental*` and `OpenDent*` names become one token), so a

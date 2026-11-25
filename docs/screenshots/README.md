@@ -27,7 +27,7 @@ $env:OPMS_UI_DOC_SCREENSHOTS = "$env:TEMP\doc-screenshots"
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Targeted -Include UiRefreshTests -Platform x64
 ```
 
-Without `OPMS_UI_DOC_SCREENSHOTS` the test is skipped. `OPMS_UI_DOC_SCREENSHOTS_KEEP_DB=1` keeps the database for a look afterwards.
+Without `OPMS_UI_DOC_SCREENSHOTS` the test is skipped. Its pictures are drawn before the other UiRefreshTests windows only by chance of order, and it leaves the program caches filled from the scratch database: keep the pictures of that run for these docs only, not for galleries. `OPMS_UI_DOC_SCREENSHOTS_KEEP_DB=1` keeps the database for a look afterwards.
 The main window's title bar and menu are not drawn. The Chart and Imaging modules draw their charts and images in WPF, which a session
 without a desktop does not draw, so their pictures come from the owner-approved galleries of the tooth chart (TC-6) and imaging (G-IMG10),
 which are synthetic by construction.

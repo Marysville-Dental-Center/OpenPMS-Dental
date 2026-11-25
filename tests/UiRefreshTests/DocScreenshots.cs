@@ -2,7 +2,7 @@
 // module controls and two dialogs, drawn off screen as the galleries draw them (DesignSheetWindows.Capture), with a fictional patient selected
 // and the module's data loaded from a scratch database. Opt-in: OPMS_UI_DOC_SCREENSHOTS names the folder for the pictures; skipped otherwise,
 // so the default runs keep the no-database rule of this project (Scan\NoDatabaseGuard). The database is local only (127.0.0.1:3306, root,
-// blank password), named docs_<run id>, built from db/init/new-database.sql and the fork migrations, filled with the fictional practice of
+// blank password), named docs_screens_<utc time>_<process id>, built from db/init/new-database.sql and the fork migrations, filled with the fictional practice of
 // DocSampleData (the names of tools/DevDbTool's sample data) and dropped at the end; OPMS_UI_DOC_SCREENSHOTS_KEEP_DB=1 keeps it. When the
 // test ends, the process's connection is the no-database guard's again. Nothing is shown; message boxes throw (ODBuild.IsUnitTest).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
@@ -115,7 +115,7 @@ namespace UiRefreshTests {
 						DocScreenshotDb.Drop(dbName);
 					}
 					catch(Exception) {
-						//DocScreenshotDb.DropStale drops it in a later run.
+						//A failed drop leaves it on the local server: drop docs_screens_* by hand.
 					}
 				}
 				DocScreenshotDb.RestoreNoDatabaseGuard();
@@ -571,7 +571,7 @@ namespace UiRefreshTests {
 		}
 	}
 
-	///<summary>The scratch database of DocScreenshots on the local MariaDB (127.0.0.1:3306, root, blank password): docs_<run id>, the committed
+	///<summary>The scratch database of DocScreenshots on the local MariaDB (127.0.0.1:3306, root, blank password): docs_screens_<utc time>_<process id>, the committed
 	///db/init/new-database.sql with every fork migration of this build run on it. Only names that start with docs_ are ever dropped.</summary>
 	public static class DocScreenshotDb {
 		public const string Server="127.0.0.1";
@@ -636,7 +636,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>Gives the process the no-database guard's connection again (Scan\NoDatabaseGuard), so the windows the other tests build after this
-		///one can never read the scratch database, and empties the caches it filled.</summary>
+		///one can never read the scratch database. The caches stay filled from it, so run the opt-in test on its own (docs/screenshots/README.md).</summary>
 		public static void RestoreNoDatabaseGuard() {
 			NoDatabaseGuard.Install();
 			PropertyInfo propertyInfo=typeof(DataConnection).GetProperty("ConnectionString",BindingFlags.Static|BindingFlags.NonPublic|BindingFlags.Public);
