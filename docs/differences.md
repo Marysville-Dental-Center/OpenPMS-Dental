@@ -12,6 +12,15 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
 
 - **No Open Dental HQ dependencies.** No eServices, registration keys, update servers or help browser; nothing calls Open Dental
   Software's servers, and `NoHqTests` checks that on every test run ([decoupling-plan.md](decoupling-plan.md), [NoHqTests/](../NoHqTests/)).
+- **Open code for Open Dental's closed parts.** Open Dental shipped several parts of the program only as closed DLLs, without source.
+  Each is rebuilt as open code or removed on purpose: the EHR features of `EHR.dll`, rebuilt from public specifications, with the clinical
+  quality measures moved to CMS's 2027 catalog ([ehr-rebuild-plan.md](specs/ehr-rebuild-plan.md)); `ODCrypt.dll`, rebuilt as the open
+  `ODCrypt` project; the vendor links of `Bridges.dll` (QuickBooks Online, Microsoft 365, USPS, CareCredit, PostcardMania), now source in
+  the business layer; the `Sparks3D` tooth chart engine, replaced by the new WPF chart; `ImagingDeviceManager.dll`, replaced by the native
+  capture projects; the needed parts of `CDT.dll` moved into open code. Removed with their features: the help browser
+  (`OpenDentalHelp.dll`), the cloud edition (`VirtualWeb.dll`) and the local REST API (`ODApi.dll`); the five launches of `VBbridges.dll`
+  say the link is not available, and Suni sensors capture through Suni's TWAIN driver
+  ([third-party-binaries-audit.md](third-party-binaries-audit.md)). Nothing was decompiled.
 - **Open Dental features through 26.2, re-implemented.** Open Dental's public source stops at 24.3.63. The features of 24.4 to 26.1 and the
   chosen 26.2 changes are written again from Open Dental's public manual, release notes and database documents, on the Open Dental 26.2.0
   schema ([features-24.4.md](specs/features-24.4.md) to [features-26.1.md](specs/features-26.1.md),
