@@ -172,19 +172,42 @@ namespace UiRefreshTests {
 				DesignSheetWindows.CreateHandles(hostFormOD);
 				moduleBar.RefreshButtons();
 				moduleBar.SelectedModule=moduleType;
-				LayOutSignalGrid(layoutManager,moduleBar,lightSignalGrid,hostFormOD.PanelClient);
+				bool isSignalGridShown=LayOutSignalGrid(layoutManager,moduleBar,lightSignalGrid,hostFormOD.PanelClient);
 				FillMainToolBar(toolBarMain);
 				actionSelect(controlModule);
 				Settle();
 				ThrowIfCallbackFailed();
-				return DesignSheetWindows.Capture(hostFormOD.PanelClient,Rectangle.Empty);
+				Bitmap bitmap=DesignSheetWindows.Capture(hostFormOD.PanelClient,Rectangle.Empty);
+				if(isSignalGridShown) {
+					DrawSignalGridShown(bitmap,lightSignalGrid);
+				}
+				return bitmap;
+			}
+		}
+
+		///<summary>LightSignalGrid paints its buttons only while it is Visible, which a control of a window never shown is not (Control.Visible
+		///reads the parents too), so the capture shows it blank. The grid is moved, as it is, to a borderless window shown far off the screen
+		///(ProgressRingTests.ShowWindowOffScreen), drawn there, and its picture put where it stands in the main window's client area, in front
+		///of the module bar as there.</summary>
+		private static void DrawSignalGridShown(Bitmap bitmap,LightSignalGrid lightSignalGrid) {
+			Rectangle rectangle=lightSignalGrid.Bounds;
+			using(Form formShown=ProgressRingTests.ShowWindowOffScreen()) {
+				formShown.Size=new Size(rectangle.Width+20,rectangle.Height+20);
+				lightSignalGrid.Parent=formShown;
+				lightSignalGrid.Location=Point.Empty;
+				Settle();
+				using(Bitmap bitmapGrid=new Bitmap(rectangle.Width,rectangle.Height,PixelFormat.Format24bppRgb))
+				using(Graphics g=Graphics.FromImage(bitmap)) {
+					lightSignalGrid.DrawToBitmap(bitmapGrid,new Rectangle(0,0,rectangle.Width,rectangle.Height));
+					g.DrawImage(bitmapGrid,rectangle);
+				}
 			}
 		}
 
 		///<summary>The light signal grid placed and filled as FormOpenDental places it (LayoutControls: a section gap under the module bar's buttons,
 		///one pixel narrower than the bar) and fills it (FillSignalButtons: this computer's signal button definitions, 25 px a button), with no
-		///signal lit.</summary>
-		private static void LayOutSignalGrid(LayoutManagerForms layoutManager,ModuleBar moduleBar,LightSignalGrid lightSignalGrid,Control panelClient) {
+		///signal lit. True when it is shown (the computer has signal buttons).</summary>
+		private static bool LayOutSignalGrid(LayoutManagerForms layoutManager,ModuleBar moduleBar,LightSignalGrid lightSignalGrid,Control panelClient) {
 			int topSignals=layoutManager.Scale(489);
 			if(moduleBar.GetButtonsHeight()>0) {
 				topSignals=moduleBar.Top+moduleBar.GetButtonsHeight()+layoutManager.Scale(UiGrid.SECTION_GAP);
@@ -196,6 +219,7 @@ namespace UiRefreshTests {
 			lightSignalGrid.Visible=arraySigButDefs.Length>0;
 			int maxButton=arraySigButDefs.Select(x => x.ButtonIndex).DefaultIfEmpty(-1).Max()+1;
 			layoutManager.MoveHeight(lightSignalGrid,Math.Min(maxButton*layoutManager.Scale(25)+1,panelClient.Height-lightSignalGrid.Location.Y));
+			return arraySigButDefs.Length>0;
 		}
 
 		///<summary>The buttons FormOpenDental.LayoutToolBar puts on the main toolbar without a texting integration or a program link.</summary>

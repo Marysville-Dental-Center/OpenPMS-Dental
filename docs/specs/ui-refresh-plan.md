@@ -1920,6 +1920,9 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   centered 71; date and time 125) and the headings of value columns fit the bold header font (the progress notes' Amount 54); Edit
   Appointment's Description 272 keeps D2394's description on one line (Priority 50, Surf 46, Code 41, Fee 53 filling with 50 px). The test
   holds both rules; 35 more column sites on main changed by them (UI-COLS.md section 3b).
+- UI-COLS-2 (branch `ui/uicols2-1`, the owner's "Yes to both"): money 2 px clear like dates (-9,999.99 for balances and adjustments),
+  every visible column's heading fits the bold header font 2 px clear; 143 sites widened from donors of the same grid; DocScreenshots'
+  module pictures with the light signal grid under the module bar; gallery G-UI3-uicols2 (UI-COLS.md section 7).
 
 ---
 

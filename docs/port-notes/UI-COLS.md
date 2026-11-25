@@ -211,3 +211,125 @@ after main's before set; on main each column was 1 to 4 px narrower). Audit: [UI
 With the fix, DocScreenshots' `account.png` and `dialog-appointment-edit.png` are committed (docs/screenshots, site/screenshots) and
 shown in the README and on the site. DocScreenshots now draws the account grid and Edit Appointment's patient grid from their first row
 (the module scrolls to the last row, which left half a row above the grid's top).
+
+## 7. UI-COLS-2
+
+The owner's "Yes to both" to the two follow-ups of the approval (docs/owner-questions.md), and the screenshots' message panel.
+
+**Rules (GridColumnFit).** 1. Money stands 2 px clear of the gridline its alignment leaves free, like a date: 9,999.99, and -9,999.99
+where the heading says a balance or an adjustment (`GridColumnFit.GetValue`, `MONEY_NEGATIVE`). The side the value is held to keeps
+GDI+'s own padding (9,999.99 has 1 px at 100% and 3 px at 150% there whatever the width), so "both gridlines" is the free side plus
+that padding; no width can make it 2 px at 100%. 2. Every visible column's heading (not only value columns; dynamic and zero-width
+columns excepted) fits centered in UiTheme.FontGridBold with 2 px clear of both gridlines at 100% and 150%. A grid whose designer file
+sets `HasAutoWrappedHeaders` (FormAdvertisingPatientList, FormTimeCardSetup's gridRules) wraps its headings at the spaces: each word
+fits. The display-field window test checks every column's heading too.
+
+**Fix.** 143 column sites widened (16 money values, 127 headings) in 76 files, each grid's total kept: the room from a Description,
+Note, Name or similar column of the same grid (93 donor sites), or the grid's dynamic column takes it. The available display-field lists
+take the same widths as the defaults (10 sites). Edit Appointment: Stat 35 to 31 gives Tth 2 px and Fee 2 px (9,999.99 needs 52 px at
+100% now; Description 272 stays for D2394), the medical branch's Code 112 to 116. grid-col-known.tsv: no new exception (FormFeeSchedGroups'
+Fee Schedule row follows its new width 80). The list (file, the widened columns, the donors):
+
+- FormCentralPatientTransfer: Status 30 to 41; donors Note 200 to 189
+- FormAdjMulti: Rem Before 70 to 73; donors Fee 70 to 67
+- FormAdvertisingPatientList: Last Appointment 80 to 82, Next Appointment 80 to 82; donors Email 199 to 195
+- FormAlerts: Alert # 45 to 46; the dynamic Description takes the room
+- FormApptRules: Enabled 50 to 51; donors Description 200 to 199
+- FormBilling: PayPlanDue 70 to 74; donors Name 180 to 176
+- FormBillingOptions: Email 30 to 36; donors Message 150 to 144
+- FormCDSSetup: Demographic 80 to 83; donors User Name 120 to 117
+- FormClaimEdit: Tth 25 to 27; the dynamic Remarks takes the room
+- FormClaimOverpay: Tth 25 to 27, Ins Overpaid 62 to 78, Ins Underpaid 62 to 86; the dynamic Remarks takes the room
+- FormClaimPayList: Partial 40 to 42, Scanned 40 to 53; donors Carrier 178 to 163
+- FormClaimPayTotal: Tth 25 to 27; the dynamic Remarks takes the room
+- FormClaimsSend: M/D 30 to 32, Clearinghouse 85 to 88; the dynamic ProcCodes takes the room
+- FormCodeGroups: Hidden 45 to 47; the dynamic Group Name takes the room
+- FormCodeSystemsImport: Rows in Database 105 to 106, Minimum Expected 105 to 117; the dynamic Status takes the room
+- FormCreditCardManage: Global Payments V1 90 to 121, Global Payments V2 90 to 121; donors Card Number 140 to 125, Clinic 80 to 64, Start Date 80 to 73, Stop Date 80 to 73, Amount 80 to 64, Charge Frequency 140 to 139
+- FormCreditRecurringCharges: PayPlan Due 75 to 77, Global Payments V1 90 to 121, Global Payments V2 90 to 121, Global Payments V1 80 to 121, Global Payments V2 80 to 121; donors Name 190 to 160, Clinic 75 to 60, Date 80 to 75, Family Bal 70 to 66, Total Due 65 to 64, Charge Amt 85 to 76, Name 220 to 170, Family Bal 85 to 83, Repeat Amt 90 to 80, Charge Amt 100 to 80
+- FormDashboardWidgetSetup: Allowed 52 to 53; the dynamic Name takes the room
+- FormDatabaseMaintenance: Explain 45 to 47, Explain 45 to 47, Hidden 45 to 47, Explain 45 to 47; donors Name 740 to 738
+- FormDatabaseMaintenancePat: Hidden 45 to 47; donors Name 300 to 298
+- FormDiscountPlans: Hidden 20 to 47; donors Description 200 to 173
+- FormDunningSetup: Email 35 to 36; donors Message 150 to 149
+- FormEhrAmendments: Scanned 25 to 53; donors Description 170 to 142
+- FormEhrLabOrderEdit2014: Note Num 60 to 65, Specimen Type 60 to 92 (gridSpecimen, 222 px: the room is free); donors Comments 300 to 295
+- FormEhrLabResultEdit2014: Note Num 60 to 65; donors Comments 300 to 295
+- FormEhrMeasureCalc: Denominator 80 to 82, Exclusion Count 95 to 97; donors Percent 230 to 226
+- FormEhrProviderKeys: Year 30 to 32; donors Last Name 80 to 78
+- FormElectIDs: Is Medicaid 70 to 71; donors Comments 350 to 349
+- FormErxSetup: Enabled 50 to 51; donors Provider 110 to 109
+- FormEtrans835ClaimPay: Split 30 to 31, Tth 25 to 27; the dynamic Remarks takes the room
+- FormEvaluationReport: ProvNum 50 to 60; donors Last Name 80 to 75, First Name 80 to 75
+- FormFeeSchedGroupEdit: Hidden 25 to 47; donors Description 250 to 228
+- FormFeeSchedGroups: Fee Schedule 75 to 80; donors Group Name 200 to 195
+- FormHL7DefMessageEdit: Is Optional 67 to 68; donors Note 100 to 99
+- FormHL7Defs: Enabled 35 to 51, Enabled 35 to 51; donors Description 100 to 92, In Folder / Socket 130 to 122, Description 100 to 92, In Folder / Socket 130 to 122
+- FormImagePicker: Image Name 70 to 79 (the only column of a 252 px grid)
+- FormInsBenefits: Amt 50 to 51, Treat Area 65 to 66; donors Category 95 to 93
+- FormInsCatsSetup: Hidden 45 to 47, E-Benefit Category 100 to 114; donors Category 90 to 82, To Code 70 to 62
+- FormInsPlansOverrides: NoBillIns Override 60 to 111; donors Employer 140 to 115, Carrier 140 to 114
+- FormLoincs: Order or Observation 100 to 128; donors Long Name 500 to 472
+- FormMedical: Status 40 to 41, Status 40 to 41; donors Patient Note 450 to 449, Reaction 500 to 499
+- FormMedicationReconcile: Disc 10 to 28; donors Notes for Patient 225 to 207
+- FormPayPlan: Provider 50 to 54; donors Description 121 to 117
+- FormPayPlanCredits: Rem Before 70 to 73, Rem After 60 to 65; the dynamic Note takes the room
+- FormPayPlanTemplates: Treatment Plan Option 120 to 137; donors Interest Delay 105 to 88
+- FormPayment: Tth 25 to 27, Tth 25 to 27; the dynamic Patient takes the room
+- FormPrinterSetup: File Extension 50 to 84; donors Printer Used 220 to 186
+- FormProcCodes2: Fee 1 50 to 51, Fee 2 50 to 51, Fee 3 50 to 51; donors Description 206 to 203
+- FormProcEdit: Write-off 59 to 62; donors Remarks 161 to 158
+- FormProvAdditional: State Where Licensed 120 to 129, CareCredit Merch Num 130 to 138; donors Clinic 120 to 103
+- FormProviderSetup: Instructor 60 to 62; donors Last Name 90 to 88
+- FormQueryFavorites: Released 55 to 56; donors Query 350 to 349
+- FormRecallList: #Remind 55 to 56; donors Note 150 to 149
+- FormRecallSetup: Remind# 50 to 56; donors Message 500 to 494
+- FormReconcileEdit: Withdrawals 75 to 77; donors Date 80 to 78
+- FormReconcileMedication: Is Incoming 50 to 72; donors Description 350 to 328
+- FormReconcileProblem: Is Incoming 50 to 72; donors Notes 300 to 278
+- FormReferralProcTrack: Date Referred 86 to 87; donors Patient 125 to 124
+- FormReqAppt: Completed 40 to 68; donors Descript 150 to 122
+- FormRpEraAutoProcessed: MoreClaims? 65 to 79; donors Patient Name 250 to 236
+- FormRxNorms: InMedList 60 to 62, MedCount 60 to 66; the dynamic Description takes the room
+- FormScheduledProcesses: Time To Run 75 to 77; donors Frequency to Run 150 to 148
+- FormScreenGroupEdit: NoTeeth 55 to 56; donors Name 100 to 99
+- FormSheetDefs: Use Mobile\r\nLayout 65 to 70; the dynamic Description takes the room
+- FormSheetImport: Do Import 60 to 65; donors FieldName 140 to 135
+- FormShutdown: Connection Type 100 to 102; donors Computer Name 120 to 118
+- FormSupplyReceive: Receive Now 78 to 80; donors Description 250 to 248
+- FormTimeCard: Total 50 to 51; donors Out 64 to 63
+- FormTimeCardManage: Total 50 to 51; donors In 60 to 59
+- FormTreatPlanCurEdit: Status 40 to 41; donors Description 189 to 188
+- ControlAccount: Bal 50 to 56, Type 30 to 35, Total Cost 60 to 63, Paid 50 to 51; donors Patient 104 to 98, Closed 60 to 51
+- UserControlSetupWizClinic: Default Prov 75 to 78, IsHidden 55 to 56; donors Address 120 to 116
+- UserControlSetupWizOperatory: IsHygiene 60 to 62; donors OpName 110 to 108
+- UserControlTasks: +/- 17 to 24; donors Task List 90 to 83
+- DisplayFields GetDefaultList.None: Stat 25 to 29; donors Description 201 to 197
+- DisplayFields GetDefaultList.PatientSelect: Pref Name 60 to 66; donors Address 100 to 94
+- DisplayFields GetDefaultList.AccountModule: Tth 26 to 27; donors Description 265 to 264
+- DisplayFields GetDefaultList.RecallList: #Remind 55 to 56; donors Note 215 to 214
+- DisplayFields GetDefaultList.ProcedureGroupNote: Stat 25 to 29; donors Description 186 to 182
+- DisplayFields GetDefaultList.TreatmentPlanModule: Fee 50 to 52, Allowed 52 to 53, Pri Ins 50 to 52, Sec Ins 50 to 52, Discount 55 to 56, Pat 50 to 52; donors Description 199 to 189
+- DisplayFields GetDefaultList.AppointmentEdit: Tth 25 to 27; donors Stat 35 to 31, Code 112 to 116
+- DisplayFields GetDefaultList.PlannedAppointmentEdit: Tth 25 to 27; donors Stat 35 to 31, Code 112 to 116
+- DisplayFields GetDefaultList.LimitedCustomStatement: Tth 26 to 27; donors Description 265 to 264
+- DisplayFields GetAllAvailableList.None: Description 201 to 197, Stat 25 to 29, Priority 44 to 48, Prognosis 60 to 62, Length 40 to 45, Attachment 55 to 74 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.PatientSelect: Pref Name 60 to 66, ChartNum 60 to 65, Address 100 to 94, Invoice Number 90 to 97 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.AccountModule: Tth 26 to 27, Description 265 to 264 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.RecallList: #Remind 55 to 56, Note 215 to 214 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.ProcedureGroupNote: Stat 25 to 29 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.TreatmentPlanModule: Description 199 to 189, Fee 50 to 52, Allowed 52 to 53, Pri Ins 50 to 52, Sec Ins 50 to 52, Discount 55 to 56, Pat 50 to 52, Prognosis 60 to 62 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.AppointmentEdit: Stat 35 to 31, Code 112 to 116, Tth 25 to 27 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.PlannedAppointmentEdit: Stat 35 to 31, Code 112 to 116, Tth 25 to 27 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.OutstandingInsReport: GroupNum 60 to 69 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.CEMTSearchPatients: Pref Name 60 to 66 (available list: same widths as the defaults, or not in a grid until chosen)
+- DisplayFields GetAllAvailableList.LimitedCustomStatement: Tth 26 to 27, Description 265 to 264 (available list: same widths as the defaults, or not in a grid until chosen)
+- MaintHistoryGrid: Flagged 50 to 51; the dynamic Results takes the room
+
+**Screenshots.** DocScreenshots draws the module pictures with FormOpenDental's light signal grid (lightSignalGrid1: Op 1, Op 2, Op 3
+and the other signal buttons of the scratch database) under the module bar's buttons, the real control placed and filled as
+FormOpenDental.LayoutControls and FillSignalButtons do; docs/screenshots and site/screenshots redrawn.
+
+**Gallery G-UI3-uicols2** (`.git/od-tools/test-results/G-UI3-uicols2`): GridColumnGallery with `Data/grid-col-gallery.tsv` now listing
+the grids UI-COLS-2 changed, strips at 100% and 150%; before drawn from the same build with the product sources of aeac6c48c (the
+strips take their widths from the source), the Account module and Edit Appointment before from G-UI3-uicols' after pictures.
