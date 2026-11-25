@@ -807,9 +807,9 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	labelElectronicID	66,158	80,23
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label21	82,104	64,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label17	98,23	48,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	textState	270,131	60,23	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	labelCitySTZip	78,131	68,23	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	labelCitySTZip	58,131	88,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	textGroupNum	160,313	114,23	
-OpenPmsDental/Forms/FormInsPlan.designer.cs	labelGroupNum	78,313	76,23	
+OpenPmsDental/Forms/FormInsPlan.designer.cs	labelGroupNum	70,313	84,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	label8	74,286	80,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	comboLinked	206,340	218,23	
 OpenPmsDental/Forms/FormInsPlan.designer.cs	textLinkedNum	160,340	40,23	

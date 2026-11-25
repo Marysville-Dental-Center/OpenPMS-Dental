@@ -14,8 +14,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace M2INSPLANTests {
 	[TestClass]
 	public class LayoutDesignerTests {
-		///<summary>The smallest supported workstation (our choice, see the port note): 1366x768 at 100%, with a 48 pixel taskbar (Windows 11).</summary>
-		public static readonly Size SizeScreenSmallest=new Size(1366,768);
+		///<summary>The smallest supported workstation: 1920x1080 at 100% since UI-12 round 2 (the owner's answer of 2026-11-21, docs/port-notes/UI-12.md;
+		///1366x768 before), with a 48 pixel taskbar (Windows 11).</summary>
+		public static readonly Size SizeScreenSmallest=new Size(1920,1080);
 		public const int HEIGHT_TASKBAR=48;
 		///<summary>FormODBase adds 8 pixels of border on the left, right and bottom and a 26 pixel title bar at 96 dpi.</summary>
 		public const int WIDTH_BORDER=8;
@@ -126,8 +127,9 @@ namespace M2INSPLANTests {
 			int heightWindow=Model.ClientSize.Height+HEIGHT_TITLE+WIDTH_BORDER;
 			Assert.IsTrue(widthWindow<=SizeScreenSmallest.Width,"Window width "+widthWindow);
 			Assert.IsTrue(heightWindow<=SizeScreenSmallest.Height-HEIGHT_TASKBAR,"Window height "+heightWindow);
-			//And it really is the larger window the fixed panels need, not the old 984x696.
-			Assert.AreEqual(new Size(1340,686),Model.ClientSize);
+			//And it really is the larger window the fixed panels need, not the old 984x696: 1464x902 since UI-12 (round 3's layout script and UI-12F's
+			//bottom bar a section gap under the content).
+			Assert.AreEqual(new Size(1464,902),Model.ClientSize);
 		}
 
 		[TestMethod]
@@ -173,7 +175,8 @@ namespace M2INSPLANTests {
 			int topColumns=Model.Get("panelPlan").Bounds.Top;
 			Assert.IsTrue(topColumns>=Model.Get("panelPat").Bounds.Bottom);
 			Assert.AreEqual(topColumns,Model.Get("panelOrthInfo").Bounds.Top);
-			Assert.AreEqual(topColumns,Model.Get("groupSubscriber").Bounds.Top);
+			//UI-12 round 3 (the layout script): the subscriber group box 8 px under the columns' top (y0 + 8).
+			Assert.AreEqual(topColumns+8,Model.Get("groupSubscriber").Bounds.Top);
 			Assert.IsTrue(Model.Get("panelPlan").Bounds.Right<=Model.Get("panelOrthInfo").Bounds.Left);
 			Assert.IsTrue(Model.Get("panelOrthInfo").Bounds.Right<=Model.Get("groupSubscriber").Bounds.Left);
 			//Plan panel: carrier and Pick From List, employer, group, plan type, fee schedules, plan-level audit trail.

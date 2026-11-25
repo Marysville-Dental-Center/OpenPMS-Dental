@@ -68,6 +68,7 @@ namespace ToothChartHostTests {
 		#region Sheets: SheetPrinting.GetToothChartHelper
 		[TestMethod]
 		public void Sheet_ToothChartField_IsTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//A sheet's toothChart field (and the toothChartImg parameter of Treatment Plan sheets): 500x370 in the printout colours 14 and 15.
 			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
 				HostPictures.Check("sheet",image,new Size(500,370));
@@ -77,6 +78,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void TreatPlanSheet_ToothChartImg_IsTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//ControlTreat's sheet printout: GetToothChartHelper with the plan and "Show Completed" (ControlTreat.cs, toothChartImg).
 			TreatPlan treatPlan=HostFixtures.GetTreatPlanOfTPs(HostFixtures.PatNumWork);
 			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,true,treatPlan)) {
@@ -87,6 +89,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void ReferralLetterAndAutomationSheet_ToothChartImg_AreTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//The referral letter (FormOpenDental: the day's completed procedures) and an automation's sheet (AutomationL: the procedures just completed)
 			//both pass their procedures as the override list.
 			List<Procedure> listProcedures=Procedures.GetCompletedForDateRange(HostFixtures.DateWork,HostFixtures.DateWork,
@@ -100,6 +103,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void Sheet_OfAComputerStoredAsOpenGL_IsTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//A stored OpenGL choice (2) starts the WPF chart too: the same picture as the stored DirectX one.
 			SetLocalComputer(DrawingMode.OpenGL,"");
 			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
@@ -110,6 +114,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void Sheet_OfAComputerStoredAsSimple2D_IsTheWpfChartsPicture_UnlessItsSettingIsDoNotUse_ENG2() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//ENG-2 (revises O-30): a computer stored as Simple 2D (1) gets the 3D chart unless its setting is "Do not use", with no data change.
 			SetLocalComputer(DrawingMode.Simple2D,"");
 			using(Image image=SheetPrinting.GetToothChartHelper(HostFixtures.PatNumWork,false)) {
@@ -136,6 +141,8 @@ namespace ToothChartHostTests {
 					Assert.AreEqual(drawingMode,ComputerPrefs.LocalComputer.GraphicsSimple,"Nothing changed the stored choice.");
 				}
 			}
+			//REL-0.1-FIX: the 2D pictures above are checked in any session; the WPF chart's picture below needs one where WPF draws.
+			WpfSession.RequireRendering("The 2D pictures were checked.");
 			//"Use if available" on this computer wins over the global "Do not use".
 			ToothChartRelay.SetChart3DOnAllComputers(false);
 			SetLocalComputer(DrawingMode.Simple2D,"",YN.Yes);
@@ -159,6 +166,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void Sheet_OfAComputerWithTheQuickLiveView_IsTheSamePicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//The "Draw in software" switch changes only the screen (ENG-3: ticked, the smoothed picture, is the default; unticked the quick live view):
 			//every picture is the renderer's either way.
 			foreach(string directXFormat in new[] { ToothChartWrapper.DirectXFormatWpfLiveView,ToothChartWrapper.DirectXFormatWpfSoftware }) {
@@ -174,6 +182,7 @@ namespace ToothChartHostTests {
 		#region The Patient Dashboard
 		[TestMethod]
 		public void Dashboard_OnAnMtaWorker_IsTheWpfChartsPicture_AndNothingIsLogged() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//UserControlDashboard refreshes its widgets on an MTA ODThread worker (DashToothChart.RefreshData, SheetPrinting.GetToothChartHelper with
 			//isInPatientDashboard): 410x307 in the module colours 10 and 11. Today an exception there is swallowed, so the engine is checked too.
 			Patient patient=HostFixtures.GetPatientWork();
@@ -211,6 +220,7 @@ namespace ToothChartHostTests {
 		#region The sheet editor's preview
 		[TestMethod]
 		public void SheetEditorPreview_IsTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//FormSheetDefEdit.SetToothChartImage, the empty chart the sheet editor shows in a toothChart field: 500x370 in the printout colours. Called on
 			//an object made without the window (its only state is the picture it keeps), so no window is made.
 			FormSheetDefEdit formSheetDefEdit=(FormSheetDefEdit)FormatterServices.GetUninitializedObject(typeof(FormSheetDefEdit));
@@ -233,6 +243,7 @@ namespace ToothChartHostTests {
 		#region The big chart window
 		[TestMethod]
 		public void BigChart_IsTheWpfChartsPicture() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//FormToothChartingBig (Show Big in the Chart module): its load applies the computer's settings and fills the chart from the lists the Chart
 			//module hands it. The window is made but not shown; its chart's picture is the wrapper's GetBitmap, 926x858.
 			Patient patient=HostFixtures.GetPatientWork();
@@ -269,6 +280,7 @@ namespace ToothChartHostTests {
 		#region The graphical perio chart
 		[TestMethod]
 		public void GraphicalPerio_DisplayPrintAndSave_AreTheWpfChartsPictures() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			CheckGraphicalPerio("perio");
 		}
 
@@ -286,6 +298,7 @@ namespace ToothChartHostTests {
 
 		[TestMethod]
 		public void GraphicalPerio_OnAComputerStoredAsSimple2D_ThatUsesThe3DChart_Opens_ENG2() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//ENG-2: a computer stored as Simple 2D with "Use the global setting" uses the 3D chart, so its graphical perio chart opens, with the same
 			//pictures.
 			SetLocalComputer(DrawingMode.Simple2D,"");

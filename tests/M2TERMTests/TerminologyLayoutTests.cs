@@ -75,7 +75,8 @@ namespace M2TERMTests {
 			System.Text.RegularExpressions.Match matchText=System.Text.RegularExpressions.Regex.Match(designer,
 				@"this\.textUcrFeePercent\.Location = new System\.Drawing\.Point\((\d+),");
 			Assert.IsTrue(matchText.Success);
-			Assert.AreEqual(int.Parse(matchText.Groups[1].Value)-1,label.X+label.Width,"The label ends one pixel before the percent box.");
+			//UI-12 slice 7 (the planner on the layout grid, owner-approved): a label ends 6 px before its field (UI-12.md, the label gap).
+			Assert.AreEqual(int.Parse(matchText.Groups[1].Value)-6,label.X+label.Width,"The label ends six pixels before the percent box.");
 			System.Text.RegularExpressions.Match matchListLocation=System.Text.RegularExpressions.Regex.Match(designer,
 				@"this\.listAllowedFeeMethod\.Location = new System\.Drawing\.Point\((\d+),");
 			System.Text.RegularExpressions.Match matchListSize=System.Text.RegularExpressions.Regex.Match(designer,

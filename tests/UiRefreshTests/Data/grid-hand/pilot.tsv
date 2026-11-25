@@ -684,8 +684,8 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	label21	Lo
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	label21	Size	100,17	64,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textAddress2	Location	107,80	152,104	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textAddress2	Size	286,20	256,23	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelCitySTZip	Location	6,102	78,131	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelCitySTZip	Size	100,17	68,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelCitySTZip	Location	6,102	58,131	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelCitySTZip	Size	100,17	88,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textCity	Location	107,101	152,131	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textCity	Size	153,20	112,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textState	Location	261,101	270,131	by hand (layout script): on the grid
@@ -712,8 +712,8 @@ OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelBIN	L
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelBIN	Size	32,17	56,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textBIN	Location	341,221	352,286	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textBIN	Size	62,20	72,23	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelGroupNum	Location	6,243	78,313	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelGroupNum	Size	110,17	76,23	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelGroupNum	Location	6,243	70,313	by hand (layout script): on the grid
+OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelGroupNum	Size	110,17	84,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textGroupNum	Location	117,242	160,313	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	textGroupNum	Size	160,20	114,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsPlan.designer.cs	OpenPmsDental.FormInsPlan	labelDivisionDash	Location	278,243	290,313	by hand (layout script): on the grid

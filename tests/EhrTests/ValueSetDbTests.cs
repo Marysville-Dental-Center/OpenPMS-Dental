@@ -101,7 +101,11 @@ namespace EhrTests {
 			//scratch database built from it has nothing left for the step to do. The step's own CREATE is the test on an empty database below.
 			string init=File.ReadAllText(TestPaths.Combine(ScratchDb.RepoPathInitSql)).Replace("\r\n","\n");
 			StringAssert.Contains(init,EhrTables.CREATE_EHR_CODE.Replace("\r\n","\n")+";\n");
-			StringAssert.Contains(init,"('ForkSchemaLevel','2026111401',");
+			//Regenerated since at later levels (the init file follows main; 2026112451 for release 0.1, UI-BRAND-2): at 2026111401 or above, the
+			//step's level, the table is in it.
+			System.Text.RegularExpressions.Match matchLevel=System.Text.RegularExpressions.Regex.Match(init,@"\('ForkSchemaLevel','(\d{10})',");
+			Assert.IsTrue(matchLevel.Success,"The init file sets ForkSchemaLevel.");
+			Assert.IsTrue(long.Parse(matchLevel.Groups[1].Value)>=2026111401,"The init file's fork level "+matchLevel.Groups[1].Value+" is the step's or later.");
 			Assert.AreEqual(0,ValueSetDb.ListChangesBuild.Count(x => x.Contains("ehrcode")),string.Join("\r\n",ValueSetDb.ListChangesBuild));
 			Assert.IsFalse(ForkMigrationRunner.GetPendingSteps().Any(x => x.Level==2026111401));
 			SchemaVerifyResult resultFork=ForkTables.VerifyDatabase(ValueSetDb.DbName);

@@ -33,16 +33,17 @@ namespace M2NOTESTests {
 		[TestMethod]
 		public void GroupNoteWindow_LargerAndResizable_NotesTakeTheSpace() {
 			string designer=FormProcGroupDesigner();
-			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(990, 690);");
+			//UI-12 slice 2 (the planner on the layout grid, owner-approved): 990x709 since then.
+			StringAssert.Contains(designer,"this.ClientSize = new System.Drawing.Size(990, 709);");
 			StringAssert.DoesNotMatch(designer,new Regex(@"FormBorderStyle\.FixedSingle"),"Resizable.");
 			StringAssert.DoesNotMatch(designer,new Regex(@"this\.MaximizeBox = false"));
 			//The Notes box grows in both directions.
 			StringAssert.Contains(Between(designer,"// textNotes","// butDelete"),
 				"AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) \r\n            | System.Windows.Forms.AnchorStyles.Left) \r\n            | System.Windows.Forms.AnchorStyles.Right");
-			StringAssert.Contains(designer,"this.textNotes.Size = new System.Drawing.Size(880, 231);");
+			StringAssert.Contains(designer,"this.textNotes.Size = new System.Drawing.Size(876, 238);");//UI-12 slice 2
 			//The procedures grid keeps its height (bottom anchored, not top) and scrolls.
 			string grid=Between(designer,"// gridProc","// textDateEntry");
-			StringAssert.Contains(grid,"this.gridProc.Size = new System.Drawing.Size(864, 222);");
+			StringAssert.Contains(grid,"this.gridProc.Size = new System.Drawing.Size(890, 222);");//UI-12 slice 2: as wide as the content, the height kept
 			StringAssert.DoesNotMatch(grid,new Regex(@"AnchorStyles\.Top"));
 			StringAssert.Contains(grid,"AnchorStyles.Bottom");
 			//The signature boxes stay visible at the bottom.

@@ -522,7 +522,7 @@ namespace OpenPmsDental {
 			foreach(Label label in _listLabelsValue){
 				TrackBar trackBar=(TrackBar)label.Tag;
 				if(trackBar==trackGamma){
-					label.Text=(trackBar.Value/100.0).ToString("0.00");
+					label.Text=(trackBar.Value/100.0).ToStringNetFx("0.00");
 				}
 				else if(trackBar==trackSmooth){
 					label.Text=Lan.g(this,((ImageSmooth)trackBar.Value).ToString());

@@ -23,6 +23,7 @@ namespace ToothChartImageTests {
 	public class WpfRendererTests {
 		[TestMethod]
 		public void MtaCaller_GetsTheWpfImage_WithoutAFallback() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			StaRunner.RunMta(() => CheckMtaCaller());
 		}
 
@@ -149,6 +150,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void SelectionOnlyChange_ReusesThe3DLayer_AndAColourChangeDoesNot() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			StaRunner.Run(() => {
 				using(ToothChartWrapper wrapper=new ToothChartWrapper())
 				using(ToothChartLayerCache layerCache=new ToothChartLayerCache()) {
@@ -295,6 +297,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void Determinism_TheSameBytes_TwiceInOneProcess_AndInASecondProcess() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			string hashFirst=SecondProcessEntry.RenderHash("restored-adult");
 			string hashSecond=SecondProcessEntry.RenderHash("restored-adult");
 			Assert.AreEqual(hashFirst,hashSecond,"Two renders of one scene in one process.");
@@ -761,6 +764,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void TranslucentTooth_IsItsOpaquePictureBlendedOverTheBackgroundAtItsAlpha() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//TC-3c (LOOK-2): an unerupted tooth's material keeps the colour's alpha in all three brushes (CreateMaterial), so the tooth comes out as
 			//its opaque picture blended over the background at UneruptedAlpha, not brighter (an emissive or specular pass added in full) and not
 			//darker. One upper molar, the same items once opaque and once at the alpha in the layer beneath (Items3DUnder, where the chart puts its
@@ -814,6 +818,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void UneruptedTeeth_AreDrawnBeneathTheOpaqueTeeth_EvenInFrontOfThem() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//TC-3c (LOOK-2): Open Dental's 2023 mixed-dentition screenshot (odimg/pedo.png in the audit) shows the opaque primary roots crisp over the
 			//pale permanent crowns, though in the chart's scene the permanent tooth lies in front of the primary one. The renderer draws the scene's
 			//Items3DUnder in a Viewport3DVisual of its own beneath that of the opaque Items3D, so an opaque tooth covers a translucent one whatever

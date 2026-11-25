@@ -1324,9 +1324,9 @@ namespace OpenPmsDental {
 			// 
 			// labelCitySTZip
 			// 
-			this.labelCitySTZip.Location = new System.Drawing.Point(78, 131);
+			this.labelCitySTZip.Location = new System.Drawing.Point(58, 131);
 			this.labelCitySTZip.Name = "labelCitySTZip";
-			this.labelCitySTZip.Size = new System.Drawing.Size(68, 23);
+			this.labelCitySTZip.Size = new System.Drawing.Size(88, 23);
 			this.labelCitySTZip.TabIndex = 11;
 			this.labelCitySTZip.Text = "City,ST,Zip";
 			this.labelCitySTZip.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1342,9 +1342,9 @@ namespace OpenPmsDental {
 			// 
 			// labelGroupNum
 			// 
-			this.labelGroupNum.Location = new System.Drawing.Point(78, 313);
+			this.labelGroupNum.Location = new System.Drawing.Point(70, 313);
 			this.labelGroupNum.Name = "labelGroupNum";
-			this.labelGroupNum.Size = new System.Drawing.Size(76, 23);
+			this.labelGroupNum.Size = new System.Drawing.Size(84, 23);
 			this.labelGroupNum.TabIndex = 9;
 			this.labelGroupNum.Text = "Group Num";
 			this.labelGroupNum.TextAlign = System.Drawing.ContentAlignment.MiddleRight;

@@ -52,9 +52,11 @@ namespace M2PAYWTests {
 			StringAssert.Contains(designer,
 				"this.comboInvoiceOutstandingFilter.SelectionChangeCommitted += new System.EventHandler(this.FilterChangeCommittedChargesTreatPlan);");
 			Assert.IsFalse(designer.Contains("this.comboInvoiceOutstandingFilter.SelectionModeMulti = true;"),"One invoice at a time.");
-			//The group grew by one row and the charges tab moved down below it.
-			StringAssert.Contains(designer,"this.groupBoxFilteringOutstanding.Size = new System.Drawing.Size(603, 103);");
-			StringAssert.Contains(designer,"this.tabControlCharges.Location = new System.Drawing.Point(498, 107);");
+			//The group grew by one row and the charges tab moved down below it. UI-12 pilot (the layout grid, owner-approved): the group at 504,2,
+			//599x130, the tab 4 px under it.
+			StringAssert.Contains(designer,"this.groupBoxFilteringOutstanding.Location = new System.Drawing.Point(504, 2);");
+			StringAssert.Contains(designer,"this.groupBoxFilteringOutstanding.Size = new System.Drawing.Size(599, 130);");
+			StringAssert.Contains(designer,"this.tabControlCharges.Location = new System.Drawing.Point(504, 136);");
 		}
 
 		[TestMethod]

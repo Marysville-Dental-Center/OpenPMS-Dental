@@ -136,6 +136,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void MarkerVertex_LandsOnTheSamePixel_InThe3DLayerAndThe2DLayer() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			StaRunner.Run(() => {
 				using ToothChartWrapper wrapper=new ToothChartWrapper();
 				wrapper.Size=ChartScenes.SizeModule.Size;

@@ -42,6 +42,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void ChartScenes_MatchTheWpfBaselines() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			bool isRecording=Environment.GetEnvironmentVariable(EnvRecord)=="1";
 			string folderBaseline=WpfCharts.BaselinesWpf;
 			string folderOut=Environment.GetEnvironmentVariable(EnvRecordOut);

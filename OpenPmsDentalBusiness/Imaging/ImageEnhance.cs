@@ -1,3 +1,4 @@
+using CodeBase;
 using System;
 using System.Collections.Generic;
 
@@ -87,7 +88,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			List<string> listParts=new List<string>();
 			if(settings.HasGamma()) {
-				listParts.Add("gamma "+settings.Gamma.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture));
+				listParts.Add("gamma "+settings.Gamma.ToStringNetFx("0.00",System.Globalization.CultureInfo.InvariantCulture));
 			}
 			if(settings.Sharpen>0) {
 				listParts.Add("sharpen "+settings.Sharpen);

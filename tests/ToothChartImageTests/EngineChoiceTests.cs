@@ -380,6 +380,7 @@ namespace ToothChartImageTests {
 		#region The dashboard's MTA worker
 		[TestMethod]
 		public void MtaWorker_GetsTheWpfChartFromTheStoredMode_AndNothingIsLogged() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			//The Patient Dashboard makes its wrapper on an MTA ODThread worker (UserControlDashboard, DashToothChart, SheetPrinting.GetToothChartHelper).
 			//Since TC-1 the wrapper makes no WPF object there; since TC-8 the stored 0 or 2 asks for the WPF chart there too.
 			foreach(DrawingMode drawingMode in new[] { DrawingMode.DirectX,DrawingMode.OpenGL }) {

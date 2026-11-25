@@ -1,5 +1,6 @@
 // This file is part of the open source dental practice management software derived from Open Dental.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
+using CodeBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,8 +78,8 @@ namespace ImagingCapture.Settings {
 		///<summary>"... is not between 0 and 100." for a value outside the range a sensor driver setting has, or "".</summary>
 		private static string GetRangeProblem(CaptureSettingDef settingDef,string name,double value) {
 			if((settingDef.RangeMin!=null && value<settingDef.RangeMin.Value) || (settingDef.RangeMax!=null && value>settingDef.RangeMax.Value)) {
-				return name+" is not between "+(settingDef.RangeMin?.ToString(System.Globalization.CultureInfo.InvariantCulture)??"-")+" and "
-					+(settingDef.RangeMax?.ToString(System.Globalization.CultureInfo.InvariantCulture)??"-")+".";
+				return name+" is not between "+(settingDef.RangeMin?.ToStringNetFx(System.Globalization.CultureInfo.InvariantCulture)??"-")+" and "
+					+(settingDef.RangeMax?.ToStringNetFx(System.Globalization.CultureInfo.InvariantCulture)??"-")+".";
 			}
 			return "";
 		}

@@ -215,7 +215,9 @@ namespace DicomReaderTests {
 		[TestMethod]
 		public void IsDicomFileName_MatchesTheDisplayPath() {
 			Assert.IsTrue(ImageHelper.IsDicomFileName("a.dcm"));
-			Assert.IsFalse(ImageHelper.IsDicomFileName("a.DCM"),"The Imaging module's display path and ImageStore.OpenBitmapDicom test the same way.");
+			//IMG-DICOM-FIX: the program's one DICOM test (ImageHelper.IsDicomPath) takes .dcm and .dicom in any case, in the display path too.
+			Assert.IsTrue(ImageHelper.IsDicomFileName("a.DCM"),"The Imaging module's display path and ImageStore.OpenBitmapDicom test the same way.");
+			Assert.AreEqual(ImageHelper.IsDicomPath("a.DCM"),ImageHelper.IsDicomFileName("a.DCM"));
 			Assert.IsFalse(ImageHelper.IsDicomFileName("a.dcm.jpg"));
 			Assert.IsFalse(ImageHelper.IsDicomFileName(null));
 			Assert.IsFalse(ImageHelper.HasImageExtension("a.dcm"),"HasImageExtension stays as it was: GDI+ cannot open DICOM.");

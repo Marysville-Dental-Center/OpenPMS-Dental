@@ -57,6 +57,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void RealInput_ClickDragPenAndAHeldStillPen_GiveTheSharedMousesSelectionAndStrings() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			WpfLiveViewTests.RequireDesktop();
 			StaRunner.Run(() => {
 				CultureInfo cultureOld=Thread.CurrentThread.CurrentCulture;

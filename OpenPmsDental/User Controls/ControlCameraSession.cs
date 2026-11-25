@@ -1197,7 +1197,7 @@ namespace OpenPmsDental {
 			document.DegreesRotated=(((document.DegreesRotated%360)+360)%360+90)%360;
 			try {
 				_store.UpdateDocument(document,documentOld);
-				_store.LogEdit(_patient.PatNum,"Document Edited: "+document.FileName+" rotated to "+document.DegreesRotated+" degrees",document.DocNum);
+				_store.LogEdit(_patient.PatNum,"Document Edited: "+document.FileName+" rotated to "+document.DegreesRotated.ToStringNetFx()+" degrees",document.DocNum);
 			}
 			catch(Exception ex) {
 				ShowInfo(Lan.g(this,"Could not rotate")+": "+ex.Message);

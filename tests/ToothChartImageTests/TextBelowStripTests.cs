@@ -163,6 +163,7 @@ namespace ToothChartImageTests {
 
 		[TestMethod]
 		public void TextBelowStrip_GalleryPicture_ChartSliderAndStrip() {
+			WpfSession.RequireRendering();//REL-0.1-FIX: inconclusive where WPF draws nothing (a disconnected session)
 			WpfLiveViewTests.RequireDesktop();
 			string path=Path.Combine(Path.GetTempPath(),"ToothChartImageTests","tc5-text-below-strip.png");
 			Size size=TextBelowStripPicture.Write(path);
