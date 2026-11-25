@@ -50,6 +50,18 @@ namespace ImagingDeviceManager.Capture {
 		///section 10.6: sensor ready, exposure captured, offline, removed), so the session window shows the sensor's real state. A source
 		///without them (1.2) is left as it is. Not gated: it changes what the window says, never an image.</summary>
 		public bool DeviceEvents { get; set; }
+		///<summary>[Device.N] SettingsCap (hex): the source's settings capability (twain-contract 1.4 "host settings"), through which SourceSettings
+		///are sent before each enable (IMG-SRCSET).</summary>
+		public ushort? SettingsCap { get; set; }
+		///<summary>[Device.N] SettingsSchemaCap (hex): the source's settings-description capability (twain-contract 1.4). The session reads the
+		///description at each open and saves it beside capture.ini, for Capture settings. Not gated: it changes no image.</summary>
+		public ushort? SettingsSchemaCap { get; set; }
+		///<summary>The `Section.Key=value;...` of the device's `Source.*` keys (TwainSourceSettings), "" when none is set. Gated: they change the
+		///delivered image or the sensor's exposure detection.</summary>
+		public string SourceSettings { get; set; }="";
+		///<summary>"" or why a `Source.*` value set in capture.ini cannot be sent (TwainSourceSettings.Build); the session then does not enable.</summary>
+		public string SourceSettingsError { get; set; }="";
+
 		///<summary>[Twain] Allow16Bit, default 1 (owner decision 2026-11-01): more than 8 bits (14 or 16) are allowed on this computer. The key keeps
 		///its name for compatibility; 0 is the computer's kill switch and forces 8 bits everywhere, and so does a value that is not 0 or 1 (a
 		///warning).</summary>
@@ -106,6 +118,11 @@ namespace ImagingDeviceManager.Capture {
 				options.RedeliverCap=ReadCapability(config,section,"RedeliverCap",options.ListWarnings);
 				options.NoActivateCap=ReadCapability(config,section,"NoActivateCap",options.ListWarnings);
 				options.DeviceEvents=config.GetBool(section,"DeviceEvents",false);
+				options.SettingsCap=ReadCapability(config,section,"SettingsCap",options.ListWarnings);
+				options.SettingsSchemaCap=ReadCapability(config,section,"SettingsSchemaCap",options.ListWarnings);
+				string sourceSettingsError;
+				options.SourceSettings=TwainSourceSettings.Build(config,section,options.ListWarnings,out sourceSettingsError);
+				options.SourceSettingsError=sourceSettingsError;
 				foreach(int code in config.GetHexList(section,"RefusedDisableCodes")) {
 					if(code>0 && code<=ushort.MaxValue && !options.RefusedDisableCodes.Contains((ushort)code)) {
 						options.RefusedDisableCodes.Add((ushort)code);
@@ -203,6 +220,9 @@ namespace ImagingDeviceManager.Capture {
 				new SidecarField(device+"RedeliverCap",hex(RedeliverCap)),
 				new SidecarField(device+"NoActivateCap",hex(NoActivateCap)),
 				new SidecarField(device+"DeviceEvents",DeviceEvents ? "1" : "0"),
+				new SidecarField(device+"SettingsCap",hex(SettingsCap)),
+				new SidecarField(device+"SettingsSchemaCap",hex(SettingsSchemaCap)),
+				new SidecarField(device+"SourceSettings",SourceSettings??""),
 				new SidecarField("Twain.Allow16Bit",Allow16Bit ? "1" : "0"),
 				new SidecarField("Twain.RestrictSources",RestrictSources ? "1" : "0"),
 				new SidecarField("Twain.AllowedSources",string.Join("|",AllowedSources)),

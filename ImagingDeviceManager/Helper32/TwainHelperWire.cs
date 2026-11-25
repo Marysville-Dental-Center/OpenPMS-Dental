@@ -233,6 +233,10 @@ namespace ImagingDeviceManager.Helper32 {
 			WriteNullableUShort(writer,options.RedeliverCap);
 			WriteNullableUShort(writer,options.NoActivateCap);
 			writer.Write(options.DeviceEvents);
+			WriteNullableUShort(writer,options.SettingsCap);
+			WriteNullableUShort(writer,options.SettingsSchemaCap);
+			WriteString(writer,options.SourceSettings);
+			WriteString(writer,options.SourceSettingsError);
 			writer.Write(options.Allow16Bit);
 			writer.Write(options.RestrictSources);
 			WriteList(writer,options.AllowedSources,WriteString);
@@ -261,6 +265,10 @@ namespace ImagingDeviceManager.Helper32 {
 			options.RedeliverCap=ReadNullableUShort(reader);
 			options.NoActivateCap=ReadNullableUShort(reader);
 			options.DeviceEvents=reader.ReadBoolean();
+			options.SettingsCap=ReadNullableUShort(reader);
+			options.SettingsSchemaCap=ReadNullableUShort(reader);
+			options.SourceSettings=ReadString(reader)??"";
+			options.SourceSettingsError=ReadString(reader)??"";
 			options.Allow16Bit=reader.ReadBoolean();
 			options.RestrictSources=reader.ReadBoolean();
 			options.AllowedSources=ReadList(reader,ReadString);
@@ -326,6 +334,7 @@ namespace ImagingDeviceManager.Helper32 {
 		}
 
 		public static void WriteSourceInfo(BinaryWriter writer,TwainCaptureSourceInfo info) {
+			WriteString(writer,info.SettingsSchemaJson);
 			WriteString(writer,info.ProductName);
 			WriteString(writer,info.Manufacturer);
 			WriteString(writer,info.ProductFamily);
@@ -366,6 +375,7 @@ namespace ImagingDeviceManager.Helper32 {
 
 		public static TwainCaptureSourceInfo ReadSourceInfo(BinaryReader reader) {
 			TwainCaptureSourceInfo info=new TwainCaptureSourceInfo();
+			info.SettingsSchemaJson=ReadString(reader);
 			info.ProductName=ReadString(reader);
 			info.Manufacturer=ReadString(reader);
 			info.ProductFamily=ReadString(reader);
@@ -506,6 +516,7 @@ namespace ImagingDeviceManager.Helper32 {
 			WriteString(writer,image.SourceName);
 			writer.Write(image.IndexInEnable);
 			writer.Write(image.IsContinuousEnable);
+			WriteString(writer,image.SourceSettingsInEffect);
 			WriteString(writer,image.JournalPath);
 			WriteString(writer,image.QuarantinePath);
 			WritePairs(writer,image.SidecarFields);
@@ -554,6 +565,7 @@ namespace ImagingDeviceManager.Helper32 {
 			image.SourceName=ReadString(reader);
 			image.IndexInEnable=reader.ReadInt32();
 			image.IsContinuousEnable=reader.ReadBoolean();
+			image.SourceSettingsInEffect=ReadString(reader);
 			image.JournalPath=ReadString(reader);
 			image.QuarantinePath=ReadString(reader);
 			image.SidecarFields=ReadPairs(reader);

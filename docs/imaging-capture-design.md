@@ -891,6 +891,14 @@ ContinuousCap=            ; gated. Custom capability numbers from the DS's
 RedeliverCap=             ; gated. published contract (hex), empty = not used. RedeliverCap is set TRUE only for one redelivery enable (section 7.1, CAP-3)
 NoActivateCap=            ; gated
 DeviceEvents=0            ; not gated (text only). 1 = ask the DS for device events (twain-contract 1.3); a DS without them is left as it is
+SettingsCap=              ; gated, written only when set. The DS's host-settings capability (twain-contract 1.4, hex). IMG-SRCSET
+SettingsSchemaCap=        ; not gated. The DS's settings-description capability (twain-contract 1.4, hex): read at each open, the
+                          ; description (source-settings-schema/1 JSON) is saved as source-settings-<N>.json beside capture.ini
+Source.<Section>.<Key>=   ; gated, written only when set. One row per setting the DS describes; this program names none itself.
+                          ; The description is untrusted: size, type, key and value limits (SourceSettingsSchema), else no rows.
+                          ; Sent through SettingsCap once at open (state 4); the DS keeps them until it closes. Empty = the DS's own
+                          ; value. Set but not applied (no SettingsCap, a DS before 1.4, a value it refuses) = the open fails with the
+                          ; reason. What the DS reports in effect goes to the log and every image's sidecar
 
 [Camera]
 Moniker=

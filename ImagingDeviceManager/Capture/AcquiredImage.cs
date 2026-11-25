@@ -105,6 +105,9 @@ namespace ImagingDeviceManager.Capture {
 		///target as it is when they arrive, not into the slot the enable started for, so the enable's slot fields in the sidecar are not this
 		///image's slot (CaptureFileEntry.IsSlotKnown).</summary>
 		public bool IsContinuousEnable { get; set; }
+		///<summary>The driver's settings in effect for its enable, as the settings capability answered (IMG-SRCSET), or null when not asked
+		///(no SettingsCap) or not answered.</summary>
+		public string SourceSettingsInEffect { get; set; }
 		///<summary>The journal copy the library wrote before raising the image (a .bmp of the DIB, or a 16-bit grayscale .tif of Gray16), or
 		///null when none could be written (the capture log says why).</summary>
 		public string JournalPath { get; set; }

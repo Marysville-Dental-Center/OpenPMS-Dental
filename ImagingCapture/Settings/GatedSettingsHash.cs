@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using ImagingDeviceManager.Capture;
 using ImagingDeviceManager.Config;
 
 namespace ImagingCapture.Settings {
@@ -49,6 +50,11 @@ namespace ImagingCapture.Settings {
 		public static readonly ReadOnlyCollection<string> ListDeviceKeys=new ReadOnlyCollection<string>(new[] { "SessionMode","Bits","ByteOrder16",
 			"Polarity","Headless","DisableIsSafe","SessionTimeoutMinutes","SafeDisableCap","RefusedDisableCodes","ContinuousCap","RedeliverCap",
 			"NoActivateCap" });
+		///<summary>The gated keys of [Device.N] added after the format was fixed (IMG-SRCSET, 2026-11-24): SettingsCap, and every `Source.*` key (the
+		///sensor driver's settings, whatever the driver describes). Unlike ListDeviceKeys, each is in the canonical text only when it has a
+		///value (SettingsCap first, then the Source.* keys in ordinal order ignoring case), so that a file without them hashes as before and no
+		///existing settings save or verification record changes.</summary>
+		public const string KeySettingsCap="SettingsCap";
 		///<summary>Keys whose value is a list separated by '|'.</summary>
 		private static readonly string[] _arrayListKeys={ "AllowedSources","DisableIsSafeSources","RefusedDisableCodes" };
 		///<summary>Keys whose missing or empty value is hashed as its default (see the class summary): [Device.N] Bits, [Twain] Allow16Bit and
@@ -80,7 +86,8 @@ namespace ImagingCapture.Settings {
 				return ListTwainKeys.Contains(key,StringComparer.OrdinalIgnoreCase);
 			}
 			if(section.StartsWith(LocalCaptureConfig.SectionDevicePrefix,StringComparison.OrdinalIgnoreCase)) {
-				return ListDeviceKeys.Contains(key,StringComparer.OrdinalIgnoreCase);
+				return ListDeviceKeys.Contains(key,StringComparer.OrdinalIgnoreCase) || key.Equals(KeySettingsCap,StringComparison.OrdinalIgnoreCase)
+					|| TwainSourceSettings.IsSourceKey(key);
 			}
 			return false;
 		}
@@ -141,6 +148,12 @@ namespace ImagingCapture.Settings {
 			AppendSection(stringBuilder,config,SectionSession,SectionSession,ListSessionKeys,isEmptyAsDefault);
 			AppendSection(stringBuilder,config,LocalCaptureConfig.SectionTwain,LocalCaptureConfig.SectionTwain,ListTwainKeys,isEmptyAsDefault);
 			AppendSection(stringBuilder,config,sectionDevice,"Device",ListDeviceKeys,isEmptyAsDefault);
+			foreach(string key in new[] { KeySettingsCap }.Concat(TwainSourceSettings.GetSetKeys(config,sectionDevice))) {
+				string value=NormalizeValue(key,config==null ? "" : config.GetString(sectionDevice,key,""),isEmptyAsDefault);
+				if(value!="") {
+					stringBuilder.Append("Device.").Append(key.Trim().ToLowerInvariant()).Append('=').Append(value).Append('\n');
+				}
+			}
 			return stringBuilder.ToString();
 		}
 
@@ -162,6 +175,9 @@ namespace ImagingCapture.Settings {
 			string valueDefault;
 			if(isEmptyAsDefault && _dictEmptyAsDefault.TryGetValue((key??"").Trim(),out valueDefault) && NormalizeText(value)=="") {
 				return valueDefault;
+			}
+			if(TwainSourceSettings.IsSourceKey(key)) {
+				return (value??"").Trim();//sent to the driver as written: a change of case is a change
 			}
 			if(!_arrayListKeys.Contains(key,StringComparer.OrdinalIgnoreCase)) {
 				return NormalizeText(value);

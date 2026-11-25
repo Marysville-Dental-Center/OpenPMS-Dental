@@ -107,12 +107,18 @@ namespace ImagingCapture.Settings {
 		public bool HasProblems => _listRows.Any(x => x.Problem!="");
 		#endregion Properties
 
+		///<summary>Why the driver's saved description of its settings gave no Source.* rows, or "" (IMG-SRCSET).</summary>
+		public string SourceSettingsSchemaError { get; private set; }="";
+
 		#region Methods - editing
 		///<summary>Reads capture.ini and the hash check again; edits are discarded.</summary>
 		public void Load() {
 			LocalCaptureConfig config=LoadConfig();
 			_listRows=new List<CaptureSettingRow>();
-			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings) {
+			string schemaError;
+			List<CaptureSettingDef> listDefs=CaptureSettingsCatalog.GetSettings(Device.ImagingDeviceNum,config,null,out schemaError);
+			SourceSettingsSchemaError=schemaError;
+			foreach(CaptureSettingDef settingDef in listDefs) {
 				CaptureSettingRow row=new CaptureSettingRow(settingDef,Device.ImagingDeviceNum);
 				row.IsPresent=config.ContainsKey(row.SectionName,settingDef.Key);
 				row.BaselineText=GetValue(config,row);
@@ -353,7 +359,8 @@ namespace ImagingCapture.Settings {
 				Note=note,
 				ListChanges=listChanges,
 			};
-			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings.Where(x => x.IsGated)) {
+			string schemaErrorAfter;
+			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.GetSettings(imagingDeviceNum,configAfter,null,out schemaErrorAfter).Where(x => x.IsGated)) {
 				entry.DictGatedValues[settingDef.Label]=configAfter.GetString(settingDef.GetSectionName(imagingDeviceNum),settingDef.Key,"").Trim();
 			}
 			return entry;

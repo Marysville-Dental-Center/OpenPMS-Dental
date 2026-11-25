@@ -291,6 +291,7 @@ namespace ImagingCapture.UI {
 				return;
 			}
 			ImageCount++;
+			SourceSettingsInEffect=image.SourceSettingsInEffect;
 			Analysis=TestCaptureAnalysis.Analyze(image,Options.Polarity);
 			_isByteOrderConfirmed=false;
 			_isPolarityConfirmed=false;
@@ -574,6 +575,24 @@ namespace ImagingCapture.UI {
 				+"ByteOrder16, Polarity).";
 		}
 
+		///<summary>The sensor driver's settings in effect for the last test image, as its settings capability answered (IMG-SRCSET), or null.</summary>
+		public string SourceSettingsInEffect { get; private set; }
+
+		///<summary>What the driver's description of its settings, read at open, gives Capture settings (IMG-SRCSET), or "" when it was not read.</summary>
+		public string GetSourceSettingsSchemaText() {
+			string json=SourceInfo?.SettingsSchemaJson;
+			if(json==null) {
+				return Options.SettingsSchemaCap==null || SourceInfo==null ? "" : "The driver did not describe its settings (SettingsSchemaCap "
+					+ToHex(Options.SettingsSchemaCap)+"): Capture settings shows no Source.* rows for it.";
+			}
+			string error;
+			SourceSettingsSchema schema=SourceSettingsSchema.Parse(json,out error);
+			if(schema==null) {
+				return "The driver's description of its settings was refused: "+error+" Capture settings shows no Source.* rows for it.";
+			}
+			return "The driver describes "+schema.ListEntries.Count+" settings; Capture settings shows them as Source.* rows.";
+		}
+
 		///<summary>The effective device settings, the gated values with their hash, and what the source reported at open.</summary>
 		public string GetSettingsText() {
 			TwainCaptureOptions options=Options;
@@ -591,6 +610,13 @@ namespace ImagingCapture.UI {
 				+(options.RefusedDisableCodes.Count==0 ? "(none)" : string.Join("|",options.RefusedDisableCodes.Select(x => CaptureEndText.ToHex(x)))));
 			stringBuilder.AppendLine("  ContinuousCap="+ToHex(options.ContinuousCap)+", RedeliverCap="+ToHex(options.RedeliverCap)
 				+", NoActivateCap="+ToHex(options.NoActivateCap));
+			stringBuilder.AppendLine("  SettingsCap="+ToHex(options.SettingsCap)+", SettingsSchemaCap="+ToHex(options.SettingsSchemaCap)
+				+", sensor driver settings sent: "+(string.IsNullOrEmpty(options.SourceSettings) ? "(none: the driver's own values)"
+				: options.SourceSettings.Replace(";","; ")));
+			string schemaText=GetSourceSettingsSchemaText();
+			if(schemaText!="") {
+				stringBuilder.AppendLine("  "+schemaText);
+			}
 			stringBuilder.AppendLine("  Allow16Bit="+ToBit(options.Allow16Bit)+", RestrictSources="+ToBit(options.RestrictSources)
 				+", AllowedSources="+(options.AllowedSources.Count==0 ? "(none)" : string.Join("|",options.AllowedSources))
 				+", JournalKeep="+options.JournalKeep.ToString(CultureInfo.InvariantCulture));
@@ -644,6 +670,9 @@ namespace ImagingCapture.UI {
 			else {
 				listLines.Add("Test image "+ImageCount.ToString(CultureInfo.InvariantCulture)+":");
 				listLines.AddRange(Analysis.GetResultLines());
+				if(SourceSettingsInEffect!=null) {
+					listLines.Add("Sensor driver settings in effect: "+SourceSettingsInEffect.Replace(";","; "));
+				}
 			}
 			if(RecordWritten!=null) {
 				listLines.Add("");

@@ -169,6 +169,19 @@ namespace ImagingDeviceManager.Tests {
 		///anything else, the codes of ListDeviceEventsOnEnable that were selected (MSG_DEVICEEVENT, read with DAT_DEVICEEVENT). False: a 1.2
 		///source, which answers TWCC_CAPUNSUPPORTED.</summary>
 		public bool SupportsDeviceEvents;
+		///<summary>twain-contract 1.4 "host settings": CapSettings takes a TW_ONEVALUE of TWTY_STR1024 (Section.Key=value;...) in state 4 and
+		///MSG_GET answers SettingsInEffect. SettingsRefused: MSG_SET fails with TWCC_BADVALUE. False: a 1.3 source (TWCC_CAPUNSUPPORTED).</summary>
+		public bool SupportsSettings;
+		public bool SettingsRefused;
+		public const ushort CapSettings=0x8005;
+		///<summary>What the host last set (null: never).</summary>
+		public string HostSettings;
+		public int CountSettingsSet;
+		public string SettingsInEffect="Sensor.XRayMa=2@host;Capture.Hd=0@default";
+		///<summary>twain-contract 1.4 settings description: CapSettingsSchema answers MSG_GET with a TW_ARRAY of TWTY_STR1024 chunks of this
+		///text (1025 bytes each). Null: a 1.3 source (TWCC_CAPUNSUPPORTED).</summary>
+		public string SettingsSchemaJson;
+		public const ushort CapSettingsSchema=0x8006;
 		public List<uint> ListDeviceEventsOnEnable=new List<uint>();
 		///<summary>The codes the host selected with CAP_DEVICEEVENT, in its order.</summary>
 		public List<ushort> ListDeviceEventsSelected=new List<ushort>();
@@ -555,6 +568,64 @@ namespace ImagingDeviceManager.Tests {
 			}
 			TW_CAPABILITY capability=(TW_CAPABILITY)Marshal.PtrToStructure(data,typeof(TW_CAPABILITY));
 			ushort cap=capability.Cap;
+			if(cap==CapSettingsSchema && SettingsSchemaJson!=null) {
+				if(msg!=Tw.MSG_GET && msg!=Tw.MSG_GETCURRENT) {
+					return Fail(Tw.TWCC_CAPBADOPERATION);
+				}
+				byte[] arrayJson=Encoding.UTF8.GetBytes(SettingsSchemaJson);
+				int countChunks=Math.Max(1,(arrayJson.Length+1024)/1025);
+				IntPtr hArray=_dsm.SourceAllocate(6+countChunks*1026);
+				IntPtr pArray=NativeMethods.GlobalLock(hArray);
+				Marshal.WriteInt16(pArray,0,(short)Tw.TWTY_STR1024);
+				Marshal.WriteInt32(pArray,2,countChunks);
+				for(int i=0;i<countChunks;i++) {
+					byte[] arrayChunk=new byte[1026];
+					Array.Copy(arrayJson,i*1025,arrayChunk,0,Math.Max(0,Math.Min(1025,arrayJson.Length-i*1025)));
+					Marshal.Copy(arrayChunk,0,pArray+6+i*1026,arrayChunk.Length);
+				}
+				NativeMethods.GlobalUnlock(hArray);
+				capability.ConType=Tw.TWON_ARRAY;
+				capability.hContainer=hArray;
+				Marshal.StructureToPtr(capability,data,false);
+				return Tw.TWRC_SUCCESS;
+			}
+			if(cap==CapSettings && SupportsSettings) {
+				if(msg==Tw.MSG_GET || msg==Tw.MSG_GETCURRENT) {
+					IntPtr hContainerOut=_dsm.SourceAllocate(TwContainer.OneValueItemOffset+1026);
+					IntPtr pContainerOut=NativeMethods.GlobalLock(hContainerOut);
+					byte[] arrayItem=new byte[1026];
+					byte[] arrayText=Encoding.UTF8.GetBytes(SettingsInEffect??"");
+					Array.Copy(arrayText,arrayItem,Math.Min(arrayText.Length,1025));
+					Marshal.WriteInt16(pContainerOut,0,(short)Tw.TWTY_STR1024);
+					Marshal.Copy(arrayItem,0,pContainerOut+TwContainer.OneValueItemOffset,arrayItem.Length);
+					NativeMethods.GlobalUnlock(hContainerOut);
+					capability.ConType=Tw.TWON_ONEVALUE;
+					capability.hContainer=hContainerOut;
+					Marshal.StructureToPtr(capability,data,false);
+					return Tw.TWRC_SUCCESS;
+				}
+				if(msg!=Tw.MSG_SET) {
+					return Fail(Tw.TWCC_CAPBADOPERATION);
+				}
+				if(State!=4) {
+					return Fail(Tw.TWCC_SEQERROR);
+				}
+				if(capability.ConType!=Tw.TWON_ONEVALUE || capability.hContainer==IntPtr.Zero) {
+					return Fail(Tw.TWCC_BADVALUE);
+				}
+				IntPtr pContainerIn=NativeMethods.GlobalLock(capability.hContainer);
+				ushort itemTypeIn=(ushort)Marshal.ReadInt16(pContainerIn,0);
+				byte[] arrayIn=new byte[1026];
+				Marshal.Copy(pContainerIn+TwContainer.OneValueItemOffset,arrayIn,0,arrayIn.Length);
+				NativeMethods.GlobalUnlock(capability.hContainer);
+				if(itemTypeIn!=Tw.TWTY_STR1024 || SettingsRefused) {
+					return Fail(Tw.TWCC_BADVALUE);
+				}
+				int length=Array.IndexOf(arrayIn,(byte)0);
+				HostSettings=Encoding.UTF8.GetString(arrayIn,0,length<0 ? arrayIn.Length : length);
+				CountSettingsSet++;
+				return Tw.TWRC_SUCCESS;
+			}
 			if(cap==Tw.CAP_DEVICEEVENT && SupportsDeviceEvents) {
 				if(msg!=Tw.MSG_SET) {
 					return Fail(Tw.TWCC_CAPBADOPERATION);

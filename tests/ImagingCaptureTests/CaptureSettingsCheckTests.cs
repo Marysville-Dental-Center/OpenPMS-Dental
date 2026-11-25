@@ -256,8 +256,12 @@ namespace ImagingCapture.Tests {
 		[TestMethod]
 		public void OptionsInEffect_NeverSaved_SafeValues_SourceGateFromTheFile() {
 			LocalCaptureConfig config=Config(Ini);
+			Assert.IsTrue(config.Set("Device.12","SettingsCap","0x8005"));
+			Assert.IsTrue(config.Set("Device.12","Source.Sensor.XRayMa","2"));
 			CaptureSettingsCheck check=CaptureSettingsCheck.Check(config,12,"OPERATORY1",new SecurityLog[0]);
-			TwainCaptureOptions options=check.GetOptionsInEffect(TwainCaptureOptions.FromConfig(config,12));
+			TwainCaptureOptions optionsFile=TwainCaptureOptions.FromConfig(config,12);
+			Assert.AreEqual("Sensor.XRayMa=2",optionsFile.SourceSettings);
+			TwainCaptureOptions options=check.GetOptionsInEffect(optionsFile);
 			AssertSafe(options);
 			Assert.IsTrue(options.RestrictSources,"Design 9.3: RestrictSources and AllowedSources keep their file values.");
 			CollectionAssert.AreEqual(new[] { "Example Sensor DS" },options.AllowedSources);
@@ -276,6 +280,9 @@ namespace ImagingCapture.Tests {
 			Assert.IsNull(options.ContinuousCap);
 			Assert.IsNull(options.RedeliverCap);
 			Assert.IsNull(options.NoActivateCap);
+			Assert.IsNull(options.SettingsCap,"Unverified driver settings are not sent.");
+			Assert.AreEqual("",options.SourceSettings);
+			Assert.AreEqual("",options.SourceSettingsError);
 			Assert.IsFalse(options.Allow16Bit);
 			Assert.IsFalse(options.IsAbove8BitConfigured);
 			Assert.AreEqual(200,options.JournalKeep);
@@ -288,7 +295,8 @@ namespace ImagingCapture.Tests {
 			List<string> listGated=CaptureSettingsCatalog.ListSettings.Where(x => x.IsGated).Select(x => x.Label).ToList();
 			List<string> listHashed=GatedSettingsHash.ListSessionKeys.Select(x => "Session."+x)
 				.Concat(GatedSettingsHash.ListTwainKeys.Select(x => "Twain."+x))
-				.Concat(GatedSettingsHash.ListDeviceKeys.Select(x => "Device."+x)).ToList();
+				.Concat(GatedSettingsHash.ListDeviceKeys.Select(x => "Device."+x))
+				.Concat(new[] { "Device."+GatedSettingsHash.KeySettingsCap }).ToList();
 			CollectionAssert.AreEqual(listHashed,listGated,"Same keys, in hash order.");
 			foreach(CaptureSettingDef settingDef in CaptureSettingsCatalog.ListSettings) {
 				Assert.AreEqual(settingDef.IsGated,GatedSettingsHash.IsGatedKey(settingDef.GetSectionName(12),settingDef.Key),settingDef.Label);

@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using ImagingDeviceManager.Capture;
+using ImagingDeviceManager.Config;
 using ImagingDeviceManager.Journal;
 using ImagingDeviceManager.TwainProtocol;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -207,6 +209,131 @@ namespace ImagingDeviceManager.Tests {
 			int idxTransferring=listStates.IndexOf(TwainCaptureState.Transferring);
 			Assert.IsTrue(idxEnabling>=0 && idxWaiting>idxEnabling && idxTransferring>idxWaiting,string.Join(",",listStates));
 			Assert.AreEqual("Sensor software open, waiting for exposure",TwainCaptureSession.GetStateText(TwainCaptureState.WaitingForImage));
+		}
+
+		[TestMethod]
+		public void SourceSettings_SentOnceAtOpen_ReadBack_OnEveryImageAndItsSidecar() {
+			Helper.SupportsSettings=true;
+			Options.SettingsCap=FakeHelperSource.CapSettings;
+			Options.SourceSettings="Sensor.XRayMa=2;Capture.Hd=1";
+			_harness.OpenOrFail();
+			Assert.AreEqual(1,Helper.CountSettingsSet,"Sent at open, before any arming.");
+			Assert.AreEqual("Sensor.XRayMa=2;Capture.Hd=1",Helper.HostSettings);
+			Assert.AreEqual(TwainCaptureEndReason.Completed,_harness.WaitForEnded(EnableOne()).Reason);
+			Assert.AreEqual(TwainCaptureEndReason.Completed,_harness.WaitForEnded(EnableOne()).Reason);
+			Assert.AreEqual(1,Helper.CountSettingsSet,"Not again for the next armings: the driver keeps them until it closes.");
+			Assert.AreEqual(2,_harness.Images.Count);
+			foreach(AcquiredImage image in _harness.Images) {
+				Assert.AreEqual(Helper.SettingsInEffect,image.SourceSettingsInEffect);
+				Dictionary<string,string> dictSidecar=CaptureFiles.ReadSidecar(Path.ChangeExtension(image.JournalPath,".txt"));
+				Assert.AreEqual(Helper.SettingsInEffect,dictSidecar["SourceSettingsInEffect"]);
+			}
+			Assert.IsTrue(_harness.HasLog("Driver settings sent: Sensor.XRayMa=2;Capture.Hd=1; in effect:"),_harness.LogText);
+		}
+
+		///<summary>Settings that cannot be applied fail the open with fragment in the reason; the source is closed again, nothing is armed.</summary>
+		private void AssertOpenFails(string fragment) {
+			TwainCaptureOpenResult result=_harness.Open();
+			Assert.IsFalse(result.IsOpen);
+			Assert.AreEqual(TwainCaptureOpenError.Other,result.Error);
+			StringAssert.Contains(result.ErrorText,"The sensor driver settings in Capture settings could not be applied: ");
+			StringAssert.Contains(result.ErrorText,fragment);
+			_harness.WaitUntil(() => Helper.State<4,"the source closed again");
+			Assert.AreEqual(0,Helper.CountEnable);
+		}
+
+		[TestMethod]
+		public void SourceSettings_NoSettingsCap_TheOpenFails_WithTheReason() {
+			Options.SourceSettings="Sensor.XRayMa=7";
+			AssertOpenFails("SettingsCap is empty");
+		}
+
+		[TestMethod]
+		public void SourceSettings_Contract13Source_TheOpenFails_WithTheReason() {
+			Options.SourceSettings="Sensor.XRayMa=2";
+			Options.SettingsCap=FakeHelperSource.CapSettings;//the fake answers TWCC_CAPUNSUPPORTED, as any 1.3 build
+			AssertOpenFails("before twain-contract 1.4");
+		}
+
+		[TestMethod]
+		public void SourceSettings_RefusedValue_TheOpenFails_WithTheReason() {
+			Helper.SupportsSettings=true;
+			Helper.SettingsRefused=true;
+			Options.SourceSettings="Sensor.XRayMa=7";
+			Options.SettingsCap=FakeHelperSource.CapSettings;
+			AssertOpenFails("the source refused them");
+		}
+
+		[TestMethod]
+		public void SourceSettings_AValueThatCannotBeSent_TheOpenFails() {
+			Helper.SupportsSettings=true;
+			Options.SettingsCap=FakeHelperSource.CapSettings;
+			Options.SourceSettings="Sensor.XRayMa=2";
+			Options.SourceSettingsError="Source.Adjust.Levels has ';' or '=', which the driver's settings cannot carry.";
+			AssertOpenFails("Source.Adjust.Levels has ';' or '='");
+			Assert.AreEqual(0,Helper.CountSettingsSet);
+		}
+
+		[TestMethod]
+		public void SourceSettings_None_NothingSent_StillReadBackWhenTheCapabilityIsSet() {
+			Helper.SupportsSettings=true;
+			Options.SettingsCap=FakeHelperSource.CapSettings;
+			_harness.OpenOrFail();
+			TwainCaptureEnded ended=_harness.WaitForEnded(EnableOne());
+			Assert.AreEqual(TwainCaptureEndReason.Completed,ended.Reason);
+			Assert.AreEqual(0,Helper.CountSettingsSet,"Nothing configured, nothing sent: the driver's own values apply.");
+			Assert.AreEqual(Helper.SettingsInEffect,_harness.Images.Single().SourceSettingsInEffect);
+		}
+
+		[TestMethod]
+		public void SettingsSchema_ReadAtOpen_InChunks_SavedBesideCaptureIni_OnlyWhenChanged() {
+			//Over two 1025-byte chunks, with a multi-byte character across a chunk boundary.
+			string prefix="{\"schema\":\"source-settings-schema/1\",\"pad\":\"";
+			string json=prefix+new string('a',1024-prefix.Length)+"\u00e9"+new string('b',1200)+"\"}";
+			Helper.SettingsSchemaJson=json;
+			Options.SettingsSchemaCap=FakeHelperSource.CapSettingsSchema;
+			TwainCaptureOpenResult result=_harness.Open();
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.AreEqual(json,result.SourceInfo.SettingsSchemaJson);
+			string path=Path.Combine(_harness.Folder,TwainSourceSettings.GetSchemaFileName(12));
+			Assert.AreEqual(json,File.ReadAllText(path,Encoding.UTF8));
+			Assert.AreEqual(json,TwainSourceSettings.ReadSchema(_harness.Folder,12));
+			Assert.IsTrue(_harness.HasLog("Driver settings description read"),_harness.LogText);
+			DateTime dateTimeWritten=File.GetLastWriteTimeUtc(path);
+			Assert.AreEqual("",TwainSourceSettings.SaveSchema(_harness.Folder,12,json));
+			Assert.AreEqual(dateTimeWritten,File.GetLastWriteTimeUtc(path),"Unchanged: not written again.");
+		}
+
+		[TestMethod]
+		public void SettingsSchema_Contract13Source_OrNoCapability_NothingSaved() {
+			Options.SettingsSchemaCap=FakeHelperSource.CapSettingsSchema;//SettingsSchemaJson null: a 1.3 source
+			TwainCaptureOpenResult result=_harness.Open();
+			Assert.IsTrue(result.IsOpen,result.ErrorText);
+			Assert.IsNull(result.SourceInfo.SettingsSchemaJson);
+			Assert.IsTrue(_harness.HasLog("does not describe its settings"),_harness.LogText);
+			Assert.IsNull(TwainSourceSettings.ReadSchema(_harness.Folder,12));
+		}
+
+		[TestMethod]
+		public void SourceSettings_FromConfig_OnlyTheSetKeys_InKeyOrder_ValuesWithEqualsLeftOut() {
+			string path=Path.Combine(Path.GetTempPath(),"srcset-"+Guid.NewGuid().ToString("N")+".ini");
+			File.WriteAllText(path,"[Device.12]\r\nSource.Capture.Hd=1\r\nSource.Sensor.XRaySource= DC \r\n"
+				+"Source.Adjust.Levels=1=2\r\nSource.Sensor.XRayKv=\r\nSettingsCap=0x8005\r\n");
+			LocalCaptureConfig config;
+			try {
+				config=LocalCaptureConfig.Load(path,null,null,null);
+			}
+			finally {
+				File.Delete(path);
+			}
+			List<string> listWarnings=new List<string>();
+			Assert.AreEqual("Capture.Hd=1;Sensor.XRaySource=DC",TwainSourceSettings.Build(config,"Device.12",listWarnings),"Ordinal order of the keys.");
+			Assert.AreEqual(1,listWarnings.Count);
+			StringAssert.Contains(listWarnings[0],"Source.Adjust.Levels=1=2 has ';' or '='");
+			string error;
+			TwainSourceSettings.Build(config,"Device.12",null,out error);
+			StringAssert.Contains(error,"Source.Adjust.Levels has ';' or '='");
+			Assert.AreEqual(error,TwainCaptureOptions.FromConfig(config,12).SourceSettingsError);
 		}
 
 		[TestMethod]

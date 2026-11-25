@@ -56,6 +56,8 @@ namespace ImagingDeviceManager.Capture {
 		///router of S3b-8 may first open the whole stored text), while this instance is in _listLiveSessions. Guarded by _lockLiveSessions.</summary>
 		private string _productNameLive="";
 		private volatile TwainCaptureSourceInfo _sourceInfo;
+		///<summary>What the driver reported in effect after the settings were sent at open (IMG-SRCSET), or null. Worker thread only.</summary>
+		private string _sourceSettingsInEffect;
 		//Worker thread only:
 		private TwainSession _session;
 		private EnableContext _enable;
@@ -457,6 +459,55 @@ namespace ImagingDeviceManager.Capture {
 			_eventClosed.Set();
 		}
 
+		///<summary>At open (IMG-SRCSET): reads the driver's description of its settings through SettingsSchemaCap and saves it beside capture.ini,
+		///where Capture settings builds its rows from it; written only when it changed. Nothing when SettingsSchemaCap is empty.</summary>
+		private void ReadSettingsSchema(TwainCaptureSourceInfo info) {
+			if(_options.SettingsSchemaCap==null || info==null) {
+				return;
+			}
+			info.SettingsSchemaJson=_session.GetSettingsSchemaCapability(_options.SettingsSchemaCap.Value);
+			if(info.SettingsSchemaJson==null || _options.ImagingDeviceNum<=0) {
+				return;
+			}
+			string folderImaging=_folders.GetPath("");
+			string error=TwainSourceSettings.SaveSchema(folderImaging,_options.ImagingDeviceNum,info.SettingsSchemaJson);
+			Log(error=="" ? "Driver settings description read ("+info.SettingsSchemaJson.Length+" characters), for Capture settings."
+				: "Driver settings description read but not saved: "+error);
+		}
+
+		///<summary>At open, in state 4 (IMG-SRCSET): sends the device's driver settings (`[Device.N] Source.*`, TwainCaptureOptions.SourceSettings)
+		///through SettingsCap once; the driver keeps them until the source closes, so every arming of this session uses them. Settings that are
+		///configured but cannot be applied (no SettingsCap, a driver before twain-contract 1.4, a value it refuses, a value the text cannot
+		///carry) fail the open with the reason in errorText: an image taken with other driver settings than the ones saved in Capture settings
+		///would not be what the office set. Then, when SettingsCap is set, reads back what the driver reports in effect, for the log and every
+		///image of the session.</summary>
+		private bool ApplySourceSettings(out string errorText) {
+			errorText="";
+			string settings=_options.SourceSettings??"";
+			if(settings!="" || !string.IsNullOrEmpty(_options.SourceSettingsError)) {
+				string error;
+				if(!string.IsNullOrEmpty(_options.SourceSettingsError)) {
+					error=_options.SourceSettingsError.TrimEnd('.');
+				}
+				else if(_options.SettingsCap==null) {
+					error="SettingsCap is empty";
+				}
+				else if(_session.SetSettingsCapability(_options.SettingsCap.Value,settings,out error)==TwainCustomCapOutcome.Set) {
+					error="";
+				}
+				if(error!="") {
+					errorText="The sensor driver settings in Capture settings could not be applied: "+error+". Correct or clear them in Capture settings.";
+					Log("Driver settings not applied ("+error+"): "+settings+"; the source is closed again.");
+					return false;
+				}
+			}
+			if(_options.SettingsCap!=null) {
+				_sourceSettingsInEffect=_session.GetSettingsCapability(_options.SettingsCap.Value);
+				Log("Driver settings "+(settings=="" ? "(none sent)" : "sent: "+settings)+"; in effect: "+(_sourceSettingsInEffect??"(not answered)")+".");
+			}
+			return true;
+		}
+
 		///<summary>A device event from the source, on the worker thread: raised as a status of the running enable with the state unchanged.
 		///Codes other than the four asked for are logged and dropped.</summary>
 		private void RaiseDeviceEvent(uint code) {
@@ -565,6 +616,13 @@ namespace ImagingDeviceManager.Capture {
 				_session.Settings=_options.ToSessionSettings(_session.SourceName);
 				_hwndWake=_session.ProxyWindowHandle;
 				_sourceInfo=ReadSourceInfo();
+				ReadSettingsSchema(_sourceInfo);
+				string errorSettings;
+				if(!ApplySourceSettings(out errorSettings)) {
+					result.Error=TwainCaptureOpenError.Other;
+					result.ErrorText=errorSettings;
+					return false;//the worker shuts down and closes the source
+				}
 				result.IsOpen=true;
 				result.SourceInfo=_sourceInfo;
 				SetState(TwainCaptureState.Open,0);
@@ -679,6 +737,8 @@ namespace ImagingDeviceManager.Capture {
 		#region Enable
 		///<summary>One enable, from its command to its Ended.</summary>
 		private sealed class EnableContext {
+			///<summary>The driver's settings in effect, as its settings capability answered before the enable (IMG-SRCSET), or null.</summary>
+			public string SourceSettingsInEffect;
 			public readonly int Id;
 			public readonly TwainEnableRequest Request;
 			public readonly bool IsRedelivery;
@@ -812,6 +872,7 @@ namespace ImagingDeviceManager.Capture {
 			if(_options.NoActivateCap!=null) {
 				_session.SetCustomCapability(_options.NoActivateCap.Value,true,"NoActivateCap");
 			}
+			context.SourceSettingsInEffect=_sourceSettingsInEffect;//sent once at open (ApplySourceSettings)
 			if(_options.DeviceEvents) {
 				//twain-contract 1.3: set again before each enable (harmless); a 1.2 source refuses it and nothing changes
 				_session.SetDeviceEvents(new[] { Tw.TWDE_DEVICEREADY,Tw.TWDE_IMAGECAPTURED,Tw.TWDE_DEVICEOFFLINE,Tw.TWDE_DEVICEREMOVED });
@@ -1201,6 +1262,7 @@ namespace ImagingDeviceManager.Capture {
 			image.SourceName=string.IsNullOrEmpty(image.SourceName) ? _productName : image.SourceName;
 			image.IndexInEnable=++context.CountImages;
 			image.IsContinuousEnable=context.IsContinuous;
+			image.SourceSettingsInEffect=context.SourceSettingsInEffect;
 			switch(kind) {
 				case AcquiredImageKind.Extra: context.CountExtra++; break;
 				case AcquiredImageKind.Drained: context.CountDrained++; break;
@@ -1274,6 +1336,9 @@ namespace ImagingDeviceManager.Capture {
 			record.ListCaptureFields.Add(new SidecarField("Redelivered",image.IsRedelivery ? "1" : "0"));
 			record.ListCaptureFields.Add(new SidecarField(CaptureSidecarKeys.IndexInEnable,image.IndexInEnable.ToString(CultureInfo.InvariantCulture)));
 			record.ListCaptureFields.Add(new SidecarField(CaptureSidecarKeys.ContinuousEnable,image.IsContinuousEnable ? "1" : "0"));
+			if(image.SourceSettingsInEffect!=null) {
+				record.ListCaptureFields.Add(new SidecarField("SourceSettingsInEffect",image.SourceSettingsInEffect));
+			}
 			record.ListCaptureFields.Add(new SidecarField("RequestedBits",image.RequestedBits.ToString(CultureInfo.InvariantCulture)));
 			record.ListCaptureFields.Add(new SidecarField("DeliveredAs8BitIn16BitEnable",image.IsDeliveredAs8BitIn16BitEnable ? "1" : "0"));
 			record.ListCaptureFields.Add(new SidecarField("TransferMechanism",image.TransferMechanism.ToString()));

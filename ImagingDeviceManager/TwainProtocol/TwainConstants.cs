@@ -109,6 +109,8 @@ namespace ImagingDeviceManager.TwainProtocol {
 		public const ushort TWTY_STR64=0x000a;
 		public const ushort TWTY_STR128=0x000b;
 		public const ushort TWTY_STR255=0x000c;
+		///<summary>TW_STR1024: 1026 bytes, NUL-terminated (the settings capability of twain-contract 1.4).</summary>
+		public const ushort TWTY_STR1024=0x000d;
 		///<summary>The item is a handle to data (TW_INFO.Item of some DAT_EXTIMAGEINFO items).</summary>
 		public const ushort TWTY_HANDLE=0x000f;
 		//Capabilities
