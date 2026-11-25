@@ -164,6 +164,9 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
+- Remove tamper detection (owner, 2026-11-24: Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing, the
+  warning triangles, the Security Hashes tool in Database Maintenance and their tests). The separate Database Integrity Check tool (table
+  check and repair) stays.
 - A sensor's driver settings saved per device in the database (owner, 2026-11-24). Today Capture settings keeps them in each computer's
   capture.ini, so a USB sensor moved between computers needs the same `Source.*` values entered on each one. They belong to the sensor,
   so storing them with the imaging device would let every computer use them after one save. Only what is truly local would stay per

@@ -39,7 +39,7 @@ namespace ODOPTSTests {
 			StringAssert.Contains(designer,"this.groupBox2.Controls.Add(this.updownAttGing);");
 			StringAssert.Contains(designer,"this.labelAttGing.Text = \"Att Ging (<=)\";");
 			StringAssert.Contains(designer,"this.updownAttGing.MouseDown += new System.Windows.Forms.MouseEventHandler(this.updownRedAttGing_MouseDown);");
-			StringAssert.Contains(designer,"this.groupBox2.Size = new System.Drawing.Size(221, 204);");
+			StringAssert.Contains(designer,"this.groupBox2.Size = new System.Drawing.Size(221, 239);");//UI-12 slice 9 (owner-approved 2026-11-23) laid the box out on the grid
 			string code=Form("FormPerio");
 			string handler=Between(code,"private void updownRedAttGing_MouseDown(","#endregion");
 			StringAssert.Contains(handler,"Security.IsAuthorized(EnumPermType.Setup)");

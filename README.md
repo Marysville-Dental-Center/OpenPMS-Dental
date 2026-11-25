@@ -69,7 +69,6 @@ November 2026, on `main`:
 - **Independent of Open Dental Software, Inc.:** no eServices, registration keys, update servers or help browser; `NoHqTests` checks on every run that nothing calls Open Dental's servers.
 - **Open Dental features through 26.2** (the 26.2 changes chosen for the office) on Open Dental's 26.2.0 schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted (rehearsed on synthetic data).
 - **Version 0.1 is the current release** ([download](https://github.com/Marysville-Dental-Center/OpenPMS-Dental/releases/tag/v0.1), [release notes](docs/release-notes/v0.1.md)): the first .NET 10, 64-bit, self-contained build. The setup is not digitally signed yet, so Windows SmartScreen or Smart App Control may warn about it; code signing is being set up. Compare its SHA-256 with the release's `SHA256SUMS.txt`.
-- **On version 0.0** (the last .NET Framework 4.8, 32-bit build)? There is no in-place upgrade: uninstall 0.0 on every workstation, then run the 0.1 setup as an administrator, the update server first, after the database server has TLS (release notes, "Before you install this version").
 - **The UI refresh is done** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)), approved by the owner on 2026-11-24: new colours, controls, window frame, Fluent icons, Segoe UI 9 pt, every window laid out on one spacing grid, calendars in the new style and a progress ring.
 
 Next: the office switch-over from Open Dental. The full roadmap with the owner's decisions is [docs/roadmap.md](docs/roadmap.md).
