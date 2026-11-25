@@ -2,11 +2,36 @@
 
 # Open PMS - Dental
 
-Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc.
+**Free, open-source practice management software for dental offices, for Windows: derived from Open Dental, heavily extended.** Open PMS - Dental started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports, on Open Dental's database schema. Around that code it adds the Open Dental features up to 26.1 written again from public documents, .NET 10 64-bit, a new look, a new 3D tooth chart, native imaging capture, new tools and its own test suites. It is written for one dental practice and published for anyone to use.
 
-**Free, open-source practice management software for dental offices, for Windows.** It started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports. It is written for one dental practice and published for anyone to use. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
+Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
 
 **Project site:** the website link in this repository's About panel (GitHub Pages, built from [`site/`](site/)).
+
+## Screenshots
+
+The program's own windows, with fictional patients and data only ([how they are made](docs/screenshots/README.md)).
+
+![The Appointments module: a day of appointments in three operatories, the module bar on the left and the main toolbar on top](docs/screenshots/appointments.png)
+
+| | |
+|---|---|
+| ![The Family module: a family of three with recall and a dental plan](docs/screenshots/family.png) | ![The Treatment Plan module: four planned procedures with insurance estimates](docs/screenshots/treatment-plan.png) |
+| ![The 3D tooth chart with a crown, a filling, a sealant, an extraction and a root canal](docs/screenshots/tooth-chart.png) | ![Intraoral camera capture: five photos taken into a template, with a synthetic camera picture](docs/screenshots/camera-capture.png) |
+
+## How it differs from Open Dental
+
+Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDental`, `OpenPmsDentalBusiness`, `WpfControlsOD`) about 80% of the lines are still Open Dental's and about 158,000 are new or rewritten; the tests, tools and native imaging, about 360,000 lines, are almost entirely new. The full list, the numbers and how to measure them again are in [docs/differences.md](docs/differences.md).
+
+- **No Open Dental HQ dependencies:** no eServices, registration keys, update servers or help browser, checked by `NoHqTests` on every run.
+- **Open Dental features up to 26.1, re-implemented** from Open Dental's public documents, on the Open Dental 26.2.0 schema.
+- **.NET 10, 64-bit, self-contained**, in place of .NET Framework 4.8, 32-bit.
+- **A new look:** Segoe UI, Fluent icons, colour tokens, every window on one spacing grid, new calendars, a progress ring.
+- **A new 3D tooth chart** in WPF, in place of the DirectX and OpenGL engines.
+- **Native imaging capture:** 64-bit TWAIN, sensor capture with 16-bit X-rays after a test capture verifies the device, camera and video capture.
+- **Inventory and routine maintenance tracking**, new in this project.
+- **Client-side security:** encrypted database connections verified against the office's own CA.
+- **Tests:** 128 new test projects, about 269,000 lines.
 
 ## Philosophy
 
@@ -42,9 +67,9 @@ November 2026, on `main`:
 - **Independent of Open Dental Software, Inc.:** no eServices, registration keys, update servers or help browser; `NoHqTests` checks on every run that nothing calls Open Dental's servers.
 - **Open Dental features up to 26.1** on Open Dental's 26.2.0 schema. An Open Dental 24.3.63 or 25.3.48 database can be adopted (rehearsed on synthetic data).
 - **Version 0.0** was released (the last .NET Framework 4.8, 32-bit build). `main` is .NET 10, 64-bit.
-- **In progress: a UI refresh** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)): new colours, controls, window frame and Fluent icons are done; the program font is Segoe UI 9 pt; every window is now being laid out on one spacing grid.
+- **The UI refresh is done** ([docs/specs/ui-refresh-plan.md](docs/specs/ui-refresh-plan.md)), approved by the owner on 2026-11-24: new colours, controls, window frame, Fluent icons, Segoe UI 9 pt, every window laid out on one spacing grid, calendars in the new style and a progress ring.
 
-Next, after the UI refresh: the next release and the office switch-over from Open Dental. The full roadmap with the owner's decisions is [docs/roadmap.md](docs/roadmap.md).
+Next: the next release and the office switch-over from Open Dental. The full roadmap with the owner's decisions is [docs/roadmap.md](docs/roadmap.md).
 
 ## Building
 
@@ -84,6 +109,7 @@ The full reference, with the solution layout, version numbers and every option, 
 ## More
 
 - [Installing in an office](docs/installing.md): the database server, the workstations and updates.
+- [How Open PMS - Dental differs from Open Dental](docs/differences.md): the changes, what stayed, what was removed, and the numbers.
 - [Repository layout](docs/repository-layout.md): what each folder holds, the branches, Open Dental's own resources.
 - [Owner decisions and questions](docs/owner-questions.md) and the [port notes](docs/port-notes/) of every package.
 
