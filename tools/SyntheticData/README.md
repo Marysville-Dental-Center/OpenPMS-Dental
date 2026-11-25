@@ -84,7 +84,8 @@ must match exactly. The generator never alters a table.
 All of it is computed from the history window (`--years` before the as-of date) plus a 90-day booking window after it. Nothing is
 completed, paid or posted after the as-of date.
 
-**Practice set-up.** Preferences (`DataBaseVersion` and `ProgramVersion` = 25.3.48.0, practice address, `ApptMirrorSecondary`,
+**Practice set-up.** Preferences (`DataBaseVersion` and `ProgramVersion` = 25.3.48.0, or with `--version-labels office` 25.3.47.0 and
+25.3.54.0 as the office database reads (the same schema; adoption accepts that pair only after an exact schema check), practice address, `ApptMirrorSecondary`,
 and a `SyntheticDataInfo` row recording seed, size and as-of date), definitions (adjustment, payment, billing, image, blockout,
 commlog, task priority and the 25.2 task categories), user groups with permissions (including 264-271), users (one with a
 domain login), employees, providers, operatories, procedure codes, fee schedules (standard, two PPO networks, copay, out of

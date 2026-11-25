@@ -119,6 +119,24 @@ namespace AdoptionValidation.Tests {
 			Assert.IsTrue(OdStartupCheck.StandardScenarios().Any(x => x.client.Version==new Version(25,3,48,0) && !x.client.IsUpdateServer));
 			Assert.IsTrue(OdStartupCheck.StandardScenarios().Any(x => x.client.Version.Major==26));
 			Assert.AreEqual(1,OdStartupCheck.StandardScenarios().Count(x => x.client.IsDebugBuild));
+			//The office's own program version, 25.3.54, as update server and as workstation.
+			Assert.AreEqual(2,OdStartupCheck.StandardScenarios().Count(x => x.client.Version==OdStartupCheck.VersionOfficeProgram && !x.client.IsDebugBuild));
+		}
+
+		[TestMethod]
+		public void OfficeLabels_TheOfficeClientUsesTheCopy_UntilAdopted() {
+			//DataBaseVersion 25.3.47.0 (the last convert step), ProgramVersion 25.3.54.0: the office's 25.3.54 update server opens it; the model counts
+			//the older DataBaseVersion as a conversion.
+			OdDatabaseState state=OfficeCopy();
+			state.DataBaseVersion="25.3.47.0";
+			state.ProgramVersion="25.3.54.0";
+			OdStartupResult result=OdStartupCheck.Evaluate(Client("25.3.54.0"),state);
+			Assert.IsFalse(result.IsRefused,result.Describe());
+			Assert.IsTrue(result.Outcome==OdStartupOutcome.Proceeds || result.Outcome==OdStartupOutcome.ConvertsAndProceeds,result.Describe());
+			//Once adopted, the 25.3.54 clients are refused like every other release client.
+			foreach(bool isUpdateServer in new[] { true,false }) {
+				Assert.IsTrue(OdStartupCheck.Evaluate(Client("25.3.54.0",isUpdateServer),Adopted()).IsRefused);
+			}
 		}
 	}
 }

@@ -100,6 +100,16 @@ namespace OpenPmsDentalBusiness {
 					+"Restore a backup of the adopted database. Do not edit the version preferences by hand.");
 			}
 			if(versionDb>ForkVersions.CompatVersion) {
+				AdoptableVersionLabels labels=ForkVersions.FindAdoptableLabels(versionDb,versionProgram);
+				if(labels!=null) {
+					//The adoption tool checks the schema (Adoption.Preflight); the guard only says where to go.
+					return Result(ForkGuardAction.NeedsAdoption,EXIT_CODE_NEEDS_ADOPTION,
+						"This is an Open Dental "+labels.ProgramVersion.ToString(3)+" database (DataBaseVersion "+labels.DataBaseVersion.ToString(4)
+						+") that has not been adopted.\r\n"
+						+"Normal startup never converts an Open Dental database. An administrator adopts a restored copy with the adoption tool "
+						+"(see docs/release-process.md), which first checks that its schema equals Open Dental "+labels.SchemaVersion.ToString(3)
+						+". After adoption, Open Dental programs can no longer use that copy.");
+				}
 				if(ForkVersions.IsAdoptable(versionDb)) {
 					return Result(ForkGuardAction.NeedsAdoption,EXIT_CODE_NEEDS_ADOPTION,
 						"This is an Open Dental "+versionDb.ToString(3)+" database that has not been adopted.\r\n"

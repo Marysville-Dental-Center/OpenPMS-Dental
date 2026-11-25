@@ -27,6 +27,9 @@ namespace AdoptionValidation {
 		public int Runs=2;
 		///<summary>Filler rows for every table the generator leaves empty, so the checksums cover (almost) all 422 tables.</summary>
 		public int FillRemaining=2;
+		///<summary>The version labels of the generated database: 25.3.48.0 twice (Reference), or DataBaseVersion 25.3.47.0 with ProgramVersion
+		///25.3.54.0 as the office database reads (Office). The schema is 25.3.48 either way.</summary>
+		public VersionLabels Labels=VersionLabels.Reference;
 		public string OutDir;
 		public bool Keep;
 		///<summary>Null: the runbook's server-side copy (step 3.2). Dump: a mariadb-dump backup and restore instead.</summary>
@@ -149,9 +152,9 @@ namespace AdoptionValidation {
 			using(Db db=Db.Open(server)) {
 				//1. Generate the synthetic 25.3.48 database.
 				GenerationSettings settings=new GenerationSettings { Seed=_options.Seed,Size=_options.Size,AsOf=_options.AsOf,Families=_options.Families,
-					Years=_options.Years,FillRemaining=_options.FillRemaining };
+					Years=_options.Years,FillRemaining=_options.FillRemaining,Labels=_options.Labels };
 				Coverage.Result coverage=null;
-				Time("Generate synthetic 25.3.48 database",() => {
+				Time("Generate synthetic 25.3.48 database (DataBaseVersion "+settings.DataBaseVersion+", ProgramVersion "+settings.ProgramVersion+")",() => {
 					SchemaBuilder.Create(db,source,true,_options.SchemaSql,_options.SchemaFrom);
 					Generator.Run(db,source,settings,x => _log("  "+x));
 					coverage=Coverage.Check(db,source);
@@ -177,7 +180,10 @@ namespace AdoptionValidation {
 				FloatCheck.Result floatCheck=Time("FLOAT values a logical backup would round (float-check)",() => FloatCheck.Run(db,source));
 				_run.FloatCheck=floatCheck.Describe();
 				//What adoption's fork migration will change in the source's rows (runbook step 0.2): the fixture's report rows under unknown names.
-				MigrationPreview.Result preview=Time("Fork migration preview (migration-preview)",() => MigrationPreview.Run(db,source));
+				//As the migration-preview command does: a business layer connection for the schema check of version labels (read-only).
+				BusinessLayer.Connect(server,source);
+				MigrationPreview.Result preview=Time("Fork migration preview (migration-preview)",
+					() => MigrationPreview.Run(db,source,x => SchemaVerifier.VerifyDatabase25_3_48(x)));
 				_run.ListMigrationPreview=preview.Lines();
 				//3. The copy that is adopted, made the way runbook step 3.2 makes it (or, with --copy dump, by a mariadb-dump backup and the restore). Both
 				//only create a new database, so a copy left by an earlier --keep run with the same tag is dropped first.
@@ -212,8 +218,12 @@ namespace AdoptionValidation {
 				Check("A1","Fork startup guard refuses the unadopted copy",guardBefore.Action==ForkGuardAction.NeedsAdoption,
 					guardBefore.Action+" (exit code "+guardBefore.ExitCode+")");
 				List<StartupScenarioResult> listBefore=RunStartupScenarios("unadopted copy");
-				StartupScenarioResult control=listBefore.First(x => x.Scenario.StartsWith("Open Dental 25.3.48, update server"));
-				Check("A2","Startup model: an Open Dental 25.3.48 client uses the unadopted copy (control)",control.Outcome==OdStartupOutcome.Proceeds,
+				//The control client is the one of the copy's ProgramVersion. On the office labels its DataBaseVersion (25.3.47.0) is older than the
+				//client, which the model counts as a conversion with no step to run; it still uses the copy.
+				string versionControl=settings.ProgramVersion.Substring(0,settings.ProgramVersion.LastIndexOf('.'));
+				StartupScenarioResult control=listBefore.First(x => x.Scenario.StartsWith("Open Dental "+versionControl+", update server"));
+				Check("A2","Startup model: an Open Dental "+versionControl+" client uses the unadopted copy (control)",
+					control.Outcome==OdStartupOutcome.Proceeds || (_options.Labels!=VersionLabels.Reference && control.Outcome==OdStartupOutcome.ConvertsAndProceeds),
 					control.Summary+"; a 25.4.30 update server: "+listBefore.First(x => x.Scenario.StartsWith("Open Dental 25.4.30, update server")).Summary);
 				//5. to 7. Preflight, adoption (Adoption.Run, what FormAdoptDatabase calls), the fork migration with every step again, the schema verifier,
 				//the rehash (SecurityHash.RehashNow, what Database Maintenance's Security Hashes tool calls) and the row check against the source:
@@ -222,8 +232,11 @@ namespace AdoptionValidation {
 				HeadlessAdoption.Result adoption=HeadlessAdoption.Run(adopted,x => { _run.ListAdoptionLog.Add(x); _log("  "+x); },(name,action) => Time(name,action),
 					server,source);
 				AdoptionPreflight preflight=adoption.Preflight;
-				Check("A3","Preflight accepts the copy",preflight.CanAdopt && !preflight.IsResume && preflight.VersionSource==new Version(25,3,48,0),
-					preflight.Message);
+				bool isLabelsExpected=_options.Labels==VersionLabels.Reference ? preflight.Labels==null
+					: preflight.Labels!=null && preflight.Labels.DataBaseVersion.ToString(4)==settings.DataBaseVersion
+						&& preflight.Labels.ProgramVersion.ToString(4)==settings.ProgramVersion && preview.PreflightVersions!=null && preview.PreflightVersions.CanAdopt;
+				Check("A3","Preflight accepts the copy",preflight.CanAdopt && !preflight.IsResume && preflight.VersionSource==new Version(25,3,48,0)
+					&& isLabelsExpected,preflight.Message);
 				AdoptionResult adoptionResult=adoption.Adoption??new AdoptionResult();
 				Check("A4","Adoption finished",adoption.Adoption!=null && adoption.IsAdoptionFinished,
 					"dropped column "+adoptionResult.WasPortalEmailColumnDropped+", indexes "+string.Join(",",adoptionResult.ListIndexesDropped)+", "
@@ -698,7 +711,9 @@ namespace AdoptionValidation {
 			string latest=ForkMigrationRunner.GetSteps().Max(x => x.Level).ToString(CultureInfo.InvariantCulture);
 			bool isSentinel=state.DataBaseVersion==ForkVersions.SentinelVersion.ToString(4) && state.ProgramVersion==ForkVersions.SentinelVersion.ToString(4);
 			bool isMarked=state.ForkSchemaLevel==latest && state.OdSchemaCompat==SchemaVerifier.ReferenceVersion
-				&& Adoption.ParseAdoptedFromSource(state.ForkAdoptedFrom)==new Version(25,3,48,0) && state.IsAdoptionRecordFinished;
+				&& Adoption.ParseAdoptedFromSource(state.ForkAdoptedFrom)==new Version(25,3,48,0) && state.IsAdoptionRecordFinished
+				&& (_options.Labels==VersionLabels.Reference ? Adoption.ParseAdoptedFromLabels(state.ForkAdoptedFrom)==null
+					: Adoption.ParseAdoptedFromLabels(state.ForkAdoptedFrom)!=null);
 			Check("V8","Sentinel versions and fork markers set",isSentinel && isMarked,
 				"DataBaseVersion "+state.DataBaseVersion+", ProgramVersion "+state.ProgramVersion+", ForkSchemaLevel "+state.ForkSchemaLevel+" (latest step "+latest
 				+"), OdSchemaCompat "+state.OdSchemaCompat+", ForkAdoptedFrom "+state.ForkAdoptedFrom);

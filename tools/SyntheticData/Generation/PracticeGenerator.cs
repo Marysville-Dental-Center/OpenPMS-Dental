@@ -68,9 +68,10 @@ namespace SyntheticData.Generation {
 		private static void WritePreferences(World world,Db db) {
 			string asOf=world.AsOf.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
 			Dictionary<string,string> dictPrefs=new Dictionary<string,string> {
-				//An Open Dental 25.3.48 database: the version the adoption tool expects from the office.
-				["DataBaseVersion"]="25.3.48.0",
-				["ProgramVersion"]="25.3.48.0",
+				//An Open Dental 25.3.48 database, labelled 25.3.48.0 or, with the office labels, DataBaseVersion 25.3.47.0 and ProgramVersion 25.3.54.0 as the
+				//office database is (the same schema; ForkVersions.ListAdoptableLabels).
+				["DataBaseVersion"]=world.Settings.DataBaseVersion,
+				["ProgramVersion"]=world.Settings.ProgramVersion,
 				["PracticeTitle"]="Fictional Family Dental",
 				["PracticeAddress"]="100 Lantern Way",
 				["PracticeAddress2"]="Suite 2",
@@ -83,7 +84,8 @@ namespace SyntheticData.Generation {
 				["ApptMirrorSecondary"]="1",
 				//Generation record, so a report can name the data it came from. Not an Open Dental preference.
 				["SyntheticDataInfo"]="seed="+world.Settings.Seed+";size="+world.Settings.Size.ToString().ToLowerInvariant()+";families="+world.Settings.FamilyCount
-					+";years="+world.Settings.YearCount+";asOf="+asOf+";tool=SyntheticData 1",
+					+";years="+world.Settings.YearCount+";asOf="+asOf
+					+(world.Settings.Labels==VersionLabels.Reference ? "" : ";labels="+world.Settings.Labels.ToString().ToLowerInvariant())+";tool=SyntheticData 1",
 			};
 			foreach(KeyValuePair<string,string> pair in dictPrefs) {
 				long count=db.ScalarLong("SELECT COUNT(*) FROM preference WHERE PrefName="+SqlLiteral.Quote(pair.Key));

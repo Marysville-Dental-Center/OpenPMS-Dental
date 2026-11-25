@@ -42,6 +42,10 @@ namespace AdoptionValidation {
 		public class Result {
 			public string Database;
 			public string DataBaseVersion;
+			public string ProgramVersion;
+			///<summary>What Adoption.Preflight will say of the version preferences (and, for a pair on ForkVersions.ListAdoptableLabels such as
+			///25.3.47.0 with 25.3.54.0, of the schema, when Run was given the schema verifier). Null for a database with an adoption record.</summary>
+			public AdoptionPreflight PreflightVersions;
 			///<summary>True when the database comes from 24.3: then the steps also convert the schema and add rows, which this preview does not list.
 			///</summary>
 			public bool IsFrom24_3;
@@ -81,8 +85,13 @@ namespace AdoptionValidation {
 			///<summary>What the command prints.</summary>
 			public List<string> Lines() {
 				List<string> listLines=new List<string>();
-				listLines.Add("Fork migration preview of "+Database+" (DataBaseVersion "+(DataBaseVersion??"missing")+"): "+CountRows+" displayreport rows read. "
-					+"Step "+StepReportRows+" (report rows) on the reports this program names itself:");
+				listLines.Add("Fork migration preview of "+Database+" (DataBaseVersion "+(DataBaseVersion??"missing")+", ProgramVersion "
+					+(ProgramVersion??"missing")+"): "+CountRows+" displayreport rows read. Step "+StepReportRows+" (report rows) on the reports this program "
+					+"names itself:");
+				if(PreflightVersions!=null) {
+					listLines.Insert(0,"Versions: "+(PreflightVersions.CanAdopt ? "adoptable. " : (PreflightVersions.IsSchemaCheckPending ? "" : "NOT adoptable. "))
+						+PreflightVersions.Message);
+				}
 				foreach(ReportRows25_3.ReportTargetPlan plan in ListPlans) {
 					listLines.Add("  "+plan.Describe());
 				}
@@ -203,7 +212,10 @@ namespace AdoptionValidation {
 			get { return new ReportRows25_3Step().Level; }
 		}
 
-		public static Result Run(Db db,string database) {
+		///<summary>verifySchema, given the database name, compares it with the Open Dental 25.3.48 reference (SchemaVerifier.VerifyDatabase25_3_48
+		///over a business layer connection to the same server). It is called only for a pair on ForkVersions.ListAdoptableLabels; without it the
+		///preview says the schema has not been checked.</summary>
+		public static Result Run(Db db,string database,Func<string,SchemaVerifyResult> verifySchema=null) {
 			LocalOnly.EnsureSafeIdentifier(database);
 			if(!db.DatabaseExists(database)) {
 				throw new RefusedException("Database "+database+" does not exist on this server.");
@@ -211,6 +223,13 @@ namespace AdoptionValidation {
 			Result result=new Result { Database=database };
 			ForkDbState state=HeadlessAdoption.ReadState(db,database);
 			result.DataBaseVersion=state.DataBaseVersion;
+			result.ProgramVersion=state.ProgramVersion;
+			if(state.ForkAdoptedFrom==null && !state.IsForkMarked) {
+				result.PreflightVersions=Adoption.Preflight(state);
+				if(result.PreflightVersions.IsSchemaCheckPending && verifySchema!=null) {
+					result.PreflightVersions=Adoption.Preflight(state,verifySchema(database));
+				}
+			}
 			result.IsFrom24_3=state.ForkAdoptedFrom==null && Seed25_3.IsVersionFrom24_3(state.DataBaseVersion);
 			List<ReportRows25_3.DisplayReportRow> listRows=ReadRows(db,database);
 			result.CountRows=listRows.Count;

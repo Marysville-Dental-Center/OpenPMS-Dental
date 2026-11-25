@@ -197,9 +197,10 @@ namespace AdoptionValidation {
 					+string.Join("; ",listConnections));
 			}
 			ForkDbState stateOriginal=ReadState(db,original);
-			if(stateOriginal.IsForkMarked || stateOriginal.ForkAdoptedFrom!=null || !ForkVersions.IsAdoptable(ForkVersions.ParseVersion(stateOriginal.DataBaseVersion))) {
+			if(stateOriginal.IsForkMarked || stateOriginal.ForkAdoptedFrom!=null || !ForkVersions.HasAdoptableVersions(stateOriginal)) {
 				throw new RefusedException("--original "+original+" is not an unadopted Open Dental database on the allowlist (DataBaseVersion "
-					+(stateOriginal.DataBaseVersion??"missing")+(stateOriginal.ForkAdoptedFrom==null ? "" : ", ForkAdoptedFrom "+stateOriginal.ForkAdoptedFrom)
+					+(stateOriginal.DataBaseVersion??"missing")+", ProgramVersion "+(stateOriginal.ProgramVersion??"missing")
+					+(stateOriginal.ForkAdoptedFrom==null ? "" : ", ForkAdoptedFrom "+stateOriginal.ForkAdoptedFrom)
 					+"). It must name the Open Dental database the copy was made from.");
 			}
 			ForkDbState stateCopy=ReadState(db,database);

@@ -27,6 +27,19 @@ namespace SyntheticData.Generation {
 		public string ConfigFrom;
 		///<summary>When above 0, every table still empty at the end gets this many schema-valid filler rows.</summary>
 		public int FillRemaining;
+		///<summary>The version labels written to DataBaseVersion and ProgramVersion. Same schema either way (25.3.48).</summary>
+		public VersionLabels Labels=VersionLabels.Reference;
+
+		///<summary>DataBaseVersion of the generated database: 25.3.48.0, or 25.3.47.0 for the office labels (Open Dental changes DataBaseVersion
+		///only when a convert step runs, and 25.3.47 had the last one before 25.3.54).</summary>
+		public string DataBaseVersion {
+			get { return Labels==VersionLabels.Office ? "25.3.47.0" : "25.3.48.0"; }
+		}
+
+		///<summary>ProgramVersion of the generated database: 25.3.48.0, or 25.3.54.0 for the office labels.</summary>
+		public string ProgramVersion {
+			get { return Labels==VersionLabels.Office ? "25.3.54.0" : "25.3.48.0"; }
+		}
 
 		public int FamilyCount {
 			get {
@@ -83,9 +96,26 @@ namespace SyntheticData.Generation {
 			}
 		}
 
+		public static VersionLabels ParseLabels(string text) {
+			switch((text??"").Trim().ToLowerInvariant()) {
+				case "reference": return VersionLabels.Reference;
+				case "office": return VersionLabels.Office;
+				default: throw new ArgumentException("Version labels must be reference (25.3.48.0 and 25.3.48.0) or office (25.3.47.0 and 25.3.54.0).");
+			}
+		}
+
 		public string Describe() {
 			return "seed "+Seed+", size "+Size.ToString().ToLowerInvariant()+" ("+FamilyCount+" families, "+YearCount+" year(s) of history), as of "
-				+AsOf.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
+				+AsOf.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture)
+				+(Labels==VersionLabels.Reference ? "" : ", DataBaseVersion "+DataBaseVersion+" with ProgramVersion "+ProgramVersion);
 		}
+	}
+
+	///<summary>The DataBaseVersion and ProgramVersion pair of a generated database. The schema is the 25.3.48 one either way.</summary>
+	public enum VersionLabels {
+		///<summary>DataBaseVersion and ProgramVersion 25.3.48.0, the version of the schema.</summary>
+		Reference,
+		///<summary>DataBaseVersion 25.3.47.0 and ProgramVersion 25.3.54.0, as the office database reads (ForkVersions.ListAdoptableLabels).</summary>
+		Office,
 	}
 }

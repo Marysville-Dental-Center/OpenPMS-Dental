@@ -26,6 +26,7 @@ namespace SyntheticData {
 Usage:
   SyntheticData generate [--database synth_253] [--size small|medium|large] [--seed N] [--as-of yyyy-MM-dd]
                          [--families N] [--years N] [--config-from DB] [--fill-remaining N] [--force]
+                         [--version-labels reference|office]
                          [--schema-sql PATH | --schema-from DB] [--out report.json]
   SyntheticData schema   [--database synth_253] [--force] [--schema-sql PATH | --schema-from DB]
   SyntheticData validate [--database synth_253] [--as-of yyyy-MM-dd] [--out report.json] [--strict]
@@ -34,7 +35,8 @@ Usage:
 
 Commands:
   generate   Create the database from the 25.3.48 schema (drop it first with --force) and fill it. Prints a summary; with --out
-             also writes the validation report.
+             also writes the validation report. --version-labels office writes DataBaseVersion 25.3.47.0 and
+             ProgramVersion 25.3.54.0, as the office database reads, instead of 25.3.48.0 twice (reference, the default).
   schema     Only create the empty schema copy.
   validate   Record row counts, per-table and per-column checksums and business totals (read-only). --strict fails when a
              check.* total is not 0.
@@ -84,6 +86,7 @@ variable (a schema-only dump of an Open Dental 25.3.48 database), falling back t
 					case "--years": options.Generation.Years=ParseInt(arg,Next()); break;
 					case "--config-from": options.Generation.ConfigFrom=Next(); break;
 					case "--fill-remaining": options.Generation.FillRemaining=ParseInt(arg,Next()); break;
+					case "--version-labels": options.Generation.Labels=GenerationSettings.ParseLabels(Next()); break;
 					case "--schema-sql": options.SchemaSql=Next(); options.SchemaFrom=null; break;
 					case "--schema-from": options.SchemaFrom=Next(); options.SchemaSql=null; break;
 					case "--force": options.Force=true; break;

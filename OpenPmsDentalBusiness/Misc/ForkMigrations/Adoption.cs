@@ -9,6 +9,7 @@ using System.Linq;
 using CodeBase;
 using CodeBase.VendorDirect;
 using DataConnectionBase;
+using OpenPmsDentalBusiness.ForkMigrations;
 
 namespace OpenPmsDentalBusiness {
 	public class AdoptionPreflight {
@@ -18,11 +19,23 @@ namespace OpenPmsDentalBusiness {
 		public bool IsAlreadyAdopted;
 		///<summary>The Open Dental version the database comes from (on the allowlist when CanAdopt).</summary>
 		public Version VersionSource;
+		///<summary>Set when the database's DataBaseVersion and ProgramVersion are a pair on ForkVersions.ListAdoptableLabels (25.3.47.0 with 25.3.54.0)
+		///rather than VersionSource itself. Such a database is adopted as VersionSource only when its schema equals that version's reference exactly,
+		///the office's patient._portal_active_email column and key aside.</summary>
+		public AdoptableVersionLabels Labels;
+		///<summary>True when Labels is set and the schema has not been verified yet (Preflight(ForkDbState) without a schema result). CanAdopt is false
+		///then; Preflight() verifies the connected database and decides.</summary>
+		public bool IsSchemaCheckPending;
+		///<summary>The schema differences that refused a Labels pair. Empty otherwise.</summary>
+		public List<string> ListSchemaProblems=new List<string>();
 		public string Message="";
 	}
 
 	public class AdoptionResult {
 		public Version VersionSource;
+		///<summary>The DataBaseVersion and ProgramVersion pair the database had when it was adopted through ForkVersions.ListAdoptableLabels. Null
+		///otherwise.</summary>
+		public AdoptableVersionLabels Labels;
 		public bool WasPortalEmailColumnDropped;
 		public List<string> ListIndexesDropped=new List<string>();
 		public long CountUpdateFileRowsDeleted;
@@ -30,7 +43,11 @@ namespace OpenPmsDentalBusiness {
 		public List<string> ListLog=new List<string>();
 	}
 
-	///<summary>Adopts an Open Dental database whose DataBaseVersion is on the allowlist (24.3.63.0 or 25.3.48.0). Every step is idempotent, and the
+	///<summary>Adopts an Open Dental database whose DataBaseVersion is on the allowlist (24.3.63.0 or 25.3.48.0, ProgramVersion equal to it), or whose
+	///DataBaseVersion and ProgramVersion are a pair on ForkVersions.ListAdoptableLabels (25.3.47.0 with 25.3.54.0) and whose schema then equals the
+	///25.3.48 reference exactly (the office's patient._portal_active_email aside). Such a pair is adopted as 25.3.48: ForkAdoptedFrom says
+	///source=25.3.48.0, so every fork migration step treats it as a 25.3.48 database, and records the real labels in odDataBaseVersion= and
+	///odProgramVersion=. Every step is idempotent, and the
 	///order is chosen so an interrupted adoption (MyISAM has no transactions) can be run again to finish:
 	///1. ForkAdoptedFrom records the start. 2. The office-only patient._portal_active_email column and its unique index are dropped. 3. Open Dental's
 	///UpdateFiles and UpdateFilesSegment rows are deleted unread. 4. Preferences that point at Open Dental's servers are blanked. 5. DataBaseVersion and
@@ -51,8 +68,10 @@ namespace OpenPmsDentalBusiness {
 			"EmailHostingEndpoint",
 		};
 
-		///<summary>Decides from the version preferences and markers alone whether the database can be adopted.</summary>
-		public static AdoptionPreflight Preflight(ForkDbState forkDbState) {
+		///<summary>Decides from the version preferences and markers whether the database can be adopted. A pair on ForkVersions.ListAdoptableLabels
+		///also needs the schema verifier's result for the pair's schema version (SchemaVerifier.VerifyDatabase25_3_48); without it CanAdopt is false
+		///and IsSchemaCheckPending true.</summary>
+		public static AdoptionPreflight Preflight(ForkDbState forkDbState,SchemaVerifyResult schemaVerifyResult=null) {
 			AdoptionPreflight adoptionPreflight=new AdoptionPreflight();
 			if(forkDbState.IsForkMarked) {
 				adoptionPreflight.IsAlreadyAdopted=true;
@@ -82,9 +101,15 @@ namespace OpenPmsDentalBusiness {
 			Version versionDb=ForkVersions.ParseVersion(forkDbState.DataBaseVersion);
 			Version versionProgram=ForkVersions.ParseVersion(forkDbState.ProgramVersion);
 			adoptionPreflight.VersionSource=versionDb;
+			AdoptableVersionLabels labels=ForkVersions.FindAdoptableLabels(versionDb,versionProgram);
+			if(labels!=null) {
+				return PreflightLabels(adoptionPreflight,labels,schemaVerifyResult);
+			}
 			if(!ForkVersions.IsAdoptable(versionDb)) {
-				adoptionPreflight.Message="DataBaseVersion is "+(forkDbState.DataBaseVersion??"missing")+". Only these Open Dental versions can be adopted: "
-					+string.Join(", ",ForkVersions.ListAdoptableVersions.Select(x => x.ToString(4)))+".";
+				adoptionPreflight.Message="DataBaseVersion is "+(forkDbState.DataBaseVersion??"missing")+" (ProgramVersion "+(forkDbState.ProgramVersion??"missing")
+					+"). Only these Open Dental versions can be adopted: "+string.Join(", ",ForkVersions.ListAdoptableVersions.Select(x => x.ToString(4)))
+					+" with ProgramVersion equal to it, or "+string.Join(", ",ForkVersions.ListAdoptableLabels.Select(x => x.ToString()))
+					+" when the schema matches exactly.";
 				return adoptionPreflight;
 			}
 			if(versionProgram!=versionDb) {
@@ -107,7 +132,11 @@ namespace OpenPmsDentalBusiness {
 				adoptionPreflight.Message="Adoption needs a direct connection to a MySQL or MariaDB database.";
 				return adoptionPreflight;
 			}
-			adoptionPreflight=Preflight(ForkVersions.ReadState());
+			ForkDbState forkDbState=ForkVersions.ReadState();
+			adoptionPreflight=Preflight(forkDbState);
+			if(adoptionPreflight.IsSchemaCheckPending) {
+				adoptionPreflight=Preflight(forkDbState,VerifySchema(adoptionPreflight.Labels.SchemaVersion));
+			}
 			if(!adoptionPreflight.CanAdopt) {
 				return adoptionPreflight;
 			}
@@ -123,6 +152,70 @@ namespace OpenPmsDentalBusiness {
 				return adoptionPreflight;
 			}
 			return adoptionPreflight;
+		}
+
+		///<summary>A labels pair is adoptable only when the schema equals the reference of its schema version exactly: no mismatch, and no allowed
+		///difference other than the office's patient._portal_active_email column and its key (adoption drops them). The HQ-only, legacy and fork
+		///tables that SchemaVerifier otherwise allows are not in an Open Dental database with these labels, so here they count as differences.</summary>
+		private static AdoptionPreflight PreflightLabels(AdoptionPreflight adoptionPreflight,AdoptableVersionLabels labels,
+			SchemaVerifyResult schemaVerifyResult)
+		{
+			adoptionPreflight.Labels=labels;
+			adoptionPreflight.VersionSource=labels.SchemaVersion;
+			string schema=labels.SchemaVersion.ToString(3);
+			string described="Open Dental "+labels.ProgramVersion.ToString(3)+" database (DataBaseVersion "+labels.DataBaseVersion.ToString(4)
+				+", ProgramVersion "+labels.ProgramVersion.ToString(4)+")";
+			if(schemaVerifyResult==null) {
+				adoptionPreflight.IsSchemaCheckPending=true;
+				adoptionPreflight.Message=described+". It can be adopted as Open Dental "+schema+" only when its schema equals the "+schema
+					+" reference exactly; the schema has not been checked.";
+				return adoptionPreflight;
+			}
+			adoptionPreflight.ListSchemaProblems=GetLabelsSchemaProblems(schemaVerifyResult);
+			if(adoptionPreflight.ListSchemaProblems.Count>0) {
+				adoptionPreflight.Message=described+". Its schema differs from the Open Dental "+schema+" reference, so it is not adopted ("
+					+adoptionPreflight.ListSchemaProblems.Count+" difference(s)): "+string.Join("; ",adoptionPreflight.ListSchemaProblems.Take(20))
+					+(adoptionPreflight.ListSchemaProblems.Count>20 ? "; and "+(adoptionPreflight.ListSchemaProblems.Count-20)+" more" : "")+".";
+				return adoptionPreflight;
+			}
+			adoptionPreflight.CanAdopt=true;
+			adoptionPreflight.Message=described+". Its schema equals the Open Dental "+schema+" reference ("+schemaVerifyResult.CountTablesActual
+				+" tables). It can be adopted as Open Dental "+schema+".";
+			return adoptionPreflight;
+		}
+
+		///<summary>The differences that refuse a labels pair: every mismatch, and every allowed difference other than the office's
+		///patient._portal_active_email column and its key. Empty when the schema matches exactly.</summary>
+		public static List<string> GetLabelsSchemaProblems(SchemaVerifyResult schemaVerifyResult) {
+			return schemaVerifyResult.ListDifferences
+				.Where(x => !x.IsExcepted || !IsPortalEmailDifference(x))
+				.Select(x => x.ToString())
+				.ToList();
+		}
+
+		private static bool IsPortalEmailDifference(SchemaDifference difference) {
+			return string.Equals(difference.Table,"patient",StringComparison.OrdinalIgnoreCase)
+				&& (string.Equals(difference.Item,PATIENT_PORTAL_EMAIL_COLUMN,StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(difference.Item,PATIENT_PORTAL_EMAIL_INDEX,StringComparison.OrdinalIgnoreCase));
+		}
+
+		///<summary>Verifies the connected database against the reference of the schema version. 25.3.48 is the only reference for a database before
+		///adoption.</summary>
+		private static SchemaVerifyResult VerifySchema(Version versionSchema) {
+			if(versionSchema==new Version(25,3,48,0)) {
+				return SchemaVerifier.VerifyDatabase25_3_48();
+			}
+			throw new ApplicationException("There is no reference schema to verify an Open Dental "+versionSchema.ToString(3)+" database against.");
+		}
+
+		///<summary>The start of a ForkAdoptedFrom value: source= the schema version, then, for a labels pair, the real DataBaseVersion and ProgramVersion
+		///(odDataBaseVersion=, odProgramVersion=), then started=.</summary>
+		public static string FormatAdoptedFromStart(Version versionSource,AdoptableVersionLabels labels,string started) {
+			string text="source="+versionSource.ToString(4);
+			if(labels!=null) {
+				text+=";odDataBaseVersion="+labels.DataBaseVersion.ToString(4)+";odProgramVersion="+labels.ProgramVersion.ToString(4);
+			}
+			return text+";started="+started;
 		}
 
 		///<summary>Adopts the connected database. Throws if the preflight fails or a step fails; running it again finishes an interrupted adoption.
@@ -141,15 +234,21 @@ namespace OpenPmsDentalBusiness {
 			}
 			Version versionSource=adoptionPreflight.VersionSource;
 			adoptionResult.VersionSource=versionSource;
+			AdoptableVersionLabels labels=adoptionPreflight.Labels;
 			string started=FormatUtc(dateTimeUtcNow??DateTime.UtcNow);
 			if(adoptionPreflight.IsResume) {
-				Log("Finishing the adoption started earlier: "+ForkVersions.GetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM));
-				started=ParseAdoptedFromField(ForkVersions.GetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM),"started")??started;
+				string adoptedFromStarted=ForkVersions.GetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM);
+				Log("Finishing the adoption started earlier: "+adoptedFromStarted);
+				started=ParseAdoptedFromField(adoptedFromStarted,"started")??started;
+				labels=ParseAdoptedFromLabels(adoptedFromStarted);
 			}
 			else {
-				ForkVersions.SetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM,"source="+versionSource.ToString(4)+";started="+started);
-				Log("Adoption from Open Dental "+versionSource.ToString(4)+" started.");
+				ForkVersions.SetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM,FormatAdoptedFromStart(versionSource,labels,started));
+				Log("Adoption from Open Dental "+versionSource.ToString(4)+" started."+(labels==null ? "" : " The database is labelled DataBaseVersion "
+					+labels.DataBaseVersion.ToString(4)+", ProgramVersion "+labels.ProgramVersion.ToString(4)+"; its schema equals the "
+					+versionSource.ToString(3)+" reference."));
 			}
+			adoptionResult.Labels=labels;
 			//2. The office-only generated column and its unique index.
 			DropPortalActiveEmail(adoptionResult,Log);
 			//3. Open Dental's update files: deleted without being read.
@@ -183,7 +282,7 @@ namespace OpenPmsDentalBusiness {
 				Log("No fork migration steps in this build.");
 			}
 			//8. Done.
-			ForkVersions.SetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM,"source="+versionSource.ToString(4)+";started="+started
+			ForkVersions.SetMarker(ForkVersions.PREF_FORK_ADOPTED_FROM,FormatAdoptedFromStart(versionSource,labels,started)
 				+";adopted="+FormatUtc(dateTimeUtcNow??DateTime.UtcNow));
 			Log("Adoption finished.");
 			ODException.SwallowAnyException(() => {
@@ -191,7 +290,8 @@ namespace OpenPmsDentalBusiness {
 				securityLog.PermType=EnumPermType.UpdateInstall;
 				securityLog.UserNum=0;//Adoption runs before anyone logs in.
 				securityLog.LogDateTime=DateTime.Now;
-				securityLog.LogText="Database adopted from Open Dental "+versionSource.ToString(4)+".";
+				securityLog.LogText="Database adopted from Open Dental "+versionSource.ToString(4)+(labels==null ? "" : " (DataBaseVersion "
+					+labels.DataBaseVersion.ToString(4)+", ProgramVersion "+labels.ProgramVersion.ToString(4)+")")+".";
 				securityLog.CompName=Security.GetComplexComputerName();
 				SecurityLogs.MakeLogEntry(securityLog);
 			});
@@ -259,6 +359,14 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The source version from a ForkAdoptedFrom value ("source=25.3.48.0;started=...;adopted=..."), or null.</summary>
 		public static Version ParseAdoptedFromSource(string adoptedFrom) {
 			return ForkVersions.ParseVersion(ParseAdoptedFromField(adoptedFrom,"source"));
+		}
+
+		///<summary>The real DataBaseVersion and ProgramVersion pair that a ForkAdoptedFrom value records (odDataBaseVersion=, odProgramVersion=), as its
+		///ForkVersions.ListAdoptableLabels entry. Null when it records none or a pair not on the list.</summary>
+		public static AdoptableVersionLabels ParseAdoptedFromLabels(string adoptedFrom) {
+			Version versionDb=ForkVersions.ParseVersion(ParseAdoptedFromField(adoptedFrom,"odDataBaseVersion"));
+			Version versionProgram=ForkVersions.ParseVersion(ParseAdoptedFromField(adoptedFrom,"odProgramVersion"));
+			return ForkVersions.FindAdoptableLabels(versionDb,versionProgram);
 		}
 
 		///<summary>One field of a ForkAdoptedFrom value, or null.</summary>
