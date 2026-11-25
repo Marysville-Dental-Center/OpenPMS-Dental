@@ -1,0 +1,36 @@
+# UI-COLS gallery (GridColumnGallery): the grids drawn as strips before and after, each block (one grid's columns, or one display-field
+# category of DisplayFields) of the file that has a column with this heading, or for DisplayFields.cs the method and category.
+file	title
+OpenPmsDental/Forms Reports/FormRpProcNote.cs	Surf
+OpenPmsDental/Forms/FormASAP.cs	Date
+OpenPmsDental/Forms/FormAuditOrtho.cs	Date Time
+OpenPmsDental/Forms/FormCertifications.cs	Date
+OpenPmsDental/Forms/FormClaimEdit.cs	Date
+OpenPmsDental/Forms/FormClaimOverpay.cs	Date
+OpenPmsDental/Forms/FormClaimPayList.cs	Date
+OpenPmsDental/Forms/FormClaimPayTotal.cs	Date
+OpenPmsDental/Forms/FormEtrans835ClaimPay.cs	Date
+OpenPmsDental/Forms/FormExamSheets.cs	Time
+OpenPmsDental/Forms/FormIncomeTransferManage.cs	Date
+OpenPmsDental/Forms/FormInsPlans.cs	Phone
+OpenPmsDental/Forms/FormInsPlansMerge.cs	Phone
+OpenPmsDental/Forms/FormLabCases.cs	Appt Date Time
+OpenPmsDental/Forms/FormPatientForms.cs	Updated
+OpenPmsDental/Forms/FormPayment.cs	Date
+OpenPmsDental/Forms/FormPayPlan.cs	Date
+OpenPmsDental/Forms/FormPayPlanDynamic.cs	Date
+OpenPmsDental/Forms/FormPreAuthReminder.cs	Surf
+OpenPmsDental/Forms/FormSheetProcSelect.cs	Surf
+OpenPmsDental/Forms/FormTaskEdit.cs	Date Time
+OpenPmsDental/Forms/FormTrackNext.cs	Date
+OpenPmsDental/Forms/FormTreatPlanCurEdit.cs	Surf
+OpenPmsDental/Forms/FormUnsched.cs	Date
+OpenPmsDental/Forms/FormUnschedListPatient.cs	Date
+OpenPmsDental/Main Modules/ControlAccount.cs	Bal
+OpenPmsDental/Main Modules/ControlAccount.cs	Principal
+OpenPmsDental/Main Modules/ControlAccount.cs	Total
+OpenPmsDental/Main Modules/ControlChart.cs	Surf
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.None
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.ProcedureGroupNote
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.TreatmentPlanModule
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	GetDefaultList.LimitedCustomStatement

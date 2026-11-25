@@ -1,0 +1,21 @@
+# UI-COLS (docs/port-notes/UI-COLS.md): grid columns whose heading says a value type the column does not hold, or a value the code formats
+# narrower or wider. kind: date, datetime, time, money, percent, phone, tooth, surface, code, or other; value: the widest normal value the
+# code shows (blank: the kind's value in GridColumnFit.DictValues; blank with "other": not checked). The test still measures each value.
+file	title	width	kind	value	reason
+OpenPmsDental/Forms/FormApptEdit.cs	DateTime	80	date		The commlog grid's DateTime column shows the date only (ToShortDateString).
+OpenPmsDental/Forms/FormBillingOptions.cs	Ins	40	other	any	Insurance pending of a dunning message: Y, N or any; not money.
+OpenPmsDental/Forms/FormDunningSetup.cs	Ins	40	other	any	Insurance pending of a dunning message: Y, N or any; not money.
+OpenPmsDental/Forms/FormConfirmList.cs	Date Time	70	other	12/31/2026	The appointment's date and time (DateTime.ToString) on two lines by design since Open Dental (wrapped in the old font too); the date line fits.
+OpenPmsDental/Forms/FormEhrLabOrderImport.cs	Date Time	80	date		Shows the observation date only (ToShortDateString).
+OpenPmsDental/Forms/FormEhrLabOrders.cs	Date Time	80	date		Shows the observation date only (ToShortDateString).
+OpenPmsDental/Forms/FormEtrans835s.cs	Code	37	other	CHK	The payment method code of the ERA (CHK, ACH, BOP, FWT, NON), not a procedure code.
+OpenPmsDental/Forms/FormInsBenefits.cs	Pat	35	other	X	An X when the benefit is the patient's (patient override), not money.
+OpenPmsDental/Forms/FormInsPlan.cs	Pat	28	other	X	An X when the benefit is the patient's (patient override), not money.
+OpenPmsDental/Forms/FormInsPlan.cs	%	30	other	100	The benefit's percentage as a number without the sign (Percent.ToString()).
+OpenPmsDental/Forms/FormInsPlan.cs	Amt	40	other	9,999	The benefit's amount without cents (MonetaryAmt.ToString("n0")).
+OpenPmsDental/Forms/FormPayPlan.cs	Due	60	money		The amortization schedule's amount due, not a date.
+OpenPmsDental/Forms/FormSupplyReceive.cs	Received	60	other	999	The quantity received so far, not a date.
+OpenPmsDental/Forms/FormXchargeTokenTool.cs	Exp	50	other	1226	The card's expiration month and year (MMyy).
+OpenPmsDental/Main Modules/ControlAccount.cs	Time	42	other	12:00p	The commlog time as the account module formats it (h:mm and a or p, AccountModules).
+OpenPmsDental/Main Modules/ControlManage.cs	Sent	63	time		The text message's time sent (ToShortTimeString).
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	Time	40	other	12:00p	The progress notes' time as the chart formats it (h:mm and a or p, ChartModules).

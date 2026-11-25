@@ -241,8 +241,8 @@ namespace UiRefreshTests.Scan {
 		}
 
 		///<summary>One preference in the cache for a while: the cache filled with it alone when empty (cleared again), else the key added (removed
-		///again) when the cache has not got it.</summary>
-		private class PrefScope:IDisposable {
+		///again) when the cache has not got it. UI-COLS: also GridColumnFitTests' display-field defaults.</summary>
+		internal class PrefScope:IDisposable {
 			private readonly object _prefCache;
 			private readonly string _key;
 			private readonly bool _wasEmpty;

@@ -408,10 +408,17 @@ namespace UiRefreshTests {
 		///100% size in boxes of the 150% size. At a scale other than 1 the galleries paint these controls through their OnPaint into a picture
 		///of that dpi (PaintAtDpi), so their text has the size Windows gives it; every other control is printed as before.</summary>
 		public static float PaintDpiScale=1f;
+		///<summary>UI-COLS: GridOD is painted at the screen's dpi too (its cells, headers and title are GDI+ text in fonts of LayoutManager's zoom
+		///only, like the insurance summaries), so a 150% picture shows the cells' text at the size Windows gives it. Off unless the UI-COLS
+		///gallery sets it, so the other galleries draw as before.</summary>
+		public static bool IsGridPaintedAtDpi;
 
 		///<summary>The controls painted at the screen's dpi at a scale other than 1 (see PaintDpiScale): their own OnPaint draws all of their
 		///text with GDI+ (Graphics.DrawString) in fonts made from LayoutManager's zoom only.</summary>
 		private static bool IsPaintedAtDpi(Control control) {
+			if(IsGridPaintedAtDpi && control is OpenPmsDental.UI.GridOD) {
+				return true;
+			}
 			return control is OpenPmsDental.DashFamilyInsurance || control is OpenPmsDental.DashIndividualInsurance;
 		}
 
