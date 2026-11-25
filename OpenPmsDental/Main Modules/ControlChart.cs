@@ -6646,7 +6646,7 @@ namespace OpenPmsDental {
 			gridTpProcs.Columns.Clear();
 			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Priority"),50));
 			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Tth"),35));
-			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Surf"),40));
+			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Surf"),46));
 			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Code"),50));
 			gridTpProcs.Columns.Add(new GridColumn(Lan.g("TableTP","Description"),50){ IsWidthDynamic=true });
 			gridTpProcs.ListGridRows.Clear();

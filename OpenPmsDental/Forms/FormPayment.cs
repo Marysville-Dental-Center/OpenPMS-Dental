@@ -1855,7 +1855,7 @@ namespace OpenPmsDental {
 			#endregion
 			#region Group By None
 			//Group by 'None'
-			col=new GridColumn(Lan.g(this,"Date"),65,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g(this,"Date"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridCharges.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Patient"),120,GridSortingStrategy.StringCompare) { IsWidthDynamic=true,DynamicWeight=2 };
 			gridCharges.Columns.Add(col);
@@ -2088,7 +2088,7 @@ namespace OpenPmsDental {
 			_dictGridTreatPlanPaySplitIndices.Clear();
 			GridColumn col;
 			#region Group By None
-			col=new GridColumn(Lan.g(this,"Date"),65,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g(this,"Date"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridTreatPlan.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Patient"),120,GridSortingStrategy.StringCompare) { IsWidthDynamic=true,DynamicWeight=2 };
 			gridTreatPlan.Columns.Add(col);

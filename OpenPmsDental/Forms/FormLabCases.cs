@@ -61,7 +61,7 @@ namespace OpenPmsDental{
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
 			GridColumn col;
-			col=new GridColumn(Lan.g("TableLabCases","Appt Date Time"),120);
+			col=new GridColumn(Lan.g("TableLabCases","Appt Date Time"),125);
 			col.SortingStrategy=GridSortingStrategy.DateParse;
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableLabCases","Appt Status"),75);
@@ -76,7 +76,7 @@ namespace OpenPmsDental{
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableLabCases","Lab Phone"),100);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableLabCases","Instructions"),100);
+			col=new GridColumn(Lan.g("TableLabCases","Instructions"),95);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

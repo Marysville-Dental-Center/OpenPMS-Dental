@@ -85,17 +85,17 @@ namespace OpenPmsDental{
 			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				col=new GridColumn(Lan.g(this,"Code"),150);
 				gridMain.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Description"),220);
+				col=new GridColumn(Lan.g(this,"Description"),214);
 				gridMain.Columns.Add(col);
 			}
 			else {
 				col=new GridColumn(Lan.g(this,"Code"),150);
 				gridMain.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Description"),220);
+				col=new GridColumn(Lan.g(this,"Description"),214);
 				gridMain.Columns.Add(col);
 				col=new GridColumn(Lan.g(this,"Tth"),30);
 				gridMain.Columns.Add(col);
-				col=new GridColumn(Lan.g(this,"Surf"),40);
+				col=new GridColumn(Lan.g(this,"Surf"),46);
 				gridMain.Columns.Add(col);
 			}
 			if(includeUnsignedNotes || includeNoNotes) {

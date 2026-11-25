@@ -138,7 +138,7 @@ namespace OpenPmsDental {
 			gridAppts.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g("TableASAP","Patient"),140);
 			gridAppts.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableASAP","Date"),65,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g("TableASAP","Date"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridAppts.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableASAP","Unsched Status"),110);
 			gridAppts.Columns.Add(col);
@@ -150,7 +150,7 @@ namespace OpenPmsDental {
 			gridAppts.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableASAP","Length"),60,GridSortingStrategy.AmountParse);
 			gridAppts.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableASAP","Notes"),160);
+			col=new GridColumn(Lan.g("TableASAP","Notes"),154);
 			gridAppts.Columns.Add(col);
 			gridAppts.ListGridRows.Clear();
 			GridRow row;

@@ -58,7 +58,7 @@ namespace OpenPmsDental {
 			string translationName=gridTransfers.TranslationName;
 			gridTransfers.BeginUpdate();
 			gridTransfers.Columns.Clear();
-			gridTransfers.Columns.Add(new GridColumn(Lan.g(translationName,"Date"),65,HorizontalAlignment.Center));
+			gridTransfers.Columns.Add(new GridColumn(Lan.g(translationName,"Date"),71,HorizontalAlignment.Center));
 			if(PrefC.HasClinicsEnabled) {//Clinics
 				gridTransfers.Columns.Add(new GridColumn(Lan.g(translationName,"Clinic"),80){ IsWidthDynamic=true });
 			}

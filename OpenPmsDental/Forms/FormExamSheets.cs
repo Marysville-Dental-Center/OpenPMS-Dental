@@ -62,7 +62,7 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g(this,"Date"),70);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Time"),54);
+			col=new GridColumn(Lan.g(this,"Time"),57);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Description"),210);
 			gridMain.Columns.Add(col);

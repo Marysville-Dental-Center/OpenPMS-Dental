@@ -69,9 +69,9 @@ namespace OpenPmsDental {
 			DataTable table=Evaluations.GetFilteredList(DateTime.Parse(textDateStart.Text),DateTime.Parse(textDateEnd.Text),textLastName.Text,textFirstName.Text,PIn.Long(textProvNum.Text),schoolCourseNum,provNum);
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g("TableEvaluations","Date"),70,HorizontalAlignment.Center);
+			GridColumn col=new GridColumn(Lan.g("TableEvaluations","Date"),71,HorizontalAlignment.Center);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableEvaluations","Title"),90);
+			col=new GridColumn(Lan.g("TableEvaluations","Title"),89);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableEvaluations","Instructor"),90);
 			gridMain.Columns.Add(col);

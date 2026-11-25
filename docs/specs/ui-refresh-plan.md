@@ -1907,6 +1907,20 @@ own 26.2 overlap check before it starts. The first cut is below; a brief that fi
   in reading order (`UiTabOrder`, after the first focus is set); Esc and Enter defaults unchanged. Tests in UiRefreshTests
   (`ToolBarOverflowTests`, `WpfFocusTests`, `ToolBarFitTests`); gallery G-UI3-uiovf (the WPF pictures need a connected session).
 
+**UI-COLS: grid columns wide enough for their values in the new font (the owner, 2026-11-24: "fix it")**
+- Why: DOCS-SITE's screenshots showed the Account module's Date column wrapping 06/10/2025 and Edit Appointment's Fee cut. Note:
+  [UI-COLS.md](../port-notes/UI-COLS.md); audit: `UI-COLS-audit.md`.
+- Status (2026-11-24, branch `ui/uicols-1`): every GridColumn and DisplayField of a fixed-format value (dates, date and time, times, money,
+  percentages, phone numbers, teeth, surfaces, procedure codes) measured as GridOD draws a cell; the 56 too narrow on main widened one by one
+  to their widest normal value at 100% and 150%, the room taken from the grid's description or note column (no central rule: most columns
+  fit, and a rule would override the offices' display-field widths). Edit Appointment's display-field defaults fit its grid (522 px of 538).
+  Test `GridColumnFitTests` (UiRefreshTests; `Data/grid-col-known.tsv` for headings that say less than the code); gallery G-UI3-uicols;
+  DocScreenshots' account.png and dialog-appointment-edit.png in the README and on the site.
+- Fix round 2 (branch `ui/uicols-2`, the review of G-UI3-uicols): a fixed-format value stands 2 px clear of the gridline (dates 70,
+  centered 71; date and time 125) and the headings of value columns fit the bold header font (the progress notes' Amount 54); Edit
+  Appointment's Description 272 keeps D2394's description on one line (Priority 50, Surf 46, Code 41, Fee 53 filling with 50 px). The test
+  holds both rules; 35 more column sites on main changed by them (UI-COLS.md section 3b).
+
 ---
 
 ## 8. Galleries and the owner's approval

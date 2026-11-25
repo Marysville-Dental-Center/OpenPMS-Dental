@@ -30,7 +30,7 @@ namespace OpenPmsDental {
 			gridProduction.BeginUpdate();
 			gridProduction.Title=Lan.g(tran,"Production for")+" "+_patient.GetNameFLnoPref();
 			gridProduction.Columns.Clear();
-			gridProduction.Columns.Add(new GridColumn(Lan.g(tran,"Date"),70,HorizontalAlignment.Center));
+			gridProduction.Columns.Add(new GridColumn(Lan.g(tran,"Date"),71,HorizontalAlignment.Center));
 			gridProduction.Columns.Add(new GridColumn(Lan.g(tran,"Prov"),80));
 			if(PrefC.HasClinicsEnabled) {
 				gridProduction.Columns.Add(new GridColumn(Lan.g(tran,"Clinic"),80));

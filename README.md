@@ -17,6 +17,7 @@ The program's own windows, with fictional patients and data only ([how they are 
 | | |
 |---|---|
 | ![The Family module: a family of three with recall and a dental plan](docs/screenshots/family.png) | ![The Treatment Plan module: four planned procedures with insurance estimates](docs/screenshots/treatment-plan.png) |
+| ![The Account module: charges, insurance portions and payments with their running balance, and the family's balances](docs/screenshots/account.png) | ![The Edit Appointment window: the appointment's settings, its procedures with their fees and the communications log](docs/screenshots/dialog-appointment-edit.png) |
 | ![The 3D tooth chart with a crown, a filling, a sealant, an extraction and a root canal](docs/screenshots/tooth-chart.png) | ![Intraoral camera capture: five photos taken into a template, with a synthetic camera picture](docs/screenshots/camera-capture.png) |
 
 ## How it differs from Open Dental

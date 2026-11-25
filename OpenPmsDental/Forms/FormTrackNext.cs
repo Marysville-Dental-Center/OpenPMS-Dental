@@ -119,7 +119,7 @@ namespace OpenPmsDental{
 			gridMain.Columns.Clear();
 			GridColumn col=new GridColumn(Lan.g(this,"Patient"),140);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Date"),65);
+			col=new GridColumn(Lan.g(this,"Date"),70);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Status"),110);
 			gridMain.Columns.Add(col);
@@ -127,7 +127,7 @@ namespace OpenPmsDental{
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Procedures"),150);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Notes"),200);
+			col=new GridColumn(Lan.g(this,"Notes"),195);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;

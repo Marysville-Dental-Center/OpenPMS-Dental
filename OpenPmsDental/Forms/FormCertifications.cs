@@ -97,9 +97,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("FormCertifications","Wiki Page"),175);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Date"),65);
+			col=new GridColumn(Lan.g("FormCertifications","Date"),70);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Note"),207);
+			col=new GridColumn(Lan.g("FormCertifications","Note"),202);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;
@@ -168,9 +168,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("FormCertifications","Wiki Page"),175);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Date"),65);
+			col=new GridColumn(Lan.g("FormCertifications","Date"),70);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Note"),207);
+			col=new GridColumn(Lan.g("FormCertifications","Note"),202);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			GridRow row;
@@ -234,9 +234,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g("FormCertifications","Employee"),120);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Date"),65);
+			col=new GridColumn(Lan.g("FormCertifications","Date"),70);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g("FormCertifications","Note"),167);
+			col=new GridColumn(Lan.g("FormCertifications","Note"),162);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			string lastCertName="";

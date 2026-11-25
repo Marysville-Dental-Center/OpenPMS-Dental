@@ -103,7 +103,7 @@ namespace OpenPmsDental {
 			for(int i=0;i<_listDefs.Count;i++){
 				listStringsDefDescriptions.Add(_listDefs[i].ItemName);
 			}
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),66));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),70));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),50));
 			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));
@@ -112,7 +112,7 @@ namespace OpenPmsDental {
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),50));
 				gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Tth"),25));
 			}
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),130));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Description"),126));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Fee"),62,HorizontalAlignment.Right));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Billed to Ins"),75,HorizontalAlignment.Right));
 			if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA

@@ -81,6 +81,8 @@ namespace UiRefreshTests {
 						Save(folder,"account",listSaved,listFailed,() => DrawModule(EnumModuleType.Account,new ControlAccount(),control => {
 							((ControlAccount)control).InitializeOnStartup();
 							((ControlAccount)control).ModuleSelected(docSampleData.PatNumSelected);
+							//UI-COLS: from the first row, so no row stands half above the grid's top (the module scrolls to the last).
+							((GridOD)GridColumnFitTests.GetField(control,"gridAccount")).ScrollToTop();
 						}));
 						Save(folder,"treatment-plan",listSaved,listFailed,() => DrawModule(EnumModuleType.TreatPlan,new ControlTreat(),control => {
 							((ControlTreat)control).InitializeOnStartup();
@@ -98,7 +100,9 @@ namespace UiRefreshTests {
 							return DrawDialog(formPatientEdit);
 						});
 						Save(folder,"dialog-appointment-edit",listSaved,listFailed,
-							() => DrawDialog(new FormApptEdit(docSampleData.AptNumSelected)));
+							() => DrawDialog(new FormApptEdit(docSampleData.AptNumSelected),
+								//UI-COLS: the patient grid from its first row (its fill leaves it scrolled a few pixels down).
+								form => ((GridOD)GridColumnFitTests.GetField(form,"gridPatient")).ScrollToTop()));
 					}
 					finally {
 						DesignSheetWindows.IsPrintingWithoutChildren=false;
@@ -195,7 +199,7 @@ namespace UiRefreshTests {
 
 		///<summary>A dialog with its Load run (FormODBase.OnLoad lays it out and raises Load, which fills it from the database), never shown: its
 		///client area, as the galleries draw a window.</summary>
-		private static Bitmap DrawDialog(FormODBase formODBase) {
+		private static Bitmap DrawDialog(FormODBase formODBase,Action<FormODBase> actionBeforeCapture=null) {
 			using(formODBase) {
 				formODBase.StartPosition=FormStartPosition.Manual;
 				formODBase.Location=new Point(0,0);
@@ -204,6 +208,10 @@ namespace UiRefreshTests {
 				methodInfoOnLoad.Invoke(formODBase,new object[] { EventArgs.Empty });
 				Settle();
 				ThrowIfCallbackFailed();
+				if(actionBeforeCapture!=null) {
+					actionBeforeCapture(formODBase);
+					Settle();
+				}
 				Control root=formODBase.PanelClient??(Control)formODBase;
 				return DesignSheetWindows.Capture(root,Rectangle.Empty);
 			}

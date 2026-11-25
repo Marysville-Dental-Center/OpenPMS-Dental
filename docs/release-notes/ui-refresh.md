@@ -46,6 +46,12 @@ No window was replaced and nothing was removed. Inside each window the controls 
 groups, labels right-aligned just before their boxes, the boxes of a column on one left edge, one height for every one-line box, the
 window's buttons at the bottom right. Some windows grew a little so that everything fits; none shrank.
 
+The grid columns that hold dates, times, amounts, phone numbers or tooth surfaces are wide enough for them in the new font: a date such as
+12/31/2026 no longer wraps onto two lines (the Account module, payment plans, claims and many lists), and the Fee column of Edit
+Appointment is no longer cut at the grid's right edge. A date or time keeps a small gap before the next column instead of running into it,
+the headings of these columns are whole (Amount in the Chart's progress notes, Write-off, Adjustment and others), and Edit Appointment's
+procedure descriptions stay on one line. The description or note column beside them gave up the few pixels.
+
 ## What stayed as it was
 
 - **Office content**: sheets, claim forms, eForms, statements, the dashboard's widgets, the appointment book's text and colours, the

@@ -288,8 +288,8 @@ namespace OpenPmsDental {
 			gridQSBatchTrans.Columns.Clear();
 			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Date"),90,HorizontalAlignment.Right));
 			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Patient"),175));
-			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Date Processed"),90,HorizontalAlignment.Right));
-			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Status"),200));
+			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Date Processed"),93,HorizontalAlignment.Right));
+			gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Status"),197));
 			if(PrefC.HasClinicsEnabled) {
 				gridQSBatchTrans.Columns.Add(new GridColumn(Lan.g(this,"Clinic"),120));
 			}

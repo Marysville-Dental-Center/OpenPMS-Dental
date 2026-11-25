@@ -86,13 +86,13 @@ namespace OpenPmsDental {
 			else {
 			}
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Description"),150);
+			GridColumn col=new GridColumn(Lan.g(this,"Description"),148);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"SerialNumber"),90);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Yr"),40);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"DatePurchased"),90);
+			col=new GridColumn(Lan.g(this,"DatePurchased"),92);
 			gridMain.Columns.Add(col);
 			if(equipmentDisplayMode!=EnumEquipmentDisplayMode.Purchased) {//Purchased mode is designed for submission to tax authority, only certain columns
 				col=new GridColumn(Lan.g(this,"DateSold"),90);

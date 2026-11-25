@@ -91,9 +91,9 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Name"),140,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Birthdate"),70,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
+			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Birthdate"),71,HorizontalAlignment.Center,GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(gridColumn);
-			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Email"),200,GridSortingStrategy.StringCompare);
+			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Email"),199,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
 			gridColumn=new GridColumn(Lans.g(gridMain.TranslationName,"Address"),170,GridSortingStrategy.StringCompare);
 			gridMain.Columns.Add(gridColumn);
