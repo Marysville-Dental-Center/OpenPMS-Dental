@@ -98,6 +98,8 @@ namespace WindowChecksTests.InProc {
 			checkResult.Expect(description=="MonthCalendarOD","The drop-down holds the program's MonthCalendarOD, shown: "+description,description);
 			IntPtr hwndDropDown=ui.Invoke(() => toolStripDropDown.Visible ? toolStripDropDown.Handle : IntPtr.Zero);
 			if(hwndDropDown!=IntPtr.Zero) {
+				//Paint it before the shot: a shot taken right after it opened was blank once on a connected desktop (2026-11-24); the rerun was whole.
+				ui.Invoke(() => toolStripDropDown.Refresh());
 				checkResult.AddShot(ui.Shot(hwndDropDown,shot),"The date picker's drop-down (MonthCalendarOD)");
 			}
 			ui.Invoke(() => {

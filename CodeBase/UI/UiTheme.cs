@@ -68,6 +68,21 @@ namespace CodeBase {
 		///no window, so it may run before EnableVisualStyles and SetCompatibleTextRenderingDefault. Calling it again on the same thread does nothing.
 		///</summary>
 		public static void InitWinForms() {
+			if(!_isRendererWatched) {
+				//Windows Forms can put its own renderer back on a system change (a visual style or display change, e.g. a remote desktop
+				//connecting), which turned the stock menus back to the old look (window check C20). Set the token renderer again whenever that happens.
+				_isRendererWatched=true;
+				ToolStripManager.RendererChanged+=(sender,e) => ReapplyRenderer();
+				Microsoft.Win32.SystemEvents.UserPreferenceChanged+=(sender,e) => ReapplyRenderer();
+			}
+			ReapplyRenderer();
+		}
+
+		///<summary>Per thread, as ToolStripManager.Renderer is.</summary>
+		[ThreadStatic]
+		private static bool _isRendererWatched;
+
+		private static void ReapplyRenderer() {
 			if(ToolStripManager.Renderer is UiToolStripRenderer) {
 				return;
 			}
