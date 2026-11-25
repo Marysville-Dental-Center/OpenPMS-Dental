@@ -1,6 +1,6 @@
 # Roadmap
 
-Planned work after v0.0, as agreed with the owner. Each item is discussed and scoped with the owner before work starts.
+Planned work after v0.1, as agreed with the owner. Each item is discussed and scoped with the owner before work starts.
 
 ## Next
 
@@ -16,7 +16,7 @@ Fluent icon (UI-9a, UI-9b-1 to UI-9b-4), text fit (UI-10) and Segoe UI 9 pt (UI-
 checkbox on the left of its text (UI-12: a pilot, then every window in slices); this replaces "every window keeping its layout". Then UI-11
 (the last colours and the final sweep), the toolbar overflow button and keyboard focus on the WPF buttons.
 
-Not scheduled yet: the next release, the office switch-over (after the 64-bit TWAIN drivers are tested on the clinic's sensor), the server
+Version 0.1 was released with all of this (below, "Released in 0.1"). Not scheduled yet: the next release, the office switch-over (after the 64-bit TWAIN drivers are tested on the clinic's sensor), the server
 components on Linux, and Open Dental 26.3. The GitHub repository was renamed to OpenPMS-Dental on 2026-11-21 (the old address redirects)
 and has a project site on GitHub Pages, built from `site/`.
 
@@ -24,7 +24,16 @@ The owner questions of each package are recorded with their answers in `docs/own
 
 ## Done in the next version
 
-Built for the version after 0.0; what each one changes is in its release notes, `docs/release-notes/next.md`.
+Built for the version after 0.1; what each one changes is in its release notes, `docs/release-notes/next.md`.
+
+Nothing yet.
+
+## Released in 0.1
+
+Built for 0.1, the first release after 0.0; what each one changes is in its release notes, `docs/release-notes/v0.1.md`. Besides
+the items below: .NET 10, 64-bit and self-contained, the tooth chart's 3D drawing on WPF, EHR rebuilt as open code (all three under "Next",
+above, and "Plans", below), the UI refresh (`docs/release-notes/ui-refresh.md`) and the imaging work of the owner's imaging design of
+2026-11-22 with the sensor driver's twain-contract 1.3 and 1.4.
 
 1. **Library updates (security) and client-side database security**: the tier 1 library updates (SSH.NET, MailKit/MimeKit 4, Newtonsoft.Json
    13, MSAL and the Google APIs) with remembered SSH host keys, and encrypted database connections with the program's own database account.
@@ -155,6 +164,9 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
+- Remove tamper detection (owner, 2026-11-24: Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing, the
+  warning triangles, the Security Hashes tool in Database Maintenance and their tests). The separate Database Integrity Check tool (table
+  check and repair) stays.
 - A sensor's driver settings saved per device in the database (owner, 2026-11-24). Today Capture settings keeps them in each computer's
   capture.ini, so a USB sensor moved between computers needs the same `Source.*` values entered on each one. They belong to the sensor,
   so storing them with the imaging device would let every computer use them after one save. Only what is truly local would stay per

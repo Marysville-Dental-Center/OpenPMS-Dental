@@ -1072,13 +1072,19 @@ namespace ReleaseFlowTests {
 			string catalog=TestPaths.ReadSource("ImagingCapture","Settings","CaptureSettingsCatalog.cs");
 			Match match=Regex.Match(catalog,@"Add\(twain,""Allow16Bit"",CaptureSettingKind\.Switch,""([01])""");
 			Assert.IsTrue(match.Success,"The Allow16Bit default in CaptureSettingsCatalog.cs");
+			//v0.0's notes, as released (before counsel's review of 2026-11-07): set Allow16Bit=0 before patient capture.
+			string notesV00=TestPaths.ReadSource("docs","release-notes","v0.0.md");
+			StringAssert.Contains(notesV00,"defaults are `[Twain] Allow16Bit=1`");
+			StringAssert.Contains(notesV00,"Before any patient capture, set `[Twain] Allow16Bit=0` in Capture settings");
+			StringAssert.Contains(notesV00,"\"Before 16-bit X-rays for patients\"");
+			StringAssert.Contains(TestPaths.ReadSource("docs","imaging","intraoral-capture-setup.md"),"**Before 16-bit X-rays for patients.**");
+			//Since 0.1 (owner decision of 2026-11-07): the installed default is named, and patient use at any bit depth waits for the phantom
+			//comparison (docs/imaging/intraoral-capture-setup.md, section 14).
 			string notes=TestPaths.ReadSource("docs","release-notes","v"+ReleaseVersion()+".md");
-			StringAssert.Contains(notes,"defaults are `[Twain] Allow16Bit="+match.Groups[1].Value+"`");
-			if(match.Groups[1].Value=="1") {
-				StringAssert.Contains(notes,"Before any patient capture, set `[Twain] Allow16Bit=0` in Capture settings");
-				StringAssert.Contains(notes,"\"Before 16-bit X-rays for patients\"");
-				StringAssert.Contains(TestPaths.ReadSource("docs","imaging","intraoral-capture-setup.md"),"**Before 16-bit X-rays for patients.**");
-				Assert.IsFalse(notes.Contains("stay at 8 bits"),"Nothing in the program keeps them at 8 bits by itself.");
+			Assert.IsFalse(notes.Contains("stay at 8 bits"),"Nothing in the program keeps them at 8 bits by itself.");
+			if(ReleaseVersion()!="0.0") {
+				StringAssert.Contains(notes,"(`Allow16Bit="+match.Groups[1].Value+"`)");
+				StringAssert.Contains(notes,"**No patient X-rays before the phantom comparison:**");
 			}
 		}
 		#endregion installer/OpenPmsDental.iss, release notes

@@ -46,7 +46,7 @@
 ; the connection rule (/check). The files are installed; setup's /LOG has the tool's result line and exit code. Run the tool as an
 ; administrator to finish (docs/db-connection-security.md, section 6). Interactive installs show the failure and end with 0.
 
-#define AppVersion "0.0"
+#define AppVersion "0.1"
 #define AppName "Open PMS - Dental"
 #define ExeName "OpenPmsDental.exe"
 #define ConfigFileName "FreeDentalConfig.xml"
@@ -80,10 +80,10 @@ AppPublisherURL={#SourceUrl}
 AppSupportURL={#SourceUrl}/issues
 AppUpdatesURL={#SourceUrl}/releases
 AppCopyright=Copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. Changes in Open PMS - Dental: Copyright (C) 2026 and later years, Open PMS - Dental contributors. Source files: GNU GPL v2 or later. As installed, with PDFsharp and MigraDoc (GNU AGPL v3): GNU GPL v3.
-VersionInfoVersion=0.0.0.0
+VersionInfoVersion=0.1.0.0
 VersionInfoTextVersion={#AppVersion}
 VersionInfoProductName={#AppName}
-VersionInfoProductVersion=0.0.0.0
+VersionInfoProductVersion=0.1.0.0
 VersionInfoProductTextVersion={#AppVersion}
 VersionInfoCompany=Open PMS - Dental contributors
 VersionInfoDescription={#AppName} Setup

@@ -15,14 +15,14 @@ Nothing here talks to Open Dental's servers or reads Open Dental's update files.
 
 | Version | Value now | Where it lives | Used for |
 |---|---|---|---|
-| Release (product) version | `0.0` | `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs` (repository root, linked into every shipped assembly) | About window (`Application.ProductVersion`), release manifests, the `ForkProgramVersion` marker. Our own scheme. It is never compared with Open Dental numbers. |
+| Release (product) version | `0.1` | `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs` (repository root, linked into every shipped assembly) | About window (`Application.ProductVersion`), release manifests, the `ForkProgramVersion` marker. Our own scheme. It is never compared with Open Dental numbers. |
 | Compatibility version | `24.3.63.0` | `AssemblyVersion` (file version), `ForkVersions.CompatVersion` | The frozen legacy conversion chain, and `DataBaseVersion`/`ProgramVersion` on databases the fork markers don't govern yet. |
 
 Raise the release version by editing `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs`, for example to `0.1`. Leave `AssemblyVersion` at `24.3.63.0`. Once the fork markers take over, the database checks no longer look at it.
 
-A build is identified by its **build id**: a SHA-256 over the program's own assemblies (`ForkReleases.ListBuildIdFiles`: `OpenPmsDental.exe`, `OpenPmsDental.dll` (since stage 3b the `.exe` is the apphost and the program's code is in the `.dll`), `OpenPmsDentalBusiness.dll`, `CodeBase.dll` and the others). Every rebuild of `0.0` therefore counts as a different build, and third-party DLLs aren't hashed at every startup.
+A build is identified by its **build id**: a SHA-256 over the program's own assemblies (`ForkReleases.ListBuildIdFiles`: `OpenPmsDental.exe`, `OpenPmsDental.dll` (since stage 3b the `.exe` is the apphost and the program's code is in the `.dll`), `OpenPmsDentalBusiness.dll`, `CodeBase.dll` and the others). Every rebuild of a release (`0.1`) therefore counts as a different build, and third-party DLLs aren't hashed at every startup.
 
-Because the release version stays `0.0` across rebuilds, it can't tell an older build from a newer one. Each build therefore also carries its **build time**. `OpenPmsDental.csproj` (target `ForkWriteBuildStamp`) writes `[assembly: AssemblyMetadata("ForkBuildUtc", "…Z")]` into `OpenPmsDental.exe`. It rewrites the stamp only when something compiled into `OpenPmsDental.exe` changed (its sources, references, resources, the project file or `UpdateFileCopier.exe`), so an unchanged rebuild keeps its build id. The release manifest records the stamp as `BuildUtc`. A higher release version is newer. Within one release version, the later build time is newer. If either time is missing or the two are equal, the order is unknown.
+Because the release version stays the same across the rebuilds of a release (`0.1`), it can't tell an older build from a newer one. Each build therefore also carries its **build time**. `OpenPmsDental.csproj` (target `ForkWriteBuildStamp`) writes `[assembly: AssemblyMetadata("ForkBuildUtc", "…Z")]` into `OpenPmsDental.exe`. It rewrites the stamp only when something compiled into `OpenPmsDental.exe` changed (its sources, references, resources, the project file or `UpdateFileCopier.exe`), so an unchanged rebuild keeps its build id. The release manifest records the stamp as `BuildUtc`. A higher release version is newer. Within one release version, the later build time is newer. If either time is missing or the two are equal, the order is unknown.
 
 ## Fork version markers
 
@@ -33,7 +33,7 @@ These are four preference rows. The fork reads and writes them with plain SQL (`
 | `ForkSchemaLevel` | The last fork migration step applied. `0` right after adoption. If this row exists, the database is adopted. |
 | `OdSchemaCompat` | The Open Dental schema the database matches exactly (`26.2.0` once every fork migration step has run, `26.1.70` before package P262-SCHEMA; `25.3.48` or `24.3.63` right after adoption). The fork migration runner and schema verifier advance it. |
 | `ForkAdoptedFrom` | The adoption record: `source=25.3.48.0;started=…;adopted=…` (UTC). If it has no `adopted=` and there is no `ForkSchemaLevel`, the adoption didn't finish. If it has `adopted=` but `ForkSchemaLevel` or `OdSchemaCompat` is missing, the markers of an adopted database were removed: that database is refused, never adopted again. |
-| `ForkProgramVersion` | The release published from the update server: `release+buildId`, for example `0.0+3f2a…`. |
+| `ForkProgramVersion` | The release published from the update server: `release+buildId`, for example `0.1+3f2a…`. |
 
 The fork migration runner also keeps `ForkMigrationsApplied`, the comma-separated levels of every step that finished on the database (`ForkSchemaLevel` is the highest of them), and `ForkMigrationInProgress`. The startup checks read `ForkMigrationsApplied` too.
 
@@ -168,7 +168,7 @@ Dynamic mode, where Open Dental kept per-version program folders, isn't part of 
 
 ## Building the installer
 
-A release is `OpenPmsDental-<version>-Setup.exe`, made by `tools/Build-Release.ps1` with Inno Setup 6 (6.7.4 for 0.0):
+A release is `OpenPmsDental-<version>-Setup.exe`, made by `tools/Build-Release.ps1` with Inno Setup 6 (6.7.4 for 0.0 and 0.1):
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -BuildLane <path of odbuild.ps1> -CopyTo <release folder>
@@ -185,7 +185,7 @@ Without `-BuildLane` the script finds MSBuild with vswhere; `-SkipBuild` uses th
 
 **Publishing:** attach the setup, the source archive `OpenPmsDental-<version>-source.zip`, `SHA256SUMS.txt` and the release notes to the GitHub release of the tag. The source archive is the release's Corresponding Source (GNU GPL 3.0 and AGPL 3.0 section 6, LGPL 2.1 section 6, and LGPL 2.1 section 4 for the setup's `TWAINDSM.dll`, whose source it carries): the setup's information page, its License Agreement page, NOTICE and Help > About > View Licenses tell the user it is there.
 
-The release version comes from `SharedAssemblyInfo.cs` and must equal `#define AppVersion` in `installer\OpenPmsDental.iss` (and its `VersionInfoVersion`, `0.0.0.0` for `0.0`); the script stops when they differ. A new third-party file goes on the allow-list and into `THIRD-PARTY-NOTICES.txt`; the script fails until it is in both.
+The release version comes from `SharedAssemblyInfo.cs` and must equal `#define AppVersion` in `installer\OpenPmsDental.iss` (and its `VersionInfoVersion`, `0.1.0.0` for `0.1`); the script stops when they differ. A new third-party file goes on the allow-list and into `THIRD-PARTY-NOTICES.txt`; the script fails until it is in both.
 
 What the setup does, for the release channel:
 
@@ -232,6 +232,6 @@ vstest.console.exe tests/ReleaseFlowTests/bin/Debug/ReleaseFlowTests.dll /Platfo
 - The publish/pull decision for the named, blank and other update server cases, with and without build times; the restart rule of `IsDbConnectionSafe`; and the build time stamped into `OpenPmsDental.exe`.
 - An adopted copy with only `ForkSchemaLevel`, or `ForkSchemaLevel` and `OdSchemaCompat`, removed: refused (exit 173) and never adopted again.
 - The runtime part (S3b-7, `RuntimePartTests`, `RuntimePartDbTests`): a publish on an unchanged runtime writes no runtime row and its pull reads no runtime segment; a new runtime replaces the runtime part and its pull downloads and checks both parts; a runtime part that is not the release's is refused; a folder with a runtime file of another version gets no release manifest; the copier's temp folder holds its runtime and refuses another version; Build-Release's refusals (mixed, a different helper runtime, an older runtime); the layout, the one runtime version and the PE machines of the Release build.
-- Source checks: `OpenPmsDental.exe` reports `0.0` and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.
+- Source checks: `OpenPmsDental.exe` reports the release version (`0.1`) and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.
 
 Database tests use `127.0.0.1:3306` (root, blank password). They are inconclusive if no server answers, or if `RELEASEFLOW_TEST_DB=skip` is set.

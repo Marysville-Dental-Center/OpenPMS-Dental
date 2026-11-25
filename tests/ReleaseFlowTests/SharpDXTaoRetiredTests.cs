@@ -128,7 +128,7 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void ReleaseNotes_SayTheDirectXRuntimeIsNoLongerNeeded() {
-			string notes=TestPaths.ReadSource("docs","release-notes","next.md");
+			string notes=TestPaths.ReadSource("docs","release-notes","v0.1.md");
 			Match match=Regex.Match(notes,@"(?ms)^## The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder\r?$(.*?)(?=^## )");
 			Assert.IsTrue(match.Success,"The release notes' section.");
 			StringAssert.Contains(match.Groups[1].Value,"DirectX End-User Runtime");
