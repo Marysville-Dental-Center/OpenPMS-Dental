@@ -223,10 +223,14 @@ namespace OpenPmsDentalBusiness {
 						command="ALTER TABLE `"+POut.String(newDb)+"`.`"+POut.String(tableName)+"` DISABLE KEYS";
 						dconBackupServerNoTimout.NonQ(command);
 					}
-					//Then copy the data into the new table
+					//Then copy the data into the new table. A generated column (the office's patient._portal_active_email, which adoption keeps) is left
+					//out: the backup table computes it again, and a value written to it is a warning, or an error under a strict sql_mode.
+					string columnsStored=GetBackupColumnList(dcon,oldDb,tableName);
 					if(useSameServer) {
 						//If on the same server we can select into directly, which is faster
-						command=$"INSERT INTO `{newDb}`.`{tableName}` SELECT * FROM `{oldDb}`.`{tableName}`;";//Added backticks around table name for unusual characters.
+						command=columnsStored=="*"
+							? $"INSERT INTO `{newDb}`.`{tableName}` SELECT * FROM `{oldDb}`.`{tableName}`;"//Added backticks around table name for unusual characters.
+							: $"INSERT INTO `{newDb}`.`{tableName}` ({columnsStored}) SELECT {columnsStored} FROM `{oldDb}`.`{tableName}`;";
 						if(doTurnOffBinLogging) {
 							command=DisableBinaryLoggingForCommand(command);
 						}
@@ -246,7 +250,7 @@ namespace OpenPmsDentalBusiness {
 						}
 						int offset=0;
 						while(count > offset) {
-							command=$"SELECT * FROM `{oldDb}`.`{tableName}` LIMIT {limit} OFFSET {offset};";
+							command=$"SELECT {columnsStored} FROM `{oldDb}`.`{tableName}` LIMIT {limit} OFFSET {offset};";
 							if(doTurnOffBinLogging) {
 								command=DisableBinaryLoggingForCommand(command);
 							}
@@ -285,6 +289,27 @@ namespace OpenPmsDentalBusiness {
 				DataConnection.CommandTimeout=3600;//Set back to default of 1 hour.
 			}
 			return newDb;
+		}
+
+		///<summary>The column list a backup copies of a table: "*" when the table has no generated column (as before), otherwise every stored column,
+		///quoted, in table order. Generated columns are computed by the backup table itself (its CREATE TABLE is the original's).</summary>
+		public static string GetBackupColumnList(DataConnection dcon,string databaseName,string tableName) {
+			DataTable table=dcon.GetTable("SELECT COLUMN_NAME,EXTRA FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='"+POut.String(databaseName)
+				+"' AND TABLE_NAME='"+POut.String(tableName)+"' ORDER BY ORDINAL_POSITION");
+			List<string> listStored=new List<string>();
+			bool hasGenerated=false;
+			foreach(DataRow row in table.Rows) {
+				string extra=PIn.ByteArray(row["EXTRA"]);
+				if(extra.IndexOf("GENERATED",StringComparison.OrdinalIgnoreCase)>=0) {
+					hasGenerated=true;
+					continue;
+				}
+				listStored.Add(QuoteIdentifier(PIn.ByteArray(row["COLUMN_NAME"])));
+			}
+			if(!hasGenerated || listStored.Count==0) {
+				return "*";
+			}
+			return string.Join(",",listStored);
 		}
 
 		///<summary>The most rows one INSERT statement of a backup to another server holds (GetBackupInsertStatements).</summary>

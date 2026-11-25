@@ -77,7 +77,7 @@ namespace AdoptionValidation.Tests {
 		}
 
 		[TestMethod]
-		public void ColumnsByTable_CoverEveryCoverageItem_ExceptTheDroppedOfficeColumn() {
+		public void ColumnsByTable_CoverEveryCoverageItem_ExceptTheOfficeColumn() {
 			SchemaInfo schema=new SchemaInfo { Database="x" };
 			foreach(string table in Coverage.NewTables) {
 				TableInfo tableInfo=new TableInfo { Name=table };
@@ -90,7 +90,7 @@ namespace AdoptionValidation.Tests {
 				string table=item.Split('.')[0];
 				string column=item.Split('.')[1];
 				if(item=="patient._portal_active_email") {
-					Assert.IsFalse(dict.ContainsKey("patient"),"Adoption drops the office column; nothing else in patient is new.");
+					Assert.IsFalse(dict.ContainsKey("patient"),"The office column is generated (MariaDB computes it; adoption keeps it); nothing else in patient is new.");
 					continue;
 				}
 				Assert.IsTrue(dict[table].Contains(column),item);

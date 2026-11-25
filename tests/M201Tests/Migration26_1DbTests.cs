@@ -194,7 +194,8 @@ namespace M201Tests {
 		[TestMethod]
 		public void Od253_AdoptionRunsEveryM1AndM2StepAndMarks26_1_70() {
 			Assert.AreEqual(new Version(25,3,48,0),_adoptionResult.VersionSource);
-			Assert.IsTrue(_adoptionResult.WasPortalEmailColumnDropped);
+			Assert.IsTrue(_adoptionResult.IsPortalEmailColumnKept);
+			Assert.IsTrue(_adoptionResult.IsPortalEmailIndexKept);
 			//The chain goes on to Open Dental 26.2.0 since package P262-SCHEMA (tests/P262SchemaTests); the default reference moved with it.
 			Assert.AreEqual(SchemaVerifier.ReferenceVersion,_forkDbStateAfter.OdSchemaCompat);
 			Assert.AreEqual(ForkMigrationRunner.GetSteps().Max(x => x.Level).ToString(),_forkDbStateAfter.ForkSchemaLevel);
@@ -224,9 +225,16 @@ namespace M201Tests {
 			SchemaVerifyResult result=SchemaVerifier.VerifyDatabase(DB_OD253);
 			Assert.IsTrue(result.IsMatch,result.GetReport());
 			//This program's own tables (ForkTables) are the only extra tables, allowed by the verifier and checked by ForkTables.VerifyDatabase.
-			Assert.AreEqual(0,result.ListDifferences.Count(x => !ForkTables.IsForkTable(x.Table)),
-				"Adoption dropped the office customization, so nothing is left to allow: "+result.GetReport());
-			Assert.IsTrue(result.ListDifferences.All(x => x.Kind==SchemaDifferenceKind.ExtraTable && x.IsExcepted),result.GetReport());
+			//Besides them, adoption keeps the office's patient._portal_active_email and its unique key (ADOPT-PORTAL-EMAIL), allowed with exactly
+			//the office's definitions; nothing else differs.
+			List<SchemaDifference> listOther=result.ListDifferences.Where(x => !ForkTables.IsForkTable(x.Table)).ToList();
+			CollectionAssert.AreEquivalent(new List<string>() {
+					"ExtraColumn patient."+SchemaVerifier.PortalActiveEmailColumn,
+					"ExtraIndex patient."+SchemaVerifier.PortalActiveEmailIndex,
+				},listOther.Select(x => x.Kind+" "+x.Table+"."+x.Item).ToList(),"Only the office's kept column and key: "+result.GetReport());
+			Assert.IsTrue(listOther.All(x => x.IsExcepted),result.GetReport());
+			Assert.IsTrue(result.ListDifferences.Where(x => ForkTables.IsForkTable(x.Table)).All(x => x.Kind==SchemaDifferenceKind.ExtraTable && x.IsExcepted),
+				result.GetReport());
 			Assert.AreEqual(0,ForkTables.VerifyDatabase(DB_OD253).ListDifferences.Count);
 		}
 
@@ -237,8 +245,13 @@ namespace M201Tests {
 			}
 			SchemaVerifyResult result=SchemaVerifier.Compare(SchemaSnapshot.FromDatabase(ScratchDb.DbNameOd261Schema),SchemaSnapshot.FromDatabase(DB_OD253),
 				ForkTables.GetSchemaExceptions());
-			//The adopted database went on to 26.2.0 (P262-SCHEMA): the mismatches are exactly the 26.1.70 to 26.2.0 differences of the references.
-			CollectionAssert.AreEquivalent(GetDifferences26_2().ToList(),result.ListMismatches.Select(x => x.Kind+" "+x.Table+"."+x.Item).ToList(),
+			//The adopted database went on to 26.2.0 (P262-SCHEMA): the mismatches are exactly the 26.1.70 to 26.2.0 differences of the references,
+			//plus the office's patient._portal_active_email and its unique key, which adoption keeps (ADOPT-PORTAL-EMAIL). Only ForkTables'
+			//exceptions are passed here, so those two show as mismatches.
+			List<string> listExpected=GetDifferences26_2().ToList();
+			listExpected.Add("ExtraColumn patient."+SchemaVerifier.PortalActiveEmailColumn);
+			listExpected.Add("ExtraIndex patient."+SchemaVerifier.PortalActiveEmailIndex);
+			CollectionAssert.AreEquivalent(listExpected,result.ListMismatches.Select(x => x.Kind+" "+x.Table+"."+x.Item).ToList(),
 				result.GetReport());
 			Assert.IsTrue(result.ListAllowed.All(x => ForkTables.IsForkTable(x.Table)),"Only this program's own tables are extra: "+result.GetReport());
 		}

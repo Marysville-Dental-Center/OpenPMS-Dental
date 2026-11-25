@@ -305,13 +305,19 @@ namespace SyntheticData.Tests {
 		public void AdoptionChanges_AreAllowed_OtherChangesAreNot() {
 			ValidationReport after=Report();
 			TableReport patient=after.Tables[0];
-			patient.Columns.Remove("_portal_active_email");
 			patient.Columns["SecurityHash"]="31";
 			patient.ChecksumTable="112";
-			after.Totals["patients.portal_active_email_nonnull"]="error: Unknown column";
 			List<Difference> list=ReportComparer.Compare(Report(),after,Adoption());
-			Assert.IsTrue(list.Count>=4);
+			Assert.IsTrue(list.Count>=2);
 			Assert.IsTrue(list.All(x => x.IsAllowed),ReportComparer.Format(list));
+			//Adoption keeps the office's patient._portal_active_email (owner decision of 2026-11-25): its removal is no longer an allowed difference.
+			ValidationReport afterDropped=Report();
+			afterDropped.Tables[0].Columns.Remove("_portal_active_email");
+			afterDropped.Totals["patients.portal_active_email_nonnull"]="error: Unknown column";
+			List<Difference> listDropped=ReportComparer.Compare(Report(),afterDropped,Adoption());
+			Assert.IsTrue(listDropped.Any(x => !x.IsAllowed && x.Kind==DifferenceKind.ColumnRemoved && x.Column=="_portal_active_email"),ReportComparer.Format(listDropped));
+			Assert.IsTrue(listDropped.Any(x => !x.IsAllowed && x.Kind==DifferenceKind.TotalChanged && x.Name=="patients.portal_active_email_nonnull"),
+				ReportComparer.Format(listDropped));
 			//A double conversion of guardian relationships must be caught.
 			after.Tables[1].Columns["Relationship"]="51";
 			after.Tables[1].ChecksumTable="223";

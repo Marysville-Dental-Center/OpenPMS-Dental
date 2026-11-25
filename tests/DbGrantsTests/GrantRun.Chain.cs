@@ -59,7 +59,7 @@ namespace DbGrantsTests {
 					Prefs.UpdateString(PrefName.ProgramVersion,ForkVersions.CompatVersion.ToString(4));
 					Cache.Refresh(InvalidType.Prefs);
 				});
-			//The office's own generated column and unique key, which the adoption drops (Adoption.DropPortalActiveEmail).
+			//The office's own generated column and unique key, which the adoption keeps (Adoption.KeepPortalActiveEmail).
 			GrantServer.ExecRoot("ALTER TABLE `"+Db+"`.patient ADD COLUMN `"+Adoption.PATIENT_PORTAL_EMAIL_COLUMN+"` varchar(100) GENERATED ALWAYS AS "
 				+"(case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) VIRTUAL, ADD UNIQUE KEY `"+Adoption.PATIENT_PORTAL_EMAIL_INDEX
 				+"` (`"+Adoption.PATIENT_PORTAL_EMAIL_COLUMN+"`)");

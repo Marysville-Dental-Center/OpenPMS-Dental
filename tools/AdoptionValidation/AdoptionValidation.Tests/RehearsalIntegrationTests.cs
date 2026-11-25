@@ -136,13 +136,18 @@ namespace AdoptionValidation.Tests {
 		}
 
 		[TestMethod]
-		public void Adoption_DropsTheOfficeColumn_RemovesUpdateFiles_SetsSentinels() {
+		public void Adoption_KeepsTheOfficeColumn_RemovesUpdateFiles_SetsSentinels() {
 			SkipIfNeeded();
 			using(Db db=Db.Open(_server,Adopted(1))) {
-				Assert.AreEqual(0,db.ScalarLong("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
-					+"AND COLUMN_NAME='_portal_active_email'"));
-				Assert.AreEqual(0,db.ScalarLong("SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
-					+"AND INDEX_NAME='portal_active_email_uniq'"));
+				//Owner decision of 2026-11-25: the office's column and its unique key stay (the patient portal's rule).
+				Assert.AreEqual(1,db.ScalarLong("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
+					+"AND COLUMN_NAME='_portal_active_email' AND EXTRA LIKE '%VIRTUAL%'"));
+				Assert.AreEqual(1,db.ScalarLong("SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
+					+"AND INDEX_NAME='portal_active_email_uniq' AND NON_UNIQUE=0"));
+				using(Db dbSource=Db.Open(_server,Source(1))) {
+					Assert.AreEqual(dbSource.ScalarLong("SELECT COUNT(_portal_active_email) FROM patient"),
+						db.ScalarLong("SELECT COUNT(_portal_active_email) FROM patient"),"The same active addresses.");
+				}
 				Assert.AreEqual(0,db.ScalarLong("SELECT COUNT(*) FROM documentmisc WHERE DocMiscType IN (0,1)"));
 				Assert.AreEqual(1,db.ScalarLong("SELECT COUNT(*) FROM documentmisc WHERE DocMiscType=2"));
 				Assert.AreEqual("99.0.0.0",Convert.ToString(db.Scalar("SELECT ValueString FROM preference WHERE PrefName='DataBaseVersion'")));
@@ -834,7 +839,7 @@ namespace AdoptionValidation.Tests {
 			Assert.IsTrue(indexCopy<listSteps.IndexOf("Preflight") && listSteps.IndexOf("Preflight")<indexAdopt
 				&& indexAdopt<listSteps.IndexOf("Fork migration (all steps again)") && listSteps.IndexOf("Schema verifier")<indexRehash && indexRehash<indexRowCheck
 				&& indexRowCheck<indexReport && indexReport<indexRoundTrip,string.Join(", ",listSteps));
-			foreach(string expected in new[] { "It can be adopted.","Dropped index patient.portal_active_email_uniq.","Dropped column patient._portal_active_email.",
+			foreach(string expected in new[] { "It can be adopted.","Kept column patient._portal_active_email and its unique key portal_active_email_uniq (the office's patient portal: one active patient per e-mail address).",
 				"DataBaseVersion and ProgramVersion set to 99.0.0.0.","Adoption finished.","0 changes.","The schema matches Open Dental "+SchemaVerifier.ReferenceVersion+" exactly","Rehash finished.",
 				"Row check against "+Source(1),"preference: 5 added (","documentmisc: 4 Open Dental update-file row(s) deleted, none left; 0 other row(s) deleted",
 				"securitylog: 2 entries added (1 adoption, 1 rehash)","updatehistory: identical row by row.",

@@ -36,10 +36,22 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		///<summary>Name of the embedded 25.3.48 reference.</summary>
 		public const string ReferenceResourceName25_3_48="OdSchema-25.3.48.sql";
 
-		///<summary>The office-specific generated column in patient that is not Open Dental schema. Adoption drops it with its unique key.</summary>
+		///<summary>The office-specific generated column in patient that is not Open Dental schema. The office's patient portal relies on it and its
+		///unique key (one active patient per e-mail address), so adoption keeps both (owner decision of 2026-11-25), and the verifier allows them
+		///with exactly the office's definitions (PortalActiveEmailColumnDefinition, PortalActiveEmailIndexDefinition), against every reference.
+		///</summary>
 		public const string PortalActiveEmailColumn="_portal_active_email";
 		///<summary>The unique key on patient._portal_active_email.</summary>
 		public const string PortalActiveEmailIndex="portal_active_email_uniq";
+		///<summary>The office's definition of patient._portal_active_email, as SHOW CREATE TABLE prints it after the column name (SchemaColumn.Definition).
+		///Any other definition of a column of that name is a mismatch.</summary>
+		public const string PortalActiveEmailColumnDefinition="varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` "
+			+"else NULL end) VIRTUAL";
+		///<summary>The office's definition of the key portal_active_email_uniq (SchemaIndex.Definition). Any other definition is a mismatch.</summary>
+		public const string PortalActiveEmailIndexDefinition="UNIQUE KEY (`_portal_active_email`)";
+		///<summary>The column and key as DDL, for tests and the tools that add them to a scratch database.</summary>
+		public const string PortalActiveEmailAddDdl="ADD COLUMN `"+PortalActiveEmailColumn+"` "+PortalActiveEmailColumnDefinition+", ADD UNIQUE KEY `"
+			+PortalActiveEmailIndex+"` (`"+PortalActiveEmailColumn+"`)";
 
 		///<summary>The 53 tables that our 24.3 code declares but that exist only in Open Dental's own HQ database. An office database never has them
 		///and Open Dental 25.3 does not either (docs/specs/schema-changes-24.3-to-26.1.md, "HQ-internal tables"). A database made by the 24.3
@@ -94,10 +106,14 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		public static List<SchemaException> DocumentedExceptions25_3_48 {
 			get {
 				List<SchemaException> listExceptions=new List<SchemaException>();
-				listExceptions.Add(new SchemaException(null,"patient",PortalActiveEmailColumn,
-					"Office-specific customization in the office database, not Open Dental schema (a generated column). The adoption step drops it."));
-				listExceptions.Add(new SchemaException(null,"patient",PortalActiveEmailIndex,
-					"Unique key on the office-specific patient._portal_active_email column. The adoption step drops it with the column."));
+				//Only as an extra column and key, and only with the office's exact definitions.
+				listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraColumn,"patient",PortalActiveEmailColumn,
+					"Office-specific customization, not Open Dental schema (a generated column): the office's patient portal relies on it, so adoption "
+					+"keeps it (owner decision of 2026-11-25). Allowed with exactly the office's definition.") { ActualDefinition=PortalActiveEmailColumnDefinition });
+				listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraIndex,"patient",PortalActiveEmailIndex,
+					"Unique key on the office-specific patient._portal_active_email column (one active patient per e-mail address, for the office's "
+					+"patient portal); adoption keeps it with the column. Allowed with exactly the office's definition.")
+					{ ActualDefinition=PortalActiveEmailIndexDefinition });
 				foreach(string table in ArrayHqOnlyTables) {
 					listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraTable,table,null,
 						"Open Dental HQ-only table declared by the 24.3 code. Never part of an office database; ignored when present."));
@@ -314,6 +330,9 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		public string Table;
 		public string Item;
 		public string Reason;
+		///<summary>When set, the exception matches only a difference whose Actual is exactly this (an extra column's or key's definition). Null
+		///matches any.</summary>
+		public string ActualDefinition;
 
 		public SchemaException(SchemaDifferenceKind? kind,string table,string item,string reason) {
 			Kind=kind;
@@ -327,6 +346,9 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 				return false;
 			}
 			if(!string.Equals(Table,difference.Table,StringComparison.OrdinalIgnoreCase)) {
+				return false;
+			}
+			if(ActualDefinition!=null && difference.Actual!=ActualDefinition) {
 				return false;
 			}
 			if(Item==null) {

@@ -14,7 +14,7 @@ namespace ReleaseFlowTests {
 			+"  `PatStatus` tinyint(4) NOT NULL DEFAULT 0,\n  PRIMARY KEY (`PatNum`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n";
 		private const string PATIENT_OFFICE="CREATE TABLE `patient` (\n  `PatNum` bigint(20) NOT NULL,\n  `Email` varchar(100) NOT NULL DEFAULT '',\n"
 			+"  `PatStatus` tinyint(4) NOT NULL DEFAULT 0,\n"
-			+"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 then `Email` else NULL end) VIRTUAL,\n"
+			+"  `_portal_active_email` varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) VIRTUAL,\n"
 			+"  PRIMARY KEY (`PatNum`),\n  UNIQUE KEY `portal_active_email_uniq` (`_portal_active_email`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n";
 		private const string TABLE_DEFINITION="CREATE TABLE `definition` (\n  `DefNum` bigint(20) NOT NULL,\n  `ItemName` varchar(255) NOT NULL DEFAULT '',\n"
 			+"  PRIMARY KEY (`DefNum`)\n) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;\n";

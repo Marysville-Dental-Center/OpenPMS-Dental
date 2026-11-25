@@ -239,7 +239,8 @@ namespace AdoptionValidation {
 					&& isLabelsExpected,preflight.Message);
 				AdoptionResult adoptionResult=adoption.Adoption??new AdoptionResult();
 				Check("A4","Adoption finished",adoption.Adoption!=null && adoption.IsAdoptionFinished,
-					"dropped column "+adoptionResult.WasPortalEmailColumnDropped+", indexes "+string.Join(",",adoptionResult.ListIndexesDropped)+", "
+					"kept column "+adoptionResult.IsPortalEmailColumnKept+", kept key "+adoptionResult.IsPortalEmailIndexKept+", other keys dropped "
+					+(adoptionResult.ListIndexesDropped.Count==0 ? "none" : string.Join(",",adoptionResult.ListIndexesDropped))+", "
 					+adoptionResult.CountUpdateFileRowsDeleted+" update-file rows deleted, "+adoptionResult.ListPrefsBlanked.Count+" preferences blanked ("
 					+string.Join(", ",adoptionResult.ListPrefsBlanked)+")");
 				//6. Fork migration (every step again) and schema verifier.
@@ -689,11 +690,16 @@ namespace AdoptionValidation {
 		}
 
 		private void ValidateAdoptionEffects(OfficeFixture.Summary fixture) {
-			bool hasColumn=BusinessLayer.ColumnExists("patient",Adoption.PATIENT_PORTAL_EMAIL_COLUMN);
-			bool hasIndex=BusinessLayer.IndexExists("patient",Adoption.PATIENT_PORTAL_EMAIL_INDEX);
-			Check("V5","patient._portal_active_email and its unique index dropped",!hasColumn && !hasIndex,
-				"column "+(hasColumn ? "present" : "gone")+", index "+Adoption.PATIENT_PORTAL_EMAIL_INDEX+" "+(hasIndex ? "present" : "gone")
-				+"; two active patients may now share an e-mail address");
+			//Owner decision of 2026-11-25: adoption keeps the office's column and key, exactly as they were (the patient portal's rule).
+			SchemaTable tablePatient=SchemaTable.FromDatabase(BusinessLayer.CurrentDatabase(),"patient");
+			string definitionColumn=tablePatient?.GetColumn(Adoption.PATIENT_PORTAL_EMAIL_COLUMN)?.Definition;
+			string definitionIndex=tablePatient?.GetIndex(Adoption.PATIENT_PORTAL_EMAIL_INDEX)?.Definition;
+			int countKeysOnColumn=tablePatient==null ? 0 : tablePatient.Indexes.Count(x => x.Columns.Contains("`"+Adoption.PATIENT_PORTAL_EMAIL_COLUMN+"`"));
+			Check("V5","patient._portal_active_email and its unique key kept, exactly as the office has them",
+				definitionColumn==SchemaVerifier.PortalActiveEmailColumnDefinition && definitionIndex==SchemaVerifier.PortalActiveEmailIndexDefinition
+				&& countKeysOnColumn==1,
+				"column "+(definitionColumn??"gone")+"; key "+Adoption.PATIENT_PORTAL_EMAIL_INDEX+" "+(definitionIndex??"gone")+"; "+countKeysOnColumn
+				+" key(s) on the column; two active patients still cannot share an e-mail address");
 			long countUpdate=BusinessLayer.Count("SELECT COUNT(*) FROM documentmisc WHERE DocMiscType IN ("+(int)DocumentMiscType.UpdateFiles+","
 				+(int)DocumentMiscType.UpdateFilesSegment+")");
 			long countOther=BusinessLayer.Count("SELECT COUNT(*) FROM documentmisc WHERE DocMiscType NOT IN ("+(int)DocumentMiscType.UpdateFiles+","

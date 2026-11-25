@@ -36,7 +36,12 @@ namespace OpenPmsDentalBusiness {
 		///<summary>The DataBaseVersion and ProgramVersion pair the database had when it was adopted through ForkVersions.ListAdoptableLabels. Null
 		///otherwise.</summary>
 		public AdoptableVersionLabels Labels;
-		public bool WasPortalEmailColumnDropped;
+		///<summary>True when patient._portal_active_email was there and was kept, as it was (owner decision of 2026-11-25).</summary>
+		public bool IsPortalEmailColumnKept;
+		///<summary>True when its unique key portal_active_email_uniq was there and was kept, as it was.</summary>
+		public bool IsPortalEmailIndexKept;
+		///<summary>Keys on patient._portal_active_email other than portal_active_email_uniq, which adoption drops (none on the office's database).
+		///</summary>
 		public List<string> ListIndexesDropped=new List<string>();
 		public long CountUpdateFileRowsDeleted;
 		public List<string> ListPrefsBlanked=new List<string>();
@@ -49,13 +54,16 @@ namespace OpenPmsDentalBusiness {
 	///source=25.3.48.0, so every fork migration step treats it as a 25.3.48 database, and records the real labels in odDataBaseVersion= and
 	///odProgramVersion=. Every step is idempotent, and the
 	///order is chosen so an interrupted adoption (MyISAM has no transactions) can be run again to finish:
-	///1. ForkAdoptedFrom records the start. 2. The office-only patient._portal_active_email column and its unique index are dropped. 3. Open Dental's
+	///1. ForkAdoptedFrom records the start. 2. The office-only patient._portal_active_email column and its unique key portal_active_email_uniq are
+	///kept as they are, for the office's patient portal (owner decision of 2026-11-25; SchemaVerifier allows them with exactly the office's
+	///definitions); any other key on the column is dropped. 3. Open Dental's
 	///UpdateFiles and UpdateFilesSegment rows are deleted unread. 4. Preferences that point at Open Dental's servers are blanked. 5. DataBaseVersion and
 	///ProgramVersion get the sentinel, so Open Dental clients can no longer use the copy. 6. OdSchemaCompat, then ForkSchemaLevel are written: from
 	///here the fork markers govern the database. 7. The fork migration runner runs its pending steps. 8. ForkAdoptedFrom records the finish.</summary>
 	public class Adoption {
 		public const string PATIENT_PORTAL_EMAIL_COLUMN="_portal_active_email";
-		///<summary>The unique index the office copy has on the column (as in the office's schema-only dump). Any other index on the column is dropped too.</summary>
+		///<summary>The unique key the office copy has on the column (as in the office's schema-only dump). Adoption keeps it; any other key on the column
+		///is dropped.</summary>
 		public const string PATIENT_PORTAL_EMAIL_INDEX="portal_active_email_uniq";
 		///<summary>Preferences that only ever held addresses of Open Dental's servers. They are blanked whatever they hold. Any other preference whose
 		///value is a web address on one of Open Dental's hosts (CodeBase.VendorDirect.HqHosts) is blanked too.</summary>
@@ -155,7 +163,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>A labels pair is adoptable only when the schema equals the reference of its schema version exactly: no mismatch, and no allowed
-		///difference other than the office's patient._portal_active_email column and its key (adoption drops them). The HQ-only, legacy and fork
+		///difference other than the office's patient._portal_active_email column and its key (adoption keeps them). The HQ-only, legacy and fork
 		///tables that SchemaVerifier otherwise allows are not in an Open Dental database with these labels, so here they count as differences.</summary>
 		private static AdoptionPreflight PreflightLabels(AdoptionPreflight adoptionPreflight,AdoptableVersionLabels labels,
 			SchemaVerifyResult schemaVerifyResult)
@@ -249,8 +257,8 @@ namespace OpenPmsDentalBusiness {
 					+versionSource.ToString(3)+" reference."));
 			}
 			adoptionResult.Labels=labels;
-			//2. The office-only generated column and its unique index.
-			DropPortalActiveEmail(adoptionResult,Log);
+			//2. The office-only generated column and its unique key: kept.
+			KeepPortalActiveEmail(adoptionResult,Log);
 			//3. Open Dental's update files: deleted without being read.
 			adoptionResult.CountUpdateFileRowsDeleted=DocumentMiscs.DeleteOpenDentalUpdateFiles();
 			Log("Deleted "+adoptionResult.CountUpdateFileRowsDeleted+" Open Dental update file row(s).");
@@ -298,25 +306,33 @@ namespace OpenPmsDentalBusiness {
 			return adoptionResult;
 		}
 
-		private static void DropPortalActiveEmail(AdoptionResult adoptionResult,Action<string> actionLog) {
+		///<summary>Keeps patient._portal_active_email and its key portal_active_email_uniq exactly as they are: the office's patient portal relies on
+		///them (one active patient per e-mail address; owner decision of 2026-11-25). Any other key on the column is not the office's and is dropped,
+		///as before. The schema verifier allows the column and key only with the office's definitions, so a different definition fails the check
+		///after adoption.</summary>
+		private static void KeepPortalActiveEmail(AdoptionResult adoptionResult,Action<string> actionLog) {
 			string command="SELECT DISTINCT INDEX_NAME FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
-				+"AND (COLUMN_NAME='"+PATIENT_PORTAL_EMAIL_COLUMN+"' OR INDEX_NAME='"+PATIENT_PORTAL_EMAIL_INDEX+"')";
+				+"AND COLUMN_NAME='"+PATIENT_PORTAL_EMAIL_COLUMN+"'";
 			DataTable table=Db.GetTable(command);
 			foreach(DataRow row in table.Rows) {
 				string indexName=PIn.String(row["INDEX_NAME"].ToString());
 				if(indexName.ToUpper()=="PRIMARY") {
 					continue;
 				}
+				if(indexName==PATIENT_PORTAL_EMAIL_INDEX) {
+					adoptionResult.IsPortalEmailIndexKept=true;
+					continue;
+				}
 				Db.NonQ("ALTER TABLE patient DROP INDEX `"+indexName.Replace("`","``")+"`");
 				adoptionResult.ListIndexesDropped.Add(indexName);
-				actionLog("Dropped index patient."+indexName+".");
+				actionLog("Dropped index patient."+indexName+" (not the office's key on "+PATIENT_PORTAL_EMAIL_COLUMN+").");
 			}
 			command="SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
 				+"AND COLUMN_NAME='"+PATIENT_PORTAL_EMAIL_COLUMN+"'";
-			if(PIn.Long(Db.GetScalar(command))>0) {
-				Db.NonQ("ALTER TABLE patient DROP COLUMN `"+PATIENT_PORTAL_EMAIL_COLUMN+"`");
-				adoptionResult.WasPortalEmailColumnDropped=true;
-				actionLog("Dropped column patient."+PATIENT_PORTAL_EMAIL_COLUMN+".");
+			adoptionResult.IsPortalEmailColumnKept=PIn.Long(Db.GetScalar(command))>0;
+			if(adoptionResult.IsPortalEmailColumnKept) {
+				actionLog("Kept column patient."+PATIENT_PORTAL_EMAIL_COLUMN+(adoptionResult.IsPortalEmailIndexKept ? " and its unique key "+PATIENT_PORTAL_EMAIL_INDEX : "")
+					+" (the office's patient portal: one active patient per e-mail address).");
 			}
 			else {
 				actionLog("patient."+PATIENT_PORTAL_EMAIL_COLUMN+" is not present.");

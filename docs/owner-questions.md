@@ -116,6 +116,13 @@ The program has no automatic runner for recurring card charges or repeating char
 - (M2-01 2) The claim payment note becomes a long text field. Empty (blank database) notes become blank text, and the field can never be empty in the database sense. Fine, or should empty be allowed? **Today:** never empty.
 - (M2-01 6) Fixes Open Dental made after 26.1.0 (26.1.x) have no published document. Should someone check the 26.2 change document for them before the switch? **Today:** not checked.
 
+**12. [SWITCH-OVER] The office's patient portal column** (ADOPT-PORTAL-EMAIL, 2026-11-25). **Decided (2026-11-25):** adoption **keeps** the office's
+`patient._portal_active_email` and its unique key `portal_active_email_uniq` as they are. This replaces the earlier decision (M1, 2026-10-18) to
+drop them. The office's patient portal relies on them for sign-in: one active patient per e-mail address. The schema check allows them only
+with the office's exact definitions. Until a proper setting exists, saving a second active patient with an address already in use stops
+with MariaDB's duplicate-key error. The setting, "each active patient has a different e-mail address", is on the roadmap ("Not scheduled
+yet").
+
 ---
 
 ## Insurance and estimates

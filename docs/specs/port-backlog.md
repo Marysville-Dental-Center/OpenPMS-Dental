@@ -17,7 +17,7 @@ These override anything below that conflicts with them.
 
 - **Dental-school features: excluded.** Drop M2-SCH1–M2-SCH3, plus the dental-school parts of A-SCH and M1 Tier B. The tables stay for schema compatibility.
 - **Intra-office chat: excluded.** Drop A-CHAT and M2-CHAT. The chat tables stay; existing chat history isn't shown.
-- **`patient._portal_active_email`: dropped during adoption.** It is an office-specific customization, not Open Dental schema. Remove the column and its unique index in the adoption step, so family members can share an e-mail again.
+- **`patient._portal_active_email`: kept by adoption** (owner decision of 2026-11-25, replacing the earlier "dropped during adoption"; docs/port-notes/ADOPT-PORTAL-EMAIL.md). It is an office-specific customization, not Open Dental schema, that the office's patient portal relies on (one active patient per e-mail address).
 - **Public sources only.** No customer-only manual pages, and no observing the licensed Open Dental client. Inferred behaviors stay marked, and are settled by the owner's testing.
 - **No office data.** M1-00 (census) and the M1-Z rehearsal use a synthetic-data generator over the real 25.3.48 schema (`od_253_schema`), never a copy of the office database. Enum numbers and preference names come from Open Dental's published database docs and the schema, not from a census.
 - **Local REST API: dropped.** The 98 API items stay excluded.

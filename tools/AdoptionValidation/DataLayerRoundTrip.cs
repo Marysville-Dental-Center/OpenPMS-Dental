@@ -67,7 +67,8 @@ namespace AdoptionValidation {
 		}
 
 		///<summary>The 24.4-25.3 columns per table: every column of the new tables, and the new or changed columns of existing tables
-		///(SyntheticData's Coverage lists, kept in step with docs/specs/schema-changes.json), except patient._portal_active_email, which adoption drops.
+		///(SyntheticData's Coverage lists, kept in step with docs/specs/schema-changes.json), except patient._portal_active_email: the office's generated column, which adoption keeps but
+		///this program never reads or writes (no class field; MariaDB computes it).
 		///</summary>
 		public static SortedDictionary<string,List<string>> GetColumnsByTable(SchemaInfo schema) {
 			SortedDictionary<string,List<string>> dict=new SortedDictionary<string,List<string>>(StringComparer.Ordinal);

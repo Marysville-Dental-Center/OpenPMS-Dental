@@ -61,7 +61,7 @@ Kept in preference rows (no schema change): `ForkMigrationsApplied` (levels that
 
 Tables, columns (type, NULL, default, extra, charset, position), keys, engine and charset must match, except for the documented exceptions (`SchemaVerifier.DocumentedExceptions`, the same for every reference):
 
-- `patient._portal_active_email` and its unique key `portal_active_email_uniq`: an office-specific customization, not Open Dental schema. The adoption step drops both.
+- `patient._portal_active_email` and its unique key `portal_active_email_uniq`: an office-specific customization, not Open Dental schema. The adoption step keeps both (owner decision of 2026-11-25: the office's patient portal relies on them), and the verifier allows them only with the office's exact definitions (`PortalActiveEmailColumnDefinition`, `PortalActiveEmailIndexDefinition`).
 - The 53 Open Dental HQ-only tables that the 24.3 code declares, when present. The 54th that code declares, `ehrcode`, is this program's own table since EHR-2 (below), so it is excepted once.
 - Legacy tables that long-lived databases (including our development seed) still carry: the `anesth*` tables, `files` and `instructor`.
 - This program's own tables, declared in `ForkTableSet` classes (see "Fork-only tables" below).
