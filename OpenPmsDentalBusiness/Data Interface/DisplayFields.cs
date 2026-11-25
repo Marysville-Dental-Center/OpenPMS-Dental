@@ -142,15 +142,16 @@ namespace OpenPmsDentalBusiness {
 			switch (displayFieldCategory) {
 				#region 'None'
 				case DisplayFieldCategory.None:
-					listDisplayFields.Add(new DisplayField("Date",67,displayFieldCategory));
+					//UI-COLS: Date, Surf and Amount hold 12/31/2026, MODBL and 9,999.99 in Segoe UI 9 at 100% and 150%; Description gives the 9 px.
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Time",40));
 					listDisplayFields.Add(new DisplayField("Th",27,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",40,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Dx",28,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",218,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",209,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Stat",25,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",42,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Amount",48,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Amount",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Proc Code",62,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("User",62,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Signed",55,displayFieldCategory));
@@ -258,13 +259,14 @@ namespace OpenPmsDentalBusiness {
 				#endregion PatientInformation
 				#region AccountModule
 				case DisplayFieldCategory.AccountModule:
-					listDisplayFields.Add(new DisplayField("Date",65,displayFieldCategory));
+					//UI-COLS: Date holds 12/31/2026 in Segoe UI 9 at 100% and 150%; Description gives the 3 px.
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Patient",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",40,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Clinic",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Code",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",26,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",270,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",267,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Charges",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Credits",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Balance",60,displayFieldCategory));
@@ -330,13 +332,14 @@ namespace OpenPmsDentalBusiness {
 				#endregion ChartPatientInformation
 				#region ProcedureGroupNote
 				case DisplayFieldCategory.ProcedureGroupNote:
-					listDisplayFields.Add(new DisplayField("Date",67,displayFieldCategory));
+					//UI-COLS: Date, Surf and Amount hold 12/31/2026, MODBL and 9,999.99 in Segoe UI 9 at 100% and 150%; Description gives the 9 px.
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Th",27,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",40,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",203,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",194,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Stat",25,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",42,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Amount",48,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Amount",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Proc Code",62,displayFieldCategory));
 					//if(Programs.UsingOrion){
 					//  listDisplayFields.Add(new DisplayField("Stat 2",36,displayFieldCategory));
@@ -352,10 +355,10 @@ namespace OpenPmsDentalBusiness {
 					listDisplayFields.Add(new DisplayField("Done",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Priority",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",40,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));//UI-COLS: MODBL in Segoe UI 9; Description gives the 1 px
 					listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Sub",28,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",202,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",201,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Allowed",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Pri Ins",50,displayFieldCategory));
@@ -456,7 +459,7 @@ namespace OpenPmsDentalBusiness {
 				#region AppointmentEdit
 				case DisplayFieldCategory.AppointmentEdit:
 					listDisplayFields.Add(new DisplayField("Stat",35,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Priority",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Priority",52,displayFieldCategory));//UI-COLS: its heading in Segoe UI 9 Bold
 					if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 						listDisplayFields.Add(new DisplayField("Code",125,displayFieldCategory));
 					}
@@ -465,7 +468,8 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					listDisplayFields.Add(new DisplayField("Description",275,displayFieldCategory));
+					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
+					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Abbreviation",80,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Layman's Term",100,displayFieldCategory));
@@ -474,7 +478,7 @@ namespace OpenPmsDentalBusiness {
 				#region PlannedAppointmentEdit
 				case DisplayFieldCategory.PlannedAppointmentEdit:
 					listDisplayFields.Add(new DisplayField("Stat",35,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Priority",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Priority",52,displayFieldCategory));//UI-COLS: its heading in Segoe UI 9 Bold
 					if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 						listDisplayFields.Add(new DisplayField("Code",125,displayFieldCategory));
 					}
@@ -483,7 +487,8 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					listDisplayFields.Add(new DisplayField("Description",275,displayFieldCategory));
+					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
+					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField(InternalNames.PlannedAppointmentEdit.Abbreviation,80,displayFieldCategory));
 					break;
@@ -597,14 +602,14 @@ namespace OpenPmsDentalBusiness {
 				#endregion A/R Manager Sent Grid
 				#region Statement Limited Custom SuperFamily
 				case DisplayFieldCategory.LimitedCustomStatement:
-					listDisplayFields.Add(new DisplayField("Date",65,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Patient",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Guarantor",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",40,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Clinic",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Code",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",26,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",270,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",267,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Charges",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Credits",60,displayFieldCategory));
 					//listDisplayFields.Add(new DisplayField("Signed",60,displayFieldCategory));
@@ -633,21 +638,21 @@ namespace OpenPmsDentalBusiness {
 			switch (displayFieldCategory) {
 				#region 'None'
 				case DisplayFieldCategory.None://Currently only used for ChartViews
-					listDisplayFields.Add(new DisplayField("Date",67,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Time",40,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Time",42,displayFieldCategory));//UI-COLS: 12:00p in Segoe UI 9 at 100% and 150%
 					listDisplayFields.Add(new DisplayField("Th",27,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",40,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Dx",28,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",218,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",209,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Stat",25,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",42,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Amount",48,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Amount",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Proc Code",62,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("User",62,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Signed",55,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Priority",44,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Date TP",67,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Date Entry",67,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date TP",68,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date Entry",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prognosis",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Length",40,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Abbr",50,displayFieldCategory));
@@ -743,12 +748,12 @@ namespace OpenPmsDentalBusiness {
 				#endregion PatientInformation
 				#region AccountModule
 				case DisplayFieldCategory.AccountModule:
-					listDisplayFields.Add(new DisplayField("Date",65,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Patient",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",40,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Code",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",26,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",270,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",267,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Charges",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Credits",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Balance",60,displayFieldCategory));
@@ -814,13 +819,13 @@ namespace OpenPmsDentalBusiness {
 				#endregion ChartPatientInformation
 				#region ProcedureGroupNote
 				case DisplayFieldCategory.ProcedureGroupNote:
-					listDisplayFields.Add(new DisplayField("Date",67,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Th",27,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",40,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",218,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",209,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Stat",25,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",42,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Amount",48,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Amount",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Proc Code",62,displayFieldCategory));
 					break;
 				#endregion ProcedureGroupNote
@@ -829,10 +834,10 @@ namespace OpenPmsDentalBusiness {
 					listDisplayFields.Add(new DisplayField("Done",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Priority",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",40,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Surf",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Surf",46,displayFieldCategory));//UI-COLS: MODBL in Segoe UI 9; Description gives the 1 px
 					listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Sub",28,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",202,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",201,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Allowed",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Pri Ins",50,displayFieldCategory));
@@ -845,7 +850,7 @@ namespace OpenPmsDentalBusiness {
 					listDisplayFields.Add(new DisplayField("Abbr",110,displayFieldCategory));//proc abbr
 					listDisplayFields.Add(new DisplayField("Tax Est",50,displayFieldCategory)); //Sales tax
 					listDisplayFields.Add(new DisplayField("Prov",50,displayFieldCategory));//provnum
-					listDisplayFields.Add(new DisplayField("DateTP",65,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("DateTP",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Clinic",50,displayFieldCategory));//clinicnum
 					listDisplayFields.Add(new DisplayField(InternalNames.TreatmentPlanModule.Appt,35,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField(InternalNames.TreatmentPlanModule.CatPercUCR,65,displayFieldCategory));
@@ -945,7 +950,7 @@ namespace OpenPmsDentalBusiness {
 				#region AppointmentEdit
 				case DisplayFieldCategory.AppointmentEdit:
 					listDisplayFields.Add(new DisplayField("Stat",35,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Priority",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Priority",52,displayFieldCategory));//UI-COLS: its heading in Segoe UI 9 Bold
 					if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 						listDisplayFields.Add(new DisplayField("Code",125,displayFieldCategory));
 					}
@@ -954,7 +959,7 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					listDisplayFields.Add(new DisplayField("Description",255,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",248,displayFieldCategory));//UI-COLS: Priority took 7 px
 					listDisplayFields.Add(new DisplayField("Fee",70,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Abbreviation",80,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Layman's Term",100,displayFieldCategory));
@@ -963,7 +968,7 @@ namespace OpenPmsDentalBusiness {
 				#region PlannedAppointmentEdit
 				case DisplayFieldCategory.PlannedAppointmentEdit:
 					listDisplayFields.Add(new DisplayField("Stat",35,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Priority",45,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Priority",52,displayFieldCategory));//UI-COLS: its heading in Segoe UI 9 Bold
 					if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 						listDisplayFields.Add(new DisplayField("Code",125,displayFieldCategory));
 					}
@@ -972,7 +977,8 @@ namespace OpenPmsDentalBusiness {
 						listDisplayFields.Add(new DisplayField("Surf",50,displayFieldCategory));
 						listDisplayFields.Add(new DisplayField("Code",50,displayFieldCategory));
 					}
-					listDisplayFields.Add(new DisplayField("Description",275,displayFieldCategory));
+					//UI-COLS: 510 px in all, inside FormApptEdit's 538 px grid with its scroll bar, so Fee is not pushed past the edge (was 540).
+					listDisplayFields.Add(new DisplayField("Description",238,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Fee",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField(InternalNames.PlannedAppointmentEdit.Abbreviation,80,displayFieldCategory));
 					break;
@@ -1090,14 +1096,14 @@ namespace OpenPmsDentalBusiness {
 				#endregion A/R Manager Sent Grid
 				#region Statement Limited Custom SuperFamily
 				case DisplayFieldCategory.LimitedCustomStatement:
-					listDisplayFields.Add(new DisplayField("Date",65,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Date",68,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Patient",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Guarantor",100,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Prov",40,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Clinic",50,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Code",46,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Tth",26,displayFieldCategory));
-					listDisplayFields.Add(new DisplayField("Description",270,displayFieldCategory));
+					listDisplayFields.Add(new DisplayField("Description",267,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Charges",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Credits",60,displayFieldCategory));
 					listDisplayFields.Add(new DisplayField("Signed",60,displayFieldCategory));

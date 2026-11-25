@@ -242,11 +242,11 @@ namespace OpenPmsDental{
 			GridColumn col;
 			//If this column is changed from a date column then the comparer method (ComparePayPlanRows) needs to be updated.
 			//If changes are made to the order of the grid, changes need to also be made for butPrint_Click
-			col=new GridColumn(Lan.g("PayPlanAmortization","Date"),64,HorizontalAlignment.Center);//0
+			col=new GridColumn(Lan.g("PayPlanAmortization","Date"),68,HorizontalAlignment.Center);//0
 			gridCharges.Columns.Add(col);
 			col=new GridColumn(Lan.g("PayPlanAmortization","Provider"),50);//1
 			gridCharges.Columns.Add(col);
-			col=new GridColumn(Lan.g("PayPlanAmortization","Description"),130);//2
+			col=new GridColumn(Lan.g("PayPlanAmortization","Description"),126);//2
 			gridCharges.Columns.Add(col);
 			col=new GridColumn(Lan.g("PayPlanAmortization","Principal"),60,HorizontalAlignment.Right);//3
 			gridCharges.Columns.Add(col);

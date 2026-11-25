@@ -190,13 +190,13 @@ namespace OpenPmsDental {
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Kiosk"),55,HorizontalAlignment.Center,GridSortingStrategy.AmountParse);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Description"),170);
+			col=new GridColumn(Lan.g(this,"Description"),167);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Status"),110);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Image Category"),100);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Updated"),65,GridSortingStrategy.DateParse);
+			col=new GridColumn(Lan.g(this,"Updated"),68,GridSortingStrategy.DateParse);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"Submitted"),115,GridSortingStrategy.DateParse);//Open Dental 25.4 sheet/eform.DateTimeSubmitted
 			gridMain.Columns.Add(col);

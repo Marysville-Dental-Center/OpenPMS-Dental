@@ -440,11 +440,11 @@ namespace OpenPmsDental {
 			}
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			GridColumn col=new GridColumn(Lan.g(this,"Date Time"),120);
+			GridColumn col=new GridColumn(Lan.g(this,"Date Time"),122);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lan.g(this,"User"),80);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lan.g(this,"Note"),400);
+			col=new GridColumn(Lan.g(this,"Note"),398);
 			gridMain.Columns.Add(col);
 			gridMain.ListGridRows.Clear();
 			_listTaskNotes=TaskNotes.GetForTask(TaskCur.TaskNum);

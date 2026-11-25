@@ -57,7 +57,7 @@ namespace OpenPmsDental {
 		private void FillGrid(){
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),66));
+			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),68));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),50));
 			gridMain.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));
 			if(!Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {

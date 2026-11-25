@@ -74,9 +74,9 @@ namespace OpenPmsDental{
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lans.g("TableInsurancePlans","Carrier"),140);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lans.g("TableInsurancePlans","Phone"),82);
+			col=new GridColumn(Lans.g("TableInsurancePlans","Phone"),84);
 			gridMain.Columns.Add(col);
-			col=new GridColumn(Lans.g("TableInsurancePlans","Address"),120);
+			col=new GridColumn(Lans.g("TableInsurancePlans","Address"),118);
 			gridMain.Columns.Add(col);
 			col=new GridColumn(Lans.g("TableInsurancePlans","City"),80);
 			gridMain.Columns.Add(col);

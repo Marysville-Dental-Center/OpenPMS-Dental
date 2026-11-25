@@ -18,4 +18,4 @@ OpenPmsDental/Forms/FormSupplyReceive.cs	Received	60	other	999	The quantity rece
 OpenPmsDental/Forms/FormXchargeTokenTool.cs	Exp	50	other	1226	The card's expiration month and year (MMyy).
 OpenPmsDental/Main Modules/ControlAccount.cs	Time	42	other	12:00p	The commlog time as the account module formats it (h:mm and a or p, AccountModules).
 OpenPmsDental/Main Modules/ControlManage.cs	Sent	63	time		The text message's time sent (ToShortTimeString).
-OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	Time	40	other	12:00p	The progress notes' time as the chart formats it (h:mm and a or p, ChartModules).
+OpenPmsDentalBusiness/Data Interface/DisplayFields.cs	Time	42	other	12:00p	The progress notes' time as the chart formats it (h:mm and a or p, ChartModules).

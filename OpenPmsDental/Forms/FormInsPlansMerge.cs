@@ -41,7 +41,7 @@ namespace OpenPmsDental{
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Carrier",100);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Phone",82);
+			col=new GridColumn("Phone",84);
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Address",100);
 			gridMain.Columns.Add(col);
@@ -57,7 +57,7 @@ namespace OpenPmsDental{
 			gridMain.Columns.Add(col);
 			col=new GridColumn("Subs",40);
 			gridMain.Columns.Add(col);
-			col=new GridColumn("Plan Note",180);
+			col=new GridColumn("Plan Note",178);
 			gridMain.Columns.Add(col);
 			//TrojanID and PlanNote not shown
 			gridMain.ListGridRows.Clear();

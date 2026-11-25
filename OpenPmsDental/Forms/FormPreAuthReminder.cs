@@ -31,8 +31,8 @@ namespace OpenPmsDental {
 			gridMain.Columns.Clear();
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Code"),70));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Tth"),40));
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Surf"),45));
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Description"),200));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Surf"),46));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Description"),199));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Carrier"),160));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Plan"),60));
 			gridMain.ListGridRows.Clear();

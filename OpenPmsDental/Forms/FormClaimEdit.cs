@@ -1058,7 +1058,7 @@ namespace OpenPmsDental{
 			gridProc.BeginUpdate();
 			gridProc.Columns.Clear();
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","#"),25));
-			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),66));
+			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Date"),68));
 			gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Prov"),62));
 			if(Clinics.IsMedicalPracticeOrClinic(Clinics.ClinicNum)) {
 				gridProc.Columns.Add(new GridColumn(Lan.g("TableClaimProc","Code"),75));

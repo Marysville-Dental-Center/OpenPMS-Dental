@@ -246,7 +246,7 @@ namespace OpenPmsDental {
 			GridColumn col=new GridColumn(Lan.g("TableClaimProc","Split"),30,HorizontalAlignment.Center);//Split proc selection column
 			gridPayments.Columns.Add(col);
 			_idxSplit=gridPayments.Columns.Count-1;
-			col=new GridColumn(Lan.g("TableClaimProc","Date"),66);
+			col=new GridColumn(Lan.g("TableClaimProc","Date"),68);
 			gridPayments.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableClaimProc","Prov"),50);
 			gridPayments.Columns.Add(col);
@@ -254,7 +254,7 @@ namespace OpenPmsDental {
 			gridPayments.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableClaimProc","Tth"),25);
 			gridPayments.Columns.Add(col);
-			col=new GridColumn(Lan.g("TableClaimProc","Description"),130);
+			col=new GridColumn(Lan.g("TableClaimProc","Description"),128);
 			gridPayments.Columns.Add(col);
 			col=new GridColumn(Lan.g("TableClaimProc","Fee Billed"),62,HorizontalAlignment.Right);
 			gridPayments.Columns.Add(col);
