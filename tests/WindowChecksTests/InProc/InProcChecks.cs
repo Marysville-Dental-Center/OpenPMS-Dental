@@ -31,6 +31,8 @@ namespace WindowChecksTests.InProc {
 			System.Windows.Media.RenderOptions.ProcessRenderMode=System.Windows.Interop.RenderMode.SoftwareOnly;
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			//As ProgramEntry.Main (UI-6): the token renderer for this thread's stock menus; without it C20 saw the professional renderer.
+			UiTheme.InitWinForms();
 			ODInitialize.Initialize();
 			PdfSharpSetup.Init();
 			Security.CurComputerName=ODEnvironment.MachineName;

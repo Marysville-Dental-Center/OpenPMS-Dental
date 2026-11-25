@@ -72,10 +72,8 @@ namespace CodeBase {
 				//Windows Forms can put its own renderer back on a system change (a visual style or display change, e.g. a remote desktop
 				//connecting), which turned the stock menus back to the old look (window check C20). Set the token renderer again whenever that happens.
 				_isRendererWatched=true;
-				//Windows Forms can drop its renderer without raising RendererChanged (the getter then makes a new professional renderer), so the
-				//thread's own idle event checks it too: a type check, on this thread, whose renderer it is.
 				ToolStripManager.RendererChanged+=(sender,e) => ReapplyRenderer();
-				Application.Idle+=(sender,e) => ReapplyRenderer();
+				Microsoft.Win32.SystemEvents.UserPreferenceChanged+=(sender,e) => ReapplyRenderer();
 			}
 			ReapplyRenderer();
 		}
