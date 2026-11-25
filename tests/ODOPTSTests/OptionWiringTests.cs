@@ -221,7 +221,7 @@ namespace ODOPTSTests {
 
 		[TestMethod]
 		public void ReleaseNotes_OneLineEach() {
-			string notes=ScratchDb.ReadRepoFile("docs","release-notes","next.md");
+			string notes=ScratchDb.ReadRepoFile("docs","release-notes","v0.1.md");
 			foreach(string name in OdOptions.ArrayPrefNames) {
 				Assert.AreEqual(1,Regex.Matches(notes,"`"+name+"`").Count,name);
 			}
@@ -262,7 +262,7 @@ namespace ODOPTSTests {
 			StringAssert.Contains(rowRunbook,"Kept as built (owner, 2026-11-07, ODOPTS 6)");
 			StringAssert.Contains(rowRunbook,"asks before e-mailing until Statement Send Setup is saved");
 			Assert.IsFalse(rowRunbook.Contains("settle owner question ODOPTS 6"),"The runbook does not hold the switch-over for a question the owner answered.");
-			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","next.md"),"`StatementAutoSendEmail`"),"Message-to-Pay");
+			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","v0.1.md"),"`StatementAutoSendEmail`"),"Message-to-Pay");
 		}
 
 		[TestMethod]
@@ -271,7 +271,7 @@ namespace ODOPTSTests {
 			StringAssert.Contains(Line(odopts,"| `ClaimUpdateFeeForSecondary` |"),"Edit All");
 			string questions=ScratchDb.ReadRepoFile("docs","owner-questions.md");
 			StringAssert.Contains(Between(questions,"- (ODOPTS 3) `ClaimUpdateFeeForSecondary`","- (ODOPTS 4)"),"Edit All");
-			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","next.md"),"`ClaimUpdateFeeForSecondary`"),"Edit All");
+			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","v0.1.md"),"`ClaimUpdateFeeForSecondary`"),"Edit All");
 			string runbook=ScratchDb.ReadRepoFile("docs","adoption-runbook.md");
 			foreach(string name in new[] { EFormImport.PREF_ALLERGIES_AS_OTHER,EFormImport.PREF_PROBLEMS_AS_OTHER }) {
 				string row=Line(runbook,"| ODOPTS: `"+name+"` |");
