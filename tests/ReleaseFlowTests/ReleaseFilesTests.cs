@@ -56,7 +56,7 @@ namespace ReleaseFlowTests {
 		public void SharedAssemblyInfo_NamesTheProductTheReleaseAndBothCopyrights() {
 			string text=StripComments(TestPaths.ReadSource("SharedAssemblyInfo.cs"));
 			StringAssert.Contains(text,"[assembly: AssemblyProduct(\"Open PMS - Dental\")]");
-			StringAssert.Contains(text,"[assembly: AssemblyInformationalVersion(\"0.0\")]");
+			StringAssert.Contains(text,"[assembly: AssemblyInformationalVersion(\"0.1\")]");
 			Match matchCopyright=Regex.Match(text,@"\[assembly: AssemblyCopyright\((.*?)\)\]",RegexOptions.Singleline);
 			Assert.IsTrue(matchCopyright.Success,"AssemblyCopyright");
 			string copyright=string.Concat(Regex.Matches(matchCopyright.Groups[1].Value,"\"((?:[^\"\\\\]|\\\\.)*)\"").Cast<Match>().Select(x => x.Groups[1].Value));
@@ -217,7 +217,7 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void ReleaseVersion_IsNeverSentOrComparedAsAVersionNumber() {
-			//Each of these read Application.ProductVersion, which is the release version ("0.0") in every shipped program since the shared
+			//Each of these read Application.ProductVersion, which is the release version (for example "0.1") in every shipped program since the shared
 			//assembly info. Where a version number is sent or compared, they now use the compatibility version.
 			string[][] arrayPaths=new[] {
 				new[] { "OpenPmsDentalBusiness","Eclaims","ClaimConnect.cs" },
