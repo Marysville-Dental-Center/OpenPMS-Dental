@@ -69,7 +69,14 @@ namespace ImagingTests {
 		[TestMethod]
 		public void SwapAndMove_TakeTheNewSlotsTeeth() {
 			string display=Display();
-			Assert.AreEqual(3,Regex.Matches(display,Regex.Escape("ImageTeeth.GetTeethAfterMove(")).Count,"The swap (both images) and the move to an empty slot.");
+			string teethAfterMove=Regex.Escape("ImageTeeth.GetTeethAfterMove(");
+			//Each path that moves an image into another slot gives it the new slot's teeth (design D6); counted per method, so a new path
+			//is added here on purpose rather than changing a count for the whole file.
+			Assert.AreEqual(3,Regex.Matches(MethodBody(display,"private void panelMain_MouseUp("),teethAfterMove).Count,
+				"Adjust mode's drag: the swap (both images) and the move to an empty slot.");
+			Assert.AreEqual(2,Regex.Matches(MethodBody(display,"private void MoveImageToSlot("),teethAfterMove).Count,
+				"FB-1 viewing mode's drag and drop: the moved image, and the other image of a swap.");
+			Assert.AreEqual(5,Regex.Matches(display,teethAfterMove).Count,"No other path calls it; a new one gets its own line above.");
 			Assert.IsFalse(display.Contains("//only if unchanged by user"),"The old rule (teeth follow only when unchanged) is replaced by design D6.");
 		}
 
