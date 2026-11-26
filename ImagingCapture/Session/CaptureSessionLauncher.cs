@@ -31,6 +31,8 @@ namespace ImagingCapture.Session {
 		public long CategoryDefNum { get; set; }
 		///<summary>The window the session window is modal to (a WinForms control or a window handle), passed to the window runner as it is.</summary>
 		public object Owner { get; set; }
+		///<summary>FB-1: the slot of Mount (its MountItemNum) whose image is taken again, or 0 (CaptureSessionSetup.RetakeMountItemNum).</summary>
+		public long RetakeMountItemNum { get; set; }
 	}
 
 	///<summary>What the partial does after CaptureSessionLauncher.Launch.</summary>
@@ -319,7 +321,13 @@ namespace ImagingCapture.Session {
 				List<MountItem> listMountItems=_services.Store.GetMountItems(request.Mount.MountNum)??new List<MountItem>();
 				List<Document> listDocuments=_services.Store.GetDocumentsForMountItems(listMountItems)??new List<Document>();
 				mountSlots=new MountSlots(request.Mount,listMountItems,listDocuments);
-				if(mountSlots.Target==null) {
+				bool isRetakeSlotFilled=request.RetakeMountItemNum!=0 && Enumerable.Range(0,listMountItems.Count)
+					.Any(i => listMountItems[i].MountItemNum==request.RetakeMountItemNum && MountPlacement.IsSlot(listMountItems[i]) && listDocuments[i]!=null);
+				if(request.RetakeMountItemNum!=0 && !isRetakeSlotFilled) {
+					return CaptureSessionLaunchResult.Refused("The image to retake is no longer in its slot of the mount '"+(request.Mount.Description??"")
+						+"'. Select it again.",false);
+				}
+				if(mountSlots.Target==null && !isRetakeSlotFilled) {//a full mount can still take a retake (FB-1)
 					bool hasSlots=listMountItems.Any(x => MountPlacement.IsSlot(x));
 					return CaptureSessionLaunchResult.Refused(hasSlots
 						? "Every slot of the mount '"+(request.Mount.Description??"")+"' already has an image. Select a category or another mount."
@@ -333,6 +341,7 @@ namespace ImagingCapture.Session {
 				Mount=request.Mount,
 				MountDef=request.MountDef,
 				MountSlots=mountSlots,
+				RetakeMountItemNum=request.RetakeMountItemNum,
 				ImagingDevice=request.ImagingDevice,
 				CategoryDefNum=request.CategoryDefNum,
 				ProvNumDefault=GetDefaultProvNum(request.Patient),

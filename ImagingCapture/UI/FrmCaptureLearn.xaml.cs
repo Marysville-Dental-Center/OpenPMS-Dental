@@ -48,7 +48,11 @@ namespace ImagingCapture.UI {
 		///<summary>The candidate of each comboLevel item after the first ("None").</summary>
 		private List<LevelCandidate> _listLevelCandidates=new List<LevelCandidate>();
 		private List<Label> _listLabelTiles=new List<Label>();
+		///<summary>FB-1: the property of each comboLightProperty item after the first ("(choose)").</summary>
+		private List<int> _listLightProperties=new List<int>();
 		private int _versionShown=-1;
+		///<summary>FB-1: true while FillComboButtons sets textLightMax, so its TextChanged does not act.</summary>
+		private bool _isFillingLightMax;
 		private int _versionLiveTestShown=-1;
 		///<summary>The values last shown in gridValues, so it is refilled only when one changes.</summary>
 		private string _gridContentShown;
@@ -67,6 +71,9 @@ namespace ImagingCapture.UI {
 			comboKey.SelectionChangeCommitted+=comboKey_SelectionChangeCommitted;
 			comboLevel.SelectionChangeCommitted+=comboLevel_SelectionChangeCommitted;
 			comboCategory.SelectionChangeCommitted+=comboCategory_SelectionChangeCommitted;
+			comboButtonAction.SelectionChangeCommitted+=comboButtonAction_SelectionChangeCommitted;
+			comboLightProperty.SelectionChangeCommitted+=comboLightProperty_SelectionChangeCommitted;
+			textLightMax.TextChanged+=textLightMax_TextChanged;
 		}
 		#endregion Constructor
 
@@ -203,6 +210,57 @@ namespace ImagingCapture.UI {
 			RefreshView();
 		}
 
+		private void comboButtonAction_SelectionChangeCommitted(object sender,EventArgs e) {
+			int idx=comboButtonAction.SelectedIndex;
+			if(idx>=0 && idx<LevelActions.ArrayButtonActions.Length) {
+				_captureLearnModel.SelectButtonAction(LevelActions.ArrayButtonActions[idx]);
+			}
+			RefreshView();
+		}
+
+		private void comboLightProperty_SelectionChangeCommitted(object sender,EventArgs e) {
+			int idx=comboLightProperty.SelectedIndex;
+			_captureLearnModel.SetLightProperty(idx>=1 && idx-1<_listLightProperties.Count ? _listLightProperties[idx-1] : (int?)null);
+			RefreshView();
+		}
+
+		///<summary>FB-1: a whole number of 0 or more sets the light's highest value; empty clears it; anything else is ignored.</summary>
+		private void textLightMax_TextChanged(object sender,EventArgs e) {
+			if(_isFillingLightMax || _captureLearnModel==null) {
+				return;
+			}
+			int? lightMax;
+			if(TryParseLightMax(textLightMax.Text,out lightMax)) {
+				_captureLearnModel.SetLightMax(lightMax);
+			}
+			RefreshView();
+		}
+
+		///<summary>"" is null; a whole number of 0 or more is that number; anything else is false.</summary>
+		private static bool TryParseLightMax(string text,out int? lightMax) {
+			lightMax=null;
+			text=(text??"").Trim();
+			if(text=="") {
+				return true;
+			}
+			int value;
+			if(!int.TryParse(text,NumberStyles.None,CultureInfo.InvariantCulture,out value)) {
+				return false;
+			}
+			lightMax=value;
+			return true;
+		}
+
+		private void checkLightOffWhileResting_Click(object sender,EventArgs e) {
+			_captureLearnModel.SetLightOffWhileResting(checkLightOffWhileResting.Checked==true);
+			RefreshView();
+		}
+
+		private void butForgetButton_Click(object sender,EventArgs e) {
+			_captureLearnModel.ForgetButton(_captureLearnModel.ButtonActionSelected);
+			RefreshView();
+		}
+
 		private void comboCategory_SelectionChangeCommitted(object sender,EventArgs e) {
 			int idx=comboCategory.SelectedIndex;
 			if(idx>=0 && idx<_listCategoryDefNums.Count) {
@@ -274,6 +332,34 @@ namespace ImagingCapture.UI {
 			comboKey.SelectedIndex=_listKeyCandidates.IndexOf(_captureLearnModel.KeyChosen);
 		}
 
+		///<summary>FB-1: the Other buttons page's pickers: what the next recording is for (with what is learned), and the light setting.</summary>
+		private void FillComboButtons() {
+			comboButtonAction.Items.Clear();
+			foreach(LevelAction action in LevelActions.ArrayButtonActions) {
+				ButtonAssignment buttonAssignment=_captureLearnModel.Buttons.FirstOrDefault(x => x.Action==action);
+				string text=LevelActions.GetText(action);
+				text=char.ToUpperInvariant(text[0])+text.Substring(1);
+				comboButtonAction.Items.Add(Lang.g(this,text)+(buttonAssignment==null ? "" : " ("+Lang.g(this,"learned")+")"));
+			}
+			comboButtonAction.SelectedIndex=Array.IndexOf(LevelActions.ArrayButtonActions,_captureLearnModel.ButtonActionSelected);
+			_listLightProperties=_captureLearnModel.GetLightPropertyChoices();
+			comboLightProperty.Items.Clear();
+			comboLightProperty.Items.Add(Lang.g(this,"(choose)"));
+			for(int i=0;i<_listLightProperties.Count;i++) {
+				comboLightProperty.Items.Add(new ControlId(UvcControlInterface.VideoProcAmp,_listLightProperties[i]).ToString());
+			}
+			int? lightProperty=_captureLearnModel.LightProperty;
+			comboLightProperty.SelectedIndex=lightProperty==null ? 0 : _listLightProperties.IndexOf(lightProperty.Value)+1;
+			//What is typed stays while it means the model's value (or cannot be read yet), so typing is not undone.
+			int? lightMaxTyped;
+			if(TryParseLightMax(textLightMax.Text,out lightMaxTyped) && lightMaxTyped!=_captureLearnModel.LightMax) {
+				_isFillingLightMax=true;
+				textLightMax.Text=_captureLearnModel.LightMax?.ToString(CultureInfo.InvariantCulture)??"";
+				_isFillingLightMax=false;
+			}
+			checkLightOffWhileResting.Checked=_captureLearnModel.IsLightOffWhileResting;
+		}
+
 		private void FillComboLevel() {
 			_listLevelCandidates=_captureLearnModel.GetLevelCandidates();
 			comboLevel.Items.Clear();
@@ -301,6 +387,7 @@ namespace ImagingCapture.UI {
 				_versionShown=model.Version;
 				SetText(labelResult,model.GetResultText());
 				FillComboKey();
+				FillComboButtons();
 				FillComboLevel();
 				comboCategory.SelectedIndex=_listCategoryDefNums.IndexOf(model.CategoryDefNum);
 				string warning=model.GetCategoryWarning();
@@ -316,9 +403,9 @@ namespace ImagingCapture.UI {
 			bool isPageWithRecording=isLearn && model.Page!=LearnPage.LiveTest;
 			butRecord.Visible=isPageWithRecording;
 			butRecord.IsEnabled=model.CanRecord;
-			butStop.Visible=isLearn && (model.Page==LearnPage.KeyCapture || model.Page==LearnPage.Level);
+			butStop.Visible=isLearn && (model.Page==LearnPage.KeyCapture || model.Page==LearnPage.Buttons || model.Page==LearnPage.Level);
 			butStop.IsEnabled=model.CanStop;
-			butSkip.Visible=isLearn && (model.Page==LearnPage.BaselineB || model.Page==LearnPage.Level);
+			butSkip.Visible=isLearn && (model.Page==LearnPage.BaselineB || model.Page==LearnPage.Buttons || model.Page==LearnPage.Level);
 			butSkip.IsEnabled=model.CanSkip;
 			butResetCounts.Visible=model.Page==LearnPage.LiveTest;
 			labelKey.Visible=model.IsKeyPickerVisible;
@@ -326,6 +413,22 @@ namespace ImagingCapture.UI {
 			labelLevel.Visible=model.IsLevelPickerVisible;
 			comboLevel.Visible=model.IsLevelPickerVisible;
 			comboLevel.IsEnabled=!model.IsRecording;
+			labelButtonAction.Visible=model.IsButtonPickerVisible;
+			comboButtonAction.Visible=model.IsButtonPickerVisible;
+			comboButtonAction.IsEnabled=!model.IsRecording;
+			butForgetButton.Visible=model.IsButtonPickerVisible;
+			butForgetButton.IsEnabled=!model.IsRecording && model.Buttons.Any(x => x.Action==model.ButtonActionSelected);
+			//The light setting matters for the light buttons only.
+			bool isLightPickerVisible=model.IsButtonPickerVisible && LevelActions.IsLightAction(model.ButtonActionSelected);
+			labelLightProperty.Visible=isLightPickerVisible;
+			comboLightProperty.Visible=isLightPickerVisible;
+			comboLightProperty.IsEnabled=!model.IsRecording;
+			labelLightMax.Visible=isLightPickerVisible;
+			textLightMax.Visible=isLightPickerVisible;
+			textLightMax.IsEnabled=!model.IsRecording;
+			labelLightMaxNote.Visible=isLightPickerVisible;
+			checkLightOffWhileResting.Visible=model.IsLightOffWhileRestingAvailable;
+			checkLightOffWhileResting.IsEnabled=!model.IsRecording;
 			gridValues.Visible=model.IsValueGridVisible;
 			panelTiles.Visibility=model.IsTilesVisible ? Visibility.Visible : Visibility.Collapsed;
 			labelCategory.Visible=model.IsCategoryVisible;

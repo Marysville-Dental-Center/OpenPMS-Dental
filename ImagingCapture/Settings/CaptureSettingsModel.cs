@@ -110,6 +110,9 @@ namespace ImagingCapture.Settings {
 		///<summary>Why the driver's saved description of its settings gave no Source.* rows, or "" (IMG-SRCSET).</summary>
 		public string SourceSettingsSchemaError { get; private set; }="";
 
+		///<summary>FB-1: the names of capability numbers from capture.ini [CapabilityNames], read by Load. Never null.</summary>
+		public CaptureCapabilityNames CapabilityNames { get; private set; }=new CaptureCapabilityNames();
+
 		#region Methods - editing
 		///<summary>Reads capture.ini and the hash check again; edits are discarded.</summary>
 		public void Load() {
@@ -118,6 +121,7 @@ namespace ImagingCapture.Settings {
 			string schemaError;
 			List<CaptureSettingDef> listDefs=CaptureSettingsCatalog.GetSettings(Device.ImagingDeviceNum,config,null,out schemaError);
 			SourceSettingsSchemaError=schemaError;
+			CapabilityNames=CaptureCapabilityNames.Read(config);
 			foreach(CaptureSettingDef settingDef in listDefs) {
 				CaptureSettingRow row=new CaptureSettingRow(settingDef,Device.ImagingDeviceNum);
 				row.IsPresent=config.ContainsKey(row.SectionName,settingDef.Key);

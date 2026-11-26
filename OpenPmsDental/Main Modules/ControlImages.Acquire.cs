@@ -23,7 +23,7 @@ namespace OpenPmsDental{
 		///The main window's patient can change while the session window is open (a task popup's Go To, a Windows lock that logs off and selects
 		///no patient; design 7.6), and with it _patient. So everything after the session is for patientBound, and the module shows the session's
 		///mount or image only while it still shows that patient.</summary>
-		private bool TryAcquireWithCaptureSession(ImagingDevice imagingDevice,MountDef mountDef){
+		private bool TryAcquireWithCaptureSession(ImagingDevice imagingDevice,MountDef mountDef,long retakeMountItemNum=0){
 			if(_patient==null){
 				return false;//the button is disabled without a patient; the legacy path is unchanged
 			}
@@ -41,6 +41,7 @@ namespace OpenPmsDental{
 				ImagingDevice=imagingDevice,
 				CategoryDefNum=mount==null ? GetCurrentCategory() : mount.DocCategory,
 				Owner=this,
+				RetakeMountItemNum=mount==null ? 0 : retakeMountItemNum,
 			};
 			CaptureSessionLaunchResult result=CaptureSessionLauncher.Launch(request);//never throws
 			if(result.Kind==CaptureSessionLaunchKind.NotStarted){

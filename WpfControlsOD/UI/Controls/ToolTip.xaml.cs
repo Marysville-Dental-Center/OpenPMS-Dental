@@ -106,12 +106,21 @@ private ToolTip toolTip;
 		}
 
 		private void SetVisible(FrameworkElement frameworkElement){
-			Visibility=Visibility.Visible;
-			//_isShowing=true;
-			Topmost = true;
-			Activate();
-			Topmost = false;
-			PresentationSource presentationSource = PresentationSource.FromVisual(frameworkElement);
+			//FB-1: the control can have left its window (closed, or removed from the tree) between the mouse move or the timer and now;
+			//PointToScreen then throws "This Visual is not connected to a PresentationSource", which crashed the program from MouseLeave.
+			PresentationSource presentationSource=frameworkElement==null ? null : PresentationSource.FromVisual(frameworkElement);
+			if(presentationSource?.CompositionTarget==null){
+				Visibility=Visibility.Collapsed;
+				return;
+			}
+			if(Visibility!=Visibility.Visible){
+				//FB-1: shown without activation. It used to call Activate() on every mouse move while it showed: the window under the mouse
+				//lost and got back the activation each time, so its caption, the focused text box and the hover looks repainted (the flicker on
+				//hover). Topmost keeps it above its owner without taking the focus.
+				ShowActivated=false;
+				Topmost=true;
+				Visibility=Visibility.Visible;
+			}
 			double scaleWindows=presentationSource.CompositionTarget.TransformToDevice.M11;//example 1.5. For this screen only.
 			//Automatic Window.SizeToContent wasn't working well enough on my 4k monitor. 
 			//Also, the Max width of 200 is arbitrary. If we need more control, that could become a property.
@@ -126,7 +135,11 @@ private ToolTip toolTip;
 			//or else we might sometimes nest a wpf control in an element host along with other WinForm controls.
 			//There may be multiple levels of nesting, but probably not.
 			//But in all cases, we can traverse up until we hit an element host.
-			HwndSource hwndSource = (HwndSource)PresentationSource.FromVisual(frameworkElement);
+			HwndSource hwndSource=presentationSource as HwndSource;
+			if(hwndSource==null){
+				Visibility=Visibility.Collapsed;
+				return;
+			}
 			IntPtr intPtrHandle=hwndSource.Handle;
 			//HwndHost hwndHost = hwndSource.RootVisual as HwndHost;//this could be a way to find the actual winform control that is the elementhost.
 			//IntPtr intPtrHandle=hwndHost.Handle;
@@ -168,6 +181,12 @@ private ToolTip toolTip;
 				return;
 			}
 			FrameworkElement frameworkElement=(FrameworkElement)sender;
+			//FB-1 crash 2026-11-25: MouseLeave also fires when the control leaves its window (a window closing under the mouse); it has no
+			//PresentationSource then and PointToScreen throws. That is a real leave: hide.
+			if(PresentationSource.FromVisual(frameworkElement)==null || PresentationSource.FromVisual(this)==null){
+				Visibility=Visibility.Collapsed;
+				return;
+			}
 			Point pointRelToElement=Mouse.GetPosition(frameworkElement);
 			Point pointDesktop=frameworkElement.PointToScreen(pointRelToElement);
 			Point pointULDesktop=PointToScreen(new Point(0,0));

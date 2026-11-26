@@ -26,7 +26,7 @@ OpenPmsDental.TextBoxWiki	own control	1	0	yes	UiInputFrame (UI-12); UiScrollLook
 OpenPmsDental.ToothChartTextBelowStrip	own control	1	0	yes	ToothChartTextBelowStrip (UI-4c)	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	
 OpenPmsDental.UI.Button	own control	2894	14	yes	UI.Button (UI-4a)	OpenPmsDental/UI/Button	
 OpenPmsDental.UI.CheckBox	own control	1251	3	yes	UI.CheckBox (UI-4a)	OpenPmsDental/UI/CheckBox	
-OpenPmsDental.UI.ComboBox	own control	554	0	yes	UI.ComboBox (UI-4b)	OpenPmsDental/UI/ComboBox	
+OpenPmsDental.UI.ComboBox	own control	556	0	yes	UI.ComboBox (UI-4b)	OpenPmsDental/UI/ComboBox	
 OpenPmsDental.UI.ComboBoxClinicPicker	own control	84	0	yes	ComboBoxClinicPicker (UI-4b)	OpenPmsDental/UI/ClinicSelector/ComboBoxClinicPicker	
 OpenPmsDental.UI.ControlApptPanel	own control	1	0	keeps		OpenPmsDental/UI/Appt/ControlApptPanel*	appointment-book content (UQ-8); its two scroll bars in the Fluent look (UiScrollLook, UI-13)
 OpenPmsDental.UI.ControlApptProvSlider	own control	1	0	yes	ControlApptProvSlider (UI-4c)	OpenPmsDental/UI/Appt/ControlApptProvSlider	the appointment edit window's time pattern
@@ -95,7 +95,7 @@ System.Windows.Forms.FontDialog	stock	1	0	keeps		(outside coverage.tsv: it lists
 System.Windows.Forms.GroupBox	stock	36	2	yes	UiGroupBoxLook (UI-PLAIN)	CodeBase/UI/UiLooks	the plain windows' group boxes (and the program's one hidden legacy group) drawn like UI.GroupBox: 6 px corners, 1 px Stroke, the title inside at the top left
 System.Windows.Forms.HScrollBar	stock	1	2	yes	UiScrollLook (UI-13)	CodeBase/UI/UiScrollLook	flat Surface track, StrokeStrong pill thumb, Fluent chevrons
 System.Windows.Forms.Integration.ElementHost	stock	10	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	hosts a WPF control: the WPF rows below
-System.Windows.Forms.Label	stock	4842	33	yes	UI-2a fonts; plain text in Text on the container	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a label draws its text only: the font tokens (UI-2a/UI-2b) and the grid (UI-12); a LightGray block label gets UiBlockLook, an ActiveCaption grid title UiCaptionLook (Accent, TextOnAccent, the title font) (UI-13)
+System.Windows.Forms.Label	stock	4844	33	yes	UI-2a fonts; plain text in Text on the container	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a label draws its text only: the font tokens (UI-2a/UI-2b) and the grid (UI-12); a LightGray block label gets UiBlockLook, an ActiveCaption grid title UiCaptionLook (Accent, TextOnAccent, the title font) (UI-13)
 System.Windows.Forms.LinkLabel	stock	2	4	yes	UiLooks.SetLinkLabelLook (UI-13)	CodeBase/UI/UiLooks	links in Accent
 System.Windows.Forms.ListBox	stock	11	1	yes	UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)	CodeBase/UI/UiScrollLook	its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)
 System.Windows.Forms.ListView	stock	5	0	yes	UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)	CodeBase/UI/UiLooks	Windows 11's Explorer theme; scroll bars in the Fluent look
@@ -118,7 +118,7 @@ System.Windows.Forms.TabControl	stock	1	1	yes	UiTabLook (UI-PLAIN)	CodeBase/UI/U
 System.Windows.Forms.TabPage	stock	0	2	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws its colour only (UiTabLook gives a stock page the colour behind its tab control); its tab is drawn by its tab control
 System.Windows.Forms.TableLayoutPanel	stock	4	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing: a layout container
 System.Windows.Forms.TextBox	stock	1998	22	yes	UiInputFrame (UI-12) frame; UiScrollLook (UI-13) scroll bars	CodeBase/UI/UiInputFrame	single- and multi-line boxes framed like the combo box; their scroll bars in the Fluent look
-System.Windows.Forms.ToolStripMenuItem	stock	242	149	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a menu item: the token renderer draws it
+System.Windows.Forms.ToolStripMenuItem	stock	242	150	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a menu item: the token renderer draws it
 System.Windows.Forms.ToolStripSeparator	stock	6	22	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a menu separator: the token renderer draws it
 System.Windows.Forms.ToolTip	stock	0	14	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	a component, not a control: Windows 11 draws its themed tooltip (rounded, flat); the program's own is ToolTipOD (UI-4a)
 System.Windows.Forms.TrackBar	stock	1	1	yes	UiTrackBarLook (UI-13)	CodeBase/UI/UiTrackBarLook	the Fluent slider: thin Stroke track, Accent fill, round thumb, StrokeStrong ticks

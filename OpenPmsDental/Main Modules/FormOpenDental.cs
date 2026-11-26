@@ -265,6 +265,7 @@ namespace OpenPmsDental{
 					return;
 				}
 				_patNumCur=value;
+				CrashReport.Note("Patient selected: PatNum "+value);//FB-1: the number only, for a crash report
 				PatientSelectedAudit.LogIfEnabled(value);//Patient Selected audit entry (25.4), when the office turned it on.
 				ODEvent.Fire(ODEventType.Patient,value);
 			}
@@ -3862,6 +3863,7 @@ namespace OpenPmsDental{
 
 		///<summary>Sets the currently selected module based on the selectedIndex of the outlook bar. If selectedIndex is -1, which might happen if user does not have permission to any module, then this does nothing. The menuBarClicked variable should be set to true when a module button is clicked, and should be false when called for refresh purposes.</summary>
 		private void SetModuleSelected(bool menuBarClicked){
+			CrashReport.Note("Module: "+moduleBar.SelectedModule+(menuBarClicked ? " (clicked)" : ""));//FB-1: for a crash report
 			switch(moduleBar.SelectedModule){
 				case EnumModuleType.Appointments:
 					controlAppt.InitializeOnStartup();

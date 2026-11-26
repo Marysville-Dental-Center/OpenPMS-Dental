@@ -79,7 +79,7 @@ namespace ImagingCapture.Tests {
 			List<string> listCalls=FindMatches(@"\.\s*Unused_\w+");
 			Assert.AreEqual(0,listCalls.Count,string.Join("; ",listCalls));
 			List<string> listSetSlots=FindMatches(@"\bUnused_Set\b");
-			Assert.AreEqual(2,listSetSlots.Count,"Only the two placeholder declarations: "+string.Join("; ",listSetSlots));
+			Assert.AreEqual(1,listSetSlots.Count,"Only IAMCameraControl's placeholder declaration: "+string.Join("; ",listSetSlots));
 		}
 
 		[TestMethod]
@@ -97,8 +97,14 @@ namespace ImagingCapture.Tests {
 				List<string> listMatches=FindMatches(Regex.Escape(denied));
 				Assert.AreEqual(0,listMatches.Count,denied+": "+string.Join("; ",listMatches));
 			}
-			List<string> listControlSets=FindMatches(@"_(cameraControl|videoProcAmp)\s*\.\s*Set\b");
-			Assert.AreEqual(0,listControlSets.Count,string.Join("; ",listControlSets));
+			Assert.AreEqual(0,FindMatches(@"_cameraControl\s*\.\s*Set\b").Count,"IAMCameraControl is never written.");
+			//FB-1: the one control write, the handpiece light (VideoProcAmp), from WriteLightControlOnWorker only.
+			List<string> listControlSets=FindMatches(@"_videoProcAmp\s*\.\s*Set\b");
+			Assert.AreEqual(1,listControlSets.Count,string.Join("; ",listControlSets));
+			StringAssert.StartsWith(listControlSets[0],@"Uvc\DirectShow\DirectShowFrameSource.cs");
+			List<string> listLightWrites=FindMatches(@"\.\s*WriteLightControl\s*\(");
+			Assert.AreEqual(1,listLightWrites.Count,"WriteLightControl is called from VideoCaptureSession.WriteLight only: "+string.Join("; ",listLightWrites));
+			StringAssert.StartsWith(listLightWrites[0],@"Video\VideoCaptureSession.cs");
 		}
 	}
 }

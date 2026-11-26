@@ -377,6 +377,183 @@ namespace ImagingCapture.Tests {
 		}
 		#endregion Photos
 
+		#region Light (FB-1)
+		//A handpiece whose buttons are active-low bits of CameraControl Roll: bit 0 the rest sensor, bit 2 the light button. The light is
+		//VideoProcAmp 9, range 0-255 with default 0 in the fake, so the first "on" is the maximum, limited by LightMax.
+		private const int ROLL_IDLE=0x3F;
+		private const int ROLL_LIGHT_PRESSED=0x3B;
+		private const int ROLL_RESTING=0x3E;
+		private const int ROLL_UP_PRESSED=0x1F;
+		private const int ROLL_DOWN_PRESSED=0x3D;
+
+		private VideoCaptureSession OpenWithLight(int gain,string lightMax,bool isRestLevel) {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Trigger]\r\nDebounceMs=1\r\n"
+				+(isRestLevel ? "[Level.1]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x1\r\nActiveLevel=Low\r\nAction=PausePreview\r\nLightOffWhileActive=1\r\n" : "")
+				+"[Level.2]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x4\r\nActiveLevel=Low\r\nAction=ToggleLight\r\nLightProperty=9\r\n"
+				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n")
+				+"[Level.3]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x20\r\nActiveLevel=Low\r\nAction=LightUp\r\nLightProperty=9\r\n"
+				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n")
+				+"[Level.4]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x2\r\nActiveLevel=Low\r\nAction=LightDown\r\nLightProperty=9\r\n"
+				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n"));
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			//The fake's controls exist before the camera opens: the backend hands them to each frame source it opens.
+			_fakeUvcBackend.ActionOnOpen=x => {
+				x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,9,gain);
+			};
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			return videoCaptureSession;
+		}
+
+		private void Poll(VideoCaptureSession videoCaptureSession,int roll) {
+			OpenedLast.SetControlValue(UvcControlInterface.CameraControl,2,roll);
+			videoCaptureSession.TriggerEngine.PollOnce();
+			System.Threading.Thread.Sleep(5);
+		}
+
+		private void Press(VideoCaptureSession videoCaptureSession,int rollPressed=ROLL_LIGHT_PRESSED) {
+			Poll(videoCaptureSession,rollPressed);
+			Poll(videoCaptureSession,ROLL_IDLE);
+		}
+
+		private List<int> GetLightWrites() {
+			return OpenedLast.ListLightWrites.Where(x => x.Item1==9).Select(x => x.Item2).ToList();
+		}
+
+		[TestMethod]
+		public void Light_AboveLightMaxAtOpen_IsLimited() {
+			OpenWithLight(64,"20",false);
+			CollectionAssert.AreEqual(new List<int> { 20 },GetLightWrites(),"The light starts no brighter than LightMax.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Light limited to LightMax: Gain 64 -> 20.");
+		}
+
+		[TestMethod]
+		public void Light_AtOrBelowLightMax_OrNoLightMax_NotWrittenAtOpen() {
+			OpenWithLight(12,"20",false);
+			Assert.AreEqual(0,GetLightWrites().Count,"Below LightMax: left as it is.");
+			_videoCaptureSession.Dispose();
+			_fakeUvcBackend=new FakeUvcBackend();
+			OpenWithLight(200,null,false);
+			Assert.AreEqual(0,GetLightWrites().Count,"Without LightMax nothing is written at open.");
+		}
+
+		[TestMethod]
+		public void Light_Button_TogglesAndRestoresTheValue() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(12,"20",false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			Press(videoCaptureSession);
+			CollectionAssert.AreEqual(new List<int> { 0,12 },GetLightWrites(),"Off, then back to the value it had.");
+		}
+
+		[TestMethod]
+		public void Light_Button_TurningOnNeverAboveLightMax() {
+			//Off at open (0): the first "on" would be the camera's maximum (the fake's default is 0), and LightMax limits it.
+			VideoCaptureSession videoCaptureSession=OpenWithLight(0,"20",false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			CollectionAssert.AreEqual(new List<int> { 20 },GetLightWrites());
+		}
+
+		[TestMethod]
+		public void Light_Button_WithoutLightMax_UsesTheCameraRange() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(0,null,false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			CollectionAssert.AreEqual(new List<int> { 255 },GetLightWrites());
+		}
+
+		[TestMethod]
+		public void Light_Brighter_StepsUpToLightMax_FromOff() {
+			//LightMax 20, minimum 0: five steps of 4.
+			VideoCaptureSession videoCaptureSession=OpenWithLight(0,"20",false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			for(int i=0;i<6;i++) {
+				Press(videoCaptureSession,ROLL_UP_PRESSED);
+			}
+			CollectionAssert.AreEqual(new List<int> { 4,8,12,16,20 },GetLightWrites(),"Off: on at the lowest step; at LightMax: nothing more.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Light brighter (button): Gain 16 -> 20.");
+		}
+
+		[TestMethod]
+		public void Light_Dimmer_StopsAtTheLowestStep_AndNothingWhenOff() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(14,"20",false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			for(int i=0;i<4;i++) {
+				Press(videoCaptureSession,ROLL_DOWN_PRESSED);
+			}
+			CollectionAssert.AreEqual(new List<int> { 10,6,4 },GetLightWrites(),"Dimmer never turns the light off.");
+			Press(videoCaptureSession);
+			Press(videoCaptureSession,ROLL_DOWN_PRESSED);
+			CollectionAssert.AreEqual(new List<int> { 10,6,4,0 },GetLightWrites(),"Off by the on/off button; dimmer then does nothing.");
+		}
+
+		[TestMethod]
+		public void Light_BrightnessChosen_KeptThroughOffAndOn() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(20,"20",true);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession,ROLL_DOWN_PRESSED);
+			Press(videoCaptureSession);
+			Press(videoCaptureSession);
+			Poll(videoCaptureSession,ROLL_RESTING);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			CollectionAssert.AreEqual(new List<int> { 16,0,16,0,16 },GetLightWrites(),"The on/off button and the holder bring back the brightness chosen.");
+		}
+
+		[TestMethod]
+		public void Light_Brighter_WithoutLightMax_StepsAFifthOfTheRange() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(0,null,false);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession,ROLL_UP_PRESSED);
+			Press(videoCaptureSession,ROLL_UP_PRESSED);
+			CollectionAssert.AreEqual(new List<int> { 51,102 },GetLightWrites(),"Range 0-255: steps of 51.");
+		}
+
+		[TestMethod]
+		public void Light_RestLevel_OffWhileResting_OnWhenPickedUp() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(15,"20",true);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Poll(videoCaptureSession,ROLL_RESTING);
+			CollectionAssert.AreEqual(new List<int> { 0 },GetLightWrites(),"Put down: the light goes off.");
+			Poll(videoCaptureSession,ROLL_IDLE);
+			CollectionAssert.AreEqual(new List<int> { 0,15 },GetLightWrites(),"Picked up: back to the value it had.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Light off (resting): Gain 15 -> 0.");
+		}
+
+		[TestMethod]
+		public void Light_RestLevel_PickedUpAfterTheButtonTurnedItOff_ComesOn() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(15,"20",true);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			Poll(videoCaptureSession,ROLL_RESTING);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			CollectionAssert.AreEqual(new List<int> { 0,15 },GetLightWrites(),"Off by the button; resting leaves it off; picked up turns it on.");
+		}
+
+		[TestMethod]
+		public void Light_RestingWhenTheCameraOpens_GoesOff() {
+			VideoCaptureSession videoCaptureSession=OpenWithLight(15,null,true);
+			Poll(videoCaptureSession,ROLL_RESTING);
+			CollectionAssert.AreEqual(new List<int> { 0 },GetLightWrites(),"Already in its holder at the first reading.");
+		}
+
+		[TestMethod]
+		public void Light_RestLevelWithoutLightButton_DoesNothing() {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Level.1]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x1\r\nActiveLevel=Low\r\nAction=PausePreview\r\nLightOffWhileActive=1\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => {
+				x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,9,15);
+			};
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Poll(videoCaptureSession,ROLL_RESTING);
+			Assert.AreEqual(0,GetLightWrites().Count,"Which property is the light comes from the light button only.");
+		}
+		#endregion Light (FB-1)
+
 		#region Settings
 		[TestMethod]
 		public void Resolution_SavedAndReopened() {

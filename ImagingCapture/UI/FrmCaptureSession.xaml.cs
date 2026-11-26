@@ -698,7 +698,7 @@ namespace ImagingCapture.UI {
 			double width=borderSlots.Width-2;
 			double height=borderSlots.Height-2;
 			List<CaptureSlotTile> listTiles=_viewModel.GetSlotTiles(width,height);
-			string slots=string.Join(";",listTiles.Select(x => x.Idx+"|"+x.State+"|"+x.IsEnableTarget+"|"+x.IsClickable+"|"+x.Left.ToStringNetFx("0")
+			string slots=string.Join(";",listTiles.Select(x => x.Idx+"|"+x.State+"|"+x.IsEnableTarget+"|"+x.IsClickable+"|"+x.IsRetakeSlot+"|"+x.Left.ToStringNetFx("0")
 				+"|"+x.Top.ToStringNetFx("0")));
 			if(slots==_slotsShown) {
 				return;
@@ -735,6 +735,10 @@ namespace ImagingCapture.UI {
 			if(tile.IsEnableTarget) {
 				colorBorder=Color.FromRgb(32,176,64);//the running enable's slot: its image goes here
 				thickness=3;
+			}
+			if(tile.IsRetakeSlot) {
+				colorBorder=Color.FromRgb(0,120,212);//FB-1: the filled slot chosen for Retake
+				thickness=4;
 			}
 			StackPanel stackPanel=new StackPanel { HorizontalAlignment=HorizontalAlignment.Center,VerticalAlignment=VerticalAlignment.Center };
 			stackPanel.Children.Add(new TextBlock { Text=tile.Number,FontWeight=FontWeights.Bold,Foreground=new SolidColorBrush(colorText),

@@ -143,12 +143,12 @@ namespace ImagingCapture.Tests {
 			Tuple.Create(typeof(ISampleGrabber),"SetCallback",9),
 			Tuple.Create(typeof(ISampleGrabberCB),"SampleCB",3),
 			Tuple.Create(typeof(ISampleGrabberCB),"BufferCB",4),
-			//IAMCameraControl and IAMVideoProcAmp: GetRange, Set, Get. Set is a placeholder that is never called.
+			//IAMCameraControl and IAMVideoProcAmp: GetRange, Set, Get. IAMCameraControl's Set is a placeholder that is never called.
 			Tuple.Create(typeof(IAMCameraControl),"GetRange",3),
 			Tuple.Create(typeof(IAMCameraControl),"Unused_Set",4),
 			Tuple.Create(typeof(IAMCameraControl),"Get",5),
 			Tuple.Create(typeof(IAMVideoProcAmp),"GetRange",3),
-			Tuple.Create(typeof(IAMVideoProcAmp),"Unused_Set",4),
+			Tuple.Create(typeof(IAMVideoProcAmp),"Set",4),
 			Tuple.Create(typeof(IAMVideoProcAmp),"Get",5),
 			//Media Foundation (IMG-P4c video recording; mfobjects.h and mfreadwrite.h, SDK 10.0.26100): IMFAttributes' 30 methods come first in IMFSample.
 			Tuple.Create(typeof(IMFAttributes),"GetUINT32",7),

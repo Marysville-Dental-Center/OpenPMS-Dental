@@ -9,6 +9,9 @@ using OpenPmsDentalBusiness;
 namespace OpenPmsDental {
 	public partial class FormMountDefGenerate:FormODBase {
 		public MountDef MountDefCur;
+		///<summary>FB-1: the type the mount has now (from FormMountDefEdit), or null for a new mount (then it follows the layout picked).
+		///After OK: the type the generated mount got.</summary>
+		public bool? IsPhotoMount;
 
 		public FormMountDefGenerate() {
 			InitializeComponent();
@@ -17,7 +20,13 @@ namespace OpenPmsDental {
 		}
 
 		private void FormMountDefGenerate_Load(object sender, EventArgs e){
+			//FB-1: what the mount holds is told upfront, once, for the whole mount, instead of per slot.
+			comboMountType.Items.Add(Lan.g(this,"X-rays"));
+			comboMountType.Items.Add(Lan.g(this,"Photos"));
 			listType.SelectedIndex=0;
+			if(IsPhotoMount!=null) {
+				comboMountType.SelectedIndex=IsPhotoMount.Value ? 1 : 0;
+			}
 			textWidth.Text="1700";
 			textHeight.Text="1300";
 			//FMX width=1700x4 + 1300x3 = 10,700
@@ -31,6 +40,9 @@ namespace OpenPmsDental {
 			else {
 				textColumns.MinVal=0;
 				textRows.MinVal=0;
+			}
+			if(IsPhotoMount==null && comboMountType.Items.Count==2) {
+				comboMountType.SelectedIndex=listType.SelectedIndex==6 ? 1 : 0;//only a suggestion; the user can change it
 			}
 		}
 
@@ -205,6 +217,8 @@ namespace OpenPmsDental {
 					}
 				}
 			}
+			IsPhotoMount=comboMountType.SelectedIndex==1;
+			MountItemDefGuides.SetMountType(MountDefCur.MountDefNum,IsPhotoMount.Value);
 			DialogResult=DialogResult.OK;
 		}
 

@@ -179,6 +179,88 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void Buttons_ActionsAndLightProperty_RoundTrip() {
+			//FB-1: Learn's buttons are [Level.N] sections with a press action; a light button's LightProperty is written.
+			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
+			CameraConfig cameraConfig=CameraConfig.Read(config);
+			LevelAction[] arrayActions={ LevelAction.ToggleLight,LevelAction.NextSlot,LevelAction.PreviousSlot,LevelAction.LightUp,LevelAction.LightDown };
+			for(int i=0;i<arrayActions.Length;i++) {
+				LevelInputConfig level=new LevelInputConfig(i+1) { Enabled=true,Action=arrayActions[i] };
+				level.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),1<<(i+1),ControlLevel.Low));
+				if(LevelActions.IsLightAction(arrayActions[i])) {
+					level.LightProperty=9;
+				}
+				cameraConfig.Levels.Add(level);
+			}
+			string error;
+			Assert.IsTrue(cameraConfig.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			string text=File.ReadAllText(_path);
+			StringAssert.Contains(text,"Action=ToggleLight");
+			StringAssert.Contains(text,"LightProperty=9");
+			StringAssert.Contains(text,"Action=NextSlot");
+			StringAssert.Contains(text,"Action=PreviousSlot");
+			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			StringAssert.Contains(text,"Action=LightUp");
+			StringAssert.Contains(text,"Action=LightDown");
+			Assert.AreEqual(5,cameraConfigRead.Levels.Count);
+			Assert.AreEqual(9,cameraConfigRead.Levels[3].LightProperty);
+			Assert.IsTrue(LevelActions.IsButtonAction(LevelAction.LightDown));
+			LevelInputConfig levelNoProperty=new LevelInputConfig(9) { Enabled=true,Action=LevelAction.LightUp };
+			levelNoProperty.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x40,ControlLevel.Low));
+			Assert.IsFalse(levelNoProperty.IsLevelConfigured,"Brighter needs the light setting.");
+			StringAssert.Contains(levelNoProperty.GetProblem(),"Action=LightUp, but LightProperty");
+			Assert.IsTrue(cameraConfigRead.Levels.All(x => x.IsLevelConfigured));
+			Assert.AreEqual(9,cameraConfigRead.Levels[0].LightProperty);
+			Assert.AreEqual(LevelAction.PreviousSlot,cameraConfigRead.Levels[2].Action);
+			Assert.IsTrue(LevelActions.IsButtonAction(cameraConfigRead.Levels[1].Action));
+			Assert.IsFalse(LevelActions.IsButtonAction(LevelAction.PausePreview));
+		}
+
+		[TestMethod]
+		public void Light_LightMaxAndLightOffWhileActive_RoundTrip() {
+			//FB-1: the light's limit and the rest level are written with their levels, and cleared when Learn drops them.
+			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
+			CameraConfig cameraConfig=CameraConfig.Read(config);
+			LevelInputConfig levelRest=new LevelInputConfig(1) { Enabled=true,Action=LevelAction.PausePreview,LightOffWhileActive=true };
+			levelRest.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x1,ControlLevel.Low));
+			LevelInputConfig levelLight=new LevelInputConfig(2) { Enabled=true,Action=LevelAction.ToggleLight,LightProperty=9,LightMax=20 };
+			levelLight.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x4,ControlLevel.Low));
+			cameraConfig.Levels.Add(levelRest);
+			cameraConfig.Levels.Add(levelLight);
+			string error;
+			Assert.IsTrue(cameraConfig.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			string text=File.ReadAllText(_path);
+			StringAssert.Contains(text,"LightOffWhileActive=1");
+			StringAssert.Contains(text,"LightMax=20");
+			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			Assert.IsTrue(cameraConfigRead.Levels[0].LightOffWhileActive);
+			Assert.IsNull(cameraConfigRead.Levels[0].LightMax);
+			Assert.AreEqual(20,cameraConfigRead.Levels[1].LightMax);
+			Assert.IsFalse(cameraConfigRead.Levels[1].LightOffWhileActive);
+			//Learn again without them.
+			config=LocalCaptureConfig.Load(_path);
+			cameraConfig=CameraConfig.Read(config);
+			cameraConfig.Levels[0].LightOffWhileActive=false;
+			cameraConfig.Levels[1].LightMax=null;
+			Assert.IsTrue(cameraConfig.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			Assert.IsFalse(cameraConfigRead.Levels[0].LightOffWhileActive);
+			Assert.IsNull(cameraConfigRead.Levels[1].LightMax);
+			Assert.AreEqual(9,cameraConfigRead.Levels[1].LightProperty);
+		}
+
+		[TestMethod]
+		public void Light_NegativeOrInvalidLightMax_ReadsAsNone() {
+			File.WriteAllText(_path,"[Level.1]\r\nEnabled=1\r\nAction=ToggleLight\r\nLightProperty=9\r\nLightMax=-5\r\n[Level.2]\r\nLightMax=abc\r\n");
+			CameraConfig cameraConfig=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			Assert.IsNull(cameraConfig.Levels[0].LightMax);
+			Assert.IsNull(cameraConfig.Levels[1].LightMax);
+		}
+
+		[TestMethod]
 		public void RoundTrip_WriteSaveRead() {
 			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
 			CameraConfig cameraConfig=CameraConfig.Read(config);

@@ -547,6 +547,7 @@ namespace ImagingCapture.Video {
 			if(_isDisposed || frameSource==null || _triggerEngine!=null) {
 				return;
 			}
+			LimitLight();
 			TriggerEngine triggerEngine=new TriggerEngine(frameSource,_cameraConfig);
 			triggerEngine.FuncIsConsumerEnabled=GetIsWindowEnabled;
 			triggerEngine.Pressed+=triggerEngine_Pressed;
@@ -596,7 +597,189 @@ namespace ImagingCapture.Video {
 			if(sender!=_triggerEngine) {
 				return;
 			}
+			LevelInputConfig level=_cameraConfig?.Levels.FirstOrDefault(x => x.Number==e.Number);
+			if(LevelActions.IsLightAction(e.Action) && e.IsActive) {
+				if(level?.LightProperty!=null) {
+					if(e.Action==LevelAction.ToggleLight) {
+						ToggleLight(level);
+					}
+					else {
+						StepLight(level,e.Action==LevelAction.LightUp);
+					}
+				}
+			}
+			else if(level!=null && level.LightOffWhileActive && !LevelActions.IsButtonAction(e.Action)) {
+				LevelInputConfig levelLight=GetLightLevel();
+				if(levelLight!=null) {
+					SetLightForRest(levelLight,e.IsActive);
+				}
+			}
 			LevelChanged?.Invoke(this,e);
+		}
+
+		///<summary>FB-1: the value the light property had before the light was last turned off, by property; turning it on restores it.</summary>
+		private readonly Dictionary<int,int> _dictLightOnValues=new Dictionary<int,int>();
+
+		///<summary>FB-1: the number of steps between the light's lowest step and its highest value (LightUp, LightDown).</summary>
+		public const int LightStepCount=5;
+
+		///<summary>FB-1: the configured light button: the first enabled ToggleLight level, else the first LightUp or LightDown level, with
+		///a LightProperty; null when none.</summary>
+		private LevelInputConfig GetLightLevel() {
+			List<LevelInputConfig> listLevels=(_cameraConfig?.Levels??new List<LevelInputConfig>())
+				.Where(x => x!=null && x.IsLevelConfigured && LevelActions.IsLightAction(x.Action)).ToList();
+			return listLevels.FirstOrDefault(x => x.Action==LevelAction.ToggleLight)??listLevels.FirstOrDefault();
+		}
+
+		///<summary>FB-1: when the camera starts its triggers with a light button whose LightMax is set and the light property is above it,
+		///the property is set to LightMax, so the light starts no brighter than capture.ini allows.</summary>
+		private void LimitLight() {
+			LevelInputConfig levelLight=GetLightLevel();
+			if(levelLight?.LightMax==null) {
+				return;
+			}
+			int property=levelLight.LightProperty.Value;
+			UvcControlValue controlValue;
+			UvcControlRange controlRange;
+			if(!TryReadLight(property,out controlValue,out controlRange)) {
+				return;
+			}
+			int valueMax=GetLightOnValueMax(levelLight,controlRange);
+			if(controlValue.Value>valueMax) {
+				WriteLight(property,controlValue.Value,valueMax,"limited to LightMax");
+			}
+		}
+
+		///<summary>FB-1: the camera's M button (a [Level.N] with Action=ToggleLight). Above its minimum the light goes off (the minimum);
+		///at its minimum it comes back on, at the value it had before, else its default, else its maximum, and never above LightMax. A camera
+		///that does not support the property is logged and left alone.</summary>
+		private void ToggleLight(LevelInputConfig levelLight) {
+			int property=levelLight.LightProperty.Value;
+			UvcControlValue controlValue;
+			UvcControlRange controlRange;
+			if(!TryReadLight(property,out controlValue,out controlRange)) {
+				return;
+			}
+			if(controlValue.Value>controlRange.Min) {
+				TurnLightOff(property,controlValue.Value,controlRange,"button");
+			}
+			else {
+				TurnLightOn(levelLight,controlValue.Value,controlRange,"button");
+			}
+		}
+
+		///<summary>FB-1: the brighter and dimmer buttons (LightUp, LightDown). The light moves one step, a fifth (LightStepCount) of the way
+		///from its minimum to its highest value (LightMax, else the camera's maximum), at least 1. Brighter turns an off light on at the
+		///lowest step and stops at the highest value; dimmer stops at the lowest step and does nothing while the light is off. Turning
+		///the light off and on again keeps the brightness chosen.</summary>
+		private void StepLight(LevelInputConfig levelLight,bool isBrighter) {
+			int property=levelLight.LightProperty.Value;
+			UvcControlValue controlValue;
+			UvcControlRange controlRange;
+			if(!TryReadLight(property,out controlValue,out controlRange)) {
+				return;
+			}
+			int valueMax=GetLightOnValueMax(levelLight,controlRange);
+			int step=Math.Max(1,(valueMax-controlRange.Min)/LightStepCount);
+			int valueLowest=Math.Min(valueMax,controlRange.Min+step);
+			int valueOld=controlValue.Value;
+			int valueNew;
+			if(valueMax<=controlRange.Min) {
+				Log("Light: LightMax "+levelLight.LightMax+" is at or below the minimum of "+UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,property)
+					+" ("+controlRange.Min+"), so the light cannot be made brighter or dimmer.");
+				return;
+			}
+			if(isBrighter) {
+				valueNew=valueOld<=controlRange.Min ? valueLowest : Math.Min(valueMax,valueOld+step);
+			}
+			else {
+				if(valueOld<=controlRange.Min) {
+					return;
+				}
+				valueNew=Math.Min(valueMax,Math.Max(valueLowest,valueOld-step));
+			}
+			if(valueNew==valueOld) {
+				return;
+			}
+			_dictLightOnValues[property]=valueNew;
+			WriteLight(property,valueOld,valueNew,isBrighter ? "brighter (button)" : "dimmer (button)");
+		}
+
+		///<summary>FB-1: a level with LightOffWhileActive (the handpiece resting): while it is active the light is off, and when it ends the
+		///light comes back on, whatever the light button did in between.</summary>
+		private void SetLightForRest(LevelInputConfig levelLight,bool isResting) {
+			int property=levelLight.LightProperty.Value;
+			UvcControlValue controlValue;
+			UvcControlRange controlRange;
+			if(!TryReadLight(property,out controlValue,out controlRange)) {
+				return;
+			}
+			if(isResting) {
+				if(controlValue.Value>controlRange.Min) {
+					TurnLightOff(property,controlValue.Value,controlRange,"resting");
+				}
+			}
+			else if(controlValue.Value<=controlRange.Min) {
+				TurnLightOn(levelLight,controlValue.Value,controlRange,"picked up");
+			}
+		}
+
+		private void TurnLightOff(int property,int valueOld,UvcControlRange controlRange,string reason) {
+			_dictLightOnValues[property]=valueOld;
+			WriteLight(property,valueOld,controlRange.Min,"off ("+reason+")");
+		}
+
+		private void TurnLightOn(LevelInputConfig levelLight,int valueOld,UvcControlRange controlRange,string reason) {
+			int property=levelLight.LightProperty.Value;
+			int valueNew;
+			if(!_dictLightOnValues.TryGetValue(property,out valueNew) || valueNew<=controlRange.Min) {
+				valueNew=controlRange.Default>controlRange.Min ? controlRange.Default : controlRange.Max;
+			}
+			valueNew=Math.Min(valueNew,GetLightOnValueMax(levelLight,controlRange));
+			if(valueNew<=controlRange.Min) {
+				Log("Light: LightMax "+levelLight.LightMax+" is at or below the minimum of "+UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,property)
+					+" ("+controlRange.Min+"), so the light cannot be turned on.");
+				return;
+			}
+			WriteLight(property,valueOld,valueNew,"on ("+reason+")");
+		}
+
+		///<summary>The highest value the light may get: LightMax when set, within the camera's range.</summary>
+		private static int GetLightOnValueMax(LevelInputConfig levelLight,UvcControlRange controlRange) {
+			if(levelLight.LightMax==null) {
+				return controlRange.Max;
+			}
+			return Math.Max(controlRange.Min,Math.Min(controlRange.Max,levelLight.LightMax.Value));
+		}
+
+		///<summary>Reads the light property and its range; false, logged, when the camera cannot (the light is then left alone).</summary>
+		private bool TryReadLight(int property,out UvcControlValue controlValue,out UvcControlRange controlRange) {
+			controlValue=default(UvcControlValue);
+			controlRange=default(UvcControlRange);
+			IFrameSource frameSource=_frameSource;
+			if(frameSource==null || _isDisposed) {
+				return false;
+			}
+			controlValue=frameSource.ReadControl(UvcControlInterface.VideoProcAmp,property);
+			controlRange=frameSource.ReadControlRange(UvcControlInterface.VideoProcAmp,property);
+			if(!controlValue.IsOk || !controlRange.IsOk) {
+				Log("Light: the camera's "+UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,property)+" cannot be read ("
+					+(controlValue.IsOk ? controlRange.Status : controlValue.Status)+"); the light is left as it is.");
+				return false;
+			}
+			return true;
+		}
+
+		///<summary>FB-1: the only camera write of the session (design 8.7): the light property, for the light buttons (on/off, brighter,
+		///dimmer), the rest level and LightMax. Logged with the old and new value.</summary>
+		private void WriteLight(int property,int valueOld,int valueNew,string what) {
+			IFrameSource frameSource=_frameSource;
+			if(frameSource==null || _isDisposed) {
+				return;
+			}
+			UvcControlValue controlValueWritten=frameSource.WriteLightControl(property,valueNew);
+			Log("Light "+what+": "+UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,property)+" "+valueOld+" -> "+valueNew
+				+(controlValueWritten.IsOk ? "." : " failed ("+controlValueWritten.Status+", "+UvcErrors.FormatHResult(controlValueWritten.HResult)+")."));
 		}
 
 		private void triggerEngine_Warning(object sender,TriggerWarningEventArgs e) {

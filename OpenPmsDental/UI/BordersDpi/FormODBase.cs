@@ -328,6 +328,7 @@ namespace OpenPmsDental {
 		}
 
 		private void ODForm_FormClosed(object sender,FormClosedEventArgs e) {
+			CrashReport.Note("Window closed: "+GetType().Name);//FB-1
 			if(_threadFilter!=null) {
 				_threadFilter.QuitAsync();//It's fine if our thread loop finishes, it protects against unhandled exceptions.
 				_threadFilter=null;
@@ -352,6 +353,7 @@ namespace OpenPmsDental {
 			if(DesignMode){
 				return;
 			}
+			CrashReport.Note("Window opened: "+GetType().Name);//FB-1: the last actions before a crash
 			if(UsingUIManager && IsDpiSystem){
 				base.OnLoad(e);
 				return;

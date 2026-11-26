@@ -46,8 +46,16 @@ namespace OpenPmsDental {
 				FriendlyException.Show("Critical Error: "+e.Message,e,isUnhandledException:true);
 				return;
 			}
-			//Register an EventHandler which handles unhandled exceptions.
-			//AppDomain.CurrentDomain.UnhandledException+=new UnhandledExceptionEventHandler(OnUnhandeledExceptionPolicy);
+			//FB-1: every exception nothing else handled gets a crash report (CodeBase.CrashReport), including those that end the process,
+			//which before left only Windows' event log entry. A task's exception nobody observed does not end the process; it is only reported.
+			AppDomain.CurrentDomain.UnhandledException+=(object sender,UnhandledExceptionEventArgs e) => {
+				CrashReport.Write(e.ExceptionObject as Exception??new Exception("Non-exception object thrown: "+e.ExceptionObject),
+					"AppDomain.UnhandledException",e.IsTerminating);
+			};
+			System.Threading.Tasks.TaskScheduler.UnobservedTaskException+=(object sender,System.Threading.Tasks.UnobservedTaskExceptionEventArgs e) => {
+				CrashReport.Write(e.Exception,"TaskScheduler.UnobservedTaskException",isTerminating:false);
+			};
+			CrashReport.Note("Program started");
 			bool isSecondInstance=false ;//or more.
 			Process[] processes=Process.GetProcesses();
 			for(int i=0;i<processes.Length;i++) {
@@ -113,8 +121,11 @@ namespace OpenPmsDental {
 				}
 			}
 			FormOpenDental formOpenDental=new FormOpenDental(commandLineArgs);
+			CrashReport.FuncAppState=() => GetCrashAppState(formOpenDental);
 			Exception submittedException=null;
 			Action<Exception,string> actionUnhandled=new Action<Exception,string>((e,threadName) => {
+				//FB-1: the crash report first, before anything that could fail or wait for the user.
+				string pathCrashReport=CrashReport.Write(e,"Unhandled exception"+(string.IsNullOrEmpty(threadName) ? "" : " on thread "+threadName),isTerminating:false);
 				//Try to automatically submit a bug report to HQ.
 				string displayMsg="";
 				try {
@@ -127,7 +138,11 @@ namespace OpenPmsDental {
 				catch(Exception ex) {
 					ex.DoNothing();
 				}
-				FriendlyException.Show((displayMsg.IsNullOrEmpty()) ? "Critical Error: "+e.Message : displayMsg,e,isUnhandledException:true);
+				string message=(displayMsg.IsNullOrEmpty()) ? "Critical Error: "+e.Message : displayMsg;
+				if(pathCrashReport!="") {
+					message+="\r\n\r\n"+"A crash report was saved for support: "+pathCrashReport;
+				}
+				FriendlyException.Show(message,e,isUnhandledException:true);
 				formOpenDental.ProcessKillCommand();
 			});
 			CodeBase.ODThread.RegisterForUnhandledExceptions(formOpenDental,actionUnhandled);
@@ -136,6 +151,20 @@ namespace OpenPmsDental {
 			Application.ThreadException+=new ThreadExceptionEventHandler((object s,ThreadExceptionEventArgs e) => {
 				actionUnhandled(e.Exception,"ProgramEntry");
 			});
+			//FB-1: an exception in a WPF control's event on the UI thread (the tooltip crash of 2026-11-25) goes to WPF's dispatcher, not to
+			//Application.ThreadException: unhandled, it left the message loop and ended the process with no message and no log. It now takes the
+			//same path as a WinForms exception: crash report, the error window, then the program closes.
+			System.Windows.Threading.Dispatcher.CurrentDispatcher.UnhandledException+=(object s,System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e) => {
+				e.Handled=true;
+				Exception exception=e.Exception;
+				try {
+					formOpenDental.BeginInvoke(() => actionUnhandled(exception,"WPF dispatcher"));
+				}
+				catch(Exception ex) {
+					ex.DoNothing();
+					actionUnhandled(exception,"WPF dispatcher");
+				}
+			};
 			//Some referenced assemblies were built against older Newtonsoft.Json versions (7.0.0.0 or 9.0.0.0). Point them all at the copy that ships.
 			ODInitialize.FixPackageAssembly("Newtonsoft.Json",ODFileUtils.CombinePaths(AppDomain.CurrentDomain.BaseDirectory,"Newtonsoft.Json.dll"));
 			MouseWatcher.Start();
@@ -149,6 +178,28 @@ namespace OpenPmsDental {
 				//here, instead of staying alive for any foreground thread that is left.
 				ExitWatchdog.Program.Start("Main: Application.Run returned");
 				Environment.Exit(FormOpenDental.ExitCode);
+			}
+		}
+
+		///<summary>FB-1: the program's state for a crash report: numbers and type names only (window titles can hold patient names).
+		///Called on the thread that crashed: every line is read on its own and a failing one is skipped.</summary>
+		internal static List<string> GetCrashAppState(FormOpenDental formOpenDental) {
+			List<string> listLines=new List<string>();
+			AddCrashLine(listLines,() => "Module: "+formOpenDental?.GetSelectedModuleName());
+			AddCrashLine(listLines,() => "PatNum: "+FormOpenDental.PatNumCur);
+			AddCrashLine(listLines,() => "UserNum: "+(Security.CurUser?.UserNum.ToString()??"(none)"));
+			AddCrashLine(listLines,() => "Database: "+DataConnectionBase.DataConnection.GetServerName()+" / "+DataConnectionBase.DataConnection.GetDatabaseName());
+			AddCrashLine(listLines,() => "Active window: "+(Form.ActiveForm?.GetType().FullName??"(none)"));
+			AddCrashLine(listLines,() => "Windows open: "+string.Join(", ",Application.OpenForms.Cast<Form>().Select(x => x.GetType().Name)));
+			return listLines;
+		}
+
+		private static void AddCrashLine(List<string> listLines,Func<string> funcLine) {
+			try {
+				listLines.Add(funcLine());
+			}
+			catch(Exception ex) {
+				listLines.Add("(not available: "+ex.GetType().Name+")");
 			}
 		}
 	}

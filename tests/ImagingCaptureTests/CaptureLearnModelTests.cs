@@ -82,6 +82,7 @@ namespace ImagingCapture.Tests {
 			DoBaselineB();
 			DoKey();
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			if(withLevel) {
 				Assert.IsTrue(_model.StartRecording(_script.TimeMs));
 				_script.Hold(300).Toggle(_controlTilt,RestBit).Hold(1000).Toggle(_controlTilt,RestBit).Hold(300);
@@ -121,7 +122,7 @@ namespace ImagingCapture.Tests {
 			StringAssert.Contains(_model.GetResultText(),"Steady controls: CameraControl 0 (Pan); CameraControl 1 (Tilt); VideoProcAmp 9 (Gain).");
 			Assert.IsTrue(_model.GoNext());
 			Assert.AreEqual(LearnPage.BaselineB,_model.Page);
-			Assert.AreEqual("Step 2 of 5: Baseline B, resting (optional)",_model.GetStepTitle());
+			Assert.AreEqual("Step 2 of 6: Baseline B, resting (optional)",_model.GetStepTitle());
 			Assert.IsTrue(_model.CanSkip);
 			Assert.IsTrue(_model.CanGoBack);
 			Assert.IsFalse(_model.CanGoNext,"Baseline B must be recorded or skipped.");
@@ -133,6 +134,7 @@ namespace ImagingCapture.Tests {
 			DoKey();
 			Assert.IsTrue(_model.CanGoNext);
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.AreEqual(LearnPage.Level,_model.Page);
 			Assert.IsTrue(_model.CanGoNext,"The level step is optional.");
 			Assert.IsTrue(_model.CanSkip);
@@ -245,6 +247,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsFalse(_model.Analyzer.KeyResult.IsKeyFound);
 			StringAssert.Contains(_model.GetResultText(),"No key was found");
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsTrue(_model.Skip());
 			Assert.IsTrue(_model.CanSave,"Saving turns the triggers off, which clears values another camera may have left.");
 			CameraConfig cameraConfig=_model.GetConfigToSave();
@@ -286,6 +289,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(_model.Analyzer.KeyResult.IsStillPinKey);
 			Assert.IsNull(_model.KeyChosen);
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsTrue(_model.Skip());
 			Assert.IsTrue(_model.GetConfigToSave().StillEnabled);
 		}
@@ -320,6 +324,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(_model.ChooseKey(listKeys[1]));
 			Assert.AreEqual(_controlGain,_model.KeyChosen.Binding.Control);
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsFalse(_model.ChooseKey(listKeys[0]),"The key is chosen on the key page only.");
 			//The level step sees the gain key bit change once (a put-down that moves the same bit is made up for this test).
 			Assert.IsTrue(_model.StartRecording(_script.TimeMs));
@@ -347,6 +352,7 @@ namespace ImagingCapture.Tests {
 			DoBaselineB();
 			DoKey();
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsNull(_model.LevelChosen,"Level inputs are off unless chosen.");
 			List<LevelCandidate> listLevels=_model.GetLevelCandidates();
 			Assert.AreEqual(1,listLevels.Count);
@@ -366,6 +372,7 @@ namespace ImagingCapture.Tests {
 			DoBaselineB();
 			DoKey();
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsTrue(_model.ChooseLevel(_model.GetLevelCandidates()[0]));
 			Assert.IsTrue(_model.Skip());
 			Assert.AreEqual(0,_model.GetConfigToSave().Levels.Count);
@@ -492,6 +499,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(_model.IsCategoryVisible);
 			DoKey();
 			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());//FB-1: past the optional Other buttons page
 			Assert.IsTrue(_model.IsCategoryVisible);
 			Assert.IsTrue(_model.Skip());
 			Assert.IsTrue(_model.IsCategoryVisible,"Every page after the first.");
@@ -596,6 +604,184 @@ namespace ImagingCapture.Tests {
 			return new ControlSample(timeMs,new Dictionary<ControlId,int>() { { _controlTilt,valueTilt } });
 		}
 		#endregion Tiles
+
+		#region Other buttons (FB-1)
+		///<summary>Three presses of bits on control; the recording stops by itself once they are released.</summary>
+		private void DoButton(ControlId control,int bits) {
+			Assert.IsTrue(_model.StartRecording(_script.TimeMs));
+			_script.Hold(300).Press(control,bits,150).Press(control,bits,200).Press(control,bits,150);
+			_script.Hold(CaptureLearnModel.KeySettleMs+100);
+			Assert.IsFalse(_model.IsRecording,"A button recording stops by itself after the third press.");
+		}
+
+		[TestMethod]
+		public void Buttons_LightOnOffBrighterDimmer_LearnedAndSavedAsButtonLevels() {
+			DoBaselineA();
+			DoBaselineB();
+			DoKey();
+			Assert.IsTrue(_model.GoNext());
+			Assert.AreEqual(LearnPage.Buttons,_model.Page);
+			Assert.AreEqual("Step 4 of 6: Other buttons (optional)",_model.GetStepTitle());
+			Assert.IsTrue(_model.IsButtonPickerVisible);
+			Assert.IsTrue(_model.CanGoNext,"The Other buttons page is optional.");
+			Assert.IsTrue(_model.CanSkip);
+			Assert.AreEqual(LevelAction.ToggleLight,_model.ButtonActionSelected,"Light first.");
+			CollectionAssert.AreEqual(new List<int> { 9 },_model.GetLightPropertyChoices(),"The camera's VideoProcAmp controls.");
+			DoButton(_controlTilt,0x2);
+			Assert.AreEqual(1,_model.Buttons.Count);
+			Assert.AreEqual(0x2,_model.Buttons[0].Binding.Mask);
+			StringAssert.Contains(_model.GetResultText(),"Choose the light setting");
+			Assert.AreEqual(LevelAction.LightUp,_model.ButtonActionSelected,"The next action not learned yet is selected.");
+			Assert.IsTrue(_model.SelectButtonAction(LevelAction.ToggleLight));
+			Assert.IsTrue(_model.SetLightProperty(9));
+			StringAssert.Contains(_model.GetResultText(),"switches VideoProcAmp 9 (Gain)");
+			Assert.IsTrue(_model.SelectButtonAction(LevelAction.LightUp));
+			DoButton(_controlTilt,0x8);
+			Assert.AreEqual(LevelAction.LightDown,_model.ButtonActionSelected);
+			//The capture key pressed for Light dimmer: it is already used, so nothing is learned.
+			DoButton(_controlTilt,KeyBit);
+			Assert.AreEqual(2,_model.Buttons.Count);
+			StringAssert.Contains(_model.GetResultText(),"already used");
+			DoButton(_controlPan,0x10);
+			Assert.AreEqual(3,_model.Buttons.Count);
+			Assert.IsTrue(_model.GoNext());
+			Assert.AreEqual(LearnPage.Level,_model.Page);
+			Assert.IsFalse(_model.GetLevelCandidates().Any(x => x.Binding.Control==_controlPan && (x.Binding.Mask & 0x10)!=0),"A button is never a level.");
+			Assert.IsTrue(_model.Skip());
+			CameraConfig cameraConfig=_model.GetConfigToSave();
+			Assert.AreEqual(3,cameraConfig.Levels.Count);
+			Assert.AreEqual(LevelAction.ToggleLight,cameraConfig.Levels[0].Action);
+			Assert.AreEqual(1,cameraConfig.Levels[0].Number);
+			Assert.AreEqual(9,cameraConfig.Levels[0].LightProperty);
+			Assert.AreEqual(ControlLevel.High,cameraConfig.Levels[0].ActiveLevel,"Active when pressed.");
+			Assert.AreEqual(LevelAction.LightUp,cameraConfig.Levels[1].Action);
+			Assert.AreEqual(0x8,cameraConfig.Levels[1].Mask);
+			Assert.AreEqual(9,cameraConfig.Levels[1].LightProperty,"Brighter and dimmer use the light setting too.");
+			Assert.AreEqual(LevelAction.LightDown,cameraConfig.Levels[2].Action);
+			Assert.AreEqual(_controlPan.Property,cameraConfig.Levels[2].Property);
+			Assert.AreEqual(9,cameraConfig.Levels[2].LightProperty);
+			Assert.IsTrue(cameraConfig.Levels.All(x => x.IsLevelConfigured));
+			StringAssert.Contains(_model.GetResultText(),"switches the light (VideoProcAmp 9 (Gain)) on each press");
+			StringAssert.Contains(_model.GetResultText(),"makes the light (VideoProcAmp 9 (Gain)) dimmer on each press");
+			//The test page counts each button's presses, and they take no photo.
+			LiveTile tileUp=_model.LiveTest.Tiles.First(x => x.Label=="Button: light brighter");
+			_script.Hold(100).Press(_controlTilt,0x8,100).Press(_controlTilt,0x8,100);
+			Assert.AreEqual(2,tileUp.PressCount);
+			Assert.AreEqual("Button: light brighter\r\nPresses: 2",LiveTileView.GetText(tileUp));
+			Assert.AreEqual(0,_model.LiveTest.PhotoCount);
+		}
+
+		[TestMethod]
+		public void Buttons_SlotActions_StillOffered() {
+			DoBaselineA();
+			DoBaselineB();
+			DoKey();
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.SelectButtonAction(LevelAction.NextSlot));
+			DoButton(_controlTilt,0x8);
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.Skip());
+			CameraConfig cameraConfig=_model.GetConfigToSave();
+			Assert.AreEqual(LevelAction.NextSlot,cameraConfig.Levels[0].Action);
+			Assert.IsNull(cameraConfig.Levels[0].LightProperty,"A slot button has no light setting.");
+			StringAssert.Contains(_model.GetResultText(),"moves to the next slot on each press");
+		}
+
+		[TestMethod]
+		public void Buttons_SkipForgets_AndANewKeyForgetsThem() {
+			DoBaselineA();
+			DoBaselineB();
+			DoKey();
+			Assert.IsTrue(_model.GoNext());
+			DoButton(_controlTilt,0x2);
+			Assert.AreEqual(1,_model.Buttons.Count);
+			Assert.IsTrue(_model.ForgetButton(LevelAction.ToggleLight));
+			Assert.AreEqual(0,_model.Buttons.Count);
+			DoButton(_controlTilt,0x2);
+			Assert.IsTrue(_model.Skip());
+			Assert.AreEqual(LearnPage.Level,_model.Page);
+			Assert.AreEqual(0,_model.Buttons.Count,"Skip means no other buttons.");
+			Assert.IsTrue(_model.GoBack());
+			DoButton(_controlTilt,0x2);
+			Assert.IsTrue(_model.GoBack());
+			DoKey();
+			Assert.AreEqual(0,_model.Buttons.Count,"A new key recording forgets the buttons.");
+		}
+
+		[TestMethod]
+		public void Buttons_LightPropertyFromCaptureIni_IsKept() {
+			CameraConfig cameraConfigCurrent=new CameraConfig();
+			LevelInputConfig levelLight=new LevelInputConfig(2) { Enabled=true,Action=LevelAction.ToggleLight,LightProperty=9 };
+			levelLight.SetBinding(new ControlBinding(_controlTilt,0x2,ControlLevel.High));
+			cameraConfigCurrent.Levels.Add(levelLight);
+			_model=MakeModel(CaptureLearnMode.Learn,cameraConfigCurrent);
+			_script=new Script(_model);
+			_script.Set(_controlPan,0).Set(_controlTilt,0x20).Set(_controlGain,0x40);
+			Assert.AreEqual(9,_model.LightProperty);
+		}
+
+		[TestMethod]
+		public void Buttons_LightMaxAndLightOffWhileResting_Saved() {
+			DoBaselineA();
+			DoBaselineB();
+			DoKey();
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsNull(_model.LightMax,"No limit unless capture.ini or the user gives one.");
+			DoButton(_controlTilt,0x2);
+			Assert.IsTrue(_model.SelectButtonAction(LevelAction.ToggleLight));
+			Assert.IsTrue(_model.SetLightProperty(9));
+			Assert.IsTrue(_model.SetLightMax(20));
+			StringAssert.Contains(_model.GetResultText(),"switches VideoProcAmp 9 (Gain), at most 20");
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsFalse(_model.IsLightOffWhileRestingAvailable,"Only with a level input chosen.");
+			Assert.IsFalse(_model.SetLightMax(30),"The limit is set on the Other buttons page.");
+			Assert.IsTrue(_model.ChooseLevel(_model.GetLevelCandidates()[0]));
+			Assert.IsTrue(_model.IsLightOffWhileRestingAvailable);
+			Assert.IsTrue(_model.SetLightOffWhileResting(true));
+			StringAssert.Contains(_model.GetResultText(),"(the preview pauses, the light goes off)");
+			Assert.IsTrue(_model.GoNext());
+			CameraConfig cameraConfig=_model.GetConfigToSave();
+			Assert.AreEqual(2,cameraConfig.Levels.Count);
+			Assert.AreEqual(LevelAction.PausePreview,cameraConfig.Levels[0].Action);
+			Assert.IsTrue(cameraConfig.Levels[0].LightOffWhileActive);
+			Assert.AreEqual(LevelAction.ToggleLight,cameraConfig.Levels[1].Action);
+			Assert.AreEqual(20,cameraConfig.Levels[1].LightMax);
+			Assert.IsFalse(cameraConfig.Levels[1].LightOffWhileActive);
+			StringAssert.Contains(_model.GetResultText(),"pauses the preview and turns the light off while active.");
+			StringAssert.Contains(_model.GetResultText(),"(VideoProcAmp 9 (Gain), at most 20) on each press");
+		}
+
+		[TestMethod]
+		public void Buttons_LightOffWhileResting_WithoutALightButton_NotSaved() {
+			LevelInputConfig levelRest=new LevelInputConfig(1) { Enabled=true,Action=LevelAction.PausePreview,LightOffWhileActive=true };
+			levelRest.SetBinding(new ControlBinding(_controlTilt,RestBit,ControlLevel.High));
+			CameraConfig cameraConfigCurrent=new CameraConfig();
+			cameraConfigCurrent.Levels.Add(levelRest);
+			_model=MakeModel(CaptureLearnMode.Learn,cameraConfigCurrent);
+			_script=new Script(_model);
+			_script.Set(_controlPan,0).Set(_controlTilt,0x20).Set(_controlGain,0x40);
+			Assert.IsTrue(_model.IsLightOffWhileResting,"Read from capture.ini.");
+			DoBaselineA();
+			DoBaselineB();
+			DoKey();
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsTrue(_model.ChooseLevel(_model.GetLevelCandidates()[0]));
+			Assert.IsFalse(_model.IsLightOffWhileRestingAvailable,"No light button was learned.");
+			Assert.IsTrue(_model.GoNext());
+			Assert.IsFalse(_model.GetConfigToSave().Levels[0].LightOffWhileActive);
+		}
+
+		[TestMethod]
+		public void Buttons_LightMaxFromCaptureIni_IsKept() {
+			CameraConfig cameraConfigCurrent=new CameraConfig();
+			LevelInputConfig levelLight=new LevelInputConfig(2) { Enabled=true,Action=LevelAction.ToggleLight,LightProperty=9,LightMax=20 };
+			levelLight.SetBinding(new ControlBinding(_controlTilt,0x2,ControlLevel.High));
+			cameraConfigCurrent.Levels.Add(levelLight);
+			_model=MakeModel(CaptureLearnMode.Learn,cameraConfigCurrent);
+			Assert.AreEqual(20,_model.LightMax);
+		}
+		#endregion Other buttons (FB-1)
 
 		///<summary>Feeds scripted readings to the model every StepMs, and gives it the clock after each.</summary>
 		private sealed class Script {

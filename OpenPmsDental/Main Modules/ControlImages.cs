@@ -2150,58 +2150,61 @@ namespace OpenPmsDental{
 			SelectTreeNode1(nodeTypeAndKey);
 		}
 
+		///<summary>FB-1: Retake of an existing radiograph in a mount (the unmounted bar's Retake, or "Retake X-ray..." on a slot), in viewing
+		///mode as well as right after an acquisition. The capture session opens on this mount with the slot chosen; its Start moves the old image to
+		///an unmounted item ("Retake: slot N") and takes the slot again. Closing the session before Start changes nothing. It used to move the image
+		///out and then call an empty Start handler, so nothing was taken.</summary>
+		private void RetakeInMount(ControlImageDisplay controlImageDisplay,int idx){
+			if(_patient==null || controlImageDisplay==null || controlImageDisplay.IsDisposed || !controlImageDisplay.IsMountShowing()){
+				return;
+			}
+			if(!Security.IsAuthorized(EnumPermType.ImageCreate) || !Security.IsAuthorized(EnumPermType.ImageEdit)){
+				return;
+			}
+			List<MountItem> listMountItems=controlImageDisplay.GetListMountItems();
+			if(idx<0 || idx>=listMountItems.Count || listMountItems[idx].ItemOrder<=0 || controlImageDisplay.GetDocumentShowing(idx)==null){
+				MsgBox.Show(this,"Select the X-ray to retake in the mount first.");
+				return;
+			}
+			MountItem mountItem=listMountItems[idx];
+			List<MountItemGuide> listMountItemGuides=MountItemGuides.GetForMountItems(listMountItems.Select(x => x.MountItemNum).ToList());
+			if(ImagingCapture.Photo.PhotoSessionModel.IsPhotoMount(listMountItemGuides)){
+				MsgBox.Show(this,"This is a photo mount. Retake photos from the camera session (Mount/Acquire with the camera).");
+				return;
+			}
+			string workstation=ODEnvironment.MachineName;
+			List<ImagingDevice> listImagingDevices=ImagingDevices.GetDeepCopy()
+				.FindAll(x => (x.ComputerName=="" || x.ComputerName==workstation) && x.DeviceType==EnumImgDeviceType.TwainRadiograph);
+			ImagingDevice imagingDevice;
+			if(listImagingDevices.Count==0){
+				MsgBox.Show(this,"No X-ray device is set up for this computer. Set one up in Setup, Imaging, Devices.");
+				return;
+			}
+			if(listImagingDevices.Count==1){
+				imagingDevice=listImagingDevices[0];
+			}
+			else{
+				FrmMountAndAcquire frmMountAndAcquire=new FrmMountAndAcquire();
+				frmMountAndAcquire.ShowDialog();
+				if(frmMountAndAcquire.IsDialogCancel || frmMountAndAcquire.ImagingDeviceSelected==null){
+					return;
+				}
+				imagingDevice=frmMountAndAcquire.ImagingDeviceSelected;
+			}
+			SelectTreeNode1(controlImageDisplay.GetNodeTypeAndKey());//the session opens on the mount showing (kept out of ControlImages.Acquire.cs, whose calls CaptureHookMirror counts)
+			if(!TryAcquireWithCaptureSession(imagingDevice,null,mountItem.MountItemNum)){
+				MsgBox.Show(this,"Retake needs the capture session, which is turned off on this computer (Capture settings, [Session] Enabled).");
+			}
+		}
+
 		private void unmountedBar_Retake(object sender, EventArgs e){
+			//FB-1: the selected slot's X-ray is taken again with the capture session (RetakeInMount); the old "retake the previous image"
+			//guess and its empty Start are gone.
 			ControlImageDisplay controlImageDisplay=GetControlImageDisplaySelected();
 			if(controlImageDisplay is null){
 				return;//should never happen
 			}
-			int idx=controlImageDisplay.GetIdxSelectedInMount();
-			if(idx==-1){
-				MsgBox.Show(this,"This is intended to be used in the middle of a series of image acquisitions.");
-				return;
-			}
-			List<MountItem> listMountItems=controlImageDisplay.GetListMountItems();
-			MountItem mountItem=listMountItems[idx];
-			if(idx==0 && mountItem.ItemOrder==0){
-				MsgBox.Show(this,"There is no previous image to retake.");
-				return;
-			}
-			Document document=controlImageDisplay.GetDocumentShowing(idx);
-			if(document==null){
-				//this is normal. Retake the previous
-				if(idx>0) {
-					idx--;
-				}
-				//Test for the previous item being a text(mountItem.ItemOrder=0) or unmounted(mountItem.ItemOrder=-1)
-				//This has nothing to do with idx
-				mountItem=listMountItems[idx];
-				if(mountItem.ItemOrder==0//text
-					|| mountItem.ItemOrder==-1)//unmounted
-				{
-					MsgBox.Show(this,"There is no previous image to retake.");
-					return;
-				}
-				controlImageDisplay.SetIdxSelectedInMount(idx);
-				document=controlImageDisplay.GetDocumentShowing(idx);
-				if(document==null) {
-					MsgBox.Show(this,"There is no previous image to retake.");
-					return;
-				}
-			}
-			else{
-				//this means they clicked on the one that they want to retake
-			}
-			MountItem mountItemUnmounted=controlImageDisplay.GetListMountItems()[idx].Copy();
-			mountItemUnmounted.ItemOrder=-1;
-			MountItems.Insert(mountItemUnmounted);//it will now have a new PK
-			document.MountItemNum=mountItemUnmounted.MountItemNum;
-			Documents.Update(document);
-			NodeTypeAndKey nodeTypeAndKey=controlImageDisplay.GetNodeTypeAndKey();
-			SelectTreeNode1(nodeTypeAndKey);
-			//There is now a new mountItem in the unmounted list, so we have to add 1 to the idx just to keep it in the same spot as it already is.
-			controlImageDisplay.SetIdxSelectedInMount(idx+1);
-			idx=controlImageDisplay.GetIdxSelectedInMount();
-			butStart_Click(this,new EventArgs());
+			RetakeInMount(controlImageDisplay,controlImageDisplay.GetIdxSelectedInMount());
 		}
 
 		///<summary>Occurs when the slider moves.  UI is typically updated here.  Also see ScrollComplete.</summary>
@@ -3350,6 +3353,7 @@ namespace OpenPmsDental{
 			};
 			controlImageDisplay.EventEnhanceRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowEnhance((ControlImageDisplay)sender)));
 			controlImageDisplay.EventViewerRequested+=(sender,idx)=>BeginInvoke(new Action(() => ShowImageViewer((ControlImageDisplay)sender,idx)));
+			controlImageDisplay.EventRetakeRequested+=(sender,idx)=>RetakeInMount((ControlImageDisplay)sender,idx);//FB-1
 			//controlImageDisplay.IsImageFloatDockedChanged+=FormImageFloat_IsImageFloatDockedChanged;
 			return controlImageDisplay;
 		}

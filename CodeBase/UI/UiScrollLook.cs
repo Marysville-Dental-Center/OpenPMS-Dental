@@ -299,12 +299,43 @@ namespace CodeBase {
 				return;
 			}
 			try {
-				using(Graphics g=Graphics.FromHdc(hdc)) {
-					PaintBars(g,arrayBarInfos,pointCursor,isForPrint:false);
-				}
+				PaintBarsBuffered(hdc,arrayBarInfos,pointCursor);
 			}
 			finally {
 				ReleaseDC(Handle,hdc);
+			}
+		}
+
+		///<summary>FB-1 (scroll bars flickered on hover): the bars are drawn into an off-screen picture of their bounds and
+		///put on the window in one copy, clipped to the bars (and the square between two frame bars). Drawn straight on the window, the track
+		///showed alone for a moment before the arrows and the thumb went over it, on every hot-tracking repaint under the mouse.</summary>
+		private void PaintBarsBuffered(IntPtr hdc,BarInfo[] arrayBarInfos,Point pointCursor) {
+			Rectangle rectangleBounds=Rectangle.Empty;
+			using(Region regionCopy=new Region(Rectangle.Empty)) {
+				foreach(BarInfo barInfo in arrayBarInfos) {
+					rectangleBounds=rectangleBounds.IsEmpty ? barInfo.RectangleWindow : Rectangle.Union(rectangleBounds,barInfo.RectangleWindow);
+					regionCopy.Union(barInfo.RectangleWindow);
+				}
+				if(!_isScrollBarControl && arrayBarInfos.Length==2) {
+					Rectangle rectangleV=arrayBarInfos[0].IsVertical ? arrayBarInfos[0].RectangleWindow : arrayBarInfos[1].RectangleWindow;
+					Rectangle rectangleH=arrayBarInfos[0].IsVertical ? arrayBarInfos[1].RectangleWindow : arrayBarInfos[0].RectangleWindow;
+					Rectangle rectangleCorner=new Rectangle(rectangleV.X,rectangleH.Y,rectangleV.Width,rectangleH.Height);
+					rectangleBounds=Rectangle.Union(rectangleBounds,rectangleCorner);
+					regionCopy.Union(rectangleCorner);
+				}
+				if(rectangleBounds.Width<=0 || rectangleBounds.Height<=0) {
+					return;
+				}
+				using(Bitmap bitmap=new Bitmap(rectangleBounds.Width,rectangleBounds.Height,System.Drawing.Imaging.PixelFormat.Format32bppRgb)) {
+					using(Graphics gBitmap=Graphics.FromImage(bitmap)) {
+						gBitmap.TranslateTransform(-rectangleBounds.X,-rectangleBounds.Y);
+						PaintBars(gBitmap,arrayBarInfos,pointCursor,isForPrint:false);
+					}
+					using(Graphics g=Graphics.FromHdc(hdc)) {
+						g.Clip=regionCopy;
+						g.DrawImageUnscaled(bitmap,rectangleBounds.X,rectangleBounds.Y);
+					}
+				}
 			}
 		}
 

@@ -254,9 +254,6 @@ WpfControlsOD/Bridges/Oryx.cs	/api/auth/opendental/v1/login	Third-party bridge f
 WpfControlsOD/Bridges/Sirona.cs	OpenDental	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 WpfControlsOD/Bridges/Vipersoft.cs	OpenDental|	Third-party bridge field or identifier that the vendor program expects; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 WpfControlsOD/UI/Controls/Supplemental/PopupHelper2.cs	OpenDental	Code identifier (class, method, hook, Lans category or settings name), never shown as text
-installer/OpenPmsDental.iss	  ConfigPage.Values[1] := ExpandConstant('{param:DBNAME|opendental}');	Database name: the default database is still called opendental
-installer/OpenPmsDental.iss	  opendental, opmsd), which would replace	Setup script comment, not shown
-installer/OpenPmsDental.iss	;   /DBNAME=name        database. Default opendental.	Setup script comment, not shown
 installer/OpenPmsDental.iss	; A new id of our own: this setup never upgrades or removes an Open Dental installation.	Setup script comment, not shown
 installer/OpenPmsDental.iss	; Never Open Dental's folder. The release	Setup script comment, not shown
 installer/OpenPmsDental.iss	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)

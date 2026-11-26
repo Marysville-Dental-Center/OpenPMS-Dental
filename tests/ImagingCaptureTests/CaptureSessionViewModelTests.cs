@@ -311,7 +311,7 @@ namespace ImagingCapture.Tests {
 			_harness.Expose();
 			listTiles=_viewModel.GetSlotTiles(300,100);
 			Assert.AreEqual(CaptureSlotTileState.Filled,listTiles[0].State);
-			Assert.IsFalse(listTiles[0].IsClickable,"A filled slot cannot be tapped.");
+			Assert.IsTrue(listTiles[0].IsClickable,"FB-1: a filled slot can be tapped to choose it for a retake.");
 			Assert.AreEqual(CaptureSlotTileState.Target,listTiles[1].State);
 		}
 

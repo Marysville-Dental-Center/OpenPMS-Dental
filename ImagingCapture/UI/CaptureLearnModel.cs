@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using ImagingCapture.Camera;
+using ImagingCapture.Uvc;
 using CodeBase;
 
 namespace ImagingCapture.UI {
@@ -21,8 +22,10 @@ namespace ImagingCapture.UI {
 		BaselineA=0,
 		BaselineB=1,
 		KeyCapture=2,
-		Level=3,
-		LiveTest=4,
+		///<summary>FB-1: the handpiece's other buttons (optional): light on/off, brighter, dimmer, next slot, previous slot.</summary>
+		Buttons=3,
+		Level=4,
+		LiveTest=5,
 	}
 
 	///<summary>What is being recorded.</summary>
@@ -32,6 +35,8 @@ namespace ImagingCapture.UI {
 		BaselineB,
 		Key,
 		Level,
+		///<summary>FB-1: one of the other buttons, pressed PressCount times.</summary>
+		Button,
 	}
 
 	///<summary>The page flow and decisions of the Learn window and the button test (design 8.5), with no UI and no camera: the
@@ -40,7 +45,8 @@ namespace ImagingCapture.UI {
 	///page is LiveTestModel's. Not thread-safe; use it on the UI thread.
 	///
 	///Flow (Learn): Baseline A (Record, 3 s) - Baseline B (Record or Skip) - key capture (Record; stops by itself after the third
-	///press, or Stop) - level input (Record and Stop, or Skip; pick one candidate or none) - live test (Save). Next is enabled once
+	///press, or Stop) - other buttons (FB-1, optional: pick what a button does, Record, three presses; again for each button; Skip
+	///forgets them) - level input (Record and Stop, or Skip; pick one candidate or none) - live test (Save). Next is enabled once
 	///the page's step is done; Back keeps results, but recording an earlier step again forgets the later ones (LearnAnalyzer
 	///does the same). The video image category is offered on every page after the first.</summary>
 	public sealed class CaptureLearnModel {
@@ -54,7 +60,7 @@ namespace ImagingCapture.UI {
 		public const int KeyTimeoutMs=30000;
 		///<summary>A level recording stops by itself after 30 s, which is ample to put the handpiece down and pick it up.</summary>
 		public const int LevelTimeoutMs=30000;
-		public const int PageCount=5;
+		public const int PageCount=6;
 		#endregion Constants
 
 		#region Fields
@@ -78,6 +84,19 @@ namespace ImagingCapture.UI {
 		private LevelCandidate _levelCandidateChosen;
 		private CameraConfig _cameraConfigUnderTest;
 		private LiveTestModel _liveTestModel;
+		///<summary>FB-1: the other buttons learned, one per action, in the order learned.</summary>
+		private List<ButtonAssignment> _listButtons=new List<ButtonAssignment>();
+		///<summary>FB-1: what the next button recording is for.</summary>
+		private LevelAction _buttonActionSelected=LevelAction.ToggleLight;
+		///<summary>FB-1: the VideoProcAmp property a light button switches; from capture.ini's light button, else chosen here.</summary>
+		private int? _lightProperty;
+		///<summary>FB-1: the light's highest value (LightMax), from capture.ini's light button, else typed here; null for none.</summary>
+		private int? _lightMax;
+		///<summary>FB-1: whether the level input also turns the light off while resting (LightOffWhileActive); from capture.ini.</summary>
+		private bool _isLightOffWhileResting;
+		///<summary>FB-1: the last button recording's result, for the result text.</summary>
+		private ButtonLearnResult _buttonLearnResultLast;
+		private bool _isButtonsSkipped;
 		#endregion Fields
 
 		#region Constructor
@@ -95,6 +114,11 @@ namespace ImagingCapture.UI {
 			IsCategoryEditable=isCategoryEditable;
 			_hasStillPin=hasStillPin;
 			_isStillPinConnected=isStillPinConnected;
+			LevelInputConfig levelLight=_cameraConfigCurrent.Levels.Where(x => x!=null && LevelActions.IsLightAction(x.Action) && x.LightProperty!=null)
+				.OrderBy(x => x.Action==LevelAction.ToggleLight ? 0 : 1).FirstOrDefault();
+			_lightProperty=levelLight?.LightProperty;
+			_lightMax=levelLight?.LightMax;
+			_isLightOffWhileResting=_cameraConfigCurrent.Levels.Any(x => x!=null && x.Enabled && x.LightOffWhileActive && !LevelActions.IsButtonAction(x.Action));
 			if(Mode==CaptureLearnMode.ButtonTest) {
 				Page=LearnPage.LiveTest;
 				_cameraConfigUnderTest=_cameraConfigCurrent.Clone();
@@ -217,13 +241,20 @@ namespace ImagingCapture.UI {
 		///<summary>Key and level recordings are stopped by the user; baselines run their fixed time.</summary>
 		public bool CanStop {
 			get {
-				return RecordingKind==LearnRecordingKind.Key || RecordingKind==LearnRecordingKind.Level;
+				return RecordingKind==LearnRecordingKind.Key || RecordingKind==LearnRecordingKind.Level || RecordingKind==LearnRecordingKind.Button;
 			}
 		}
 
 		public bool CanSkip {
 			get {
-				return Mode==CaptureLearnMode.Learn && !IsRecording && (Page==LearnPage.BaselineB || Page==LearnPage.Level);
+				return Mode==CaptureLearnMode.Learn && !IsRecording && (Page==LearnPage.BaselineB || Page==LearnPage.Buttons || Page==LearnPage.Level);
+			}
+		}
+
+		///<summary>FB-1: the action and light setting pickers of the Other buttons page.</summary>
+		public bool IsButtonPickerVisible {
+			get {
+				return Mode==CaptureLearnMode.Learn && Page==LearnPage.Buttons;
 			}
 		}
 
@@ -269,6 +300,7 @@ namespace ImagingCapture.UI {
 					return _isBaselineBDone;
 				case LearnPage.KeyCapture:
 					return _learnAnalyzer.KeyResult!=null;
+				case LearnPage.Buttons:
 				case LearnPage.Level:
 					return true;
 				default:
@@ -316,6 +348,11 @@ namespace ImagingCapture.UI {
 				_isBaselineBSkipped=true;
 				_baselineResultB=null;
 				ClearLevelChoice();
+				ClearButtons();
+			}
+			else if(Page==LearnPage.Buttons) {
+				ClearButtons();
+				_isButtonsSkipped=true;
 			}
 			else {
 				_levelCandidateChosen=null;
@@ -341,6 +378,9 @@ namespace ImagingCapture.UI {
 					break;
 				case LearnPage.KeyCapture:
 					RecordingKind=LearnRecordingKind.Key;
+					break;
+				case LearnPage.Buttons:
+					RecordingKind=LearnRecordingKind.Button;
 					break;
 				default:
 					RecordingKind=LearnRecordingKind.Level;
@@ -387,6 +427,11 @@ namespace ImagingCapture.UI {
 				_keyCaptureProgress=_learnAnalyzer.GetKeyCaptureProgress(_listSamples);
 				UpdateKeyDone(sample.TimeMs);
 			}
+			else if(RecordingKind==LearnRecordingKind.Button) {
+				//Every button counts here, a used one too, so pressing one already in use ends the recording and the result says so.
+				_keyCaptureProgress=_learnAnalyzer.GetKeyCaptureProgress(_listSamples);
+				UpdateKeyDone(sample.TimeMs);
+			}
 			CheckTime(sample.TimeMs);
 		}
 
@@ -421,8 +466,9 @@ namespace ImagingCapture.UI {
 
 		///<summary>The key recording is done when no key is held and the third press was released or the third still sample came.</summary>
 		private void UpdateKeyDone(long nowMs) {
+			bool isStillDone=RecordingKind==LearnRecordingKind.Key && _listStillTimesMs.Count>=LearnAnalyzer.PressCount;
 			bool isDone=!_keyCaptureProgress.IsKeyDown
-				&& (_keyCaptureProgress.PressesSeen>=LearnAnalyzer.PressCount || _listStillTimesMs.Count>=LearnAnalyzer.PressCount);
+				&& (_keyCaptureProgress.PressesSeen>=LearnAnalyzer.PressCount || isStillDone);
 			if(!isDone) {
 				_timeKeyDoneMs=-1;
 				return;
@@ -440,6 +486,7 @@ namespace ImagingCapture.UI {
 			bool isTimeUp;
 			switch(RecordingKind) {
 				case LearnRecordingKind.Key:
+				case LearnRecordingKind.Button:
 					isTimeUp=elapsedMs>=KeyTimeoutMs || (_timeKeyDoneMs>=0 && nowMs-_timeKeyDoneMs>=KeySettleMs);
 					break;
 				case LearnRecordingKind.Level:
@@ -467,16 +514,22 @@ namespace ImagingCapture.UI {
 					_isBaselineBSkipped=false;
 					_baselineResultB=null;
 					ClearLevelChoice();
+					ClearButtons();
 					break;
 				case LearnRecordingKind.BaselineB:
 					_baselineResultB=_learnAnalyzer.SetBaselineB(listSamples);
 					_isBaselineBDone=_baselineResultB.IsUsable;
 					_isBaselineBSkipped=false;
 					ClearLevelChoice();
+					ClearButtons();
 					break;
 				case LearnRecordingKind.Key:
 					_learnAnalyzer.SetKeyCapture(listSamples,listStillTimesMs);
 					ClearLevelChoice();
+					ClearButtons();
+					break;
+				case LearnRecordingKind.Button:
+					FinishButton(listSamples);
 					break;
 				case LearnRecordingKind.Level:
 					_learnAnalyzer.SetLevelCapture(listSamples);
@@ -493,6 +546,163 @@ namespace ImagingCapture.UI {
 			_isLevelSkipped=false;
 		}
 		#endregion Recording
+
+		#region Other buttons
+		///<summary>FB-1: the buttons learned, one per action.</summary>
+		public IReadOnlyList<ButtonAssignment> Buttons {
+			get {
+				return _listButtons;
+			}
+		}
+
+		///<summary>FB-1: what the next button recording is for.</summary>
+		public LevelAction ButtonActionSelected {
+			get {
+				return _buttonActionSelected;
+			}
+		}
+
+		///<summary>FB-1: the VideoProcAmp property a light button switches, or null when none is chosen.</summary>
+		public int? LightProperty {
+			get {
+				return _lightProperty;
+			}
+		}
+
+		///<summary>FB-1: the light's highest value, or null when the camera's range is the limit.</summary>
+		public int? LightMax {
+			get {
+				return _lightMax;
+			}
+		}
+
+		///<summary>FB-1: sets the light's highest value (null or below 0: none), on the Other buttons page.</summary>
+		public bool SetLightMax(int? lightMax) {
+			if(Mode!=CaptureLearnMode.Learn || IsRecording || Page!=LearnPage.Buttons) {
+				return false;
+			}
+			int? lightMaxNew=lightMax>=0 ? lightMax : null;
+			if(_lightMax!=lightMaxNew) {
+				_lightMax=lightMaxNew;
+				Version++;
+			}
+			return true;
+		}
+
+		///<summary>FB-1: whether the level input also turns the light off while resting. Applies only with a light button.</summary>
+		public bool IsLightOffWhileResting {
+			get {
+				return _isLightOffWhileResting;
+			}
+		}
+
+		///<summary>FB-1: the light can go off while resting, on the Level page, when a level input is chosen and a light button learned.</summary>
+		public bool IsLightOffWhileRestingAvailable {
+			get {
+				return Mode==CaptureLearnMode.Learn && Page==LearnPage.Level && _levelCandidateChosen!=null
+					&& _listButtons.Any(x => LevelActions.IsLightAction(x.Action));
+			}
+		}
+
+		///<summary>FB-1: sets whether the level input also turns the light off while resting, on the Level page.</summary>
+		public bool SetLightOffWhileResting(bool isLightOff) {
+			if(Mode!=CaptureLearnMode.Learn || IsRecording || Page!=LearnPage.Level) {
+				return false;
+			}
+			if(_isLightOffWhileResting!=isLightOff) {
+				_isLightOffWhileResting=isLightOff;
+				Version++;
+			}
+			return true;
+		}
+
+		///<summary>FB-1: chooses what the next button recording is for (one of LevelActions.ArrayButtonActions).</summary>
+		public bool SelectButtonAction(LevelAction action) {
+			if(Mode!=CaptureLearnMode.Learn || IsRecording || Page!=LearnPage.Buttons || !LevelActions.ArrayButtonActions.Contains(action)) {
+				return false;
+			}
+			if(_buttonActionSelected!=action) {
+				_buttonActionSelected=action;
+				_buttonLearnResultLast=null;
+				Version++;
+			}
+			return true;
+		}
+
+		///<summary>FB-1: chooses the light's VideoProcAmp property (one of GetLightPropertyChoices), or null for none.</summary>
+		public bool SetLightProperty(int? property) {
+			if(Mode!=CaptureLearnMode.Learn || IsRecording || Page!=LearnPage.Buttons) {
+				return false;
+			}
+			if(property!=null && !UvcControls.IsValidProperty(UvcControlInterface.VideoProcAmp,property.Value)) {
+				return false;
+			}
+			if(_lightProperty!=property) {
+				_lightProperty=property;
+				Version++;
+			}
+			return true;
+		}
+
+		///<summary>FB-1: the VideoProcAmp properties the camera reports (the light is one of them), plus the one capture.ini names.</summary>
+		public List<int> GetLightPropertyChoices() {
+			List<int> listProperties=(_listControls??new List<ControlId>()).Where(x => x.Interface==UvcControlInterface.VideoProcAmp)
+				.Select(x => x.Property).ToList();
+			if(_lightProperty!=null && !listProperties.Contains(_lightProperty.Value)) {
+				listProperties.Add(_lightProperty.Value);
+			}
+			return listProperties.Distinct().OrderBy(x => x).ToList();
+		}
+
+		///<summary>FB-1: forgets a learned button.</summary>
+		public bool ForgetButton(LevelAction action) {
+			if(Mode!=CaptureLearnMode.Learn || IsRecording || Page!=LearnPage.Buttons) {
+				return false;
+			}
+			if(_listButtons.RemoveAll(x => x.Action==action)>0) {
+				_buttonLearnResultLast=null;
+				Version++;
+			}
+			return true;
+		}
+
+		///<summary>The capture key and the buttons of the other actions: a button recording never learns their bits.</summary>
+		private List<ControlBinding> GetBindingsTaken() {
+			List<ControlBinding> listBindings=_listButtons.Where(x => x.Action!=_buttonActionSelected).Select(x => x.Binding).ToList();
+			if(KeyChosen!=null) {
+				listBindings.Add(KeyChosen.Binding);
+			}
+			return listBindings;
+		}
+
+		///<summary>Keeps what a button recording found for the selected action, and selects the next action not learned yet.</summary>
+		private void FinishButton(List<ControlSample> listSamples) {
+			_buttonLearnResultLast=_learnAnalyzer.SetButtonCapture(listSamples,GetBindingsTaken());
+			_isButtonsSkipped=false;
+			if(_buttonLearnResultLast.Chosen==null) {
+				return;
+			}
+			_listButtons.RemoveAll(x => x.Action==_buttonActionSelected);
+			_listButtons.Add(new ButtonAssignment(_buttonActionSelected,_buttonLearnResultLast.Chosen.Binding,null));
+			LevelAction actionNext=LevelActions.ArrayButtonActions.FirstOrDefault(x => !_listButtons.Any(y => y.Action==x));
+			if(_listButtons.Count<LevelActions.ArrayButtonActions.Length) {
+				_buttonActionSelected=actionNext;
+			}
+		}
+
+		private void ClearButtons() {
+			_listButtons=new List<ButtonAssignment>();
+			_buttonLearnResultLast=null;
+			_isButtonsSkipped=false;
+		}
+
+		///<summary>The buttons for the configuration: the light buttons get the chosen light property and highest value.</summary>
+		private List<ButtonAssignment> GetButtonsForConfig() {
+			return _listButtons.Select(x => LevelActions.IsLightAction(x.Action)
+				? new ButtonAssignment(x.Action,x.Binding,_lightProperty,_lightMax)
+				: new ButtonAssignment(x.Action,x.Binding,null)).ToList();
+		}
+		#endregion Other buttons
 
 		#region Choices
 		///<summary>The key candidates of the key step, in LearnAnalyzer's order; KeyChosen is the one in use. Empty before the key step.</summary>
@@ -517,6 +727,8 @@ namespace ImagingCapture.UI {
 			if(_levelCandidateChosen!=null && !GetLevelCandidates().Contains(_levelCandidateChosen)) {
 				_levelCandidateChosen=null;
 			}
+			//FB-1: a button that shares the new key's bits is forgotten.
+			_listButtons.RemoveAll(x => x.Binding.Control==keyCandidate.Binding.Control && (x.Binding.Mask & keyCandidate.Binding.Mask)!=0);
 			Version++;
 			return true;
 		}
@@ -538,6 +750,11 @@ namespace ImagingCapture.UI {
 			ControlBinding bindingKey=KeyChosen?.Binding;
 			if(bindingKey!=null) {
 				listCandidates=listCandidates.Where(x => x.Binding.Control!=bindingKey.Control || (x.Binding.Mask & bindingKey.Mask)==0).ToList();
+			}
+			//FB-1: nor one that shares a learned button's bits.
+			foreach(ButtonAssignment buttonAssignment in _listButtons) {
+				listCandidates=listCandidates.Where(x => x.Binding.Control!=buttonAssignment.Binding.Control
+					|| (x.Binding.Mask & buttonAssignment.Binding.Mask)==0).ToList();
 			}
 			return listCandidates;
 		}
@@ -569,7 +786,7 @@ namespace ImagingCapture.UI {
 
 		#region Live test
 		private void BuildLiveTest() {
-			_cameraConfigUnderTest=_learnAnalyzer.BuildConfig(_cameraConfigCurrent,_levelCandidateChosen);
+			_cameraConfigUnderTest=_learnAnalyzer.BuildConfig(_cameraConfigCurrent,_levelCandidateChosen,GetButtonsForConfig(),_isLightOffWhileResting);
 			_liveTestModel=new LiveTestModel(_cameraConfigUnderTest,_listControls??new List<ControlId>());
 			LiveTestVersion++;
 		}
@@ -648,6 +865,9 @@ namespace ImagingCapture.UI {
 				case LearnPage.KeyCapture:
 					name="Capture key";
 					break;
+				case LearnPage.Buttons:
+					name="Other buttons (optional)";
+					break;
 				case LearnPage.Level:
 					name="Level input (optional)";
 					break;
@@ -660,8 +880,8 @@ namespace ImagingCapture.UI {
 
 		public string GetInstructions() {
 			if(Mode==CaptureLearnMode.ButtonTest) {
-				return "Press the camera's key: the Capture tile lights and its count goes up by one for each press. A level tile shows "
-					+"whether the level input is active. Nothing is changed or saved here.";
+				return "Press the camera's key: the Capture tile lights and its count goes up by one for each press. A button tile counts "
+					+"the presses of its button, and a level tile shows whether the level input is active. Nothing is changed or saved here.";
 			}
 			switch(Page) {
 				case LearnPage.BaselineA:
@@ -679,13 +899,19 @@ namespace ImagingCapture.UI {
 						text+=" The camera has a still pin, but it is not connected in this preview, so a still-pin key cannot be learned now.";
 					}
 					return text;
+				case LearnPage.Buttons:
+					return "Optional: other buttons on the handpiece can switch its light on and off, make it brighter or dimmer, or move to the "
+						+"next or previous slot of a photo mount. "
+						+"Choose what a button does, click Record, then press and release that button "+LearnAnalyzer.PressCount.ToString(CultureInfo.InvariantCulture)
+						+" times. Repeat for each button. Click Next when done, or Skip to use none.";
 				case LearnPage.Level:
 					return "Optional: a level input pauses the preview while the handpiece rests. Click Record, put the handpiece down in its "
 						+"resting position, wait two seconds, pick it up again, then click Stop. Then choose the level input below, or None. "
 						+"Click Skip to go on without one.";
 				default:
-					return "Press the key: the Capture tile lights, and the photo count goes up by one for each press. Put the handpiece "
-						+"down and pick it up a few times: the photo count must not change. Then click Save.";
+					return "Press the key: the Capture tile lights, and the photo count goes up by one for each press. Press each other button: "
+						+"its tile counts the presses, and the photo count must not change. Put the handpiece down and pick it up a few times: the "
+						+"photo count must not change. Then click Save.";
 			}
 		}
 
@@ -696,6 +922,9 @@ namespace ImagingCapture.UI {
 				case LearnRecordingKind.BaselineA:
 				case LearnRecordingKind.BaselineB:
 					return "Recording: "+FormatSeconds(Math.Min(elapsedMs,LearnAnalyzer.BaselineMs))+" of "+FormatSeconds(LearnAnalyzer.BaselineMs)+" s. Keep still.";
+				case LearnRecordingKind.Button:
+					return "Presses seen: "+_keyCaptureProgress.PressesSeen.ToString(CultureInfo.InvariantCulture)
+						+" of "+LearnAnalyzer.PressCount.ToString(CultureInfo.InvariantCulture)+(_keyCaptureProgress.IsKeyDown ? " (button held)" : "")+".";
 				case LearnRecordingKind.Key:
 					string text="Presses seen: "+_keyCaptureProgress.PressesSeen.ToString(CultureInfo.InvariantCulture)
 						+" of "+LearnAnalyzer.PressCount.ToString(CultureInfo.InvariantCulture)+(_keyCaptureProgress.IsKeyDown ? " (key held)" : "")+".";
@@ -730,6 +959,8 @@ namespace ImagingCapture.UI {
 					return GetBaselineBText();
 				case LearnPage.KeyCapture:
 					return GetKeyText();
+				case LearnPage.Buttons:
+					return GetButtonsText();
 				default:
 					return GetLevelText();
 			}
@@ -809,6 +1040,36 @@ namespace ImagingCapture.UI {
 			return string.Join("\r\n",listLines);
 		}
 
+		private string GetButtonsText() {
+			List<string> listLines=new List<string>();
+			if(_isButtonsSkipped) {
+				listLines.Add("Skipped: no other buttons.");
+			}
+			if(_buttonLearnResultLast!=null) {
+				if(_buttonLearnResultLast.Chosen!=null) {
+					listLines.Add("Button found: "+_buttonLearnResultLast.Chosen.Binding+".");
+				}
+				listLines.AddRange(_buttonLearnResultLast.Notes);
+			}
+			foreach(LevelAction action in LevelActions.ArrayButtonActions) {
+				ButtonAssignment buttonAssignment=_listButtons.FirstOrDefault(x => x.Action==action);
+				string text=Capitalize(LevelActions.GetText(action))+": "+(buttonAssignment==null ? "not learned" : buttonAssignment.Binding.ToString());
+				if(LevelActions.IsLightAction(action) && buttonAssignment!=null) {
+					text+=_lightProperty==null
+						? ". Choose the light setting: the camera's documentation says which setting drives the light."
+						: ", switches "+new ControlId(UvcControlInterface.VideoProcAmp,_lightProperty.Value)
+							+(_lightMax==null ? "" : ", at most "+_lightMax.Value.ToString(CultureInfo.InvariantCulture));
+				}
+				listLines.Add(text+".");
+			}
+			return string.Join("\r\n",listLines);
+		}
+
+		///<summary>"Light on/off" for "light on/off".</summary>
+		private static string Capitalize(string text) {
+			return string.IsNullOrEmpty(text) ? "" : char.ToUpperInvariant(text[0])+text.Substring(1);
+		}
+
 		private string GetLevelText() {
 			List<string> listLines=new List<string>();
 			if(_isLevelSkipped) {
@@ -822,7 +1083,9 @@ namespace ImagingCapture.UI {
 				listLines.Add("Held and resting differ in "+countFromBaseline.ToString(CultureInfo.InvariantCulture)
 					+(countFromBaseline==1 ? " bit, which is" : " bits, which are")+" offered below even without a recording.");
 			}
-			listLines.Add("Level input: "+(_levelCandidateChosen==null ? "none" : _levelCandidateChosen.Binding+", active while resting (the preview pauses)")+".");
+			bool isLightOff=_isLightOffWhileResting && _listButtons.Any(x => LevelActions.IsLightAction(x.Action));
+			listLines.Add("Level input: "+(_levelCandidateChosen==null ? "none"
+				: _levelCandidateChosen.Binding+", active while resting (the preview pauses"+(isLightOff ? ", the light goes off" : "")+")")+".");
 			return string.Join("\r\n",listLines);
 		}
 
@@ -851,8 +1114,32 @@ namespace ImagingCapture.UI {
 			}
 			foreach(LevelInputConfig levelInputConfig in listLevels) {
 				string problem=levelInputConfig.GetProblem();
-				listLines.Add("Level "+levelInputConfig.Number.ToString(CultureInfo.InvariantCulture)+": "
-					+(problem=="" ? levelInputConfig.GetBinding()+", pauses the preview while active." : problem));
+				//FB-1: a button says what each press does.
+				string does;
+				switch(levelInputConfig.Action) {
+					case LevelAction.ToggleLight:
+						does="switches the light ("+new ControlId(UvcControlInterface.VideoProcAmp,levelInputConfig.LightProperty??0)
+							+(levelInputConfig.LightMax==null ? "" : ", at most "+levelInputConfig.LightMax.Value.ToString(CultureInfo.InvariantCulture))+") on each press.";
+						break;
+					case LevelAction.LightUp:
+					case LevelAction.LightDown:
+						does="makes the light ("+new ControlId(UvcControlInterface.VideoProcAmp,levelInputConfig.LightProperty??0)
+							+(levelInputConfig.LightMax==null ? "" : ", at most "+levelInputConfig.LightMax.Value.ToString(CultureInfo.InvariantCulture))+") "
+							+(levelInputConfig.Action==LevelAction.LightUp ? "brighter" : "dimmer")+" on each press.";
+						break;
+					case LevelAction.NextSlot:
+						does="moves to the next slot on each press.";
+						break;
+					case LevelAction.PreviousSlot:
+						does="moves to the previous slot on each press.";
+						break;
+					default:
+						does=levelInputConfig.LightOffWhileActive ? "pauses the preview and turns the light off while active." : "pauses the preview while active.";
+						break;
+				}
+				string name=LevelActions.IsButtonAction(levelInputConfig.Action) ? "Button" : "Level";
+				listLines.Add(name+" "+levelInputConfig.Number.ToString(CultureInfo.InvariantCulture)+": "
+					+(problem=="" ? levelInputConfig.GetBinding()+", "+does : problem));
 			}
 			if(!cameraConfig.StillEnabled && !controlPoll.IsConfigured) {
 				listLines.Add("No camera trigger is set up: photos are taken with the Capture button or Space only.");

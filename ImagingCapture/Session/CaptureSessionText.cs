@@ -151,6 +151,18 @@ namespace ImagingCapture.Session {
 			return "The image of "+label+" is kept as an unmounted image, \""+GetRetakeLabel(label)+"\". The next image goes to "+label+".";
 		}
 
+		///<summary>FB-1: a filled slot tapped in the mini-map, chosen for Retake.</summary>
+		public static string GetRetakeChosenNotice(string slotLabel) {
+			string label=(slotLabel??"").Trim();
+			return label+" is chosen: press Retake to take it again (its image is kept as an unmounted image). Tap it again to cancel.";
+		}
+
+		///<summary>FB-1: the session was opened from the Imaging module's Retake.</summary>
+		public static string GetRetakeAtStartNotice(string slotLabel) {
+			string label=(slotLabel??"").Trim();
+			return "Retake of "+label+": Start moves its current image to an unmounted image and takes "+label+" again. Close without Start to keep it.";
+		}
+
 		///<summary>"Rotated to 90 degrees."</summary>
 		public static string GetRotatedText(int degrees) {
 			return "Rotated to "+degrees.ToString(CultureInfo.InvariantCulture)+" degrees.";

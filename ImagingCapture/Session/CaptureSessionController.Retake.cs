@@ -20,7 +20,21 @@ namespace ImagingCapture.Session {
 	///  ItemOrder, and to the slot of this mount, so that its retakes come in turned too. It is offered only when the mount was created from a
 	///  mount definition in this call (MountDef not null), needs Setup and writes a Setup entry with the old and new values.</summary>
 	public sealed partial class CaptureSessionController {
+		#region Fields - retake
+		///<summary>FB-1: the filled slot the operator tapped in the mini-map to take again, or -1: Retake then works on it instead of on the
+		///image saved last.</summary>
+		private int _idxRetakeChosen=-1;
+		///<summary>FB-1: the session was opened to retake a slot (CaptureSessionSetup.RetakeMountItemNum) and Start has not moved its image yet.</summary>
+		private bool _isRetakeAtStart;
+		#endregion Fields - retake
+
 		#region Properties - retake and rotation
+		///<summary>FB-1: the index (in MountSlots.ListMountItems) of the slot Retake takes again now: the slot tapped in the mini-map, else the
+		///slot of the image saved last while it is still there; -1 when Retake has nothing to work on.</summary>
+		public int RetakeIdx => GetRetakeIdx();
+
+		///<summary>FB-1: true when the operator chose the slot Retake works on (a tap on a filled slot), rather than the image saved last.</summary>
+		public bool IsRetakeSlotChosen => GetChosenRetakeIdx()!=-1;
 		///<summary>The shown image's rotation in degrees (0, 90, 180, 270): the display transform the window applies to LastSavedImage.</summary>
 		public int DegreesRotatedShown => LastSavedDocument==null ? 0 : NormalizeDegrees(LastSavedDocument.DegreesRotated);
 
@@ -142,8 +156,85 @@ namespace ImagingCapture.Session {
 			return false;
 		}
 
-		///<summary>The index of the shown image's slot, when it is still there: what a Retake moves. -1 when there is none.</summary>
+		///<summary>A capture slot of the mount (not a text item, not unmounted) that holds an image.</summary>
+		private bool IsFilledSlot(int idx) {
+			if(IsSingleTarget || idx<0 || idx>=_mountSlots.ListMountItems.Count) {
+				return false;
+			}
+			return MountPlacement.IsSlot(_mountSlots.ListMountItems[idx]) && _mountSlots.ListDocuments[idx]!=null;
+		}
+
+		///<summary>FB-1: a tap on a filled slot chooses it for Retake; a second tap on the same slot clears the choice. NoticeText says what
+		///Retake will do.</summary>
+		private bool SelectRetakeSlot(int idx) {
+			if(!IsFilledSlot(idx)) {
+				return false;
+			}
+			string slotLabel=MountPlacement.GetSlotLabel(_mountSlots.ListMountItems[idx]);
+			if(_idxRetakeChosen==idx) {
+				_idxRetakeChosen=-1;
+				NoticeText="";
+				Log("Retake choice cleared: "+slotLabel+".");
+				return true;
+			}
+			_idxRetakeChosen=idx;
+			NoticeText=CaptureSessionText.GetRetakeChosenNotice(slotLabel);
+			Log("Chosen for retake: "+slotLabel+".");
+			return true;
+		}
+
+		///<summary>FB-1, from the constructor: the slot the Imaging module asked to retake is chosen, and Start will retake it.</summary>
+		private void InitRetakeAtStart() {
+			if(IsSingleTarget || _setup.RetakeMountItemNum==0) {
+				return;
+			}
+			int idx=-1;
+			for(int i=0;i<_mountSlots.ListMountItems.Count;i++) {
+				if(_mountSlots.ListMountItems[i].MountItemNum==_setup.RetakeMountItemNum) {
+					idx=i;
+					break;
+				}
+			}
+			if(!IsFilledSlot(idx)) {
+				return;
+			}
+			_idxRetakeChosen=idx;
+			_isRetakeAtStart=true;
+			NoticeText=CaptureSessionText.GetRetakeAtStartNotice(MountPlacement.GetSlotLabel(_mountSlots.ListMountItems[idx]));
+		}
+
+		///<summary>FB-1, at the deliberate Start: the slot the session was opened for is retaken first (its image to an unmounted item, the
+		///slot the target), unless the operator cleared the choice. False when that Retake failed (the red strip says why): nothing is enabled.</summary>
+		private bool RetakeAtStart() {
+			if(!_isRetakeAtStart) {
+				return true;
+			}
+			if(GetChosenRetakeIdx()==-1) {
+				_isRetakeAtStart=false;//the operator cleared the choice: a plain start into the empty slots
+				return true;
+			}
+			if(!Retake()) {
+				return false;//_isRetakeAtStart stays: the next Start tries again
+			}
+			_isRetakeAtStart=false;
+			return true;
+		}
+
+		///<summary>The slot chosen for Retake while it still holds an image, else -1.</summary>
+		private int GetChosenRetakeIdx() {
+			if(_idxRetakeChosen!=-1 && !IsFilledSlot(_idxRetakeChosen)) {
+				_idxRetakeChosen=-1;
+			}
+			return _idxRetakeChosen;
+		}
+
+		///<summary>What a Retake moves: the slot chosen in the mini-map (FB-1), else the shown image's slot when it is still there. -1 when
+		///there is none.</summary>
 		private int GetRetakeIdx() {
+			int idxChosen=GetChosenRetakeIdx();
+			if(idxChosen!=-1) {
+				return idxChosen;
+			}
 			if(IsSingleTarget || LastSavedDocument==null || LastSavedMountItem==null) {
 				return -1;
 			}
@@ -196,9 +287,13 @@ namespace ImagingCapture.Session {
 			_mountSlots.RemoveFromSlot(idx);
 			_mountSlots.AddUnmounted(mountItemUnmounted,document);
 			CountRetakes++;
-			LastSavedImage=null;
-			LastSavedDocument=null;
-			LastSavedMountItem=null;
+			_idxRetakeChosen=-1;
+			if(ReferenceEquals(LastSavedDocument,document)) {
+				//The preview showed this image; another slot's image (chosen in the mini-map) leaves the preview as it is.
+				LastSavedImage=null;
+				LastSavedDocument=null;
+				LastSavedMountItem=null;
+			}
 			WriteAudit(EnumPermType.ImageEdit,PatNum,CaptureAuditText.GetRetakeText(document.DocNum,slotLabel,_setup.Mount.MountNum,SessionGuid),
 				document.DocNum);
 			Log("Retake: DocNum "+document.DocNum+" moved from "+slotLabel+" to unmounted item "+mountItemUnmounted.MountItemNum+".");

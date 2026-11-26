@@ -54,8 +54,10 @@ namespace ImagingCapture.UI {
 		public CaptureSlotTileState State { get; set; }
 		///<summary>The running enable's slot: its images go here, whatever the target is now.</summary>
 		public bool IsEnableTarget { get; set; }
-		///<summary>An empty slot that is not the target: a tap makes it the target.</summary>
+		///<summary>An empty slot that is not the target: a tap makes it the target. A filled slot: a tap chooses it for Retake (FB-1).</summary>
 		public bool IsClickable { get; set; }
+		///<summary>FB-1: the filled slot Retake takes again now (chosen with a tap, or the image saved last).</summary>
+		public bool IsRetakeSlot { get; set; }
 	}
 
 	///<summary>One tooth of the single-target tooth picker (Universal 1-32): row 0 is the maxillary arch 1 to 16, row 1 the mandibular arch 32 to
@@ -262,7 +264,13 @@ namespace ImagingCapture.UI {
 		public string GetCommandText(CaptureSessionAction action) {
 			string text;
 			switch(action) {
-				case CaptureSessionAction.Retake: text="Retake"; break;
+				case CaptureSessionAction.Retake:
+					text="Retake";
+					int idxRetake=_controller.RetakeIdx;
+					if(idxRetake!=-1 && !_controller.IsSingleTarget) {
+						text+=" slot "+_controller.MountSlots.ListMountItems[idxRetake].ItemOrder.ToString(CultureInfo.InvariantCulture);//FB-1
+					}
+					break;
 				case CaptureSessionAction.Skip: text="Skip"; break;
 				case CaptureSessionAction.NextSlot: text="Next slot"; break;
 				case CaptureSessionAction.PreviousSlot: text="Previous slot"; break;
@@ -622,6 +630,7 @@ namespace ImagingCapture.UI {
 				return listTiles;
 			}
 			bool isFinished=Phase==CaptureSessionPhase.Finished || _isClosing;
+			int idxRetake=_controller.IsRetakeSlotChosen ? _controller.RetakeIdx : -1;
 			foreach(CaptureSlotView view in listViews) {
 				CaptureSlotTileState state;
 				if(view.IsFilled) {
@@ -644,7 +653,8 @@ namespace ImagingCapture.UI {
 					ToolTip=CaptureTargetText.GetSlotText(_controller.MountSlots.ListMountItems,view.MountItem),
 					State=state,
 					IsEnableTarget=view.IsEnableTarget,
-					IsClickable=!isFinished && !view.IsFilled && !view.IsTarget,
+					IsClickable=!isFinished && (view.IsFilled || !view.IsTarget),
+					IsRetakeSlot=!isFinished && view.Idx==idxRetake,
 				});
 			}
 			List<MountItem> listMountItems=listViews.Select(x => x.MountItem).ToList();

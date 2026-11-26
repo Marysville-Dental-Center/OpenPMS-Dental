@@ -14,7 +14,7 @@
 ;
 ; Command line (besides Inno Setup's own switches, such as /SILENT, /VERYSILENT, /SUPPRESSMSGBOXES, /DIR=, /NOICONS, /TASKS=, /LOG=):
 ;   /DBSERVER=name      database server for FreeDentalConfig.xml (host, or host:port for a port other than 3306). Default localhost.
-;   /DBNAME=name        database. Default opendental.
+;   /DBNAME=name        database. Default openpms_dental.
 ;   /DBUSER=name        database user. Default opmsd, the program's own account in the server guide (docs/db-connection-security.md,
 ;                       section 5); the program no longer uses root. The connection settings tool warns about root for a server
 ;                       over the network.
@@ -700,7 +700,7 @@ begin
 end;
 
 { The tool's switches for an upgrade: only those given on setup's command line, never the connection page's defaults (localhost,
-  opendental, opmsd), which would replace the computer's existing connection. Never a secret. }
+  openpms_dental, opmsd), which would replace the computer's existing connection. Never a secret. }
 function UpgradeParams: String;
 begin
   Result := GivenSwitch('DBSERVER', '/server') + GivenSwitch('DBNAME', '/database') + GivenSwitch('DBUSER', '/user') + GivenSwitch('DBCA', '/ca');
@@ -822,7 +822,7 @@ begin
   ConfigPage.Add('&Database:', False);
   ConfigPage.Add('&User:', False);
   ConfigPage.Values[0] := ExpandConstant('{param:DBSERVER|localhost}');
-  ConfigPage.Values[1] := ExpandConstant('{param:DBNAME|opendental}');
+  ConfigPage.Values[1] := ExpandConstant('{param:DBNAME|openpms_dental}');
   ConfigPage.Values[2] := ExpandConstant('{param:DBUSER|opmsd}');
 
   SecurityPage := CreateInputFilePage(ConfigPage.ID, 'Encrypted connection', 'The office CA and the client certificate',

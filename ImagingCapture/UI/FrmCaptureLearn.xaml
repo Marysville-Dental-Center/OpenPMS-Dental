@@ -21,6 +21,15 @@
 		<ui:ComboBox x:Name="comboKey" Width="500" Height="21" Margin="106,266,0,0" />
 		<ui:Label x:Name="labelLevel" Width="90" Height="18" Margin="12,268,0,0" Text="Level input" VAlign="Bottom" />
 		<ui:ComboBox x:Name="comboLevel" Width="500" Height="21" Margin="106,266,0,0" />
+		<ui:Label x:Name="labelButtonAction" Width="90" Height="18" Margin="12,268,0,0" Text="Button for" VAlign="Bottom" />
+		<ui:ComboBox x:Name="comboButtonAction" Width="180" Height="21" Margin="106,266,0,0" />
+		<ui:Button x:Name="butForgetButton" Width="75" Height="24" Margin="292,265,0,0" Text="Forget" Click="butForgetButton_Click" />
+		<ui:Label x:Name="labelLightProperty" Width="90" Height="18" Margin="380,268,0,0" Text="Light setting" VAlign="Bottom" />
+		<ui:ComboBox x:Name="comboLightProperty" Width="250" Height="21" Margin="474,266,0,0" />
+		<ui:Label x:Name="labelLightMax" Width="90" Height="18" Margin="380,297,0,0" Text="Highest level" VAlign="Bottom" />
+		<ui:TextBox x:Name="textLightMax" Width="60" Height="21" Margin="474,295,0,0" />
+		<ui:Label x:Name="labelLightMaxNote" Width="262" Height="18" Margin="540,297,0,0" Text="empty: the camera's own maximum" VAlign="Bottom" />
+		<ui:CheckBox x:Name="checkLightOffWhileResting" Width="500" Height="20" Margin="106,295,0,0" Text="Turn the light off while resting" Click="checkLightOffWhileResting_Click" />
 		<ui:Grid x:Name="gridValues" Width="520" Height="226" Margin="12,266,0,0" Title="Raw control values" TranslationName="TableCameraControlValues" />
 		<ui:Panel x:Name="panelTiles" Width="262" Height="200" Margin="540,266,0,0" ColorBack="#FFFCFDFE" />
 		<ui:Label x:Name="labelCategory" Width="130" Height="18" Margin="12,504,0,0" Text="Video image category" VAlign="Bottom" />

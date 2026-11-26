@@ -84,7 +84,11 @@ namespace ImagingCapture.UI {
 			if(_isFilling || _idxSelected<0) {
 				return;
 			}
-			_model.SetText(_idxSelected,textValue.Text);
+			string text=textValue.Text;
+			if(_model.ListRows[_idxSelected].Def.Kind==CaptureSettingKind.Capability) {
+				text=_model.CapabilityNames.ToStored(text);//FB-1: a typed name from [CapabilityNames] is stored as its hex number
+			}
+			_model.SetText(_idxSelected,text);
 			RefreshView(isEditorKept:true);
 		}
 
@@ -211,11 +215,13 @@ namespace ImagingCapture.UI {
 			gridSettings.ListGridRows.Clear();
 			foreach(CaptureSettingRow row in _model.ListRows) {
 				GridRow gridRow=new GridRow();
+				//FB-1: a capability number shows its name from [CapabilityNames], "NAME (0x8005)", instead of the bare hex number.
+				bool isCapability=row.Def.Kind==CaptureSettingKind.Capability;
 				gridRow.Cells.Add(row.DisplayName);
-				gridRow.Cells.Add(row.Text);
-				gridRow.Cells.Add(row.Def.DefaultText);
+				gridRow.Cells.Add(isCapability ? _model.CapabilityNames.ToDisplay(row.Text) : row.Text);
+				gridRow.Cells.Add(isCapability ? _model.CapabilityNames.ToDisplay(row.Def.DefaultText) : row.Def.DefaultText);
 				gridRow.Cells.Add(row.Def.IsGated ? "X" : "");
-				gridRow.Cells.Add(row.SavedText??"");
+				gridRow.Cells.Add(isCapability ? _model.CapabilityNames.ToDisplay(row.SavedText??"") : row.SavedText??"");
 				gridRow.Cells.Add(GetNote(row));
 				if(row.Problem!="") {
 					gridRow.ColorText=_colorProblem;
@@ -238,7 +244,8 @@ namespace ImagingCapture.UI {
 				listNotes.Add(Lang.g(this,"changed outside Open PMS - Dental"));
 			}
 			if(row.IsChanged) {
-				listNotes.Add(Lang.g(this,"edited, was")+" "+(row.BaselineText=="" ? Lang.g(this,"(empty)") : row.BaselineText));
+				string baselineText=row.Def.Kind==CaptureSettingKind.Capability ? _model.CapabilityNames.ToDisplay(row.BaselineText) : row.BaselineText;
+				listNotes.Add(Lang.g(this,"edited, was")+" "+(baselineText=="" ? Lang.g(this,"(empty)") : baselineText));
 			}
 			return string.Join("; ",listNotes);
 		}
@@ -265,7 +272,7 @@ namespace ImagingCapture.UI {
 					comboValue.SelectedIndex=_listComboValues.IndexOf(row.Text);
 				}
 				else if(row!=null) {
-					textValue.Text=row.Text;
+					textValue.Text=row.Def.Kind==CaptureSettingKind.Capability ? _model.CapabilityNames.ToEditText(row.Text) : row.Text;
 				}
 				FillEditorLabels();
 			}
@@ -284,6 +291,9 @@ namespace ImagingCapture.UI {
 			}
 			labelSelected.Text=row.DisplayName+(row.Def.IsGated ? " "+Lang.g(this,"(gated)") : "");
 			labelHelp.Text=row.Def.Help;
+			if(row.Def.Kind==CaptureSettingKind.Capability) {
+				labelHelp.Text+=" "+_model.CapabilityNames.GetHelp();
+			}
 			string text=Lang.g(this,"Default")+": "+(row.Def.DefaultText=="" ? Lang.g(this,"(none)") : row.Def.DefaultText);
 			if(row.SavedText!=null) {
 				text+="; "+Lang.g(this,"last saved")+": "+(row.SavedText=="" ? Lang.g(this,"(empty)") : row.SavedText);

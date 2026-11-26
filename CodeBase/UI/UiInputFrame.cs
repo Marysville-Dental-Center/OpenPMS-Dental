@@ -486,7 +486,15 @@ namespace CodeBase {
 		///changes for it.</summary>
 		private void ValidateFrameInClient() {
 			Point pointClient=GetClientOffset(Handle);
-			IntPtr hRgn=CreateFrameRegion(-pointClient.X,-pointClient.Y);
+			IntPtr hRgn;
+			if(IsFaceDrawn(_control)) {
+				//FB-1: the frame paints a face-drawn combo box's whole face too (PaintComboFace), so Windows' face (its light blue hover fill,
+				//animated in and out) is kept off the screen as well; it used to show for a moment under the mouse before the face went over it.
+				hRgn=CreateRectRgn(-pointClient.X,-pointClient.Y,-pointClient.X+_control.Width,-pointClient.Y+_control.Height);
+			}
+			else {
+				hRgn=CreateFrameRegion(-pointClient.X,-pointClient.Y);
+			}
 			if(hRgn==IntPtr.Zero) {
 				return;//ValidateRgn with no region would validate the whole client area (review of UI-FOCUS, point 1).
 			}
@@ -559,9 +567,19 @@ namespace CodeBase {
 			}
 		}
 
+		///<summary>FB-1 (text boxes flickered on hover): the frame is drawn into an off-screen picture first and put on the
+		///window in one copy, clipped to what it paints (the frame's area, and the face of a face-drawn combo box). It used to be drawn straight on
+		///the window DC, the parent's colour over the whole edge first and the box after, so every repaint showed the bare fill for a moment.
+		///Windows 11 repaints a text box's and combo box's border 4 or 5 times when the mouse comes in and again when it goes out (the hover
+		///animation), and each of those repaints flashed. With one copy the screen goes straight from the old frame to the new one.</summary>
 		private void PaintOnWindow() {
 			if(Handle==IntPtr.Zero) {
 				//GetWindowDC(0) is the whole screen's.
+				return;
+			}
+			int width=_control.Width;
+			int height=_control.Height;
+			if(width<=0 || height<=0) {
 				return;
 			}
 			IntPtr hdc=GetWindowDC(Handle);
@@ -569,8 +587,20 @@ namespace CodeBase {
 				return;
 			}
 			try {
-				using(Graphics g=Graphics.FromHdc(hdc)) {
-					PaintFrame(g,new Rectangle(0,0,_control.Width,_control.Height),_control,IsFocusShown());
+				Rectangle rectangle=new Rectangle(0,0,width,height);
+				//No alpha channel: GDI text (the combo box face's) on a 32bppArgb picture would come out transparent. Every pixel copied is painted.
+				using(Bitmap bitmap=new Bitmap(width,height,System.Drawing.Imaging.PixelFormat.Format32bppRgb))
+				using(Region regionCopy=new Region(rectangle)) {
+					using(Graphics gBitmap=Graphics.FromImage(bitmap)) {
+						PaintFrame(gBitmap,rectangle,_control,IsFocusShown());
+					}
+					if(!IsFaceDrawn(_control)) {
+						regionCopy.Exclude(GetInnerRectangle(rectangle,_control));//the text and the content stay as Windows drew them
+					}
+					using(Graphics g=Graphics.FromHdc(hdc)) {
+						g.Clip=regionCopy;
+						g.DrawImageUnscaled(bitmap,0,0);
+					}
 				}
 			}
 			finally {

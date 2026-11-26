@@ -39,6 +39,8 @@ namespace OpenPmsDental{
 			this.textColumns = new OpenPmsDental.ValidNum();
 			this.label7 = new System.Windows.Forms.Label();
 			this.groupBoxOD1.SuspendLayout();
+			this.labelMountType = new System.Windows.Forms.Label();
+			this.comboMountType = new OpenPmsDental.UI.ComboBox();
 			this.SuspendLayout();
 			// 
 			// butOK
@@ -180,7 +182,27 @@ namespace OpenPmsDental{
 			// 
 			// FormMountDefGenerate
 			// 
+			//
+			// labelMountType
+			//
+			this.labelMountType.Location = new System.Drawing.Point(445, 46);
+			this.labelMountType.Name = "labelMountType";
+			this.labelMountType.Size = new System.Drawing.Size(146, 17);
+			this.labelMountType.TabIndex = 30;
+			this.labelMountType.Text = "Mount holds";
+			this.labelMountType.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+			//
+			// comboMountType
+			//
+			this.comboMountType.Location = new System.Drawing.Point(445, 66);
+			this.comboMountType.Name = "comboMountType";
+			this.comboMountType.Size = new System.Drawing.Size(146, 23);
+			this.comboMountType.TabIndex = 31;
+			this.comboMountType.Text = "comboMountType";
+			//
 			this.ClientSize = new System.Drawing.Size(599, 288);
+			this.Controls.Add(this.comboMountType);
+			this.Controls.Add(this.labelMountType);
 			this.Controls.Add(this.groupBoxOD1);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.textHeight);
@@ -203,6 +225,8 @@ namespace OpenPmsDental{
 
 		#endregion
 
+		private System.Windows.Forms.Label labelMountType;
+		private OpenPmsDental.UI.ComboBox comboMountType;
 		private OpenPmsDental.UI.Button butOK;
 		private System.Windows.Forms.Label label2;
 		private OpenPmsDental.UI.ListBox listType;

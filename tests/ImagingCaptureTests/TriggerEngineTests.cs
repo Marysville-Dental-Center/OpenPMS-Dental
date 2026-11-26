@@ -318,6 +318,27 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
+		public void Button_ActsOncePerPress_NotWhenHeldAtStart_NorOnABounce() {
+			//FB-1: a button level (next slot) on the key control's bit 0x8.
+			CameraConfig cameraConfig=MakeConfig(debounceMs:300);
+			LevelInputConfig levelButton=MakeLevel(2,_controlKey,0x8,ControlLevel.High);
+			levelButton.Action=LevelAction.NextSlot;
+			cameraConfig.Levels.Add(levelButton);
+			StartEngine(cameraConfig);
+			Steps(0x8,0x8,0x0);
+			Assert.IsFalse(_listLevelChanges.Any(x => x.IsActive),"A button held when reading starts is no press.");
+			Steps(0x0,0x8,0x8,0x0);
+			Assert.AreEqual(1,_listLevelChanges.Count(x => x.IsActive && x.Action==LevelAction.NextSlot));
+			Assert.IsFalse(_listLevelChanges.Last(x => x.IsActive).IsPausePreviewActive,"A button never pauses the preview.");
+			Steps(0x8,0x0);
+			Assert.AreEqual(1,_listLevelChanges.Count(x => x.IsActive),"A bounce within the lockout is no new press.");
+			Step(0x0,400);
+			Steps(0x8,0x0);
+			Assert.AreEqual(2,_listLevelChanges.Count(x => x.IsActive));
+			Assert.AreEqual(0,_listPresses.Count,"The button's bit is not the capture key.");
+		}
+
+		[TestMethod]
 		public void Level_ActiveAtStartPausesAtOnce() {
 			CameraConfig cameraConfig=new CameraConfig();
 			cameraConfig.Levels.Add(MakeLevel(2,_controlOther,0x2,ControlLevel.Low));

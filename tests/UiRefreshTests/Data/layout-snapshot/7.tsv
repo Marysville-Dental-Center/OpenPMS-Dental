@@ -856,6 +856,8 @@ OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	textRows	75,50	48,20
 OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	label6	29,50	40,23	
 OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	textColumns	75,23	48,20	
 OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	label7	9,23	60,23	
+OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	labelMountType	445,46	146,17	
+OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	comboMountType	445,66	146,23	
 OpenPmsDental/Forms/FormMountDefGenerate.designer.cs	.			599,288
 OpenPmsDental/Forms/FormMountDefs.designer.cs	listBoxMain	8,62	262,388	
 OpenPmsDental/Forms/FormMountDefs.designer.cs	label1	8,8	372,50	

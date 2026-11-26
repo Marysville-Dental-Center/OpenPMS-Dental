@@ -128,7 +128,7 @@ namespace ImagingCapture.Settings {
 				case CaptureSettingKind.Capability:
 					int? number=config.GetHex(section,settingDef.Key);
 					if(number==null || number.Value<=0 || number.Value>ushort.MaxValue) {
-						return name+" is not a capability number (hex, 0x0001-0xFFFF).";
+						return name+" is not a capability number (hex, 0x0001-0xFFFF) or a name listed in capture.ini [CapabilityNames].";
 					}
 					return "";
 				case CaptureSettingKind.CodeList:

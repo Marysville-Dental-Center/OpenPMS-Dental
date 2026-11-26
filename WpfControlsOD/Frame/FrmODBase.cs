@@ -739,6 +739,7 @@ How to:
 		}
 
 		private void FormFrame_FormClosed(object sender,System.Windows.Forms.FormClosedEventArgs e) {
+			CodeBase.CrashReport.Note("Window closed: "+GetType().Name);//FB-1: the last actions before a crash
 			//I don't care about the CloseReason, so this can be a plain EventArgs
 			FormClosed?.Invoke(sender,new EventArgs());
 			//_formFrame?.Dispose();//No. This would cause the main OD form to end up behind other program windows.
@@ -754,6 +755,7 @@ How to:
 		}
 
 		private void FormFrame_Load(object sender,EventArgs e) {
+			CodeBase.CrashReport.Note("Window opened: "+GetType().Name);//FB-1
 			//Remember that this Load happens after the frm (UserControl) Loaded, which we totally ignore because this one is far more meaningful.
 			Load?.Invoke(this,new EventArgs());//This is where the Frm's Load (not Loaded) event happens
 			SetFocusToFirst();

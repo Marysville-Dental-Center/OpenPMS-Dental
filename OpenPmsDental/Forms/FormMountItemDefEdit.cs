@@ -10,6 +10,9 @@ using OpenPmsDentalBusiness;
 namespace OpenPmsDental {
 	public partial class FormMountItemDefEdit:FormODBase {
 		public MountItemDef MountItemDefCur;
+		///<summary>FB-1: the type of the whole mount, chosen on the mount (FormMountDefEdit). An X-ray mount's slots are radiographs, so
+		///there is no kind to pick; a photo mount's slot is an intraoral or an extraoral photo. A mount can no longer mix the two.</summary>
+		public bool IsPhotoMount;
 
 		public FormMountItemDefEdit() {
 			InitializeComponent();
@@ -30,10 +33,10 @@ namespace OpenPmsDental {
 		}
 
 		///<summary>IMG-P4a: the slot's guide for the camera session (mountitemdefguide). A slot without a row is a radiograph slot with no guide.
-		///The kinds are added in MountSlotKind's order, so the index is the value.</summary>
+		///FB-1: the kind list depends on the mount type (IsPhotoMount).</summary>
 		private void FillGuide() {
+			//FB-1: only the kinds of the mount's type. Photo mount: index 0 Intraoral, 1 Extraoral (the value minus 1).
 			comboSlotKind.Items.Clear();
-			comboSlotKind.Items.Add(Lan.g(this,"Radiograph"));
 			comboSlotKind.Items.Add(Lan.g(this,"Intraoral photo"));
 			comboSlotKind.Items.Add(Lan.g(this,"Extraoral photo"));
 			MountItemDefGuide mountItemDefGuide=null;
@@ -41,21 +44,28 @@ namespace OpenPmsDental {
 				mountItemDefGuide=MountItemDefGuides.GetForMountItemDef(MountItemDefCur.MountItemDefNum);
 			}
 			textGuideLabel.Text=mountItemDefGuide?.GuideLabel??"";
-			checkMirror.Checked=mountItemDefGuide?.IsMirror??false;
-			comboSlotKind.SelectedIndex=(int)(mountItemDefGuide?.SlotKind??MountSlotKind.Radiograph);
+			checkMirror.Checked=IsPhotoMount && (mountItemDefGuide?.IsMirror??false);
+			comboSlotKind.SelectedIndex=mountItemDefGuide?.SlotKind==MountSlotKind.Extraoral ? 1 : 0;
+			comboSlotKind.Visible=IsPhotoMount;
+			labelSlotKind.Visible=IsPhotoMount;
+			checkMirror.Visible=IsPhotoMount;
 		}
 
 		///<summary>IMG-P4a: saves the slot's guide after the slot is saved: a radiograph slot with no guide text and no mirror keeps no row.
 		///Changes reach mounts made from now on; a patient's existing mount keeps the guide it was made with.</summary>
 		private void SaveGuide() {
-			MountSlotKind mountSlotKind=(MountSlotKind)Math.Max(0,comboSlotKind.SelectedIndex);
+			MountSlotKind mountSlotKind=MountSlotKind.Radiograph;
+			if(IsPhotoMount) {
+				mountSlotKind=comboSlotKind.SelectedIndex==1 ? MountSlotKind.Extraoral : MountSlotKind.Intraoral;
+			}
+			bool isMirror=IsPhotoMount && checkMirror.Checked;
 			string guideLabel=textGuideLabel.Text.Trim();
-			if(mountSlotKind==MountSlotKind.Radiograph && guideLabel=="" && !checkMirror.Checked) {
+			if(mountSlotKind==MountSlotKind.Radiograph && guideLabel=="" && !isMirror) {
 				MountItemDefGuides.DeleteForMountItemDef(MountItemDefCur.MountItemDefNum);
 				return;
 			}
 			MountItemDefGuides.Upsert(new MountItemDefGuide { MountItemDefNum=MountItemDefCur.MountItemDefNum,GuideLabel=guideLabel,
-				IsMirror=checkMirror.Checked,SlotKind=mountSlotKind });
+				IsMirror=isMirror,SlotKind=mountSlotKind });
 		}
 
 		private void butAddField_Click(object sender,EventArgs e) {

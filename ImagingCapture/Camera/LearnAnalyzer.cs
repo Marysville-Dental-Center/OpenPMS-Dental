@@ -172,6 +172,40 @@ namespace ImagingCapture.Camera {
 		}
 	}
 
+	///<summary>FB-1: a camera button learned on the Other buttons page: what it does and its binding (active level = pressed).
+	///LightProperty is the VideoProcAmp property a light button switches; null for the other actions.</summary>
+	public sealed class ButtonAssignment {
+		public LevelAction Action { get; }
+		public ControlBinding Binding { get; }
+		public int? LightProperty { get; }
+		///<summary>The light's highest value (LevelInputConfig.LightMax), for a light action; null for none.</summary>
+		public int? LightMax { get; }
+
+		public ButtonAssignment(LevelAction action,ControlBinding binding,int? lightProperty,int? lightMax=null) {
+			Action=action;
+			Binding=binding??throw new ArgumentNullException(nameof(binding));
+			LightProperty=lightProperty;
+			LightMax=lightMax>=0 ? lightMax : null;
+		}
+
+		///<summary>"light on/off: CameraControl 2 (Roll), mask 0x4, Low".</summary>
+		public override string ToString() {
+			return LevelActions.GetText(Action)+": "+Binding;
+		}
+	}
+
+	///<summary>FB-1: what one Other buttons recording found: the button, or null, and why.</summary>
+	public sealed class ButtonLearnResult {
+		///<summary>The first candidate (single-bit masks first), or null when no new button changed with every press.</summary>
+		public KeyCandidate Chosen { get; }
+		public IReadOnlyList<string> Notes { get; }
+
+		internal ButtonLearnResult(KeyCandidate chosen,List<string> listNotes) {
+			Chosen=chosen;
+			Notes=listNotes;
+		}
+	}
+
 	///<summary>Live progress of the key step, for "Presses seen: 2".</summary>
 	public struct KeyCaptureProgress {
 		///<summary>The most completed presses (change and return) seen on any one usable control.</summary>
@@ -452,6 +486,68 @@ namespace ImagingCapture.Camera {
 		}
 		#endregion Key capture
 
+		#region Other buttons
+		///<summary>FB-1: the bits of a control that may form another button: those a key may use, minus the bits of bindingsTaken (the
+		///capture key and the buttons already learned) on that control.</summary>
+		private int GetButtonBitsAllowed(ControlId control,IEnumerable<ControlBinding> bindingsTaken) {
+			int bitsAllowed=GetKeyBitsAllowed(control);
+			foreach(ControlBinding binding in (bindingsTaken??Enumerable.Empty<ControlBinding>()).Where(x => x!=null && x.Control==control)) {
+				bitsAllowed&=~binding.Mask;
+			}
+			return bitsAllowed;
+		}
+
+		///<summary>FB-1: analyzes an Other buttons recording: the user pressed one more camera button PressCount times. The same rules as the
+		///key step, on the bits that are not level bits and not in bindingsTaken (the capture key and the buttons already learned for
+		///other actions), so a button already in use is never learned twice. Keeps every other step. Throws InvalidOperationException
+		///without a usable Baseline A.</summary>
+		public ButtonLearnResult SetButtonCapture(IEnumerable<ControlSample> samples,IEnumerable<ControlBinding> bindingsTaken) {
+			RequireBaselineA();
+			List<ControlBinding> listTaken=(bindingsTaken??Enumerable.Empty<ControlBinding>()).Where(x => x!=null).ToList();
+			List<ControlSample> listSamples=SortSamples(samples);
+			List<KeyCandidate> listCandidates=new List<KeyCandidate>();
+			List<string> listNotes=new List<string>();
+			foreach(ControlId control in GetUsableControls()) {
+				int baseline=BaselineA.StableValues[control];
+				int bitsAllowed=GetButtonBitsAllowed(control,listTaken);
+				if(bitsAllowed==0) {
+					continue;
+				}
+				List<Episode> listEpisodes=FindEpisodes(control,baseline,bitsAllowed,listSamples);
+				if(listEpisodes.Count==0) {
+					continue;
+				}
+				if(listEpisodes.Any(x => !x.IsComplete)) {
+					listNotes.Add(control+" had not returned to its resting value when the recording ended. Release the button before stopping.");
+					continue;
+				}
+				if(listEpisodes.Count!=PressCount) {
+					listNotes.Add(control+" changed "+listEpisodes.Count+" times, and "+PressCount+" presses were asked for. It is not used.");
+					continue;
+				}
+				ControlBinding binding;
+				string reason;
+				if(!TryGetBinding(control,baseline,listEpisodes,out binding,out reason)) {
+					listNotes.Add(control+" changed with every press, but "+reason+" It is not used.");
+					continue;
+				}
+				listCandidates.Add(new KeyCandidate(binding,listEpisodes.Select(x => new KeyPress(x.StartMs,x.EndMs,x.BitsUnion)).ToList()));
+			}
+			listCandidates=listCandidates.OrderBy(x => x.Binding.IsSingleBit ? 0 : 1).ThenBy(x => x.Binding.Control.SortKey).ToList();
+			if(listCandidates.Count>1) {
+				listNotes.Add("Several controls changed with every press. "+listCandidates[0].Binding.Control+" is used. Check it on the test page.");
+			}
+			if(listCandidates.Count==0) {
+				bool isTakenPressed=listTaken.Any(x => BaselineA.StableValues.ContainsKey(x.Control)
+					&& FindEpisodes(x.Control,BaselineA.StableValues[x.Control],x.Mask,listSamples).Count>0);
+				listNotes.Add(isTakenPressed
+					? "No new button was found: the button pressed is already used (the capture key or another button)."
+					: "No button was found: no usable control changed with every press. This camera may not report that button.");
+			}
+			return new ButtonLearnResult(listCandidates.FirstOrDefault(),listNotes);
+		}
+		#endregion Other buttons
+
 		#region Level step
 		///<summary>Analyzes the level recording (put the handpiece down, pick it up). Bits of the chosen key's mask are left out.
 		///Throws InvalidOperationException without a usable Baseline A.</summary>
@@ -497,6 +593,19 @@ namespace ImagingCapture.Camera {
 		///BaselineLevelCandidates or LevelResult.Candidates the user accepted), or by none. [Camera] and PollMs are kept. Write the
 		///result with CameraConfig.Write. Throws InvalidOperationException before the key step.</summary>
 		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted) {
+			return BuildConfig(current,levelAccepted,null);
+		}
+
+		///<summary>FB-1: BuildConfig, plus one [Level.N] per learned button (after the level input's [Level.1], numbered on), whose
+		///action acts once per press.</summary>
+		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted,IEnumerable<ButtonAssignment> buttons) {
+			return BuildConfig(current,levelAccepted,buttons,false);
+		}
+
+		///<summary>FB-1: as above; with isLightOffWhileResting the level input ([Level.1]) also turns the light off while it is active
+		///(LightOffWhileActive), when a light button is among buttons.</summary>
+		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted,IEnumerable<ButtonAssignment> buttons,bool isLightOffWhileResting) {
+			List<ButtonAssignment> listButtons=(buttons??Enumerable.Empty<ButtonAssignment>()).Where(x => x!=null).ToList();
 			RequireBaselineA();
 			if(KeyResult==null) {
 				throw new InvalidOperationException("Learn is not finished: the key step comes first.");
@@ -515,7 +624,20 @@ namespace ImagingCapture.Camera {
 				levelInputConfig.Enabled=true;
 				levelInputConfig.SetBinding(levelAccepted.Binding);
 				levelInputConfig.Action=LevelAction.PausePreview;
+				levelInputConfig.LightOffWhileActive=isLightOffWhileResting && listButtons.Any(x => LevelActions.IsLightAction(x.Action));
 				cameraConfig.Levels.Add(levelInputConfig);
+			}
+			int number=cameraConfig.Levels.Count+1;
+			foreach(ButtonAssignment buttonAssignment in listButtons) {
+				LevelInputConfig levelButton=new LevelInputConfig(number);
+				levelButton.Enabled=true;
+				levelButton.SetBinding(buttonAssignment.Binding);
+				levelButton.Action=buttonAssignment.Action;
+				bool isLight=LevelActions.IsLightAction(buttonAssignment.Action);
+				levelButton.LightProperty=isLight ? buttonAssignment.LightProperty : null;
+				levelButton.LightMax=isLight ? buttonAssignment.LightMax : null;
+				cameraConfig.Levels.Add(levelButton);
+				number++;
 			}
 			return cameraConfig;
 		}

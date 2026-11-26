@@ -44,7 +44,7 @@
 			</StackPanel>
 		</ScrollViewer>
 		<!--The slot mini-map (design 7.3 step 3) or, without a mount, the tooth picker (design 10.3)-->
-		<ui:Label x:Name="labelSlots" Width="520" Height="18" Margin="12,376,0,0" Text="Slots: tap an empty slot to take it next" IsBold="True" />
+		<ui:Label x:Name="labelSlots" Width="520" Height="18" Margin="12,376,0,0" Text="Slots: tap an empty slot to take it next, or a taken slot to retake it" IsBold="True" />
 		<Border x:Name="borderSlots" Width="520" Height="230" Margin="12,396,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="DarkGray" BorderThickness="1" Background="#FF303030" >
 			<Canvas x:Name="canvasSlots" ClipToBounds="True" />
 		</Border>

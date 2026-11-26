@@ -451,6 +451,14 @@ namespace ImagingCapture.Camera {
 				return;
 			}
 			if(isActive!=wasActive) {
+				//FB-1: a camera button (an action once per press) acts on a press only: not on a button held when reading starts, and not on
+				//a bounce within the trigger's lockout. Its release is still reported.
+				if(isActive && LevelActions.IsButtonAction(input.Level.Action)) {
+					if(!hadReading || (input.TimeLastPressMs>=0 && nowMs-input.TimeLastPressMs<DebounceMs)) {
+						return;
+					}
+					input.TimeLastPressMs=nowMs;
+				}
 				LevelChangedEventArgs args=new LevelChangedEventArgs(input.Level.Number,isActive,input.Level.Action??LevelAction.PausePreview,GetIsPausePreviewActive());
 				int generation=_generation;
 				listActions.Add(() => PostLevelChanged(generation,args));
@@ -570,6 +578,8 @@ namespace ImagingCapture.Camera {
 			public string Problem="";
 			public bool HasReading;
 			public bool IsActive;
+			///<summary>FB-1: when a button level last acted on a press, or -1.</summary>
+			public long TimeLastPressMs=-1;
 
 			public PolledInput(string label,ControlBinding binding,LevelInputConfig level) {
 				Label=label;

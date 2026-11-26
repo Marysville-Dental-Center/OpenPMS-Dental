@@ -22,6 +22,10 @@ namespace ImagingCapture.Session {
 		public MountDef MountDef { get; set; }
 		///<summary>The mount's items and documents, with the target; null without a mount.</summary>
 		public MountSlots MountSlots { get; set; }
+		///<summary>FB-1: the MountItemNum of a filled slot to take again (the Imaging module's Retake on an existing radiograph), or 0. The
+		///session chooses it for Retake, and Start moves its image to an unmounted item and makes the slot the target, so nothing moves when the
+		///operator closes the window before Start.</summary>
+		public long RetakeMountItemNum { get; set; }
 		public ImagingDevice ImagingDevice { get; set; }
 		///<summary>The image category (Def of DefCat.ImageCats), already checked.</summary>
 		public long CategoryDefNum { get; set; }

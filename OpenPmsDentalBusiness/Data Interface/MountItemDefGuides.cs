@@ -29,6 +29,57 @@ namespace OpenPmsDentalBusiness {
 		}
 		#endregion Get Methods
 
+		#region Mount type
+		///<summary>FB-1: a mount template is either an X-ray mount or a photo mount, never both (mixed templates were confusing to set up).
+		///True when any image slot of the template is a photo slot; the capture code treats such a template as a photo mount
+		///(PhotoSessionModel.IsPhotoMountDef). Text items are not slots.</summary>
+		public static bool IsPhotoMountDef(long mountDefNum) {
+			List<long> listMountItemDefNums=MountItemDefs.GetForMountDef(mountDefNum).FindAll(x => x.TextShowing=="").Select(x => x.MountItemDefNum).ToList();
+			return GetForMountItemDefs(listMountItemDefNums).Any(x => x.SlotKind!=MountSlotKind.Radiograph);
+		}
+
+		///<summary>FB-1: true when the template has both X-ray slots (no row, or a Radiograph row) and photo slots.</summary>
+		public static bool IsMixedMountDef(long mountDefNum) {
+			List<long> listMountItemDefNums=MountItemDefs.GetForMountDef(mountDefNum).FindAll(x => x.TextShowing=="").Select(x => x.MountItemDefNum).ToList();
+			List<MountItemDefGuide> listMountItemDefGuides=GetForMountItemDefs(listMountItemDefNums);
+			int countPhoto=listMountItemDefGuides.Count(x => x.SlotKind!=MountSlotKind.Radiograph);
+			return countPhoto>0 && countPhoto<listMountItemDefNums.Count;
+		}
+
+		///<summary>FB-1: the type is set once for the whole template. Photos: every X-ray slot becomes an intraoral photo slot (an extraoral
+		///slot stays extraoral). X-rays: every photo slot becomes a radiograph slot; a slot left with no guide text keeps no row. Text items are
+		///left alone. Mounts already made from the template keep the guides they were made with.</summary>
+		public static void SetMountType(long mountDefNum,bool isPhotoMount) {
+			List<MountItemDef> listMountItemDefs=MountItemDefs.GetForMountDef(mountDefNum).FindAll(x => x.TextShowing=="");
+			List<MountItemDefGuide> listMountItemDefGuides=GetForMountItemDefs(listMountItemDefs.Select(x => x.MountItemDefNum).ToList());
+			foreach(MountItemDef mountItemDef in listMountItemDefs) {
+				MountItemDefGuide mountItemDefGuide=listMountItemDefGuides.Find(x => x.MountItemDefNum==mountItemDef.MountItemDefNum);
+				if(isPhotoMount) {
+					if(mountItemDefGuide==null) {
+						Upsert(new MountItemDefGuide { MountItemDefNum=mountItemDef.MountItemDefNum,GuideLabel="",IsMirror=false,SlotKind=MountSlotKind.Intraoral });
+					}
+					else if(mountItemDefGuide.SlotKind==MountSlotKind.Radiograph) {
+						mountItemDefGuide.SlotKind=MountSlotKind.Intraoral;
+						Upsert(mountItemDefGuide);
+					}
+					continue;
+				}
+				if(mountItemDefGuide==null) {
+					continue;
+				}
+				if(mountItemDefGuide.GuideLabel.Trim()=="") {
+					DeleteForMountItemDef(mountItemDef.MountItemDefNum);//an X-ray slot with no guide keeps no row
+					continue;
+				}
+				if(mountItemDefGuide.SlotKind!=MountSlotKind.Radiograph || mountItemDefGuide.IsMirror) {
+					mountItemDefGuide.SlotKind=MountSlotKind.Radiograph;
+					mountItemDefGuide.IsMirror=false;//a mirror shot is a photo thing
+					Upsert(mountItemDefGuide);
+				}
+			}
+		}
+		#endregion Mount type
+
 		#region Modification Methods
 		///<summary>Saves the slot's guide: inserts the row, or updates the slot's existing row (the MountItemDefGuideNum of the argument is ignored).</summary>
 		public static void Upsert(MountItemDefGuide mountItemDefGuide) {

@@ -4,10 +4,12 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace ImagingCapture.Uvc.Interop {
-	//Camera control interfaces, declared by hand from the Windows SDK documentation (strmif.h). This layer only reads camera
-	//controls (design 8.7): it calls GetRange and Get, never Set. Set sits between them in the vtable, so it is declared as a
-	//parameterless placeholder purely to keep Get in its slot. It must never be called, and a unit test checks that no code
-	//in ImagingCapture calls it. The rules are in DeviceEnumInterfaces.cs.
+	//Camera control interfaces, declared by hand from the Windows SDK documentation (strmif.h). This layer reads camera
+	//controls (design 8.7): it calls GetRange and Get. IAMCameraControl's Set sits between them in the vtable, so it is declared
+	//as a parameterless placeholder purely to keep Get in its slot; it must never be called. FB-1: IAMVideoProcAmp's Set is
+	//declared for one use only, the handpiece light (a [Level.N] with Action=ToggleLight, the camera's M button), from
+	//DirectShowFrameSource.WriteLightControl; a unit test checks that it is called from nowhere else. The rules are in
+	//DeviceEnumInterfaces.cs.
 
 	///<summary>IAMCameraControl, exposed by the capture source filter. Properties 0-6 (CameraControlProperty).</summary>
 	[ComImport,Guid("C6E13370-30AC-11D0-A18C-00A0C9118956"),InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -26,9 +28,9 @@ namespace ImagingCapture.Uvc.Interop {
 	internal interface IAMVideoProcAmp {
 		[PreserveSig]
 		int GetRange(int Property,out int pMin,out int pMax,out int pSteppingDelta,out int pDefault,out int pCapsFlags);
-		///<summary>Vtable placeholder for Set. Never called: the fork writes no camera controls.</summary>
+		///<summary>FB-1: called only by DirectShowFrameSource.WriteLightControl (the handpiece light). Flags 2 = manual.</summary>
 		[PreserveSig]
-		int Unused_Set();
+		int Set(int Property,int lValue,int Flags);
 		[PreserveSig]
 		int Get(int Property,out int lValue,out int Flags);
 	}

@@ -21,6 +21,59 @@ namespace ImagingCapture.Camera {
 	public enum LevelAction {
 		///<summary>Pause the preview while the level is active.</summary>
 		PausePreview=0,
+		///<summary>FB-1: each press (the level becoming active) turns the handpiece light off or back on: the VideoProcAmp property
+		///LightProperty of the same [Level.N] goes to its minimum, or back to the value it had (its default the first time), at most
+		///LightMax. Which control bit is the button and which property drives the light come from Learn, in capture.ini.</summary>
+		ToggleLight=1,
+		///<summary>FB-1: each press moves a photo session to its next slot, as the right arrow does. Does nothing outside a photo
+		///session.</summary>
+		NextSlot=2,
+		///<summary>FB-1: each press moves a photo session to its previous slot, as the left arrow does. Does nothing outside a photo
+		///session.</summary>
+		PreviousSlot=3,
+		///<summary>FB-1: each press makes the handpiece light one step brighter (LightProperty, at most LightMax). Turns it on at the
+		///lowest step when it is off.</summary>
+		LightUp=4,
+		///<summary>FB-1: each press makes the handpiece light one step dimmer (LightProperty), down to the lowest step; it never turns
+		///the light off (ToggleLight does).</summary>
+		LightDown=5,
+	}
+
+	///<summary>FB-1: the texts and kinds of the level actions, for the Learn window, the live test and the status notes.</summary>
+	public static class LevelActions {
+		///<summary>The actions a camera button (a press, not a held state) can have, in the order Learn offers them.</summary>
+		public static readonly LevelAction[] ArrayButtonActions=new LevelAction[] { LevelAction.ToggleLight,LevelAction.LightUp,LevelAction.LightDown,
+			LevelAction.NextSlot,LevelAction.PreviousSlot };
+
+		///<summary>True for an action that acts once per press (on the active edge) instead of while the level is active.</summary>
+		public static bool IsButtonAction(LevelAction? action) {
+			return IsLightAction(action) || action==LevelAction.NextSlot || action==LevelAction.PreviousSlot;
+		}
+
+		///<summary>True for an action that writes the light (LightProperty): on/off, brighter, dimmer.</summary>
+		public static bool IsLightAction(LevelAction? action) {
+			return action==LevelAction.ToggleLight || action==LevelAction.LightUp || action==LevelAction.LightDown;
+		}
+
+		///<summary>"pause preview", "light on/off", "next slot", "previous slot"; "no action" for null.</summary>
+		public static string GetText(LevelAction? action) {
+			switch(action) {
+				case LevelAction.PausePreview:
+					return "pause preview";
+				case LevelAction.ToggleLight:
+					return "light on/off";
+				case LevelAction.LightUp:
+					return "light brighter";
+				case LevelAction.LightDown:
+					return "light dimmer";
+				case LevelAction.NextSlot:
+					return "next slot";
+				case LevelAction.PreviousSlot:
+					return "previous slot";
+				default:
+					return "no action";
+			}
+		}
 	}
 
 	///<summary>The camera sections of capture.ini (design 9.3): [Camera], [Trigger], [Trigger.Still], [Trigger.ControlPoll] and
@@ -205,6 +258,11 @@ namespace ImagingCapture.Camera {
 				levelInputConfig.Action=config.ContainsKey(section,"Action")
 					? ParseEnum<LevelAction>(config.GetString(section,"Action"))
 					: LevelAction.PausePreview;
+				int lightProperty=config.GetInt(section,"LightProperty",-1);
+				levelInputConfig.LightProperty=UvcControls.IsValidProperty(UvcControlInterface.VideoProcAmp,lightProperty) ? lightProperty : (int?)null;
+				int lightMax=config.GetInt(section,"LightMax",-1);
+				levelInputConfig.LightMax=lightMax>=0 ? lightMax : (int?)null;
+				levelInputConfig.LightOffWhileActive=config.GetBool(section,"LightOffWhileActive",false);
 				cameraConfig.Levels.Add(levelInputConfig);
 			}
 			return cameraConfig;
@@ -326,13 +384,25 @@ namespace ImagingCapture.Camera {
 				}
 				string section=GetLevelSection(number);
 				LevelInputConfig levelOld=cameraConfigOld.GetLevel(number);
-				LevelInputConfig levelNew=listLevels.FirstOrDefault(x => x.Number==number) ?? new LevelInputConfig(number) { Action=levelOld?.Action };
+				LevelInputConfig levelListed=listLevels.FirstOrDefault(x => x.Number==number);
+				LevelInputConfig levelNew=levelListed ?? new LevelInputConfig(number) { Action=levelOld?.Action };
 				AddControlInput(listSets,section,levelOld??new LevelInputConfig(number) { Action=null },levelNew);
 				string actionOld=levelOld==null ? "" : FormatNullable(levelOld.Action);
 				string actionNew=FormatNullable(levelNew.Action);
 				//A new section always gets its Action line, so the file shows what the level does.
 				if(levelOld==null || actionOld!=actionNew) {
 					listSets.Add(new[] { section,"Action",actionNew });
+				}
+				//FB-1: Learn sets the light property of a light button. A level without one keeps the key as the file has it.
+				if(levelNew.LightProperty!=null && levelNew.LightProperty!=levelOld?.LightProperty) {
+					listSets.Add(new[] { section,"LightProperty",FormatNullable(levelNew.LightProperty) });
+				}
+				//FB-1: the light's limit and the rest level. A level that is not listed (turned off) keeps them as the file has them.
+				if(levelListed!=null) {
+					AddIfChanged(listSets,section,"LightMax",FormatNullable(levelOld?.LightMax),FormatNullable(levelListed.LightMax));
+					if(levelOld!=null || levelListed.LightOffWhileActive) {
+						AddIfChanged(listSets,section,"LightOffWhileActive",levelOld?.LightOffWhileActive??false,levelListed.LightOffWhileActive);
+					}
 				}
 			}
 			foreach(string[] arraySet in listSets) {
@@ -515,6 +585,17 @@ namespace ImagingCapture.Camera {
 		///<summary>Action. A missing key reads as PausePreview, the design's default; an empty or unknown value reads as null, and the
 		///level then does nothing.</summary>
 		public LevelAction? Action { get; set; }=LevelAction.PausePreview;
+		///<summary>FB-1: [Level.N] LightProperty, the VideoProcAmp property (0-9) Action=ToggleLight turns off and on; null when missing or
+		///invalid (the level then does nothing). Learn sets it for a light button; Write leaves the key as it is in the file when null.</summary>
+		public int? LightProperty { get; set; }
+		///<summary>FB-1: [Level.N] LightMax, the highest value the light gets on a light level (ToggleLight, LightUp, LightDown): when the
+		///camera opens with the light property above it, it is set to LightMax, and turning the light on or brighter never goes above it. Null (missing, empty or negative): the
+		///camera's own range is the limit.</summary>
+		public int? LightMax { get; set; }
+		///<summary>FB-1: [Level.N] LightOffWhileActive=1, on a level that is held (not a button): while the level is active the light of the
+		///light level is off, and when it ends the light comes back on. For a handpiece's rest or cradle sensor, with
+		///Action=PausePreview. Ignored on a button level and when no light level is configured.</summary>
+		public bool LightOffWhileActive { get; set; }
 
 		public LevelInputConfig(int number) {
 			Number=number;
@@ -522,7 +603,13 @@ namespace ImagingCapture.Camera {
 
 		public override string GetProblem() {
 			string problem=base.GetProblem();
-			if(problem!="" || !Enabled || Action!=null) {
+			if(problem!="" || !Enabled) {
+				return problem;
+			}
+			if(LevelActions.IsLightAction(Action) && LightProperty==null) {
+				return "it is enabled with Action="+Action+", but LightProperty (the VideoProcAmp property of the light, 0-9) is empty or invalid.";
+			}
+			if(Action!=null) {
 				return problem;
 			}
 			return "it is enabled, but Action is empty or unknown.";
@@ -531,7 +618,7 @@ namespace ImagingCapture.Camera {
 		///<summary>True when Enabled, the binding is valid and the action is known.</summary>
 		public bool IsLevelConfigured {
 			get {
-				return IsConfigured && Action!=null;
+				return IsConfigured && Action!=null && (!LevelActions.IsLightAction(Action) || LightProperty!=null);
 			}
 		}
 

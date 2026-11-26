@@ -37,7 +37,8 @@ namespace OpenPmsDental {
 
 	///<summary>The camera session inside the Imaging module (owner imaging design, camera and video, section 2; IMG-P4b): it covers the module
 	///while it runs. A blue banner names the session's patient; the live picture shows what to shoot next ("Next: Upper occlusal (mirror shot)");
-	///the right panel shows the photo mount being filled. Capture (button, Space, or the camera's learned button), skip forward and back (arrows),
+	///the right panel shows the photo mount being filled. Capture (button, Space, or the camera's learned button), skip forward and back (arrows,
+	///or the camera's learned next and previous buttons),
 	///a click on a slot, and End (Esc). Every photo is saved the moment it is taken, into the slot chosen before it was taken. A patient change
 	///anywhere ends the session. Camera problems show inside the live picture with one action. Controls are built in code (no designer file).
 	///Camera side: VideoCaptureSession, as the Video window uses it.</summary>
@@ -368,6 +369,16 @@ namespace OpenPmsDental {
 		private void videoCaptureSession_LevelChanged(object sender,LevelChangedEventArgs e) {
 			_isPreviewPaused=e.IsPausePreviewActive;
 			ShowStatus(_videoCaptureSession?.Status);
+			//FB-1: the handpiece's other buttons, when Learn assigned them: next and previous slot, as the arrows. The light button is
+			//handled by the camera session itself.
+			if(e.IsActive && !_isEnded) {
+				if(e.Action==LevelAction.NextSlot) {
+					Skip(isForward:true);
+				}
+				else if(e.Action==LevelAction.PreviousSlot) {
+					Skip(isForward:false);
+				}
+			}
 		}
 
 		private void videoCaptureSession_TriggerPressed(object sender,TriggerPressEventArgs e) {

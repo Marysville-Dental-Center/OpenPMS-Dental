@@ -99,6 +99,11 @@ Here is the desired behavior:
 		///<summary>Will normally be -1.</summary>
 		private int _idxTextMouseDown=-1;
 		private bool _isDraggingMount=false;
+		///<summary>FB-1: in viewing mode (Pan), the mount slot whose image the left button went down on, or -1. Dragging it further than a
+		///few pixels moves the image to another slot (or swaps it with the image there) instead of panning; a click still selects.</summary>
+		private int _idxPanDragFrom=-1;
+		///<summary>FB-1: the image of _idxPanDragFrom is being dragged in viewing mode.</summary>
+		private bool _isPanSlotDragging;
 		private bool _isLineExtending;
 		///<summary>Todo: let Esc key cancel out of this.</summary>
 		private bool _isLineStarted;
@@ -164,6 +169,8 @@ Here is the desired behavior:
 		private Document _documentDragOld;
 		///<summary>The right-click menu's Teeth item (imaging design P2), made in code after Info.</summary>
 		private ToolStripMenuItem _menuItemTeeth;
+		///<summary>FB-1: "Retake X-ray..." on a mount slot that holds an image: ControlImages starts the capture session for that slot.</summary>
+		private ToolStripMenuItem _menuItemRetake;
 		///<summary>The browser that prints PDFs (PrintPDF), in no window. Disposed with this control. Null until the first print.</summary>
 		private ODWebView2 _odWebView2Print=null;
 		///<summary>The location of the file that <see cref="_odWebView2" /> has navigated to.</summary>
@@ -191,6 +198,16 @@ Here is the desired behavior:
 			_menuItemTeeth.Name="menuItemTeeth";
 			_menuItemTeeth.Click+=menuPanelMain_Click;
 			menuPanelMain.Items.Insert(menuPanelMain.Items.IndexOf(menuItemInfo)+1,_menuItemTeeth);
+			_menuItemRetake=new ToolStripMenuItem("Retake X-ray...");
+			_menuItemRetake.Name="menuItemRetake";
+			_menuItemRetake.Click+=menuPanelMain_Click;
+			menuPanelMain.Items.Insert(menuPanelMain.Items.IndexOf(_menuItemTeeth)+1,_menuItemRetake);
+			menuPanelMain.Opening+=(sender,e) => {
+				//Only on a mount slot with an image, and not from the Chart module's image window.
+				_menuItemRetake.Visible=!DidLaunchFromChartModule && IsMountShowing() && _idxSelectedInMount>-1
+					&& _idxSelectedInMount<_listMountItems.Count && _listMountItems[_idxSelectedInMount].ItemOrder>0
+					&& _documentArrayShowing[_idxSelectedInMount]!=null;
+			};
 			_odWebView2=new ODWebView2();//Include a WebView2 object for loading .pdf files.
 			_odWebView2.Visible=false;
 			_odWebView2.Dock=DockStyle.Fill;
@@ -231,6 +248,8 @@ Here is the desired behavior:
 		public event EventHandler<NodeTypeAndKey> EventSelectTreeNode;
 		///<summary>A double-click on an image asks for the image viewer window (owner, 2026-11-22). The int is the image's index in this display (0 for a single image). ControlImages opens or reuses the window.</summary>
 		public event EventHandler<int> EventViewerRequested;
+		///<summary>FB-1: "Retake X-ray..." on the mount slot at this index (its image is taken again with the capture session).</summary>
+		public event EventHandler<int> EventRetakeRequested;
 		///<summary>The A key, here or in the image viewer window, asks for the Enhance window on the image at this index (IMG-P3b).</summary>
 		public event EventHandler<int> EventEnhanceRequested;
 		///<summary>An image's brightness/contrast or filters were saved (IMG-P3b): the image viewer window shows them.</summary>
@@ -3157,6 +3176,12 @@ Here is the desired behavior:
 			else if(menuItem==menuItemDelete) {
 				ToolBarDelete_Click(this,new EventArgs());
 			}
+			else if(menuItem==_menuItemRetake) {
+				if(IsMountShowing() && _idxSelectedInMount>-1) {
+					int idxRetake=_idxSelectedInMount;
+					BeginInvoke(new Action(() => EventRetakeRequested?.Invoke(this,idxRetake)));//after the menu has closed
+				}
+			}
 			else if(menuItem==menuItemInfo) {
 				ToolBarInfo_Click(this,new EventArgs());
 			}
@@ -3379,6 +3404,14 @@ Here is the desired behavior:
 			_isMouseDownPanel=true;
 			_dateTimeMouseDownPanel=DateTime.Now;
 			_pointTranslationOld=_pointTranslation;
+			_idxPanDragFrom=-1;
+			_isPanSlotDragging=false;
+			if(e.Button==MouseButtons.Left && _drawMode==EnumDrawMode.None && _cropPanAdj==EnumCropPanAdj.Pan && IsMountShowing()){
+				int idxHit=HitTestInMount(e.X,e.Y);
+				if(idxHit>-1 && _documentArrayShowing[idxHit]!=null && _bitmapArrayShowing[idxHit]!=null){
+					_idxPanDragFrom=idxHit;//FB-1: a drag from here moves the image between slots
+				}
+			}
 			if(_drawMode==EnumDrawMode.Text){
 				Point pointCursorInBitmap=ControlPointToBitmapPoint(e.Location);
 				int idxText=HitTestText(e.Location);
@@ -4027,6 +4060,28 @@ Here is the desired behavior:
 				_rectangleCrop=Rectangle.Intersect(rectangle1,rectangle2);
 				panelMain.Invalidate();
 			}
+			if(_cropPanAdj==EnumCropPanAdj.Pan && _idxPanDragFrom>-1){
+				//FB-1: drag an image to another slot in viewing mode, as in Adjust mode, without changing its crop.
+				if(!_isPanSlotDragging){
+					if(Math.Abs(e.X-_pointMouseDown.X)<LayoutManager.Scale(6) && Math.Abs(e.Y-_pointMouseDown.Y)<LayoutManager.Scale(6)){
+						return;//not a drag yet
+					}
+					_isPanSlotDragging=true;
+					if(_idxSelectedInMount!=_idxPanDragFrom){
+						_idxSelectedInMount=_idxPanDragFrom;
+						LoadBitmap(_idxSelectedInMount,EnumLoadBitmapType.OnlyRaw);
+						EnableToolBarButtons();
+					}
+					_isDraggingMount=true;
+					MountItem mountItemFrom=_listMountItems[_idxPanDragFrom];
+					_pointDragStart=new Point(mountItemFrom.Xpos+mountItemFrom.Width/2,mountItemFrom.Ypos+mountItemFrom.Height/2);
+				}
+				_pointDragNow=new Point(
+					_pointDragStart.X+(ControlPointToBitmapPoint(e.Location).X-ControlPointToBitmapPoint(_pointMouseDown).X),
+					_pointDragStart.Y+(ControlPointToBitmapPoint(e.Location).Y-ControlPointToBitmapPoint(_pointMouseDown).Y));
+				panelMain.Invalidate();
+				return;
+			}
 			if(_cropPanAdj==EnumCropPanAdj.Pan){
 				//scaleTrans=1;
 				int xTrans=(int)(_pointTranslationOld.X+(e.Location.X-_pointMouseDown.X)*scaleTrans);
@@ -4153,6 +4208,17 @@ Here is the desired behavior:
 				//do nothing
 			}
 			_isMouseDownPanel=false;
+			if(_isPanSlotDragging){
+				//FB-1: the end of a drag between slots in viewing mode.
+				int idxFrom=_idxPanDragFrom;
+				_isPanSlotDragging=false;
+				_idxPanDragFrom=-1;
+				_isDraggingMount=false;
+				MoveImageToSlot(idxFrom,HitTestInMount(_pointDragNow.X,_pointDragNow.Y,isMountCoords:true));
+				panelMain.Invalidate();
+				return;
+			}
+			_idxPanDragFrom=-1;
 			if(GetSelectedType()==EnumImageNodeType.Mount && isClick	&& _cropPanAdj==EnumCropPanAdj.Pan){//Adj is handled on mouse down 
 				//user clicked on a mount item to highlight it
 				int idxSelectedInMountOld=_idxSelectedInMount;
@@ -5190,6 +5256,56 @@ Here is the desired behavior:
 		}
 
 		///<summary>Pass in panel or mount coords. Returns index of item in mount, or -1 if no hit.</summary>
+		///<summary>FB-1: viewing mode's drag and drop between slots. The image of idxFrom moves to idxTo, or the two images swap when idxTo
+		///holds one; each moved image loses its crop (it is fitted to its new slot) and gets its new slot's teeth, as Adjust mode's drag does. The
+		///same permissions as Adjust mode: ImageEdit for the mount's date, and SignedImageEdit for a signed image. Nothing happens for the same
+		///slot, a text item or outside the slots.</summary>
+		private void MoveImageToSlot(int idxFrom,int idxTo){
+			if(idxFrom<0 || idxTo<0 || idxFrom==idxTo || idxFrom>=_listMountItems.Count || idxTo>=_listMountItems.Count
+				|| _documentArrayShowing[idxFrom]==null || _listMountItems[idxTo].ItemOrder<=0)
+			{
+				return;
+			}
+			if(!Security.IsAuthorized(EnumPermType.ImageEdit,_mountShowing.DateCreated)) {
+				return;
+			}
+			Document documentFrom=_documentArrayShowing[idxFrom];
+			Document documentTo=_documentArrayShowing[idxTo];
+			if(!ImageSignaturePermissions.IsAuthorizedForSigned(new List<Document> { documentFrom,documentTo })) {
+				return;
+			}
+			Document documentFromOld=documentFrom.Copy();
+			documentFrom.MountItemNum=_listMountItems[idxTo].MountItemNum;
+			documentFrom.CropX=0;
+			documentFrom.CropY=0;
+			documentFrom.CropW=0;
+			documentFrom.CropH=0;
+			documentFrom.ToothNumbers=ImageTeeth.GetTeethAfterMove(documentFrom.ToothNumbers,_listMountItems[idxFrom].ToothNumbers,
+				_listMountItems[idxTo].ToothNumbers);
+			Documents.Update(documentFrom,documentFromOld);
+			if(documentTo!=null){
+				Document documentToOld=documentTo.Copy();
+				documentTo.MountItemNum=_listMountItems[idxFrom].MountItemNum;
+				documentTo.CropX=0;
+				documentTo.CropY=0;
+				documentTo.CropW=0;
+				documentTo.CropH=0;
+				documentTo.ToothNumbers=ImageTeeth.GetTeethAfterMove(documentTo.ToothNumbers,_listMountItems[idxTo].ToothNumbers,
+					_listMountItems[idxFrom].ToothNumbers);
+				Documents.Update(documentTo,documentToOld);
+			}
+			Bitmap bitmapFrom=_bitmapArrayShowing[idxFrom];//no dispose, just ref
+			_bitmapArrayShowing[idxFrom]=_bitmapArrayShowing[idxTo];
+			_bitmapArrayShowing[idxTo]=bitmapFrom;
+			_documentArrayShowing[idxFrom]=documentTo;
+			_documentArrayShowing[idxTo]=documentFrom;
+			_idxSelectedInMount=idxTo;
+			LoadBitmap(_idxSelectedInMount,EnumLoadBitmapType.OnlyRaw);
+			EnableToolBarButtons();
+			SetWindowingSlider();
+			ThumbnailRefresh();
+		}
+
 		private int HitTestInMount(int x,int y,bool isMountCoords=false,bool includeText=false){
 			if(_listMountItems==null){
 				return -1;

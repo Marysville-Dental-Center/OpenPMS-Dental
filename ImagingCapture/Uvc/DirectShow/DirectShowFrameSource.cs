@@ -200,6 +200,19 @@ namespace ImagingCapture.Uvc.DirectShow {
 			}
 		}
 
+		public UvcControlValue WriteLightControl(int property,int value) {
+			ThrowIfInStreamingCallback(nameof(WriteLightControl));
+			if(!UvcControls.IsValidProperty(UvcControlInterface.VideoProcAmp,property)) {
+				return new UvcControlValue(UvcControlStatus.Unsupported,0,0,Ds.E_PROP_ID_UNSUPPORTED);
+			}
+			try {
+				return _comWorker.Invoke(() => WriteLightControlOnWorker(property,value));
+			}
+			catch(ObjectDisposedException) {
+				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
+			}
+		}
+
 		///<summary>Stops the graph, releases every COM object on the worker thread, then ends the worker thread.</summary>
 		public void Dispose() {
 			ThrowIfInStreamingCallback(nameof(Dispose));
@@ -625,6 +638,17 @@ namespace ImagingCapture.Uvc.DirectShow {
 				return new UvcControlValue(status,0,0,hr);
 			}
 			return new UvcControlValue(status,value,flags,hr);
+		}
+
+		private UvcControlValue WriteLightControlOnWorker(int property,int value) {
+			if(_isDisposed) {
+				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
+			}
+			if(_videoProcAmp==null) {
+				return new UvcControlValue(UvcControlStatus.NoInterface,0,0,Ds.E_NOINTERFACE);
+			}
+			int hr=_videoProcAmp.Set(property,value,2);//2 = VideoProcAmp_Flags_Manual
+			return new UvcControlValue(UvcControls.GetStatusFromHResult(hr),value,2,hr);
 		}
 
 		private UvcControlRange ReadControlRangeOnWorker(UvcControlInterface controlInterface,int property) {

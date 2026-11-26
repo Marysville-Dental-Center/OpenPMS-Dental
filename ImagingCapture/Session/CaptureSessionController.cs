@@ -120,6 +120,7 @@ namespace ImagingCapture.Session {
 			UnassignedText=setup.UnassignedText;
 			IsUnassignedOverdue=setup.IsUnassignedOverdue;
 			_indicatorText=CaptureSessionText.ReadyStart;
+			InitRetakeAtStart();
 		}
 		#endregion Constructor
 
@@ -459,15 +460,23 @@ namespace ImagingCapture.Session {
 			return canExecute;
 		}
 
-		///<summary>Tap a slot of the mini-map: an empty slot becomes the target. False for a filled slot, a text item or in single-target mode.</summary>
+		///<summary>Tap a slot of the mini-map: an empty slot becomes the target. A filled slot is chosen for Retake (FB-1: any image of the
+		///mount can be taken again, not only the last one); a second tap on it, or a tap on an empty slot, clears that choice. False for a text
+		///item or in single-target mode.</summary>
 		public bool SelectSlot(int idx) {
 			if(IsSingleTarget || Phase==CaptureSessionPhase.Finished) {
 				return false;
 			}
 			ClearStopWarning();
-			bool isDone=ChangeTarget(idx,isSkip:false);
+			if(IsFilledSlot(idx)) {
+				bool isDone=SelectRetakeSlot(idx);
+				NotifyChanged();
+				return isDone;
+			}
+			_idxRetakeChosen=-1;
+			bool isChanged=ChangeTarget(idx,isSkip:false);
 			NotifyChanged();
-			return isDone;
+			return isChanged;
 		}
 
 		///<summary>Every capture slot of the mount in ItemOrder, for the mini-map. Empty in single-target mode.</summary>
@@ -549,6 +558,9 @@ namespace ImagingCapture.Session {
 			RedStripText="";
 			NoticeText="";
 			ClearStopWarning();
+			if(!RetakeAtStart()) {
+				return false;
+			}
 			if(!_isSessionOpen) {
 				OpenSession();
 				return true;

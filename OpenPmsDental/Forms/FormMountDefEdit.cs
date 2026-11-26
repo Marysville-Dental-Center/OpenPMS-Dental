@@ -34,6 +34,8 @@ namespace OpenPmsDental{
 		private Rectangle _rectangleMount;
 		///<summary>Within the list _listMountItemDefs. Completely unrelated to ItemOrders.</summary>
 		private int _selectedIndex=-1;
+		///<summary>FB-1: what the whole mount holds, X-rays or photos. Every slot follows it; a mount cannot mix the two.</summary>
+		private bool _isPhotoMount;
 		#endregion Fields - Private
 
 		#region Constructor
@@ -83,7 +85,15 @@ namespace OpenPmsDental{
 			textDecimals.Value=MountDefs.GetDecimals(MountDefCur.ScaleValue);
 			FillItems();
 			ShowWarning();
+			comboMountType.Items.Add(Lan.g(this,"X-rays"));
+			comboMountType.Items.Add(Lan.g(this,"Photos"));
+			FillMountType();
 			if(!MountDefCur.IsNew){
+				if(MountItemDefGuides.IsMixedMountDef(MountDefCur.MountDefNum)){
+					//FB-1: a template from before mixes X-ray and photo slots. The capture code already used it as a photo mount.
+					MsgBox.Show(this,"This mount mixes X-ray slots and photo slots. A mount now holds one or the other. "
+						+"It is shown as Photos; pick what it holds in 'Mount holds', and every slot is set to that when you click Save.");
+				}
 				return;
 			}
 			using FormMountDefGenerate formMountDefGenerate=new FormMountDefGenerate();
@@ -105,6 +115,29 @@ namespace OpenPmsDental{
 			butColorTextBack.BackColor=MountDefCur.ColorTextBack;
 			FillItems();
 			ShowWarning();
+			FillMountType();
+		}
+
+		///<summary>FB-1: the type from the slots' guides (a template that mixes them counts as photos, as the capture code treats it).</summary>
+		private void FillMountType(){
+			_isPhotoMount=MountItemDefGuides.IsPhotoMountDef(MountDefCur.MountDefNum);
+			comboMountType.SelectedIndex=_isPhotoMount ? 1 : 0;
+		}
+
+		private void comboMountType_SelectionChangeCommitted(object sender,EventArgs e){
+			bool isPhotoMount=comboMountType.SelectedIndex==1;
+			if(isPhotoMount==_isPhotoMount){
+				return;
+			}
+			string text=isPhotoMount
+				? Lan.g(this,"Every slot of this mount becomes an intraoral photo slot (change a slot to extraoral by double clicking it). Continue?")
+				: Lan.g(this,"Every slot of this mount becomes an X-ray slot. Photo settings of the slots (kind, mirror) are dropped. Continue?");
+			if(!MsgBox.Show(MsgBoxButtons.OKCancel,text)){
+				comboMountType.SelectedIndex=_isPhotoMount ? 1 : 0;
+				return;
+			}
+			_isPhotoMount=isPhotoMount;
+			MountItemDefGuides.SetMountType(MountDefCur.MountDefNum,_isPhotoMount);//saved now, like the slots
 		}
 
 		private void FormMountDefEdit_SizeChanged(object sender, EventArgs e){
@@ -130,6 +163,10 @@ namespace OpenPmsDental{
 				mountItemDef.ItemOrder=_listMountItemDefs.Count+1;
 			}
 			MountItemDefs.Insert(mountItemDef);//don't bother showing the edit window?
+			if(_isPhotoMount){
+				//FB-1: a new slot takes the mount's type
+				MountItemDefGuides.Upsert(new MountItemDefGuide { MountItemDefNum=mountItemDef.MountItemDefNum,GuideLabel="",IsMirror=false,SlotKind=MountSlotKind.Intraoral });
+			}
 			FillItems();
 		}
 
@@ -175,10 +212,12 @@ namespace OpenPmsDental{
 		private void butGenerate_Click(object sender, EventArgs e){
 			using FormMountDefGenerate formMountDefGenerate=new FormMountDefGenerate();
 			formMountDefGenerate.MountDefCur=MountDefCur;
+			formMountDefGenerate.IsPhotoMount=_isPhotoMount;
 			formMountDefGenerate.ShowDialog();
 			if(formMountDefGenerate.DialogResult!=DialogResult.OK){
 				return;
 			}
+			FillMountType();
 			CalcRatio();
 			textWidth.Text=MountDefCur.Width.ToString();
 			textHeight.Text=MountDefCur.Height.ToString();
@@ -483,6 +522,7 @@ namespace OpenPmsDental{
 			}
 			using FormMountItemDefEdit formMountItemDefEdit=new FormMountItemDefEdit();
 			formMountItemDefEdit.MountItemDefCur=_listMountItemDefs[_selectedIndex];
+			formMountItemDefEdit.IsPhotoMount=_isPhotoMount;
 			formMountItemDefEdit.ShowDialog();
 			FillItems();
 			//If the last item in the array was deleted, we need to update the selectedIndex variable
@@ -552,6 +592,7 @@ namespace OpenPmsDental{
 			Color color=System.Drawing.Color.Transparent;
 			try{
 				MountDefs.Update(MountDefCur);//whether new or not
+				MountItemDefGuides.SetMountType(MountDefCur.MountDefNum,_isPhotoMount);//FB-1: no mixed mount is left behind
 			}
 			catch(ApplicationException ex){
 				MessageBox.Show(ex.Message);

@@ -39,7 +39,7 @@ namespace ImagingCapture.UI {
 			if(!liveTile.IsConfigured) {
 				line2="Not set up";
 			}
-			else if(liveTile.Kind==LiveTileKind.Level) {
+			else if(liveTile.Kind==LiveTileKind.Level && !liveTile.IsButton) {
 				line2=liveTile.IsLit ? "Active" : "Inactive";
 			}
 			else {

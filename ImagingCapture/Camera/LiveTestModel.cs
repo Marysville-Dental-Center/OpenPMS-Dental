@@ -40,14 +40,17 @@ namespace ImagingCapture.Camera {
 		public LiveTileKind Kind { get; }
 		///<summary>The N of [Level.N]; 0 for the triggers.</summary>
 		public int LevelNumber { get; }
-		///<summary>"Capture: still pin", "Capture: control", "Level 1: pause preview".</summary>
+		///<summary>"Capture: still pin", "Capture: control", "Level 1: pause preview", "Button: light on/off".</summary>
 		public string Label { get; }
 		///<summary>True when the configuration under test turns this input on with complete values. An unconfigured still tile still
 		///lights when the still pin fires, to show that it responds.</summary>
 		public bool IsConfigured { get; }
 		public bool IsLit { get; internal set; }
-		///<summary>Presses from this trigger that passed the shared debounce gate. Always 0 for levels and unconfigured triggers.</summary>
+		///<summary>Presses from this trigger that passed the shared debounce gate, or presses of a button. Always 0 for other levels and
+		///unconfigured triggers.</summary>
 		public int PressCount { get; internal set; }
+		///<summary>FB-1: true for a level whose action acts once per press (a camera button): the tile counts presses.</summary>
+		public bool IsButton { get; internal set; }
 
 		internal LiveTile(LiveTileKind kind,int levelNumber,string label,bool isConfigured) {
 			Kind=kind;
@@ -71,6 +74,8 @@ namespace ImagingCapture.Camera {
 		private readonly LiveTile _tileStill;
 		private readonly LiveTile _tileControl;
 		private bool _hasControlReading;
+		///<summary>The levels read at least once, so a button held when the test starts is not counted.</summary>
+		private readonly HashSet<int> _setLevelsRead=new HashSet<int>();
 		private bool _hasStillSample;
 		private long _timeStillMs;
 
@@ -91,7 +96,14 @@ namespace ImagingCapture.Camera {
 				if(isConfigured) {
 					_dictLevelBindings[levelInputConfig.Number]=levelInputConfig.GetBinding();
 				}
-				_listTiles.Add(new LiveTile(LiveTileKind.Level,levelInputConfig.Number,"Level "+levelInputConfig.Number+": pause preview",isConfigured));
+				//FB-1: a button is named by what it does, and counts presses.
+				bool isButton=LevelActions.IsButtonAction(levelInputConfig.Action);
+				string label=isButton
+					? "Button: "+LevelActions.GetText(levelInputConfig.Action)
+					: "Level "+levelInputConfig.Number+": "+LevelActions.GetText(levelInputConfig.Action??LevelAction.PausePreview);
+				LiveTile liveTile=new LiveTile(LiveTileKind.Level,levelInputConfig.Number,label,isConfigured);
+				liveTile.IsButton=isButton;
+				_listTiles.Add(liveTile);
 			}
 			List<ControlId> listControls=(controls??Enumerable.Empty<ControlId>()).Distinct().ToList();
 			List<ControlBinding> listBindingsUsed=_dictLevelBindings.Values.ToList();
@@ -164,7 +176,12 @@ namespace ImagingCapture.Camera {
 				ControlBinding binding;
 				int value;
 				if(_dictLevelBindings.TryGetValue(tile.LevelNumber,out binding) && sample.TryGetValue(binding.Control,out value)) {
-					tile.IsLit=binding.IsActive(value);
+					bool isActive=binding.IsActive(value);
+					if(tile.IsButton && isActive && !tile.IsLit && _setLevelsRead.Contains(tile.LevelNumber)) {
+						tile.PressCount++;
+					}
+					tile.IsLit=isActive;
+					_setLevelsRead.Add(tile.LevelNumber);
 				}
 			}
 			if(_hasStillSample && sample.TimeMs-_timeStillMs>=DebounceMs) {

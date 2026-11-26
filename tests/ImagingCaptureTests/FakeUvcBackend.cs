@@ -18,6 +18,8 @@ namespace ImagingCapture.Tests {
 		///<summary>Given to each source opened from now on: see FakeFrameSource.StartErrorKindWithStillPin.</summary>
 		public UvcErrorKind StartErrorKindWithStillPin=UvcErrorKind.None;
 		public List<FakeFrameSource> ListOpened=new List<FakeFrameSource>();
+		///<summary>Runs on each source when it is opened, before the session starts it: for controls a session reads at once.</summary>
+		public Action<FakeFrameSource> ActionOnOpen;
 
 		public string Name {
 			get {
@@ -46,6 +48,7 @@ namespace ImagingCapture.Tests {
 			}
 			FakeFrameSource frameSource=new FakeFrameSource(device,ListModes,HasStillPin);
 			frameSource.StartErrorKindWithStillPin=StartErrorKindWithStillPin;
+			ActionOnOpen?.Invoke(frameSource);
 			ListOpened.Add(frameSource);
 			return frameSource;
 		}
@@ -141,6 +144,23 @@ namespace ImagingCapture.Tests {
 			}
 			int value=fakeControl.FuncValue!=null ? fakeControl.FuncValue(fakeControl.CountReads) : fakeControl.Value;
 			fakeControl.CountReads++;
+			return new UvcControlValue(UvcControlStatus.Ok,value,2,0);
+		}
+
+		///<summary>FB-1: the light writes, as (property, value), in order.</summary>
+		public List<Tuple<int,int>> ListLightWrites { get; }=new List<Tuple<int,int>>();
+
+		public UvcControlValue WriteLightControl(int property,int value) {
+			if(IsDisposed) {
+				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
+			}
+			FakeControl fakeControl=GetControl(UvcControlInterface.VideoProcAmp,property,false);
+			if(fakeControl==null || fakeControl.Status!=UvcControlStatus.Ok) {
+				return new UvcControlValue(fakeControl?.Status??UvcControlStatus.Unsupported,0,0,unchecked((int)0x80070490));
+			}
+			ListLightWrites.Add(Tuple.Create(property,value));
+			fakeControl.Value=value;
+			fakeControl.FuncValue=null;
 			return new UvcControlValue(UvcControlStatus.Ok,value,2,0);
 		}
 
