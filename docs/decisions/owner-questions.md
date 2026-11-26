@@ -130,6 +130,13 @@ whose schema equals it exactly.
 
 **14. Open Dental's name in the program's own text** (ATTRIB-TRIM, 2026-11-26). **Decided (2026-11-26):** "remove od reference in SharedAssemblyInfo.cs and else where", then "Trim to the minimum" after being told the GPL needs Open Dental's copyright notices kept. Open Dental is credited once in each place its licence needs it: the copyright line of the program's files (the program's copyright first, Open Dental's as "Portions copyright"), `NOTICE` (also on the setup's information page), the About box's attribution, the source files' own headers and the project site's footer. The README and the setup text point to `NOTICE` instead of repeating it, and the About box's second copyright line is the program's own.
 
+**15. Third-party content in the new database file** (INITSQL-COPYRIGHT, 2026-11-26). **Decided (2026-11-26):** "db/init/new-database.sql
+shouldn't have any copyright materials." The generator removes what belongs to others: the ICD-9-CM code titles (15,651 rows of `icd9`; the
+tables of every medical code system stay, empty), the vendor logos on six program link buttons, and, as before (INIT-SQL), any ADA CDT
+descriptor (CDT-style codes are named `Procedure Dxxxx`). Open Dental's own default texts (message templates, definitions, program link notes,
+the signal sounds, report and query rows) are GPL-licensed with the program and stay; the open questions of
+[INITSQL-COPYRIGHT](../port-notes/INITSQL-COPYRIGHT.md#owner-questions) ask about the ones worth a look.
+
 ---
 
 ## Insurance and estimates

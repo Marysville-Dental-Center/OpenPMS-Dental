@@ -84,7 +84,8 @@ namespace DevDbTool {
 				.Append(odSchema).Append(" schema and the\n");
 			sb.Append("fork's), with the rows the program needs to start: preferences, definitions, user groups and permissions, the user Admin,\n");
 			sb.Append("program links (all off) and procedure codes (named by their code only). No patients and no office data. Admin has a blank\n");
-			sb.Append("password, which the program asks to set at the first logon.\n");
+			sb.Append("password, which the program asks to set at the first logon. No third-party copyrighted content: no CDT descriptors, no\n");
+			sb.Append("medical code system titles (ICD, CPT, SNOMED CT, LOINC and the others) and no vendor logos.\n");
 			sb.Append("\n");
 			sb.Append("Load it into a new, empty database created with CHARACTER SET utf8mb3 (db/README.md). Nothing is dropped: in a database\n");
 			sb.Append("that already has tables, loading stops at the first CREATE TABLE.\n");

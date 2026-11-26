@@ -137,6 +137,19 @@ namespace InitSqlTests {
 			}
 		}
 
+		///<summary>INITSQL-COPYRIGHT (owner 2026-11-26): no medical code system titles and no vendor logos, with every table of a code system there
+		///(the program still opens and edits the empty lists).</summary>
+		[TestMethod]
+		public void Rows_NoCodeSystemTitlesAndNoVendorLogos() {
+			foreach(string tableName in InitSqlFileTests.ArrayCodeSystemTables) {
+				Assert.AreEqual("1",DataCore.GetScalar("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA='"+DB_NEW+"' AND TABLE_NAME='"
+					+tableName+"'"),"The table "+tableName+" is there.");
+				Assert.AreEqual("0",DataCore.GetScalar("SELECT COUNT(*) FROM `"+tableName+"`"),tableName+" must be empty.");
+			}
+			Assert.AreEqual("0",DataCore.GetScalar("SELECT COUNT(*) FROM program WHERE ButtonImage<>''"),"Program link button pictures are vendor logos.");
+			Assert.AreEqual(0,ICD9s.GetAll().Count,"The business layer reads the empty ICD-9 list.");
+		}
+
 		[TestMethod]
 		public void Rows_EveryProgramLinkIsOff() {
 			Assert.IsTrue(PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM program"))>0,"The program link rows are there.");

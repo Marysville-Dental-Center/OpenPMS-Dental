@@ -22,6 +22,14 @@ namespace InitSqlTests {
 			{ "~GRP~","Group Note" },
 			{ "D8670.auto","Default auto ortho procedure code" },
 		};
+		///<summary>The tables of the medical code systems, as tools/DevDbTool/InitSqlScrub.cs empties them (INITSQL-COPYRIGHT, owner 2026-11-26:
+		///"db/init/new-database.sql shouldn't have any copyright materials").</summary>
+		public static readonly string[] ArrayCodeSystemTables={ "cdcrec","cpt","cvx","hcpcs","icd10","icd9","loinc","rxnorm","snomed","sop","ucum" };
+		///<summary>Words of the notices that come with licensed third-party content (code sets, vendor material). None may be in a row of the file.
+		///</summary>
+		public static readonly string[] ArrayThirdPartyNoticeWords={ "Current Dental Terminology","American Dental Association",
+			"Current Procedural Terminology","American Medical Association","SNOMED International","IHTSDO","Regenstrief","World Health Organization",
+			"All rights reserved","Copyright","©","®","™" };
 		private static byte[] _arrayBytes;
 		private static string _text;
 
@@ -126,6 +134,39 @@ namespace InitSqlTests {
 			AssertNeutral(listRows);
 		}
 
+		///<summary>INITSQL-COPYRIGHT: no row of a medical code system table (their titles are third-party content: ICD-9-CM, CPT, SNOMED CT, LOINC,
+		///RxNorm and the others).</summary>
+		[TestMethod]
+		public void File_HasNoCodeSystemTitles() {
+			foreach(string tableName in ArrayCodeSystemTables) {
+				StringAssert.Contains(_text,"\nCREATE TABLE `"+tableName+"` (\n","The table "+tableName+" itself stays.");
+				Assert.AreEqual(-1,_text.IndexOf("\nINSERT INTO `"+tableName+"` (",StringComparison.Ordinal),
+					"The file holds rows of "+tableName+", code titles of a third-party code system.");
+			}
+		}
+
+		///<summary>INITSQL-COPYRIGHT: the program link buttons have no picture; the pictures were the vendors' logos.</summary>
+		[TestMethod]
+		public void File_ProgramLinksHaveNoVendorLogo() {
+			List<string[]> listRows=GetRows(_text,"program",new[] { "ProgName","ButtonImage" });
+			Assert.IsTrue(listRows.Count>100,"Program link rows: "+listRows.Count);
+			foreach(string[] row in listRows) {
+				Assert.AreEqual("",row[1]??"","Button picture of the program link "+row[0]+".");
+			}
+		}
+
+		///<summary>INITSQL-COPYRIGHT: no row carries the notice words of licensed third-party content. The table definitions are not rows (a column
+		///is called ExternalCopyrightNotice).</summary>
+		[TestMethod]
+		public void File_RowsHaveNoThirdPartyNotice() {
+			string rows=string.Join("\n",_text.Split('\n').Where(x => x.StartsWith("INSERT INTO ",StringComparison.Ordinal) || x.StartsWith("(",StringComparison.Ordinal)));
+			Assert.IsTrue(rows.Length>500000,"The rows of the file: "+rows.Length);
+			foreach(string word in ArrayThirdPartyNoticeWords) {
+				int index=rows.IndexOf(word,StringComparison.OrdinalIgnoreCase);
+				Assert.AreEqual(-1,index,"'"+word+"' in a row: "+(index<0 ? "" : rows.Substring(Math.Max(0,index-80),Math.Min(200,rows.Length-Math.Max(0,index-80)))));
+			}
+		}
+
 		[TestMethod]
 		public void File_DefaultProcButtonPicturesAre20x20Bitmaps() {
 			//UQ-7 of docs/specs/ui-refresh-plan.md (package UI-8): the 8 default procedure buttons with a picture carry new-style pictures in the format
@@ -192,6 +233,31 @@ namespace InitSqlTests {
 				}
 			}
 			Assert.IsTrue(listRows.Count>0,"No procedurecode rows found.");
+			return listRows;
+		}
+
+		///<summary>The values of the named columns of every row of the table's INSERT statements in the file (unquoted; null for NULL).</summary>
+		private static List<string[]> GetRows(string text,string tableName,string[] arrayColumns) {
+			List<string[]> listRows=new List<string[]>();
+			string prefix="INSERT INTO `"+tableName+"` (";
+			string[] arrayLines=text.Split('\n');
+			for(int i=0;i<arrayLines.Length;i++) {
+				if(!arrayLines[i].StartsWith(prefix,StringComparison.Ordinal)) {
+					continue;
+				}
+				List<string> listColumns=Regex.Matches(arrayLines[i].Substring(prefix.Length-1,arrayLines[i].IndexOf(")",StringComparison.Ordinal)-prefix.Length+1),
+					@"`(\w+)`").Cast<Match>().Select(x => x.Groups[1].Value).ToList();
+				List<int> listIndexes=arrayColumns.Select(x => listColumns.IndexOf(x)).ToList();
+				Assert.IsFalse(listIndexes.Contains(-1),"Columns of "+tableName+": "+string.Join(",",listColumns));
+				for(int j=i+1;j<arrayLines.Length;j++) {
+					List<string> listValues=SplitValues(arrayLines[j]);
+					Assert.AreEqual(listColumns.Count,listValues.Count,"Values of "+arrayLines[j].Substring(0,Math.Min(60,arrayLines[j].Length)));
+					listRows.Add(listIndexes.Select(x => Unquote(listValues[x])).ToArray());
+					if(arrayLines[j].EndsWith(";")) {
+						break;
+					}
+				}
+			}
 			return listRows;
 		}
 
