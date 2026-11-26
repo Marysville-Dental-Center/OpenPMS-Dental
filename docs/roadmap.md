@@ -164,6 +164,9 @@ format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-c
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
+- Adopt an Open Dental 26.2 database. The 26.2.0 reference (`OdSchema-26.2.0.sql`) comes from Open Dental's published documents, with
+  some NULL, default and key details inferred; it needs a schema-only dump of a real Open Dental 26.2 database to compare with, then a
+  26.2 entry on the adoption allowlist that skips the steps Open Dental already ran.
 - A setting "each active patient has a different e-mail address" (owner, 2026-11-25). Off by default. When on, it is checked before saving,
   with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient. Patient saves from
   elsewhere (HL7, X834, bridges) get a catch-all that turns a duplicate-key error into the same message. Turning it on first lists the

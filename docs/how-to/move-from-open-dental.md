@@ -11,7 +11,7 @@ is called **adoption**. It runs once, on a copy, never on the live database, and
 |---|---|
 | 24.3.63 | Yes |
 | 25.3.48 (also a 25.3.54 install whose database is labelled 25.3.47) | Yes |
-| 26.2 (Open Dental's current stable version) | **Not yet.** Open PMS - Dental follows the 26.2.0 schema, but adoption accepts only the versions above so far. |
+| 26.2 (Open Dental's current stable version) | **Not yet.** Open PMS - Dental follows the 26.2.0 schema, but its reference is built from Open Dental's published documents; adopting a 26.2 database first needs a schema-only dump of a real one to compare with ([roadmap](../roadmap.md#not-scheduled-yet)). |
 | Any other version | No: update Open Dental to a version above first |
 
 Your version is in Open Dental under Help > About, and in the `DataBaseVersion` preference.
