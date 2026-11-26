@@ -8,7 +8,7 @@ Origin
 This program is based on the Open Dental source code, version 24.3.63.0, as
 published under the GNU General Public License, version 2 or (at your
 option) any later version. Changes made in this fork are described in the
-git history and in docs/decoupling-plan.md. Features from later Open Dental
+git history and in docs/specs/decoupling-plan.md. Features from later Open Dental
 versions are re-implemented from Open Dental's public documentation; no
 Open Dental binaries are decompiled.
 
@@ -59,7 +59,7 @@ is replaced by third-party/build/PdfSharp-gdi/PdfSharpLicense.cs, changed on
 2026-11-02, which keeps empira's copyright and holds the AGPL license check
 itself, so the program needs no PdfSharp.License.dll, empira's prebuilt
 license library whose source is not published. THIRD-PARTY-NOTICES.txt and
-docs/third-party-source-builds.md say more.
+docs/develop/third-party-source-builds.md say more.
 
 Where the source is: the complete source of each release, the Corresponding
 Source of everything its setup installs, is the source archive

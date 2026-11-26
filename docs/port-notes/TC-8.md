@@ -188,7 +188,7 @@ afterwards.
   the project baseline check, which needs its record) passed. Also the projects whose source tests read a changed file or the solution:
   N64ATests 34, P262LinksTests 61, P262PerioTests 36, M2MISCTests 97, ReleaseFlowTests 206 (5 skipped), LibSpellTests 23, LibWebTests 65,
   LibraryUpdateTests 138, MiddleTierMockTests 151, PdfLibraryTests 41, ReportTests 46 and VendorDirectTests 941, all passed.
-- **`tc8-targeted-docs.txt`** (after the docs commit; the projects whose tests read `docs/owner-questions.md`, `docs/release-notes/next.md`
+- **`tc8-targeted-docs.txt`** (after the docs commit; the projects whose tests read `docs/decisions/owner-questions.md`, `docs/release-notes/next.md`
   or the plan): BSHELLTests 73, DbConnectionSecurityTests 250 (3 skipped), InventoryTests 93, LibraryBindingTests 20, ODOPTSTests 57,
   P262SchemaTests 28 (4 skipped), PdfLibraryTests 41, ReleaseFlowTests 206 (5 skipped) and NoHqTests 110: all passed.
 - **`tc8-2-targeted.txt`** (review fix round, the medical wording kept, after a full build with 0 errors): ToothChartImageTests 254 (250
@@ -212,7 +212,7 @@ On the build PC, outside the repository like G1 to G3, in the main checkout's `.
   `OPMS_CHART_GALLERY` (`pictures/`) and `OPMS_CHART_GALLERY_GRAPHICS_NAME=graphics-before` (`before/`).
 - The Chart module and the classic Treatment Plan document are not in the page: they are launch check L-7's, whose captures at 100% and 150%
   (plan section 8, "G4 only") come from the scratch database with synthetic patients only.
-- The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8). TC-8 merges only after it; TC-9a
+- The owner's answer goes into `docs/decisions/owner-questions.md` with the commit and the date (plan section 8). TC-8 merges only after it; TC-9a
   follows it directly (O-26 as revised).
 
 ## 5. Launch check L-7, for a person

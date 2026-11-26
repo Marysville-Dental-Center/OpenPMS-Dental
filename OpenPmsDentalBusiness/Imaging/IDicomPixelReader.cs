@@ -8,7 +8,7 @@ namespace OpenPmsDentalBusiness {
 	///interpretation, which is everything the Imaging module, mounts, thumbnails, printing and export use (design 7.8, CAP-W1 and CAP-DR).
 	///Every DICOM display path reads through DicomHelper.GetFromFile, GetFromStream or GetFromBase64, and those use DicomHelper.PixelReader:
 	///the in-house DicomSubsetReader first, for the uncompressed Explicit VR Little Endian subset the capture writer emits, then the in-house
-	///DicomImageReader (DicomHelper.FullReader) for every file the subset reader does not read (docs/imaging/dicom-reader.md). No reader
+	///DicomImageReader (DicomHelper.FullReader) for every file the subset reader does not read (docs/specs/dicom-reader.md). No reader
 	///throws. Documents.GetThumbnail and ImageHelper.GetImageCropped load .dcm documents the same way, through ImageStore.OpenBitmapDicom.</summary>
 	public interface IDicomPixelReader {
 		///<summary>The pixels of the DICOM file at path, or null when this reader does not read it.</summary>

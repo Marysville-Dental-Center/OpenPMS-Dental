@@ -176,7 +176,7 @@ And the grid strip for G-UI2: today's font beside Segoe UI 9.
 
 ## 7. Owner questions
 
-- **Drop the India Arial grid font at UI-2b?** (also in [docs/owner-questions.md](../owner-questions.md)). GridOD and GridOld switch their
+- **Drop the India Arial grid font at UI-2b?** (also in [docs/decisions/owner-questions.md](../decisions/owner-questions.md)). GridOD and GridOld switch their
   screen fonts to Arial (8.5 pt today) when the culture's name ends in "IN"; upstream's comment gives no reason ("Maybe MS not avail in
   India?"). The plan (section 5.1) has UI-5 check whether Segoe UI draws the rupee sign (U+20B9), the likely reason, and drop the switch if
   it does. It does: Segoe UI, Segoe UI Semibold and Microsoft Sans Serif all have it on Windows 10 and 11

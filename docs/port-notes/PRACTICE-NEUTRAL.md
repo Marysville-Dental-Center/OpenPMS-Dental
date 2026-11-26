@@ -16,14 +16,14 @@ Lines per file on `main` before the sweep (`git grep -c`, case-insensitive, each
 | `OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs` | 1 |  |  |  |  |  |
 | `OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs` | 1 |  |  |  |  |  |
 | `README.md` |  |  | 1 |  |  |  |
-| `docs/adoption-runbook.md` | 25 |  |  |  | 3 |  |
-| `docs/decoupling-plan.md` | 4 |  |  | 1 |  |  |
-| `docs/m1-validation-report.md` | 9 |  |  | 1 | 2 |  |
-| `docs/owner-questions.md` |  |  | 1 |  |  |  |
+| `docs/admin/adoption-runbook.md` | 25 |  |  |  | 3 |  |
+| `docs/specs/decoupling-plan.md` | 4 |  |  | 1 |  |  |
+| `docs/reports/m1-validation-report.md` | 9 |  |  | 1 | 2 |  |
+| `docs/decisions/owner-questions.md` |  |  | 1 |  |  |  |
 | `docs/port-notes/M2-01.md` | 1 |  |  | 1 |  |  |
 | `docs/port-notes/REL-FILES.md` |  |  | 1 |  |  |  |
-| `docs/release-process.md` | 1 |  |  |  |  |  |
-| `docs/reviews/2026-11-01-release-readiness.md` |  |  | 1 |  | 1 |  |
+| `docs/develop/release-process.md` | 1 |  |  |  |  |  |
+| `docs/reports/2026-11-01-release-readiness.md` |  |  | 1 |  | 1 |  |
 | `docs/specs/features-24.4.md` | 3 |  |  | 1 |  |  |
 | `docs/specs/features-25.1.md` | 3 |  |  | 2 |  |  |
 | `docs/specs/features-25.2.md` | 14 |  |  | 1 |  |  |

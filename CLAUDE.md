@@ -1,7 +1,7 @@
 # Standing rules: OpenPMS-Dental
 
 Rules for every session in this repository. They override defaults. Owner decisions behind them are in
-[docs/owner-questions.md](docs/owner-questions.md); add a rule here only when the owner makes one, keep each to one or two lines.
+[docs/decisions/owner-questions.md](docs/decisions/owner-questions.md); add a rule here only when the owner makes one, keep each to one or two lines.
 
 ## Product
 
@@ -29,7 +29,7 @@ Rules for every session in this repository. They override defaults. Owner decisi
 - **Work on `main`.** A feature that takes several days may use a remote branch `feature/<name>`: keep it short-lived, merge it into
   `main` when done, then delete it locally and on GitHub.
 - **Releases:** cut `release/<version>` from `main` when a version is released, and tag it `v<version>`
-  ([docs/release-process.md](docs/release-process.md)).
+  ([docs/develop/release-process.md](docs/develop/release-process.md)).
 - **When a feature is finished, commit and push it** (after the build and its tests pass). Commit only your own files: other sessions may
   have uncommitted work in the same tree.
 - Keep line endings and BOMs as the file has them (most C# files are CRLF with a BOM); never run `sed -i` on them.
@@ -38,19 +38,22 @@ Rules for every session in this repository. They override defaults. Owner decisi
 
 - A package: a plan, a port note in [docs/port-notes/](docs/port-notes/), its own tests, a full build and the suites passing.
 - **A new user-facing feature gets a how-to guide with screenshots** in [docs/how-to/](docs/how-to/README.md), linked from its index.
-- Record owner decisions in [docs/owner-questions.md](docs/owner-questions.md) with the date and the owner's words.
+- Record owner decisions in [docs/decisions/owner-questions.md](docs/decisions/owner-questions.md) with the date and the owner's words.
 
 ## Docs and the project site
 
+- **Docs always reflect the current state.** A change that alters behaviour, setup, versions, paths or status updates every document that
+  describes it in the same commit; no doc describes something that is no longer true.
 - **Links must be valid.** Never link a file, heading or page that does not exist. `python -I tools/check_doc_links.py` must pass
   (the Docs workflow runs it on every push).
-- Keep the docs tree structured: how-to guides in `docs/how-to/`, reference in `docs/`, specs in `docs/specs/`, history in `docs/port-notes/`.
+- Keep the docs tree by reader ([docs/README.md](docs/README.md)): `how-to/`, `admin/`, `develop/`, `specs/`, `decisions/`, `reports/`,
+  `release-notes/`, `port-notes/`. A new document goes in its folder and in the index.
 - **The project site (`site/`, GitHub Pages) stays current:** update it when a feature, release or doc it links changes.
 - How-to guides are concise: the goal, the steps, a screenshot, links to the reference. Screenshots follow [docs/screenshots/README.md](docs/screenshots/README.md).
 
 ## Build and test
 
-- Offline packages: set `OPMS_NUGET_OFFLINE` to the package folder; build `Debug | x64` ([docs/building.md](docs/building.md)).
-- Tests need MariaDB 10.11 on `127.0.0.1:3306` (root, blank password): `tools\run-tests.ps1` ([docs/testing.md](docs/testing.md)).
+- Offline packages: set `OPMS_NUGET_OFFLINE` to the package folder; build `Debug | x64` ([docs/develop/building.md](docs/develop/building.md)).
+- Tests need MariaDB 10.11 on `127.0.0.1:3306` (root, blank password): `tools\run-tests.ps1` ([docs/develop/testing.md](docs/develop/testing.md)).
 - If the tree does not build because of another session's uncommitted edits, build a clean copy (`git archive HEAD` plus your files and
   the `third-party/` submodules) instead of touching their files.

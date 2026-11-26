@@ -147,7 +147,7 @@ page's "Show: with clip notes" filter lists those pictures.
       picture  size  sha256  gallery  commit  date  answer  note
 
   The first six columns of the Approve rows are `approved.tsv` rows as they are (`picture  size  sha256  gallery  commit  date`), so the lead
-  appends those rows to `tests/WindowChecksTests/UiApproved/approved.tsv` and the gallery's entry to `docs/owner-questions.md` (plan,
+  appends those rows to `tests/WindowChecksTests/UiApproved/approved.tsv` and the gallery's entry to `docs/decisions/owner-questions.md` (plan,
   section 8). When the lead publishes the gallery as a page whose answers reach the lead some other way, the same columns apply.
 
 `gallery.tsv` columns: picture, group, status (`changed`, `same`, `only after`, `only before`), before_size, after_size, changed, compared,

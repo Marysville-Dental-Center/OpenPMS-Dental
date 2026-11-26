@@ -18,7 +18,6 @@ ODCrypt/Encryption.cs	was only used for uploads to Open Dental's HQ servers and 
 OpenPmsDental/Forms/FormAbout.cs	Benco Practice Management powered by Open Dental	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
 OpenPmsDental/Forms/FormAbout.cs	Open Dental	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
 OpenPmsDental/Forms/FormAbout.cs	Open Dental Software	Open Dental's stored default values of the MainWindowTitle and SoftwareName preferences, matched so they show as this product's name
-OpenPmsDental/Forms/FormAbout.cs	Open Dental Software 	GPL attribution and copyright notice (required)
 OpenPmsDental/Forms/FormAbout.cs	PMS - Dental is a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)
 OpenPmsDental/Forms/FormAbout.cs	the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc.	GPL attribution and copyright notice (required)
 OpenPmsDental/Forms/FormAbout.designer.cs	Open PMS - Dental is a fork of Open Dental.	GPL attribution and copyright notice (required)
@@ -164,13 +163,13 @@ OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Adoption from Open Dental 
 OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	An adoption from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Database adopted from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
-OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs	There is no reference schema to verify an Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	There is no reference schema to verify an Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunner.cs	 has no preference table; it is not an Open Dental database.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunnerAdapter.cs	The schema differs from Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkMigrationRunnerAdapter.cs	The schema matches Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkTables.cs	) is an Open Dental table.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkTables.cs	), not Open Dental schema. Checked by ForkTables.VerifyDatabase.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
-OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	(see docs/release-process.md), which first checks that its schema equals Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	(see docs/develop/release-process.md), which first checks that its schema equals Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	After adoption, Open Dental programs can no longer use	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	It may be part way through an Open Dental update. Nothing was changed.	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/ForkVersionGuard.cs	Only these Open Dental versions can be adopted: 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
@@ -259,4 +258,3 @@ installer/OpenPmsDental.iss	; Never Open Dental's folder. The release	Setup scri
 installer/OpenPmsDental.iss	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)
 installer/OpenPmsDental.iss	contributors; a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)
 installer/OpenPmsDental.iss	switch-over (adopting an Open Dental database) is not part of	Setup script comment, not shown
-installer/setup-info.txt	PMS - Dental is a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)

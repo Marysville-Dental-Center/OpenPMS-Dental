@@ -147,7 +147,7 @@ needed.
 | 42 `packages.lock.json` | written again by the lane's restore (section 4.1) |
 | `tools/Build-Release.ps1` | the eight files in `ThirdPartyFiles` as `package:` files; `Get-ProgramPackageFiles` reads the program's `win-x86` target only (section 9) |
 | `THIRD-PARTY-NOTICES.txt` | the components "Helix Toolkit" and ".NET Community Toolkit"; System.ComponentModel.Annotations in ".NET libraries" (section 10) |
-| `docs/third-party-binaries-audit.md` | "Packages added after the audit, never in `Required dlls`": the eight files, and why the others ship nothing |
+| `docs/reports/third-party-binaries-audit.md` | "Packages added after the audit, never in `Required dlls`": the eight files, and why the others ship nothing |
 | tests | section 11 |
 | docs | this note; the plan's TC-4 row, sections 2, 3 and 9; `docs/release-notes/next.md` (one line: the two new licence entries) |
 

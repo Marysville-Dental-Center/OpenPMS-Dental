@@ -4,7 +4,7 @@ Package S3b-5W of stage 3b of the .NET 10 move ([docs/specs/net10-plan.md](../sp
 section and section 8 of [docs/specs/wpf-tooth-chart-plan.md](../specs/wpf-tooth-chart-plan.md)): the part of S3b-5 that needs WPF to draw,
 which waited for the owner's desktop session ([S3b-5.md](S3b-5.md), section 9). Branch `net10/s3b5w-1` from `net10/switch` (`652b9720e`, S3b-1
 to S3b-7 and S3b-FMT merged), 2026-11-16. **Status: done on the branch; gallery G5 waits for the owner, and S3b-5W merges only after his
-answer** (`docs/owner-questions.md`).
+answer** (`docs/decisions/owner-questions.md`).
 
 The owner's remote desktop session was Active for every recording and every picture run, checked with `query user` and a red-square probe
 (WPF's `RenderTargetBitmap`, as WindowChecksTests' `Shot.CanRenderWpf`) before each; it stayed Active throughout. No program with a window
@@ -178,7 +178,7 @@ group, then one row per picture, the not-compared, beyond-tolerance and within-t
 the .NET Framework 4.8 x64 picture, the .NET 10 x64 picture, the difference image (the old picture in grey, pixels changed within the
 tolerance in orange, beyond it in red) and its numbers; a group filter as in the earlier galleries; relative image paths
 (`net48-x64/`, `net10-x64/`, `diff/`, each with `wpf/`, `simple2d/`, `host/`). `comparison.tsv` and `summary.txt` hold the numbers. The
-lead publishes it; the owner's answer goes in `docs/owner-questions.md`.
+lead publishes it; the owner's answer goes in `docs/decisions/owner-questions.md`.
 
 ## 7. Checks
 
@@ -190,7 +190,7 @@ lead publishes it; the owner's answer goes in `docs/owner-questions.md`.
 
 ## 8. For the lead
 
-- **G5 waits for the owner** (`docs/owner-questions.md`, the first gallery entry): approve the .NET 10 pictures; and keep the 64-bit
+- **G5 waits for the owner** (`docs/decisions/owner-questions.md`, the first gallery entry): approve the .NET 10 pictures; and keep the 64-bit
   one-pixel text cells (the default) or ask for the rounding change.
 - **The .NET Framework x64 sets** (`wpf-net48-x64`, `simple2d-net48-x64`) are kept unchanged, as the brief says; on this branch nothing
   reads them but G5 (`GetNet48X64Record`). They can retire with .NET Framework when `main` takes the switch, as their README says.

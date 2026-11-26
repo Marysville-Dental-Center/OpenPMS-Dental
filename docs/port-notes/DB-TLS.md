@@ -552,7 +552,7 @@ scratch folders), and every database connection went to `127.0.0.1:3306`.
   `REQUIRE X509` test account on the local server; the key in `%LOCALAPPDATA%\OpenPmsDental\DevDbTlsClient`, readable by the dev account)?
   Until the answer is yes the script makes none and that part of S2-2 waits. A yes after the enable run means `-Revert` and the enable run
   again with `-WithClientCertificate` (a new CA), because the CA's key is discarded after each run. **Answered 2026-11-09: yes**
-  (`docs/owner-questions.md`, "Pending items answered on 2026-11-09"); section 11 runs it together with the test network.
+  (`docs/decisions/owner-questions.md`, "Pending items answered on 2026-11-09"); section 11 runs it together with the test network.
 
 ## 11. The test network of S2-2's check (DB-TLS-ENV, branch `tools/dbtls-env-1`, 2026-11-14)
 
@@ -563,7 +563,7 @@ Windows virtual loopback network adapter (the Microsoft KM-TEST Loopback Adapter
 192.0.2.0/24, which no other computer can reach; the local MariaDB also listens on that address; nothing is exposed on the office network;
 `-Revert` removes the adapter again. The owner runs the script elevated; the agents never do, and never install an adapter or change a
 network setting, the firewall or the MariaDB service on this PC. **The one exception** to "only `127.0.0.1:3306`": the tests may connect
-to that test address on port 3306 (`OPMS_DB_TLS_TEST_SERVER`), nothing else (`docs/owner-questions.md`, plan O-8 and O-12).
+to that test address on port 3306 (`OPMS_DB_TLS_TEST_SERVER`), nothing else (`docs/decisions/owner-questions.md`, plan O-8 and O-12).
 
 ### 11.1 What `-WithTestNetwork <192.0.2.x>` adds to the enable run
 
@@ -773,7 +773,7 @@ There is no switch that drops only the test network: `-Revert` and the enable ru
 
 - Changed: `tools/Enable-LocalDbTls.ps1` (ASCII), `tests/DbConnectionSecurityTests/DevDbTlsScriptTests.cs` (its helpers shared; the
   driver loads the new settings; the elevation refusal also with the switch), `tests/DbConnectionSecurityTests/TlsCertificateLoginTests.cs`
-  (section 11.1), this note, `docs/port-notes/S2-2.md` section 6, `docs/owner-questions.md`, `docs/specs/net10-plan.md` (O-8, O-12).
+  (section 11.1), this note, `docs/port-notes/S2-2.md` section 6, `docs/decisions/owner-questions.md`, `docs/specs/net10-plan.md` (O-8, O-12).
   `docs/release-notes/next.md` is not changed: a developer tool, nothing an office notices.
 - New: `tests/DbConnectionSecurityTests/DevDbTlsTestNetworkTests.cs`, without elevation and without touching this PC's network, MariaDB
   service or a store: the certificate set of `-TestCertificatesFolder -WithTestNetwork` (the server's names; each `.pfx` read back with

@@ -133,7 +133,7 @@ No public source states any of these; they are this program's choices.
 8. The setting is in Setup, Recall Types next to the special types. Should it be in Recall Setup or the Preferences window instead?
 9. The preference row `ForkRecallSwitchProphyPerio` is this program's own; Open Dental's name is not public. When an Open Dental 26.2 database
    is adopted one day, the office's setting will not carry over unless the name is confirmed (as for the other unconfirmed names of
-   `docs/adoption-runbook.md` step 0.11). Keep it as it is until then?
+   `docs/admin/adoption-runbook.md` step 0.11). Keep it as it is until then?
 
 ## Files touched
 

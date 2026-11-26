@@ -90,9 +90,9 @@ $AllowList=@(
 	@{ Path='*ConvertDatabases*.cs'; Reason='Frozen database upgrade scripts (Open Dental history); their string literals are data.' }
 	@{ Path='docs\port-notes\*'; Reason='Port notes: the record of what was done, with the paths of the time. A mapping note covers the rename.' }
 	@{ Path='docs\specs\*'; Reason='Port specs: the record of the 24.4-26.1 port, with the paths of the time.' }
-	@{ Path='docs\reviews\*'; Reason='Dated review snapshots (organization, rename, release readiness), with the names and paths of the time.' }
-	@{ Path='docs\third-party-binaries-audit.md'; Reason='Audit record of the binaries as they were.' }
-	@{ Path='docs\m1-validation-report.md'; Reason='Validation report of milestone M1, as run.' }
+	@{ Path='docs\reports\*'; Reason='Dated review snapshots (organization, rename, release readiness), with the names and paths of the time.' }
+	@{ Path='docs\reports\third-party-binaries-audit.md'; Reason='Audit record of the binaries as they were.' }
+	@{ Path='docs\reports\m1-validation-report.md'; Reason='Validation report of milestone M1, as run.' }
 	@{ Path='tests\ReportTests\RdlSourceBuildTests.cs'; Match='(?:ProjectReference|HintPath): OpenDental\b'; Reason='Checks rows of the binaries audit, which keeps the names of its time.' }
 	@{ Path='UnitTests\Resources\dump.txt'; Match='OpenDental\.Imaging\.FileStore'; Reason="Open Dental's seed database dump: the ImageStore preference value." }
 	@{ Path='tools\Test-NoOldNames.ps1'; Reason='This scanner names the old names.' }
@@ -144,9 +144,9 @@ $AllowList=@(
 
 	#--- Open Dental itself.
 	@{ Path='*'; Match="(?i)\b[a-z0-9.-]*opendental\.(com|cloud)\b"; Reason="Open Dental's host names (the blocked-host list and its tests)." }
-	@{ Path='docs\adoption-runbook.md'; Line="'C:\\Program Files\*\\Open Dental\*'"; Reason="Finds Open Dental's own files in its install folders." }
-	@{ Path='docs\adoption-runbook.md'; Match='An `OpenDental\.exe` is always Open Dental|no `OpenDental\.exe` or `FreeDentalConfig\.xml` left'; Reason="Open Dental's own exe on a workstation." }
-	@{ Path='docs\adoption-runbook.md'; Match='`OpenDentalServer`(?= (?:web application )?in IIS)'; Reason="Open Dental's Middle Tier web application in IIS, stopped before the switch." }
+	@{ Path='docs\admin\adoption-runbook.md'; Line="'C:\\Program Files\*\\Open Dental\*'"; Reason="Finds Open Dental's own files in its install folders." }
+	@{ Path='docs\admin\adoption-runbook.md'; Match='An `OpenDental\.exe` is always Open Dental|no `OpenDental\.exe` or `FreeDentalConfig\.xml` left'; Reason="Open Dental's own exe on a workstation." }
+	@{ Path='docs\admin\adoption-runbook.md'; Match='`OpenDentalServer`(?= (?:web application )?in IIS)'; Reason="Open Dental's Middle Tier web application in IIS, stopped before the switch." }
 	@{ Path='*'; Match='\bOpenDental, Inc\.'; Reason='Open Dental Software, Inc., the company.' }
 	@{ Path='*'; Match='\bOpenDental Service\b'; Reason="Open Dental's own Windows service (OpenDentalService), which this program does not ship." }
 	@{ Path='*'; Match='Versioned\\+OpenDental\b'; Reason="Open Dental developers' checkout folder in developer-only default paths." }
@@ -164,9 +164,9 @@ $AllowList=@(
 	#--- Retired names: OpenPmsDentalCloud, the storage library up to v0.0 (OpenPmsDentalStorage since the storage rename of 2026-11-02,
 	#docs\port-notes\RENAME.md). The port notes, specs and reviews are history for every name (above); these entries allow only this name.
 	@{ Path='docs\release-notes\v0.0.md'; Match='\bOpenPmsDentalCloud\b'; Reason='The v0.0 release notes name the storage library as v0.0 shipped it (history).' }
-	@{ Path='docs\decoupling-plan.md'; Match='\bOpenPmsDentalCloud\b'; Reason='The decoupling plan records the rename of 2026-11-01 with the names it gave (history).' }
+	@{ Path='docs\specs\decoupling-plan.md'; Match='\bOpenPmsDentalCloud\b'; Reason='The decoupling plan records the rename of 2026-11-01 with the names it gave (history).' }
 	@{ Path='docs\roadmap.md'; Match='`OpenPmsDentalCloud` becomes `OpenPmsDentalStorage`'; Reason='The roadmap item of the storage rename.' }
-	@{ Path='docs\owner-questions.md'; Match='`OpenPmsDentalCloud` in v0\.0'; Reason="The storage library's name in v0.0, next to its name since." }
+	@{ Path='docs\decisions\owner-questions.md'; Match='`OpenPmsDentalCloud` in v0\.0'; Reason="The storage library's name in v0.0, next to its name since." }
 	@{ Path='CodeBase\Utilities\ProgramNames.cs'; Match='LegacyCloudDllFileName="OpenPmsDentalCloud\.dll"'; Reason="The storage library's file name in v0.0: a retired file that is never published or staged, and that setup deletes." }
 	@{ Path='tests\ReleaseFlowTests\ProgramNamesTests.cs'; Match='"OpenPmsDentalCloud\.dll",ProgramNames\.LegacyCloudDllFileName'; Reason="The test that the v0.0 storage library's file name never changes." }
 	@{ Path='installer\OpenPmsDental.iss'; Match='Name: "\{app\}\\OpenPmsDentalCloud\.dll"'; Reason='Setup deletes the storage library of v0.0 on an upgrade ([InstallDelete]).' }

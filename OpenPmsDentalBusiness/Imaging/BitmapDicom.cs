@@ -26,7 +26,7 @@ namespace OpenPmsDentalBusiness {
 	public class DicomHelper{
 		///<summary>The in-house reader of uncompressed Explicit VR Little Endian files (design 7.8, CAP-DR): the subset the capture writer emits.</summary>
 		public static readonly IDicomPixelReader SubsetReader=new DicomSubsetReader();
-		///<summary>The in-house reader of every other DICOM file (docs/imaging/dicom-reader.md): every encoding, the photometric interpretations
+		///<summary>The in-house reader of every other DICOM file (docs/specs/dicom-reader.md): every encoding, the photometric interpretations
 		///the program shows, RLE Lossless and JPEG Baseline, and a clear reason for what it declines.</summary>
 		public static readonly DicomImageReader FullReader=new DicomImageReader();
 		///<summary>What GetFromFile, GetFromStream and GetFromBase64 read with: the subset reader first, for the files the capture writes, then

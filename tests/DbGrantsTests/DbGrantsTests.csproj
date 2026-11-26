@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- The rights of the program's database account (docs/db-connection-security.md section 5, docs/specs/db-connection-security.md sections 8
+  <!-- The rights of the program's database account (docs/admin/db-connection-security.md section 5, docs/specs/db-connection-security.md sections 8
        and 9), checked on the local MariaDB at 127.0.0.1:3306 only. Manual: the harness runs only when it is told the temporary account's and
        the office database's names (DBGRANTS_ACCOUNT, DBGRANTS_DATABASE; see GrantHarnessTests.cs); otherwise it is inconclusive and nothing
        connects anywhere. It creates that account with exactly the guide's grants and a random password, builds the office database, runs the

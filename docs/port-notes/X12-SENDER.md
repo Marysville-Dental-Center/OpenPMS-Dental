@@ -1,6 +1,6 @@
 # Port note: X12-SENDER, the practice is the sender of an X12 batch
 
-Branch `claims/x12-sender-1`, cut from `main` (7f41666bc). Owner decision of 2026-11-15 (`docs/owner-questions.md`, "The 837 claim sender
+Branch `claims/x12-sender-1`, cut from `main` (7f41666bc). Owner decision of 2026-11-15 (`docs/decisions/owner-questions.md`, "The 837 claim sender
 when a clearinghouse has no Sender TIN"): **"send your practice's own TIN"**.
 
 ## 1. What upstream did, and every site
@@ -148,7 +148,7 @@ P262ClaimsTests 42, NoHqTests 84, MiddleTierMockTests 151.
 - **Golden test.** `PhoneAndTinMissing_BatchRefused_ListsBoth` restores the practice phone it read before the test, not a fixed value.
 - **No x12s_ database.** The rule tests need no database. The batch tests use GoldenOutputTests' own synthetic per-run `gold_` database on
   127.0.0.1, which `GoldenDb` drops at the end, so no x12s_ database was made.
-- **Owner questions, in docs/owner-questions.md:**
+- **Owner questions, in docs/decisions/owner-questions.md:**
   - a billing provider marked SSN (not TIN) is refused as the sender;
   - clinics that are separate businesses are named with the practice title;
   - the Emdeon Dental 270's ISA06 `316:`+login (`X270.cs:33`), where 316 may be Open Dental Inc's vendor number at Emdeon.

@@ -122,7 +122,7 @@
     </ProjectReference>
     <ProjectReference Include="..\SparksToothChart\SparksToothChart.csproj" />
     <!-- Build order only: UpdateFileCopier is copied next to OpenPmsDental.exe after the build (CopyUpdateFileCopier below), because the
-         release channel ships it with every published release (docs/release-process.md). Not referenced as an assembly. -->
+         release channel ships it with every published release (docs/develop/release-process.md). Not referenced as an assembly. -->
     <ProjectReference Include="..\UpdateFileCopier\UpdateFileCopier.csproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -5771,7 +5771,7 @@
   <!-- Build time of the program, for the release channel: [assembly: AssemblyMetadata("ForkBuildUtc", "yyyy-MM-ddTHH:mm:ssZ")]
        (ForkReleases.GetBuildUtc, which reads the entry assembly). On .NET 10 it lands in OpenPmsDental.dll, the program's assembly and the
        entry assembly; OpenPmsDental.exe is the apphost (S3b-4). The release version stays "0.0" across builds, so the build time orders two
-       builds of one release and a workstation never publishes an older build over a newer one (docs/release-process.md). The stamp is rewritten
+       builds of one release and a workstation never publishes an older build over a newer one (docs/develop/release-process.md). The stamp is rewritten
        only when something that is compiled into OpenPmsDental.dll changed, so an unchanged rebuild keeps its build id. It comes after the
        Sdk.targets import, where $(IntermediateOutputPath) is known. -->
   <PropertyGroup>

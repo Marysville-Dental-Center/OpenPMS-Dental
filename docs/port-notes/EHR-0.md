@@ -122,7 +122,7 @@ change) are removed: nothing calls them any more. The class stays in the global 
   `tests/EhrTests/NoEhrDllTests.cs`: no string in the program's code names `EHR.dll` or a type in it (comments may tell the history), no
   `*.csproj`, `*.config` or `*.resx` file of the repository names `EHR.dll` (or references an assembly named EHR) outside XML comments and
   `.resx` comment elements, no EHR file loads an assembly, and `#if EHRTEST` only in `ControlChart.cs` until TC-2 deletes it there.
-- `docs/decoupling-plan.md` and `docs/third-party-binaries-audit.md` no longer say "remove" for EHR.
+- `docs/specs/decoupling-plan.md` and `docs/reports/third-party-binaries-audit.md` no longer say "remove" for EHR.
 
 ## 4. Deviations and choices the plan left open
 
@@ -243,7 +243,7 @@ test:
    `TheXmlReader_DropsCommentsOnly`.
 4. **Wording.** `Next` is deterministic and changes only its state argument, not pure (`9399fb733`); the all-zero reply test checks each
    rule in turn, with the originate time echoed so the zero-time rule fires (`AllZeroReply_IsInvalid`); `getTime` has no caller in the
-   program, only the tests, and stays; `docs/decoupling-plan.md:48` says what was done; the `tests/EhrTests` project header notes the
+   program, only the tests, and stays; `docs/specs/decoupling-plan.md:48` says what was done; the `tests/EhrTests` project header notes the
    `Lans.g` language table (`3c486fd52`).
 5. **This note.** The thread checks at every logon on the server as well, so "every 4 hours" and "six failures = one day" are approximate
    (section 2, "How often"); deleting an alert re-arms it (with rule 2). The commit that adds this section.

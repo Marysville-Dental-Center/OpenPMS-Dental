@@ -43,7 +43,7 @@ namespace RegistryTests {
 		};
 
 		///<summary>For each proposed name whose setting is built but which the office's Open Dental 25.3.48 database has no setting for, the row this
-		///program keeps it in. It starts at its default after adoption, so docs/adoption-runbook.md step 0.11 lists each row for the office to look for
+		///program keeps it in. It starts at its default after adoption, so docs/admin/adoption-runbook.md step 0.11 lists each row for the office to look for
 		///in Open Dental before the day and set again in step 7.1.</summary>
 		public static readonly Dictionary<string,string> DictRowReadByUnconfirmedName=new Dictionary<string,string> {
 			{ "ReportsIncompleteProcsAllNoNotes",RpProcNote.PREF_ALL_NO_NOTES },//B-SERVER
@@ -62,7 +62,7 @@ namespace RegistryTests {
 			CollectionAssert.AreEquivalent(ArrayUnconfirmedProposedNames,DictOpenDentalRowByProposedName.Keys.Concat(DictRowReadByUnconfirmedName.Keys)
 				.Concat(ArrayUnconfirmedNamesNotBuilt).ToArray(),
 				"Every proposed name is read under Open Dental's name, or built (with the row it is read from), or listed as not built.");
-			string runbook=File.ReadAllText(TestPaths.GetRepoFile("docs","adoption-runbook.md"));
+			string runbook=File.ReadAllText(TestPaths.GetRepoFile("docs","admin","adoption-runbook.md"));
 			int idxStep=runbook.IndexOf("0.11. **Settings that do not carry over**");
 			Assert.IsTrue(idxStep>0,"Step 0.11 records the settings before the day.");
 			int idxStepEnd=runbook.IndexOf("\n## ",idxStep);

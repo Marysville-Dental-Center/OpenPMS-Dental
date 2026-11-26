@@ -15,7 +15,7 @@
 ; Command line (besides Inno Setup's own switches, such as /SILENT, /VERYSILENT, /SUPPRESSMSGBOXES, /DIR=, /NOICONS, /TASKS=, /LOG=):
 ;   /DBSERVER=name      database server for FreeDentalConfig.xml (host, or host:port for a port other than 3306). Default localhost.
 ;   /DBNAME=name        database. Default openpms_dental.
-;   /DBUSER=name        database user. Default opmsd, the program's own account in the server guide (docs/db-connection-security.md,
+;   /DBUSER=name        database user. Default opmsd, the program's own account in the server guide (docs/admin/db-connection-security.md,
 ;                       section 5); the program no longer uses root. The connection settings tool warns about root for a server
 ;                       over the network.
 ;   /DBCA=file          the office CA certificate file. Needed for a server over the network (docs/specs/db-connection-security.md).
@@ -44,7 +44,7 @@
 ; Exit code: Inno Setup's own (0 done, 1 to 8 setup did not finish), and 10 for a silent install that finished but whose connection settings
 ; step did not: the connection settings tool failed or could not start, or, on an upgrade without security switches, the kept settings fail
 ; the connection rule (/check). The files are installed; setup's /LOG has the tool's result line and exit code. Run the tool as an
-; administrator to finish (docs/db-connection-security.md, section 6). Interactive installs show the failure and end with 0.
+; administrator to finish (docs/admin/db-connection-security.md, section 6). Interactive installs show the failure and end with 0.
 
 #define AppVersion "0.1"
 #define AppName "Open PMS - Dental"
@@ -79,7 +79,7 @@ AppPublisher=Open PMS - Dental contributors
 AppPublisherURL={#SourceUrl}
 AppSupportURL={#SourceUrl}/issues
 AppUpdatesURL={#SourceUrl}/releases
-AppCopyright=Copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. Changes in Open PMS - Dental: Copyright (C) 2026 and later years, Open PMS - Dental contributors. Source files: GNU GPL v2 or later. As installed, with PDFsharp and MigraDoc (GNU AGPL v3): GNU GPL v3.
+AppCopyright=Copyright (C) 2026 and later years, Open PMS - Dental contributors. Portions copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. Source files: GNU GPL v2 or later. As installed, with PDFsharp and MigraDoc (GNU AGPL v3): GNU GPL v3.
 VersionInfoVersion=0.1.0.0
 VersionInfoTextVersion={#AppVersion}
 VersionInfoProductName={#AppName}
@@ -93,7 +93,7 @@ VersionInfoCopyright=Open PMS - Dental contributors; a fork of Open Dental (c) O
 ; 64-bit registry view (the uninstall entry too).
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-; Never Open Dental's folder. The release channel and UpdateFileCopier work on this per-machine folder (docs/release-process.md).
+; Never Open Dental's folder. The release channel and UpdateFileCopier work on this per-machine folder (docs/develop/release-process.md).
 DefaultDirName={commonpf64}\Open PMS - Dental
 UsePreviousAppDir=yes
 DirExistsWarning=no
@@ -143,7 +143,7 @@ Type: files; Name: "{app}\Tamir.SharpSSH.dll"
 Type: files; Name: "{app}\Org.Mentalis.Security.dll"
 Type: files; Name: "{app}\DiffieHellman.dll"
 Type: files; Name: "{app}\OpenPop.dll"
-; fo-dicom 4 (MS-PL), replaced by the in-house DICOM reader (docs/imaging/dicom-reader.md).
+; fo-dicom 4 (MS-PL), replaced by the in-house DICOM reader (docs/specs/dicom-reader.md).
 Type: files; Name: "{app}\Dicom.Core.dll"
 Type: files; Name: "{app}\Dicom.Native.dll"
 ; NDde (its own shared source licence, which does not fit the GPL), removed on 2026-11-07 (REL-FILES 2). The DentX, Dexis Integrator and

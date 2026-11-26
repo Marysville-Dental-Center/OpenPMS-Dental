@@ -6,7 +6,7 @@ Branch `m16/integration`, from `main` (9095f3e80). Three verified branches were 
 |---|---|---|---|---|
 | 1 | `m16/rdl-src-1` | 0b7ede4a0 | RDL-SRC: ODR, RdlEngine and RdlViewer built from source | [RDL-SRC.md](RDL-SRC.md) |
 | 2 | `m16/claim-dcm-1` | 91ba296b4 | CLAIM-DCM: DICOM X-rays on insurance claims | [CLAIM-DCM.md](CLAIM-DCM.md) |
-| 3 | `cap/bits-16` | 3bcf8dfbc | CAP-16: 16 bits by default, falling back to 14 or 8 | the imaging session's hand-off (not in the repository); the runbook `docs/imaging/intraoral-capture-setup.md` and `docs/imaging-capture-owner-questions.md` |
+| 3 | `cap/bits-16` | 3bcf8dfbc | CAP-16: 16 bits by default, falling back to 14 or 8 | the imaging session's hand-off (not in the repository); the runbook `docs/admin/intraoral-capture-setup.md` and `docs/decisions/imaging-capture-owner-questions.md` |
 
 All three are merged; none was reverted. No feature or test of any package was dropped. Nothing is renamed: the rename of the internal code
 names comes next.
@@ -24,10 +24,10 @@ names comes next.
 ## Integration commits
 
 1. **The capture design and the owner questions after CAP-16** (the imaging session's replacement text, line numbers as on d9c177ca6; the
-   design document has not changed since). Only the sections the hand-off names: `docs/imaging-capture-design.md` 7.1 (CAP-3), 7.8 (anatomy,
+   design document has not changed since). Only the sections the hand-off names: `docs/specs/imaging-capture-design.md` 7.1 (CAP-3), 7.8 (anatomy,
    BitsStored rule, Test capture, "When 16-bit is enabled" and "Until then"), 7.10, 7.12 (the "16-bit refused" row and the new "layout not
    usable" row), 9.3 (verification records, hash defaults, sample ini), 11.4, section 13 (two bullets, step 8, the 16-bit DICOM gate row),
-   section 14 (the windowing risk) and section 15 row 18; and the CAP design 6 Today line of `docs/imaging-capture-owner-questions.md` (16 bits
+   section 14 (the windowing risk) and section 15 row 18; and the CAP design 6 Today line of `docs/decisions/imaging-capture-owner-questions.md` (16 bits
    by default, patient computers at `Allow16Bit=0` until counsel and the clinic run sign off; TWAIN-W is on main). No vendor, product or
    private-project name was added.
 2. **CLAIM-DCM follow-ups** (package review):
@@ -43,7 +43,7 @@ names comes next.
    BINATests and VendorDirectTests.
 4. **RDL-SRC follow-up** (package review): `README.md` lists `ODR/`, `RdlEngine/` and `RdlViewer/` as built from source (they left the "not
    built" row); the upgrade comments of `FormReportForRdl.cs` and `FormReportCustom.cs` say the three are built here and show the `MySQL.NET`
-   data source with MySqlConnector, as `RdlEngineConfig.cs` has it; `docs/third-party-binaries-audit.md`'s ODR.dll, RdlEngine.dll and
+   data source with MySqlConnector, as `RdlEngineConfig.cs` has it; `docs/reports/third-party-binaries-audit.md`'s ODR.dll, RdlEngine.dll and
    RdlViewer.dll rows name OpenDental's ProjectReference and say "built from source", and its missing-dependency note marks the MySql.Data
    HintPaths resolved. Appendix A (the version snapshot as audited) is unchanged, as for every deleted file. Test:
    `ReportTests.RdlSourceBuildTests.Docs_SayTheThreeAreBuiltFromSource`.
@@ -78,12 +78,12 @@ names comes next.
 
 ## Left as they are (not named by the hand-off or the reviews)
 
-- `docs/imaging-capture-owner-questions.md`, CAP design 7: its Today line still says TWAIN-W is "not merged yet". The hand-off asked for that
+- `docs/decisions/imaging-capture-owner-questions.md`, CAP design 7: its Today line still says TWAIN-W is "not merged yet". The hand-off asked for that
   change in CAP design 6 only.
-- `docs/imaging-capture-design.md` 7.8, condition 5 of "When 16-bit is enabled": still says claim attachment "rejects .dcm" today. The
+- `docs/specs/imaging-capture-design.md` 7.8, condition 5 of "When 16-bit is enabled": still says claim attachment "rejects .dcm" today. The
   hand-off's new paragraph after the list says condition 5 ships with the 16-bit default; the condition's own text was not named.
 
 ## Owner questions
 
 None new. The packages' own owner questions are in their notes (RDL-SRC 1 to 5, CLAIM-DCM 1 to 6) and, for CAP-16, in
-`docs/imaging-capture-owner-questions.md` and the imaging session's hand-off ("Decisions the implementer made, for review", 1 to 8).
+`docs/decisions/imaging-capture-owner-questions.md` and the imaging session's hand-off ("Decisions the implementer made, for review", 1 to 8).

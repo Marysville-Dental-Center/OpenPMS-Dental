@@ -1,6 +1,6 @@
 # Port note: CAP, native intraoral X-ray and camera capture
 
-The capture track was built in a separate imaging session on branches cut from the old `main` ee44421eb, and merged into `main` on `cap/main-1` to `cap/main-3` (2026-11-01). The design is [docs/imaging-capture-design.md](../imaging-capture-design.md); the clinic runbook is [docs/imaging/intraoral-capture-setup.md](../imaging/intraoral-capture-setup.md).
+The capture track was built in a separate imaging session on branches cut from the old `main` ee44421eb, and merged into `main` on `cap/main-1` to `cap/main-3` (2026-11-01). The design is [docs/specs/imaging-capture-design.md](../specs/imaging-capture-design.md); the clinic runbook is [docs/admin/intraoral-capture-setup.md](../admin/intraoral-capture-setup.md).
 
 ## What landed
 
@@ -33,7 +33,7 @@ The capture track was built in a separate imaging session on branches cut from t
   - the FDA record numbers that identify them;
   - the sentences about where the private project's camera knowledge came from.
 
-  Every section number the code cites is unchanged, and the status line is current. The removed text stays in the imaging session's copy of the design (`claude/decouple-crypto-libs-8087ea`, 2a9bb33fa, not pushed) and in the coordination record. `VendorNeutralityTests` now scans `docs/imaging-capture-design.md` and this note.
+  Every section number the code cites is unchanged, and the status line is current. The removed text stays in the imaging session's copy of the design (`claude/decouple-crypto-libs-8087ea`, 2a9bb33fa, not pushed) and in the coordination record. `VendorNeutralityTests` now scans `docs/specs/imaging-capture-design.md` and this note.
 - **C3, a failed quarantine move deleted the session's mount.** When an image's save failed and its move to unassigned captures failed too, the mount still counted as empty. It was deleted, so the image's only copy, its journal copy, named a mount that no longer existed. Assign then filed such an 8-bit copy unmounted, and could not file a 16-bit copy at all. The controller now counts every quarantine attempt (`CountQuarantineAttempts`, incremented before the move). The launcher keeps the mount, and logs why, when that count is above 0. Test: `CaptureSessionLauncherTests.Completed_NothingSaved_TheQuarantineMoveFailed_CreatedMountKeptForTheJournalCopy`.
 - **C4, Assign into a merged or deleted chart.** Assign used to file for the sidecar's PatNum with only a null check, so after a merge the image went into the archived chart. Now:
   - `PlanAssign` refuses a Deleted patient.
@@ -76,7 +76,7 @@ The capture track was built in a separate imaging session on branches cut from t
   - so nothing is checked yet for layout, DPI, focus or touch, or for real RegisterHotKey, WM_HOTKEY, SystemSounds or a SynchronizationContext Post from another thread.
 - **The hook has never run inside OpenDental.exe.** Its database path runs through `CaptureHookMirror`. Its display calls (SelectTreeNode1, ThumbnailRefresh, FillImageSelector) are recorded, not run. A real ODEvent from FormOpenDental, a task popup's Go To and a Windows-lock logoff during a session are reproduced only by setting `PatNumCur` and `_patient` in the tests.
 - **A patient change during a notice.** When the settings are not verified, the launcher shows a notice and returns NotStarted, and the legacy loop runs. A patient change while that message box is open makes the legacy loop run for the patient shown then, as with any message box on the legacy path. This was not changed.
-- **Owner decisions.** The capture track's open decisions, with the 16-bit filing route needed before 16-bit is turned on, are in the imaging session's owner-question list. It goes into `docs/owner-questions.md` after this merge.
+- **Owner decisions.** The capture track's open decisions, with the 16-bit filing route needed before 16-bit is turned on, are in the imaging session's owner-question list. It goes into `docs/decisions/owner-questions.md` after this merge.
 - **CAP-W1, CAP-W2 and CAP-DR** were built on 2026-11-01 as package TWAIN-W ([TWAIN-W.md](TWAIN-W.md), branch `pre/twain-w-1`). 16-bit capture stays off.
 
 ## Capture on by default (owner decisions of 2026-11-07)

@@ -53,19 +53,50 @@ namespace OpenPmsDentalBusiness {
 			new AdoptableVersionLabels(new Version(25,3,47,0),new Version(25,3,54,0),new Version(25,3,48,0)),
 		};
 
+		///<summary>Open Dental release lines whose every point release is adoptable when its schema equals the line's reference: today the 26.2
+		///line, whose reference is Open Dental's published 26.2 database documents (owner, 2026-11-26: the documents are the schema). A database of
+		///such a line with DataBaseVersion 26.2.x and ProgramVersion 26.2.y (y at least x) is adopted as SchemaVersion, only after the schema
+		///verifier finds it equal to that reference (Adoption.Preflight).</summary>
+		public static readonly List<AdoptableVersionLine> ListAdoptableLines=new List<AdoptableVersionLine>() {
+			new AdoptableVersionLine(26,2,new Version(26,2,0,0)),
+		};
+
+		///<summary>True when the version may be the source= of an adoption: on ListAdoptableVersions, or the schema version of an adoptable line.
+		///</summary>
+		public static bool IsAdoptableSource(Version version) {
+			return IsAdoptable(version) || (version!=null && ListAdoptableLines.Any(x => x.SchemaVersion==version));
+		}
+
+		///<summary>The adoptable versions in words, for messages: the allowlist, the label pairs and the lines.</summary>
+		public static string DescribeAdoptable() {
+			List<string> listParts=ListAdoptableVersions.Select(x => x.ToString(3)).ToList();
+			listParts.AddRange(ListAdoptableLabels.Select(x => x.DataBaseVersion.ToString(3)+" with ProgramVersion "+x.ProgramVersion.ToString(3)));
+			listParts.AddRange(ListAdoptableLines.Select(x => x.Major+"."+x.Minor+".x"));
+			return string.Join(", ",listParts);
+		}
+
 		///<summary>True when the database's version preferences allow adoption: DataBaseVersion on ListAdoptableVersions, or the pair on
-		///ListAdoptableLabels (whose schema Adoption.Preflight still verifies). Says nothing about the fork markers.</summary>
+		///ListAdoptableLabels or ListAdoptableLines (whose schema Adoption.Preflight still verifies). Says nothing about the fork markers.</summary>
 		public static bool HasAdoptableVersions(ForkDbState forkDbState) {
 			Version versionDb=ParseVersion(forkDbState.DataBaseVersion);
 			return IsAdoptable(versionDb) || FindAdoptableLabels(versionDb,ParseVersion(forkDbState.ProgramVersion))!=null;
 		}
 
-		///<summary>The labels entry for this DataBaseVersion and ProgramVersion pair, or null.</summary>
+		///<summary>The labels entry for this DataBaseVersion and ProgramVersion pair: from ListAdoptableLabels, or made for a pair on one of
+		///ListAdoptableLines (both on the line, ProgramVersion not below DataBaseVersion). Null otherwise.</summary>
 		public static AdoptableVersionLabels FindAdoptableLabels(Version versionDb,Version versionProgram) {
 			if(versionDb==null || versionProgram==null) {
 				return null;
 			}
-			return ListAdoptableLabels.FirstOrDefault(x => x.DataBaseVersion==versionDb && x.ProgramVersion==versionProgram);
+			AdoptableVersionLabels labels=ListAdoptableLabels.FirstOrDefault(x => x.DataBaseVersion==versionDb && x.ProgramVersion==versionProgram);
+			if(labels!=null) {
+				return labels;
+			}
+			AdoptableVersionLine line=ListAdoptableLines.FirstOrDefault(x => x.Contains(versionDb) && x.Contains(versionProgram));
+			if(line==null || versionProgram<versionDb) {
+				return null;
+			}
+			return new AdoptableVersionLabels(versionDb,versionProgram,line.SchemaVersion);
 		}
 
 		///<summary>The release version of the running program: the AssemblyInformationalVersion of the entry assembly (OpenPmsDental.exe), e.g. "0.0".
@@ -183,10 +214,30 @@ namespace OpenPmsDentalBusiness {
 
 	///<summary>A DataBaseVersion and ProgramVersion pair that differs from the Open Dental schema version the database has (ForkVersions.ListAdoptableLabels).
 	///</summary>
+	///<summary>An Open Dental release line (major.minor) whose point releases are adopted as one schema version.</summary>
+	public class AdoptableVersionLine {
+		public int Major;
+		public int Minor;
+		///<summary>The Open Dental schema a database of the line must match exactly. Adoption records it as source=.</summary>
+		public Version SchemaVersion;
+
+		public AdoptableVersionLine(int major,int minor,Version versionSchema) {
+			Major=major;
+			Minor=minor;
+			SchemaVersion=versionSchema;
+		}
+
+		///<summary>True when the version is on this line (any build and revision).</summary>
+		public bool Contains(Version version) {
+			return version!=null && version.Major==Major && version.Minor==Minor;
+		}
+	}
+
 	public class AdoptableVersionLabels {
 		public Version DataBaseVersion;
 		public Version ProgramVersion;
-		///<summary>The Open Dental schema the database must match exactly; on ForkVersions.ListAdoptableVersions. Adoption records it as source=.</summary>
+		///<summary>The Open Dental schema the database must match exactly: on ForkVersions.ListAdoptableVersions, or the schema version of a line on
+		///ForkVersions.ListAdoptableLines. Adoption records it as source=.</summary>
 		public Version SchemaVersion;
 
 		public AdoptableVersionLabels(Version versionDb,Version versionProgram,Version versionSchema) {

@@ -1,4 +1,4 @@
-// Check D7 (LAUNCH-3b, docs/launch-checks-3b.md): the program's WebView2 windows on .NET 10 x64. The e-mail preview (FormEmailMessageEdit with
+// Check D7 (LAUNCH-3b, docs/admin/launch-checks-3b.md): the program's WebView2 windows on .NET 10 x64. The e-mail preview (FormEmailMessageEdit with
 // a synthetic received HTML e-mail that is never saved or sent; its browser is CodeBase's ODWebView2, Microsoft.Web.WebView2.WinForms) and the
 // program's WPF WebView2 control (WpfControls.UI.WebView2 around Microsoft.Web.WebView2.Wpf.WebView2) in FrmTestSplitters, the Frm of
 // WpfControlsOD that holds it with a local page. Each waits until its page has loaded (the document's readyState and its text, read with

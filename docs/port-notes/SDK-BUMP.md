@@ -37,11 +37,11 @@ reference packs) at both 10.0.14 and 10.0.15.
   `global.json` pins (with `rollForward` `disable`), and a classic project's throws (not modelled). The next bump cannot leave the
   evaluator on the old SDK.
 - **The compiler** stays Roslyn 5.0.0 (`Roslyn\bincore\csc.dll` 5.0.0-2.26522.126 in 10.0.114, 5.0.0-2.26529.108 in 10.0.115), so the
-  notes in `docs/third-party-source-builds.md` and `third-party/build/WeCantSpell.Hunspell/WeCantSpell.Hunspell.csproj` ("Roslyn 5.0 in
+  notes in `docs/develop/third-party-source-builds.md` and `third-party/build/WeCantSpell.Hunspell/WeCantSpell.Hunspell.csproj` ("Roslyn 5.0 in
   the pinned SDK") only name the new pin.
 - **Left as they are, on purpose:**
   - `tests/ReleaseFlowTests` (`RuntimeManifestTests`, `ReleaseGuardDbTests`, `Fixtures/Net10Manifest.example.txt`) and the S3a-10 note,
-    `docs/release-process.md`, `ForkReleases.cs` and `ReleaseManifest.cs` use `Microsoft.NETCore.App 10.0.14 win-x64` as a synthetic
+    `docs/develop/release-process.md`, `ForkReleases.cs` and `ReleaseManifest.cs` use `Microsoft.NETCore.App 10.0.14 win-x64` as a synthetic
     example of a manifest's `Runtime` line (a release dated 2027-02-01, synthetic hashes and runtime key). Nothing ties it to the SDK the
     build uses; the release-flow check that compares a build's runtime with the offline folder's newest patch is S3b-7's.
   - `Directory.Packages.props`, `THIRD-PARTY-NOTICES.txt`, `tests/LibraryBindingTests` and `tests/LibraryUpdateTests`: `System.Text.Json`,

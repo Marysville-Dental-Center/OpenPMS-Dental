@@ -561,14 +561,14 @@ namespace OpenPmsDentalDbSettings {
 
 		///<summary>The warning for the database user root on a server over the network, or "" when it does not apply (a server on this
 		///computer, any other user). Owner decision of 2026-11-02: the program no longer uses root; the office gives the program its own account
-		///with the rights the server guide lists (docs/db-connection-security.md section 5). A warning, never a refusal: the settings are saved
+		///with the rights the server guide lists (docs/admin/db-connection-security.md section 5). A warning, never a refusal: the settings are saved
 		///and the result says it. MariaDB compares user names exactly, but any spelling of root is warned about.</summary>
 		public static string GetRootUserWarning(string server,string user) {
 			if(!string.Equals((user??"").Trim(),"root",StringComparison.OrdinalIgnoreCase) || DbConnectionSecurity.IsLoopbackServer(server??"")) {
 				return "";
 			}
 			return "Warning: the database user root is MariaDB's administrator account. For a server over the network the office should use its own "
-				+"account for the program (for example opmsd), with only the rights the server guide gives it (docs/db-connection-security.md, "
+				+"account for the program (for example opmsd), with only the rights the server guide gives it (docs/admin/db-connection-security.md, "
 				+"section 5).";
 		}
 

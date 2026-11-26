@@ -150,7 +150,7 @@ Changed with it: the project entries of `OpenDental.sln` and `OpenDental.Local.s
 channel (`ForkReleases.ListRetiredFiles`); the tests that named the project, folder or file (ReleaseFlowTests `ProgramNamesTests`,
 `ReleaseFilesTests`; VendorDirectTests `BridgesDllRemovedTests`, `DropboxRemovedTests`; NoHqTests `CloudEditionTests`);
 `tools\Test-NoOldNames.ps1`; README and the owner questions. The history keeps the old name: this folder, `docs\reviews`,
-`docs\release-notes\v0.0.md`, `docs\decoupling-plan.md`, and the roadmap item.
+`docs\release-notes\v0.0.md`, `docs\specs\decoupling-plan.md`, and the roadmap item.
 
 **Workstations that update themselves.** UpdateFileCopier has no delete list: it copies a release over the installation folder and never
 deletes a file (as for the rename of 2026-11-01, below). A workstation that pulls this release from v0.0 therefore keeps

@@ -52,8 +52,8 @@ the session detects each feature and never assumes it.
    Open PMS - Dental. The parser change (item 1) makes any of them count as an adjustment. The setup guide says to leave them at their
    defaults for diagnostic captures.
 6. Docs:
-   - `docs/imaging-capture-design.md`: status, sections 7.4, 7.5 and 7.9, and the [Device.N] block.
-   - `docs/imaging/intraoral-capture-setup.md`: new section 15.
+   - `docs/specs/imaging-capture-design.md`: status, sections 7.4, 7.5 and 7.9, and the [Device.N] block.
+   - `docs/admin/intraoral-capture-setup.md`: new section 15.
 
 ## Tests
 

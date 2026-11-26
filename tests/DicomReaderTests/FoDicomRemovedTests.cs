@@ -1,4 +1,4 @@
-// fo-dicom (MS-PL) is gone (owner decision 2026-11-02, option C; docs/imaging/dicom-reader.md): not in the repository, not named by a project,
+// fo-dicom (MS-PL) is gone (owner decision 2026-11-02, option C; docs/specs/dicom-reader.md): not in the repository, not named by a project,
 // not used by source, not in a build output, removed from installed folders on upgrade, refused by the release check, and not in the notices.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

@@ -101,7 +101,7 @@ namespace AdoptionValidation {
 			File.WriteAllText(path,JsonConvert.SerializeObject(this,Formatting.Indented,new Newtonsoft.Json.Converters.StringEnumConverter()),new UTF8Encoding(false));
 		}
 
-		///<summary>A Markdown summary of every result, for docs/m1-validation-report.md.</summary>
+		///<summary>A Markdown summary of every result, for docs/reports/m1-validation-report.md.</summary>
 		public string ToMarkdown() {
 			StringBuilder sb=new StringBuilder();
 			sb.AppendLine("# Adoption rehearsal results");

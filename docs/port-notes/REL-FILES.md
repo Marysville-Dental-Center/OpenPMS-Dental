@@ -104,7 +104,7 @@ assembly version and Update only the release version.
   (`db/README.md`, `db/init/new-database.sql`, from package INIT-SQL); adopting an Open Dental 24.3.63 or 25.3.48 database; the workstation
   prerequisites (.NET Framework 4.8, VC++ 2015-2022 x86, WebView2 runtime x86, the scanner's TWAIN driver); install steps (update server
   first, `C:\Program Files (x86)\Open PMS - Dental\`, first start as administrator because it creates `FreeDentalConfig.xml`, Start menu
-  shortcut); and the update path (`docs/release-process.md`, exit 174).
+  shortcut); and the update path (`docs/develop/release-process.md`, exit 174).
 - F11 corrections: no "21 projects" count (the filter now loads the program, the tools and every test project; no number, so it does not go
   stale again), no list of 12 missing projects (the substitution target substitutes nothing today), no prebuilt Open Dental DLLs in `Required
   dlls`, no advice to merge upstream builds (decoupling plan ground rule 1), and `tools/` and `tests/` are described as in the solution
@@ -141,14 +141,14 @@ assembly version and Update only the release version.
 - `FormUpdateSetup`'s Recopy label names `C:\Program Files\Open Dental\`, and `FrmBencoSetup`'s save message says "restart Open Dental":
   visible text for the rename run.
 - `DemandForce.cs` still writes `managementSystemName="Open Dental"` (the name DemandForce's import expects; owner question).
-- `docs/decoupling-plan.md:109` still says the "Since" date is looked up by the assembly version.
+- `docs/specs/decoupling-plan.md:109` still says the "Since" date is looked up by the assembly version.
 - OpenDentHL7 still refuses an adopted database (sentinel `ProgramVersion` 99.0.0.0, report-release.md 3); this package only kept its
   behaviour.
 - The installer must ship `LICENSE`, `NOTICE` and `THIRD-PARTY-NOTICES.txt` in the program folder and verify each copyright line against the
   exact package's own licence file; the LGPL 2.1 and MPL 1.1 texts are referenced by address, not embedded.
   Done for v0.0 (the release package): the installer ships the three files and `LICENSE-LGPL-2.1.txt`, the FSF's LGPL 2.1 text, which
   `THIRD-PARTY-NOTICES.txt` names for the RDL Project, NHunspell and Hunspell, and the en_US word list. NHunspell and Hunspell ship under
-  the LGPL 2.1 option of their tri-licence, so no MPL 1.1 text is needed (`docs/owner-questions.md`, "Decided by default for v0.0"). The
+  the LGPL 2.1 option of their tri-licence, so no MPL 1.1 text is needed (`docs/decisions/owner-questions.md`, "Decided by default for v0.0"). The
   release package did not re-check the copyright lines against the packages' own licence files.
 
 ## Owner questions
@@ -173,7 +173,7 @@ assembly version and Update only the release version.
   OpenDentHL7.exe's product version.
 - `Properties/AssemblyInfo.cs` of the 19 shipped projects: the product, company and copyright lines the shared file now sets are removed (the
   compiler refuses duplicates). No other line changed.
-- `docs/release-process.md`: two lines, the release version now lives in `SharedAssemblyInfo.cs`.
+- `docs/develop/release-process.md`: two lines, the release version now lives in `SharedAssemblyInfo.cs`.
 
 ## Tests
 

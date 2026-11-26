@@ -30,7 +30,7 @@ namespace PdfLibraryTests {
 	}
 
 	///<summary>The recorded pins and identities of the source builds (third-party\build\PDFsharp.props, WeCantSpell.Hunspell.csproj,
-	///docs\third-party-source-builds.md). An upgrade changes them here on purpose.</summary>
+	///docs\develop\third-party-source-builds.md). An upgrade changes them here on purpose.</summary>
 	public static class SourceBuild {
 		public const string PDFSHARP_PATH="third-party/PDFsharp";
 		public const string PDFSHARP_URL="https://github.com/empira/PDFsharp.git";

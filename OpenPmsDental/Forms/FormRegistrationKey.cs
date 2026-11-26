@@ -12,7 +12,7 @@ using CodeBase;
 namespace OpenPmsDental{
 
 	///<summary>Shows the third party license texts. Open Dental's registration key and its license agreement signature (which was sent to Open
-	///Dental HQ) were removed (docs/decoupling-plan.md), and with them this window's registration key box and agreement check box; the
+	///Dental HQ) were removed (docs/specs/decoupling-plan.md), and with them this window's registration key box and agreement check box; the
 	///RegistrationKey preference is left as it is.</summary>
 	public partial class FormRegistrationKey : FormODBase {
 

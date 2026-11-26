@@ -4,7 +4,7 @@ ORGANIZATION REVIEW: projects, dependencies, leftovers and target structure
 
 Baseline: `main` at 1db2c6d86 (clean apart from the untracked `aqtinstall.log`). I read the capture work from `cap/cap-4` at c7dd54cb8, whose merge base with main is ee44421eb. Nothing in the repository was changed and no database was touched.
 
-Per your note ("Skip office switch over for now"), the adoption and switch-over tools (`tools/AdoptionValidation`, `docs/adoption-runbook.md`) are listed in the inventory only. Nothing below proposes switch-over work.
+Per your note ("Skip office switch over for now"), the adoption and switch-over tools (`tools/AdoptionValidation`, `docs/admin/adoption-runbook.md`) are listed in the inventory only. Nothing below proposes switch-over work.
 
 Abbreviations used in the tables: DCB = xDataConnectionBase, ODB = OpenDentBusiness, CB = xCodeBase. A `*` after a name means that project is not built by the solution filter.
 
@@ -36,7 +36,7 @@ Abbreviations used in the tables: DCB = xDataConnectionBase, ODB = OpenDentBusin
 - There are 4,263 `[TestMethod]` attributes in those folders. The legacy `UnitTests` project holds 1,952 more, which never run.
 
 **Build output and binaries**
-- What ships is `OpenDental\bin\<cfg>`, zipped by `ForkReleases.Publish` (`docs/release-process.md:104`). It holds only three executables: `OpenDental.exe`, `ServiceManager.exe` and `UpdateFileCopier.exe`. Checked by listing `OpenDental/bin/Debug`: 96 files, no HL7, CentralManager, MySQLManager or DatabaseIntegrityCheck executable.
+- What ships is `OpenDental\bin\<cfg>`, zipped by `ForkReleases.Publish` (`docs/develop/release-process.md:104`). It holds only three executables: `OpenDental.exe`, `ServiceManager.exe` and `UpdateFileCopier.exe`. Checked by listing `OpenDental/bin/Debug`: 96 files, no HL7, CentralManager, MySQLManager or DatabaseIntegrityCheck executable.
 - `Required dlls/` holds 118 files (52 MB) and `RequiredServerDlls/` 6.
 
 ---

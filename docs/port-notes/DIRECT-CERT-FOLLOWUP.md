@@ -108,7 +108,7 @@ Every reference, found by searching the whole repository (code, project files, t
 ## 3. The owner's two other answers
 
 Recorded in `docs/port-notes/DIRECT-CERT.md` ("The owner's answers (2026-11-09, DIRECT-CERT-FOLLOWUP)"), its O-13 entry in
-`docs/specs/net10-plan.md` section 12, and `docs/owner-questions.md` ("Direct certificates follow-up"):
+`docs/specs/net10-plan.md` section 12, and `docs/decisions/owner-questions.md` ("Direct certificates follow-up"):
 
 - (a) `BUILTIN\Users` keep read access to the Direct private key, as built.
 - (b) A replaced certificate's private key is deleted only if the certificate window imported it, as built.
@@ -660,7 +660,7 @@ All six are done. Where each one is (in `OpenPmsDentalDbSettings`, tests in `tes
    such). None or several are refused with exit code 2: "The client certificate file <path> holds no client certificate: ..." or "...
    holds more than one certificate that can be the client certificate (...): <subject> (<thumbprint>); ...". The message goes on with
    "It holds: <subject> (<thumbprint>, with a private key, a certificate authority); ..." and ends with the `openssl pkcs12 -export` line of
-   `docs/db-connection-security.md` section 3. The check (`LoadPfxForCheck`, `EphemeralKeySet`) refuses the file before anything is
+   `docs/admin/db-connection-security.md` section 3. The check (`LoadPfxForCheck`, `EphemeralKeySet`) refuses the file before anything is
    stored. The import refuses it the same way after its read, and deletes every key the read stored. Tests:
    `ImportPfx_TakesTheClientCertificate_NotTheCaCertificateTheFileListsFirst` and
    `ImportPfx_RefusesAFileWithoutExactlyOneClientCertificate`. The CA-first test fails on the code before this round: the test CA has no
@@ -726,7 +726,7 @@ The follow-up round's first "Noticed" item (the first certificate with a key tak
 
 `main` at fa6f501dc, 136 commits, was merged with `--no-ff`. It is stage 2 of the .NET 10 plan: central package management (the
 `Directory.Packages.props` and `packages.lock.json` files), MySqlConnector 2.6.2, DB-SEC 3's `OfficeCaServerVerifier`, and Required dlls
-trimmed. The one conflict, `docs/owner-questions.md`, keeps both sides: this branch's DIRECT-CERT follow-up answers, then `main`'s
+trimmed. The one conflict, `docs/decisions/owner-questions.md`, keeps both sides: this branch's DIRECT-CERT follow-up answers, then `main`'s
 "Pending items answered on 2026-11-09". The branch now builds with its own `Directory.Packages.props`, and the lane restored from the
 offline package folder the repository configures. No package was added and no version changed. The fix round's last "Noticed" item (a
 lane build of this branch needs `ImportDirectoryPackagesProps=false`) no longer applies: the branch has its own file, and a stop file at
@@ -1018,7 +1018,7 @@ Check 11 of "Launch checks for the lead" has a second part: the failed save over
 ## Round 4 (branch `fix/dcfu4-1`, 2026-11-14)
 
 Cut from `main` (f15956ad5). The owner answered the last round's three questions on 2026-11-13, "all three as recommended"
-(`docs/owner-questions.md`, "The connection settings tool's client certificate (DIRECT-CERT-FOLLOWUP, last round, answered on 2026-11-13)"):
+(`docs/decisions/owner-questions.md`, "The connection settings tool's client certificate (DIRECT-CERT-FOLLOWUP, last round, answered on 2026-11-13)"):
 
 1. **The Direct certificate window's import gets the tool's two key changes**: keys compared by their key provider information, never by
    opening a key; and a store entry is "already there" only when its key is in the key set the import uses. Part A below.
@@ -1709,7 +1709,7 @@ called right before the store is read again.
    round's Noticed item), and kept documented: old-format records exist only on test installs, because database connection security is new
    in the next version.
 
-`docs/owner-questions.md` lists them under "DIRECT-CERT-FOLLOWUP round 4's review questions"; the owner can still choose otherwise.
+`docs/decisions/owner-questions.md` lists them under "DIRECT-CERT-FOLLOWUP round 4's review questions"; the owner can still choose otherwise.
 
 ### Tests
 

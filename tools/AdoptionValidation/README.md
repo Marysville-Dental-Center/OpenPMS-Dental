@@ -6,13 +6,13 @@ fork migration brings it to the **Open Dental 26.2.0** schema (M2-01, M2-02 and 
 schema (26.2.0 exactly), row counts, checksums, business totals, the rows adoption may change, the values the 25.4 and 26.1 steps change, every
 24.4 to 25.3 column through the business layer, the version lock-out, and idempotence. Every step is timed.
 
-It also holds the **steps of the office procedure that run without the program**, [docs/adoption-runbook.md](../../docs/adoption-runbook.md),
+It also holds the **steps of the office procedure that run without the program**, [docs/admin/adoption-runbook.md](../../docs/admin/adoption-runbook.md),
 which the office runs on a Windows admin PC through an SSH forward to the Ubuntu database server (runbook step 0.0): `float-check` and
 `migration-preview` (step 0.2), `connections` (steps 1.1, 10.1, 11.1 and Rollback), `copy` (step 3.2), `adopt` (steps 4 and 5),
 `startup-check` (step 6.1), `credentials` (steps 0.6 and 7), and the dry run of those commands
 ([Invoke-RunbookDryRun.ps1](Invoke-RunbookDryRun.ps1), step 0.6). The rehearsal copies
 with the code of `copy` and adopts with the code of `adopt` ([HeadlessAdoption.cs](HeadlessAdoption.cs)), and takes its post-adoption report
-before anyone starts the program, as the office does. The signed-off results are in [docs/m1-validation-report.md](../../docs/m1-validation-report.md).
+before anyone starts the program, as the office does. The signed-off results are in [docs/reports/m1-validation-report.md](../../docs/reports/m1-validation-report.md).
 
 ## Safety
 

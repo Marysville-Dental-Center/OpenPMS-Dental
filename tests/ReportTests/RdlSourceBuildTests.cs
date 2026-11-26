@@ -211,8 +211,8 @@ namespace ReportTests {
 		[TestMethod]
 		public void Docs_SayTheThreeAreBuiltFromSource() {
 			//M16 integration follow-up: the README, the RDL upgrade comments and the binaries audit no longer describe the prebuilt binaries.
-			//The repository layout moved from README.md to docs/repository-layout.md (2026-11-21, the shorter README).
-			string[] arrayReadmeLines=Read(@"docs\repository-layout.md").Replace("\r\n","\n").Split('\n');
+			//The repository layout moved from README.md to docs/develop/repository-layout.md (2026-11-21, the shorter README).
+			string[] arrayReadmeLines=Read(@"docs\develop\repository-layout.md").Replace("\r\n","\n").Split('\n');
 			string readmeNotBuilt=arrayReadmeLines.Single(x => x.StartsWith("| ") && x.Contains("not built"));
 			foreach(string folder in new[] { "`ODR/`","`RdlEngine/`","`RdlViewer/`" }) {
 				Assert.IsFalse(readmeNotBuilt.Contains(folder),"README lists "+folder+" as not built.");
@@ -225,7 +225,7 @@ namespace ReportTests {
 				StringAssert.Contains(source,"<ClassName>MySqlConnector.MySqlConnection</ClassName>",form);
 				Assert.IsFalse(source.Contains("MySql.Data.dll") || source.Contains("MySQL.Data.dll"),form+": the upgrade comment still names MySql.Data.");
 			}
-			string[] arrayAuditLines=Read(@"docs\third-party-binaries-audit.md").Replace("\r\n","\n").Split('\n');
+			string[] arrayAuditLines=Read(@"docs\reports\third-party-binaries-audit.md").Replace("\r\n","\n").Split('\n');
 			foreach(string fileName in _arrayDeletedDlls) {
 				string row=arrayAuditLines.Single(x => x.StartsWith("| `"+fileName+"` |") && x.Contains("RDL-SRC"));
 				StringAssert.Contains(row,"built from source",fileName+" audit row");

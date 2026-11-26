@@ -4,7 +4,7 @@
 
 **Free, open-source practice management software for dental offices, for Windows: derived from Open Dental, heavily extended.** Open PMS - Dental started from the [Open Dental](https://www.opendental.com) source code (v24.3.63) and keeps everything an office relies on: scheduling, charting, billing, insurance, imaging and reports, on Open Dental's database schema. Around that code it adds the Open Dental features through 26.2 written again from public documents, .NET 10 64-bit, a new look, a new 3D tooth chart, native imaging capture, new tools and its own test suites. It is written for one dental practice and published for anyone to use.
 
-Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc. See [NOTICE](NOTICE) for attribution and [LICENSE](LICENSE) for the GNU General Public License; every Open Dental copyright line and GPL notice is kept.
+Licensed under the GNU GPL v2 or later ([LICENSE](LICENSE)). The copyright notices and the attribution are in [NOTICE](NOTICE).
 
 **Project site:** the website link in this repository's About panel (GitHub Pages, built from [`site/`](site/)).
 
@@ -34,7 +34,7 @@ Derived from Open Dental, heavily extended. In the program itself (`OpenPmsDenta
 - **Native imaging capture:** 64-bit TWAIN, sensor capture with 16-bit X-rays after a test capture verifies the device, camera and video capture.
 - **Inventory and routine maintenance tracking**, new in this project.
 - **Client-side security:** encrypted database connections verified against the office's own CA.
-- **Tests:** about 11,500 test methods (Open Dental's public source had about 2,000), 128 new test projects, about 269,000 lines; see [docs/testing.md](docs/testing.md).
+- **Tests:** about 11,500 test methods (Open Dental's public source had about 2,000), 128 new test projects, about 269,000 lines; see [docs/develop/testing.md](docs/develop/testing.md).
 
 ## Philosophy
 
@@ -78,7 +78,7 @@ Next: the office switch-over from Open Dental. The full roadmap with the owner's
 
 You need Windows 11 64-bit and:
 
-- **Build Tools for Visual Studio 2026** (or Visual Studio 2026), with the .NET desktop, C++ (MSVC v143) and testing tools; one command installs them, see [docs/building.md](docs/building.md#prerequisites).
+- **Build Tools for Visual Studio 2026** (or Visual Studio 2026), with the .NET desktop, C++ (MSVC v143) and testing tools; one command installs them, see [docs/develop/building.md](docs/develop/building.md#prerequisites).
 - **The .NET SDK that `global.json` pins** (10.0.115), machine-wide or per user.
 - **The offline package folder.** The build downloads nothing: `nuget.config` restores from the folder that `OPMS_NUGET_OFFLINE` names, with the packages of `Directory.Packages.props`.
 
@@ -107,16 +107,17 @@ Create a development database (the seed's fictional demo practice; log in as `Ad
 powershell -ExecutionPolicy Bypass -File tools\New-DevDatabase.ps1 -WithSampleData -WriteConfig
 ```
 
-The full reference, with the solution layout, version numbers and every option, is [docs/building.md](docs/building.md). The release build and the setup are in [docs/release-process.md](docs/release-process.md).
+The full reference, with the solution layout, version numbers and every option, is [docs/develop/building.md](docs/develop/building.md). The release build and the setup are in [docs/develop/release-process.md](docs/develop/release-process.md).
 
 ## More
 
+- [All documentation](docs/README.md): every document, by who reads it.
 - [How-to guides](docs/how-to/README.md): setting up a new database, moving from Open Dental, X-rays, photos, inventory, maintenance.
-- [Installing in an office](docs/installing.md): the database server, the workstations and updates.
+- [Installing in an office](docs/admin/installing.md): the database server, the workstations and updates.
 - [How Open PMS - Dental differs from Open Dental](docs/differences.md): the changes, what stayed, what was removed, and the numbers.
-- [Testing](docs/testing.md): what the tests cover and how to run them.
-- [Repository layout](docs/repository-layout.md): what each folder holds, the branches, Open Dental's own resources.
-- [Owner decisions and questions](docs/owner-questions.md) and the [port notes](docs/port-notes/) of every package.
+- [Testing](docs/develop/testing.md): what the tests cover and how to run them.
+- [Repository layout](docs/develop/repository-layout.md): what each folder holds, the branches, Open Dental's own resources.
+- [Owner decisions and questions](docs/decisions/owner-questions.md) and the [port notes](docs/port-notes/) of every package.
 
 ## License
 
@@ -124,6 +125,6 @@ The source files say "either version 2 of the License, or (at your option) any l
 
 The program as distributed includes PDFsharp and MigraDoc 6.5, which are licensed under the **GNU AGPL v3**. The AGPL combines with GPL version 3 but not with version 2, so the program with them is distributed under the **GNU GPL v3** (which "or later" allows), and PDFsharp and MigraDoc keep the AGPL's terms. By section 13 of both licenses, the AGPL's requirements on interaction through a network apply to the combination as a whole. They apply to a modified version, and the PDFsharp built here is itself one (one file replaced, see below), so they cover any version of the program that users reach over a network, not only versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently offer its users the Corresponding Source of the whole program, such as a link to the release's `OpenPmsDental-<version>-source.zip`. [LICENSE-GPL-3.0.txt](LICENSE-GPL-3.0.txt) and [LICENSE-AGPL-3.0.txt](LICENSE-AGPL-3.0.txt) hold those texts; [NOTICE](NOTICE) explains it.
 
-PDFsharp and MigraDoc 6.5.0 (empira's AGPL source, tag v6.5.0) and WeCantSpell.Hunspell 7.0.1 are built here from their source, git submodules under `third-party/`. The PDFsharp built here replaces one file, empira's wrapper around its closed `PdfSharp.License.dll`, with an open one (a modified version under AGPL section 5a), so every file the setup installs has published source. Each release publishes its complete source as `OpenPmsDental-<version>-source.zip` next to the setup ([docs/third-party-source-builds.md](docs/third-party-source-builds.md)).
+PDFsharp and MigraDoc 6.5.0 (empira's AGPL source, tag v6.5.0) and WeCantSpell.Hunspell 7.0.1 are built here from their source, git submodules under `third-party/`. The PDFsharp built here replaces one file, empira's wrapper around its closed `PdfSharp.License.dll`, with an open one (a modified version under AGPL section 5a), so every file the setup installs has published source. Each release publishes its complete source as `OpenPmsDental-<version>-source.zip` next to the setup ([docs/develop/third-party-source-builds.md](docs/develop/third-party-source-builds.md)).
 
 Names that existing installations and databases depend on keep Open Dental's spelling: the database, `FreeDentalConfig.xml`, the Middle Tier's service names, and internal type names. The program's own assemblies carry the code name `OpenPmsDental` ([docs/port-notes/RENAME.md](docs/port-notes/RENAME.md)).

@@ -22,7 +22,7 @@ namespace OpenPmsDentalBusiness {
 	}
 
 	///<summary>A texting provider that can text statements. None exists in this program: Open Dental's hosted texting was removed, and choosing a
-	///provider is an owner decision (docs/owner-questions.md). A provider package sets StatementAutoSend.TextSender.</summary>
+	///provider is an owner decision (docs/decisions/owner-questions.md). A provider package sets StatementAutoSend.TextSender.</summary>
 	public interface IStatementTextSender {
 		///<summary>Texts the statements to their patients and marks what was sent. Returns the number texted.</summary>
 		int SendTexts(List<long> listStatementNums);

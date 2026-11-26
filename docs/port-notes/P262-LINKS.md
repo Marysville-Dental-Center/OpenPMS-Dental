@@ -115,7 +115,7 @@ Done the way B-SHELL retired the DXC Patient Credit Score link (25.2):
     a Trojan Express Collect part follows when its plan lists rows. `Result.ListProgramNumsDisabledTrojan` and
     `ListToolButItemNumsDeletedTrojan`; the PASS line counts them.
   - `allowed-differences.adoption.json`: the existing `program.Enabled` and `toolbutitem` rules now name both steps; no rule was added.
-  - Docs: `docs/adoption-runbook.md` (the step's explanation, step 0.2's preview line and checklist, step 4's log and row check lines, step
+  - Docs: `docs/admin/adoption-runbook.md` (the step's explanation, step 0.2's preview line and checklist, step 4's log and row check lines, step
     6.1's allowed lines), `tools/AdoptionValidation/README.md`, the usage text of `AdoptionValidation`.
   - Rehearsal (`p262/links-2`): the office fixture (`OfficeFixture`) holds the Trojan Express Collect row as 19.2.29 left it for an office
     that never used the link (disabled, the four properties as `new-database.sql` has them, one Account module "TrojanCollect" button). New
@@ -199,14 +199,14 @@ that never used the link, has the row disabled without buttons, so the step chan
 every button of the link); its description, the test of the new-database case, this note and the runbook were wrong, and the rehearsal
 never reached the Trojan branches of the row check, which every real adoption will run.
 
-- Corrected: the summary of `TrojanExpressCollectRemovedStep`, the "What the step finds" paragraph above, `docs/adoption-runbook.md`
+- Corrected: the summary of `TrojanExpressCollectRemovedStep`, the "What the step finds" paragraph above, `docs/admin/adoption-runbook.md`
   (the step's explanation, step 0.2's preview line, step 4's log and the second person's comparison), `tools/AdoptionValidation/README.md`
   (the fixture, the preview, check M8, `adopt`'s row check and its PASS line), the summary of `Migration26_1Tests`'s Trojan test.
 - Tests: the new-database case of `TrojanExpressCollectRetiredTests` inserts the rows as `new-database.sql` has them; the office fixture,
   check M8 and the `RehearsalIntegrationTests` above.
 - Changed files: `TrojanExpressCollectRemovedStep.cs` (comment only), `tests/P262LinksTests/TrojanExpressCollectRetiredTests.cs`,
   `tools/AdoptionValidation/OfficeFixture.cs`, `Rehearsal.cs`, `AdoptionValidation.Tests/RehearsalIntegrationTests.cs`,
-  `Migration26_1Tests.cs`, `tools/AdoptionValidation/README.md`, `docs/adoption-runbook.md`, `docs/release-notes/next.md`, this note. No
+  `Migration26_1Tests.cs`, `tools/AdoptionValidation/README.md`, `docs/admin/adoption-runbook.md`, `docs/release-notes/next.md`, this note. No
   change to the step's behaviour, the row check's rules or `allowed-differences.adoption.json`.
 
 ## Tests

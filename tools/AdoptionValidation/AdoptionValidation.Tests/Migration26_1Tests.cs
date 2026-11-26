@@ -32,7 +32,7 @@ namespace AdoptionValidation.Tests {
 				+"adopted database has.");
 			Assert.IsTrue(ForkVersions.IsAdoptable(new Version(25,3,48,0)),"The office's 25.3.48 database is still adoptable.");
 			Assert.IsFalse(ForkVersions.IsAdoptable(new Version(26,1,70,0)),"An Open Dental 26.1 database is not on the allowlist.");
-			Assert.IsFalse(ForkVersions.IsAdoptable(new Version(26,2,0,0)),"An Open Dental 26.2 database is not on the allowlist.");
+			Assert.IsFalse(ForkVersions.IsAdoptable(new Version(26,2,0,0)),"26.2 is not on the fixed allowlist: it is adopted through ForkVersions.ListAdoptableLines, after the schema check.");
 		}
 
 		///<summary>The allowed list's 25.4, 26.1 and 26.2 rules are exactly the difference between the two embedded references: every new table, every

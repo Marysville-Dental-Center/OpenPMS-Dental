@@ -224,7 +224,7 @@ Shared touchpoints that almost every item with schema uses (not repeated in each
 
 ### v25_3-procs-cdt-2026: 2026 CDT codes
 
-- **Category:** desktop. **Size:** S (plus the import design owned by the decoupling plan). **Depends on:** decoupling Phase 2, the CDT replacement (`docs/decoupling-plan.md`).
+- **Category:** desktop. **Size:** S (plus the import design owned by the decoupling plan). **Depends on:** decoupling Phase 2, the CDT replacement (`docs/specs/decoupling-plan.md`).
 - **Sources:** https://www.opendental.com/site/version25_3.html (Major Changes; also backported to 25.2.62), https://opendental.blog/version-25-3/ (available from 25.3.35; the blog gives 25.2.64 for the 25.2 line, which differs from the release-note page's 25.2.62). Either way, the office's 25.3.48 has them.
 
 **Behavior.** In Open Dental, Procedure Code Tools adds any 2026 D-codes that are missing and updates descriptions. The text comes from the proprietary CDT library. Our project rule 4 forbids shipping ADA code text. So:

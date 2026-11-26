@@ -50,7 +50,7 @@ differently with the same dictionary.
 
 `tools/Build-Release.ps1` ships `WeCantSpell.Hunspell.dll` (with a reason when it is missing) and denies `NHunspell.dll` and `Hunspellx*.dll`;
 `Hunspellx86.dll` leaves the native-file checks. `THIRD-PARTY-NOTICES.txt`, `NOTICE`, the licence list, `README.md` and
-`docs/release-process.md` name the new library.
+`docs/develop/release-process.md` name the new library.
 
 ## Tests
 
@@ -64,7 +64,7 @@ part of the fork's test runs and was not re-run.
 
 ## Owner questions
 
-- The corresponding source of `WeCantSpell.Hunspell.dll` under the LGPL (`docs/owner-questions.md`, "The source of the spell checker"): the
+- The corresponding source of `WeCantSpell.Hunspell.dll` under the LGPL (`docs/decisions/owner-questions.md`, "The source of the spell checker"): the
   notices pointed to the upstream repository at the release commit and to the package. **Answered 2026-11-02: built from its GitHub source
   as a git submodule, and no MPL text ships** (below).
 
@@ -73,4 +73,4 @@ part of the fork's test runs and was not re-run.
 The owner decided the question above the same day: WeCantSpell.Hunspell is built from its source, the git submodule
 `third-party/WeCantSpell.Hunspell` at tag 7.0.1, by `third-party/build/WeCantSpell.Hunspell` (the library project only, unmodified;
 same assembly identity 7.0.0.0, no strong name), and `Required dlls/WeCantSpell.Hunspell.dll` is gone. No MPL text ships. Each release
-publishes the source in its source archive. See `docs/third-party-source-builds.md`.
+publishes the source in its source archive. See `docs/develop/third-party-source-builds.md`.

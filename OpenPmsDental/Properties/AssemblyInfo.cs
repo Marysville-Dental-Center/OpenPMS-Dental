@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 
 //AssemblyVersion stays on the Open Dental 24.3.63 compatibility line, which the database version checks use until the fork markers take over
 //(OpenPmsDentalBusiness ForkVersions.CompatVersion); the Win32 file version follows it. The release (product) version, "0.0", is the
-//AssemblyInformationalVersion in SharedAssemblyInfo.cs in the repository root. See docs/release-process.md.
+//AssemblyInformationalVersion in SharedAssemblyInfo.cs in the repository root. See docs/develop/release-process.md.
 [assembly: AssemblyVersion("24.3.63.0")]
 
 //[assembly: AssemblyFileVersion("1.0.0.0")]

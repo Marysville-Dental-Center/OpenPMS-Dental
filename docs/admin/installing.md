@@ -1,9 +1,9 @@
 # Installing in an office
 
-How an office installs Open PMS - Dental: the database server, the workstations and updates. Building from source is in [building.md](building.md); the release process is [release-process.md](release-process.md).
+How an office installs Open PMS - Dental: the database server, the workstations and updates. Building from source is in [building.md](../develop/building.md); the release process is [release-process.md](../develop/release-process.md).
 
 
-A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.1.md](release-notes/v0.1.md) for 0.1, [v0.0.md](release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x64** build ([docs/release-process.md](release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
+A release is a setup program, `OpenPmsDental-<version>-Setup.exe`, with its `SHA256SUMS.txt` and release notes ([docs/release-notes/v0.1.md](../release-notes/v0.1.md) for 0.1, [v0.0.md](../release-notes/v0.0.md) for 0.0). `tools/Build-Release.ps1` builds it from a **Release | x64** build ([docs/develop/release-process.md](../develop/release-process.md#building-the-installer)). Nothing here contacts Open Dental's servers, and nothing is installed on the database server by this program.
 
 ## Database server
 
@@ -20,11 +20,11 @@ max_allowed_packet=40M
 - The tables are MyISAM; with another default engine, new tables end up in a different engine.
 - `max_allowed_packet` must be at least 40 MB. Smaller values make large inserts (images, releases stored in the database) fail with "Please add the following to your my.ini file: max_allowed_packet=40000000".
 - Give each office its own database account, and back the database up.
-- A server the workstations reach over the network must have TLS with a certificate from the office's own CA, and each workstation needs that CA certificate and the client certificate: see [docs/db-connection-security.md](db-connection-security.md), which also gives the order for an office that runs version 0.0.
+- A server the workstations reach over the network must have TLS with a certificate from the office's own CA, and each workstation needs that CA certificate and the client certificate: see [docs/admin/db-connection-security.md](db-connection-security.md), which also gives the order for an office that runs version 0.0.
 
-**A new office's database:** see [db/README.md](../db/README.md) and the script `db/init/new-database.sql`.
+**A new office's database:** see [db/README.md](../../db/README.md) and the script `db/init/new-database.sql`.
 
-**An existing Open Dental database** (Open Dental 24.3.63 or 25.3.48 only) is adopted once, on a restored copy: see [Adopting a database](release-process.md#adopting-a-database) and the office procedure in [docs/adoption-runbook.md](adoption-runbook.md).
+**An existing Open Dental database** (Open Dental 24.3.63, 25.3.48 or 26.2 only) is adopted once, on a restored copy: see [Adopting a database](../develop/release-process.md#adopting-a-database) and the office procedure in [docs/admin/adoption-runbook.md](adoption-runbook.md).
 
 ## Workstations
 
@@ -38,7 +38,7 @@ Prerequisites:
 
 When the Visual C++ runtime is missing, the setup offers to download Microsoft's installer from Microsoft and run it, or to skip it (`/PREREQS=ask|download|skip`). The setup only checks for the WebView2 Runtime: when it is missing, the setup says so and how to install it (Microsoft's Evergreen Bootstrapper or Standalone Installer, Windows Update or device management), and it never downloads it.
 
-Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; no office runs 0.0, so nothing moves from it.
+Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](../release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; no office runs 0.0, so nothing moves from it.
 
 Steps:
 
@@ -52,4 +52,4 @@ Silent installs, the setup's switches and the uninstall are described in the rel
 
 ## Updates
 
-A new build reaches the office through the release channel described in [docs/release-process.md](release-process.md): install it on the update server and start it as an administrator; it publishes the release into the database, and every other workstation pulls it at its next start and restarts through `UpdateFileCopier.exe`. Debug builds never publish or pull. A workstation that is not the update server refuses to run a build newer than the published one (exit code 174), so always update the update server first.
+A new build reaches the office through the release channel described in [docs/develop/release-process.md](../develop/release-process.md): install it on the update server and start it as an administrator; it publishes the release into the database, and every other workstation pulls it at its next start and restarts through `UpdateFileCopier.exe`. Debug builds never publish or pull. A workstation that is not the update server refuses to run a build newer than the published one (exit code 174), so always update the update server first.

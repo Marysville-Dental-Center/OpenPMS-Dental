@@ -2,14 +2,14 @@
 
 Status: 2026-10-25, third revision after review (M1-Z r3), plus steps 0.11 and 7.1 (combined review, 2026-11-01), which since 2026-11-07
 list only the five settings Open Dental has no name for (the others carry over under Open Dental's names, SWMAP); milestone M1 switch
-gate (M1-Z in [specs/port-backlog.md](specs/port-backlog.md)). Brought up to date with the code on 2026-11-25 (RUNBOOK-R4): the fork steps
+gate (M1-Z in [specs/port-backlog.md](../specs/port-backlog.md)). Brought up to date with the code on 2026-11-25 (RUNBOOK-R4): the fork steps
 up to 2026112451, the .NET 10 tools and setup, and the programs that share the database (steps 0.0.1, 0.4, 1.2 and 9).
-Rehearsed on synthetic data with [tools/AdoptionValidation](../tools/AdoptionValidation/README.md); results in
-[m1-validation-report.md](m1-validation-report.md). The tool commands of steps 0.2, 1.1, 3.2 to 6.1 (everything before the program's first
+Rehearsed on synthetic data with [tools/AdoptionValidation](../../tools/AdoptionValidation/README.md); results in
+[m1-validation-report.md](../reports/m1-validation-report.md). The tool commands of steps 0.2, 1.1, 3.2 to 6.1 (everything before the program's first
 start), 10.1 and 10.2 are the commands the dry run ran, in its order, through a forwarded port as on the admin PC (step 0.0). The commands
 on the database server itself (bash: steps 0.0, 3.1, 11.2 and Rollback 2 and 3) and on the workstations were not rehearsed; they first run in
 step 0.6 (with the owner's agreement) or in the optional check of step 0.7, otherwise on the day.
-Background: [release-process.md](release-process.md) (version guard and adoption tool), [decoupling-plan.md](decoupling-plan.md) (ground rules),
+Background: [release-process.md](../develop/release-process.md) (version guard and adoption tool), [decoupling-plan.md](../specs/decoupling-plan.md) (ground rules),
 risks R1 and R2 in the backlog.
 
 This is the procedure for the day the office switches. It is written for the office administrator, with a second person checking each
@@ -29,7 +29,7 @@ same code):
    decision of 2026-11-25, which replaces the earlier decision to drop them): the office's patient portal relies on them for sign-in, so two
    active patients still cannot share an e-mail address. Saving a second active patient with an address already in use stops with a database
    error that names `portal_active_email_uniq` (MariaDB's duplicate-key error; a clear message comes with a later setting, see
-   [docs/roadmap.md](roadmap.md)): give that patient another address, or none. Any other key on that column is dropped, and the schema check
+   [docs/roadmap.md](../roadmap.md)): give that patient another address, or none. Any other key on that column is dropped, and the schema check
    after adoption allows the column and key only with the office's definitions
 3. deletes Open Dental's update files (`documentmisc` rows of types `UpdateFiles` and `UpdateFilesSegment`) without reading them
 4. blanks the preferences that point at Open Dental's servers
@@ -81,7 +81,7 @@ adopted database (Rollback, steps 1 and 2). Going back to Open Dental means goin
 after the switch must then be re-entered by hand. Decide the rollback deadline before the day (step 0.9).
 
 **The settings Open Dental added in 24.4 to 25.3 carry over** under Open Dental's own names, which the setting names of the office database
-gave (owner question Switch-over 1, answered 2026-11-07; [port-notes/SWMAP.md](port-notes/SWMAP.md)): this program reads the office's rows as
+gave (owner question Switch-over 1, answered 2026-11-07; [port-notes/SWMAP.md](../port-notes/SWMAP.md)): this program reads the office's rows as
 they are, and adoption does not change them. `migration-preview` lists them with the value this program will show (step 0.2); step 7.1
 compares them. Five settings of this program have no Open Dental setting in the office database; they start at their defaults.
 
@@ -252,7 +252,7 @@ uses opendental." (exit code 0) when everyone is out. Either shows that the tool
 the PROCESS privilege" means the grants of step 0.0.2 are missing; a connection error means the forward is not running or the password is
 wrong.
 
-0.1. **Owner sign-off.** The owner has signed [m1-validation-report.md](m1-validation-report.md). The release build of this program is ready,
+0.1. **Owner sign-off.** The owner has signed [m1-validation-report.md](../reports/m1-validation-report.md). The release build of this program is ready,
 and the same build is installed on one test workstation (pointed at a synthetic or empty database, never at `opendental`).
 
 0.2. **Versions and FLOAT values.** [server] `sudo mariadb opendental -e "SELECT PrefName,ValueString FROM preference WHERE PrefName IN ('DataBaseVersion','ProgramVersion','CorruptedDatabase','UpdateInProgressOnComputerName')"`.
@@ -497,7 +497,7 @@ after the switch). After the deadline the original database is archived (step 11
 0.10. **Open Dental installers.** Keep the Open Dental 25.3.48 installer and the office's registration details at hand; rollback needs them.
 
 0.11. **Settings that do not carry over** (see "What adoption does"). These five settings of this program have no preference in the office's
-Open Dental 25.3.48 database (its setting names show none; [port-notes/SWMAP.md](port-notes/SWMAP.md)), so this program keeps each in the
+Open Dental 25.3.48 database (its setting names show none; [port-notes/SWMAP.md](../port-notes/SWMAP.md)), so this program keeps each in the
 row of its own in the third column, and after adoption each shows its default. Open Dental may still offer a matching box somewhere (the
 inserter barcode, for example, may belong to its statement layout). In the week before the day, in Open Dental 25.3.48, the second person
 looks for each box below and writes in the fourth column what it holds: ticked or not ticked, the number, or the folder; most likely the
@@ -879,7 +879,7 @@ not find, is given to the developers, and the switch goes on.
 ## 8. Switch every workstation
 
 8.1. On the update server (the workstation named in Update Setup, `WebServiceServerName`), start the release build and accept "publish this
-build" (see [release-process.md](release-process.md)).
+build" (see [release-process.md](../develop/release-process.md)).
 
 8.2. Every other workstation of the step 0.5 list installs this program once, in its own folder as in step 6.2, starts it, is pointed at
 `opendental_pms` in the Choose Database window, and logs in. If step 2.1 revoked the workstations' MariaDB account on `opendental`, first grant

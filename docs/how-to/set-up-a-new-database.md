@@ -30,9 +30,9 @@ connected to it. An office that moves from Open Dental follows [Move from Open D
 
    It takes under a minute and creates every table at the current schema (Open Dental 26.2.0 and this program's own tables).
 4. **Create a database account for the program** (not `root`), with rights on that database only.
-5. **Install the program** on each workstation ([Installing in an office](../installing.md#workstations)). Setup opens the
+5. **Install the program** on each workstation ([Installing in an office](../admin/installing.md#workstations)). Setup opens the
    connection settings tool, `OpenPmsDentalDbSettings.exe` (above): enter the **Server**, **Database** and **User**, then the password, or
-   the office CA and client certificate for a server over the network ([securing the connection](../db-connection-security.md)). Click
+   the office CA and client certificate for a server over the network ([securing the connection](../admin/db-connection-security.md)). Click
    **Test connection**, then **Save**.
 6. **Start the program.** It logs on as `Admin` and asks for a new password straight away.
 7. **Enter the practice's settings:** practice name, address and phone, providers (two placeholders, `DOC` and `HYG`, are there to rename),
@@ -41,4 +41,4 @@ connected to it. An office that moves from Open Dental follows [Move from Open D
 ## More
 
 - What the file holds and how it is regenerated: [db/README.md](../../db/README.md).
-- The server settings explained: [Installing in an office](../installing.md#database-server).
+- The server settings explained: [Installing in an office](../admin/installing.md#database-server).

@@ -221,6 +221,22 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 			return Compare(GetReference25_3_48(),SchemaSnapshot.FromDatabase(databaseName),DocumentedExceptions25_3_48);
 		}
 
+		///<summary>Compares the database (default: the connected one) with the reference of the given Open Dental schema version: 25.3.48, 26.1.70 or
+		///26.2.0. Throws for a version that has no reference.</summary>
+		public static SchemaVerifyResult VerifyDatabaseAs(Version versionSchema,string databaseName=null) {
+			if(versionSchema==new Version(25,3,48,0)) {
+				return VerifyDatabase25_3_48(databaseName);
+			}
+			if(versionSchema==new Version(26,1,70,0)) {
+				return VerifyDatabase26_1_70(databaseName);
+			}
+			if(versionSchema==new Version(26,2,0,0)) {
+				return VerifyDatabase(databaseName);
+			}
+			throw new ApplicationException("There is no reference schema to verify an Open Dental "+(versionSchema?.ToString(3)??"(unknown)")
+				+" database against.");
+		}
+
 		///<summary>Lists every difference between expected and actual. A difference that matches an exception is kept in the result with the reason,
 		///but does not make IsMatch false.</summary>
 		public static SchemaVerifyResult Compare(SchemaSnapshot expected,SchemaSnapshot actual,IEnumerable<SchemaException> exceptions=null) {

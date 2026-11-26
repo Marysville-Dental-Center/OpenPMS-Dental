@@ -93,7 +93,7 @@ Not deleted: the 8 stale `RdlEngine/Definition/*.cs` files. The compiled copies 
 
 ### 10. Docs
 
-`docs/decoupling-plan.md`:
+`docs/specs/decoupling-plan.md`:
 - Ground rule 1 now records that the substitution is gone, and that the filter stays only because the runner and the host check read it.
 - Phase 2 got a dated status line.
 - `README.md` and `NOTICE` were not edited. The corrections REL-FILES should make are listed below.
@@ -132,7 +132,7 @@ sed -i '/ODXam/d' OpenDental.sln
     - No project is missing any more, and nothing is substituted from `Required dlls/`.
     - `Directory.Build.targets` only adds the MSTest v1 search path.
     - The filter no longer loads "the 21 projects": it loads all 109, the same as the solution.
-  - Line 19 still says to merge newer upstream builds, which contradicts `docs/decoupling-plan.md` ground rule 1.
+  - Line 19 still says to merge newer upstream builds, which contradicts `docs/specs/decoupling-plan.md` ground rule 1.
 - **Running section:**
   - Line 78: DevDbTool is now in the solution and the filter, and the script still builds it on its own.
   - Line 113: drop the sentence about `FreeDentalConfig.xml` and `OpenDentServerConfig.xml` in the repository root; both files are deleted. The sample is `tools/FreeDentalConfig.dev.xml` (line 110).
@@ -146,7 +146,7 @@ sed -i '/ODXam/d' OpenDental.sln
 
 - The `DOT_NET_STANDARD` `#if` blocks in CodeBase are dead now that CodeBaseStandard is gone. Removing them is a code change.
 - `tests/M2AUDITTests/BirthdateSavePathTests.cs` still lists `TestCanada`, `DataClassesOld` and `OpenDentBusiness.Tests` as excluded folders. That is harmless.
-- `docs/third-party-binaries-audit.md` and other docs still name some of the deleted files and folders. They are owned elsewhere.
+- `docs/reports/third-party-binaries-audit.md` and other docs still name some of the deleted files and folders. They are owned elsewhere.
 
 ## Owner questions
 

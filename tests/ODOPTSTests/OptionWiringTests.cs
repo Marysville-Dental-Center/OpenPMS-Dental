@@ -249,14 +249,14 @@ namespace ODOPTSTests {
 			string rowSwmap=Line(ScratchDb.ReadRepoFile("docs","port-notes","SWMAP.md"),"`StatementAutoSendEmail`, `StatementAutoSendSMS` | 0 never");
 			StringAssert.Contains(rowSwmap,"**Message-to-Pay**");
 			StringAssert.Contains(rowSwmap,"is **INFERRED**");
-			string questions=ScratchDb.ReadRepoFile("docs","owner-questions.md");
+			string questions=ScratchDb.ReadRepoFile("docs","decisions","owner-questions.md");
 			string question6=Between(questions,"- (ODOPTS 6) `StatementAutoSendEmail`","- (ODOPTS 7)");
 			StringAssert.Contains(question6,"**the meaning itself was changed, not only the values.**");
 			StringAssert.Contains(question6,"(a) does the office use this setting in");
 			StringAssert.Contains(question6,"Open Dental for Message-to-Pay, and (b) do you want it to mean \"e-mail the statement when billing creates it\"");
 			Assert.IsTrue(question6.IndexOf("(a) does",StringComparison.Ordinal)<question6.IndexOf("(c) which value",StringComparison.Ordinal),
 				"Whether the office uses it for Message-to-Pay comes before the values.");
-			string runbook=ScratchDb.ReadRepoFile("docs","adoption-runbook.md");
+			string runbook=ScratchDb.ReadRepoFile("docs","admin","adoption-runbook.md");
 			string rowRunbook=Line(runbook,"| ODOPTS: `StatementAutoSendEmail` |");
 			StringAssert.Contains(rowRunbook,"Message-to-Pay");
 			StringAssert.Contains(rowRunbook,"Kept as built (owner, 2026-11-07, ODOPTS 6)");
@@ -269,10 +269,10 @@ namespace ODOPTSTests {
 		public void Documents_EveryFeePath_AndTheSkippedEFormEntries() {
 			string odopts=ScratchDb.ReadRepoFile("docs","port-notes","ODOPTS.md");
 			StringAssert.Contains(Line(odopts,"| `ClaimUpdateFeeForSecondary` |"),"Edit All");
-			string questions=ScratchDb.ReadRepoFile("docs","owner-questions.md");
+			string questions=ScratchDb.ReadRepoFile("docs","decisions","owner-questions.md");
 			StringAssert.Contains(Between(questions,"- (ODOPTS 3) `ClaimUpdateFeeForSecondary`","- (ODOPTS 4)"),"Edit All");
 			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","v0.1.md"),"`ClaimUpdateFeeForSecondary`"),"Edit All");
-			string runbook=ScratchDb.ReadRepoFile("docs","adoption-runbook.md");
+			string runbook=ScratchDb.ReadRepoFile("docs","admin","adoption-runbook.md");
 			foreach(string name in new[] { EFormImport.PREF_ALLERGIES_AS_OTHER,EFormImport.PREF_PROBLEMS_AS_OTHER }) {
 				string row=Line(runbook,"| ODOPTS: `"+name+"` |");
 				StringAssert.Contains(row,"0: a typed allergy or problem that matches no list entry is not auto-imported",name);
@@ -283,7 +283,7 @@ namespace ODOPTSTests {
 
 		[TestMethod]
 		public void OwnerQuestions_ListTheInferredMeanings() {
-			string questions=ScratchDb.ReadRepoFile("docs","owner-questions.md");
+			string questions=ScratchDb.ReadRepoFile("docs","decisions","owner-questions.md");
 			string section=Between(questions,"## Open Dental 25.3 options built (ODOPTS, 2026-11-07)","\n---");
 			foreach(string name in OdOptions.ArrayPrefNames) {
 				StringAssert.Contains(section,"`"+name+"`",name);

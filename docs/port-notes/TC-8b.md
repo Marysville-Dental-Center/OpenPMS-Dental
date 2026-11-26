@@ -12,13 +12,13 @@ pictures), `5e79d81a9` and this note's last section (the docs).
 
 ## 1. The owner's answers in force
 
-- **2026-11-15, "Match Open Dental 26.2"** for File > Graphics (`docs/owner-questions.md`, gallery G4's TC-8 entry; the plan's O-30 note):
+- **2026-11-15, "Match Open Dental 26.2"** for File > Graphics (`docs/decisions/owner-questions.md`, gallery G4's TC-8 entry; the plan's O-30 note):
   rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1 are confirmed. They revise **O-30** (a computer stored as Simple 2D now gets the 3D chart unless
   its setting is "Do not use"), **O-31** (graphical perio no longer opens on a 2D computer) and **O-34 (b1)** (the smoothed picture, not the
   quick live view, is the on-screen default). The earlier answers stay in the plan as history.
 - **The owner's rule of 2026-11-14:** every tooth chart look and behaviour as the latest Open Dental shows publicly; where a public source does
   not settle a detail, the closest documented reading is built and listed as od-unknown (section 4).
-- **BIN-A 5** (`docs/owner-questions.md`, already answered on 2026-11-15): keep `DirectX11ToothChartUseIfAvail` and
+- **BIN-A 5** (`docs/decisions/owner-questions.md`, already answered on 2026-11-15): keep `DirectX11ToothChartUseIfAvail` and
   `computerpref.GraphicsUseDirectX11`. TC-8b reads them again.
 - **Decision 22:** no OpenPMS install is migrated; a return is a return to Open Dental itself, which must read the stored rows as before.
 
@@ -232,7 +232,7 @@ by `tc8b-make_gallery.py` in the same folder from the test run `tc8b-gallery-run
   this computer "Use if available" under the global "Do not use" (3D), this computer "Do not use", the quick live view, a fallen-back status
   ("Fell back: ..." and the 2D preview), and a medical practice. Under each, what changed and why.
 - The host pictures the same run wrote (`pictures/*.wpf.png`, the committed baselines' pictures, unchanged).
-- TC-8b merges only after the owner approves it; the answer goes into `docs/owner-questions.md` with the date.
+- TC-8b merges only after the owner approves it; the answer goes into `docs/decisions/owner-questions.md` with the date.
 
 ## 6. Builds and runs (build PC, `.git/od-tools/test-results/`)
 

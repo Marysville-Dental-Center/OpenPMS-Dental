@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-Runs the tool commands of docs\adoption-runbook.md, from the FLOAT check of step 0.2 to step 6.1 and the go-live checks of steps 10.1 and 10.2,
+Runs the tool commands of docs\admin\adoption-runbook.md, from the FLOAT check of step 0.2 to step 6.1 and the go-live checks of steps 10.1 and 10.2,
 exactly as the runbook gives them, with a new copy instead of the office's adopted database: the dry run of runbook step 0.6.
 
 .DESCRIPTION

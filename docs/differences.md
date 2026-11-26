@@ -13,7 +13,7 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
 - **No limits and no licence fees.** The program puts no cap on the number of providers, users, clinics or workstations, and there is
   nothing to pay per provider: there are no registration keys or support-plan checks.
 - **No Open Dental HQ dependencies.** No eServices, registration keys, update servers or help browser; nothing calls Open Dental
-  Software's servers, and `NoHqTests` checks that on every test run ([decoupling-plan.md](decoupling-plan.md), [NoHqTests/](../NoHqTests/)).
+  Software's servers, and `NoHqTests` checks that on every test run ([decoupling-plan.md](specs/decoupling-plan.md), [NoHqTests/](../NoHqTests/)).
 - **Open code for Open Dental's closed parts.** Open Dental shipped several parts of the program only as closed DLLs, without source.
   Each is rebuilt as open code or removed on purpose: the EHR features of `EHR.dll`, rebuilt from public specifications, with the clinical
   quality measures moved to CMS's 2027 catalog ([ehr-rebuild-plan.md](specs/ehr-rebuild-plan.md)); `ODCrypt.dll`, rebuilt as the open
@@ -22,7 +22,7 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
   capture projects; the needed parts of `CDT.dll` moved into open code. Removed with their features: the help browser
   (`OpenDentalHelp.dll`), the cloud edition (`VirtualWeb.dll`) and the local REST API (`ODApi.dll`); the five launches of `VBbridges.dll`
   say the link is not available, and Suni sensors capture through Suni's TWAIN driver
-  ([third-party-binaries-audit.md](third-party-binaries-audit.md)). Nothing was decompiled.
+  ([third-party-binaries-audit.md](reports/third-party-binaries-audit.md)). Nothing was decompiled.
 - **Open Dental features through 26.2, re-implemented.** Open Dental's public source stops at 24.3.63. The features of 24.4 to 26.1 and the
   chosen 26.2 changes are written again from Open Dental's public manual, release notes and database documents, on the Open Dental 26.2.0
   schema ([features-24.4.md](specs/features-24.4.md) to [features-26.1.md](specs/features-26.1.md),
@@ -37,25 +37,25 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
   text and orthodontic hardware ([wpf-tooth-chart-plan.md](specs/wpf-tooth-chart-plan.md)).
 - **Native imaging capture.** Open-source TWAIN scanning with the 64-bit data source manager, native sensor capture with 16-bit X-rays once
   a test capture has verified the device, intraoral camera and video capture, and an in-house DICOM reader
-  ([imaging-capture-design.md](imaging-capture-design.md), [CAP](port-notes/CAP.md), [IMG-TESTCAP](port-notes/IMG-TESTCAP.md),
-  [intraoral-capture-setup.md](imaging/intraoral-capture-setup.md), [dicom-reader.md](imaging/dicom-reader.md)).
+  ([imaging-capture-design.md](specs/imaging-capture-design.md), [CAP](port-notes/CAP.md), [IMG-TESTCAP](port-notes/IMG-TESTCAP.md),
+  [intraoral-capture-setup.md](admin/intraoral-capture-setup.md), [dicom-reader.md](specs/dicom-reader.md)).
 - **Inventory and routine maintenance tracking**, new in this project ([inventory-tracking.md](specs/inventory-tracking.md),
   [routine-maintenance.md](specs/routine-maintenance.md)).
 - **Security on the client side.** Database connections over the network are encrypted and verified against the office's own certificate
   authority, with the program's own database account and its password kept with Windows DPAPI
-  ([db-connection-security.md](specs/db-connection-security.md), [server-side guide](db-connection-security.md)); updated libraries,
+  ([db-connection-security.md](specs/db-connection-security.md), [server-side guide](admin/db-connection-security.md)); updated libraries,
   WebView2 in place of the Internet Explorer control ([roadmap](roadmap.md#done-in-the-next-version)).
 - **Open all the way down.** Every file the setup installs has published source: PDFsharp/MigraDoc and the spell checker are built from
-  their source, closed libraries are rebuilt in the open or removed ([third-party-source-builds.md](third-party-source-builds.md),
-  [third-party-binaries-audit.md](third-party-binaries-audit.md)).
+  their source, closed libraries are rebuilt in the open or removed ([third-party-source-builds.md](develop/third-party-source-builds.md),
+  [third-party-binaries-audit.md](reports/third-party-binaries-audit.md)).
 - **Tests.** 128 test projects under `tests/`, about 269,000 lines, all new, run on scratch databases with synthetic data; next to Open
   Dental's own `UnitTests` and `UnitTestsCore` (about 2,000 test methods at the fork point), which are kept and run on every full check.
-  Together about 11,500 test methods today ([testing.md](testing.md)).
+  Together about 11,500 test methods today ([testing.md](develop/testing.md)).
 
 ## What stayed
 
 - **The database.** The schema follows Open Dental's (26.2.0), and an Open Dental 24.3.63 or 25.3.48 database can be adopted
-  ([adoption-runbook.md](adoption-runbook.md)). Names that installations depend on keep Open Dental's spelling: the database,
+  ([adoption-runbook.md](admin/adoption-runbook.md)). Names that installations depend on keep Open Dental's spelling: the database,
   `FreeDentalConfig.xml`, the Middle Tier's service names and internal type names ([RENAME](port-notes/RENAME.md)).
 - **The way staff work.** The same modules (Appointments, Family, Account, Treatment Plan, Chart, Imaging, Manage), the same windows and
   the same workflows, in the new look.

@@ -11,7 +11,7 @@ namespace ImagingCapture.Tests {
 	///<summary>The compatibility test of design 7.8: a file from DicomIntraOralWriter opens through the program's own DICOM loading
 	///(DicomHelper, which ImageStore.OpenBitmapDicom calls; read-only use, no database) with identical pixels, through the subset reader that
 	///reads it and through the full reader that would read it if the subset reader declined. fo-dicom, whose PS3.6 dictionary this test also
-	///checked the writer's tags against, is gone (docs/imaging/dicom-reader.md); DicomIntraOralWriterTests check the tags and VRs.</summary>
+	///checked the writer's tags against, is gone (docs/specs/dicom-reader.md); DicomIntraOralWriterTests check the tags and VRs.</summary>
 	[TestClass]
 	public class DicomCompatibilityTests {
 		[TestMethod]

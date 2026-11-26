@@ -35,7 +35,7 @@ Counts are `[TestMethod]`/`[DataTestMethod]` attributes in the repository on 202
 - **Every change is checked in full before it merges.** Each change is a small package: its own tests, an independent review, and then
   a full build and run of the 19 main suites on `main` before it is pushed.
 
-Run them with `tools/run-tests.ps1` (MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password; see the [README](../README.md)):
+Run them with `tools/run-tests.ps1` (MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password; see the [README](../../README.md)):
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Core -Platform x64 -RequireBuildOutput

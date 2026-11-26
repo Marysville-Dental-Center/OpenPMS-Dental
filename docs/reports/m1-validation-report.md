@@ -2,7 +2,7 @@
 
 Status: **ready for the owner's sign-off**, 2026-10-25, third revision after review (M1-Z r3). Branch `m1/m1-z-r3` (from `m1/m1-z-r2`);
 build, tests, rehearsal and dry runs at commit `976f8a3e0` (the commit after it changes only documentation: this report, the runbook, the
-tool's README and the backlog). Synthetic data only (owner decision of 2026-10-18: no office census, no office data). Procedure for the office: [adoption-runbook.md](adoption-runbook.md). Tooling: [tools/AdoptionValidation](../tools/AdoptionValidation/README.md).
+tool's README and the backlog). Synthetic data only (owner decision of 2026-10-18: no office census, no office data). Procedure for the office: [adoption-runbook.md](../admin/adoption-runbook.md). Tooling: [tools/AdoptionValidation](../../tools/AdoptionValidation/README.md).
 
 The first version of this report rested on a cutover check that had never been rehearsed: the runbook started the program on the adopted copy
 before taking the post-adoption report (F8). The first revision ran the rehearsed sequence without the program, but its runbook assumed a
@@ -120,7 +120,7 @@ from the applied levels (`ForkMigrationsApplied`), not from the highest one, and
 | 5. Validate | Compare the adopted copy with the copy's report under `allowed-differences.adoption.json` (runbook step 6.1), before anything else touches it; direct checks of the column, index, update files, addresses, sentinels and markers; the fork's guard; the Open Dental startup model; the row check of `preference`, `documentmisc`, `securitylog` and `securityloghash` (which the allowed list can only allow whole), `displayreport` (whose `InternalName` it can only allow whole) and `updatehistory`; the data-layer round trip | V1-V11, R1, R2 |
 | 6. Run it all twice | Within each run, a second pass on the adopted copy (the headless adoption again, as an operator re-running step 4 would); and the whole run twice from a fresh generation, compared run against run (the tables that hold the time of adoption row by row) | I1-I4, X1-X3 |
 | 7. Time each step | Every step timed in both runs; the runbook dry run timed per step | Timings below |
-| 8. Runbook | [adoption-runbook.md](adoption-runbook.md); its tool commands (steps 0.2 with the FLOAT check and the fork migration preview, 1.1, 3.2 to 6.1, 10.1 and 10.2) dry-run as it gives them (`Invoke-RunbookDryRun.ps1`) through a forwarded port on a medium synthetic database, and on a small one through a relay in every test run. Its commands on the Ubuntu server and the workstations were not run here ("Not covered") | Runbook dry run below |
+| 8. Runbook | [adoption-runbook.md](../admin/adoption-runbook.md); its tool commands (steps 0.2 with the FLOAT check and the fork migration preview, 1.1, 3.2 to 6.1, 10.1 and 10.2) dry-run as it gives them (`Invoke-RunbookDryRun.ps1`) through a forwarded port on a medium synthetic database, and on a small one through a relay in every test run. Its commands on the Ubuntu server and the workstations were not run here ("Not covered") | Runbook dry run below |
 | 9. This report | | |
 
 **Office fixture.** The generator leaves out rows that change start-up behaviour, so the rehearsal adds what an office database carries,

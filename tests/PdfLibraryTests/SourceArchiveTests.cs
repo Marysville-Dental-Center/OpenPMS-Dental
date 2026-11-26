@@ -58,7 +58,7 @@ namespace PdfLibraryTests {
 					Assert.AreEqual(0,listMissing.Count,"Not in the archive: "+string.Join(", ",listMissing.Take(20)));
 					foreach(string name in new[] { ".gitmodules","LICENSE","NOTICE","THIRD-PARTY-NOTICES.txt","LICENSE-AGPL-3.0.txt","LICENSE-LGPL-2.1.txt",
 						"tools/Build-Release.ps1","third-party/build/PDFsharp.props","third-party/build/SourceBuild.targets",SourceBuild.REPLACEMENT_FILE,
-						"third-party/build/WeCantSpell.Hunspell/WeCantSpell.Hunspell.csproj","docs/third-party-source-builds.md" })
+						"third-party/build/WeCantSpell.Hunspell/WeCantSpell.Hunspell.csproj","docs/develop/third-party-source-builds.md" })
 					{
 						Assert.IsTrue(hashSetFiles.Contains(name),"Not in the archive: "+name);
 					}

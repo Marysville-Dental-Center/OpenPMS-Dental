@@ -1,4 +1,4 @@
-// The manual test of the program's database account rights (docs/db-connection-security.md section 5).
+// The manual test of the program's database account rights (docs/admin/db-connection-security.md section 5).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System.Reflection;
 using System.Runtime.InteropServices;

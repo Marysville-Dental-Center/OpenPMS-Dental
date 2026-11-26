@@ -24,4 +24,4 @@ camera's buttons with **Learn button...** (take a photo, a light on and off, nex
 
 - **F11** puts the session in a window of its own, which can be dragged to another monitor and maximised
   ([second monitor](show-images-on-a-second-monitor.md)).
-- The camera design: [imaging-capture-design.md](../imaging-capture-design.md#8-camera-capture-design).
+- The camera design: [imaging-capture-design.md](../specs/imaging-capture-design.md#8-camera-capture-design).

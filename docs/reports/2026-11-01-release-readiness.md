@@ -20,7 +20,7 @@ Per your request, the office switch-over is out of scope. Adoption comes up belo
    - Without `WebView2Loader.dll`, every WebView2 feature fails.
 4. **Some libraries have licences that conflict with GPL v2** (MS-PL and Apache-2.0). This needs your decision.
 5. **The in-app licence list names Open Dental's commercial purchase terms as "the" licence**, and no third-party notices file exists.
-6. **No Release build has ever been produced or tested.** There is no `*/bin/Release` folder anywhere in the checkout. Debug builds never publish or pull (`docs/release-process.md:130`).
+6. **No Release build has ever been produced or tested.** There is no `*/bin/Release` folder anywhere in the checkout. Debug builds never publish or pull (`docs/develop/release-process.md:130`).
 7. **There is no installer or staging script, and no installer tool is installed.**
 
 The details and the evidence follow.
@@ -36,7 +36,7 @@ The details and the evidence follow.
 - **Not in the 129 but also binary or licensed:** `Required dlls/Windows.winmd` and `Required dlls/Sparks3D/readme.txt`.
 - **No NuGet package reaches the app.** There is no `PackageReference` anywhere. `packages.config` exists only in `UnitTests/` (Mono.Cecil), `RdlEngine/` and `SlowQueryLogTool/`.
 - **Already gone from main:** Bridges.dll, CDT.dll, ODCrypt.dll (now in-repo at `ODCrypt/xODCrypt.csproj`), OpenDentalHelp.dll, VirtualWeb.dll, ODApi.dll, DpsPos.dll and log4net.dll. None is tracked.
-- **Baseline audit:** `docs/third-party-binaries-audit.md` (2026-10-18). This section re-checks every file against main as it is today.
+- **Baseline audit:** `docs/reports/third-party-binaries-audit.md` (2026-10-18). This section re-checks every file against main as it is today.
 
 ### 1.1 Open Dental proprietary, or closed binaries Open Dental shipped. None may ship.
 
@@ -172,7 +172,7 @@ There are no `Content` or `None` copy items in `OpenDental.csproj`, and no packa
 - Start Menu entry "Open PMS - Dental" pointing at `OpenDental.exe` (the exe name until the rename). Desktop shortcut optional.
 
 ### Per-machine install
-- `C:\Program Files (x86)\Open PMS - Dental`, the path the runbook already uses (`docs/adoption-runbook.md:668`). Install with admin rights.
+- `C:\Program Files (x86)\Open PMS - Dental`, the path the runbook already uses (`docs/admin/adoption-runbook.md:668`). Install with admin rights.
 - Later updates elevate through `UpdateFileCopier`, which requires administrator (`UpdateFileCopier/app.manifest:18`).
 - Per-user installs and ClickOnce don't work with this update path. The stale ClickOnce properties are at `OpenDental.csproj:24,28,9463-9487`.
 
@@ -192,7 +192,7 @@ The office installs MariaDB 10.11 itself (`README.md:65-68`; the runbook's step 
 
 Nothing is installed on the server by us.
 
-### How self-update and the installer interact (`docs/release-process.md:95-136`)
+### How self-update and the installer interact (`docs/develop/release-process.md:95-136`)
 - Only Release builds publish or pull.
 - The update server (`WebServiceServerName`) starts the installed build as administrator and publishes it. The release is a zip of the program folder, stored as DocMiscType 100 and 101 rows.
 - A workstation installed from the same staging folder has the same build id, so nothing happens.

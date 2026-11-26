@@ -103,7 +103,7 @@ namespace OpenPmsDentalBusiness {
 	///<summary>The fork's own release channel. The update server stores its binaries in documentmisc rows of the fork-only types
 	///ForkReleaseManifest and ForkReleaseSegment, with a manifest that names our product and the SHA-256 of the archive and of every file. Other
 	///workstations pull that release on startup through UpdateFileCopier. Open Dental's UpdateFiles rows are never read, and there is never a
-	///downgrade prompt. See docs/release-process.md.</summary>
+	///downgrade prompt. See docs/develop/release-process.md.</summary>
 	public class ForkReleases {
 		///<summary>Bytes of archive per segment row. 786,432 bytes is 1MB of base64, well under the default max_allowed_packet.</summary>
 		public const int SEGMENT_BYTES=786432;

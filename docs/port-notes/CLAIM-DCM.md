@@ -6,7 +6,7 @@ Before this package, a DICOM document could never go on a claim. Edit Claim's im
 
 Now every place a claim image can be chosen accepts DICOM. It renders an 8-bit copy through the program's own DICOM display path, with the stored window and the crop, rotation and flip the Imaging module applies, and attaches that copy in the format the path already uses: JPEG everywhere. The DICOM file is never sent or stored as the claim attachment, and the stored DICOM file and its document row are never changed. A DICOM file the program cannot read shows a clear message, and nothing is attached.
 
-Sources: this repository only (the capture design, `docs/imaging-capture-design.md` 7.8, and the code). No Open Dental binary was inspected, and no vendor documentation was used. All test data is synthetic. No database and no network are used by the new tests.
+Sources: this repository only (the capture design, `docs/specs/imaging-capture-design.md` 7.8, and the code). No Open Dental binary was inspected, and no vendor documentation was used. All test data is synthetic. No database and no network are used by the new tests.
 
 ## 1. Every way an image reaches a claim
 

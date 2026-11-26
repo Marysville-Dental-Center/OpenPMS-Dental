@@ -60,8 +60,9 @@ namespace ReleaseFlowTests {
 			Match matchCopyright=Regex.Match(text,@"\[assembly: AssemblyCopyright\((.*?)\)\]",RegexOptions.Singleline);
 			Assert.IsTrue(matchCopyright.Success,"AssemblyCopyright");
 			string copyright=string.Concat(Regex.Matches(matchCopyright.Groups[1].Value,"\"((?:[^\"\\\\]|\\\\.)*)\"").Cast<Match>().Select(x => x.Groups[1].Value));
-			StringAssert.Contains(copyright,"Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors","Open Dental's copyright is kept.");
-			StringAssert.Contains(copyright,"Open PMS - Dental contributors","The fork's copyright is added.");
+			StringAssert.StartsWith(copyright,"Copyright (C) 2026 and later years, Open PMS - Dental contributors.","The program's copyright first.");
+			StringAssert.Contains(copyright,"Portions copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors",
+				"Open Dental's copyright is kept, as the GPL requires.");
 			StringAssert.Contains(copyright,"GPL v2 or later");
 			Match matchCompany=Regex.Match(text,"\\[assembly: AssemblyCompany\\(\"([^\"]*)\"\\)\\]");
 			Assert.IsTrue(matchCompany.Success);

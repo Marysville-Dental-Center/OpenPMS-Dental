@@ -214,7 +214,7 @@ shown in the README and on the site. DocScreenshots now draws the account grid a
 
 ## 7. UI-COLS-2
 
-The owner's "Yes to both" to the two follow-ups of the approval (docs/owner-questions.md), and the screenshots' message panel.
+The owner's "Yes to both" to the two follow-ups of the approval (docs/decisions/owner-questions.md), and the screenshots' message panel.
 
 **Rules (GridColumnFit).** 1. Money stands 2 px clear of the gridline its alignment leaves free, like a date: 9,999.99, and -9,999.99
 where the heading says a balance or an adjustment (`GridColumnFit.GetValue`, `MONEY_NEGATIVE`). The side the value is held to keeps

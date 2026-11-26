@@ -107,19 +107,18 @@ namespace OpenPmsDentalBusiness {
 						"This is an Open Dental "+labels.ProgramVersion.ToString(3)+" database (DataBaseVersion "+labels.DataBaseVersion.ToString(4)
 						+") that has not been adopted.\r\n"
 						+"Normal startup never converts an Open Dental database. An administrator adopts a restored copy with the adoption tool "
-						+"(see docs/release-process.md), which first checks that its schema equals Open Dental "+labels.SchemaVersion.ToString(3)
+						+"(see docs/develop/release-process.md), which first checks that its schema equals Open Dental "+labels.SchemaVersion.ToString(3)
 						+". After adoption, Open Dental programs can no longer use that copy.");
 				}
 				if(ForkVersions.IsAdoptable(versionDb)) {
 					return Result(ForkGuardAction.NeedsAdoption,EXIT_CODE_NEEDS_ADOPTION,
 						"This is an Open Dental "+versionDb.ToString(3)+" database that has not been adopted.\r\n"
 						+"Normal startup never converts an Open Dental database. An administrator adopts a restored copy with the adoption tool "
-						+"(see docs/release-process.md). After adoption, Open Dental programs can no longer use that copy.");
+						+"(see docs/develop/release-process.md). After adoption, Open Dental programs can no longer use that copy.");
 				}
 				return Result(ForkGuardAction.Refuse,EXIT_CODE_UNSUPPORTED_VERSION,
 					"This database is from Open Dental "+versionDb.ToString(3)+", which this program does not support.\r\n"
-					+"Only these Open Dental versions can be adopted: "+string.Join(", ",ForkVersions.ListAdoptableVersions.Select(x => x.ToString(3)))
-					+".\r\nNothing was changed.");
+					+"Only these Open Dental versions can be adopted: "+ForkVersions.DescribeAdoptable()+".\r\nNothing was changed.");
 			}
 			//At or below 24.3.63: the database is on our compatibility line. The frozen legacy chain converts older ones.
 			if(versionProgram!=null && versionProgram>ForkVersions.CompatVersion) {
@@ -130,7 +129,7 @@ namespace OpenPmsDentalBusiness {
 			if(versionDb==ForkVersions.CompatVersion && ForkMigrationHandOff.HasSteps(runner)) {
 				return Result(ForkGuardAction.NeedsAdoption,EXIT_CODE_NEEDS_ADOPTION,
 					"This database is on the 24.3.63 line and has no fork version markers yet. This build needs them for its schema updates.\r\n"
-					+"An administrator runs the adoption tool once on this database (see docs/release-process.md).");
+					+"An administrator runs the adoption tool once on this database (see docs/develop/release-process.md).");
 			}
 			return Result(ForkGuardAction.ProceedCompat,0,"");
 		}

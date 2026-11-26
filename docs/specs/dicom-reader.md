@@ -152,7 +152,7 @@ Apart from these and the two corrections above, every case of `ReaderCases.cs` t
 
 ### Owner decisions (2026-11-02)
 
-The owner kept the reader as described here ([owner-questions.md](../owner-questions.md), "Library updates and the DICOM reader"):
+The owner kept the reader as described here ([owner-questions.md](../decisions/owner-questions.md), "Library updates and the DICOM reader"):
 
 - Compressed DICOM without a decoder shows the message that names its format; the decoders are deferred (docs/roadmap.md, Later).
 - The two corrections stay: signed 8-bit and 16-bit RGB images show correctly, not as version 0.0 showed them.

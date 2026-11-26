@@ -1,4 +1,4 @@
-// Tests for the owner's launch-check scripts of stage 3b (LAUNCH-3b, docs/launch-checks-3b.md): tools/Test-MiddleTierService.ps1 (the Middle
+// Tests for the owner's launch-check scripts of stage 3b (LAUNCH-3b, docs/admin/launch-checks-3b.md): tools/Test-MiddleTierService.ps1 (the Middle
 // Tier as a Windows service), tools/Test-CleanInstall.ps1 and tools/Test-CleanInstall-InSandbox.ps1 (the clean install in Windows Sandbox).
 // Only their plain-code parts run here: each script is dot-sourced by a driver script and its functions are called (the .wsb XML, the results
 // reader, the settings and certificate files written into a temp folder), -PlanOnly runs, and each script runs where it refuses before any
@@ -176,11 +176,11 @@ namespace ReleaseFlowTests {
 			}
 		}
 
-		///<summary>The header of each of the two scripts gives the owner's one line on a line of its own, and docs/launch-checks-3b.md gives the same
+		///<summary>The header of each of the two scripts gives the owner's one line on a line of its own, and docs/admin/launch-checks-3b.md gives the same
 		///line.</summary>
 		[TestMethod]
 		public void LaunchScripts_HeaderGivesTheOwnersCommand_AndTheChecklistTheSame() {
-			string checklist=TestPaths.ReadSource("docs","launch-checks-3b.md");
+			string checklist=TestPaths.ReadSource("docs","admin","launch-checks-3b.md");
 			Dictionary<string,string> dictCommands=new Dictionary<string,string> {
 				{ SCRIPT_SERVICE,@"powershell -NoProfile -ExecutionPolicy Bypass -File ""<repo>\tools\Test-MiddleTierService.ps1""" },
 				{ SCRIPT_CLEAN,@"powershell -NoProfile -ExecutionPolicy Bypass -File ""<repo>\tools\Test-CleanInstall.ps1"" -Setup ""<dryrun>\OpenPmsDental-<version>-Setup.exe"" -Staging ""<dryrun>\staging""" },
@@ -190,8 +190,8 @@ namespace ReleaseFlowTests {
 				string header=script.Substring(0,script.IndexOf("#>",StringComparison.Ordinal)).Replace("\r\n","\n");
 				StringAssert.Contains(header,"\n\n  "+pair.Value+"\n\n",pair.Key+": the one line, on a line of its own.");
 				StringAssert.Contains(header,"WHAT IT CHANGES ON THIS PC",pair.Key);
-				StringAssert.Contains(header,@"docs\launch-checks-3b.md",pair.Key);
-				StringAssert.Contains(checklist,pair.Value,"docs/launch-checks-3b.md gives "+pair.Key+"'s line.");
+				StringAssert.Contains(header,@"docs\admin\launch-checks-3b.md",pair.Key);
+				StringAssert.Contains(checklist,pair.Value,"docs/admin/launch-checks-3b.md gives "+pair.Key+"'s line.");
 			}
 			StringAssert.Contains(File.ReadAllText(ScriptPath(SCRIPT_SERVICE)),"\"Run as administrator\"");
 			StringAssert.Contains(File.ReadAllText(ScriptPath(SCRIPT_CLEAN)),"Enable-WindowsOptionalFeature -Online -FeatureName Containers-DisposableClientVM -All");

@@ -49,7 +49,7 @@ Status: draft, 2026-10-18; fact-checked against the code and Microsoft's public 
   - imports it with `ProcessRawEmailMessageIn`
 
   **`ReceiveFromInbox` has no caller in this repository.** In Open Dental the eConnector service polled inboxes on `PrefName.EmailInboxCheckInterval`, and that service is out of scope (eServices). So inbox download is unreachable today (open question 1).
-- **Thinfinity/AppStream branches.** The three token call sites in the forms (`butAuthMicrosoft_Click`, `butClearTokensMicrosoft_Click`, the re-auth block in `butSend_Click`) branch on `ODEnvironment.IsCloudServer`, and `EmailMessages.RefreshMicrosoftToken` branches on `ODEnvironment.IsCloudInstance`. Those branches go through `ODCloudClient.GetMicrosoftAccessToken` / `MicrosoftSignOutUser`, part of the ODCloud browser shim. The catch block in `FormEmailMessageEdit.butSend_Click` (879-891) that clears the tokens on `InvalidAuthenticationToken` is also cloud-only: it is guarded by `ODEnvironment.IsCloudServer && ex.InnerException!=null`. The Graph calls themselves (`GetProfile`, `RetrieveMessages`, `GetMIMEMessage`, `SendEmail`) have no cloud branch. ODCloud is cut (`docs/third-party-binaries-audit.md`), so all of these branches are deleted, not re-implemented.
+- **Thinfinity/AppStream branches.** The three token call sites in the forms (`butAuthMicrosoft_Click`, `butClearTokensMicrosoft_Click`, the re-auth block in `butSend_Click`) branch on `ODEnvironment.IsCloudServer`, and `EmailMessages.RefreshMicrosoftToken` branches on `ODEnvironment.IsCloudInstance`. Those branches go through `ODCloudClient.GetMicrosoftAccessToken` / `MicrosoftSignOutUser`, part of the ODCloud browser shim. The catch block in `FormEmailMessageEdit.butSend_Click` (879-891) that clears the tokens on `InvalidAuthenticationToken` is also cloud-only: it is guarded by `ODEnvironment.IsCloudServer && ex.InnerException!=null`. The Graph calls themselves (`GetProfile`, `RetrieveMessages`, `GetMIMEMessage`, `SendEmail`) have no cloud branch. ODCloud is cut (`docs/reports/third-party-binaries-audit.md`), so all of these branches are deleted, not re-implemented.
 
 ### 1.2 What Open Dental's side provided
 
@@ -484,7 +484,7 @@ public static class MicrosoftApiConnector {
 | `CodeBase/Utilities/ODCloudClient.cs` | `GetMicrosoftAccessToken`, `MicrosoftSignOutUser`, `ODCloudClientData.MicrosoftRefreshToken` | Delete them. Keep the `CloudClientAction` members as `[Obsolete]` so the enum ordinals stay put, or remove them with the general ODCloud cleanup |
 | `OpenDentBusiness/Data Interface/AutoCodes.cs`, `PatientNotes.cs`, `Patients.cs` | `using Microsoft.Graph;` / `using Microsoft.Graph.ExternalConnectors;` | Remove. These are unused, and they block deleting `Microsoft.Graph.dll` |
 | `Required dlls/` | Graph, Graph.Core, Azure.Core, IdentityModel.* | Delete per 4.1 **after** Bridges.dll is gone or proven never to load its Microsoft types: Bridges.dll's metadata references Graph, but the CLR resolves it only when those methods run. Update MSAL if the NuGet move is in place |
-| `docs/third-party-binaries-audit.md` | rows for MSAL, Graph, Graph.Core, Azure.Core, IdentityModel.*, Bridges.dll | Mark them "replaced by in-repo Microsoft 365 client" or "removed" |
+| `docs/reports/third-party-binaries-audit.md` | rows for MSAL, Graph, Graph.Core, Azure.Core, IdentityModel.*, Bridges.dll | Mark them "replaced by in-repo Microsoft 365 client" or "removed" |
 | Tests | new | Section 6.3 |
 
 ### 4.4 "Not available" stubs replaced

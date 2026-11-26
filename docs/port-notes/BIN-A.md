@@ -19,7 +19,7 @@ This ports the held `decouple/twain` commit 4de709278 to today's tree. Its DLL d
 - These files are deleted: `Required dlls/xImageDeviceManager.dll` and `Required dlls/SuniUSB.dll`.
 - Their references are removed: `OpenDental.csproj` and `UnitTests.csproj` (xImageDeviceManager).
 - Suni users switch to Suni's own TWAIN driver, used through the capture track.
-- `docs/imaging-capture-owner-questions.md`, CAP design 2: the **Today:** line now reads "removed on 2026-11-01 as the design's default".
+- `docs/decisions/imaging-capture-owner-questions.md`, CAP design 2: the **Today:** line now reads "removed on 2026-11-01 as the design's default".
 
 ### 2. VBbridges.dll: removed, and its actions say "not available in this version"
 
@@ -73,7 +73,7 @@ VBbridges had five static methods and seven call sites. For each one, I checked 
 - OpenDental.exe calls none of these. It draws its own images through `SheetPrinting.GetToothChartHelper`.
 - They now get a plain image of the same size, in the chart's colours, with "Tooth chart image not available" written on it. A sheet that expects an image still prints. **INFERRED.**
 
-**Release channel:** `"Sparks3D"` is removed from `ForkReleases.ListSpecialDirs` and from UpdateFileCopier's `_listSpecialDirs` (one line each). `docs/release-process.md` is updated to match.
+**Release channel:** `"Sparks3D"` is removed from `ForkReleases.ListSpecialDirs` and from UpdateFileCopier's `_listSpecialDirs` (one line each). `docs/develop/release-process.md` is updated to match.
 
 ### 4. DirectX chart fallback (`SparksToothChart/ToothChartWrapper.cs`)
 
@@ -128,7 +128,7 @@ The DirectX 9 chart needs `d3dx9_43.dll` for its fonts and mesh optimisation (`S
 These are kept minimal:
 - `OpenDentBusiness/Misc/ForkRelease/ForkReleases.cs` and `UpdateFileCopier/FormMain.cs`: one line each, as the task names. The rest belongs to REN-PROOF.
 - `tests/ReleaseFlowTests/ReleaseChannelDbTests.cs`: its special-folder round trip used a `Sparks3D` folder; it now uses `OpenDentalReplicationService`, the remaining special folder (three lines).
-- `docs/release-process.md`: one sentence about the special folders.
+- `docs/develop/release-process.md`: one sentence about the special folders.
 - `OpenDental/Forms/FormLicense.cs`, `FormRegistrationKey.cs`: one line each (the Sparks3D licence entry).
 - `OpenDental.sln`, `OpenDental.Local.slnf`: the new test project.
 

@@ -231,10 +231,10 @@ namespace AdoptionValidation {
 			get { return new ReportRows25_3Step().Level; }
 		}
 
-		///<summary>verifySchema, given the database name, compares it with the Open Dental 25.3.48 reference (SchemaVerifier.VerifyDatabase25_3_48
-		///over a business layer connection to the same server). It is called only for a pair on ForkVersions.ListAdoptableLabels; without it the
-		///preview says the schema has not been checked.</summary>
-		public static Result Run(Db db,string database,Func<string,SchemaVerifyResult> verifySchema=null) {
+		///<summary>verifySchema, given the database name and the schema version of the labels, compares it with that version's reference
+		///(SchemaVerifier.VerifyDatabaseAs over a business layer connection to the same server). It is called only for a pair on
+		///ForkVersions.ListAdoptableLabels or ListAdoptableLines; without it the preview says the schema has not been checked.</summary>
+		public static Result Run(Db db,string database,Func<string,Version,SchemaVerifyResult> verifySchema=null) {
 			LocalOnly.EnsureSafeIdentifier(database);
 			if(!db.DatabaseExists(database)) {
 				throw new RefusedException("Database "+database+" does not exist on this server.");
@@ -246,7 +246,7 @@ namespace AdoptionValidation {
 			if(state.ForkAdoptedFrom==null && !state.IsForkMarked) {
 				result.PreflightVersions=Adoption.Preflight(state);
 				if(result.PreflightVersions.IsSchemaCheckPending && verifySchema!=null) {
-					result.PreflightVersions=Adoption.Preflight(state,verifySchema(database));
+					result.PreflightVersions=Adoption.Preflight(state,verifySchema(database,result.PreflightVersions.Labels.SchemaVersion));
 				}
 			}
 			result.IsFrom24_3=state.ForkAdoptedFrom==null && Seed25_3.IsVersionFrom24_3(state.DataBaseVersion);

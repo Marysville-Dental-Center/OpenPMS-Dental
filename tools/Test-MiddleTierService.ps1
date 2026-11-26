@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
 Runs the new Middle Tier for real as a Windows service on this PC, with a test certificate from a PFX file, runs the host round-trip tests
-against it, and removes everything again. Elevated, 64-bit only. A launch check of stage 3b (docs\launch-checks-3b.md).
+against it, and removes everything again. Elevated, 64-bit only. A launch check of stage 3b (docs\admin\launch-checks-3b.md).
 
 .DESCRIPTION
 HOW TO RUN IT. The owner runs it, never an agent: it installs and starts a Windows service. Build the server and the host tests first

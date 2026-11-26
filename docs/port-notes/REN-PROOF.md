@@ -131,7 +131,7 @@ pins it). The scanner does not list it, because `OpenDentalHL7` is not one of it
   and the Waiting Room position start fresh after the rename.
 - PrefL's three `UpdateFileCopier.exe` literals and the managers' process names (CentralManager, DatabaseIntegrityCheck, ServiceManager) stay
   literals: the rename keeps those names.
-- Which docs are history for the scanner: `docs/port-notes`, `docs/specs`, `docs/third-party-binaries-audit.md` and `docs/m1-validation-report.md`.
+- Which docs are history for the scanner: `docs/port-notes`, `docs/specs`, `docs/reports/third-party-binaries-audit.md` and `docs/reports/m1-validation-report.md`.
   README, NOTICE, the runbook, release-process, decoupling-plan, the imaging design and the tool READMEs are reported, for the rename's docs step.
 - The scanner reads files by extension (text formats only) and skips bin, obj, packages and tool folders; it scans comments too.
 

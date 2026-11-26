@@ -20,7 +20,7 @@ Version 0.1 was released with all of this (below, "Released in 0.1"). Not schedu
 components on Linux, and Open Dental 26.3. The GitHub repository was renamed to OpenPMS-Dental on 2026-11-21 (the old address redirects)
 and has a project site on GitHub Pages, built from `site/`.
 
-The owner questions of each package are recorded with their answers in `docs/owner-questions.md`.
+The owner questions of each package are recorded with their answers in `docs/decisions/owner-questions.md`.
 
 ## Done in the next version
 
@@ -96,7 +96,7 @@ Decided with the owner on 2026-11-07:
   self-update for updates from one .NET 10 release to the next.
 
 The stage plan, made from a read-only survey of every project, library, API and tool the move touches and an independent critique, is
-`docs/specs/net10-plan.md`. Its owner questions were answered on 2026-11-08 (`docs/owner-questions.md`, "The move to .NET 10"). The
+`docs/specs/net10-plan.md`. Its owner questions were answered on 2026-11-08 (`docs/decisions/owner-questions.md`, "The move to .NET 10"). The
 owner's standing rule: nothing is cut, tests included, except what the owner deliberately deleted. So every integration moves to .NET 10,
 QuickBooks Desktop, Schick, Topaz, the CallFire, Divvy and BCBS Georgia dial-up links, the report engine's SQL Server, ODBC and OLE DB
 data sources, Direct secure messaging, Change Healthcare (Emdeon) medical claims, voice perio charting and the plugin loader among them.
@@ -155,18 +155,15 @@ to the 2D drawing, as today.
 
 Only if such files turn up: JPEG Extended and Lossless, JPEG 2000 and JPEG-LS, through our own thin layer over libjpeg-turbo, OpenJPEG and
 CharLS, plugged into the in-house reader's decoder hook. Today the reader opens uncompressed DICOM, RLE and JPEG Baseline, and names the
-format of any other compressed file. Background: docs/reviews/2026-11-02-dicom-codecs-research.md.
+format of any other compressed file. Background: docs/reports/2026-11-02-dicom-codecs-research.md.
 
 ### Not scheduled yet
 
-- The next release and the office switch-over (`docs/adoption-runbook.md`).
+- The next release and the office switch-over (`docs/admin/adoption-runbook.md`).
 - Server components on Linux, new ones in Rust: a plan first (image storage, backups on the server, publishing releases from the server,
   scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
   2026-11-07: "Defer Linux middle tier").
 - Open Dental 26.3, once Open Dental marks it stable.
-- Adopt an Open Dental 26.2 database. The 26.2.0 reference (`OdSchema-26.2.0.sql`) comes from Open Dental's published documents, with
-  some NULL, default and key details inferred; it needs a schema-only dump of a real Open Dental 26.2 database to compare with, then a
-  26.2 entry on the adoption allowlist that skips the steps Open Dental already ran.
 - A setting "each active patient has a different e-mail address" (owner, 2026-11-25). Off by default. When on, it is checked before saving,
   with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient. Patient saves from
   elsewhere (HL7, X834, bridges) get a catch-all that turns a duplicate-key error into the same message. Turning it on first lists the

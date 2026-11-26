@@ -260,7 +260,7 @@ namespace AttributionTests {
 			foreach(string title in new[] { "Google APIs Client Library for .NET" }) {
 				StringAssert.Contains(listNoticeSections.Single(x => x.Title==title).GetField("Note"),"Owner question",title);
 			}
-			//fo-dicom (MS-PL) was the second; the in-house DICOM reader replaced it (docs/imaging/dicom-reader.md). NDde (its own shared source
+			//fo-dicom (MS-PL) was the second; the in-house DICOM reader replaced it (docs/specs/dicom-reader.md). NDde (its own shared source
 			//licence) was the third; it was removed on 2026-11-07, and the DentX, Dexis Integrator and Vipersoft program links that used it send
 			//their DDE commands through the in-house CodeBase.ODDdeClient since 2026-11-08 (docs/port-notes/S0-R.md).
 			Assert.IsFalse(listNoticeSections.Any(x => x.Title=="fo-dicom"));
@@ -315,10 +315,11 @@ namespace AttributionTests {
 		}
 
 		[TestMethod]
-		public void AboutBox_CopyrightLineCreditsOpenDentalWhateverSoftwareNameSays() {
+		public void AboutBox_CopyrightLineIsTheProgramsWhateverSoftwareNameSays() {
 			string formAbout=StripComments(ReadRepoFile("OpenPmsDental","Forms","FormAbout.cs"));
 			StringAssert.Contains(formAbout,
-				"labelCopyright.Text=\"Open Dental Software \"+Lan.g(this,\"Copyright 2003-\")+DateTime.Now.ToString(\"yyyy\")+\", Jordan Sparks, D.M.D.\";");
+				"labelCopyright.Text=Lan.g(this,\"Copyright 2026-\")+DateTime.Now.ToString(\"yyyy\")+\", Open PMS - Dental contributors\";");
+			StringAssert.Contains(formAbout,"labelAttribution.Text=AboutBoxInfo.Attribution;");
 			int indexLoad=formAbout.IndexOf("private void FormAbout_Load(");
 			int indexNext=formAbout.IndexOf("private void butDiagnostics_Click(");
 			Assert.IsTrue(indexLoad>=0 && indexNext>indexLoad);
@@ -363,13 +364,13 @@ namespace AttributionTests {
 
 		[TestMethod]
 		public void InstallingDoc_HasTheOfficeInstall() {
-			//The office install moved from README.md to docs/installing.md (2026-11-21, the shorter README); the README links to it.
-			StringAssert.Contains(ReadRepoFile("README.md"),"(docs/installing.md)");
-			string readme=ReadRepoFile("docs","installing.md");
+			//The office install moved from README.md to docs/admin/installing.md (2026-11-21, the shorter README); the README links to it.
+			StringAssert.Contains(ReadRepoFile("README.md"),"(docs/admin/installing.md)");
+			string readme=ReadRepoFile("docs","admin","installing.md");
 			foreach(string text in new[] {
 				"# Installing in an office","MariaDB Server","**10.11**","sql_mode=","default-storage-engine=MyISAM","max_allowed_packet=40M",
 				"at least 40 MB","Windows 11, 64-bit","No .NET to install","Visual C++ 2015-2022 Redistributable, x64","vc_redist.x64.exe",
-				"(../db/README.md)","db/init/new-database.sql","(release-process.md)","C:\\Program Files\\Open PMS - Dental\\","TWAINDSM.dll",
+				"(../../db/README.md)","db/init/new-database.sql","(../develop/release-process.md)","C:\\Program Files\\Open PMS - Dental\\","TWAINDSM.dll",
 				"**Release | x64**","(adoption-runbook.md)" })
 			{
 				StringAssert.Contains(readme,text);

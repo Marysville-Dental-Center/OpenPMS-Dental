@@ -364,7 +364,7 @@ SELECT COUNT(*) FROM oidexternal WHERE rootExternal LIKE '2.16.840.1.113883.3.43
 
 - Code in this repo (paths above)
 - The HQ vendor table (kept outside the repository)
-- `docs/decoupling-plan.md`
+- `docs/specs/decoupling-plan.md`
 - `docs/specs/vendor-direct/dosespot.md`
 - the vendor and registry pages cited inline
 

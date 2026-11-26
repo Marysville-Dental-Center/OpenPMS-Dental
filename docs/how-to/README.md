@@ -9,7 +9,7 @@ reference when you need more. The screenshots show fictional data only.
 |---|---|
 | [Set up a new database](set-up-a-new-database.md) | A new, empty office database and the program connected to it |
 | [Move from Open Dental](move-from-open-dental.md) | Your Open Dental database adopted, with its patients and history |
-| [Installing in an office](../installing.md) (reference) | The database server settings, the workstations and updates |
+| [Installing in an office](../admin/installing.md) (reference) | The database server settings, the workstations and updates |
 
 ## Imaging
 

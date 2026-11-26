@@ -238,7 +238,7 @@ Run the Debug x86 build on the test database as an administrator; each step a sc
 
 Lead notes at the merge (round 2's review):
 - **For a later cleanup:** `RdlDesign/SortingCtl.SwapRow` swaps a third column on a two-column table, so Up or Down on a sort row throws, on main too (pre-existing); drop the column-3 block. A new sort row with only an expression shows its Direction unchecked where the DataGrid showed it grayed; Apply treats it as Ascending in both. Both done in `net10/clean1-1` (CLEAN-1 items 1 and 2).
-- **Owner question:** FormTreatPlanCurEdit's Go To Appointment and Go To Planned Appointment now show on right-click (main's empty ContextMenu hid them); kept until the owner says otherwise (docs/owner-questions.md).
+- **Owner question:** FormTreatPlanCurEdit's Go To Appointment and Go To Planned Appointment now show on right-click (main's empty ContextMenu hid them); kept until the owner says otherwise (docs/decisions/owner-questions.md).
 
 ## S3a-M3b: FormMedical's grid menus, and the last bridges removed
 

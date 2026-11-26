@@ -129,7 +129,7 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - OpenPmsDentalBusiness/UI/SignatureBoxWrapper.cs:418
 - UnitTests/UnitTests/SignatureBoxWrapperTests.cs:115-116, 126-127
 - docs/specs/net10-plan.md:736, :1709-1735
-- docs/owner-questions.md:996-1000
+- docs/decisions/owner-questions.md:996-1000
 - branch net10/s3a14g-1: docs/port-notes/S3a-14.md sections 2 and 5
 - branch net10/s3a14g-1: OpenPmsDentalHelper32/Topaz/TopazModule.cs:119, :201-227, and TopazCommands.cs
 
@@ -269,7 +269,7 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - ImagingCapture/Session/CaptureSessionController.cs:54, 582-605
 - docs/port-notes/S3a-12.md:34-35, 55, 63-70, 106-110
 - docs/specs/net10-plan.md:734, 1064-1070, 1082, 1089, 1719-1735
-- docs/imaging-capture-design.md:97, 145, 195, 394-396, 1043
+- docs/specs/imaging-capture-design.md:97, 145, 195, 394-396, 1043
 - https://raw.githubusercontent.com/twain/twain-dsm/master/TWAIN_DSM/src/twain.h
 - https://github.com/twain/twain-dsm
 - https://github.com/twain/twain-dsm/releases
@@ -302,7 +302,7 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - ImagingCapture/Uvc/Interop/SampleGrabberInterfaces.cs:7-9
 - ImagingCapture/Uvc/UvcErrors.cs:23
 - ImagingCapture/xImagingCapture.csproj:17
-- docs/imaging-capture-design.md:93, :692
+- docs/specs/imaging-capture-design.md:93, :692
 - docs/specs/net10-plan.md:734, :1709-1725
 - https://learn.microsoft.com/en-us/windows/win32/directshow/sample-grabber-filter
 - https://learn.microsoft.com/en-us/windows/win32/winprog64/shared-registry-keys
@@ -360,7 +360,7 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - OpenPmsDental/Forms/FormLetterMerges.cs:288-335
 - OpenPmsDental/Forms/FormLetterMergeEdit.cs:215-229
 - docs/port-notes/BIN-B.md:35
-- docs/third-party-binaries-audit.md:164, 369
+- docs/reports/third-party-binaries-audit.md:164, 369
 - docs/specs/net10-plan.md:736, 1448, 1709
 
 ### 3.10 Plug-ins
@@ -381,8 +381,8 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - PluginExample/Plugin.cs:18-50
 - PluginExample/PluginExample.csproj:13, 44, 55
 - docs/specs/net10-plan.md:1076, 1226, 1268, 1652-1653, 1709-1725
-- docs/reviews/2026-11-01-rename-inventory.md:180-184, 414
-- docs/adoption-runbook.md:322-325
+- docs/reports/2026-11-01-rename-inventory.md:180-184, 414
+- docs/admin/adoption-runbook.md:322-325
 - https://learn.microsoft.com/en-us/dotnet/framework/tools/corflags-exe-corflags-conversion-tool
 - https://learn.microsoft.com/en-us/dotnet/api/system.reflection.portableexecutablekinds
 - https://learn.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support
@@ -442,9 +442,9 @@ Repository: Open PMS - Dental, `main` at b9dbf4c35. Read-only survey: no code wa
 - WpfControlsOD/UI/ToothChart/ToothChartRelay.cs:340-344, 356-372, 383-394
 - docs/port-notes/S3a-15.md:21-25, 44-52, 89-104, 108-111
 - docs/port-notes/BIN-A.md:80-95, 123
-- docs/owner-questions.md:23
+- docs/decisions/owner-questions.md:23
 - docs/release-notes/next.md:428-436
-- docs/release-process.md:179
+- docs/develop/release-process.md:179
 - docs/specs/net10-plan.md:737, 1709-1726
 - https://www.microsoft.com/en-us/download/details.aspx?id=8109
 - https://learn.microsoft.com/en-us/windows/win32/dxtecharts/directx-setup-for-game-developers

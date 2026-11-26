@@ -136,7 +136,7 @@ namespace InventoryTests {
 		///stock counts); INV 16 is left for the merge of the packages.</summary>
 		[TestMethod]
 		public void OwnerQuestions_AreMarkedDecided() {
-			string[] arrayLines=ReadRepoFile("docs","owner-questions.md").Split('\n');
+			string[] arrayLines=ReadRepoFile("docs","decisions","owner-questions.md").Split('\n');
 			for(int n=1;n<=18;n++) {
 				string line=arrayLines.Single(x => x.StartsWith("- (INV "+n+") "));
 				Assert.AreEqual(n!=16,line.Contains("**Decided (2026-11-02):**"),"INV "+n);

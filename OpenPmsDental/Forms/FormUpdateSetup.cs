@@ -10,7 +10,7 @@ using System.Xml;
 using System.Text;
 
 namespace OpenPmsDental{
-	///<summary>The update settings. There is no registration key here: Open Dental's registration keys were removed (docs/decoupling-plan.md), and the
+	///<summary>The update settings. There is no registration key here: Open Dental's registration keys were removed (docs/specs/decoupling-plan.md), and the
 	///RegistrationKey preference is left as it is.</summary>
 	public partial class FormUpdateSetup : FormODBase {
 		private DateTime _dateTimeUpdate;

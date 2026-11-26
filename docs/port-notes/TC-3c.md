@@ -275,7 +275,7 @@ owner.
   pictures have exactly the pixels of this branch's baselines; the 276 of the normal chart differ from the approved ones (the centre line
   at least), the 15 perio pictures are the same; every DirectX parity caption passes (264 of 264). The render times: a refill with its
   picture 381 ms at 410x307 (median), a selection-only change 13.8 ms.
-- The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8). TC-3c merges only after it.
+- The owner's answer goes into `docs/decisions/owner-questions.md` with the commit and the date (plan section 8). TC-3c merges only after it.
 
 ## 4. Od-unknown left
 

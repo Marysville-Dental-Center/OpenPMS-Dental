@@ -36,7 +36,7 @@ A setting the camera's buttons are read from is shown greyed out and is never ch
 ## More
 
 - Take photos: [Take intraoral photos](take-intraoral-photos.md).
-- The reference: [camera settings](../imaging-capture-design.md#87-camera-settings-and-review-flags),
-  [Learn](../imaging-capture-design.md#85-learn-tool-and-button-test),
-  [button actions](../imaging-capture-design.md#86-level-inputs-and-auto-preview) and
-  [capture.ini](../imaging-capture-design.md#93-local-file-captureini).
+- The reference: [camera settings](../specs/imaging-capture-design.md#87-camera-settings-and-review-flags),
+  [Learn](../specs/imaging-capture-design.md#85-learn-tool-and-button-test),
+  [button actions](../specs/imaging-capture-design.md#86-level-inputs-and-auto-preview) and
+  [capture.ini](../specs/imaging-capture-design.md#93-local-file-captureini).

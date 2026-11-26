@@ -222,7 +222,7 @@ namespace DbConnectionSecurityTests {
 			string check=matchSetUp.Groups[1].Value.Substring(matchSetUp.Groups[1].Value.IndexOf("RunDbSettings('/check', False);"));
 			StringAssert.Contains(check,"DbSettingsFailed := True;");
 			//Documented in the guide, the spec and setup's own notes.
-			StringAssert.Contains(TestHelpers.ReadRepoFile("docs","db-connection-security.md"),"**10** means a silent setup");
+			StringAssert.Contains(TestHelpers.ReadRepoFile("docs","admin","db-connection-security.md"),"**10** means a silent setup");
 			StringAssert.Contains(TestHelpers.ReadRepoFile("docs","specs","db-connection-security.md"),"exit code 10");
 			StringAssert.Contains(iss,"; Exit code: Inno Setup's own (0 done, 1 to 8 setup did not finish), and 10 for a silent install");
 		}
@@ -234,9 +234,9 @@ namespace DbConnectionSecurityTests {
 			string message=MiscData.GetSetSqlModeFailedMessage();
 			StringAssert.Contains(message,"sql_mode=\"\"");
 			StringAssert.Contains(message,"[mariadb]");
-			StringAssert.Contains(message,"docs/db-connection-security.md, section 4");
+			StringAssert.Contains(message,"docs/admin/db-connection-security.md, section 4");
 			//The guide's option file has exactly that line.
-			StringAssert.Contains(TestHelpers.ReadRepoFile("docs","db-connection-security.md"),"\nsql_mode=\"\"");
+			StringAssert.Contains(TestHelpers.ReadRepoFile("docs","admin","db-connection-security.md"),"\nsql_mode=\"\"");
 			//The start-up still stops: it shows the message and returns false.
 			string source=TestHelpers.ReadRepoFile("OpenPmsDental","Main Modules","FormOpenDental.cs");
 			int index=source.IndexOf("MiscData.SetSqlMode();");

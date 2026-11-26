@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Tests for the capture display and DICOM reader packages CAP-W1, CAP-W2 and CAP-DR (docs/imaging-capture-design.md 7.8; package
-       TWAIN-W) and for the in-house full reader that replaced fo-dicom (docs/imaging/dicom-reader.md): IDicomPixelReader, DicomSubsetReader,
+  <!-- Tests for the capture display and DICOM reader packages CAP-W1, CAP-W2 and CAP-DR (docs/specs/imaging-capture-design.md 7.8; package
+       TWAIN-W) and for the in-house full reader that replaced fo-dicom (docs/specs/dicom-reader.md): IDicomPixelReader, DicomSubsetReader,
        DicomImageReader and its decoders, the .dcm branches of Documents.GetThumbnail and ImageHelper.GetImageCropped, and the windowing of
        legacy stored values. Every DICOM file is made in the tests: by ImagingCapture's DicomIntraOralWriter, or byte by byte from PS3.5 and
        PS3.10 (SyntheticDicom.cs, SyntheticEncodings.cs), including malformed ones; FoDicomBaseline.cs holds what fo-dicom 4 read from them

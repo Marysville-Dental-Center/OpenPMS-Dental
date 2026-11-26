@@ -4,7 +4,7 @@ Runs the M1-Z adoption rehearsal on synthetic data on the local MariaDB.
 
 .DESCRIPTION
 Builds tools\AdoptionValidation (unless -SkipBuild) and runs AdoptionValidation.exe rehearse. See tools\AdoptionValidation\README.md and
-docs\adoption-runbook.md.
+docs\admin\adoption-runbook.md.
 
 The tool only connects to localhost, 127.0.0.1 or ::1, only writes databases whose names start with "synth_m1z_" (or -Prefix), and blocks
 outbound HTTP. The password, if any, is read from the SYNTH_DB_PASSWORD environment variable.

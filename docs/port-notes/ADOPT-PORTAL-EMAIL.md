@@ -63,9 +63,9 @@ schema-only dump; the column is the last of patient's 85):
 ### 5. Documents
 
 - Runbook: "What adoption does" item 2, the step 0.4 bullet on other programs' additions, step 0.2 (the preview line), step 4's expected
-  lines, step 6.1's allowed list. `docs/release-process.md` adoption step 2.
-- `docs/owner-questions.md` switch-over question 12 records the decision; `docs/roadmap.md` "Not scheduled yet" the setting; release notes.
-- Not changed: `docs/m1-validation-report.md`, a dated record of the M1 rehearsal as it ran.
+  lines, step 6.1's allowed list. `docs/develop/release-process.md` adoption step 2.
+- `docs/decisions/owner-questions.md` switch-over question 12 records the decision; `docs/roadmap.md` "Not scheduled yet" the setting; release notes.
+- Not changed: `docs/reports/m1-validation-report.md`, a dated record of the M1 rehearsal as it ran.
 
 ## Tests
 

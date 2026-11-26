@@ -1,4 +1,4 @@
-// IDicomPixelReader and DicomHelper's reader order (CAP-DR, design 7.8; docs/imaging/dicom-reader.md): the in-house subset reader first, the
+// IDicomPixelReader and DicomHelper's reader order (CAP-DR, design 7.8; docs/specs/dicom-reader.md): the in-house subset reader first, the
 // in-house full reader for everything else, and no DICOM library loaded at all.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

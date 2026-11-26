@@ -365,7 +365,7 @@ on its own form), so the fourth version stands for this branch too.
   `text-other-eo-r` and the four `text-label-*` scenes at both sizes; `text-below-statuses` is the same as approved again), and 23 are new.
   Every DirectX parity caption passes (253 of 253). The render times did not move: a refill with its picture 333 ms at 410x307 and 646 ms
   at 615x461 (medians), a selection-only change 11 and 16 ms.
-- The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8); TC-6's hardware completes G2 later
+- The owner's answer goes into `docs/decisions/owner-questions.md` with the commit and the date (plan section 8); TC-6's hardware completes G2 later
   (its second part), so this answer covers TC-5's drawing.
 
 ## 4. Launch check L-5 (TC-5's part), for a person

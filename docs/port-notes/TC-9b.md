@@ -23,7 +23,7 @@ The row's list, item by item (the row's line numbers were from when it was writt
 | `tools/Build-Release.ps1` | The five names left `ThirdPartyFiles` and joined the deny-list, in its block of retired files (`ForkReleases.ListRetiredFiles`), each with its reason; the comment on the `'Required dlls'` source says what is left (the Direct Project) |
 | `THIRD-PARTY-NOTICES.txt` | The `SharpDX` and `Tao Framework` components |
 | `ListRetiredFiles`, `[InstallDelete]` | The five files, with a comment each. The setup changes only `[InstallDelete]`: it has never installed the DirectX runtime (no DirectX, d3dx, SharpDX or Tao anywhere in `installer/` before this package) |
-| `docs/third-party-binaries-audit.md` | The five rows say removed (no reference, what went, the setup's delete), the NuGet map's SharpDX row and the Tao sentence say so, and a paragraph in the removals since the baseline; Appendix A keeps the baseline's version info |
+| `docs/reports/third-party-binaries-audit.md` | The five rows say removed (no reference, what went, the setup's delete), the NuGet map's SharpDX row and the Tao sentence say so, and a paragraph in the removals since the baseline; Appendix A keeps the baseline's version info |
 | `docs/release-notes/next.md` | A section "The tooth chart: SharpDX, Tao and the DirectX runtime leave the program folder" (the DirectX End-User Runtime is no longer needed) and the summary line pointing at it |
 | `README.md` | The repository map's `Required dlls/` line no longer names SharpDX and Tao (not in the row; a fact that changed) |
 
@@ -106,7 +106,7 @@ build with TC-9b, so the VM also has no SharpDX or Tao. TC-9b's part, with synth
    `SharpDX.Mathematics.dll`, `Tao.OpenGl.dll` and `Tao.Platform.Windows.dll`. Run this release's setup over it as an administrator.
    *Expected:* the setup finishes, and none of the five files is in the program folder afterwards; the program starts and the Chart module
    shows the 3D chart. (Decision 22: nothing is in production, so this is only a check of `[InstallDelete]`, not an upgrade path an office
-   needs; the elevated `tools\Test-Installer.ps1` run of `docs/release-process.md` covers a fresh install.)
+   needs; the elevated `tools\Test-Installer.ps1` run of `docs/develop/release-process.md` covers a fresh install.)
 3. **Help > About > View Licenses.** *Expected:* no "SharpDX" and no "Tao Framework" entry; the "Helix Toolkit" entry still shows
    "Copyright (c) 2010-2014 SharpDX - Alexandre Mutel".
 4. **Write down** for each step: as expected, or what differed, with a screenshot, the Windows version, and the release the install went

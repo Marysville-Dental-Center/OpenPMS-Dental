@@ -44,7 +44,7 @@ namespace AdoptionValidation {
 		public string AllowedPath;
 	}
 
-	///<summary>The M1-Z switch-gate rehearsal on synthetic data (docs/specs/port-backlog.md, M1-Z; docs/adoption-runbook.md). Each run generates a
+	///<summary>The M1-Z switch-gate rehearsal on synthetic data (docs/specs/port-backlog.md, M1-Z; docs/admin/adoption-runbook.md). Each run generates a
 	///fresh database, records its baseline, copies it as the runbook does, adopts the copy, migrates, verifies, rehashes and validates, then does it
 	///all a second time on the adopted copy to prove idempotence. Several runs prove the whole thing repeats exactly. Every step is timed.
 	///</summary>
@@ -183,7 +183,7 @@ namespace AdoptionValidation {
 				//As the migration-preview command does: a business layer connection for the schema check of version labels (read-only).
 				BusinessLayer.Connect(server,source);
 				MigrationPreview.Result preview=Time("Fork migration preview (migration-preview)",
-					() => MigrationPreview.Run(db,source,x => SchemaVerifier.VerifyDatabase25_3_48(x)));
+					() => MigrationPreview.Run(db,source,(x,v) => SchemaVerifier.VerifyDatabaseAs(v,x)));
 				_run.ListMigrationPreview=preview.Lines();
 				//3. The copy that is adopted, made the way runbook step 3.2 makes it (or, with --copy dump, by a mariadb-dump backup and the restore). Both
 				//only create a new database, so a copy left by an earlier --keep run with the same tag is dropped first.

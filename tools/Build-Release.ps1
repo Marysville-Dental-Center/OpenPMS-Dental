@@ -12,7 +12,7 @@ not typed in here. The release channel publishes the runtime files as the releas
 
 1. Builds as Release x64, through the shared build lane when -BuildLane is given (with -LaneProjects, only those projects and what they
    reference, through the lane's scoped restore). PDFsharp/MigraDoc and WeCantSpell.Hunspell build from their source in the git
-   submodules under third-party\ (docs\third-party-source-builds.md).
+   submodules under third-party\ (docs\develop\third-party-source-builds.md).
 2. Checks OpenPmsDental\bin\Release: every file must be on the allow-lists below or be one the release never ships (debug symbols,
    XML documentation). A file on the deny-list, an unknown file or a sub folder other than Helper32\ fails the script. The release-flow
    checks refuse a build whose .deps.json files name more than one runtime version, whose helper runs on another runtime version than the
@@ -287,7 +287,7 @@ $ProgramLockFile='OpenPmsDental\packages.lock.json'
 $ProgramAssetsFile='OpenPmsDental\obj\project.assets.json'
 $ThirdPartyFiles['RdlEngine.dll']='RdlEngine\bin\Release'
 $ThirdPartyFiles['RdlViewer.dll']='RdlViewer\bin\Release'
-#Built here from the upstream source in the git submodules under third-party\ (docs\third-party-source-builds.md): PDFsharp and MigraDoc
+#Built here from the upstream source in the git submodules under third-party\ (docs\develop\third-party-source-builds.md): PDFsharp and MigraDoc
 #6.5.0 (third-party\PDFsharp, with this project's PdfSharpLicense.cs in place of empira's wrapper around its closed PdfSharp.License.dll,
 #which no release ships) and WeCantSpell.Hunspell 7.0.1 (third-party\WeCantSpell.Hunspell).
 foreach($name in @('PdfSharp-gdi','PdfSharp.Charting-gdi','PdfSharp.Shared','PdfSharp.System','MigraDoc.DocumentObjectModel','MigraDoc.Rendering-gdi',
@@ -375,7 +375,7 @@ $TwainDsmEntry='dsm_020501/windows/64/TWAINDSM.dll'
 $TwainDsmSha256='25869f88a2bc76ded62a13aaea9f2084f0165bfdbbb7f46b9c3a43298938d467'
 $TwainDsmVersion='2.5.1.0'
 $TwainDsmSigner='O=TWAIN Working Group'
-#The 32-bit TWAIN data source manager of the same download (owner, docs/owner-questions.md: "32-bit TWAIN manager: yes"; decision 23, package
+#The 32-bit TWAIN data source manager of the same download (owner, docs/decisions/owner-questions.md: "32-bit TWAIN manager: yes"; decision 23, package
 #S3b-8): installed into the 32-bit system folder (SysWOW64) as a shared file when it is missing or older, as the 64-bit one, for TWAIN sources
 #that have only a 32-bit driver, which run in the 32-bit helper (Helper32\). The same version and signer; its own SHA-256 and PE machine 0x14C.
 $TwainDsm32Entry='dsm_020501/windows/32/TWAINDSM.dll'
@@ -424,9 +424,9 @@ $DenyList=@(
 	@('zxing*','a dead reference (removed in BIN-B)'),
 	@('Avalara*','the AvaTax SDK, a dead reference (removed in BIN-B)'),
 	@('Ionic.*','DotNetZip: MS-PL, abandoned, CVE-2024-48510 (replaced in BIN-B)'),
-	@('Dicom.*.dll','fo-dicom 4 (MS-PL): replaced by the in-house DICOM reader (docs/imaging/dicom-reader.md)'),
+	@('Dicom.*.dll','fo-dicom 4 (MS-PL): replaced by the in-house DICOM reader (docs/specs/dicom-reader.md)'),
 	@('NDde.dll','NDde, under its own shared source licence, which does not fit the GPL (REL-FILES 2): the DentX, Dexis Integrator and Vipersoft program links use the in-house DDE client (CodeBase ODDdeClient) instead (S0-R)'),
-	@('fo-dicom*','fo-dicom (MS-PL): replaced by the in-house DICOM reader (docs/imaging/dicom-reader.md)'),
+	@('fo-dicom*','fo-dicom (MS-PL): replaced by the in-house DICOM reader (docs/specs/dicom-reader.md)'),
 	@('DotNetZip*','DotNetZip: MS-PL, abandoned, CVE-2024-48510 (replaced in BIN-B)'),
 	@('Tamir.SharpSSH.dll','SharpSSH, unmaintained since 2013 (replaced by SSH.NET in the tier 1 library updates)'),
 	@('Org.Mentalis.Security.dll',"SharpSSH's cryptography library (removed with SharpSSH)"),
@@ -1221,7 +1221,7 @@ function Test-SubmoduleCheckouts {
 	foreach($submodule in $submodules){
 		$folder=Join-Path $RepoRoot $submodule.Path
 		if(-not (Test-Path -LiteralPath (Join-Path $folder '.git'))){
-			$problems.Add("Missing: the submodule $($submodule.Path) is not checked out. Run git -c protocol.file.allow=always submodule update --init (docs\third-party-source-builds.md).")
+			$problems.Add("Missing: the submodule $($submodule.Path) is not checked out. Run git -c protocol.file.allow=always submodule update --init (docs\develop\third-party-source-builds.md).")
 			continue
 		}
 		$checkedOut=@(Invoke-Git $folder @('rev-parse','HEAD'))[0].Trim()
@@ -1314,7 +1314,7 @@ function Write-SourceArchive([string]$folder,[string]$version){
 			$lines.Add('The source of TWAINDSM.dll, which the setup installs into the Windows system folder (GNU LGPL 2.1, LICENSE-LGPL-2.1.txt):')
 			$lines.Add("$TwainDsmSourceEntry`: SHA-256 $TwainDsmSourceSha256, the TWAIN Working Group's source of the release TWAINDSM.dll $TwainDsmVersion comes from, as $TwainDsmSourceUrl publishes it")
 			$lines.Add('')
-			$lines.Add('Build and upgrade steps: README.md and docs/third-party-source-builds.md.')
+			$lines.Add('Build and upgrade steps: README.md and docs/develop/third-party-source-builds.md.')
 			$entryCommits=$zipTarget.CreateEntry("$name/SOURCE-COMMITS.txt",[System.IO.Compression.CompressionLevel]::Optimal)
 			$writer=New-Object System.IO.StreamWriter($entryCommits.Open(),(New-Object System.Text.UTF8Encoding($false)))
 			try{ $writer.Write(($lines -join "`r`n")+"`r`n") }
@@ -1634,7 +1634,7 @@ if(-not $SkipInstaller){
 #endregion Installer
 
 #region Source archive
-#The Corresponding Source of the release: the repository and the submodules at the release commit (docs\release-process.md attaches it to
+#The Corresponding Source of the release: the repository and the submodules at the release commit (docs\develop\release-process.md attaches it to
 #the GitHub release). Its SHA-256 follows the setup's in SHA256SUMS.txt.
 $sourceArchivePath=Write-SourceArchive $OutDir $releaseVersion
 $sourceArchiveName=Split-Path $sourceArchivePath -Leaf

@@ -1964,7 +1964,7 @@ pixelated`), with a zoom toggle for a closer look.
   looks at the list of changes, not every picture.
 
 **How the owner answers.** The lead publishes each gallery as a private page. Each screen has "Approve" or "Change" and a note. The answers
-go into `docs/owner-questions.md` (gallery, commit, date, the list of changes) and into
+go into `docs/decisions/owner-questions.md` (gallery, commit, date, the list of changes) and into
 `tests/WindowChecksTests/UiApproved/approved.tsv` (picture, size, masked pixel SHA-256, gallery, commit, date). A package merges only
 after its gallery is approved. From then on the check U0 shows only the screens that changed since their approval.
 
@@ -1975,7 +1975,7 @@ their own fonts from the real DPI). So G-UI2's approval for UI-3 and for UI-2b i
 selected row, the dashboard (`FormDashboardEditTab`) and Central Manager's main window. The lead lists the screens in the gallery
 page; the owner notes "fine" or what looks wrong. UI-2a-2, which has no gallery, gets the same check at 150% for the dashboard and
 Central Manager before it merges (section 7), because the scan's simulated scales do not reach the plain forms. The same check stays in the
-launch checks (`docs/launch-checks-3b.md`, item 8, "the screenshot pass's items for a person") for the final build.
+launch checks (`docs/admin/launch-checks-3b.md`, item 8, "the screenshot pass's items for a person") for the final build.
 
 ---
 

@@ -14,7 +14,7 @@ treats as a stop. Adopt's row check had already shown that only NULL notes chang
 
 - `tools/SyntheticData/allowed-differences.adoption.json`: a rule for `ChecksumTableChanged` on `claimpayment` only, next to the Note rule.
 - `ReportComparer`: the comment now says a rule can name such a table.
-- `docs/adoption-runbook.md` step 6.1: names the line.
+- `docs/admin/adoption-runbook.md` step 6.1: names the line.
 - Test: `ReportComparerTests.ClaimPaymentChecksumOnly_IsAllowed_OtherTablesAreNot` (the rule allows exactly claimpayment; a checksum-only change
   in another table stays unexpected).
 

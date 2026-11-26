@@ -349,7 +349,7 @@ The key was a licence check, but it was also the only thing that kept these acti
   - Tests:
     - `NoHqTests/NoHqTests.cs` (155-162, the EHR region only)
     - new `tests/EhrTests/` with `EhrSwitchTests.cs`, `TimeSyncTests.cs`, `NtpReplyTests.cs` and `NoEhrDllTests.cs`
-  - Docs: `docs/decoupling-plan.md:48`, `docs/third-party-binaries-audit.md:133` (both still say "remove"). TC-4 and TC-9b own the
+  - Docs: `docs/specs/decoupling-plan.md:48`, `docs/reports/third-party-binaries-audit.md:133` (both still say "remove"). TC-4 and TC-9b own the
     audit later (section 10.2).
 - **Public basis.**
   - 45 CFR 170.210(g) (NTP).
@@ -943,7 +943,7 @@ The rows of the 2027 plan's section 13.3 are merged here (2026-11-14).
 | `tests/LibWebTests/HtmlGenerationTests.cs` | EHR-3 | S1-6 (the project file only), S4-1 (if it fails to compile) | EHR-3 after S1-6, not while S4-1 runs |
 | `tests/LibWebTests/WebView2PolicyTests.cs` | EHR-3 runs it; edits only if a pin of `FormEhrSummaryCcdEdit` must change (255, 273) | TC-2 (275) | not at the same time as TC-2 |
 | `THIRD-PARTY-NOTICES.txt` | EHR-3; EHR-6a (LOINC's notice) | S2-4, TC-4, S3a-13, TC-9b, S3b-7 | EHR-3 before S2-4, or after TC-4 and before 3a wave 1; EHR-6a in stage 4, before S3a-13 and TC-9b, never while S3b-7 runs |
-| `docs/third-party-binaries-audit.md` | EHR-0 (133) | TC-4, TC-9b | EHR-0 in stage 1, before TC-4 |
+| `docs/reports/third-party-binaries-audit.md` | EHR-0 (133) | TC-4, TC-9b | EHR-0 in stage 1, before TC-4 |
 | `tests/AttributionTests/ReleaseIdentityTests.cs` | EHR-3 (18-22); EHR-6a (18-22, the licence-title check) | TC-4, TC-9b, S3a-8 (wave 1), S4-1 (if it fails to compile) | EHR-3 before TC-4, or after TC-4 and before 3a wave 1; EHR-6a after S4-1, before 3a wave 1 |
 | `OpenPmsDentalBusiness/Properties/Resources.resx` | EHR-3 | none (TC-9b edits the program's own `Resources.resx`) | EHR-3 only |
 | `Main Modules/ProgramEntry.cs` | EHR-3 (20-21) | S3b-4; PdfLibraryTests (`LibraryFilesTests.cs:185`), S0FTests (`ExitWatchdogTests.cs:139`) and ReleaseFlowTests (`ProgramNamesTests.cs:223`) read it | EHR-3 before 3b |
@@ -1173,10 +1173,10 @@ batch Q approved with E-33. Every answer below is that recommendation.
   - Section 7's default-font source test allows that branch before `SetDefaultFont`, since it returns before any window.
   - Section 6 gains section 11's checks for 3a.
 - **`docs/specs/wpf-tooth-chart-plan.md`:** TC-2's brief deletes `ControlChart.cs:28-30`. Section 3's rows for `THIRD-PARTY-NOTICES.txt`
-  and `ReleaseIdentityTests.cs` gain EHR-3. Section 3 gains a row for `docs/third-party-binaries-audit.md` (TC-4, TC-9b; EHR-0 before
+  and `ReleaseIdentityTests.cs` gain EHR-3. Section 3 gains a row for `docs/reports/third-party-binaries-audit.md` (TC-4, TC-9b; EHR-0 before
   TC-4). Section 2's first-wave row notes that EHR-0 takes the slot TC-0 frees, and S1-2 the next free one (section 10.1).
-- **`docs/owner-questions.md`:** E-1 to E-19.
-- **`docs/decoupling-plan.md:48` and `docs/third-party-binaries-audit.md:133`:** done by EHR-0.
+- **`docs/decisions/owner-questions.md`:** E-1 to E-19.
+- **`docs/specs/decoupling-plan.md:48` and `docs/reports/third-party-binaries-audit.md:133`:** done by EHR-0.
 - **`docs/port-notes/LIB-WEB.md:121`:** done by EHR-3.
 - **`docs/roadmap.md`:** one EHR line.
 

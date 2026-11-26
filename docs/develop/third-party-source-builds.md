@@ -35,7 +35,7 @@ git -c protocol.file.allow=always submodule update --init
 
 ## How the build works
 
-`third-party/build/` holds one project file per assembly, in `OpenDental.sln` and `OpenDental.Local.slnf`, built by the normal build (the build lane builds them with everything else; `PdfSharp-gdi`, `WeCantSpell.Hunspell` and so on are also solution targets of their own). They are SDK-style projects for `net48` (stage 1 of the .NET 10 move, [specs/net10-plan.md](specs/net10-plan.md), S1-2) with explicit SDK imports, in this order: the SDK's `Sdk.props`, `SourceBuild.props`, the library's props file (`PDFsharp.props`; WeCantSpell.Hunspell has none, its settings are in its project file), the SDK's `Sdk.targets`, `SourceBuild.targets`. They reference no NuGet package: their restore finds nothing to restore and writes a `packages.lock.json` that names only the other projects of the folder.
+`third-party/build/` holds one project file per assembly, in `OpenDental.sln` and `OpenDental.Local.slnf`, built by the normal build (the build lane builds them with everything else; `PdfSharp-gdi`, `WeCantSpell.Hunspell` and so on are also solution targets of their own). They are SDK-style projects for `net48` (stage 1 of the .NET 10 move, [specs/net10-plan.md](../specs/net10-plan.md), S1-2) with explicit SDK imports, in this order: the SDK's `Sdk.props`, `SourceBuild.props`, the library's props file (`PDFsharp.props`; WeCantSpell.Hunspell has none, its settings are in its project file), the SDK's `Sdk.targets`, `SourceBuild.targets`. They reference no NuGet package: their restore finds nothing to restore and writes a `packages.lock.json` that names only the other projects of the folder.
 
 | Project | Assembly | Compiles (from the submodule) |
 |---|---|---|
@@ -73,7 +73,7 @@ empira's NuGet files were built from a commit that is not public (their informat
 
 `tests/PdfLibraryTests` checks all of this.
 
-Because of this file, every build of this repository contains a modified version of PDFsharp, so the AGPL's section 13 (through GPL 3.0 section 13, for the program as a whole) applies to any version of the program that users reach over a network, not only to versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently offer its users the Corresponding Source, such as a link to the release's source archive (NOTICE; [owner-questions.md](owner-questions.md), decision 13). The Middle Tier is not shipped, and by the owner's decision of 2026-11-02 that offer is built when it is first shipped.
+Because of this file, every build of this repository contains a modified version of PDFsharp, so the AGPL's section 13 (through GPL 3.0 section 13, for the program as a whole) applies to any version of the program that users reach over a network, not only to versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently offer its users the Corresponding Source, such as a link to the release's source archive (NOTICE; [owner-questions.md](../decisions/owner-questions.md), decision 13). The Middle Tier is not shipped, and by the owner's decision of 2026-11-02 that offer is built when it is first shipped.
 
 ## The source archive
 

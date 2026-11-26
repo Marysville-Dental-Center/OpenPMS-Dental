@@ -57,7 +57,7 @@ namespace PdfLibraryTests {
 
 		[TestMethod]
 		public void OwnerQuestions_RecordRouteB_TheResolvedQuestions_AndTheDisputeRisk() {
-			string ownerQuestions=ReadRepoFile("docs","owner-questions.md");
+			string ownerQuestions=ReadRepoFile("docs","decisions","owner-questions.md");
 			Match match=Regex.Match(ownerQuestions,@"(?m)^- \(LIB-PDF; \*\*resolved on 2026-11-02 by building from source\*\*\) \*\*`PdfSharp\.License\.dll` had no published source\.\*\*(.*)$");
 			Assert.IsTrue(match.Success,"The question of PdfSharp.License.dll, resolved.");
 			string question=match.Groups[1].Value;
@@ -76,7 +76,7 @@ namespace PdfLibraryTests {
 
 		[TestMethod]
 		public void ReleaseProcess_HasNoBlocker_AndAttachesTheSourceArchive() {
-			string releaseProcess=ReadRepoFile("docs","release-process.md");
+			string releaseProcess=ReadRepoFile("docs","develop","release-process.md");
 			Assert.IsFalse(releaseProcess.Contains("**Release blocker:**"));
 			Assert.IsFalse(releaseProcess.Contains("-PdfSharpLicenceResolved"));
 			StringAssert.Contains(releaseProcess,"**Publishing:** attach the setup, the source archive `OpenPmsDental-<version>-source.zip`, `SHA256SUMS.txt` and "
@@ -90,7 +90,7 @@ namespace PdfLibraryTests {
 			string gpl3=Unwrap(ReadRepoFile("LICENSE-GPL-3.0.txt"));
 			const string quote="concerning interaction through a network will apply to the combination as such";
 			StringAssert.Contains(gpl3,quote);
-			string ownerQuestions=ReadRepoFile("docs","owner-questions.md");
+			string ownerQuestions=ReadRepoFile("docs","decisions","owner-questions.md");
 			Match match=Regex.Match(ownerQuestions,@"(?m)^- \(LIB-PDF, your decision of 2026-11-02 to use PDFsharp/MigraDoc 6\.5[^)]*\) \*\*What the AGPL changes\.\*\*(.*)$");
 			Assert.IsTrue(match.Success,"The owner question of the AGPL.");
 			string question=match.Groups[1].Value;
@@ -125,7 +125,7 @@ namespace PdfLibraryTests {
 			StringAssert.Contains(readme,"the PDFsharp built here is itself one (one file replaced, see below), so they cover any version of the program that "
 				+"users reach over a network, not only versions someone else modifies: a hosted Middle Tier, even one without local changes, must prominently "
 				+"offer its users the Corresponding Source of the whole program");
-			string ownerQuestions=ReadRepoFile("docs","owner-questions.md");
+			string ownerQuestions=ReadRepoFile("docs","decisions","owner-questions.md");
 			//Decision 13: the Middle Tier is not shipped, and it must carry the source offer before it ever is.
 			Match match=Regex.Match(ownerQuestions,@"(?m)^13\. \*\*The side programs are not shipped\*\*(.*)$");
 			Assert.IsTrue(match.Success,"Decision 13.");
@@ -151,7 +151,7 @@ namespace PdfLibraryTests {
 			Dictionary<string,string> dictTexts=new Dictionary<string,string> {
 				{ "the About box",OpenPmsDental.LicenseList.GetProgramLicenseText() },
 				{ "installer/setup-license.txt",ReadRepoFile("installer","setup-license.txt") },
-				{ "docs/third-party-source-builds.md",ReadRepoFile("docs","third-party-source-builds.md") },
+				{ "docs/develop/third-party-source-builds.md",ReadRepoFile("docs","develop","third-party-source-builds.md") },
 			};
 			foreach(KeyValuePair<string,string> pair in dictTexts) {
 				StringAssert.Contains(Unwrap(pair.Value),"to any version of the program that users reach over a network, not only to versions",pair.Key);
@@ -159,7 +159,7 @@ namespace PdfLibraryTests {
 			//The old wording, by which only a version that someone else modified was affected, is gone everywhere.
 			dictTexts.Add("NOTICE",notice);
 			dictTexts.Add("README.md",readme);
-			dictTexts.Add("docs/owner-questions.md",Unwrap(ownerQuestions));
+			dictTexts.Add("docs/decisions/owner-questions.md",Unwrap(ownerQuestions));
 			foreach(KeyValuePair<string,string> pair in dictTexts) {
 				foreach(string old in new[] { "surely applies","Running the unmodified program","That is certain when PDFsharp or MigraDoc are modified",
 					"hosted a modified Middle Tier","whoever runs a **modified** version","what that means for a modified version" }) {

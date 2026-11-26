@@ -124,4 +124,4 @@ marked **INFERRED** and listed as owner questions below, to confirm by testing t
 and `StatementAutoSendSMS` (Message-to-Pay in Open Dental) the safeguard stays as built: a stored Always acts as Ask until Statement Send
 Setup is saved in this program.
 
-These are in [../owner-questions.md](../owner-questions.md), section "Open Dental 25.3 options built (ODOPTS, 2026-11-07)".
+These are in [../owner-questions.md](../decisions/owner-questions.md), section "Open Dental 25.3 options built (ODOPTS, 2026-11-07)".

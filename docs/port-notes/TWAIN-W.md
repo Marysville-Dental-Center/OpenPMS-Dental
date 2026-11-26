@@ -1,6 +1,6 @@
 # Port note: TWAIN-W, capture display fixes and the in-house DICOM reader (CAP-W1, CAP-W2, CAP-DR)
 
-Branch `pre/twain-w-1`, cut from `main` d9c177ca6 (2026-11-01). The packages are the last three of the capture design's work breakdown: [imaging-capture-design.md](../imaging-capture-design.md) sections 7.8, 7.9, 12.1 and 15 (decisions 6 and 7). The owner's defaults are the design's recommendations, **6a** (pull the 16-bit windowing into the capture track, with legacy stored values read compatibly) and **7a** (an in-house reader for the uncompressed subset behind `IDicomPixelReader`), applied on 2026-11-01. No schema, preference, CRUD, namespace, assembly or project name changed.
+Branch `pre/twain-w-1`, cut from `main` d9c177ca6 (2026-11-01). The packages are the last three of the capture design's work breakdown: [imaging-capture-design.md](../specs/imaging-capture-design.md) sections 7.8, 7.9, 12.1 and 15 (decisions 6 and 7). The owner's defaults are the design's recommendations, **6a** (pull the 16-bit windowing into the capture track, with legacy stored values read compatibly) and **7a** (an in-house reader for the uncompressed subset behind `IDicomPixelReader`), applied on 2026-11-01. No schema, preference, CRUD, namespace, assembly or project name changed.
 
 Sources: the public DICOM standard (NEMA PS3.5 Data Structures and Encoding: 6.2, 7.1, 7.5, 8.1.1, Annex A; PS3.10 Media Storage and File Format: 7.1; PS3.3 C.7.6.3 Image Pixel module), the capture design and [M2-IMG.md](M2-IMG.md). No Open Dental binary was opened or inspected, and no documentation text was copied. fo-dicom (MS-PL) stays the unchanged fallback; its behaviour was checked only by running it in the tests.
 
@@ -85,7 +85,7 @@ Nothing was removed. The fo-dicom code of `GetFromFile`, `GetFromStream` and `Ge
 | `OpenDentBusiness/Data Interface/Documents.cs` | the `.dcm` branches of `GetThumbnail` and `InsertMissing` |
 | `OpenDentBusiness/OpenDentBusiness.csproj` | two Compile items |
 | `tests/DicomReaderTests/` (new), `OpenDental.sln`, `OpenDental.Local.slnf` | the test project |
-| `docs/imaging-capture-owner-questions.md` | the Today lines of CAP design 6 and 7, and the CAP design 25 line |
+| `docs/decisions/imaging-capture-owner-questions.md` | the Today lines of CAP design 6 and 7, and the CAP design 25 line |
 
 ## Changes outside the owned list
 

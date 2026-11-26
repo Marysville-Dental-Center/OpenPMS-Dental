@@ -361,7 +361,7 @@ On a restored copy of the office database:
 | Upside | Small, auditable, full control of timeouts, logging redaction, `requestid` and CAS refresh | Intuit maintains the entity models |
 | Downside | We own the DTOs for four entities | Heavy dependency for four calls. Its logging (Serilog) must be checked for token leaks |
 
-**Choose A.** The 14.4 DLLs shipped today exist only because Bridges.dll pulled them in. After this change no in-repo code references them, apart from the stray `using Intuit.Ipp.Data;` in `OpenDental/Forms/FormSmsTextMessaging.cs` and `OpenDental/InternalTools/Phones/FormMapAreaContainerEdit.cs`. Delete those usings. Note that `docs/third-party-binaries-audit.md` currently says the NuGet SDK would back the replacement. Choosing A means updating those rows (4.2).
+**Choose A.** The 14.4 DLLs shipped today exist only because Bridges.dll pulled them in. After this change no in-repo code references them, apart from the stray `using Intuit.Ipp.Data;` in `OpenDental/Forms/FormSmsTextMessaging.cs` and `OpenDental/InternalTools/Phones/FormMapAreaContainerEdit.cs`. Delete those usings. Note that `docs/reports/third-party-binaries-audit.md` currently says the NuGet SDK would back the replacement. Choosing A means updating those rows (4.2).
 
 ### 4.2 File-by-file changes
 
@@ -387,7 +387,7 @@ On a restored copy of the office database:
 | `OpenDentBusiness/Misc/Introspection.cs` | `QuickBooksOnlineSandboxEnvironment`, `QuickBooksOnlineSandboxClientIdAndSecret` | Keep the members, since the JSON is keyed by name and unknown keys are skipped anyway. Mark them unused. `QuickBooksOnlineSandboxUrl` becomes the API base override |
 | `OpenDental/OpenDental.csproj` | `Intuit.Ipp.*` (14) and `Serilog*` (13) references | Delete (option A), along with `Required dlls/Intuit.Ipp.*.dll`, `IppDotNetSdkForQuickBooksApiV3.dll` and `Serilog*.dll`. **Only after** confirming that the remaining Bridges.dll types (Microsoft 365, USPS) don't load them. They shouldn't, since .NET loads references lazily per method, but check with a smoke test of those features (7.2) |
 | `OpenDental/Forms/FormSmsTextMessaging.cs`, `OpenDental/InternalTools/Phones/FormMapAreaContainerEdit.cs` | `using Intuit.Ipp.Data;` | Delete (unused) |
-| `docs/third-party-binaries-audit.md` | Intuit and Serilog rows | Mark them "removed: replaced by in-repo client" |
+| `docs/reports/third-party-binaries-audit.md` | Intuit and Serilog rows | Mark them "removed: replaced by in-repo client" |
 | **New** `docs/integrations/qbo-redirect.html` | static relay or copy page | Section 3.2 step 4. Self-contained, no external assets |
 | Tests: `OpenDentBusiness.Tests` (or `NoHqTests`) | new | Section 6.4 |
 
@@ -626,4 +626,4 @@ Repository:
 - `OpenDentBusiness/Misc/ConvertDatabases6.cs` (`To20_4_5`), `ConvertDatabases7.cs` (Access Token removal, encryption)
 - `OpenDentBusiness/WebServices/WebServiceMainHQNoHq.cs` (`BuildOAuthUrl`), `WebServiceMainHQMockDemo.cs` (client ID and secret comment)
 - `OpenDentBusiness/Misc/Introspection.cs`, `OpenDentBusiness/Db/Enumerations.cs`
-- `CDT/README.md` (`osd1$`), `docs/third-party-binaries-audit.md` (Intuit and Serilog rows), the HQ vendor table (kept outside the repository)
+- `CDT/README.md` (`osd1$`), `docs/reports/third-party-binaries-audit.md` (Intuit and Serilog rows), the HQ vendor table (kept outside the repository)

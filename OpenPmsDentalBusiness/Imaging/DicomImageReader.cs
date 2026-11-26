@@ -66,7 +66,7 @@ namespace OpenPmsDentalBusiness {
 		}
 	}
 
-	///<summary>The in-house DICOM reader of every file the program shows (owner decision 2026-11-02, option C; docs/imaging/dicom-reader.md).
+	///<summary>The in-house DICOM reader of every file the program shows (owner decision 2026-11-02, option C; docs/specs/dicom-reader.md).
 	///Written from the public DICOM standard only: NEMA PS3.5 (encodings, encapsulation, RLE), PS3.3 C.7.6.3 (Image Pixel module), PS3.6
 	///(transfer syntaxes) and PS3.10 (file format). No DICOM library is used and no other implementation's code.
 	///
@@ -77,7 +77,7 @@ namespace OpenPmsDentalBusiness {
 	///Information in Implicit VR, an Implicit VR data set labelled Explicit VR Little Endian, two spaces where an element's VR goes (with the
 	///16-bit or the 32-bit layout, told from the bytes that follow), a preamble of zeros without "DICM", a first element of a private group or
 	///out of tag order. fo-dicom
-	///refused "DICM" at byte 0 without the preamble, and so does this reader (docs/imaging/dicom-reader.md lists exactly what is accepted).
+	///refused "DICM" at byte 0 without the preamble, and so does this reader (docs/specs/dicom-reader.md lists exactly what is accepted).
 	///Encapsulated pixel data (PS3.5 A.4): the items, the fragments, the Basic Offset Table and the Extended Offset Table are parsed here, and
 	///the first frame's bytes go to the decoder DicomFrameDecoderRegistry has for the transfer syntax. A compressed transfer syntax without a
 	///decoder is declined as UnsupportedCompression with the format's name, before any fragment is read.

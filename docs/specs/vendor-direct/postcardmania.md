@@ -576,4 +576,4 @@ In-repo:
 - `OpenDentBusiness/WebTypes/Shared/PatientInfo.cs`
 - `CDT/Class1.cs`, `CDT/README.md`
 - The HQ vendor table (kept outside the repository)
-- `docs/decoupling-plan.md`
+- `docs/specs/decoupling-plan.md`

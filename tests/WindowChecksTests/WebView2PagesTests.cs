@@ -1,4 +1,4 @@
-// Self-tests of check D7 (the WebView2 windows, LAUNCH-3b, docs/launch-checks-3b.md), without the opt-in and without starting anything: the
+// Self-tests of check D7 (the WebView2 windows, LAUNCH-3b, docs/admin/launch-checks-3b.md), without the opt-in and without starting anything: the
 // plain parts (WebView2Pages: the synthetic page, how a browser's answer is read, which unresolved names matter) and what the check's script
 // may and may not do, read from its source. D7 itself needs the desktop and the opt-in; the lead runs it at a connected session.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.

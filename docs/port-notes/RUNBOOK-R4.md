@@ -1,6 +1,6 @@
 # RUNBOOK-R4: the adoption runbook brought up to date with the code
 
-2026-11-25. Branch `runbook/r4-1`. Documentation only: [../adoption-runbook.md](../adoption-runbook.md). No code, test or tool changes.
+2026-11-25. Branch `runbook/r4-1`. Documentation only: [../adoption-runbook.md](../admin/adoption-runbook.md). No code, test or tool changes.
 
 ## Why
 
@@ -19,7 +19,7 @@ administrator following it literally would go wrong, and silent about the progra
   `tools/SyntheticData/allowed-differences.adoption.json` already allows. The runbook says a line for any other table means Rollback, so
   without them a correct adoption would have been rolled back.
 - **`<tools>`.** The tools are self-contained .NET 10 x64 programs, not .NET Framework 4.8 ones.
-- **Step 6.2.** The 64-bit setup installs into `C:\Program Files\Open PMS - Dental\` ([../installing.md](../installing.md)).
+- **Step 6.2.** The 64-bit setup installs into `C:\Program Files\Open PMS - Dental\` ([../installing.md](../admin/installing.md)).
 - **Step 0.0.1.** Records `sql_mode` (global and option files) and the time zone. Open Dental and this program set the global `sql_mode`
   blank at each start, but a restart (step 3.1) brings back the option files' value, by default strict on MariaDB 10.11.
 - **Step 0.4.** For each other program: where it names the database, its account's grants (table and column grants name the database and do

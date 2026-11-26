@@ -2,7 +2,7 @@
 
 Package V-EDS of [the port backlog](../specs/port-backlog.md) (wave C2, vendor-direct). Branch `port/v-eds`, cut from `m1/integration-a2-patch`; fix round
 `port/v-eds-s1`; finished on `port/v-eds-t1`, which merges the integration head `port/int-7` (see Integration).
-Spec: [features-26.1.md](../specs/features-26.1.md), item `v26_1-manage-eds-claim-validation`. Ground rules: [decoupling-plan.md](../decoupling-plan.md)
+Spec: [features-26.1.md](../specs/features-26.1.md), item `v26_1-manage-eds-claim-validation`. Ground rules: [decoupling-plan.md](../specs/decoupling-plan.md)
 (rules 6 and 7) and [vendor-direct/README.md](../specs/vendor-direct/README.md).
 
 ## Status

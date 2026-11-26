@@ -1,6 +1,6 @@
 // X12-SENDER: who the sender of an X12 batch is (ISA06, GS02, loop 1000A NM1 and PER of the 837 4010 and 5010, ISA06 and GS02 of the 270).
 // Upstream named Open Dental Inc (its TIN, name and telephone) whenever the clearinghouse's Sender TIN was blank. Owner decision of 2026-11-15
-// (docs/owner-questions.md): "send your practice's own TIN". The rule and its reasons: docs/port-notes/X12-SENDER.md.
+// (docs/decisions/owner-questions.md): "send your practice's own TIN". The rule and its reasons: docs/port-notes/X12-SENDER.md.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;

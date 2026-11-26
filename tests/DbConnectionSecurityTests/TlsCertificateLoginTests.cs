@@ -30,7 +30,7 @@ namespace DbConnectionSecurityTests {
 		///notation ("192.0.2.x" or "192.0.2.x:3306"). Nothing else: the owner's exception (OWNER_EXCEPTION).</summary>
 		public const string VARIABLE_SERVER="OPMS_DB_TLS_TEST_SERVER";
 		///<summary>Why ReadSetup refuses any other server before a connection.</summary>
-		public const string OWNER_EXCEPTION="The owner's narrow exception of 2026-11-14 to 'only 127.0.0.1:3306' (docs/owner-questions.md; "
+		public const string OWNER_EXCEPTION="The owner's narrow exception of 2026-11-14 to 'only 127.0.0.1:3306' (docs/decisions/owner-questions.md; "
 			+"docs/port-notes/DB-TLS.md, section 11) lets these tests connect to the one local test address on port 3306 and to nothing else: "
 			+VARIABLE_SERVER+" must be an IPv4 address from 192.0.2.1 to 192.0.2.254 that this computer has (the test adapter of "
 			+"tools/Enable-LocalDbTls.ps1 -WithTestNetwork). Nothing was connected.";

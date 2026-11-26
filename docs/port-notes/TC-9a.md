@@ -45,7 +45,7 @@ as history; comments that said "until TC-9a" now say what is.
 As the TC-9b row and O-26 write: the program's own SharpDX and Tao references (`OpenPmsDental.csproj`: SharpDX, Tao.OpenGl,
 Tao.Platform.Windows; `xCodeBase.csproj`: the two Tao references; `UnitTests.csproj`), the five DLLs in `Required dlls`, `tools/Build-Release.ps1`
 (which still ships the five, staged from `Required dlls`), `THIRD-PARTY-NOTICES.txt`, the licence window's SharpDX and Tao texts and resources,
-`ListRetiredFiles` and `[InstallDelete]`, `docs/third-party-binaries-audit.md`, and `ReleaseIdentityTests`. No code uses the program's
+`ListRetiredFiles` and `[InstallDelete]`, `docs/reports/third-party-binaries-audit.md`, and `ReleaseIdentityTests`. No code uses the program's
 references any more.
 
 One consequence TC-9b must undo: `SharpDX.Direct3D9.dll` and `SharpDX.Mathematics.dll` were needed only through `SparksToothChart`'s

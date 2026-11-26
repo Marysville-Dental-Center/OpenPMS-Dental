@@ -506,7 +506,7 @@ Not included: the office's USPS onboarding (licence, payment account, access app
 - Secondary unit designators (Pub 28): <https://pe.usps.com/text/pub28/28c2_003.htm>
 - Third-party reports (unconfirmed by USPS pages): rate limit, <https://www.smarty.com/blog/usps-api-rate-limit>; Web Tools retirement and per-token limits, <https://directmail.io/blog/usps-api-marketplace-explained-npf-2026>; licensed cut-over and onboarding steps, <https://github.com/CannObserv/address-validator/issues/155> and <https://www.ablecommerce.com/forums/posts/m8721-USPS-Addresses-API-change>; fee tiers, <https://apicostcalc.com/blog/usps-address-api-no-longer-free-2026.html>
 - HHS de-identification guidance (address as an identifier): <https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html>
-- Outside the repository: the HQ vendor table (USPS row). In-repo: `docs/decoupling-plan.md` (ground rules 5–7, OpenDentalHelp and Bridges rows), `docs/third-party-binaries-audit.md` (Bridges.dll), `CDT/README.md` (osd1 threat model), `docs/specs/vendor-direct/postcardmania.md` (runtime program-row pattern)
+- Outside the repository: the HQ vendor table (USPS row). In-repo: `docs/specs/decoupling-plan.md` (ground rules 5–7, OpenDentalHelp and Bridges rows), `docs/reports/third-party-binaries-audit.md` (Bridges.dll), `CDT/README.md` (osd1 threat model), `docs/specs/vendor-direct/postcardmania.md` (runtime program-row pattern)
 
 ---
 

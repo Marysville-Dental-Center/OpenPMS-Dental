@@ -22,7 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Inno Setup 6.7.4, the version of the 0.0 release (docs/release-process.md), from its official release (jrsoftware.org links it).
+  # Inno Setup 6.7.4, the version of the 0.0 release (docs/develop/release-process.md), from its official release (jrsoftware.org links it).
   INNO_URL: https://github.com/jrsoftware/issrc/releases/download/is-6_7_4/innosetup-6.7.4.exe
   INNO_SHA256: a549929319f9120716677c685535ca4671e4b937b5fdc87e2585f32d8eb30e8c
   INNO_VERSION: 6.7.4
@@ -31,7 +31,7 @@ env:
   TWAINDSM_SHA256: 6d5b520e0d4d524a195aa6ed749edb09d7118eed96c7defb4952bfcdb1590cee
   TWAINDSM_SOURCE_URL: https://github.com/twain/twain-dsm/releases/download/v2.5.1/twain-dsm-2.5.1.zip
   TWAINDSM_SOURCE_SHA256: 67e5aebda9c7aa85e39a38b8c9c8b99bd720d4b318134b3e274aec97d4977e0f
-  # The Build Tools 2026 installer and the components of docs/building.md a release build needs (no test tools).
+  # The Build Tools 2026 installer and the components of docs/develop/building.md a release build needs (no test tools).
   VS_BUILDTOOLS_URL: https://aka.ms/vs/18/stable/vs_buildtools.exe
   DOTNET_NOLOGO: "1"
   DOTNET_CLI_TELEMETRY_OPTOUT: "1"

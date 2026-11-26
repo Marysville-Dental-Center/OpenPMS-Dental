@@ -17,7 +17,7 @@ namespace AdoptionValidation {
 		public const int ExitValidationFailed=6;
 
 		public const string Usage=@"AdoptionValidation: the M1-Z adoption rehearsal on synthetic data, and the steps of the office runbook that run without the
-program (docs/adoption-runbook.md).
+program (docs/admin/adoption-runbook.md).
 
 Usage:
   AdoptionValidation rehearse [--size small|medium|large] [--seed N] [--as-of yyyy-MM-dd] [--runs 2] [--fill-remaining 2]
@@ -243,7 +243,7 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 					//Read-only: the business layer connection only reads information_schema, for the schema check of a version labels pair.
 					BusinessLayer.Connect(options.Server,database);
 					using(Db db=Db.Open(options.Server)) {
-						foreach(string line in MigrationPreview.Run(db,database,x => OpenPmsDentalBusiness.ForkMigrations.SchemaVerifier.VerifyDatabase25_3_48(x)).Lines()) {
+						foreach(string line in MigrationPreview.Run(db,database,(x,v) => OpenPmsDentalBusiness.ForkMigrations.SchemaVerifier.VerifyDatabaseAs(v,x)).Lines()) {
 							log(line);
 						}
 					}

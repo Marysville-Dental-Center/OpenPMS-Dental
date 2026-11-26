@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
 Installs the setup of a Release dry run in Windows Sandbox, a clean Windows without any .NET, checks the install and uninstalls it there,
-then prints one summary line. Not elevated (once Windows Sandbox is on), 64-bit. A launch check of stage 3b (docs\launch-checks-3b.md).
+then prints one summary line. Not elevated (once Windows Sandbox is on), 64-bit. A launch check of stage 3b (docs\admin\launch-checks-3b.md).
 
 .DESCRIPTION
 HOW TO RUN IT. The owner runs it, never an agent: it starts Windows Sandbox. After a Release dry run (tools\Build-Release.ps1 -OutDir

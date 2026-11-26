@@ -37,7 +37,7 @@ Package RDL-SRC, run before the rename. Branch `m16/rdl-src-1`, from `main` 9095
 - **LGPL notices**: each changed file (both project files, `RdlEngineConfig.cs`, `RdlEngineConfig.xml`) says what was changed, by whom and when (LGPL 2.1 section 2a). The assemblies keep their own identity: AssemblyVersion 2.9.3, fyiReporting company and copyright. They do not link SharedAssemblyInfo, because they are not ours.
 - **`Required dlls/RdlEngine.dll` and `RdlViewer.dll` are deleted.**
 - **`THIRD-PARTY-NOTICES.txt`**, RDL Project: "2.9.3, built from RdlEngine/ and RdlViewer/ of this repository (changes are marked in the changed files)". It used to say "prebuilt". The corresponding source line is unchanged.
-- **`docs/third-party-binaries-audit.md`**: the three rows say Done (RDL-SRC).
+- **`docs/reports/third-party-binaries-audit.md`**: the three rows say Done (RDL-SRC).
 
 ### 3. Tests
 

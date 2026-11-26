@@ -369,7 +369,7 @@ namespace DbConnectionSecurityTests {
 			foreach(string user in new[] { "root","ROOT"," root " }) {
 				StringAssert.Contains(DbSettingsRunner.GetRootUserWarning(TestHelpers.NETWORK_HOST,user),"its own account",user);
 			}
-			StringAssert.Contains(DbSettingsRunner.GetRootUserWarning(TestHelpers.NETWORK_ADDRESS+":3307","root"),"docs/db-connection-security.md");
+			StringAssert.Contains(DbSettingsRunner.GetRootUserWarning(TestHelpers.NETWORK_ADDRESS+":3307","root"),"docs/admin/db-connection-security.md");
 			Assert.AreEqual("",DbSettingsRunner.GetRootUserWarning(TestHelpers.NETWORK_HOST,"opmsd"));
 			Assert.AreEqual("",DbSettingsRunner.GetRootUserWarning(TestHelpers.NETWORK_HOST,"rootless"));
 			foreach(string server in new[] { "localhost","127.0.0.1:3306","[::1]","" }) {

@@ -158,7 +158,7 @@ On the build PC, outside the repository like G1 and G2, in the main checkout's `
   -NoTestRun`): the full gallery as G2 was made (WriteGallery with `OPMS_CHART_GALLERY_NAME=G3` and the approved pictures of `main`, whose
   WPF baselines are those of `3620550cb`). 291 WPF pictures: the 276 approved ones all the same as approved, and the 15 perio pictures new;
   every DirectX parity caption passes (264 of 264, the ten recorded perio scenes' 7178 probes among them).
-- The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8). TC-7 merges only after it.
+- The owner's answer goes into `docs/decisions/owner-questions.md` with the commit and the date (plan section 8). TC-7 merges only after it.
 
 ## 4. Launch check L-6, for a person
 

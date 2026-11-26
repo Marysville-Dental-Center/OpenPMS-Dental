@@ -229,7 +229,7 @@ On the build PC, outside the repository like G1 to G4, in the main checkout's `.
   -NoTestRun`): the full gallery (WriteGallery with `OPMS_CHART_GALLERY_NAME=G5` and the approved pictures of `chart/tc3c-2`): 320 WPF
   pictures, 291 with an approved picture, 16 of them different (TC-6's), 29 new; every DirectX parity caption passes. The render times: a
   refill with its picture 388 ms at 410x307 (median).
-- The owner's answer goes into `docs/owner-questions.md` with the commit and the date (plan section 8). TC-6 merges only after it.
+- The owner's answer goes into `docs/decisions/owner-questions.md` with the commit and the date (plan section 8). TC-6 merges only after it.
 
 ## 5. Launch check L-5 (TC-6's part), for a person
 

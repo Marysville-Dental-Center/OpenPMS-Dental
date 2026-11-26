@@ -50,7 +50,7 @@ from that description. No driver's setting names are in this program's code.
 7. **Test capture** lists SettingsCap, SettingsSchemaCap and the settings sent, the description's result, and after a test image the
    "Sensor driver settings in effect".
 8. **Headless** needs no code here: `[Device.N] Headless=1` already sends ShowUI=0 when the source reports CAP_UICONTROLLABLE TRUE.
-9. Docs: `docs/imaging-capture-design.md` (the [Device.N] block); `docs/imaging/intraoral-capture-setup.md` section 15.
+9. Docs: `docs/specs/imaging-capture-design.md` (the [Device.N] block); `docs/admin/intraoral-capture-setup.md` section 15.
 
 ## Tests
 

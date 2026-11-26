@@ -1255,7 +1255,7 @@ The rest of the 25.2 rename list is not public. Collect it from the office's 25.
 
 **Other exclusions (excluded-other):**
 
-- **v25_2-account-carecredit-merchant-fee-adj**: CareCredit is cut (`docs/decoupling-plan.md`, Bridges row). Open Dental's CareCredit integration lives in the proprietary Bridges DLL, and the setup page says the eConnector and Open Dental Service are required (https://www.opendental.com/site/carecreditsetup.html).
+- **v25_2-account-carecredit-merchant-fee-adj**: CareCredit is cut (`docs/specs/decoupling-plan.md`, Bridges row). Open Dental's CareCredit integration lives in the proprietary Bridges DLL, and the setup page says the eConnector and Open Dental Service are required (https://www.opendental.com/site/carecreditsetup.html).
 - **v25_2-account-carecredit-self-service**: the same vendor cut, and that is the only reason. The blog says Synchrony itself sends the self-service link by text or email, not Open Dental's texting (https://opendental.blog/version-25-2/). If CareCredit is ever brought back as a vendor-direct bridge, this item can come back with it.
 - **v25_2-account-carecredit-net-amount**: the same vendor cut (https://www.opendental.com/site/carecredittransactions.html).
 - **v25_2-security-text-all-employees-perm**: `EnumPermType` 269 is Open Dental HQ-internal (texting employees). Reserve the number only.

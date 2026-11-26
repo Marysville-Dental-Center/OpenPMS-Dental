@@ -122,7 +122,7 @@ namespace NoHqTests {
 
 		[TestMethod]
 		public void OpenDental_RegistrationKeyBoxesAreRemoved() {
-			//Open Dental's registration keys were removed (docs/decoupling-plan.md), so no window shows or changes one: the Setup Wizard's
+			//Open Dental's registration keys were removed (docs/specs/decoupling-plan.md), so no window shows or changes one: the Setup Wizard's
 			//Registration Key page and its Pre-Setup category are gone, and so are the key boxes of FormRegistrationKey and FormUpdateSetup.
 			//The RegistrationKey preference itself stays in the database.
 			Assembly assembly=LoadProgramAssembly();

@@ -1,4 +1,4 @@
-// Tests for the v0.0 installer (docs/release-process.md, "Building the installer"; docs/release-notes/v0.0.md): the list checks of
+// Tests for the v0.0 installer (docs/develop/release-process.md, "Building the installer"; docs/release-notes/v0.0.md): the list checks of
 // tools/Build-Release.ps1, run against fake staging folders, and what installer/OpenPmsDental.iss and its information page must keep saying.
 // The fake files are synthetic text. No setup is run here (tools/Test-Installer.ps1 does that, run elevated by the owner; here it only runs
 // unelevated, where it refuses before any change) and no database is used.
@@ -224,7 +224,7 @@ namespace ReleaseFlowTests {
 
 		[TestMethod]
 		public void AllowList_ShipsPdfSharpFromTheSourceBuild_AndNoLicenceDll() {
-			//PDFsharp and MigraDoc are built from empira's source with an open licence check (docs/third-party-source-builds.md): the closed
+			//PDFsharp and MigraDoc are built from empira's source with an open licence check (docs/develop/third-party-source-builds.md): the closed
 			//PdfSharp.License.dll is not on the allow-list but on the deny-list, and an otherwise complete staging folder passes.
 			Assert.IsFalse(ListFiles().Any(x => x.Value=="PdfSharp.License.dll"),"PdfSharp.License.dll is not on the allow-list.");
 			string script=TestPaths.ReadSource("tools","Build-Release.ps1");
@@ -792,7 +792,7 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(twain,"OpenPmsDental-<version>-source.zip");
 			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_ENTRY);
 			StringAssert.Contains(twain,TWAIN_DSM_SOURCE_SHA256);
-			string releaseProcess=TestPaths.ReadSource("docs","release-process.md");
+			string releaseProcess=TestPaths.ReadSource("docs","develop","release-process.md");
 			StringAssert.Contains(releaseProcess,"the source of the setup's `TWAINDSM.dll` as `"+TWAIN_DSM_SOURCE_ENTRY+"`");
 			StringAssert.Contains(releaseProcess,"LGPL 2.1 section 4 for the setup's `TWAINDSM.dll`, whose source it carries");
 		}
@@ -1007,10 +1007,11 @@ namespace ReleaseFlowTests {
 		[TestMethod]
 		public void InfoPage_HasTheAttribution_TheSourceLink_AndNotice() {
 			string info=TestPaths.ReadSource("installer","setup-info.txt");
-			StringAssert.Contains(info,ATTRIBUTION);
+			//The attribution comes from NOTICE, shown on the same page; the template does not repeat it (owner, 2026-11-26).
+			Assert.IsFalse(info.Contains(ATTRIBUTION),"setup-info.txt does not repeat NOTICE's attribution.");
 			StringAssert.Contains(info,"https://github.com/Marysville-Dental-Center/OpenPMS-Dental/tree/v@VERSION@");
 			StringAssert.Contains(info,"@NOTICE@");
-			StringAssert.Contains(TestPaths.ReadSource("NOTICE"),ATTRIBUTION,"NOTICE, shown on the same page, starts with it too.");
+			StringAssert.Contains(TestPaths.ReadSource("NOTICE"),ATTRIBUTION,"NOTICE, shown on the same page, starts with it.");
 			//"Version 2 or later" is the licence of the program's own source files; the installed program, with PDFsharp and MigraDoc, is GPL 3.
 			StringAssert.Contains(info,"The program's own source files are free software: you can redistribute them and/or modify them under the terms of "
 				+"the GNU General Public License, version 2 or (at your option) any later version.");
@@ -1077,9 +1078,9 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(notesV00,"defaults are `[Twain] Allow16Bit=1`");
 			StringAssert.Contains(notesV00,"Before any patient capture, set `[Twain] Allow16Bit=0` in Capture settings");
 			StringAssert.Contains(notesV00,"\"Before 16-bit X-rays for patients\"");
-			StringAssert.Contains(TestPaths.ReadSource("docs","imaging","intraoral-capture-setup.md"),"**Before 16-bit X-rays for patients.**");
+			StringAssert.Contains(TestPaths.ReadSource("docs","admin","intraoral-capture-setup.md"),"**Before 16-bit X-rays for patients.**");
 			//Since 0.1 (owner decision of 2026-11-07): the installed default is named, and patient use at any bit depth waits for the phantom
-			//comparison (docs/imaging/intraoral-capture-setup.md, section 14).
+			//comparison (docs/admin/intraoral-capture-setup.md, section 14).
 			string notes=TestPaths.ReadSource("docs","release-notes","v"+ReleaseVersion()+".md");
 			Assert.IsFalse(notes.Contains("stay at 8 bits"),"Nothing in the program keeps them at 8 bits by itself.");
 			if(ReleaseVersion()!="0.0") {

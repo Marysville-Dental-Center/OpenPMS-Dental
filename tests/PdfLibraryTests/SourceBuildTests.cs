@@ -90,10 +90,10 @@ namespace PdfLibraryTests {
 			ProjectFile projectFileSpell=ProjectFile.Load(SourceBuild.Combine("third-party/build/WeCantSpell.Hunspell/WeCantSpell.Hunspell.csproj"));
 			Assert.AreEqual(SourceBuild.WECANTSPELL_TAG,projectFileSpell.GetProperty("SourceBuildTag"));
 			Assert.AreEqual(SourceBuild.WECANTSPELL_COMMIT,projectFileSpell.GetProperty("SourceBuildCommit"));
-			foreach(string file in new[] { "THIRD-PARTY-NOTICES.txt","NOTICE","docs/third-party-source-builds.md" }) {
+			foreach(string file in new[] { "THIRD-PARTY-NOTICES.txt","NOTICE","docs/develop/third-party-source-builds.md" }) {
 				StringAssert.Contains(File.ReadAllText(SourceBuild.Combine(file)),SourceBuild.PDFSHARP_COMMIT,file);
 			}
-			foreach(string file in new[] { "THIRD-PARTY-NOTICES.txt","docs/third-party-source-builds.md" }) {
+			foreach(string file in new[] { "THIRD-PARTY-NOTICES.txt","docs/develop/third-party-source-builds.md" }) {
 				StringAssert.Contains(File.ReadAllText(SourceBuild.Combine(file)),SourceBuild.WECANTSPELL_COMMIT,file);
 			}
 		}

@@ -95,7 +95,7 @@ namespace OpenPmsDentalBusiness {
 			}
 			if(forkDbState.IsAdoptionIncomplete) {
 				Version versionStarted=ParseAdoptedFromSource(forkDbState.ForkAdoptedFrom);
-				if(!ForkVersions.IsAdoptable(versionStarted)) {
+				if(!ForkVersions.IsAdoptableSource(versionStarted)) {
 					adoptionPreflight.Message="The unfinished adoption record is not readable ("+forkDbState.ForkAdoptedFrom+"). Restore the backup taken "
 						+"before the adoption.";
 					return adoptionPreflight;
@@ -117,7 +117,8 @@ namespace OpenPmsDentalBusiness {
 				adoptionPreflight.Message="DataBaseVersion is "+(forkDbState.DataBaseVersion??"missing")+" (ProgramVersion "+(forkDbState.ProgramVersion??"missing")
 					+"). Only these Open Dental versions can be adopted: "+string.Join(", ",ForkVersions.ListAdoptableVersions.Select(x => x.ToString(4)))
 					+" with ProgramVersion equal to it, or "+string.Join(", ",ForkVersions.ListAdoptableLabels.Select(x => x.ToString()))
-					+" when the schema matches exactly.";
+					+", or any "+string.Join(", ",ForkVersions.ListAdoptableLines.Select(x => x.Major+"."+x.Minor+".x"))
+					+" release (ProgramVersion on the same line, not below DataBaseVersion), when the schema matches exactly.";
 				return adoptionPreflight;
 			}
 			if(versionProgram!=versionDb) {
@@ -207,13 +208,9 @@ namespace OpenPmsDentalBusiness {
 				|| string.Equals(difference.Item,PATIENT_PORTAL_EMAIL_INDEX,StringComparison.OrdinalIgnoreCase));
 		}
 
-		///<summary>Verifies the connected database against the reference of the schema version. 25.3.48 is the only reference for a database before
-		///adoption.</summary>
+		///<summary>Verifies the connected database against the reference of the schema version (25.3.48 or 26.2.0 before adoption).</summary>
 		private static SchemaVerifyResult VerifySchema(Version versionSchema) {
-			if(versionSchema==new Version(25,3,48,0)) {
-				return SchemaVerifier.VerifyDatabase25_3_48();
-			}
-			throw new ApplicationException("There is no reference schema to verify an Open Dental "+versionSchema.ToString(3)+" database against.");
+			return SchemaVerifier.VerifyDatabaseAs(versionSchema);
 		}
 
 		///<summary>The start of a ForkAdoptedFrom value: source= the schema version, then, for a labels pair, the real DataBaseVersion and ProgramVersion
@@ -279,8 +276,9 @@ namespace OpenPmsDentalBusiness {
 			}
 			Log("Fork markers written: OdSchemaCompat "+ForkVersions.GetMarker(ForkVersions.PREF_OD_SCHEMA_COMPAT)+", ForkSchemaLevel "
 				+ForkVersions.GetMarker(ForkVersions.PREF_FORK_SCHEMA_LEVEL)+".");
-			//7. Fork migration steps: 24.4 to 25.3.48 for a 24.3.63 source, then 25.4 to 26.1.70 and 26.2.0 for both. For 25.3.48 the 25.3 schema and seed steps
-			//find nothing to change; the report rows step may rename report rows Open Dental wrote under names this program does not know
+			//7. Fork migration steps: 24.4 to 25.3.48 for a 24.3.63 source, then 25.4 to 26.1.70 and 26.2.0. For 25.3.48 the 25.3 schema and seed steps
+			//find nothing to change; for 26.2.0 none of the Open Dental schema steps does (each adds only what is missing), and the seed and data steps
+			//that belong to older sources (IsFrom24_3, IsFromBefore25_4) are skipped; the report rows step may rename report rows Open Dental wrote under names this program does not know
 			//(ReportRows25_3.PlanRenames predicts it).
 			if(ForkMigrationHandOff.HasSteps(runner)) {
 				Log("Running fork migration steps up to level "+runner.LatestLevel+".");

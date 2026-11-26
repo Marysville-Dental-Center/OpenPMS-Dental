@@ -1,4 +1,4 @@
-// The manual test of the server guide's grants for the program's database account (docs/db-connection-security.md section 5,
+// The manual test of the server guide's grants for the program's database account (docs/admin/db-connection-security.md section 5,
 // docs/specs/db-connection-security.md sections 8 and 9). Run it before the office's switch-over, on the local MariaDB of a development
 // computer, with names that exist nowhere on that server:
 //

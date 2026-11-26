@@ -39,12 +39,14 @@ namespace ImagingCapture.Tests {
 			"0c6947fda12f6b9a18b81f7c46cdbe0130e2d329d1708487a49f867fc2c1c47e",//the vendor of an unsupported imaging device type
 		};
 		///<summary>Folders scanned, from the repository root. Missing ones are skipped.</summary>
-		private static readonly string[] _arrayFolders={ "ImagingCapture","ImagingDeviceManager",@"docs\imaging",@"tests\ImagingCaptureTests",
+		private static readonly string[] _arrayFolders={ "ImagingCapture","ImagingDeviceManager",@"tests\ImagingCaptureTests",
 			@"tests\ImagingDeviceManagerTests" };
 		///<summary>Single files scanned when present: the capture hook partial (design 13), the Video window built on ImagingCapture, the
-		///capture design itself, whose background and provenance sections describe the clinic's hardware by role only, and the track's port note.</summary>
+		///capture design itself, whose background and provenance sections describe the clinic's hardware by role only, the track's port note, the capture
+		///setup runbook and the DICOM reader spec.</summary>
 		private static readonly string[] _arrayFiles={ @"OpenPmsDental\Main Modules\ControlImages.Acquire.cs",@"OpenPmsDental\Forms\FormVideo.cs",
-			@"OpenPmsDental\Forms\FormVideo.designer.cs",@"docs\imaging-capture-design.md",@"docs\port-notes\CAP.md" };
+			@"OpenPmsDental\Forms\FormVideo.designer.cs",@"docs\specs\imaging-capture-design.md",@"docs\port-notes\CAP.md",
+			@"docs\admin\intraoral-capture-setup.md",@"docs\specs\dicom-reader.md" };
 		private static readonly string[] _arrayFoldersSkipped={ "bin","obj","TestResults",".vs" };
 		///<summary>Files NuGet writes (S2-1): their base64 content hashes can hold a denied short name by chance, and they carry no name of
 		///ours. The lock-file tests check them.</summary>

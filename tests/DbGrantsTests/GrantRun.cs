@@ -21,7 +21,7 @@ namespace DbGrantsTests {
 	}
 
 	///<summary>One run of the manual grants test on the local MariaDB: creates the temporary account with exactly the server guide's grants
-	///(docs/db-connection-security.md section 5) and a random password, builds the office database from db/init/new-database.sql, runs the
+	///(docs/admin/db-connection-security.md section 5) and a random password, builds the office database from db/init/new-database.sql, runs the
 	///program's own code as that account (GrantRun.Program.cs), proves that what the guide does not grant is refused and that each granted
 	///right is needed (GrantRun.Refusals.cs), runs the Open Dental update chain from 21.1 and the adoption as the account (GrantRun.Chain.cs),
 	///and at the end drops the account and every database it made. It changes no other account, role (PUBLIC included), setting or global
@@ -123,7 +123,7 @@ namespace DbGrantsTests {
 				CleanUp();
 			}
 			string path=GetReportPath();
-			Report.Write(path,"Grants test of the program's database account (docs/db-connection-security.md section 5), "
+			Report.Write(path,"Grants test of the program's database account (docs/admin/db-connection-security.md section 5), "
 				+_dateTimeStart.ToString("yyyy-MM-dd HH:mm",CultureInfo.InvariantCulture)+". Account '"+Account+"'@'localhost', office database "
 				+Db+", server "+GrantServer.SERVER+":3306.");
 			return path;

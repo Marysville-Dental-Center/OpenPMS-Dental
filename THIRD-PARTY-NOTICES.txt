@@ -29,14 +29,14 @@ third-party/WeCantSpell.Hunspell) pinned to the upstream release commits named
 below, compiled by the project files in third-party/build. The source archive
 of each release, OpenPmsDental-<version>-source.zip next to the setup, holds
 the repository and both submodules at the commits the release was built from
-(docs/third-party-source-builds.md).
+(docs/develop/third-party-source-builds.md).
 
 The files of a component that comes as a NuGet package are that package's own
 files, at the version named below: the build takes them from the package, and
 the release checks each one against the package that the program's lock file
 (OpenPmsDental/packages.lock.json) names. Files in the repository's "Required
 dlls" folder that are not listed here are not part of the release (see
-docs/third-party-binaries-audit.md). The MariaDB server, the Visual C++
+docs/reports/third-party-binaries-audit.md). The MariaDB server, the Visual C++
 runtime and the WebView2 runtime are installed separately and are not shipped.
 The .NET runtime ships with the program, which is self-contained (".NET
 libraries" below), and the setup installs the 64-bit TWAIN data source manager

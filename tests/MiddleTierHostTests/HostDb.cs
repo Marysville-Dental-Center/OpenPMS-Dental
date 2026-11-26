@@ -33,7 +33,7 @@ namespace MiddleTierHostTests {
 		public const string Password="";
 		///<summary>Every database these tests create or drop starts with this or with PREFIX_SERVICE_CHECK.</summary>
 		public const string PREFIX_PACKAGE="s3b6_";
-		///<summary>The database of the Middle Tier service launch check (tools/Test-MiddleTierService.ps1, docs/launch-checks-3b.md), which the
+		///<summary>The database of the Middle Tier service launch check (tools/Test-MiddleTierService.ps1, docs/admin/launch-checks-3b.md), which the
 		///script names in MIDDLETIER_TEST_DB, reserves, and drops at its end.</summary>
 		public const string PREFIX_SERVICE_CHECK="mtsvc_";
 		///<summary>The in-process run's databases.</summary>

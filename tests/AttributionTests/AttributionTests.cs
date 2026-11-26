@@ -1,4 +1,4 @@
-// Tests for decoupling Phase 4 attribution (docs/decoupling-plan.md): README.md, NOTICE and the About box.
+// Tests for decoupling Phase 4 attribution (docs/specs/decoupling-plan.md): README.md, NOTICE and the About box.
 // Licensed under the GNU General Public License, version 2. See LICENSE in the repository root.
 using System;
 using System.IO;
@@ -84,7 +84,8 @@ namespace AttributionTests {
 			int indexFirstSection=Array.FindIndex(arrayLines,x => x.StartsWith("## "));
 			Assert.IsTrue(indexFirstSection>0,"README.md has no second-level heading.");
 			string top=string.Join("\n",arrayLines.Take(indexFirstSection));
-			StringAssert.Contains(top,ExpectedAttribution);
+			//The attribution itself is in NOTICE only (owner, 2026-11-26); the top points to it.
+			Assert.IsFalse(top.Contains(ExpectedAttribution),"The README does not repeat NOTICE's attribution.");
 			StringAssert.Contains(top,"(NOTICE)");
 			StringAssert.Contains(top,"(LICENSE)");
 		}
@@ -166,8 +167,10 @@ namespace AttributionTests {
 		[TestMethod]
 		public void AboutBox_KeepsEveryCopyrightLine() {
 			string code=ReadRepoFile("OpenPmsDental","Forms","FormAbout.cs");
-			StringAssert.Contains(code,"\"Copyright 2003-\"");
-			StringAssert.Contains(code,"Jordan Sparks, D.M.D.");
+			StringAssert.Contains(code,"\"Copyright 2026-\"");
+			StringAssert.Contains(code,"Open PMS - Dental contributors");
+			//Open Dental's copyright is in the attribution label, once (AboutBox_ShowsTheAttribution); not in a second line.
+			Assert.IsFalse(code.Contains("Jordan Sparks"),"FormAbout.cs credits Open Dental only through AboutBoxInfo.Attribution.");
 			StringAssert.Contains(code,"\"MySQL - Copyright 1995-\"");
 			StringAssert.Contains(code,"\"MariaDB - Copyright 2009-\"");
 			StringAssert.Contains(code,"FormLicense");

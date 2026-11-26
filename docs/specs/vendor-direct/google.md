@@ -424,7 +424,7 @@ On a restored copy of the office database:
 | | **A. Keep Google.Apis 1.44 for Gmail calls (recommended for v1)** | B. In-repo REST client for 3 Gmail endpoints | C. NuGet `Google.Apis.Gmail.v1` (current) |
 |---|---|---|---|
 | What | OAuth becomes in-repo `HttpClient` code (it is mostly written already). Gmail calls stay on `GmailService` with `ODGoogleUserCredential` | `GmailRestClient`: `send`, `list` and `get` over `HttpClient` and Newtonsoft.Json 12.0.3. About 200 lines | The current Google client library, with its own `UserCredential` refresh |
-| Dependencies | None new. The 6 Apache-2.0 DLLs stay, as `docs/third-party-binaries-audit.md` already allows | Drop all 6 `Google.Apis*.dll` (and the unused `using` in `Bridges/Pearl/IPearlApiClient.cs`) | Newer Newtonsoft.Json and a move to package references, repo-wide |
+| Dependencies | None new. The 6 Apache-2.0 DLLs stay, as `docs/reports/third-party-binaries-audit.md` already allows | Drop all 6 `Google.Apis*.dll` (and the unused `using` in `Bridges/Pearl/IPearlApiClient.cs`) | Newer Newtonsoft.Json and a move to package references, repo-wide |
 | Upside | Smallest change. The send and receive code is untouched apart from the token source | One less vendor library | Least code of our own |
 | Downside | An old library version. `GoogleApiException` mapping stays | We own the error mapping, about 1 day | The repo-wide dependency upgrade |
 

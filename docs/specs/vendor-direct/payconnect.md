@@ -365,7 +365,7 @@ Robustness fixes in the same change:
 ### 4.5 Prebuilt binaries: Bridges.dll and DpsPos.dll
 
 - **Bridges.dll:** PayConnect uses **no** Bridges.dll type, so nothing needs re-implementing. The only coupling is the stray `using Bridges;` in `PayConnect2.cs` (4.1).
-- **DpsPos.dll** (EDI Health Group, proprietary, flagged in `docs/third-party-binaries-audit.md`) is the **PayConnect 1.0 VeriFone terminal** module. **Recommendation: remove PayConnect 1.0, with VeriFone and DpsPos, in a follow-up change (size M):**
+- **DpsPos.dll** (EDI Health Group, proprietary, flagged in `docs/reports/third-party-binaries-audit.md`) is the **PayConnect 1.0 VeriFone terminal** module. **Recommendation: remove PayConnect 1.0, with VeriFone and DpsPos, in a follow-up change (size M):**
   - DentalXChange has decommissioned 1.0, per Open Dental's public manual.
   - DentalXChange publishes no DpsPos documentation.
   - Its binary has no public redistribution terms.
@@ -546,6 +546,6 @@ An adversarial review checked this spec against the OpenAPI file (2.12.0), the d
 - Open Dental manual, PayConnect setup (1.0 decommissioned, Secret from PayConnect): <https://opendental.com/manual/payconnectsetup.html>
 - In repo:
   - The HQ vendor table (kept outside the repository)
-  - `docs/decoupling-plan.md` (ground rules 5–7)
-  - `docs/third-party-binaries-audit.md` (DpsPos)
+  - `docs/specs/decoupling-plan.md` (ground rules 5–7)
+  - `docs/reports/third-party-binaries-audit.md` (DpsPos)
   - `CDT/README.md` (osd1 threat model)

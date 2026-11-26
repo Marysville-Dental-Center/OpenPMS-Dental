@@ -115,7 +115,7 @@ namespace DbConnectionSecurityTests {
 								+(isTwoClients ? "for client authentication)" : "a certificate authority)"),label);
 						}
 						StringAssert.EndsWith(message,"Make a .pfx with only the client certificate and its private key, and the office CA certificate "
-							+"without its key, as docs/db-connection-security.md section 3 does: openssl pkcs12 -export -in client-cert.pem -inkey "
+							+"without its key, as docs/admin/db-connection-security.md section 3 does: openssl pkcs12 -export -in client-cert.pem -inkey "
 							+"client-key.pem -certfile office-ca.pem -out client.pfx.",label);
 						Dictionary<string,TestKey> dictKeys=null;
 						ClientCertificateStore.ActionAfterKeysStoredForTests=x509Certificate2Collection => {

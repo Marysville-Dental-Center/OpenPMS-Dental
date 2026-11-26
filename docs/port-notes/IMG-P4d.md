@@ -58,7 +58,7 @@ runtime the program already needs, and frames come from Media Foundation directl
 ## Not in this package
 
 **Export of a trimmed clip.** Design section 4 says "Export writes the trimmed clip". That needs a remux or re-encode of the MP4; Export
-still writes the whole file. Recorded in docs/owner-questions.md.
+still writes the whole file. Recorded in docs/decisions/owner-questions.md.
 
 ## Tests
 

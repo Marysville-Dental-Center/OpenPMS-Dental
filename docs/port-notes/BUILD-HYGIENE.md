@@ -151,7 +151,7 @@ normalised) are equal, so nothing but the comment changed; the line ends of each
 The stage 2 gate left the comment alone so that the shipped `.config` files stayed byte for byte the same; that gate has passed, so they
 change now. Seven of them ship (`OpenPmsDental.exe.config`, `OpenPmsDentalBusiness.dll.config`, `WpfControlsOD.dll.config`,
 `OpenPmsDentalGraph.dll.config`, `SparksToothChart.dll.config`, `ServiceManager.exe.config`, `OpenPmsDentalDbSettings.exe.config`). No
-release check compares their bytes: `tools/Build-Release.ps1` lists them without a hash, and `docs/release-process.md` describes no such
+release check compares their bytes: `tools/Build-Release.ps1` lists them without a hash, and `docs/develop/release-process.md` describes no such
 comparison, so it is unchanged. The next gate's hash comparison and the project baseline see them changed in the comment only (the plan's
 section 3 says so).
 

@@ -1,4 +1,4 @@
-// The plain parts of check D7 (the WebView2 windows, docs/launch-checks-3b.md): the synthetic page the e-mail preview shows, the script that
+// The plain parts of check D7 (the WebView2 windows, docs/admin/launch-checks-3b.md): the synthetic page the e-mail preview shows, the script that
 // reads a browser's state, how its answer is read, and which assembly names the check watches. No program, browser or window here; the
 // self-tests (WebView2PagesTests) run them without the opt-in.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.

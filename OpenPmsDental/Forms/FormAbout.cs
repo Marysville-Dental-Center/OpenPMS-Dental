@@ -32,9 +32,9 @@ namespace OpenPmsDental{
 			if(updateHistory!=null) {
 				labelVersion.Text+="  "+Lan.g(this,"Since:")+" "+updateHistory.DateTimeUpdated.ToShortDateString();
 			}
-			//Open Dental's copyright line, written out: it is never built from the SoftwareName preference, which names this program (and which an
-			//office may change), so the line always credits Open Dental. Keeps the trailing year up to date.
-			labelCopyright.Text="Open Dental Software "+Lan.g(this,"Copyright 2003-")+DateTime.Now.ToString("yyyy")+", Jordan Sparks, D.M.D.";
+			//The program's own copyright line. Open Dental's copyright is credited once, in labelAttribution (owner, 2026-11-26: Open Dental is
+			//named only where its licence needs it). Never built from the SoftwareName preference, which an office may change.
+			labelCopyright.Text=Lan.g(this,"Copyright 2026-")+DateTime.Now.ToString("yyyy")+", Open PMS - Dental contributors";
 			labelMySQLCopyright.Text=Lan.g(this,"MySQL - Copyright 1995-")+DateTime.Now.ToString("yyyy")+Lan.g(this,", www.mysql.com");
 			labelMariaDBCopyright.Text=Lan.g(this,"MariaDB - Copyright 2009-")+DateTime.Now.ToString("yyyy")+Lan.g(this,", www.mariadb.com");
 			//Database Server----------------------------------------------------------		
@@ -78,7 +78,8 @@ namespace OpenPmsDental{
 			"Benco Practice Management powered by Open Dental",
 			"Benco Practice Management",
 		};
-		///<summary>The attribution required by the owner, also in README.md and NOTICE. Never translated or shortened.</summary>
+		///<summary>The attribution to Open Dental that the GPL needs, also at the top of NOTICE (which the setup's information page shows). The only
+		///place the About box names Open Dental. Never translated or shortened.</summary>
 		public const string Attribution="Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and contributors, licensed under "
 			+"the GNU GPL v2. It is not affiliated with or endorsed by Open Dental Software, Inc.";
 

@@ -1,4 +1,4 @@
-// The in-house full DICOM reader (DicomImageReader, docs/imaging/dicom-reader.md) against what fo-dicom 4 read from the same synthetic files
+// The in-house full DICOM reader (DicomImageReader, docs/specs/dicom-reader.md) against what fo-dicom 4 read from the same synthetic files
 // (FoDicomBaseline.cs), and against values computed in the test from PS3.3 and PS3.5 for the images fo-dicom's path did not show.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

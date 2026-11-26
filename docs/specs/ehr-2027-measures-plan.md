@@ -1221,7 +1221,7 @@ release notes (EHR-6a).
   EHR-6b that entry point is EHR-5b's export in `FormEhrCqm.cs`.
 - **`docs/port-notes/EHR-2.md`:** its owner questions 1 and 2 are superseded (section 14).
 - **`docs/port-notes/FORK-ENUMS.md`:** the rule for `EhrNotPerformedItem`, if E-34 adds the item (EHR-7).
-- **`docs/owner-questions.md`:** E-20 to E-40; E-21 and E-10b as answered by the owner on 2026-11-14 (section 14).
+- **`docs/decisions/owner-questions.md`:** E-20 to E-40; E-21 and E-10b as answered by the owner on 2026-11-14 (section 14).
 - **Release notes** (`docs/release-notes/next.md`): EHR-6a rewrites EHR-2's section (section 3); the removal line of section 3, which
   names the 2011 window and its PQRI XML export as well; the NCQA measures by CMS ID and title only, with the pointer to their statements
   in the window (section 11.1).

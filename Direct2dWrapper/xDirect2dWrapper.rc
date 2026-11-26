@@ -70,7 +70,7 @@ BEGIN
             VALUE "CompanyName", "Open PMS - Dental contributors"
             VALUE "FileVersion", "24.3.63.0"
             VALUE "InternalName", "xDirect2.dll"
-            VALUE "LegalCopyright", "Copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. Changes in Open PMS - Dental: Copyright (C) 2026 and later years, Open PMS - Dental contributors. GNU GPL v2 or later."
+            VALUE "LegalCopyright", "Copyright (C) 2026 and later years, Open PMS - Dental contributors. Portions copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. GNU GPL v2 or later."
             VALUE "OriginalFilename", "xDirect2.dll"
             VALUE "ProductName", "Open PMS - Dental"
             VALUE "ProductVersion", "0.1"

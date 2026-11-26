@@ -42,10 +42,10 @@ namespace OpenPmsDentalDbSettings {
 	public static class ClientCertificateStore {
 		///<summary>Extended Key Usage OID of TLS client authentication.</summary>
 		private const string OID_CLIENT_AUTHENTICATION="1.3.6.1.5.5.7.3.2";
-		///<summary>How to make a .pfx with one client certificate, for the messages that refuse a file: docs/db-connection-security.md section 3.
+		///<summary>How to make a .pfx with one client certificate, for the messages that refuse a file: docs/admin/db-connection-security.md section 3.
 		///</summary>
 		private const string PFX_HOW_TO="Make a .pfx with only the client certificate and its private key, and the office CA certificate without "
-			+"its key, as docs/db-connection-security.md section 3 does: openssl pkcs12 -export -in client-cert.pem -inkey client-key.pem -certfile "
+			+"its key, as docs/admin/db-connection-security.md section 3 does: openssl pkcs12 -export -in client-cert.pem -inkey client-key.pem -certfile "
 			+"office-ca.pem -out client.pfx";
 		///<summary>The tests only: called with the file's certificates right after ImportPfx stored their keys (PersistKeySet), before anything
 		///else of the import; throwing there is the import failing after the keys were stored. Null in the tool.</summary>

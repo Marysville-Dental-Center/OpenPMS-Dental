@@ -1,6 +1,6 @@
 # SWMAP: Open Dental's setting names at the switch-over
 
-Owner question Switch-over 1 ([../owner-questions.md](../owner-questions.md)), answered on 2026-11-07. Branch `next/swmap-1`. Tests:
+Owner question Switch-over 1 ([../owner-questions.md](../decisions/owner-questions.md)), answered on 2026-11-07. Branch `next/swmap-1`. Tests:
 `tests/SWMAPTests`, plus the package test assemblies named below.
 
 **Decided as built (owner, 2026-11-07):** every open SWMAP question (the INFERRED readings below) is settled as built ("all as recommended").

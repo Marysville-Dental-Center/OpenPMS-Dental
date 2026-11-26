@@ -1,6 +1,6 @@
 # Building Open PMS - Dental
 
-The full build reference: prerequisites, the source, the build, the solution layout, and a development copy with its own database. The short version is in the [README](../README.md#building).
+The full build reference: prerequisites, the source, the build, the solution layout, and a development copy with its own database. The short version is in the [README](../../README.md#building).
 
 
 ## Prerequisites
@@ -12,7 +12,7 @@ The full build reference: prerequisites, the source, the build, the solution lay
   - .NET Framework 4.8 SDK and the 4.8 and 4.7.2 targeting packs (`Microsoft.Net.Component.4.8.SDK`, `Microsoft.Net.Component.4.8.TargetingPack`, `Microsoft.Net.Component.4.7.2.TargetingPack`)
   - Testing tools core (`Microsoft.VisualStudio.Component.TestTools.BuildTools`), for `vstest.console.exe`, which runs the MSTest test projects
   - NuGet build tools (`Microsoft.VisualStudio.Component.NuGet.BuildTools`) and the Windows 11 SDK 10.0.26100 (`Microsoft.VisualStudio.Component.Windows11SDK.26100`)
-- **The .NET SDK 10.0.115** exactly: `global.json` pins it, for the projects that move to the SDK project format (stage 1 of the .NET 10 move, [docs/specs/net10-plan.md](specs/net10-plan.md)). Install it machine-wide, or per user into `%LOCALAPPDATA%\Microsoft\dotnet` (`dotnet-install.ps1 -Version 10.0.115` does that). Each monthly .NET 10 patch moves the pin by the bump procedure of section 2.4 of the plan. The SDK that Visual Studio installs itself is a later band and is not used.
+- **The .NET SDK 10.0.115** exactly: `global.json` pins it, for the projects that move to the SDK project format (stage 1 of the .NET 10 move, [docs/specs/net10-plan.md](../specs/net10-plan.md)). Install it machine-wide, or per user into `%LOCALAPPDATA%\Microsoft\dotnet` (`dotnet-install.ps1 -Version 10.0.115` does that). Each monthly .NET 10 patch moves the pin by the bump procedure of section 2.4 of the plan. The SDK that Visual Studio installs itself is a later band and is not used.
 - **The offline package folder.** `nuget.config` restores from one local folder only, the one the environment variable `OPMS_NUGET_OFFLINE` names; nothing is downloaded during a build. The project's own build PC keeps it in the git folder (`.git\od-tools\nuget-packages`), which `tools\Initialize-BuildEnvironment.ps1` finds by itself. Elsewhere, put the packages the build restores into a folder of your own and set the variable. Today those are the packages of `Directory.Packages.props`: the libraries, the support assemblies and the WebView2 SDK, whose own files the build and the release take; `Mono.Cecil` 0.10.3 for the test projects that read assemblies; the test packages of MSTest 4 (`MSTest.TestFramework`, `MSTest.TestAdapter` and `MSTest.Analyzers` 4.5.3 and `Microsoft.NET.Test.Sdk` 18.12.0, with the packages they bring: `Microsoft.CodeCoverage`, `Microsoft.TestPlatform.ObjectModel`, `Microsoft.Testing.Platform` and its extensions, `Microsoft.ApplicationInsights`, `System.Reflection.Metadata` and `System.Collections.Immutable`; `docs/port-notes/S4-1.md`); and `System.ValueTuple` 4.6.2, which several libraries depend on and which `Directory.Packages.props` pins for every project, so the test packages' 4.5.0 is not copied into a test output folder (the framework's own copy binds). Every `packages.lock.json` names each package with its version and content hash. No project restores into a `packages` folder any more.
 
 One command installs the Build Tools with everything above, from the installer of the Visual Studio 2026 channel (`https://aka.ms/vs/18/stable/vs_buildtools.exe`):
@@ -23,7 +23,7 @@ vs_buildtools.exe --passive --wait --norestart --add Microsoft.VisualStudio.Work
 
 ## Get the source
 
-PDFsharp/MigraDoc and the WeCantSpell.Hunspell spell checker are built from their upstream source, which this repository references as git submodules instead of copying it (`third-party/PDFsharp`, `third-party/WeCantSpell.Hunspell`; [docs/third-party-source-builds.md](third-party-source-builds.md)). Clone with them, or fetch them after cloning:
+PDFsharp/MigraDoc and the WeCantSpell.Hunspell spell checker are built from their upstream source, which this repository references as git submodules instead of copying it (`third-party/PDFsharp`, `third-party/WeCantSpell.Hunspell`; [docs/develop/third-party-source-builds.md](third-party-source-builds.md)). Clone with them, or fetch them after cloning:
 
 ```bash
 git clone --recurse-submodules <repository address>
@@ -48,17 +48,17 @@ Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and bui
 - **`OpenDental.Local.slnf`** loads the program and its libraries, services and tools, the adoption and synthetic-data tools under `tools/`, and every test project under `tests/`. The older or standalone projects listed under [Repository layout](repository-layout.md) are not in it. `OpenDental.sln` lists the same projects, so either one builds the same set. The build scripts read the filter, so add a new project to both.
 - **`Directory.Build.targets`** gives the test projects their binding redirects, keeps the Microsoft Testing Platform's telemetry extension out of every output folder and applies the MSTest analyzer levels of `tests/MSTest.globalconfig` (the test projects use MSTest 4 from its NuGet packages since S4-1 of the .NET 10 move, `docs/port-notes/S4-1.md`). Every project is built from source: a missing project fails the build, and nothing is swapped for a DLL in `Required dlls/`.
 - **`Directory.Build.props`** and **`tests/Directory.Build.props`** hold the settings of the SDK-style projects only (flat `bin\Debug\` and `bin\Release\` output, x64 on .NET 10 and the helper x86, lock files, no generated assembly info); the classic projects ignore them. **`Directory.Packages.props`** names the version of every NuGet package (central package management); a project's `PackageReference` names none. **`global.json`** pins the .NET SDK, **`nuget.config`** the offline package folder. `tools\Get-ProjectBaseline.ps1` records what each project compiles, embeds and outputs, and compares that with the record in `tools/project-baseline/` taken before the change of project format.
-- **Version numbers:** `SharedAssemblyInfo.cs` in the repository root gives every shipped assembly its product name, copyright and release version (`0.0`). Each project's `AssemblyVersion` stays on its own line; for `OpenPmsDental.exe` and `OpenPmsDentalBusiness.dll` that is the compatibility version `24.3.63.0`, which the database checks use ([docs/release-process.md](release-process.md)).
-- **We don't merge from upstream.** Open Dental's public source stops at 24.3.63; later features are re-implemented from public documentation ([docs/decoupling-plan.md](decoupling-plan.md)).
+- **Version numbers:** `SharedAssemblyInfo.cs` in the repository root gives every shipped assembly its product name, copyright and release version (`0.0`). Each project's `AssemblyVersion` stays on its own line; for `OpenPmsDental.exe` and `OpenPmsDentalBusiness.dll` that is the compatibility version `24.3.63.0`, which the database checks use ([docs/develop/release-process.md](release-process.md)).
+- **We don't merge from upstream.** Open Dental's public source stops at 24.3.63; later features are re-implemented from public documentation ([docs/specs/decoupling-plan.md](../specs/decoupling-plan.md)).
 - **`.gitignore`** ignores build output (`bin/`, `obj/`, `packages/`, `.vs/`). The `ConversionFiles` already tracked under `OpenPmsDental/bin/Debug` remain tracked.
 
 ## Running a development copy
 
-`OpenPmsDental.exe` needs a MariaDB database with its schema. `tools/New-DevDatabase.ps1` builds a development database from files in this repository, so you don't need Open Dental's installer or trial version. It is for development only: its seed is Open Dental's demo database, and its only user has a blank password. An office starts from [db/README.md](../db/README.md) instead.
+`OpenPmsDental.exe` needs a MariaDB database with its schema. `tools/New-DevDatabase.ps1` builds a development database from files in this repository, so you don't need Open Dental's installer or trial version. It is for development only: its seed is Open Dental's demo database, and its only user has a blank password. An office starts from [db/README.md](../../db/README.md) instead.
 
 ### The database server for development
 
-We test with MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password. Those are the script's defaults. Use the server settings of [Installing in an office](installing.md#database-server):
+We test with MariaDB 10.11 on `127.0.0.1:3306`, user `root`, blank password. Those are the script's defaults. Use the server settings of [Installing in an office](../admin/installing.md#database-server):
 
 - `sql_mode=` (blank). The convert scripts need it. If the server is stricter, the tool runs `SET GLOBAL sql_mode=''` and warns, the same thing `OpenPmsDental.exe` does at startup.
 - `default-storage-engine=MyISAM`. The seed tables are MyISAM, and the convert scripts create new tables in the server's default engine. With another default the database ends up with mixed engines, and the tool warns.

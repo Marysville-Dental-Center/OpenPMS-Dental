@@ -2,7 +2,7 @@
 
 Why: the coordinator's follow-up to the camera work (IMG-P4b-3). The unsaved-photo folder and the X-ray quarantine hold patient images that
 every Windows account on the computer could read, through ProgramData's own access list. The owner's answer is open in
-[owner-questions.md](../owner-questions.md) ("Who can open unfiled patient images on a computer"). It is built as recommended there.
+[owner-questions.md](../decisions/owner-questions.md) ("Who can open unfiled patient images on a computer"). It is built as recommended there.
 
 ## What changes
 

@@ -77,7 +77,7 @@ Consequences:
 
 - **The fork can't link Dropbox at all**, and nothing renews a token, because no refresh token exists.
 - **A database migrated from Open Dental** (Phase 5) carries a token that belongs to Open Dental's Dropbox app. Using it would keep this fork running on Open Dental's vendor registration. The design treats it as void (section 3.9).
-- **No Bridges.dll type is used** anywhere in this path. The only prebuilt binary is `Required dlls/Dropbox.Api.dll`, Dropbox's MIT SDK 4.0.6348 (`docs/third-party-binaries-audit.md`).
+- **No Bridges.dll type is used** anywhere in this path. The only prebuilt binary is `Required dlls/Dropbox.Api.dll`, Dropbox's MIT SDK 4.0.6348 (`docs/reports/third-party-binaries-audit.md`).
 
 ### 1.3 Defects found while reading the code (fix in the same change)
 
@@ -405,7 +405,7 @@ Choose A unless the Newtonsoft.Json 13 upgrade is already planned. If it is, B i
 | `OpenDentBusiness/WebServices/IWebServiceMainHQ.cs`, `WebServiceMainHQNoHq.cs`, `WebServiceMainHQMockDemo.cs` | `GetDropboxAccessToken`, `GetDropboxAuthorizationUrl`, mock `case OAuthApplicationNames.Dropbox` | No caller left, so delete them from the interface and from `WebServiceMainHQNoHq`. `WebServiceMainHQMockDemo` has no Dropbox members of its own: it inherits them from the generated SOAP proxy (`Web References/WebServiceMainHQ/Reference.cs`), so it still compiles. Only its `case OAuthApplicationNames.Dropbox`, which throws `NotImplementedException`, needs tidying. The generated proxy can wait for the general HQ cleanup. Keep `BuildOAuthUrl`: other vendors still use it |
 | `OpenDentBusiness/Db/Enumerations.cs` | `OAuthApplicationNames.Dropbox` | **Keep**: it is ordinal 0, and removing it renumbers the rest. Change its summary to "Unused; Dropbox authorizes locally" |
 | `OpenDental/Forms/FormLicense.cs`, `FormRegistrationKey.cs`, `OpenDental/Resources/Dropbox_Api.txt`, `Properties/Resources.resx` | Dropbox license entry | A: remove it, since no Dropbox code ships. B: update it to the 7.x MIT text |
-| `Required dlls/Dropbox.Api.dll`, `docs/third-party-binaries-audit.md` | binary and audit row | A: delete the DLL and mark the row "removed: replaced by in-repo client" |
+| `Required dlls/Dropbox.Api.dll`, `docs/reports/third-party-binaries-audit.md` | binary and audit row | A: delete the DLL and mark the row "removed: replaced by in-repo client" |
 | Tests: `NoHqTests`, or a new top-level `CloudTests` project beside `NoHqTests` and `CryptoTests` | new tests | Section 6.4 |
 
 ### 4.3 Prebuilt Bridges.dll types to re-implement

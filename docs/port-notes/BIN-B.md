@@ -176,7 +176,7 @@ Tests, 4 more in `TopazWrapperTests` (`BINBTests` now has 40):
 
 - No Topaz pad, Word, modem or Emdeon account was used. The late-bound Word calls and the Topaz run-time load are verified by build, by the stand-in tests and by review only. The program GUI was never launched.
 - The legacy `UnitTests` project's Topaz signature tests (`SignatureBoxWrapperTests`) now need Topaz's software installed. That project is not part of the fork's test runs.
-- `RequiredServerDlls/installutil.exe`, `docs/third-party-binaries-audit.md` and the README statements about `Required dlls` belong to other packages and were left as they are.
+- `RequiredServerDlls/installutil.exe`, `docs/reports/third-party-binaries-audit.md` and the README statements about `Required dlls` belong to other packages and were left as they are.
 
 ## Tests
 

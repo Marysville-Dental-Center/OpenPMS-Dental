@@ -154,7 +154,7 @@ marked in the reference file.
   (`EnumPermType` ends at 277), `RegistryTests` (the 26.2 members are later additions to the 25.3 lists), `ForkMigrationTests` (the 26.2 step
   runs after the 26.1 steps; `od_261_schema` comparison as above; the tables 25.4 to 26.2 change), `AdoptionValidation.Tests`.
 - Tools and docs: `tools/AdoptionValidation/*` (above), `tools/SyntheticData/allowed-differences.adoption.json`, `tools/DevDbTool` comments,
-  `tools/New-DevDatabase.ps1` and `tools/New-OdReferenceDatabase.ps1`, `docs/adoption-runbook.md`, `docs/port-notes/FORK-ENUMS.md`,
+  `tools/New-DevDatabase.ps1` and `tools/New-OdReferenceDatabase.ps1`, `docs/admin/adoption-runbook.md`, `docs/port-notes/FORK-ENUMS.md`,
   `docs/release-notes/next.md`.
 
 ## Checks (2026-11-07)

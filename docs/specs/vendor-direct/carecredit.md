@@ -15,7 +15,7 @@ Status: draft, 2026-10-18. Baseline: `main` at `6855026f5`. Vendor: Synchrony Ba
   - The client never contacts an Open Dental host. It refuses Open Dental's partner code.
 - **Until the office has partner credentials and the gated docs,** the code ships configurable but disabled. The setup screen can store credentials, but **Enabled** stays locked until **Test connection** succeeds against the configured host.
 - **Feasibility: partner-only** (confirmed in the 2026-10-18 fact-check). The overview pages are public. The API reference, the implementation guide, production approval and the partner code are not. Size: **L** (about 15 to 20 dev-days once the gated docs are in hand). That excludes the wait for Synchrony's approval and the shared local job host.
-- **Note on the decoupling plan.** `docs/decoupling-plan.md` (Bridges row) still says "Cut CareCredit", and `features-25.2.md`, `features-25.3.md` and `port-backlog.md` exclude CareCredit items on that basis. This spec follows the owner's newer decision to re-implement it. Section 7 includes a go/no-go gate: if Synchrony won't grant this office (or the project) integration credentials, fall back to removal.
+- **Note on the decoupling plan.** `docs/specs/decoupling-plan.md` (Bridges row) still says "Cut CareCredit", and `features-25.2.md`, `features-25.3.md` and `port-backlog.md` exclude CareCredit items on that basis. This spec follows the owner's newer decision to re-implement it. Section 7 includes a go/no-go gate: if Synchrony won't grant this office (or the project) integration credentials, fall back to removal.
 
 ## 1. What the integration does, and what HQ provided
 
@@ -562,7 +562,7 @@ The office can still take CareCredit through Synchrony's own provider portal, an
 - Open Dental manual, CareCredit Setup: https://www.opendental.com/site/carecreditsetup.html
 - Open Dental manual, CareCredit: https://www.opendental.com/site/carecredit.html
 - Open Dental manual, CareCredit Transactions: https://www.opendental.com/site/carecredittransactions.html
-- Outside the repository: the HQ vendor table (CareCredit row). In repo: `docs/decoupling-plan.md`, `docs/specs/port-backlog.md`, `docs/specs/vendor-direct/edgeexpress.md` (format)
+- Outside the repository: the HQ vendor table (CareCredit row). In repo: `docs/specs/decoupling-plan.md`, `docs/specs/port-backlog.md`, `docs/specs/vendor-direct/edgeexpress.md` (format)
 
 ## Fact-check log (2026-10-18)
 

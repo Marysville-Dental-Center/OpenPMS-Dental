@@ -3,7 +3,7 @@
 Status: 2026-11-02. Owner decisions Q1 to Q7 and the follow-up decisions S1 to S4 of 2026-11-02, all final. Packages `next/dbsec-1`, its
 review fixes `next/dbsec-2`, the follow-up `next/dbsec-scope-1`, and the test of the account's rights `next/fu-grants-1` (section 9.5).
 The server-side set-up is in
-[docs/db-connection-security.md](../db-connection-security.md).
+[docs/admin/db-connection-security.md](../admin/db-connection-security.md).
 
 The owner's follow-up: "We are only touching the Open Dental account and auth, and the goal is to not use root anymore."
 
@@ -150,7 +150,7 @@ entropy). Its exceptions never carry the secret.
 Offices on v0.0 uninstall v0.0 before they install this version (S4): its uninstaller removes the whole program folder, including the
 `FreeDentalConfig.xml` its setup wrote, so no v0.0 file is upgraded in place and no handling for one was added. That holds only because
 the release is published after v0.0 is uninstalled on every workstation: v0.0 pulls any newer published build at its next start
-(v0.0's `docs/release-process.md`, "A newer build is published": Pull) and installs it over itself, keeping its file with the Users
+(v0.0's `docs/develop/release-process.md`, "A newer build is published": Pull) and installs it over itself, keeping its file with the Users
 modify right of v0.0's setup, and the program never checks that file's ACL (only a save with the tool resets it, section 3) (`CentralConnections` reads `SslCA`, the office CA,
 from it as it is). The guide's section 0 and the release notes therefore have the update server answer Cancel to the publish offer
 (`PrefL.CheckProgramVersion`) until v0.0 is uninstalled everywhere, then publish with Update Setup > Recopy, and have a workstation that
@@ -346,7 +346,7 @@ the others nor removes it. `%ProgramData%` is not used: standard users may creat
 `DbSettingsRunner.GetRootUserWarning(server,user)`: for the user `root` (any case, spaces trimmed) and a server over the network
 (`IsLoopbackServer` false) it returns "Warning: the database user root is MariaDB's administrator account. For a server over the network
 the office should use its own account for the program (for example opmsd), with only the rights the server guide gives it
-(docs/db-connection-security.md, section 5)."; otherwise "". It is a warning, never a refusal:
+(docs/admin/db-connection-security.md, section 5)."; otherwise "". It is a warning, never a refusal:
 
 - `Apply` saves as asked and appends the warning to its result message (exit code 0), so a silent run (the installer's) logs it.
 - The window shows it in the status line when the Server or User box is left and when it opens, and asks "Save with the user root
@@ -527,7 +527,7 @@ Answered on 2026-11-02:
   Dental 24.3.22 (a column line without a comma), so it failed in Check and Fix on every database, and the maintenance window, which stops
   at the first error, never ran the methods after it.
 
-Both answered by the owner on 2026-11-07 (`docs/owner-questions.md`, "The program's database account", DB-SEC 1 and DB-SEC 2):
+Both answered by the owner on 2026-11-07 (`docs/decisions/owner-questions.md`, "The program's database account", DB-SEC 1 and DB-SEC 2):
 
 1. (DB-SEC 1) Two of the three server-wide rights exist only because of two old checks: every backup asks whether the server
    replicates (`SHOW MASTER STATUS`, `SHOW SLAVE STATUS`: `BINLOG MONITOR`, `REPLICA MONITOR`), and flushes each copied table
@@ -547,7 +547,7 @@ Both answered by the owner on 2026-11-07 (`docs/owner-questions.md`, "The progra
 
 From the MySqlConnector 2.6.2 upgrade (S2-2 of the .NET 10 move, `docs/port-notes/S2-2.md` section 3.6), **decided by the lead on
 2026-11-11 as (c), because it keeps the owner's rule Q5 unchanged; built in S2-2's follow-up round** (`net10/s22v-1`). The owner can still
-choose otherwise (`docs/owner-questions.md`, DB-SEC 3):
+choose otherwise (`docs/decisions/owner-questions.md`, DB-SEC 3):
 
 3. (DB-SEC 3) **Q5 no longer held for password logins with the driver's own check.** Since MySqlConnector 2.4, `VerifyCA` and `VerifyFull`
    with `SslCa` no longer fail the TLS handshake for a server certificate outside the office CA: the driver logs in over that session and
@@ -576,7 +576,7 @@ choose otherwise (`docs/owner-questions.md`, DB-SEC 3):
 
 ## 9. The rights of the program's database account (S2)
 
-The guide ([docs/db-connection-security.md](../db-connection-security.md), section 5) gives the account, `opmsd` (and `opmsd_pw` for the
+The guide ([docs/admin/db-connection-security.md](../admin/db-connection-security.md), section 5) gives the account, `opmsd` (and `opmsd_pw` for the
 password fallback), the narrowest rights with which the program runs, updates the database and makes the backup before every update, in
 place of `ALL PRIVILEGES ON *.*`. **Tested on a local MariaDB 10.11 server on 2026-11-02 (section 9.5), not yet on the office server:**
 with these grants the program did everything it does, each right was shown to be needed by a refusal, and every right they leave out was

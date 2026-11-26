@@ -44,7 +44,7 @@ namespace OpenPmsDentalBusiness{
 		//use the values below, far from Open Dental's numbers. The column is tinyint(4), so values must stay at or below 127.
 		///<summary>100- Fork only. Zero or one row: the text manifest of the release published from the update server (FileName
 		///"ForkRelease.manifest", RawBase64 holds the UTF-8 manifest). It names our product, the release version, the build id and the SHA-256 of
-		///the archive and of every file. See ForkReleases and docs/release-process.md.</summary>
+		///the archive and of every file. See ForkReleases and docs/develop/release-process.md.</summary>
 		ForkReleaseManifest=100,
 		///<summary>101- Fork only. Segments of the zipped release archive, about 1MB of base64 each. FileName is the 4-digit segment number, starting
 		///at 0001. Only used together with a ForkReleaseManifest row whose ArchiveSha256 matches the joined segments.</summary>
@@ -53,7 +53,7 @@ namespace OpenPmsDentalBusiness{
 		///RawBase64 holds the UTF-8 text of ReleaseRuntimePart.SerializeManifest). The .NET 10 release is self-contained and carries the .NET runtime
 		///(x64 beside the programs, x86 in Helper32\), which changes only with a runtime patch, so it is stored apart from the program part and
 		///replaced only when its key changes (S3b-7 of docs/specs/net10-plan.md, decision 20). The program part's manifest names the key it needs.
-		///See ForkReleases and docs/release-process.md.</summary>
+		///See ForkReleases and docs/develop/release-process.md.</summary>
 		ForkRuntimeManifest=102,
 		///<summary>103- Fork only. Segments of the zipped runtime part, about 1MB of base64 each. FileName is the 4-digit segment number, starting at
 		///0001. Only used together with a ForkRuntimeManifest row whose RuntimeArchiveSha256 matches the joined segments.</summary>

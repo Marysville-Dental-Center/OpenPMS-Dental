@@ -1078,7 +1078,7 @@ Each line gives the reason. "Reserve" means: add the enum value or column so row
 
 Other 26.1 enum additions with no feature: `EnumPermType` 276 `LogScraperHQ` (HQ-internal); the `EServiceTypes` values SecureEmailService, ODXam, EClipboard, OpenDentalLogScraper and OpenDental32Bit (HQ services; the document gives no numbers, so take them from a 26.1 database); `EnumDeletedObjType` 0–5 (for `deletedobj`); and `ProcStat` 0 `None` (a documentation placeholder). Add the C# values when the enums are synced. No UI.
 
-**API scope caveat.** This spec excludes the API items because the task brief cuts the local REST API. `docs/decoupling-plan.md` still lists "the local REST API" under Open decisions, as an integration to keep. If that decision goes the other way, the 11 API items and the `deletedobj` writers come back into scope, as desktop items with no Open Dental dependency.
+**API scope caveat.** This spec excludes the API items because the task brief cuts the local REST API. `docs/specs/decoupling-plan.md` still lists "the local REST API" under Open decisions, as an integration to keep. If that decision goes the other way, the 11 API items and the `deletedobj` writers come back into scope, as desktop items with no Open Dental dependency.
 
 ## Open questions to settle on a 26.1 test install
 

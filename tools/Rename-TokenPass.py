@@ -85,7 +85,7 @@ KEEP = [re.compile(p) for p in [
 #Spans kept in one file only (repository-relative path): the scanner's allow-list entries for that path.
 KEEP_IN = {
     'tests/AttributionTests/ReleaseIdentityTests.cs': [r'"OpenDental(?: API End User)?"'],  # entries of Open Dental's licence list that are gone
-    'docs/adoption-runbook.md': [                                                           # Open Dental's own files and its Middle Tier
+    'docs/admin/adoption-runbook.md': [                                                           # Open Dental's own files and its Middle Tier
         r".*'C:\\Program Files\*\\Open Dental\*'.*",
         r'An `OpenDental\.exe` is always Open Dental|no `OpenDental\.exe` or `FreeDentalConfig\.xml` left',
         r'`OpenDentalServer`(?= (?:web application )?in IIS)',

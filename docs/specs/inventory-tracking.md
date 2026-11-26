@@ -419,7 +419,7 @@ table.
 
 ## 7. Owner questions
 
-In `docs/owner-questions.md`, "Inventory tracking (INV, 2026-11-02)". The owner answered them on 2026-11-02 ("all as recommended"):
+In `docs/decisions/owner-questions.md`, "Inventory tracking (INV, 2026-11-02)". The owner answered them on 2026-11-02 ("all as recommended"):
 
 - INV 1 to 10, 12 to 15, 17 and 18: kept as built (the defaults this document describes).
 - INV 11: changed. A stock count is saved while it is counted: each counted line as soon as it is entered, one open count at a time, which

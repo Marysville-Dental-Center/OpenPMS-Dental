@@ -189,7 +189,7 @@ MySQL and MariaDB use `insverify.FKey` as an index (the reason for 24.1.71) and 
   type). `TableToListInsVerifyGridObjects` lists a plan's benefits row once, with the first of its rows, so two family members on one plan
   with appointments at the same time no longer decide by read order whose row carries it: the lower `AptNum`.
 - **Server version.** `ROW_NUMBER() OVER` needs MariaDB 10.2 or MySQL 8.0; it is the first window function in the program. The program's
-  server is MariaDB 10.11 (README, `docs/adoption-runbook.md`), but the start-up check (`PrefL.CheckMySqlVersion`) still accepts MySQL 5.0
+  server is MariaDB 10.11 (README, `docs/admin/adoption-runbook.md`), but the start-up check (`PrefL.CheckMySqlVersion`) still accepts MySQL 5.0
   and later: on an older server this list would fail with an SQL error. A question for the lead below; INSV3 removed the window function.
 
 What a user sees: a plan or patient plan with a leftover second verification record shows the latest one, and is not listed as due when

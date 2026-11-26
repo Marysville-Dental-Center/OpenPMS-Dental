@@ -85,7 +85,7 @@ On the 24.3.63 seed (`UnitTests/Resources/dump.txt`), whose ten preferences are 
   - `OpenDental.sln`, `OpenDental.Local.slnf`: the test project. `tests/M2HISTTests` now also references `OpenDental.csproj` (the window layout test).
   - B-INSH's files, moved onto the code-group rows at the merge: `OpenDentBusiness/Data Interface/InsHistDates.cs`, `tests/BINSHTests/InsHistDatesTests.cs`, `InsHistDbTests.cs`.
   - B-PROC's `OpenDentBusiness/Data Interface/CodeGroupDefaults.cs` (`ApplyHistoryDefaults`) and `CodeGroupResets.cs` (one call), as B-PROC's note asked.
-  - The M1-Z adoption tools: `tools/AdoptionValidation/MigrationPreview.cs`, `AdoptionRowCheck.cs`, `OfficeFixture.cs`, `Rehearsal.cs`, `README.md`, `AdoptionValidation.Tests/Migration26_1Tests.cs`, `RehearsalIntegrationTests.cs`; `tools/SyntheticData/allowed-differences.adoption.json`, `README.md`, `SyntheticData.Tests/UnitTests.cs`; `docs/adoption-runbook.md`.
+  - The M1-Z adoption tools: `tools/AdoptionValidation/MigrationPreview.cs`, `AdoptionRowCheck.cs`, `OfficeFixture.cs`, `Rehearsal.cs`, `README.md`, `AdoptionValidation.Tests/Migration26_1Tests.cs`, `RehearsalIntegrationTests.cs`; `tools/SyntheticData/allowed-differences.adoption.json`, `README.md`, `SyntheticData.Tests/UnitTests.cs`; `docs/admin/adoption-runbook.md`.
 - Not edited although the spec or backlog lists them: `CodeGroups.cs`, `InsVerifies.cs`, `Prefs.cs`, `Procedures.cs`, `ClaimProcs.cs`, `FormInsPlan.cs`, `TableTypes/CodeGroup.cs`, `CodeGroupCrud.cs`, `PrefInfos.xml`.
 - `OpenDental/Resources/PrefInfos.xml` (foundation-owned) still has the ten `labelInsHist*` entries of the removed boxes. They are harmless (the Preferences window looks entries up from controls), and the registry owner can remove them in a follow-up.
 

@@ -2,7 +2,7 @@
 
 From the version after 0.0, Open PMS - Dental connects to a database server over the network only encrypted, and only when the server's
 certificate comes from the office's own certificate authority (CA) and names the server
-([docs/specs/db-connection-security.md](specs/db-connection-security.md)). This is for the program's own database account, the
+([docs/specs/db-connection-security.md](../specs/db-connection-security.md)). This is for the program's own database account, the
 connection in `FreeDentalConfig.xml`, and no longer `root` (section 5). A connection to the same computer (`localhost`, `127.0.0.1`,
 `::1`) is exempt. A read-only or reporting server named in the program's preferences (Setup) keeps working as before, with its own
 account and its own CA setting (spec, section 5.1); this guide does not cover it. **Switch over in the order below**: version 0.0 connects
@@ -27,7 +27,7 @@ an encrypted USB drive: whoever has it can issue certificates the workstations t
    its setup, as an administrator (section 6): setup runs the connection settings tool, which sets up the office CA and the client
    certificate or the password. Start the program there as an administrator: it makes the backup database and updates the database
    (section 5 lists the rights this needs). **Do not publish the new version yet.** At this start, and at every start until it is
-   published, the program offers to publish it ([docs/release-process.md](release-process.md), `PrefL.CheckProgramVersion`): answer
+   published, the program offers to publish it ([docs/develop/release-process.md](../develop/release-process.md), `PrefL.CheckProgramVersion`): answer
    **Cancel**. Do not start it with `IsSilentUpdate=true` either: a silent start publishes by itself when nothing is published yet. A
    workstation that still runs version 0.0 pulls any newer published build at its next start and installs it over itself, and that keeps
    the `FreeDentalConfig.xml` to which 0.0's setup gave every user of the computer modify rights: a user who is not an administrator could
@@ -41,7 +41,7 @@ an encrypted USB drive: whoever has it can issue certificates the workstations t
    **Cancel** there too; when it says to
    run the new release on the update server first (Update Setup names another computer as the update server), close it: it starts once
    the release is published. When version 0.0 is uninstalled on every workstation, publish the release on the update server with Update
-   Setup > **Recopy** ([docs/release-process.md](release-process.md)). There is no in-place upgrade from version 0.0 (owner decision of
+   Setup > **Recopy** ([docs/develop/release-process.md](../develop/release-process.md)). There is no in-place upgrade from version 0.0 (owner decision of
    2026-11-02) as long as the release is published only then: setup's upgrade path, for a program folder that already has
    `FreeDentalConfig.xml`, is for the versions after this one.
 4. **TLS required.** When no workstation connects without TLS any more (section 4.1), turn on `require_secure_transport`, keep it in the
@@ -183,7 +183,7 @@ The program no longer uses `root` (owner decision of 2026-11-02). The office giv
 installer's default user), with only the rights it needs to run, to update the database and to make the backup that comes before every
 update. `<database>` is the office database (`opendental` by default). **Tested on a local MariaDB 10.11 server on 2026-11-02, not yet on
 an office server**, with a temporary account that had exactly the grants below, on an office database whose name is outside `test%`
-([specs/db-connection-security.md](specs/db-connection-security.md), section 9.5). With them the program did everything it does:
+([specs/db-connection-security.md](../specs/db-connection-security.md), section 9.5). With them the program did everything it does:
 start-up with its fork migration steps, the modules' reads and writes, work tables, user queries and cancelling them, the large-table
 helper, every database maintenance method in Check and Fix and the maintenance tools, every backup, the release channel, and the Open
 Dental update chain from 21.1.9 to 24.3.63 followed by the adoption. Each right below was also shown to be needed: revoked alone, the

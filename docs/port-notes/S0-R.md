@@ -18,7 +18,7 @@ can." Commit 0d2ab2722 ("Remove the DentX, Dexis Integrator and Vipersoft links 
   and none of these is among them (section 10). It is the structure of the Microsoft Public License (clause 3(D) there), which the FSF lists
   as a free licence that is incompatible with the GPL.
 - **The repository's records.** REL-FILES question 2 called it "in the style of MS-PL" with its GPL compatibility "not settled"; the
-  owner's answer of 2026-11-07 was that it does not fit the GPL (`docs/owner-questions.md`, REL-FILES 2); the LIB-PDF note there says that
+  owner's answer of 2026-11-07 was that it does not fit the GPL (`docs/decisions/owner-questions.md`, REL-FILES 2); the LIB-PDF note there says that
   "fo-dicom (MS-PL) and NDde (MS-PL style) stay incompatible under v3 as under v2". The binaries audit calls it "permissive", which is about
   its use terms, not about the GPL. No later NDde release or its licence is in the repository (NuGet's NDde 2.x was not examined: no
   internet), and an MS-PL release would not fit either.

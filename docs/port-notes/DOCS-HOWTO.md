@@ -40,7 +40,7 @@ schema, Git, Every change, Docs and the project site, Build and test):
   at each release.
 - A finished feature is committed and pushed.
 
-The branch rules are also in [repository-layout.md](../repository-layout.md#branches) and [release-process.md](../release-process.md).
+The branch rules are also in [repository-layout.md](../develop/repository-layout.md#branches) and [release-process.md](../develop/release-process.md).
 The other repositories got their own `CLAUDE.md` in the same change.
 
 ### 4. The link check
@@ -49,7 +49,7 @@ The other repositories got their own `CLAUDE.md` in the same change.
   repository, and a `#fragment` a heading (GitHub's anchors) of the Markdown file it names; the repository's own GitHub blob and tree
   addresses are checked as relative links. `--external` also fetches web addresses. No broken link was found when it was added.
 - `.github/workflows/docs.yml` runs it on every push to `main` (and pull request) that changes a document, the site or the script.
-- [testing.md](../testing.md#documentation-links) describes it.
+- [testing.md](../develop/testing.md#documentation-links) describes it.
 
 ### 5. Docs corrected
 

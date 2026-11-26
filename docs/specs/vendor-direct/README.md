@@ -19,7 +19,7 @@ Status: draft, 2026-10-18. Baseline: `main` at `6855026f5`. This page sums up th
 | [pdmp.md](pdmp.md) | Bamboo Health PMP Gateway, LogiCoy PMPlink (prescription monitoring) |
 | [canada.md](canada.md) | CDA ITRANS 2.0 carrier list, CCDWS network certificates |
 
-The ground rules that shape every spec (from `docs/decoupling-plan.md`):
+The ground rules that shape every spec (from `docs/specs/decoupling-plan.md`):
 
 - **Optional and off by default (rule 6).** Every integration is a program link with `Enabled=0`. Its buttons, menus and background work appear only after the office turns it on.
 - **Vendor-neutral (rule 7).** Setup screens describe what the integration does, and nothing more: no logos, sign-up links, referral URLs or "recommended" defaults.
@@ -527,7 +527,7 @@ A file listed here is edited by its owner only. Changes other specs ask for in i
 | `OpenDental/Properties/Resources.resx` and `Resources.Designer.cs` | `Z2` | Remove the Google sign-in images, the PaySimple logo and the Dropbox licence text once nothing references them |
 | `OpenDentBusiness/TableTypes/Pref.cs` | `Z2` | Comment-only changes (CareCredit batch prefs, NewCrop prefs) |
 | `tools/Test-NoHqHosts.ps1` | `F0` | One allow-list entry for the shared blocked-host list (`HqHosts.cs`) |
-| `docs/third-party-binaries-audit.md` | `Z2` | Intuit, Serilog, Graph, MSAL, Dropbox.Api, Bridges, DpsPos rows |
+| `docs/reports/third-party-binaries-audit.md` | `Z2` | Intuit, Serilog, Graph, MSAL, Dropbox.Api, Bridges, DpsPos rows |
 
 ### 3.3 Where new files go
 

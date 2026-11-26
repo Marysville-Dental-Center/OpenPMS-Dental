@@ -61,7 +61,7 @@ DirectX or OpenGL engines that TC-9a deletes, stage 3b, a behaviour the owner de
 ## 3. Parallel streams
 
 Nothing of TC-8 (the tooth chart engine switch and its files, the solution files) or S3a-11 (the installer, `tools/Test-Installer.ps1`,
-`tests/ReleaseFlowTests/InstallerTests.cs`, `docs/release-process.md`, `README.md`) is touched; item 19 waits for S3a-11's file, and items
+`tests/ReleaseFlowTests/InstallerTests.cs`, `docs/develop/release-process.md`, `README.md`) is touched; item 19 waits for S3a-11's file, and items
 24 and 34 for TC-9a.
 
 ## 4. Release notes

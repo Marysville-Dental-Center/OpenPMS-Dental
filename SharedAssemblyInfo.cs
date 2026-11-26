@@ -11,10 +11,10 @@ using System.Reflection;
 
 [assembly: AssemblyProduct("Open PMS - Dental")]
 [assembly: AssemblyCompany("Open PMS - Dental contributors")]
-//Open Dental's copyright is kept; the fork's changes are added (NOTICE).
-[assembly: AssemblyCopyright("Copyright (C) 2003 and later years, Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. "
-	+"Changes in Open PMS - Dental: Copyright (C) 2026 and later years, Open PMS - Dental contributors. GNU GPL v2 or later.")]
+//The program's copyright, then Open Dental's, which the GPL requires to be kept (the full notices are in NOTICE).
+[assembly: AssemblyCopyright("Copyright (C) 2026 and later years, Open PMS - Dental contributors. Portions copyright (C) 2003 and later years, "
+	+"Jordan Sparks, D.M.D., Open Dental Software, Inc. and contributors. GNU GPL v2 or later.")]
 //The release (product) version of the program: our own scheme, shown in About (Application.ProductVersion) and written to release manifests.
 //It is never compared with Open Dental version numbers; code that sends or compares a version uses ForkVersions.CompatVersion instead.
-//See docs/release-process.md.
+//See docs/develop/release-process.md.
 [assembly: AssemblyInformationalVersion("0.1")]

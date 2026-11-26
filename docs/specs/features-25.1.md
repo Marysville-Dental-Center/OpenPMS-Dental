@@ -1019,7 +1019,7 @@ The Group Note window already does this in 24.3 (a "..." button next to User).
 
 - **Category:** desktop. **Size:** S.
 - **Depends on:** the decoupling plan's in-repo SecurityHash (HMAC-SHA256 instead of the proprietary CDT hash).
-- **Sources:** https://www.opendental.com/site/version25_1.html (method `SecurityHashRehashPatientTable`, also backported to 24.4.48); 25.1 DB docs (`patient.SecurityHash`); `docs/decoupling-plan.md`.
+- **Sources:** https://www.opendental.com/site/version25_1.html (method `SecurityHashRehashPatientTable`, also backported to 24.4.48); 25.1 DB docs (`patient.SecurityHash`); `docs/specs/decoupling-plan.md`.
 
 **Behavior.** A new Database Maintenance method recomputes `patient.SecurityHash` for every patient row. The normal hashing pass after an update (`SecurityHash.UpdateHashing`) never fixes a bad patient hash: for patients, `PatientWorker` only fills rows whose `SecurityHash` is empty, while the other tables rehash only rows newer than `GetHashingDate()` (one month back, or the hashing start date). Use the method when integrity warnings show on many patients.
 
@@ -1155,7 +1155,7 @@ Most other enums in this table already end at their 24.4 values in our 24.3 code
 
 ## Excluded
 
-Each line says why. Cut services follow `docs/decoupling-plan.md`.
+Each line says why. Cut services follow `docs/specs/decoupling-plan.md`.
 
 ### Open Dental hosted services and HQ (excluded-od-service)
 

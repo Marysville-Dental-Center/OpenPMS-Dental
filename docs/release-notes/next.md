@@ -12,6 +12,10 @@ are [v0.1.md](v0.1.md).
   25.3.48. Adoption now accepts exactly that pair, and only when the schema equals the Open Dental 25.3.48 reference exactly (the office's
   `patient._portal_active_email` aside); otherwise it refuses and names the differences. It is adopted as 25.3.48, and the adoption record
   (`ForkAdoptedFrom`), the adoption log and the security log keep the real labels. 24.3.63 and 25.3.48 databases are adopted as before.
+- **An Open Dental 26.2 database can be adopted** (any 26.2.x point release, `ProgramVersion` on the same line and not below
+  `DataBaseVersion`). Its schema must equal Open Dental's published 26.2 schema exactly (owner decision of 2026-11-26: the published
+  documents are the schema); adoption checks it first and names any difference. It is adopted as 26.2.0 with the real labels recorded, and
+  the fork migration steps add only the program's own tables: no Open Dental table or row is changed apart from the version preferences.
 - The adoption tools follow the same rule: `AdoptionValidation migration-preview` says in its first line whether the versions are adoptable
   (with the schema check), `adopt` accepts the pair as its `--original`, and `startup-check` also models an Open Dental 25.3.54 client.
   `SyntheticData generate` and the rehearsal (`Invoke-AdoptionRehearsal.ps1 -VersionLabels office`) can label a synthetic database the same
