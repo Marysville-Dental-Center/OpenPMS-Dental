@@ -116,7 +116,8 @@ namespace SyntheticData.Validation {
 						difference.Reason="explained by the differences listed for this table";
 					}
 					else {
-						//Unexpected, and never allowed by a rule: the stored bytes differ while every value reads the same.
+						//Unexpected unless a rule names the table (only claimpayment, whose Note column changes type): the stored bytes differ while
+						//every value reads the same.
 						difference.Note=NoteChecksumTableOnly;
 					}
 					listTable.Add(difference);

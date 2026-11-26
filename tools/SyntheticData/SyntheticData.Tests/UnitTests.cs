@@ -347,6 +347,31 @@ namespace SyntheticData.Tests {
 			Assert.IsNull(checksum.Note);
 		}
 
+		///<summary>The 26.1 step turns claimpayment.Note from varchar(255) into text. CHECKSUM TABLE follows the column type, so the table checksum
+		///changes even when no note is NULL and every column checksum stays the same. Found on the office database (0 NULL notes, 2026-11-25),
+		///where the rehearsal's synthetic data always had NULL notes and so a column change that explained it. Only claimpayment gets this rule.</summary>
+		[TestMethod]
+		public void ClaimPaymentChecksumOnly_IsAllowed_OtherTablesAreNot() {
+			ValidationReport before=Report();
+			TableReport claimPayment=new TableReport { Name="claimpayment",Rows=4,ChecksumTable="444" };
+			claimPayment.Columns["Note"]="70";
+			before.Tables.Add(claimPayment);
+			ValidationReport after=Report();
+			TableReport claimPaymentAfter=new TableReport { Name="claimpayment",Rows=4,ChecksumTable="445" };
+			claimPaymentAfter.Columns["Note"]="70";
+			after.Tables.Add(claimPaymentAfter);
+			List<Difference> list=ReportComparer.Compare(before,after,Adoption());
+			Difference checksum=list.Single();
+			Assert.AreEqual(DifferenceKind.ChecksumTableChanged,checksum.Kind);
+			Assert.AreEqual("claimpayment",checksum.Table);
+			Assert.IsTrue(checksum.IsAllowed,ReportComparer.Format(list));
+			StringAssert.Contains(checksum.Reason,"claimpayment.Note");
+			//The same checksum-only change in another table is still unexpected.
+			after.Tables[1].ChecksumTable="999";
+			list=ReportComparer.Compare(before,after,Adoption());
+			Assert.IsTrue(list.Any(x => x.Table=="guardian" && x.Kind==DifferenceKind.ChecksumTableChanged && !x.IsAllowed),ReportComparer.Format(list));
+		}
+
 		///<summary>Adoption does not touch updatehistory, so the allowed list has no rule for it (it had a whole-table one).</summary>
 		[TestMethod]
 		public void UpdateHistoryChange_IsUnexpected() {

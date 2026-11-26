@@ -807,7 +807,7 @@ person reads them all):
   turns it on;
 - the Open Dental 25.4 and 26.1 schema: `TableAdded` for `deletedobj`, `paysuitepayment`, `paysuitepaymentdetail`, `schoolcourseenrollee`
   and `schoolcourseinstructor` (0 rows), `ColumnAdded <table>.<column>` for the 28 new columns (`allowed-differences.adoption.json` names
-  each), and `ColumnChanged` for `claimpayment.Note` (if step 0.2 counted NULL notes) and `insverify` and `insverifyhist.DateLastAssigned`
+  each), and `ColumnChanged` for `claimpayment.Note` (if step 0.2 counted NULL notes; with no NULL note, `ChecksumTableChanged claimpayment` alone instead, because the column's type changes) and `insverify` and `insverifyhist.DateLastAssigned`
   (if those tables hold rows). A report can only allow these as whole columns; step 4's row check printed that the new tables are empty, the
   new columns hold their defaults, only NULL notes changed and every `DateLastAssigned` is its old date at midnight;
 - this program's own tables (routine maintenance, steps 2026110201 to 2026110205): `TableAdded` for `maintfield`, `maintitem`, `maintrecord`,
