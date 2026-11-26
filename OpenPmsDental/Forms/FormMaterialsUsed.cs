@@ -182,7 +182,7 @@ namespace OpenPmsDental {
 			ComputePlan();
 			gridMain.BeginUpdate();
 			gridMain.Columns.Clear();
-			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Procedure"),200));
+			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Procedure"),184));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Supply"),230));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Qty"),50,HorizontalAlignment.Center,isEditable:!IsReadOnly));
 			gridMain.Columns.Add(new GridColumn(Lan.g(this,"Lot"),120));

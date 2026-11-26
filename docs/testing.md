@@ -45,3 +45,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\run-tests.ps1 -Mode Fu
 
 `Targeted` runs `NoHqTests` plus the named projects, `Core` runs everything but the slow migration and adoption projects, and `Full`
 runs everything.
+
+## Documentation links
+
+`python -I tools/check_doc_links.py` checks every link of the Markdown files and of the project site (`site/index.html`): a relative link
+must name a file of the repository and a `#fragment` a heading of the file it points to. The Docs workflow (`.github/workflows/docs.yml`)
+runs it on every push to `main` that changes a document. `--external` also fetches the web addresses (slow; not part of the routine check).

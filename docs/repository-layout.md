@@ -32,7 +32,9 @@ What each folder of the repository holds, the branches, and Open Dental's own re
 
 | Branch | Contents |
 |---|---|
-| `main` | Our development line: Open Dental 24.3.63 and the fork's own work |
+| `main` | Our development line: Open Dental 24.3.63, the re-implemented later Open Dental features, and the fork's own work. Work happens here |
+| `feature/<name>` | Only for a feature that takes several days; short-lived: merged into `main` when done, then deleted |
+| `release/<version>` | Cut from `main` when a version is released (tag `v<version>`); fixes to that release go here and back to `main` |
 | `24_3` | Upstream Open Dental v24.3 releases (one commit per build, e.g. `version 24.3.63.0`), kept for reference |
 | `21_1` to `24_2` | Older upstream release lines, kept for reference |
 

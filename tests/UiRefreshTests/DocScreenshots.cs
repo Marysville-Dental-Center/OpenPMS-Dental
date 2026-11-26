@@ -128,7 +128,7 @@ namespace UiRefreshTests {
 			Assert.IsTrue(listSaved.Count>0,"No picture made: "+string.Join("; ",listFailed));
 		}
 
-		private static void Save(string folder,string name,List<string> listSaved,List<string> listFailed,Func<Bitmap> funcDraw) {
+		internal static void Save(string folder,string name,List<string> listSaved,List<string> listFailed,Func<Bitmap> funcDraw) {
 			try {
 				using(Bitmap bitmap=funcDraw()) {
 					string path=Path.Combine(folder,name+".png");
@@ -248,7 +248,7 @@ namespace UiRefreshTests {
 
 		///<summary>A dialog with its Load run (FormODBase.OnLoad lays it out and raises Load, which fills it from the database), never shown: its
 		///client area, as the galleries draw a window.</summary>
-		private static Bitmap DrawDialog(FormODBase formODBase,Action<FormODBase> actionBeforeCapture=null) {
+		internal static Bitmap DrawDialog(FormODBase formODBase,Action<FormODBase> actionBeforeCapture=null) {
 			using(formODBase) {
 				formODBase.StartPosition=FormStartPosition.Manual;
 				formODBase.Location=new Point(0,0);
@@ -267,7 +267,7 @@ namespace UiRefreshTests {
 		}
 
 		///<summary>Runs the messages the controls posted to themselves (BeginInvoke, invalidations) before the picture.</summary>
-		private static void Settle() {
+		internal static void Settle() {
 			for(int i=0;i<5;i++) {
 				Application.DoEvents();
 			}

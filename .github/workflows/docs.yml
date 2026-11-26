@@ -1,0 +1,30 @@
+# Docs: every link of the Markdown files and of the project site must name a file or heading that exists (tools/check_doc_links.py).
+name: Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - "site/**"
+      - "tools/check_doc_links.py"
+      - ".github/workflows/docs.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - "site/**"
+      - "tools/check_doc_links.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: false
+      - name: Check the links
+        run: python3 -I tools/check_doc_links.py

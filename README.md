@@ -111,6 +111,7 @@ The full reference, with the solution layout, version numbers and every option, 
 
 ## More
 
+- [How-to guides](docs/how-to/README.md): setting up a new database, moving from Open Dental, X-rays, photos, inventory, maintenance.
 - [Installing in an office](docs/installing.md): the database server, the workstations and updates.
 - [How Open PMS - Dental differs from Open Dental](docs/differences.md): the changes, what stayed, what was removed, and the numbers.
 - [Testing](docs/testing.md): what the tests cover and how to run them.
