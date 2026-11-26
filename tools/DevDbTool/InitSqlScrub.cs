@@ -63,6 +63,11 @@ namespace DevDbTool {
 		///shows those as the product name (AboutBoxInfo.GetDisplayName); a new database is not an adopted copy, so its rows say so themselves. An
 		///adopted database keeps Open Dental's values, because adoption may change no other row (AdoptionRowCheck).</summary>
 		public static readonly string[] ArrayProductNamePrefs={ "MainWindowTitle","SoftwareName" };
+		///<summary>The tables of the medical code systems (ICD-9-CM, ICD-10-CM, CPT, SNOMED CT, LOINC, RxNorm, CVX, HCPCS, UCUM, CDC race and
+		///ethnicity, payer typology). Their code titles are third-party content, much of it copyrighted and licensed (owner 2026-11-26: "shouldn't
+		///have any copyright materials"), so a new database has none: emptied (only the seed dump's ICD-9-CM list has rows today). An office adds
+		///the codes it uses, or imports a code system under its own license.</summary>
+		public static readonly string[] ArrayCodeSystemTables={ "cdcrec","cpt","cvx","hcpcs","icd10","icd9","loinc","rxnorm","snomed","sop","ucum" };
 		///<summary>The default procedure buttons that have a picture and their dental icons: CodeBase.UiIcons.DictProcButtonPictures, shared with
 		///ProcButtons.SetToDefault (UQ-7; the reset gives them too since the owner's answer of 2026-11-17). The seed dump's rows were made with
 		///Open Dental's pictures, so the scrub gives the new database these.</summary>
@@ -83,6 +88,7 @@ namespace DevDbTool {
 
 		public void Run() {
 			EmptyTables();
+			RemoveThirdPartyContent();
 			BlankProviders();
 			BlankPracticePrefs();
 			SetPrefs();
@@ -110,6 +116,31 @@ namespace DevDbTool {
 					ListLog.Add("Reminder rules no longer point at a removed mass e-mail template ("+count+" rows).");
 				}
 			}
+		}
+
+		///<summary>INITSQL-COPYRIGHT (owner 2026-11-26: "db/init/new-database.sql shouldn't have any copyright materials"): no medical code system
+		///titles (ArrayCodeSystemTables), no vendor logos on the program link buttons, and no ADA CDT descriptor on a CDT-style procedure code (the
+		///seed dump has none since INIT-SQL; this keeps a convert script or a later seed from bringing one back). Data only, no schema change.
+		///CheckDatabase checks the result.</summary>
+		private void RemoveThirdPartyContent() {
+			foreach(string tableName in ArrayCodeSystemTables) {
+				if(!TableExists(tableName)) {
+					continue;
+				}
+				long count=PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM `"+tableName+"`"));
+				if(count==0) {
+					continue;
+				}
+				DataCore.NonQ("DELETE FROM `"+tableName+"`");
+				ListLog.Add("Emptied "+tableName+" ("+count+" rows): code titles of a third-party code system.");
+			}
+			//program.ButtonImage: the toolbar pictures of the program links are the vendors' logos. A link without one shows its text (ProgramL).
+			long countLogos=DataCore.NonQ("UPDATE program SET ButtonImage='' WHERE ButtonImage<>''");
+			ListLog.Add("Program link button pictures (vendor logos) removed ("+countLogos+" rows).");
+			//CDT-style codes (D and four digits): named by their code only, as the seed dump has them.
+			long countCodes=DataCore.NonQ("UPDATE procedurecode SET Descript=CONCAT('Procedure ',ProcCode),AbbrDesc=ProcCode,LaymanTerm='' "
+				+"WHERE ProcCode REGEXP '^D[0-9]{4}$' AND (Descript<>CONCAT('Procedure ',ProcCode) OR AbbrDesc<>ProcCode OR LaymanTerm<>'')");
+			ListLog.Add("CDT-style procedure codes named by their code only ("+countCodes+" rows changed).");
 		}
 
 		private void BlankProviders() {
@@ -243,6 +274,20 @@ namespace DevDbTool {
 					listProblems.Add(tableName+" is not empty.");
 				}
 			}
+			foreach(string tableName in ArrayCodeSystemTables) {
+				if(TableExists(tableName) && PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM `"+tableName+"`"))>0) {
+					listProblems.Add(tableName+" has code titles of a third-party code system.");
+				}
+			}
+			long countLogos=PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM program WHERE ButtonImage<>''"));
+			if(countLogos>0) {
+				listProblems.Add(countLogos+" program link(s) have a button picture (a vendor logo).");
+			}
+			long countCodes=PIn.Long(DataCore.GetScalar("SELECT COUNT(*) FROM procedurecode WHERE ProcCode REGEXP '^D[0-9]{4}$' "
+				+"AND (Descript<>CONCAT('Procedure ',ProcCode) OR AbbrDesc<>ProcCode OR LaymanTerm<>'')"));
+			if(countCodes>0) {
+				listProblems.Add(countCodes+" CDT-style procedure code(s) have a description of their own.");
+			}
 			DataTable tablePrograms=DataCore.GetTable("SELECT ProgName FROM program WHERE Enabled<>0 ORDER BY ProgName");
 			foreach(DataRow row in tablePrograms.Rows) {
 				listProblems.Add("Program link "+row[0]+" is enabled; a new database has every program link off.");
@@ -264,7 +309,8 @@ namespace DevDbTool {
 			if(listProblems.Count>0) {
 				throw new ApplicationException("The scrubbed database is not a clean new database:\r\n  "+string.Join("\r\n  ",listProblems));
 			}
-			ListLog.Add("Checked: no patient rows, every program link off, every table MyISAM, the startup guard opens it with no step pending.");
+			ListLog.Add("Checked: no patient rows, no code system titles, vendor logos or CDT descriptors, every program link off, every table MyISAM, "
+				+"the startup guard opens it with no step pending.");
 		}
 
 		///<summary>What the generated text must not contain: this PC's names, the run's dates (a timestamp the scrub missed) and Open Dental's hosts
