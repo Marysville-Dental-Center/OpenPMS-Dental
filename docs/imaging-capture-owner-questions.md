@@ -18,6 +18,15 @@ It covers CAP-TW (the TWAIN library inside the program), CAP-0 (the clinic runbo
 
 Two terms used below. **Unassigned captures** (the quarantine) is a folder on each computer for X-rays that reached the program but could not be filed to a patient, for example after a failed save or a patient change. **Safe disable** means the sensor software reports that turning the sensor off cannot lose an exposure; without it, the program never turns the sensor off on its own, except when the program closes or logs the user off.
 
+## Answered on 2026-11-26
+
+- **Camera settings and buttons** (CAP design 13, 8.6 and 8.7). The owner: "OpenPMS needs to be able to change all settings made available
+  via the driver and those settings need to be as humanly readable as possible(no hex values. Translate those to enums). In terms of the
+  buttons, they're just ways to toggle certain control. This is already the case for xray sensors." And: "or buttons can be used to
+  trigger certain software action or workflow. leave it being flexible". Built as the Camera Picture Settings window (saved values need
+  Setup and are security-logged) and buttons that change a setting or run a program action
+  ([how-to](how-to/set-up-the-intraoral-camera.md)). Camera picture settings stay a review flag for counsel (CAP design 18).
+
 ## Before patient use
 
 - **[BEFORE PATIENT USE]** (CAP design 18) Regulatory stance. The program is built as image management only: it never sets exposure, trigger, calibration or image processing, and never changes camera settings. It does start and stop the sensor software (for each slot, and on cancel, time limits, idle and patient change) and chooses the transfer and video formats. The design asks you to send these to counsel, with the 16-bit "For Presentation" label, the brightness window the program computes, and the 16-bit polarity and byte-order options, plus two questions: who is responsible for the acquisition software, since the sensor software used here is the driver project's own program and no clearance record was found for the clinic's sensor; and whether the computed window falls under 21 CFR 892.2050. Confirm the stance and send it? **Today:** built that way; nothing has gone to counsel; the session is off by default. **Answered (2026-11-07):** counsel has reviewed the regulatory position with no changes; the capture session is on by default for new installs. Since 2026-11-01 the session asks for 16 bits by default, but takes them only after a Test capture passed (see 16-bit X-rays and DICOM).
