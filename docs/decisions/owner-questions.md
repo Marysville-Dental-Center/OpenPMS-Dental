@@ -135,7 +135,10 @@ shouldn't have any copyright materials." The generator removes what belongs to o
 tables of every medical code system stay, empty), the vendor logos on six program link buttons, and, as before (INIT-SQL), any ADA CDT
 descriptor (CDT-style codes are named `Procedure Dxxxx`). Open Dental's own default texts (message templates, definitions, program link notes,
 the signal sounds, report and query rows) are GPL-licensed with the program and stay; the open questions of
-[INITSQL-COPYRIGHT](../port-notes/INITSQL-COPYRIGHT.md#owner-questions) ask about the ones worth a look.
+[INITSQL-COPYRIGHT](../port-notes/INITSQL-COPYRIGHT.md#owner-questions) ask about the ones worth a look. **Answered (2026-11-26):** "1-3, no
+rewrite": the signal sounds stay, Open Dental's texts are not rewritten, and there is no ICD-9 import. The CDT-style codes stay (with neutral
+names): the owner asked whether they came from the office's database; they come from Open Dental's public seed dump, so "Stop it, keep the
+codes". "make the password blank": every program link password property starts empty (3 rows had encrypted defaults from the seed dump).
 
 ---
 

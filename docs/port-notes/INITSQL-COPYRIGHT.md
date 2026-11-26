@@ -71,6 +71,10 @@ No row holds a copyright, licence or trademark notice; the only "copyright" in t
 
 ## Owner questions
 
+**Answered by the owner on 2026-11-26:** "1-3, no rewrite" (sounds kept, texts kept, no ICD-9 import); CDT-style codes kept with neutral names
+(they come from Open Dental's public seed dump, not from any office database); "make the password blank": the generator now blanks every
+program link password property (3 rows; test `File_ProgramLinkPasswordsAreBlank`).
+
 1. The 21 signal button sounds (recorded voices) come with Open Dental's seed dump and are distributed with its GPL source, but who recorded
    them is not documented. Keep them, or replace them with sounds of our own (or none: the signal buttons then stay silent until the office
    adds its own)?

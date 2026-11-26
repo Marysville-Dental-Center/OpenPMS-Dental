@@ -155,6 +155,17 @@ namespace InitSqlTests {
 			}
 		}
 
+		///<summary>Owner, 2026-11-26 ("make the password blank"): every password property of a program link starts empty.</summary>
+		[TestMethod]
+		public void File_ProgramLinkPasswordsAreBlank() {
+			List<string[]> listRows=GetRows(_text,"programproperty",new[] { "PropertyDesc","PropertyValue" })
+				.Where(x => (x[0]??"").IndexOf("password",StringComparison.OrdinalIgnoreCase)>=0).ToList();
+			Assert.IsTrue(listRows.Count>=3,"Password properties: "+listRows.Count);
+			foreach(string[] row in listRows) {
+				Assert.AreEqual("",row[1]??"","Program link property "+row[0]+".");
+			}
+		}
+
 		///<summary>INITSQL-COPYRIGHT: no row carries the notice words of licensed third-party content. The table definitions are not rows (a column
 		///is called ExternalCopyrightNotice).</summary>
 		[TestMethod]

@@ -141,6 +141,10 @@ namespace DevDbTool {
 			long countCodes=DataCore.NonQ("UPDATE procedurecode SET Descript=CONCAT('Procedure ',ProcCode),AbbrDesc=ProcCode,LaymanTerm='' "
 				+"WHERE ProcCode REGEXP '^D[0-9]{4}$' AND (Descript<>CONCAT('Procedure ',ProcCode) OR AbbrDesc<>ProcCode OR LaymanTerm<>'')");
 			ListLog.Add("CDT-style procedure codes named by their code only ("+countCodes+" rows changed).");
+			//Owner, 2026-11-26: "make the password blank". A program link's password properties start empty in a new database (the seed
+			//dump carried an encrypted default for one of them).
+			long countPasswords=DataCore.NonQ("UPDATE programproperty SET PropertyValue='' WHERE PropertyDesc LIKE '%password%' AND PropertyValue<>''");
+			ListLog.Add("Program link passwords blanked ("+countPasswords+" rows).");
 		}
 
 		private void BlankProviders() {
