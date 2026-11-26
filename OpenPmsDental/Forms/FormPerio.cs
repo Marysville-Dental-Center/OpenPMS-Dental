@@ -1141,8 +1141,10 @@ namespace OpenPmsDental{
 			contrPerio.ListPerioExams=PerioExams.Refresh(_patient.PatNum);//refresh instead
 			contrPerio.ListPerioMeasures=PerioMeasures.GetForPatient(_patient.PatNum);
 			FillGrid();
-			using FormPerioGraphical formPerioGraphical=new FormPerioGraphical(contrPerio.ListPerioExams[gridODExam.GetSelectedIndex()],_patient);
-			formPerioGraphical.ShowDialog();
+			//Its own window, not a dialog (owner, 2026-11-26): it can be moved to another monitor and maximised while the chart stays usable.
+			//Owned by this window, so it closes with it.
+			FormPerioGraphical formPerioGraphical=new FormPerioGraphical(contrPerio.ListPerioExams[gridODExam.GetSelectedIndex()],_patient);
+			formPerioGraphical.Show(this);
 		}
 
 		private void butListen_Click(object sender,EventArgs e) {

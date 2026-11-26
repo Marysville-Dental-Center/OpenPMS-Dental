@@ -114,13 +114,16 @@ namespace ImagingTests {
 			StringAssert.Contains(MethodBody(session,"private void KeepUnsaved("),"PhotoQuarantine.Write(");
 			string images=Images();
 			string full=MethodBody(images,"private void controlCameraSession_EventFullScreenToggle(");
-			StringAssert.Contains(full,"form.FormBorderStyle=FormBorderStyle.None;");
-			StringAssert.Contains(full,"form.MinimizeBox=false;");
-			StringAssert.Contains(full,"form.Resize+=");
+			StringAssert.Contains(full,"form.FormBorderStyle=FormBorderStyle.Sizable;","An ordinary window with the Windows title bar (owner, 2026-11-26).");
+			Assert.IsFalse(full.Contains("FormBorderStyle.None"),"No borderless window.");
+			Assert.IsFalse(full.Contains("MinimizeBox=false") || full.Contains("MaximizeBox=false") || full.Contains("ControlBox=false"),
+				"Minimise, maximise and close stay, so it can be moved to another monitor and maximised there.");
+			Assert.IsFalse(full.Contains("form.Resize+="),"Minimising or maximising no longer puts the session back into the module.");
+			StringAssert.Contains(full,"form.ShowInTaskbar=true;");
 			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"e.CountKept==0");
 			StringAssert.Contains(MethodBody(session,"private void timerIdle_Tick("),"if(!IsEnabledForCapture()");
-			StringAssert.Contains(full,"System.Windows.Forms.Screen.FromControl(this).Bounds");
-			Assert.IsFalse(full.Contains("FormWindowState.Maximized"),"The whole monitor by its bounds, never a maximised window.");
+			StringAssert.Contains(full,"System.Windows.Forms.Screen.FromControl(this).WorkingArea");
+			StringAssert.Contains(full,"form.WindowState=FormWindowState.Maximized;","Opens maximised on the module's monitor.");
 			StringAssert.Contains(MethodBody(images,"private void controlCameraSession_EventEnded("),"ExitCameraFullScreen();");
 			StringAssert.Contains(MethodBody(images,"private void FillCameraMenu("),"menuCameraUnsaved_Click");
 			StringAssert.Contains(MethodBody(images,"private void menuCameraUnsaved_Click("),"Security.IsAuthorized(EnumPermType.ImageCreate)");

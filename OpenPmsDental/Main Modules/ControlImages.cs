@@ -3069,25 +3069,22 @@ namespace OpenPmsDental{
 				ExitCameraFullScreen();
 				return;
 			}
-			//The whole monitor the module is on (owner design C1); a borderless window owned by the main window, not maximised, not topmost.
+			//The session in its own window (owner, 2026-11-26, replacing design C1's borderless full screen): an ordinary window with the
+			//Windows title bar, minimise, maximise and close, so it can be dragged to another monitor (the one facing the patient) and maximised
+			//there. It opens maximised on the monitor the module is on, as full screen did; owned by the main window, not topmost.
 			Form form=new Form();
-			form.FormBorderStyle=FormBorderStyle.None;
-			form.ControlBox=false;//Win+Down and Win+Up must not minimise or maximise it (decision C1: the monitor's bounds)
-			form.MinimizeBox=false;
-			form.MaximizeBox=false;
+			form.FormBorderStyle=FormBorderStyle.Sizable;
 			form.StartPosition=FormStartPosition.Manual;
-			form.Bounds=System.Windows.Forms.Screen.FromControl(this).Bounds;
-			form.ShowInTaskbar=false;
+			Rectangle rectangleWorking=System.Windows.Forms.Screen.FromControl(this).WorkingArea;
+			form.Bounds=new Rectangle(rectangleWorking.X+rectangleWorking.Width/8,rectangleWorking.Y+rectangleWorking.Height/8,
+				rectangleWorking.Width*3/4,rectangleWorking.Height*3/4);//the size it restores to
+			form.WindowState=FormWindowState.Maximized;
+			form.ShowInTaskbar=true;
 			form.Text=Lan.g(this,"Camera");
 			form.BackColor=Color.Black;
-			form.Resize+=(senderForm,eResize) => {
-				if(_formCameraFullScreen==form && form.WindowState!=FormWindowState.Normal){
-					BeginInvoke((Action)ExitCameraFullScreen);//minimised or maximised anyway: back into the module
-				}
-			};
 			form.FormClosing+=(senderForm,eClosing) => {
 				if(_formCameraFullScreen==form && eClosing.CloseReason==CloseReason.UserClosing){
-					eClosing.Cancel=true;//Alt+F4 goes back to the module; End ends the session
+					eClosing.Cancel=true;//the window's X and Alt+F4 go back to the module; End ends the session
 					BeginInvoke((Action)ExitCameraFullScreen);
 				}
 			};

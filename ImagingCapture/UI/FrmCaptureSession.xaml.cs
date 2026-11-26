@@ -59,6 +59,8 @@ namespace ImagingCapture.UI {
 		private string _viewErrorLogged;
 		///<summary>The frame's window procedure, for the operator's Alt+F4 and the taskbar's Close (CaptureSessionViewModel.IsOperatorCloseCommand).</summary>
 		private FrameCloseCommandHook _frameCloseCommandHook;
+		///<summary>The preview in a window of its own (a double-click on the preview), or null when it is not open.</summary>
+		private FrmCaptureImageWindow _frmCaptureImageWindow;
 		#endregion Fields
 
 		#region Constructor
@@ -78,6 +80,8 @@ namespace ImagingCapture.UI {
 			PreviewKeyDown+=FrmCaptureSession_PreviewKeyDown;
 			PreviewKeyUp+=FrmCaptureSession_PreviewKeyUp;
 			comboProv.SelectionChangeCommitted+=comboProv_SelectionChangeCommitted;
+			borderPreview.MouseLeftButtonDown+=borderPreview_MouseLeftButtonDown;
+			borderPreview.ToolTip="Double-click to open the image in its own window";
 			linkUnassigned.LinkClicked+=linkUnassigned_LinkClicked;
 			linkRecover.LinkClicked+=linkRecover_LinkClicked;
 			textTeeth.LostKeyboardFocus+=textTeeth_LostKeyboardFocus;
@@ -176,6 +180,47 @@ namespace ImagingCapture.UI {
 			_isClosed=true;
 			_dispatcherTimer?.Stop();
 			ReleaseHotkeys();
+			CloseImageWindow();
+		}
+
+		///<summary>A double-click on the preview opens it in a window of its own (FrmCaptureImageWindow), or brings that window back. The session
+		///window keeps the keyboard, so the session keys still work.</summary>
+		private void borderPreview_MouseLeftButtonDown(object sender,MouseButtonEventArgs e) {
+			if(e.ClickCount!=2 || _isClosed) {
+				return;
+			}
+			e.Handled=true;
+			if(_frmCaptureImageWindow==null) {
+				FrmCaptureImageWindow frmCaptureImageWindow=new FrmCaptureImageWindow();
+				frmCaptureImageWindow.FormClosed+=(senderWindow,eClosed) => {
+					if(_frmCaptureImageWindow==frmCaptureImageWindow) {
+						_frmCaptureImageWindow=null;
+					}
+				};
+				_frmCaptureImageWindow=frmCaptureImageWindow;
+				UpdateImageWindow();
+				frmCaptureImageWindow.Show();
+			}
+			else {
+				_frmCaptureImageWindow.Activate();
+			}
+			Activate();//the session keys stay with the session window
+		}
+
+		///<summary>Shows the preview's image, rotation, flip and caption in the image window, when it is open.</summary>
+		private void UpdateImageWindow() {
+			_frmCaptureImageWindow?.SetImage(imagePreview.Source as BitmapSource,imagePreview.LayoutTransform,_viewModel.PreviewCaption);
+		}
+
+		private void CloseImageWindow() {
+			FrmCaptureImageWindow frmCaptureImageWindow=_frmCaptureImageWindow;
+			_frmCaptureImageWindow=null;
+			try {
+				frmCaptureImageWindow?.Close();
+			}
+			catch {
+				//already closing
+			}
 		}
 
 		///<summary>The window's X: End while the source is enabled (the window stays until the session finishes), otherwise a close.</summary>
@@ -816,8 +861,10 @@ namespace ImagingCapture.UI {
 					transformGroup.Children.Add(new ScaleTransform(-1,1));
 				}
 				transformGroup.Children.Add(new RotateTransform(degrees));
+				transformGroup.Freeze();//also shown by the image window
 				imagePreview.LayoutTransform=transformGroup;
 			}
+			UpdateImageWindow();
 			bool isFresh=_viewModel.IsPreviewFresh;
 			borderPreview.BorderBrush=new SolidColorBrush(isFresh ? Color.FromRgb(32,176,64) : Color.FromRgb(169,169,169));
 			borderPreview.BorderThickness=new Thickness(isFresh ? 4 : 2);
