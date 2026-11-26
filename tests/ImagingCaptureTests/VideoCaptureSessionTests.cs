@@ -377,25 +377,25 @@ namespace ImagingCapture.Tests {
 		}
 		#endregion Photos
 
-		#region Light (FB-1)
-		//A handpiece whose buttons are active-low bits of CameraControl Roll: bit 0 the rest sensor, bit 2 the light button. The light is
-		//VideoProcAmp 9, range 0-255 with default 0 in the fake, so the first "on" is the maximum, limited by LightMax.
+		#region Setting buttons
+		//A handpiece whose buttons are active-low bits of CameraControl Roll: bit 0 the rest sensor, bit 2 an on/off button, bit 5 raise, bit 1
+		//lower, all on the camera setting Gain (VideoProcAmp 9), range 0-255 with default 0 in the fake, so the first "on" is the maximum,
+		//limited by Highest.
 		private const int ROLL_IDLE=0x3F;
 		private const int ROLL_LIGHT_PRESSED=0x3B;
 		private const int ROLL_RESTING=0x3E;
 		private const int ROLL_UP_PRESSED=0x1F;
 		private const int ROLL_DOWN_PRESSED=0x3D;
 
-		private VideoCaptureSession OpenWithLight(int gain,string lightMax,bool isRestLevel) {
+		private VideoCaptureSession OpenWithLight(int gain,string lightMax,bool isRestLevel,string extraIni="") {
 			_fakeUvcBackend.AddDevice();
+			string highest=lightMax==null ? "" : "Highest="+lightMax+"\r\n";
 			WriteIni("[Trigger]\r\nDebounceMs=1\r\n"
-				+(isRestLevel ? "[Level.1]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x1\r\nActiveLevel=Low\r\nAction=PausePreview\r\nLightOffWhileActive=1\r\n" : "")
-				+"[Level.2]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x4\r\nActiveLevel=Low\r\nAction=ToggleLight\r\nLightProperty=9\r\n"
-				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n")
-				+"[Level.3]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x20\r\nActiveLevel=Low\r\nAction=LightUp\r\nLightProperty=9\r\n"
-				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n")
-				+"[Level.4]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x2\r\nActiveLevel=Low\r\nAction=LightDown\r\nLightProperty=9\r\n"
-				+(lightMax==null ? "" : "LightMax="+lightMax+"\r\n"));
+				+(isRestLevel ? "[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=0\r\nActiveLevel=Low\r\nAction=PausePreview|TurnOff\r\nSetting=Gain\r\n"+highest : "")
+				+"[Level.2]\r\nEnabled=1\r\nControl=Roll\r\nBits=2\r\nActiveLevel=Low\r\nAction=Toggle\r\nSetting=Gain\r\n"+highest
+				+"[Level.3]\r\nEnabled=1\r\nControl=Roll\r\nBits=5\r\nActiveLevel=Low\r\nAction=Raise\r\nSetting=Gain\r\n"+highest
+				+"[Level.4]\r\nEnabled=1\r\nControl=Roll\r\nBits=1\r\nActiveLevel=Low\r\nAction=Lower\r\nSetting=Gain\r\n"+highest
+				+extraIni);
 			VideoCaptureSession videoCaptureSession=CreateSession();
 			//The fake's controls exist before the camera opens: the backend hands them to each frame source it opens.
 			_fakeUvcBackend.ActionOnOpen=x => {
@@ -418,14 +418,14 @@ namespace ImagingCapture.Tests {
 		}
 
 		private List<int> GetLightWrites() {
-			return OpenedLast.ListLightWrites.Where(x => x.Item1==9).Select(x => x.Item2).ToList();
+			return OpenedLast.ListWrites.Where(x => x.Interface==UvcControlInterface.VideoProcAmp && x.Property==9).Select(x => x.Value).ToList();
 		}
 
 		[TestMethod]
 		public void Light_AboveLightMaxAtOpen_IsLimited() {
 			OpenWithLight(64,"20",false);
 			CollectionAssert.AreEqual(new List<int> { 20 },GetLightWrites(),"The light starts no brighter than LightMax.");
-			StringAssert.Contains(string.Join("\n",_listLog),"Light limited to LightMax: Gain 64 -> 20.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Camera setting Gain limited to Highest: 64 -> 20.");
 		}
 
 		[TestMethod]
@@ -473,7 +473,7 @@ namespace ImagingCapture.Tests {
 				Press(videoCaptureSession,ROLL_UP_PRESSED);
 			}
 			CollectionAssert.AreEqual(new List<int> { 4,8,12,16,20 },GetLightWrites(),"Off: on at the lowest step; at LightMax: nothing more.");
-			StringAssert.Contains(string.Join("\n",_listLog),"Light brighter (button): Gain 16 -> 20.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Camera setting Gain raised (button): 16 -> 20.");
 		}
 
 		[TestMethod]
@@ -518,7 +518,7 @@ namespace ImagingCapture.Tests {
 			CollectionAssert.AreEqual(new List<int> { 0 },GetLightWrites(),"Put down: the light goes off.");
 			Poll(videoCaptureSession,ROLL_IDLE);
 			CollectionAssert.AreEqual(new List<int> { 0,15 },GetLightWrites(),"Picked up: back to the value it had.");
-			StringAssert.Contains(string.Join("\n",_listLog),"Light off (resting): Gain 15 -> 0.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Camera setting Gain off (level 1 active): 15 -> 0.");
 		}
 
 		[TestMethod]
@@ -539,9 +539,9 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
-		public void Light_RestLevelWithoutLightButton_DoesNothing() {
+		public void Light_RestLevelWithoutASetting_DoesNothing() {
 			_fakeUvcBackend.AddDevice();
-			WriteIni("[Level.1]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x1\r\nActiveLevel=Low\r\nAction=PausePreview\r\nLightOffWhileActive=1\r\n");
+			WriteIni("[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=0\r\nActiveLevel=Low\r\nAction=PausePreview|TurnOff\r\n");
 			VideoCaptureSession videoCaptureSession=CreateSession();
 			_fakeUvcBackend.ActionOnOpen=x => {
 				x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
@@ -550,9 +550,133 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
 			Poll(videoCaptureSession,ROLL_IDLE);
 			Poll(videoCaptureSession,ROLL_RESTING);
-			Assert.AreEqual(0,GetLightWrites().Count,"Which property is the light comes from the light button only.");
+			Assert.AreEqual(0,GetLightWrites().Count,"TurnOff without a Setting is not configured: nothing is written.");
 		}
-		#endregion Light (FB-1)
+
+		[TestMethod]
+		public void SettingButtons_WorkOnAnySetting() {
+			//The same actions on Brightness (VideoProcAmp 0), range 10-110 in steps of 5, and SetValue on Exposure (CameraControl 4).
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Trigger]\r\nDebounceMs=1\r\n"
+				+"[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=5\r\nActiveLevel=Low\r\nAction=Raise\r\nSetting=Brightness\r\nSteps=2\r\n"
+				+"[Level.2]\r\nEnabled=1\r\nControl=Roll\r\nBits=2\r\nActiveLevel=Low\r\nAction=SetValue\r\nSetting=Exposure\r\nValue=Auto\r\n"
+				+"[Level.3]\r\nEnabled=1\r\nControl=Roll\r\nBits=1\r\nActiveLevel=Low\r\nAction=Toggle\r\nSetting=Brightness\r\nLowest=20\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => {
+				x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+				x.SetControlRange(UvcControlInterface.VideoProcAmp,0,10,110,5,60,UvcControls.FlagsManual);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,0,30);
+				x.SetControlRange(UvcControlInterface.CameraControl,4,-11,0,1,-6,UvcControls.FlagsAuto|UvcControls.FlagsManual);
+				x.SetControlValue(UvcControlInterface.CameraControl,4,-6);
+			};
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession,ROLL_UP_PRESSED);
+			Press(videoCaptureSession,ROLL_UP_PRESSED);
+			Press(videoCaptureSession,ROLL_LIGHT_PRESSED);
+			Press(videoCaptureSession,ROLL_DOWN_PRESSED);
+			Press(videoCaptureSession,ROLL_DOWN_PRESSED);
+			CollectionAssert.AreEqual(new[] { "Brightness=80","Brightness=110","Exposure=Auto","Brightness=20","Brightness=110" },
+				OpenedLast.ListWrites.Select(x => x.ToString()).ToArray(),
+				"Steps of 50 (two steps from 10 to 110) up to the maximum, Auto, then off at Lowest and back on.");
+			StringAssert.Contains(string.Join("\n",_listLog),"Camera setting Exposure set (button): 1/64 s -> Auto.");
+		}
+
+		[TestMethod]
+		public void TakePhotoButton_TakesPhotosThroughTheLockout() {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Trigger]\r\nDebounceMs=1000\r\n[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=2\r\nActiveLevel=Low\r\nAction=TakePhoto\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+			int countPressed=0;
+			List<LevelAction> listLevelActions=new List<LevelAction>();
+			videoCaptureSession.TriggerPressed+=(sender,e) => {
+				countPressed++;
+				Assert.AreEqual(TriggerSource.Button,e.Source);
+			};
+			videoCaptureSession.LevelChanged+=(sender,e) => listLevelActions.Add(e.Action);
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			Press(videoCaptureSession);
+			Assert.AreEqual(1,countPressed,"One photo per press; a second press within the lockout is a bounce.");
+			Assert.AreEqual(0,OpenedLast.ListWrites.Count);
+			Assert.IsFalse(listLevelActions.Any(x => CameraButtonAction.GetCommand(new LevelChangedEventArgs(1,true,x,false))!=null),
+				"TakePhoto is no window command: it comes as TriggerPressed.");
+		}
+
+		[TestMethod]
+		public void ProgramButtons_AskTheWindowOncePerPress() {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Trigger]\r\nDebounceMs=1\r\n[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=2\r\nActiveLevel=Low\r\nAction=NextSlot\r\n"
+				+"[Level.2]\r\nEnabled=1\r\nControl=Roll\r\nBits=5\r\nActiveLevel=Low\r\nAction=Freeze\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+			List<LevelAction> listCommands=new List<LevelAction>();
+			videoCaptureSession.LevelChanged+=(sender,e) => {
+				LevelAction? command=CameraButtonAction.GetCommand(e);
+				if(command!=null) {
+					listCommands.Add(command.Value);
+				}
+			};
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			Poll(videoCaptureSession,ROLL_IDLE);
+			Press(videoCaptureSession);
+			Press(videoCaptureSession,ROLL_UP_PRESSED);
+			Press(videoCaptureSession);
+			CollectionAssert.AreEqual(new[] { LevelAction.NextSlot,LevelAction.Freeze,LevelAction.NextSlot },listCommands.ToArray(),
+				"One command per press, none on the release.");
+			Assert.AreEqual(0,OpenedLast.ListWrites.Count,"Program buttons write no camera setting.");
+		}
+		#endregion Setting buttons
+
+		#region Saved camera settings
+		[TestMethod]
+		public void SavedSettings_AppliedAtOpen_RefusalLoggedAndTheRestApply() {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Trigger.ControlPoll]\r\nEnabled=1\r\nControl=Roll\r\nBits=3\r\nActiveLevel=Low\r\n"
+				+"[Camera.Settings]\r\nGain=20\r\nContrast=40\r\nExposure=1/64 s\r\nPowerLineFrequency=60 Hz\r\nBrightness=Auto\r\nRoll=5\r\n"
+				+"Sharpness=\r\nFocus=12\r\nShine=3\r\nSaturation=abc\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => {
+				x.SetControlValue(UvcControlInterface.CameraControl,2,ROLL_IDLE);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,9,64);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,1,10);
+				x.SetControlRange(UvcControlInterface.CameraControl,4,-11,0,1,-6,UvcControls.FlagsAuto|UvcControls.FlagsManual);
+				x.SetControlValue(UvcControlInterface.CameraControl,4,-3);
+				x.SetControlRange(UvcControlInterface.VideoProcAmp,UvcControls.VideoProcAmpPowerLineFrequency,0,3,1,1,UvcControls.FlagsManual);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,UvcControls.VideoProcAmpPowerLineFrequency,1);
+				x.SetControlRange(UvcControlInterface.VideoProcAmp,0,0,255,1,128,UvcControls.FlagsAuto|UvcControls.FlagsManual);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,0,128);
+				x.SetControlValue(UvcControlInterface.VideoProcAmp,2,7);
+				x.FuncWriteStatus=(controlInterface,property,value) => controlInterface==UvcControlInterface.VideoProcAmp && property==1
+					? UvcControlStatus.Failed : UvcControlStatus.Ok;
+			};
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			CollectionAssert.AreEqual(new[] { "Brightness=Auto","Gain=20","PowerLineFrequency=2","Exposure=-6" },
+				OpenedLast.ListWrites.Select(x => x.ToString()).ToArray(),"In catalog order; the refused Contrast, the button's Roll and the rest not written.");
+			string log=string.Join("\n",_listLog);
+			StringAssert.Contains(log,"Camera setting Gain: 64 -> 20 (saved in capture.ini).");
+			StringAssert.Contains(log,"Camera setting Exposure: 1/8 s -> 1/64 s (saved in capture.ini).");
+			StringAssert.Contains(log,"Camera setting Power line frequency: 50 Hz -> 60 Hz (saved in capture.ini).");
+			StringAssert.Contains(log,"Camera setting Contrast: 10 -> 40 (saved in capture.ini) failed (Failed");
+			StringAssert.Contains(log,"Camera setting Roll (5 in capture.ini) was left alone: the camera's buttons are read from it.");
+			StringAssert.Contains(log,"Camera setting Focus (12 in capture.ini) was not applied: this camera does not offer it");
+			StringAssert.Contains(log,"[Camera.Settings] Shine is not a camera setting");
+			StringAssert.Contains(log,"Camera setting Saturation (abc in capture.ini) was not applied:");
+			Assert.IsTrue(videoCaptureSession.TriggerEngine!=null,"The triggers start after the settings.");
+		}
+
+		[TestMethod]
+		public void SavedSettings_AlreadyAsSaved_NotWritten() {
+			_fakeUvcBackend.AddDevice();
+			WriteIni("[Camera.Settings]\r\nGain=20\r\n");
+			VideoCaptureSession videoCaptureSession=CreateSession();
+			_fakeUvcBackend.ActionOnOpen=x => x.SetControlValue(UvcControlInterface.VideoProcAmp,9,20);
+			Assert.IsTrue(videoCaptureSession.Refresh().IsStreaming);
+			Assert.AreEqual(0,OpenedLast.ListWrites.Count);
+		}
+		#endregion Saved camera settings
 
 		#region Settings
 		[TestMethod]

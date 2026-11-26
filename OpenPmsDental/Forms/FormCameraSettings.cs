@@ -14,8 +14,8 @@ using OpenPmsDentalBusiness;
 
 namespace OpenPmsDental {
 	///<summary>Camera settings of this computer (IMG-P4e; owner imaging design, camera and video, section 5), opened from the camera session, which
-	///has the camera open: the camera and its picture size, where photos come from, Space in the main window, learning and testing the camera's
-	///button, the photo and video settings of the session (capture.ini), and the category quick photos and videos go to (an office-wide
+	///has the camera open: the camera and its picture size, where photos come from, Space in the main window, the camera's picture settings
+	///(FrmCameraSettingsControls), learning and testing the camera's buttons, the photo and video settings of the session (capture.ini), and the category quick photos and videos go to (an office-wide
 	///preference). It collects the choices; the session applies them after OK. Saving needs Setup, as the design says for camera settings.
 	///Controls are built in code (no designer file).</summary>
 	public class FormCameraSettings:FormODBase {
@@ -24,12 +24,15 @@ namespace OpenPmsDental {
 		private readonly List<ResolutionChoice> _listResolutionChoices;
 		private readonly List<long> _listCategoryDefNums=new List<long>();
 		private readonly Func<CaptureLearnMode,List<string>> _funcLearn;
+		///<summary>Opens the camera's picture settings on the session's camera (null: not available now).</summary>
+		private readonly Action _actionPictureSettings;
 		///<summary>The photo source as saved: kept when the camera is not open to choose another.</summary>
 		private readonly CameraPhotoSource _photoSourceSaved;
 		private int _idxCameraOpen=-1;
 		private UI.ComboBox comboCamera;
 		private UI.ComboBox comboResolution;
 		private UI.ComboBox comboPhotoSource;
+		private UI.Button butPictureSettings;
 		private UI.CheckBox checkMainWindowSpace;
 		private UI.Button butLearn;
 		private UI.Button butButtonTest;
@@ -59,13 +62,16 @@ namespace OpenPmsDental {
 		///<param name="listModes">The open camera's picture sizes (empty without a camera).</param>
 		///<param name="funcLearn">Opens Learn or the button test on the session's camera and returns the trigger notes after it (null: not available
 		///now).</param>
+		///<param name="actionPictureSettings">Opens the camera's picture settings (brightness, exposure, ...) on the session's camera (null: not
+		///available now).</param>
 		public FormCameraSettings(IReadOnlyList<UvcDeviceInfo> listDevices,UvcDeviceInfo deviceCurrent,IEnumerable<UvcMode> listModes,bool hasStillPin,
 			CameraConfig cameraConfig,PhotoSessionConfig photoSessionConfig,List<string> listTriggerNotes,long categoryDefNum,
-			Func<CaptureLearnMode,List<string>> funcLearn)
+			Func<CaptureLearnMode,List<string>> funcLearn,Action actionPictureSettings=null)
 		{
 			_listDevices=listDevices??new List<UvcDeviceInfo>();
 			_listResolutionChoices=listModes==null ? new List<ResolutionChoice>() : ResolutionChoice.GetChoices(listModes,cameraConfig);
 			_funcLearn=funcLearn;
+			_actionPictureSettings=actionPictureSettings;
 			PhotoSessionConfigNew=(photoSessionConfig??new PhotoSessionConfig()).Copy();
 			PhotoSource=cameraConfig?.PhotoSource??CameraPhotoSource.Preview;
 			_photoSourceSaved=PhotoSource;
@@ -119,13 +125,19 @@ namespace OpenPmsDental {
 			checkMainWindowSpace=new UI.CheckBox { Name="checkMainWindowSpace",Text="Space in the main window takes a photo",Location=new Point(xField,y),
 				Size=new Size(widthField,UiGrid.CHECK_HEIGHT),CheckAlign=ContentAlignment.MiddleLeft,TabIndex=4 };
 			Controls.Add(checkMainWindowSpace);
-			y+=UiGrid.CHECK_HEIGHT+UiGrid.SECTION_GAP;
+			y+=UiGrid.CHECK_HEIGHT+UiGrid.ROW_GAP;
+			//Design 8.7: every setting the camera's driver offers (brightness, exposure, white balance, ...), saved in capture.ini.
+			butPictureSettings=new UI.Button { Name="butPictureSettings",Text="Picture settings...",Location=new Point(xField,y),Size=new Size(140,UiGrid.FIELD_HEIGHT),
+				TabIndex=5 };
+			butPictureSettings.Click+=(sender,e) => _actionPictureSettings?.Invoke();
+			Controls.Add(butPictureSettings);
+			y+=UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingButton","Camera button and pedal",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
-			butLearn=new UI.Button { Name="butLearn",Text="Learn button...",Location=new Point(xField,y),Size=new Size(120,UiGrid.FIELD_HEIGHT),TabIndex=5 };
+			butLearn=new UI.Button { Name="butLearn",Text="Learn button...",Location=new Point(xField,y),Size=new Size(120,UiGrid.FIELD_HEIGHT),TabIndex=6 };
 			butLearn.Click+=(sender,e) => Learn(CaptureLearnMode.Learn);
 			Controls.Add(butLearn);
-			butButtonTest=new UI.Button { Name="butButtonTest",Text="Test button...",Location=new Point(xField+120+UiGrid.ITEM_GAP,y),Size=new Size(112,UiGrid.FIELD_HEIGHT),TabIndex=6 };
+			butButtonTest=new UI.Button { Name="butButtonTest",Text="Test button...",Location=new Point(xField+120+UiGrid.ITEM_GAP,y),Size=new Size(112,UiGrid.FIELD_HEIGHT),TabIndex=7 };
 			butButtonTest.Click+=(sender,e) => Learn(CaptureLearnMode.ButtonTest);
 			Controls.Add(butButtonTest);
 			y+=pitch;
@@ -139,23 +151,23 @@ namespace OpenPmsDental {
 			AddHeading("labelHeadingPhotos","Photos",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelAfterCapture","After a press of Capture",y);
-			comboAfterCapture=new UI.ComboBox { Name="comboAfterCapture",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=7 };
+			comboAfterCapture=new UI.ComboBox { Name="comboAfterCapture",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=8 };
 			Controls.Add(comboAfterCapture);
 			y+=pitch;
 			checkClick=new UI.CheckBox { Name="checkClick",Text="A click on every photo",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),
-				CheckAlign=ContentAlignment.MiddleLeft,TabIndex=8 };
+				CheckAlign=ContentAlignment.MiddleLeft,TabIndex=9 };
 			Controls.Add(checkClick);
 			y+=pitchCheck;
 			AddLabel("labelIdleMinutes","Release the camera after (minutes)",y);
 			textIdleMinutes=new ValidNum { Name="textIdleMinutes",Location=new Point(xField,y),Size=new Size(60,UiGrid.FIELD_HEIGHT),MinVal=PhotoSessionConfig.MinutesIdleMin,
-				MaxVal=PhotoSessionConfig.MinutesIdleMax,TabIndex=9 };
+				MaxVal=PhotoSessionConfig.MinutesIdleMax,TabIndex=10 };
 			Controls.Add(textIdleMinutes);
 			y+=UiGrid.FIELD_HEIGHT+UiGrid.SECTION_GAP;
 			AddHeading("labelHeadingVideo","Video",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelLimitSeconds","Longest video (seconds)",y);
 			textLimitSeconds=new ValidNum { Name="textLimitSeconds",Location=new Point(xField,y),Size=new Size(60,UiGrid.FIELD_HEIGHT),MinVal=PhotoSessionConfig.LimitSecondsMin,
-				MaxVal=PhotoSessionConfig.LimitSecondsMax,TabIndex=10 };
+				MaxVal=PhotoSessionConfig.LimitSecondsMax,TabIndex=11 };
 			Controls.Add(textLimitSeconds);
 			y+=pitch;
 			//Fix round: the one-line notes one line tall (the check box height), so the next heading is a section gap under their text.
@@ -166,7 +178,7 @@ namespace OpenPmsDental {
 			AddHeading("labelHeadingCategories","Categories (all computers)",y);
 			y+=heightHeading+UiGrid.ROW_GAP;
 			AddLabel("labelCategory","Quick photos and videos",y);
-			comboCategory=new UI.ComboBox { Name="comboCategory",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=11 };
+			comboCategory=new UI.ComboBox { Name="comboCategory",Location=new Point(xField,y),Size=new Size(widthField,UiGrid.FIELD_HEIGHT),TabIndex=12 };
 			Controls.Add(comboCategory);
 			y+=pitch;
 			Label labelCategoryNote=new Label { Name="labelCategoryNote",Text="Photo mounts save into their mount's category.",Location=new Point(xField,y),
@@ -220,6 +232,7 @@ namespace OpenPmsDental {
 			comboPhotoSource.Enabled=hasStillPin;
 			checkMainWindowSpace.Checked=IsMainWindowSpace;
 			butLearn.Enabled=_funcLearn!=null;
+			butPictureSettings.Enabled=_actionPictureSettings!=null;
 			butButtonTest.Enabled=_funcLearn!=null;
 			labelTriggerNotes.Text=GetTextTriggerNotes(listTriggerNotes);
 			comboAfterCapture.Items.Add(Lan.g(this,"Save the photo at once"));

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImagingCapture.Uvc;
 
 namespace ImagingCapture.Camera {
 	///<summary>What one baseline recording showed.</summary>
@@ -172,25 +173,33 @@ namespace ImagingCapture.Camera {
 		}
 	}
 
-	///<summary>FB-1: a camera button learned on the Other buttons page: what it does and its binding (active level = pressed).
-	///LightProperty is the VideoProcAmp property a light button switches; null for the other actions.</summary>
+	///<summary>A camera button learned on the Other buttons page: its binding (active level = pressed) and what each press does (a
+	///LevelActions.ArrayButtonActions action). A setting action has the setting it changes (a CameraSettingCatalog id) and, optionally, the
+	///highest value it gives it, or the value SetValue sets. Several buttons may have the same action.</summary>
 	public sealed class ButtonAssignment {
 		public LevelAction Action { get; }
 		public ControlBinding Binding { get; }
-		public int? LightProperty { get; }
-		///<summary>The light's highest value (LevelInputConfig.LightMax), for a light action; null for none.</summary>
-		public int? LightMax { get; }
+		///<summary>The camera setting a setting action changes ("Gain"); "" for a program action.</summary>
+		public string Setting { get; }
+		///<summary>The highest value it gives the setting, as people write it; "" for the camera's maximum.</summary>
+		public string Highest { get; }
+		///<summary>What SetValue sets the setting to ("Auto"); "" otherwise.</summary>
+		public string Value { get; }
 
-		public ButtonAssignment(LevelAction action,ControlBinding binding,int? lightProperty,int? lightMax=null) {
+		public ButtonAssignment(LevelAction action,ControlBinding binding,string setting="",string highest="",string value="") {
 			Action=action;
 			Binding=binding??throw new ArgumentNullException(nameof(binding));
-			LightProperty=lightProperty;
-			LightMax=lightMax>=0 ? lightMax : null;
+			bool isSetting=LevelActions.IsSettingAction(action);
+			Setting=isSetting ? (setting??"").Trim() : "";
+			Highest=isSetting && action!=LevelAction.SetValue ? (highest??"").Trim() : "";
+			Value=action==LevelAction.SetValue ? (value??"").Trim() : "";
 		}
 
-		///<summary>"light on/off: CameraControl 2 (Roll), mask 0x4, Low".</summary>
+		///<summary>"turn Gain on/off: Roll, bit 2, pressed reads 0".</summary>
 		public override string ToString() {
-			return LevelActions.GetText(Action)+": "+Binding;
+			CameraSettingDef cameraSettingDef;
+			string settingName=CameraSettingCatalog.TryGet(Setting,out cameraSettingDef) ? cameraSettingDef.DisplayName : Setting;
+			return LevelActions.GetText(Action,settingName,Value)+": "+Binding;
 		}
 	}
 
@@ -596,15 +605,15 @@ namespace ImagingCapture.Camera {
 			return BuildConfig(current,levelAccepted,null);
 		}
 
-		///<summary>FB-1: BuildConfig, plus one [Level.N] per learned button (after the level input's [Level.1], numbered on), whose
+		///<summary>BuildConfig, plus one [Level.N] per learned button (after the level input's [Level.1], numbered on), whose
 		///action acts once per press.</summary>
 		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted,IEnumerable<ButtonAssignment> buttons) {
-			return BuildConfig(current,levelAccepted,buttons,false);
+			return BuildConfig(current,levelAccepted,buttons,null);
 		}
 
-		///<summary>FB-1: as above; with isLightOffWhileResting the level input ([Level.1]) also turns the light off while it is active
-		///(LightOffWhileActive), when a light button is among buttons.</summary>
-		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted,IEnumerable<ButtonAssignment> buttons,bool isLightOffWhileResting) {
+		///<summary>As above; with settingTurnOff (a CameraSettingCatalog id) the level input ([Level.1]) also turns that setting off while it is
+		///active (Action=PausePreview|TurnOff), with the Highest of the first button that changes the same setting.</summary>
+		public CameraConfig BuildConfig(CameraConfig current,LevelCandidate levelAccepted,IEnumerable<ButtonAssignment> buttons,string settingTurnOff) {
 			List<ButtonAssignment> listButtons=(buttons??Enumerable.Empty<ButtonAssignment>()).Where(x => x!=null).ToList();
 			RequireBaselineA();
 			if(KeyResult==null) {
@@ -624,7 +633,12 @@ namespace ImagingCapture.Camera {
 				levelInputConfig.Enabled=true;
 				levelInputConfig.SetBinding(levelAccepted.Binding);
 				levelInputConfig.Action=LevelAction.PausePreview;
-				levelInputConfig.LightOffWhileActive=isLightOffWhileResting && listButtons.Any(x => LevelActions.IsLightAction(x.Action));
+				if(!string.IsNullOrWhiteSpace(settingTurnOff)) {
+					levelInputConfig.Actions=new List<LevelAction> { LevelAction.PausePreview,LevelAction.TurnOff };
+					levelInputConfig.Setting=settingTurnOff.Trim();
+					levelInputConfig.Highest=listButtons.FirstOrDefault(x => string.Equals(x.Setting,levelInputConfig.Setting,StringComparison.OrdinalIgnoreCase)
+						&& x.Highest!="")?.Highest??"";
+				}
 				cameraConfig.Levels.Add(levelInputConfig);
 			}
 			int number=cameraConfig.Levels.Count+1;
@@ -633,9 +647,9 @@ namespace ImagingCapture.Camera {
 				levelButton.Enabled=true;
 				levelButton.SetBinding(buttonAssignment.Binding);
 				levelButton.Action=buttonAssignment.Action;
-				bool isLight=LevelActions.IsLightAction(buttonAssignment.Action);
-				levelButton.LightProperty=isLight ? buttonAssignment.LightProperty : null;
-				levelButton.LightMax=isLight ? buttonAssignment.LightMax : null;
+				levelButton.Setting=buttonAssignment.Setting;
+				levelButton.Highest=buttonAssignment.Highest;
+				levelButton.Value=buttonAssignment.Value;
 				cameraConfig.Levels.Add(levelButton);
 				number++;
 			}
@@ -721,7 +735,7 @@ namespace ImagingCapture.Camera {
 				mask=bitsCommon;
 			}
 			if(listEpisodes.Any(x => !x.HashSetPatterns.Any(y => (y & mask)==mask))) {
-				reason="its bits "+ControlValueFormat.ToHex(mask)+" did not change together.";
+				reason="its bits "+ControlValueFormat.ToBitsOn(mask)+" did not change together.";
 				return false;
 			}
 			int bitsAtBaseline=baseline & mask;
@@ -733,7 +747,7 @@ namespace ImagingCapture.Camera {
 				activeLevel=ControlLevel.Low;
 			}
 			else {
-				reason="its bits "+ControlValueFormat.ToHex(mask)+" changed in opposite directions.";
+				reason="its bits "+ControlValueFormat.ToBitsOn(mask)+" changed in opposite directions.";
 				return false;
 			}
 			binding=new ControlBinding(control,mask,activeLevel);

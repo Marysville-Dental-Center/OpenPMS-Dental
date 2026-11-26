@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Drawing;
+using System.Linq;
 using ImagingCapture.Uvc;
 using ImagingCapture.Uvc.Interop;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -47,8 +48,20 @@ namespace ImagingCapture.Tests {
 
 		[TestMethod]
 		public void Controls_StandardPropertyNumbers() {
-			Assert.AreEqual(7,UvcControls.GetPropertyCount(UvcControlInterface.CameraControl));
-			Assert.AreEqual(10,UvcControls.GetPropertyCount(UvcControlInterface.VideoProcAmp));
+			CollectionAssert.AreEqual(new[] { 0,1,2,3,4,5,6,19 },UvcControls.GetProperties(UvcControlInterface.CameraControl).ToArray());
+			CollectionAssert.AreEqual(new[] { 0,1,2,3,4,5,6,7,8,9,13 },UvcControls.GetProperties(UvcControlInterface.VideoProcAmp).ToArray());
+			Assert.AreEqual("LowLightCompensation",UvcControls.GetPropertyName(UvcControlInterface.CameraControl,19));
+			Assert.AreEqual("PowerLineFrequency",UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,13));
+			Assert.IsTrue(UvcControls.IsExtendedProperty(UvcControlInterface.VideoProcAmp,13));
+			Assert.IsFalse(UvcControls.IsExtendedProperty(UvcControlInterface.VideoProcAmp,9));
+			UvcControlInterface controlInterface;
+			int property;
+			Assert.IsTrue(UvcControls.TryGetByName("gain",out controlInterface,out property));
+			Assert.AreEqual(UvcControlInterface.VideoProcAmp,controlInterface);
+			Assert.AreEqual(9,property);
+			Assert.IsTrue(UvcControls.TryGetByName("Roll",out controlInterface,out property));
+			Assert.AreEqual(UvcControlInterface.CameraControl,controlInterface);
+			Assert.IsFalse(UvcControls.TryGetByName("Torch",out controlInterface,out property));
 			Assert.AreEqual("Pan",UvcControls.GetPropertyName(UvcControlInterface.CameraControl,0));
 			Assert.AreEqual("Focus",UvcControls.GetPropertyName(UvcControlInterface.CameraControl,6));
 			Assert.AreEqual("Brightness",UvcControls.GetPropertyName(UvcControlInterface.VideoProcAmp,0));

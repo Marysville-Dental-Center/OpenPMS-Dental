@@ -35,7 +35,8 @@ namespace ImagingCapture.Video {
 				listLines.Add(GetLine("Control camera button",triggerEngine.ControlPollState,triggerEngine.ControlPollProblem));
 			}
 			foreach(LevelInputConfig levelInputConfig in listLevels) {
-				string label="Level "+levelInputConfig.Number.ToString(CultureInfo.InvariantCulture)+" ("+LevelActions.GetText(levelInputConfig.Action??LevelAction.PausePreview)+")";
+				string label=(LevelActions.IsButtonAction(levelInputConfig.Action) ? "Button " : "Level ")+levelInputConfig.Number.ToString(CultureInfo.InvariantCulture)
+					+" ("+LevelActions.GetText(levelInputConfig)+")";
 				listLines.Add(GetLine(label,triggerEngine.GetLevelState(levelInputConfig.Number),triggerEngine.GetLevelProblem(levelInputConfig.Number)));
 			}
 			return listLines;

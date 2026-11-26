@@ -17,62 +17,163 @@ namespace ImagingCapture.Camera {
 		Still=1,
 	}
 
-	///<summary>What a level input does while it is active (design 8.6). The names are the [Level.N] Action values.</summary>
+	///<summary>What a level input does (design 8.6). The names are the [Level.N] Action values. A held action acts while the level is active
+	///(PausePreview, TurnOff), and held actions combine with '|' ("PausePreview|TurnOff"). Every other action acts once per press, as a
+	///camera button: a setting action changes the level's Setting (a CameraSettingCatalog id, for example Gain), a program action does what
+	///its key does in the camera session. Nothing here is specific to any camera; what a camera's buttons do comes from Learn or the user.</summary>
 	public enum LevelAction {
-		///<summary>Pause the preview while the level is active.</summary>
+		///<summary>Held: the preview pauses while the level is active.</summary>
 		PausePreview=0,
-		///<summary>FB-1: each press (the level becoming active) turns the handpiece light off or back on: the VideoProcAmp property
-		///LightProperty of the same [Level.N] goes to its minimum, or back to the value it had (its default the first time), at most
-		///LightMax. Which control bit is the button and which property drives the light come from Learn, in capture.ini.</summary>
-		ToggleLight=1,
-		///<summary>FB-1: each press moves a photo session to its next slot, as the right arrow does. Does nothing outside a photo
-		///session.</summary>
+		///<summary>Each press turns Setting off (Lowest, else the camera's minimum) or back on (the value it had, else the camera's default,
+		///at most Highest).</summary>
+		Toggle=1,
+		///<summary>Each press moves a photo session to its next slot (the right arrow).</summary>
 		NextSlot=2,
-		///<summary>FB-1: each press moves a photo session to its previous slot, as the left arrow does. Does nothing outside a photo
-		///session.</summary>
+		///<summary>Each press moves a photo session to its previous slot (the left arrow).</summary>
 		PreviousSlot=3,
-		///<summary>FB-1: each press makes the handpiece light one step brighter (LightProperty, at most LightMax). Turns it on at the
-		///lowest step when it is off.</summary>
-		LightUp=4,
-		///<summary>FB-1: each press makes the handpiece light one step dimmer (LightProperty), down to the lowest step; it never turns
-		///the light off (ToggleLight does).</summary>
-		LightDown=5,
+		///<summary>Each press raises Setting one step: Steps steps (5 when empty) from the lowest step to Highest (else the camera's maximum).
+		///An off setting goes on at the lowest step.</summary>
+		Raise=4,
+		///<summary>Each press lowers Setting one step, down to the lowest step; it never turns it off (Toggle does).</summary>
+		Lower=5,
+		///<summary>Each press sets Setting to Value, for example "Auto" or "1/64 s".</summary>
+		SetValue=6,
+		///<summary>Held: Setting is off while the level is active, and back at the value it had when the level ends.</summary>
+		TurnOff=7,
+		///<summary>Each press takes a photo, through the same debounce lockout as the capture button (TriggerEngine's press path).</summary>
+		TakePhoto=8,
+		///<summary>Each press retakes the last photo (Ctrl+Z).</summary>
+		RetakeLast=9,
+		///<summary>Each press freezes the preview or goes back to live (F).</summary>
+		Freeze=10,
+		///<summary>Each press starts or stops a video recording (R).</summary>
+		Record=11,
+		///<summary>Each press pauses or resumes the recording (P).</summary>
+		PauseRecording=12,
+		///<summary>Each press picks the teeth of the next photo (T).</summary>
+		PickTeeth=13,
+		///<summary>Each press ends the session, or first goes back to live when frozen (Esc).</summary>
+		EndSession=14,
 	}
 
-	///<summary>FB-1: the texts and kinds of the level actions, for the Learn window, the live test and the status notes.</summary>
+	///<summary>The texts and kinds of the level actions, for capture.ini, the Learn window, the live test and the status notes.</summary>
 	public static class LevelActions {
-		///<summary>The actions a camera button (a press, not a held state) can have, in the order Learn offers them.</summary>
-		public static readonly LevelAction[] ArrayButtonActions=new LevelAction[] { LevelAction.ToggleLight,LevelAction.LightUp,LevelAction.LightDown,
-			LevelAction.NextSlot,LevelAction.PreviousSlot };
+		///<summary>The steps between a setting's lowest step and its highest value when a level has no Steps (Raise, Lower).</summary>
+		public const int StepsDefault=5;
+		///<summary>The actions a camera button (a press, not a held state) can have, in the order Learn offers them: the setting actions,
+		///then the program actions.</summary>
+		public static readonly LevelAction[] ArrayButtonActions=new LevelAction[] { LevelAction.Toggle,LevelAction.Raise,LevelAction.Lower,
+			LevelAction.SetValue,LevelAction.TakePhoto,LevelAction.NextSlot,LevelAction.PreviousSlot,LevelAction.RetakeLast,LevelAction.Freeze,
+			LevelAction.Record,LevelAction.PauseRecording,LevelAction.PickTeeth,LevelAction.EndSession };
+
+		///<summary>True for an action that acts while the level is active: PausePreview, TurnOff.</summary>
+		public static bool IsHeldAction(LevelAction? action) {
+			return action==LevelAction.PausePreview || action==LevelAction.TurnOff;
+		}
 
 		///<summary>True for an action that acts once per press (on the active edge) instead of while the level is active.</summary>
 		public static bool IsButtonAction(LevelAction? action) {
-			return IsLightAction(action) || action==LevelAction.NextSlot || action==LevelAction.PreviousSlot;
+			return action!=null && !IsHeldAction(action);
 		}
 
-		///<summary>True for an action that writes the light (LightProperty): on/off, brighter, dimmer.</summary>
-		public static bool IsLightAction(LevelAction? action) {
-			return action==LevelAction.ToggleLight || action==LevelAction.LightUp || action==LevelAction.LightDown;
+		///<summary>True for an action that changes the level's Setting: Toggle, Raise, Lower, SetValue, TurnOff.</summary>
+		public static bool IsSettingAction(LevelAction? action) {
+			return action==LevelAction.Toggle || action==LevelAction.Raise || action==LevelAction.Lower || action==LevelAction.SetValue
+				|| action==LevelAction.TurnOff;
 		}
 
-		///<summary>"pause preview", "light on/off", "next slot", "previous slot"; "no action" for null.</summary>
+		///<summary>True for a button action of the program (take photo, next slot, ...), which the camera session carries out.</summary>
+		public static bool IsProgramAction(LevelAction? action) {
+			return IsButtonAction(action) && !IsSettingAction(action);
+		}
+
+		///<summary>"pause preview", "turn on/off", "take a photo", ...; "no action" for null.</summary>
 		public static string GetText(LevelAction? action) {
 			switch(action) {
 				case LevelAction.PausePreview:
 					return "pause preview";
-				case LevelAction.ToggleLight:
-					return "light on/off";
-				case LevelAction.LightUp:
-					return "light brighter";
-				case LevelAction.LightDown:
-					return "light dimmer";
+				case LevelAction.Toggle:
+					return "turn on/off";
+				case LevelAction.Raise:
+					return "raise";
+				case LevelAction.Lower:
+					return "lower";
+				case LevelAction.SetValue:
+					return "set to a value";
+				case LevelAction.TurnOff:
+					return "turn off while active";
+				case LevelAction.TakePhoto:
+					return "take a photo";
 				case LevelAction.NextSlot:
 					return "next slot";
 				case LevelAction.PreviousSlot:
 					return "previous slot";
+				case LevelAction.RetakeLast:
+					return "retake the last photo";
+				case LevelAction.Freeze:
+					return "freeze or go live";
+				case LevelAction.Record:
+					return "start or stop recording";
+				case LevelAction.PauseRecording:
+					return "pause or resume recording";
+				case LevelAction.PickTeeth:
+					return "pick teeth";
+				case LevelAction.EndSession:
+					return "end the session";
 				default:
 					return "no action";
 			}
+		}
+
+		///<summary>What an action does to a setting, by its display name: "turn Gain on/off", "raise Gain", "set Exposure to Auto", "turn Gain
+		///off while active". The plain text (GetText) for the other actions.</summary>
+		public static string GetText(LevelAction? action,string settingName,string value="") {
+			settingName=string.IsNullOrWhiteSpace(settingName) ? "the setting" : settingName.Trim();
+			switch(action) {
+				case LevelAction.Toggle:
+					return "turn "+settingName+" on/off";
+				case LevelAction.Raise:
+					return "raise "+settingName;
+				case LevelAction.Lower:
+					return "lower "+settingName;
+				case LevelAction.SetValue:
+					return "set "+settingName+" to "+(string.IsNullOrWhiteSpace(value) ? "a value" : value.Trim());
+				case LevelAction.TurnOff:
+					return "turn "+settingName+" off while active";
+				default:
+					return GetText(action);
+			}
+		}
+
+		///<summary>What a level does, all its actions: "pause preview and turn Gain off while active", "raise Gain", "next slot".</summary>
+		public static string GetText(LevelInputConfig levelInputConfig) {
+			if(levelInputConfig==null || levelInputConfig.Actions.Count==0) {
+				return GetText((LevelAction?)null);
+			}
+			string settingName=levelInputConfig.SettingDef?.DisplayName??levelInputConfig.Setting;
+			return string.Join(" and ",levelInputConfig.Actions.Select(x => GetText(x,settingName,levelInputConfig.Value)));
+		}
+
+		///<summary>The actions of an Action value: one name, or held actions joined with '|' (case ignored). Null when empty or when any part
+		///is unknown.</summary>
+		public static List<LevelAction> Parse(string text) {
+			List<LevelAction> listActions=new List<LevelAction>();
+			foreach(string part in (text??"").Split('|')) {
+				string name=part.Trim();
+				LevelAction action;
+				if(name=="" || int.TryParse(name,out _) || !Enum.TryParse(name,true,out action) || !Enum.IsDefined(typeof(LevelAction),action)) {
+					return null;
+				}
+				if(!listActions.Contains(action)) {
+					listActions.Add(action);
+				}
+			}
+			return listActions.Count==0 ? null : listActions;
+		}
+
+		///<summary>The Action value: the names joined with '|'; "" for none.</summary>
+		public static string Format(IEnumerable<LevelAction> actions) {
+			return string.Join("|",(actions??Enumerable.Empty<LevelAction>()).Select(x => x.ToString()));
 		}
 	}
 
@@ -80,7 +181,7 @@ namespace ImagingCapture.Camera {
 	///[Level.N]. A snapshot: Read takes the values from a LocalCaptureConfig, the caller changes them, and Write puts the changed
 	///ones back (the caller then saves the LocalCaptureConfig).
 	///
-	///Provenance (design 4 and 8.4): no trigger or level value has a default. Interface, Property, Mask and ActiveLevel are
+	///Provenance (design 4 and 8.4): no trigger or level value has a default. Control, Bits and ActiveLevel are
 	///null until the Learn tool or the user fills them in, and an empty, missing or invalid value means not configured. The only
 	///camera defaults are PollMs, the DebounceMs fallback, the learned-debounce rule, the photo source and the format rule in
 	///ModeSelector, each with its justification written next to it.</summary>
@@ -137,7 +238,7 @@ namespace ImagingCapture.Camera {
 		public int? DebounceMs { get; set; }
 		///<summary>[Trigger.Still] Enabled, default 0: each still-pin sample is one press.</summary>
 		public bool StillEnabled { get; set; }
-		///<summary>[Trigger.ControlPoll] Enabled, Interface, Property, Mask and ActiveLevel. Never null.</summary>
+		///<summary>[Trigger.ControlPoll] Enabled, Control, Bits and ActiveLevel. Never null.</summary>
 		public ControlInputConfig ControlPoll { get; set; }=new ControlInputConfig();
 		///<summary>[Trigger.ControlPoll] PollMs, default PollMsDefault. Missing, empty, invalid and non-positive values read as the
 		///default. See EffectivePollMs.</summary>
@@ -255,25 +356,48 @@ namespace ImagingCapture.Camera {
 				string section=GetLevelSection(number);
 				ReadControlInput(config,section,levelInputConfig);
 				//A missing Action key means the design's default action; an empty or unknown one means none (not configured).
-				levelInputConfig.Action=config.ContainsKey(section,"Action")
-					? ParseEnum<LevelAction>(config.GetString(section,"Action"))
-					: LevelAction.PausePreview;
-				int lightProperty=config.GetInt(section,"LightProperty",-1);
-				levelInputConfig.LightProperty=UvcControls.IsValidProperty(UvcControlInterface.VideoProcAmp,lightProperty) ? lightProperty : (int?)null;
-				int lightMax=config.GetInt(section,"LightMax",-1);
-				levelInputConfig.LightMax=lightMax>=0 ? lightMax : (int?)null;
-				levelInputConfig.LightOffWhileActive=config.GetBool(section,"LightOffWhileActive",false);
+				levelInputConfig.Actions=config.ContainsKey(section,"Action")
+					? LevelActions.Parse(config.GetString(section,"Action"))
+					: new List<LevelAction> { LevelAction.PausePreview };
+				levelInputConfig.Setting=CutAtNul(config.GetString(section,"Setting")).Trim();
+				levelInputConfig.Highest=CutAtNul(config.GetString(section,"Highest")).Trim();
+				levelInputConfig.Lowest=CutAtNul(config.GetString(section,"Lowest")).Trim();
+				levelInputConfig.Value=CutAtNul(config.GetString(section,"Value")).Trim();
+				int steps=config.GetInt(section,"Steps",-1);
+				levelInputConfig.Steps=steps>0 ? steps : (int?)null;
 				cameraConfig.Levels.Add(levelInputConfig);
 			}
 			return cameraConfig;
 		}
 
+		///<summary>The binding as written: Control (the control's name, for example Roll) and Bits (the bit numbers, "3" or "0,2"); a file
+		///written before them has Interface, Property and Mask (hex), which are still read when Control or Bits is missing.</summary>
 		private static void ReadControlInput(LocalCaptureConfig config,string section,ControlInputConfig controlInputConfig) {
 			controlInputConfig.Enabled=config.GetBool(section,"Enabled",false);
-			controlInputConfig.Interface=ParseEnum<UvcControlInterface>(config.GetString(section,"Interface"));
-			controlInputConfig.Property=ParseProperty(config.GetString(section,"Property"));
-			controlInputConfig.Mask=ParseMask(config.GetString(section,"Mask"));
+			if(config.ContainsKey(section,"Control")) {
+				UvcControlInterface controlInterface;
+				int property;
+				bool isFound=UvcControls.TryGetByName(config.GetString(section,"Control"),out controlInterface,out property);
+				controlInputConfig.Interface=isFound ? controlInterface : (UvcControlInterface?)null;
+				controlInputConfig.Property=isFound ? property : (int?)null;
+			}
+			else {
+				controlInputConfig.Interface=ParseEnum<UvcControlInterface>(config.GetString(section,"Interface"));
+				controlInputConfig.Property=ParseProperty(config.GetString(section,"Property"));
+			}
+			if(config.ContainsKey(section,"Bits")) {
+				int mask;
+				controlInputConfig.Mask=ControlValueFormat.TryParseBits(config.GetString(section,"Bits"),out mask) ? mask : (int?)null;
+			}
+			else {
+				controlInputConfig.Mask=ParseMask(config.GetString(section,"Mask"));
+			}
 			controlInputConfig.ActiveLevel=ParseEnum<ControlLevel>(config.GetString(section,"ActiveLevel"));
+		}
+
+		///<summary>True when the section has a binding in the keys written before Control and Bits.</summary>
+		private static bool HasOldBindingKeys(LocalCaptureConfig config,string section) {
+			return new[] { "Interface","Property","Mask" }.Any(x => config.GetString(section,x).Trim()!="");
 		}
 
 		///<summary>The N of every [Level.N] section, ascending, without duplicates.</summary>
@@ -373,7 +497,8 @@ namespace ImagingCapture.Camera {
 			AddIfChanged(listSets,SectionCamera,"MainWindowSpace",cameraConfigOld.MainWindowSpace,MainWindowSpace);
 			AddIfChanged(listSets,SectionTrigger,"DebounceMs",FormatNullable(cameraConfigOld.DebounceMs),FormatNullable(DebounceMs));
 			AddIfChanged(listSets,SectionTriggerStill,"Enabled",cameraConfigOld.StillEnabled,StillEnabled);
-			AddControlInput(listSets,SectionTriggerControlPoll,cameraConfigOld.ControlPoll,ControlPoll??new ControlInputConfig());
+			AddControlInput(listSets,SectionTriggerControlPoll,cameraConfigOld.ControlPoll,ControlPoll??new ControlInputConfig(),
+				HasOldBindingKeys(config,SectionTriggerControlPoll));
 			int pollMs=PollMs>0 ? PollMs : PollMsDefault;
 			AddIfChanged(listSets,SectionTriggerControlPoll,"PollMs",cameraConfigOld.PollMs,pollMs);
 			List<LevelInputConfig> listLevels=(Levels??new List<LevelInputConfig>()).Where(x => x!=null).ToList();
@@ -386,23 +511,20 @@ namespace ImagingCapture.Camera {
 				LevelInputConfig levelOld=cameraConfigOld.GetLevel(number);
 				LevelInputConfig levelListed=listLevels.FirstOrDefault(x => x.Number==number);
 				LevelInputConfig levelNew=levelListed ?? new LevelInputConfig(number) { Action=levelOld?.Action };
-				AddControlInput(listSets,section,levelOld??new LevelInputConfig(number) { Action=null },levelNew);
-				string actionOld=levelOld==null ? "" : FormatNullable(levelOld.Action);
-				string actionNew=FormatNullable(levelNew.Action);
+				AddControlInput(listSets,section,levelOld??new LevelInputConfig(number) { Action=null },levelNew,HasOldBindingKeys(config,section));
+				string actionOld=levelOld==null ? "" : LevelActions.Format(levelOld.Actions);
+				string actionNew=LevelActions.Format(levelNew.Actions);
 				//A new section always gets its Action line, so the file shows what the level does.
 				if(levelOld==null || actionOld!=actionNew) {
 					listSets.Add(new[] { section,"Action",actionNew });
 				}
-				//FB-1: Learn sets the light property of a light button. A level without one keeps the key as the file has it.
-				if(levelNew.LightProperty!=null && levelNew.LightProperty!=levelOld?.LightProperty) {
-					listSets.Add(new[] { section,"LightProperty",FormatNullable(levelNew.LightProperty) });
-				}
-				//FB-1: the light's limit and the rest level. A level that is not listed (turned off) keeps them as the file has them.
+				//The setting a setting action changes and its options. A level that is not listed (turned off) keeps them as the file has them.
 				if(levelListed!=null) {
-					AddIfChanged(listSets,section,"LightMax",FormatNullable(levelOld?.LightMax),FormatNullable(levelListed.LightMax));
-					if(levelOld!=null || levelListed.LightOffWhileActive) {
-						AddIfChanged(listSets,section,"LightOffWhileActive",levelOld?.LightOffWhileActive??false,levelListed.LightOffWhileActive);
-					}
+					AddIfChanged(listSets,section,"Setting",levelOld?.Setting??"",(levelListed.Setting??"").Trim());
+					AddIfChanged(listSets,section,"Highest",levelOld?.Highest??"",(levelListed.Highest??"").Trim());
+					AddIfChanged(listSets,section,"Lowest",levelOld?.Lowest??"",(levelListed.Lowest??"").Trim());
+					AddIfChanged(listSets,section,"Steps",FormatNullable(levelOld?.Steps),FormatNullable(levelListed.Steps>0 ? levelListed.Steps : null));
+					AddIfChanged(listSets,section,"Value",levelOld?.Value??"",(levelListed.Value??"").Trim());
 				}
 			}
 			foreach(string[] arraySet in listSets) {
@@ -446,14 +568,40 @@ namespace ImagingCapture.Camera {
 			return false;
 		}
 
-		private static void AddControlInput(List<string[]> listSets,string section,ControlInputConfig controlInputOld,ControlInputConfig controlInputNew) {
+		///<summary>The binding is written as Control (the name) and Bits (the bit numbers). When the file has it in the keys written before them
+		///(Interface, Property, Mask) and it changes, it is written in the new keys and the old ones are emptied; unchanged, it stays as it is.</summary>
+		private static void AddControlInput(List<string[]> listSets,string section,ControlInputConfig controlInputOld,ControlInputConfig controlInputNew,
+			bool hasOldBindingKeys)
+		{
 			AddIfChanged(listSets,section,"Enabled",controlInputOld.Enabled,controlInputNew.Enabled);
-			AddIfChanged(listSets,section,"Interface",FormatNullable(controlInputOld.Interface),FormatNullable(controlInputNew.Interface));
-			AddIfChanged(listSets,section,"Property",FormatNullable(controlInputOld.Property),FormatNullable(controlInputNew.Property));
-			string maskOld=controlInputOld.Mask==null ? "" : ControlValueFormat.ToHex(controlInputOld.Mask.Value);
-			string maskNew=controlInputNew.Mask==null || controlInputNew.Mask==0 ? "" : ControlValueFormat.ToHex(controlInputNew.Mask.Value);
-			AddIfChanged(listSets,section,"Mask",maskOld,maskNew);
+			string controlOld=FormatControl(controlInputOld);
+			string controlNew=FormatControl(controlInputNew);
+			string bitsOld=controlInputOld.Mask==null ? "" : ControlValueFormat.ToBitsText(controlInputOld.Mask.Value);
+			string bitsNew=controlInputNew.Mask==null || controlInputNew.Mask==0 ? "" : ControlValueFormat.ToBitsText(controlInputNew.Mask.Value);
+			if(hasOldBindingKeys) {
+				if(controlOld!=controlNew || bitsOld!=bitsNew) {
+					listSets.Add(new[] { section,"Control",controlNew });
+					listSets.Add(new[] { section,"Bits",bitsNew });
+					listSets.Add(new[] { section,"Interface","" });
+					listSets.Add(new[] { section,"Property","" });
+					listSets.Add(new[] { section,"Mask","" });
+				}
+			}
+			else {
+				AddIfChanged(listSets,section,"Control",controlOld,controlNew);
+				AddIfChanged(listSets,section,"Bits",bitsOld,bitsNew);
+			}
 			AddIfChanged(listSets,section,"ActiveLevel",FormatNullable(controlInputOld.ActiveLevel),FormatNullable(controlInputNew.ActiveLevel));
+		}
+
+		///<summary>The control's name ("Roll"), or "" when the interface or property is missing or not standard.</summary>
+		private static string FormatControl(ControlInputConfig controlInputConfig) {
+			if(controlInputConfig.Interface==null || controlInputConfig.Property==null
+				|| !UvcControls.IsValidProperty(controlInputConfig.Interface.Value,controlInputConfig.Property.Value))
+			{
+				return "";
+			}
+			return UvcControls.GetPropertyName(controlInputConfig.Interface.Value,controlInputConfig.Property.Value);
 		}
 
 		private static void AddIfChanged(List<string[]> listSets,string section,string key,string valueOld,string valueNew) {
@@ -555,14 +703,11 @@ namespace ImagingCapture.Camera {
 				return "";
 			}
 			List<string> listMissing=new List<string>();
-			if(Interface==null) {
-				listMissing.Add("Interface");
-			}
-			if(Property==null || (Interface!=null && !UvcControls.IsValidProperty(Interface.Value,Property.Value))) {
-				listMissing.Add("Property");
+			if(Interface==null || Property==null || !UvcControls.IsValidProperty(Interface.Value,Property.Value)) {
+				listMissing.Add("Control");
 			}
 			if(Mask==null || Mask==0) {
-				listMissing.Add("Mask");
+				listMissing.Add("Bits");
 			}
 			if(ActiveLevel==null) {
 				listMissing.Add("ActiveLevel");
@@ -582,23 +727,56 @@ namespace ImagingCapture.Camera {
 	public sealed class LevelInputConfig:ControlInputConfig {
 		///<summary>The N of [Level.N], 1 or more.</summary>
 		public int Number { get; }
-		///<summary>Action. A missing key reads as PausePreview, the design's default; an empty or unknown value reads as null, and the
-		///level then does nothing.</summary>
-		public LevelAction? Action { get; set; }=LevelAction.PausePreview;
-		///<summary>FB-1: [Level.N] LightProperty, the VideoProcAmp property (0-9) Action=ToggleLight turns off and on; null when missing or
-		///invalid (the level then does nothing). Learn sets it for a light button; Write leaves the key as it is in the file when null.</summary>
-		public int? LightProperty { get; set; }
-		///<summary>FB-1: [Level.N] LightMax, the highest value the light gets on a light level (ToggleLight, LightUp, LightDown): when the
-		///camera opens with the light property above it, it is set to LightMax, and turning the light on or brighter never goes above it. Null (missing, empty or negative): the
-		///camera's own range is the limit.</summary>
-		public int? LightMax { get; set; }
-		///<summary>FB-1: [Level.N] LightOffWhileActive=1, on a level that is held (not a button): while the level is active the light of the
-		///light level is off, and when it ends the light comes back on. For a handpiece's rest or cradle sensor, with
-		///Action=PausePreview. Ignored on a button level and when no light level is configured.</summary>
-		public bool LightOffWhileActive { get; set; }
+		private List<LevelAction> _listActions=new List<LevelAction> { LevelAction.PausePreview };
+
+		///<summary>The first of Actions, or null when there is none. Setting it makes it the only action.</summary>
+		public LevelAction? Action {
+			get {
+				return _listActions==null || _listActions.Count==0 ? (LevelAction?)null : _listActions[0];
+			}
+			set {
+				_listActions=value==null ? null : new List<LevelAction> { value.Value };
+			}
+		}
+
+		///<summary>Action: one action, or held actions joined with '|'. A missing key reads as PausePreview, the design's default; an empty or
+		///unknown value reads as none, and the level then does nothing.</summary>
+		public IReadOnlyList<LevelAction> Actions {
+			get {
+				return (IReadOnlyList<LevelAction>)_listActions??new List<LevelAction>();
+			}
+			set {
+				_listActions=value==null || value.Count==0 ? null : value.Distinct().ToList();
+			}
+		}
+
+		///<summary>Setting: the camera setting a setting action changes, by its CameraSettingCatalog id ("Gain", "Exposure"; a display name
+		///also reads). "" when none.</summary>
+		public string Setting { get; set; }="";
+		///<summary>Highest: the highest value Toggle, Raise and TurnOff give Setting, as people write it ("20", "1/64 s"); when the camera's
+		///triggers start with Setting above it, Setting is set to it. "" is the camera's maximum.</summary>
+		public string Highest { get; set; }="";
+		///<summary>Lowest: the value Toggle and TurnOff give Setting to turn it off. "" is the camera's minimum.</summary>
+		public string Lowest { get; set; }="";
+		///<summary>Steps: the steps of Raise and Lower between the lowest step and Highest; null is LevelActions.StepsDefault.</summary>
+		public int? Steps { get; set; }
+		///<summary>Value: what SetValue sets Setting to, as people write it ("Auto", "60 Hz", "1/64 s").</summary>
+		public string Value { get; set; }="";
 
 		public LevelInputConfig(int number) {
 			Number=number;
+		}
+
+		public bool HasAction(LevelAction action) {
+			return _listActions!=null && _listActions.Contains(action);
+		}
+
+		///<summary>The setting Setting names, or null when it is empty or unknown.</summary>
+		public CameraSettingDef SettingDef {
+			get {
+				CameraSettingDef cameraSettingDef;
+				return CameraSettingCatalog.TryGet(Setting,out cameraSettingDef) ? cameraSettingDef : null;
+			}
 		}
 
 		public override string GetProblem() {
@@ -606,24 +784,38 @@ namespace ImagingCapture.Camera {
 			if(problem!="" || !Enabled) {
 				return problem;
 			}
-			if(LevelActions.IsLightAction(Action) && LightProperty==null) {
-				return "it is enabled with Action="+Action+", but LightProperty (the VideoProcAmp property of the light, 0-9) is empty or invalid.";
-			}
-			if(Action!=null) {
-				return problem;
-			}
-			return "it is enabled, but Action is empty or unknown.";
+			return GetActionProblem();
 		}
 
-		///<summary>True when Enabled, the binding is valid and the action is known.</summary>
+		///<summary>"" when the actions and their keys are complete, else why not.</summary>
+		private string GetActionProblem() {
+			if(_listActions==null || _listActions.Count==0) {
+				return "it is enabled, but Action is empty or unknown.";
+			}
+			if(_listActions.Count>1 && _listActions.Any(x => !LevelActions.IsHeldAction(x))) {
+				return "Action="+LevelActions.Format(_listActions)+" combines a button action with others; only PausePreview and TurnOff combine.";
+			}
+			if(_listActions.Any(x => LevelActions.IsSettingAction(x)) && SettingDef==null) {
+				return "it is enabled with Action="+LevelActions.Format(_listActions)+", but Setting (the camera setting, for example Gain) is "
+					+(string.IsNullOrWhiteSpace(Setting) ? "empty." : "unknown: "+Setting+".");
+			}
+			if(HasAction(LevelAction.SetValue) && string.IsNullOrWhiteSpace(Value)) {
+				return "it is enabled with Action=SetValue, but Value is empty.";
+			}
+			return "";
+		}
+
+		///<summary>True when Enabled, the binding is valid and the actions and their keys are complete.</summary>
 		public bool IsLevelConfigured {
 			get {
-				return IsConfigured && Action!=null && (!LevelActions.IsLightAction(Action) || LightProperty!=null);
+				return IsConfigured && GetActionProblem()=="";
 			}
 		}
 
 		public LevelInputConfig CloneLevel() {
-			return (LevelInputConfig)MemberwiseClone();
+			LevelInputConfig levelInputConfig=(LevelInputConfig)MemberwiseClone();
+			levelInputConfig._listActions=_listActions==null ? null : new List<LevelAction>(_listActions);
+			return levelInputConfig;
 		}
 	}
 }

@@ -143,13 +143,16 @@ namespace ImagingCapture.Tests {
 			Tuple.Create(typeof(ISampleGrabber),"SetCallback",9),
 			Tuple.Create(typeof(ISampleGrabberCB),"SampleCB",3),
 			Tuple.Create(typeof(ISampleGrabberCB),"BufferCB",4),
-			//IAMCameraControl and IAMVideoProcAmp: GetRange, Set, Get. IAMCameraControl's Set is a placeholder that is never called.
+			//IAMCameraControl and IAMVideoProcAmp: GetRange, Set, Get. IKsControl: KsProperty, KsMethod, KsEvent.
 			Tuple.Create(typeof(IAMCameraControl),"GetRange",3),
-			Tuple.Create(typeof(IAMCameraControl),"Unused_Set",4),
+			Tuple.Create(typeof(IAMCameraControl),"Set",4),
 			Tuple.Create(typeof(IAMCameraControl),"Get",5),
 			Tuple.Create(typeof(IAMVideoProcAmp),"GetRange",3),
 			Tuple.Create(typeof(IAMVideoProcAmp),"Set",4),
 			Tuple.Create(typeof(IAMVideoProcAmp),"Get",5),
+			Tuple.Create(typeof(IKsControl),"KsProperty",3),
+			Tuple.Create(typeof(IKsControl),"KsMethod",4),
+			Tuple.Create(typeof(IKsControl),"KsEvent",5),
 			//Media Foundation (IMG-P4c video recording; mfobjects.h and mfreadwrite.h, SDK 10.0.26100): IMFAttributes' 30 methods come first in IMFSample.
 			Tuple.Create(typeof(IMFAttributes),"GetUINT32",7),
 			Tuple.Create(typeof(IMFAttributes),"GetUINT64",8),
@@ -216,7 +219,7 @@ namespace ImagingCapture.Tests {
 			List<Type> listTypes=typeof(Ds).Assembly.GetTypes()
 				.Where(x => x.IsInterface && x.Namespace==typeof(Ds).Namespace && x.IsDefined(typeof(ComImportAttribute),false))
 				.ToList();
-			Assert.AreEqual(21,listTypes.Count,"COM interfaces declared in ImagingCapture.Uvc.Interop (16 DirectShow, 5 Media Foundation).");
+			Assert.AreEqual(22,listTypes.Count,"COM interfaces declared in ImagingCapture.Uvc.Interop (17 DirectShow and kernel streaming, 5 Media Foundation).");
 			foreach(Type type in listTypes) {
 				MethodInfo[] arrayMethods=type.GetMethods();
 				Assert.IsTrue(arrayMethods.Length>0,type.Name);

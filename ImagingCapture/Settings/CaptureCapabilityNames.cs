@@ -57,14 +57,10 @@ namespace ImagingCapture.Settings {
 			return _listCaps.FirstOrDefault(x => x.Number==number).Name??"";
 		}
 
-		///<summary>For the grid: "NAME (0x8005)" for a named number, the text as written otherwise (empty stays empty).</summary>
+		///<summary>For the grid: the name of a named number, "NAME" (no hex on screen once it has a name); the text as written otherwise, since
+		///an unnamed number has nothing else to show (empty stays empty).</summary>
 		public string ToDisplay(string text) {
-			int number;
-			if(!TryParseHex(text,out number)) {
-				return text??"";
-			}
-			string name=GetName(number);
-			return name=="" ? text : name+" ("+ToHex(number)+")";
+			return ToEditText(text);
 		}
 
 		///<summary>For the value box: the name for a named number, the text as written otherwise.</summary>
@@ -95,8 +91,8 @@ namespace ImagingCapture.Settings {
 			if(_listCaps.Count==0) {
 				return "To see names instead of numbers, list them in capture.ini under ["+SectionCapabilityNames+"], one per line: NAME=0x8001.";
 			}
-			return "Type the number or its name. Names from capture.ini ["+SectionCapabilityNames+"]: "
-				+string.Join(", ",_listCaps.OrderBy(x => x.Number).Select(x => x.Name+"="+ToHex(x.Number)))+".";
+			return "Type the name or the number. Names from capture.ini ["+SectionCapabilityNames+"]: "
+				+string.Join(", ",_listCaps.OrderBy(x => x.Number).Select(x => x.Name))+".";
 		}
 
 		private static string ToHex(int number) {

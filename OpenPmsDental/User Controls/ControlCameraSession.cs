@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using CodeBase;
 using ImagingCapture.Camera;
 using ImagingCapture.Photo;
+using ImagingCapture.Settings;
 using ImagingCapture.UI;
 using ImagingCapture.Uvc;
 using ImagingCapture.Uvc.DirectShow;
@@ -283,12 +284,12 @@ namespace OpenPmsDental {
 					return true;
 				case Keys.R:
 					if((msg.LParam.ToInt64() & 0x40000000)==0) {//a held R does not start and stop again
-						ToggleRecording();
+						RunCommand(LevelAction.Record);
 					}
 					return true;
 				case Keys.P:
 					if((msg.LParam.ToInt64() & 0x40000000)==0) {
-						TogglePause();
+						RunCommand(LevelAction.PauseRecording);
 					}
 					return true;
 				case Keys.Space:
@@ -298,29 +299,64 @@ namespace OpenPmsDental {
 					}
 					return true;
 				case Keys.Right:
-					Skip(isForward:true);
+					RunCommand(LevelAction.NextSlot);
 					return true;
 				case Keys.Left:
-					Skip(isForward:false);
+					RunCommand(LevelAction.PreviousSlot);
 					return true;
 				case Keys.Escape:
 					if(IsFrozen) {
-						Unfreeze();//Esc goes back to live first (design section 2)
+						Unfreeze();//Esc goes back to live first (design section 2); a button with EndSession does the same (RunCommand)
 						return true;
 					}
 					End();
 					return true;
 				case Keys.F:
-					ToggleFreeze();
+					RunCommand(LevelAction.Freeze);
 					return true;
 				case Keys.T:
-					PickTeethNext();
+					RunCommand(LevelAction.PickTeeth);
 					return true;
 				case Keys.Control|Keys.Z:
-					RetakeLast();
+					RunCommand(LevelAction.RetakeLast);
 					return true;
 			}
 			return base.ProcessCmdKey(ref msg,keyData);
+		}
+
+		///<summary>Design 8.6: the session's commands, run by their key and by a camera button with that program action (CameraButtonAction), so
+		///a button does exactly what its key does.</summary>
+		private void RunCommand(LevelAction action) {
+			switch(action) {
+				case LevelAction.NextSlot:
+					Skip(isForward:true);
+					break;
+				case LevelAction.PreviousSlot:
+					Skip(isForward:false);
+					break;
+				case LevelAction.RetakeLast:
+					RetakeLast();
+					break;
+				case LevelAction.Freeze:
+					ToggleFreeze();
+					break;
+				case LevelAction.Record:
+					ToggleRecording();
+					break;
+				case LevelAction.PauseRecording:
+					TogglePause();
+					break;
+				case LevelAction.PickTeeth:
+					PickTeethNext();
+					break;
+				case LevelAction.EndSession:
+					if(IsFrozen) {
+						Unfreeze();//Esc goes back to live first (design section 2)
+						break;
+					}
+					End();
+					break;
+			}
 		}
 
 		protected override void OnLayout(LayoutEventArgs e) {
@@ -369,15 +405,12 @@ namespace OpenPmsDental {
 		private void videoCaptureSession_LevelChanged(object sender,LevelChangedEventArgs e) {
 			_isPreviewPaused=e.IsPausePreviewActive;
 			ShowStatus(_videoCaptureSession?.Status);
-			//FB-1: the handpiece's other buttons, when Learn assigned them: next and previous slot, as the arrows. The light button is
-			//handled by the camera session itself.
-			if(e.IsActive && !_isEnded) {
-				if(e.Action==LevelAction.NextSlot) {
-					Skip(isForward:true);
-				}
-				else if(e.Action==LevelAction.PreviousSlot) {
-					Skip(isForward:false);
-				}
+			//Design 8.6: a camera button with a program action runs its key's command. Setting actions are the camera session's; TakePhoto
+			//comes as TriggerPressed.
+			LevelAction? command=CameraButtonAction.GetCommand(e);
+			if(command!=null && !_isEnded) {
+				_dateTimeActivity=DateTime.Now;
+				RunCommand(command.Value);
 			}
 		}
 
@@ -583,7 +616,8 @@ namespace OpenPmsDental {
 			PhotoSessionConfig photoSessionConfigOld=_photoSessionConfig.Copy();
 			using FormCameraSettings formCameraSettings=new FormCameraSettings(videoCaptureSession.Devices,videoCaptureSession.Device,frameSource?.Modes,
 				frameSource!=null && frameSource.HasStillPin,videoCaptureSession.CameraConfig,photoSessionConfigOld,videoCaptureSession.GetTriggerNotes(),
-				categoryDefNum,videoCaptureSession.IsStreaming ? (Func<CaptureLearnMode,List<string>>)OpenLearn : null);
+				categoryDefNum,videoCaptureSession.IsStreaming ? (Func<CaptureLearnMode,List<string>>)OpenLearn : null,
+				videoCaptureSession.IsStreaming ? (Action)OpenPictureSettings : null);
 			if(formCameraSettings.ShowDialog()!=DialogResult.OK || _videoCaptureSession==null) {
 				return;
 			}
@@ -692,6 +726,23 @@ namespace OpenPmsDental {
 				return;
 			}
 			ShowInfo(listChanges.Count>0 ? Lan.g(this,"Camera settings saved.") : "");
+		}
+
+		///<summary>Design 8.7: the camera's picture settings on the session's camera, live; Save keeps them in capture.ini [Camera.Settings], which
+		///the session applies each time the camera opens. Needs Setup, as the other camera settings.</summary>
+		private void OpenPictureSettings() {
+			VideoCaptureSession videoCaptureSession=_videoCaptureSession;
+			IFrameSource frameSource=videoCaptureSession?.FrameSource;
+			if(videoCaptureSession==null || !videoCaptureSession.IsStreaming || frameSource==null) {
+				return;
+			}
+			if(!Security.IsAuthorized(EnumPermType.Setup)) {
+				return;
+			}
+			CameraSettingsModel cameraSettingsModel=new CameraSettingsModel(frameSource,videoCaptureSession.LocalCaptureConfig,videoCaptureSession.CameraConfig,
+				videoCaptureSession.Device?.FriendlyName??"",Environment.MachineName,new OdCaptureSettingsStore(),line => videoCaptureSession.ActionLog?.Invoke(line));
+			FrmCameraSettingsControls frmCameraSettingsControls=new FrmCameraSettingsControls(cameraSettingsModel);
+			frmCameraSettingsControls.ShowDialog();
 		}
 
 		///<summary>Learn or test the camera's button on the session's camera (as the Video window does): the triggers stop while it is open and the

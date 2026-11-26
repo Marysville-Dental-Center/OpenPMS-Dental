@@ -22,10 +22,8 @@ namespace ImagingCapture.Camera {
 		public int Value { get; internal set; }
 		///<summary>"" when not readable.</summary>
 		public string ValueDecimal { get; internal set; }="";
-		///<summary>"0x0010", "" when not readable.</summary>
-		public string ValueHex { get; internal set; }="";
-		///<summary>"0000 0000 0001 0000", "" when not readable.</summary>
-		public string ValueBinary { get; internal set; }="";
+		///<summary>The bit numbers that are on, "0 1 2 4 5" or "none"; "" when not readable. No hex on screen (design 8.5).</summary>
+		public string ValueBitsOn { get; internal set; }="";
 		///<summary>True when the trigger or a level of the configuration under test reads this control.</summary>
 		public bool IsUsed { get; internal set; }
 
@@ -76,6 +74,8 @@ namespace ImagingCapture.Camera {
 		private bool _hasControlReading;
 		///<summary>The levels read at least once, so a button held when the test starts is not counted.</summary>
 		private readonly HashSet<int> _setLevelsRead=new HashSet<int>();
+		///<summary>The levels whose button takes a photo.</summary>
+		private readonly HashSet<int> _setLevelsTakePhoto=new HashSet<int>();
 		private bool _hasStillSample;
 		private long _timeStillMs;
 
@@ -96,11 +96,14 @@ namespace ImagingCapture.Camera {
 				if(isConfigured) {
 					_dictLevelBindings[levelInputConfig.Number]=levelInputConfig.GetBinding();
 				}
-				//FB-1: a button is named by what it does, and counts presses.
+				//A button is named by what it does, and counts presses.
 				bool isButton=LevelActions.IsButtonAction(levelInputConfig.Action);
 				string label=isButton
-					? "Button: "+LevelActions.GetText(levelInputConfig.Action)
-					: "Level "+levelInputConfig.Number+": "+LevelActions.GetText(levelInputConfig.Action??LevelAction.PausePreview);
+					? "Button: "+LevelActions.GetText(levelInputConfig)
+					: "Level "+levelInputConfig.Number+": "+LevelActions.GetText(levelInputConfig);
+				if(isConfigured && levelInputConfig.Action==LevelAction.TakePhoto) {
+					_setLevelsTakePhoto.Add(levelInputConfig.Number);
+				}
 				LiveTile liveTile=new LiveTile(LiveTileKind.Level,levelInputConfig.Number,label,isConfigured);
 				liveTile.IsButton=isButton;
 				_listTiles.Add(liveTile);
@@ -157,8 +160,7 @@ namespace ImagingCapture.Camera {
 				row.IsReadable=sample.TryGetValue(row.Control,out value);
 				row.Value=row.IsReadable ? value : 0;
 				row.ValueDecimal=row.IsReadable ? ControlValueFormat.ToDecimal(value) : "";
-				row.ValueHex=row.IsReadable ? ControlValueFormat.ToHexPadded(value) : "";
-				row.ValueBinary=row.IsReadable ? ControlValueFormat.ToBinary(value) : "";
+				row.ValueBitsOn=row.IsReadable ? ControlValueFormat.ToBitsOn(value) : "";
 			}
 			if(_bindingControl!=null) {
 				int value;
@@ -179,6 +181,10 @@ namespace ImagingCapture.Camera {
 					bool isActive=binding.IsActive(value);
 					if(tile.IsButton && isActive && !tile.IsLit && _setLevelsRead.Contains(tile.LevelNumber)) {
 						tile.PressCount++;
+						//A TakePhoto button takes photos through the same lockout as the triggers (TriggerEngine).
+						if(_setLevelsTakePhoto.Contains(tile.LevelNumber) && _debounceGate.TryAccept(sample.TimeMs)) {
+							PhotoCount++;
+						}
 					}
 					tile.IsLit=isActive;
 					_setLevelsRead.Add(tile.LevelNumber);

@@ -478,8 +478,7 @@ namespace ImagingCapture.Tests {
 			LiveValueRow rowTilt=liveTestModel.Rows.Single(x => x.Control==_controlTilt);
 			Assert.IsTrue(rowTilt.IsReadable);
 			Assert.AreEqual("32",rowTilt.ValueDecimal);
-			Assert.AreEqual("0x0020",rowTilt.ValueHex);
-			Assert.AreEqual("0000 0000 0010 0000",rowTilt.ValueBinary);
+			Assert.AreEqual("5",rowTilt.ValueBitsOn,"The bits that are on, no hex.");
 			Assert.IsFalse(tileControl.IsLit);
 			for(int i=0;i<50;i++) {
 				_recorder.Toggle(_controlTilt,KeyBit).Hold(150);
@@ -515,7 +514,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsFalse(tileStill.IsLit);
 			liveTestModel.Update(new ControlSample(_recorder.TimeMs+50,null));
 			Assert.IsFalse(rowTilt.IsReadable);
-			Assert.AreEqual("",rowTilt.ValueHex);
+			Assert.AreEqual("",rowTilt.ValueBitsOn);
 		}
 		#endregion Level step and result
 

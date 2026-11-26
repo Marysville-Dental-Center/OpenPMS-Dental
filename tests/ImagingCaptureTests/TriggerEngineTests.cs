@@ -270,7 +270,7 @@ namespace ImagingCapture.Tests {
 			Assert.AreEqual(TriggerInputState.Incomplete,_triggerEngine.StillState);
 			StringAssert.Contains(_triggerEngine.StillProblem,"no still pin");
 			Assert.AreEqual(TriggerInputState.Incomplete,_triggerEngine.ControlPollState);
-			StringAssert.Contains(_triggerEngine.ControlPollProblem,"Property, Mask, ActiveLevel");
+			StringAssert.Contains(_triggerEngine.ControlPollProblem,"Control, Bits, ActiveLevel");
 			Assert.AreEqual(TriggerInputState.Incomplete,_triggerEngine.GetLevelState(4));
 			Assert.AreEqual(3,_listWarnings.Count,string.Join(" | ",_listWarnings));
 			_triggerEngine.Stop();

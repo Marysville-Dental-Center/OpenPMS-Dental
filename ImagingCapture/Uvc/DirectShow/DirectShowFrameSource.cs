@@ -60,6 +60,9 @@ namespace ImagingCapture.Uvc.DirectShow {
 		private object _objVideoProcAmp;
 		///<summary>Same wrapper as _objVideoProcAmp. Not released separately.</summary>
 		private IAMVideoProcAmp _videoProcAmp;
+		///<summary>The source filter's IKsControl, for the extended properties (UvcControls.IsExtendedProperty); null when the filter has
+		///none. Same wrapper as _filterSource. Not released separately.</summary>
+		private IKsControl _ksControl;
 		private IBaseFilter _filterGrabber;
 		///<summary>Same wrapper as _filterGrabber. Not released separately.</summary>
 		private ISampleGrabber _sampleGrabber;
@@ -200,13 +203,13 @@ namespace ImagingCapture.Uvc.DirectShow {
 			}
 		}
 
-		public UvcControlValue WriteLightControl(int property,int value) {
-			ThrowIfInStreamingCallback(nameof(WriteLightControl));
-			if(!UvcControls.IsValidProperty(UvcControlInterface.VideoProcAmp,property)) {
+		public UvcControlValue WriteControl(UvcControlInterface controlInterface,int property,int value,bool isAuto) {
+			ThrowIfInStreamingCallback(nameof(WriteControl));
+			if(!UvcControls.IsValidProperty(controlInterface,property)) {
 				return new UvcControlValue(UvcControlStatus.Unsupported,0,0,Ds.E_PROP_ID_UNSUPPORTED);
 			}
 			try {
-				return _comWorker.Invoke(() => WriteLightControlOnWorker(property,value));
+				return _comWorker.Invoke(() => WriteControlOnWorker(controlInterface,property,value,isAuto));
 			}
 			catch(ObjectDisposedException) {
 				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
@@ -285,6 +288,7 @@ namespace ImagingCapture.Uvc.DirectShow {
 			_cameraControl=_objCameraControl as IAMCameraControl;
 			_objVideoProcAmp=FindUpstreamInterface(typeof(IAMVideoProcAmp).GUID);
 			_videoProcAmp=_objVideoProcAmp as IAMVideoProcAmp;
+			_ksControl=_filterSource as IKsControl;
 			IntPtr hEvent;
 			if(_mediaEventEx.GetEventHandle(out hEvent)==Ds.S_OK && hEvent!=IntPtr.Zero) {
 				_waitHandleGraphEvent=new GraphEventWaitHandle(hEvent);
@@ -621,7 +625,11 @@ namespace ImagingCapture.Uvc.DirectShow {
 			int value;
 			int flags;
 			int hr;
-			if(controlInterface==UvcControlInterface.CameraControl) {
+			if(UvcControls.IsExtendedProperty(controlInterface,property)) {
+				int capabilities;
+				hr=KsGet(controlInterface,property,out value,out flags,out capabilities);
+			}
+			else if(controlInterface==UvcControlInterface.CameraControl) {
 				if(_cameraControl==null) {
 					return new UvcControlValue(UvcControlStatus.NoInterface,0,0,Ds.E_NOINTERFACE);
 				}
@@ -640,15 +648,113 @@ namespace ImagingCapture.Uvc.DirectShow {
 			return new UvcControlValue(status,value,flags,hr);
 		}
 
-		private UvcControlValue WriteLightControlOnWorker(int property,int value) {
+		///<summary>The one camera control write (design 8.7). isAuto: the camera's automatic mode (flags 1), else value in manual mode
+		///(flags 2).</summary>
+		private UvcControlValue WriteControlOnWorker(UvcControlInterface controlInterface,int property,int value,bool isAuto) {
 			if(_isDisposed) {
 				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
 			}
-			if(_videoProcAmp==null) {
-				return new UvcControlValue(UvcControlStatus.NoInterface,0,0,Ds.E_NOINTERFACE);
+			int flags=isAuto ? UvcControls.FlagsAuto : UvcControls.FlagsManual;
+			int hr;
+			if(UvcControls.IsExtendedProperty(controlInterface,property)) {
+				hr=KsSet(controlInterface,property,value,flags);
 			}
-			int hr=_videoProcAmp.Set(property,value,2);//2 = VideoProcAmp_Flags_Manual
-			return new UvcControlValue(UvcControls.GetStatusFromHResult(hr),value,2,hr);
+			else if(controlInterface==UvcControlInterface.CameraControl) {
+				if(_cameraControl==null) {
+					return new UvcControlValue(UvcControlStatus.NoInterface,0,0,Ds.E_NOINTERFACE);
+				}
+				hr=_cameraControl.Set(property,value,flags);
+			}
+			else {
+				if(_videoProcAmp==null) {
+					return new UvcControlValue(UvcControlStatus.NoInterface,0,0,Ds.E_NOINTERFACE);
+				}
+				hr=_videoProcAmp.Set(property,value,flags);
+			}
+			return new UvcControlValue(UvcControls.GetStatusFromHResult(hr),value,flags,hr);
+		}
+
+		///<summary>KSPROPERTY_TYPE_GET of an extended property. Returns the HRESULT; E_NOINTERFACE without IKsControl.</summary>
+		private int KsGet(UvcControlInterface controlInterface,int property,out int value,out int flags,out int capabilities) {
+			value=0;
+			flags=0;
+			capabilities=0;
+			byte[] buffer=KsControlProperty.BuildRequest(KsControlProperty.GetPropSet(controlInterface),property,KsControlProperty.KSPROPERTY_TYPE_GET,0,0);
+			int bytesReturned;
+			int hr=KsCall(buffer,buffer,out bytesReturned);
+			if(hr<0) {
+				return hr;
+			}
+			if(!KsControlProperty.TryParseValue(buffer,bytesReturned,out value,out flags,out capabilities)) {
+				return Ds.E_FAIL;
+			}
+			return hr;
+		}
+
+		///<summary>KSPROPERTY_TYPE_SET of an extended property.</summary>
+		private int KsSet(UvcControlInterface controlInterface,int property,int value,int flags) {
+			byte[] buffer=KsControlProperty.BuildRequest(KsControlProperty.GetPropSet(controlInterface),property,KsControlProperty.KSPROPERTY_TYPE_SET,value,flags);
+			int bytesReturned;
+			return KsCall(buffer,buffer,out bytesReturned);
+		}
+
+		///<summary>The range of an extended property: BASICSUPPORT and DEFAULTVALUES, with the fallback range when the driver answers GET but
+		///not BASICSUPPORT, and the current value as the default when it gives none.</summary>
+		private int KsGetRange(UvcControlInterface controlInterface,int property,out int min,out int max,out int step,out int defaultValue,out int capsFlags) {
+			min=0;
+			max=0;
+			step=1;
+			defaultValue=0;
+			int value;
+			int flags;
+			int hr=KsGet(controlInterface,property,out value,out flags,out capsFlags);
+			if(hr<0) {
+				return hr;
+			}
+			if(capsFlags==0) {
+				capsFlags=UvcControls.FlagsManual;
+			}
+			Guid propSet=KsControlProperty.GetPropSet(controlInterface);
+			byte[] bufferRequest=KsControlProperty.BuildRequest(propSet,property,KsControlProperty.KSPROPERTY_TYPE_BASICSUPPORT,0,0);
+			byte[] bufferSupport=new byte[KsControlProperty.SizeSupportBuffer];
+			int bytesReturned;
+			if(KsCall(bufferRequest,bufferSupport,out bytesReturned)<0 || !KsControlProperty.TryParseRange(bufferSupport,bytesReturned,out min,out max,out step)) {
+				KsControlProperty.GetFallbackRange(controlInterface,property,out min,out max);
+				step=1;
+			}
+			bufferRequest=KsControlProperty.BuildRequest(propSet,property,KsControlProperty.KSPROPERTY_TYPE_DEFAULTVALUES,0,0);
+			bufferSupport=new byte[KsControlProperty.SizeSupportBuffer];
+			if(KsCall(bufferRequest,bufferSupport,out bytesReturned)<0 || !KsControlProperty.TryParseDefault(bufferSupport,bytesReturned,out defaultValue)) {
+				defaultValue=value;
+			}
+			return hr;
+		}
+
+		///<summary>IKsControl.KsProperty with bufferProperty as the request and bufferData as the answer (the same array for GET and SET),
+		///through unmanaged copies. E_NOINTERFACE without IKsControl.</summary>
+		private int KsCall(byte[] bufferProperty,byte[] bufferData,out int bytesReturned) {
+			bytesReturned=0;
+			if(_ksControl==null) {
+				return Ds.E_NOINTERFACE;
+			}
+			bool isSameBuffer=ReferenceEquals(bufferProperty,bufferData);
+			IntPtr ptrProperty=Marshal.AllocCoTaskMem(bufferProperty.Length);
+			IntPtr ptrData=isSameBuffer ? ptrProperty : Marshal.AllocCoTaskMem(bufferData.Length);
+			try {
+				Marshal.Copy(bufferProperty,0,ptrProperty,bufferProperty.Length);
+				if(!isSameBuffer) {
+					Marshal.Copy(bufferData,0,ptrData,bufferData.Length);
+				}
+				int hr=_ksControl.KsProperty(ptrProperty,bufferProperty.Length,ptrData,bufferData.Length,out bytesReturned);
+				Marshal.Copy(ptrData,bufferData,0,bufferData.Length);
+				return hr;
+			}
+			finally {
+				Marshal.FreeCoTaskMem(ptrProperty);
+				if(!isSameBuffer) {
+					Marshal.FreeCoTaskMem(ptrData);
+				}
+			}
 		}
 
 		private UvcControlRange ReadControlRangeOnWorker(UvcControlInterface controlInterface,int property) {
@@ -661,7 +767,10 @@ namespace ImagingCapture.Uvc.DirectShow {
 			int defaultValue;
 			int capsFlags;
 			int hr;
-			if(controlInterface==UvcControlInterface.CameraControl) {
+			if(UvcControls.IsExtendedProperty(controlInterface,property)) {
+				hr=KsGetRange(controlInterface,property,out min,out max,out step,out defaultValue,out capsFlags);
+			}
+			else if(controlInterface==UvcControlInterface.CameraControl) {
 				if(_cameraControl==null) {
 					return new UvcControlRange(UvcControlStatus.NoInterface,0,0,0,0,0,Ds.E_NOINTERFACE);
 				}
@@ -838,6 +947,7 @@ namespace ImagingCapture.Uvc.DirectShow {
 			DsUtil.Release(ref _objCameraControl);
 			_videoProcAmp=null;
 			DsUtil.Release(ref _objVideoProcAmp);
+			_ksControl=null;
 			_streamConfig=null;
 			DsUtil.Release(ref _pinStill);
 			DsUtil.Release(ref _pinCapture);

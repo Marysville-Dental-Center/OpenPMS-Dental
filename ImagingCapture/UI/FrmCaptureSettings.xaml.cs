@@ -215,7 +215,7 @@ namespace ImagingCapture.UI {
 			gridSettings.ListGridRows.Clear();
 			foreach(CaptureSettingRow row in _model.ListRows) {
 				GridRow gridRow=new GridRow();
-				//FB-1: a capability number shows its name from [CapabilityNames], "NAME (0x8005)", instead of the bare hex number.
+				//A capability number shows its name from [CapabilityNames] instead of the hex number; an unnamed one keeps its number.
 				bool isCapability=row.Def.Kind==CaptureSettingKind.Capability;
 				gridRow.Cells.Add(row.DisplayName);
 				gridRow.Cells.Add(isCapability ? _model.CapabilityNames.ToDisplay(row.Text) : row.Text);

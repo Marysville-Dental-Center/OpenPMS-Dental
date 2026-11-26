@@ -64,16 +64,17 @@ namespace ImagingCapture.Uvc {
 		///copy it (UvcFrame.ToBitmap or Clone) to keep it longer. Meant for one consumer.</summary>
 		UvcFrame TakeLatestFrame();
 
-		///<summary>Reads a camera control with Get. Never writes. An invalid property number gives Unsupported without a call.</summary>
+		///<summary>Reads a camera control with Get (IKsControl for the extended properties). An invalid property number gives Unsupported
+		///without a call.</summary>
 		UvcControlValue ReadControl(UvcControlInterface controlInterface,int property);
 
-		///<summary>Reads a camera control's range with GetRange. Never writes.</summary>
+		///<summary>Reads a camera control's range with GetRange (IKsControl for the extended properties).</summary>
 		UvcControlRange ReadControlRange(UvcControlInterface controlInterface,int property);
 
-		///<summary>FB-1: the one camera control write besides the stream format: a VideoProcAmp property that drives the handpiece light
-		///(the property comes from capture.ini), set to value in manual mode, for a [Level.N] with Action=ToggleLight. Returns the status of the Set (Value
-		///is the value asked for). An invalid property number gives Unsupported without a call.</summary>
-		UvcControlValue WriteLightControl(int property,int value);
+		///<summary>Writes a camera setting (design 8.7): value in manual mode, or the camera's automatic mode when isAuto (value is then sent
+		///as is and the camera ignores it). Returns the status of the Set (Value is the value asked for). An invalid property number gives
+		///Unsupported without a call. The only camera write besides the stream format.</summary>
+		UvcControlValue WriteControl(UvcControlInterface controlInterface,int property,int value,bool isAuto);
 
 		///<summary>Called on the streaming thread with every preview frame, before it is published (IMG-P4c: video recording, which needs every
 		///frame while the preview takes only the newest). The frame is valid only during the call: copy what is needed and return at once.

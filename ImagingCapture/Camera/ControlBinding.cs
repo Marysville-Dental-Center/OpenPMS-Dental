@@ -2,6 +2,7 @@
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ImagingCapture.Uvc;
 
 namespace ImagingCapture.Camera {
@@ -12,8 +13,8 @@ namespace ImagingCapture.Camera {
 		Low=1,
 	}
 
-	///<summary>One standard camera control: a control interface and one of its property numbers (CameraControl 0-6, VideoProcAmp
-	///0-9, the Windows SDK numbering). Nothing here is specific to any camera.</summary>
+	///<summary>One standard camera control: a control interface and one of its property numbers (CameraControl 0-6 and 19, VideoProcAmp
+	///0-9 and 13, the Windows SDK numbering; UvcControls). Nothing here is specific to any camera.</summary>
 	public struct ControlId:IEquatable<ControlId> {
 		public UvcControlInterface Interface { get; }
 		public int Property { get; }
@@ -37,11 +38,11 @@ namespace ImagingCapture.Camera {
 			}
 		}
 
-		///<summary>Every standard property of both interfaces: CameraControl 0-6, then VideoProcAmp 0-9.</summary>
+		///<summary>Every standard property of both interfaces: CameraControl, then VideoProcAmp, each in UvcControls.GetProperties order.</summary>
 		public static List<ControlId> GetAll() {
 			List<ControlId> listControls=new List<ControlId>();
 			foreach(UvcControlInterface controlInterface in new[] { UvcControlInterface.CameraControl,UvcControlInterface.VideoProcAmp }) {
-				for(int property=0;property<UvcControls.GetPropertyCount(controlInterface);property++) {
+				foreach(int property in UvcControls.GetProperties(controlInterface)) {
 					listControls.Add(new ControlId(controlInterface,property));
 				}
 			}
@@ -75,9 +76,9 @@ namespace ImagingCapture.Camera {
 			return !controlId1.Equals(controlId2);
 		}
 
-		///<summary>"CameraControl 6 (Focus)".</summary>
+		///<summary>The control's name, for example "Focus" or "Roll" (the names are unique across both interfaces).</summary>
 		public override string ToString() {
-			return Interface+" "+Property+" ("+Name+")";
+			return Name;
 		}
 	}
 
@@ -124,9 +125,12 @@ namespace ImagingCapture.Camera {
 			return value!=0 && (value & (value-1))==0;
 		}
 
-		///<summary>"CameraControl 6 (Focus), mask 0x10, High".</summary>
+		///<summary>For people, no numbers in hex: "Roll, bit 3, pressed reads 0", "Focus, bits 0 and 2, pressed reads 1".</summary>
 		public override string ToString() {
-			return Control+", mask "+ControlValueFormat.ToHex(Mask)+", "+ActiveLevel;
+			List<int> listBits=ControlValueFormat.GetBits(Mask);
+			string bits=listBits.Count==1 ? "bit "+listBits[0]
+				: "bits "+string.Join(", ",listBits.Take(listBits.Count-1))+" and "+listBits.Last();
+			return Control.Name+", "+bits+", pressed reads "+(ActiveLevel==ControlLevel.High ? "1" : "0");
 		}
 	}
 }

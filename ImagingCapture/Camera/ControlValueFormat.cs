@@ -1,7 +1,9 @@
 // This file is part of the open source dental practice management software derived from Open Dental.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace ImagingCapture.Camera {
@@ -32,6 +34,47 @@ namespace ImagingCapture.Camera {
 				}
 			}
 			return stringBuilder.ToString();
+		}
+
+		///<summary>The bit numbers of a mask as capture.ini's Bits holds them: "3", "0,2". "" for 0.</summary>
+		public static string ToBitsText(int mask) {
+			return string.Join(",",GetBits(mask).Select(x => x.ToString(CultureInfo.InvariantCulture)));
+		}
+
+		///<summary>The bit numbers set in value, lowest first (0 to 31).</summary>
+		public static List<int> GetBits(int value) {
+			List<int> listBits=new List<int>();
+			uint bits=unchecked((uint)value);
+			for(int i=0;i<32;i++) {
+				if(((bits>>i) & 1)==1) {
+					listBits.Add(i);
+				}
+			}
+			return listBits;
+		}
+
+		///<summary>The bits that are on, for people: "0 1 2 4 5", or "none".</summary>
+		public static string ToBitsOn(int value) {
+			List<int> listBits=GetBits(value);
+			return listBits.Count==0 ? "none" : string.Join(" ",listBits.Select(x => x.ToString(CultureInfo.InvariantCulture)));
+		}
+
+		///<summary>Reads Bits: bit numbers 0 to 31, separated by commas or spaces. False when empty or when a part is not a bit number.</summary>
+		public static bool TryParseBits(string text,out int mask) {
+			mask=0;
+			string[] arrayParts=(text??"").Split(new[] { ',',' ' },StringSplitOptions.RemoveEmptyEntries);
+			if(arrayParts.Length==0) {
+				return false;
+			}
+			foreach(string part in arrayParts) {
+				int bit;
+				if(!int.TryParse(part,NumberStyles.None,CultureInfo.InvariantCulture,out bit) || bit>31) {
+					mask=0;
+					return false;
+				}
+				mask|=unchecked((int)(1u<<bit));
+			}
+			return true;
 		}
 
 		///<summary>"-5", "200": invariant decimal.</summary>

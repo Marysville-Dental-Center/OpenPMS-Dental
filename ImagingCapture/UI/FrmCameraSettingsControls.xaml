@@ -1,0 +1,30 @@
+<local:FrmODBase x:Class="ImagingCapture.UI.FrmCameraSettingsControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:OpenPmsDental;assembly=WpfControlsOD"
+             xmlns:ui="clr-namespace:WpfControls.UI;assembly=WpfControlsOD"
+             mc:Ignorable="d"
+             Width="900" Height="640"
+             Text="Camera Picture Settings" >
+	<Grid Background="#FFFCFDFE" >
+		<ui:Label x:Name="labelCamera" Width="870" Height="20" Margin="12,8,0,0" Text="Camera" IsBold="True" />
+		<ui:Label x:Name="labelNote" Width="870" Height="36" Margin="12,30,0,0" Text="Each change goes to the camera at once, so the preview shows it. Save keeps the changed values in capture.ini on this computer, and they are applied each time the camera opens. Close without saving puts back the values the camera had." IsWrap="True" />
+		<ui:Grid x:Name="gridSettings" Width="870" Height="330" Margin="12,72,0,0" Title="Settings the camera's driver offers" TranslationName="TableCameraSettings" />
+		<ui:Label x:Name="labelSelected" Width="600" Height="20" Margin="12,410,0,0" Text="" IsBold="True" />
+		<ui:Label x:Name="labelHelp" Width="870" Height="36" Margin="12,432,0,0" Text="" IsWrap="True" />
+		<ui:Label x:Name="labelValue" Width="50" Height="18" Margin="12,474,0,0" Text="Value" VAlign="Bottom" />
+		<ui:TextBox x:Name="textValue" Width="150" Height="21" Margin="66,472,0,0" />
+		<ui:ComboBox x:Name="comboValue" Width="150" Height="21" Margin="66,472,0,0" />
+		<ui:Button x:Name="butApply" Width="75" Height="24" Margin="222,471,0,0" Text="Apply" Click="butApply_Click" />
+		<ui:Button x:Name="butDefault" Width="110" Height="24" Margin="303,471,0,0" Text="Camera default" Click="butDefault_Click" />
+		<ui:Button x:Name="butForget" Width="110" Height="24" Margin="419,471,0,0" Text="Don't save" Click="butForget_Click" />
+		<ui:Label x:Name="labelRange" Width="340" Height="18" Margin="540,474,0,0" Text="" VAlign="Bottom" />
+		<ui:Label x:Name="labelError" Width="870" Height="36" Margin="12,502,0,0" Text="" IsWrap="True" ColorText="#FFC00000" />
+		<ui:Label x:Name="labelSetup" Width="600" Height="36" Margin="12,544,0,0" Text="Saving needs the Setup permission and is recorded in the security log with the old and new values." IsWrap="True" />
+		<ui:Button x:Name="butUndo" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Height="24" Margin="0,0,174,12" Text="Undo changes" Click="butUndo_Click" />
+		<ui:Button x:Name="butSave" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Height="24" Margin="0,0,93,12" Text="Save" Click="butSave_Click" />
+		<ui:Button x:Name="butClose" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75" Height="24" Margin="0,0,12,12" Text="Close" Click="butClose_Click" />
+	</Grid>
+</local:FrmODBase>

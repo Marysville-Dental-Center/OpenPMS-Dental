@@ -8,10 +8,10 @@ using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ImagingCapture.Tests {
-	///<summary>Design 8.7: the only write this project makes to a camera is IAMStreamConfig::SetFormat. These tests read the
-	///ImagingCapture source and the Video window that runs the camera (comments removed) and fail if code calls a vtable
-	///placeholder (which includes the Set slots of IAMCameraControl and IAMVideoProcAmp), calls SetFormat from more than one
-	///place, or uses an interface or function that writes camera controls or opens driver property pages.</summary>
+	///<summary>Design 8.7 (decision 13 of 2026-11-26): the camera is written in two places only, IAMStreamConfig::SetFormat for the stream
+	///format and CameraSettingWriter.Write for the camera settings (IAMCameraControl::Set, IAMVideoProcAmp::Set and IKsControl SET inside
+	///DirectShowFrameSource). These tests read the ImagingCapture source and the Video window that runs the camera (comments removed) and fail
+	///if code calls a vtable placeholder, writes from anywhere else, or opens the driver's property pages.</summary>
 	[TestClass]
 	public class CameraWriteGuardTests {
 		private static List<Tuple<string,string>> _listSources;
@@ -78,8 +78,7 @@ namespace ImagingCapture.Tests {
 			//Declarations look like "int Unused_Set();". A call is a member access: ".Unused_".
 			List<string> listCalls=FindMatches(@"\.\s*Unused_\w+");
 			Assert.AreEqual(0,listCalls.Count,string.Join("; ",listCalls));
-			List<string> listSetSlots=FindMatches(@"\bUnused_Set\b");
-			Assert.AreEqual(1,listSetSlots.Count,"Only IAMCameraControl's placeholder declaration: "+string.Join("; ",listSetSlots));
+			Assert.AreEqual(0,FindMatches(@"\bUnused_Set\b").Count,"IAMCameraControl's Set is declared for real (decision 13 of 2026-11-26).");
 		}
 
 		[TestMethod]
@@ -90,21 +89,26 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
-		public void NoControlWriteOrPropertyPageInterface() {
-			string[] arrayDenied={ "IAMVideoControl","ISpecifyPropertyPages","OleCreatePropertyFrame","IKsPropertySet","IKsControl",
-				"IAMCameraControl.Set","IAMVideoProcAmp.Set" };
+		public void CameraControlWrites_OnePath() {
+			//Decision 13 of 2026-11-26: every camera setting the driver offers can be written, through one logged path. The driver's own
+			//property pages and the other write interfaces stay out.
+			string[] arrayDenied={ "IAMVideoControl","ISpecifyPropertyPages","OleCreatePropertyFrame","IKsPropertySet" };
 			foreach(string denied in arrayDenied) {
 				List<string> listMatches=FindMatches(Regex.Escape(denied));
 				Assert.AreEqual(0,listMatches.Count,denied+": "+string.Join("; ",listMatches));
 			}
-			Assert.AreEqual(0,FindMatches(@"_cameraControl\s*\.\s*Set\b").Count,"IAMCameraControl is never written.");
-			//FB-1: the one control write, the handpiece light (VideoProcAmp), from WriteLightControlOnWorker only.
-			List<string> listControlSets=FindMatches(@"_videoProcAmp\s*\.\s*Set\b");
-			Assert.AreEqual(1,listControlSets.Count,string.Join("; ",listControlSets));
-			StringAssert.StartsWith(listControlSets[0],@"Uvc\DirectShow\DirectShowFrameSource.cs");
-			List<string> listLightWrites=FindMatches(@"\.\s*WriteLightControl\s*\(");
-			Assert.AreEqual(1,listLightWrites.Count,"WriteLightControl is called from VideoCaptureSession.WriteLight only: "+string.Join("; ",listLightWrites));
-			StringAssert.StartsWith(listLightWrites[0],@"Video\VideoCaptureSession.cs");
+			List<string> listControlSets=FindMatches(@"_(cameraControl|videoProcAmp)\s*\.\s*Set\b");
+			Assert.AreEqual(2,listControlSets.Count,string.Join("; ",listControlSets));
+			Assert.IsTrue(listControlSets.All(x => x.StartsWith(@"Uvc\DirectShow\DirectShowFrameSource.cs")),string.Join("; ",listControlSets));
+			List<string> listKsCalls=FindMatches(@"_ksControl\s*\.\s*KsProperty\b");
+			Assert.AreEqual(1,listKsCalls.Count,"IKsControl is called from KsCall only: "+string.Join("; ",listKsCalls));
+			List<string> listKsSets=FindMatches(@"KSPROPERTY_TYPE_SET\b");
+			Assert.IsTrue(listKsSets.All(x => x.StartsWith(@"Uvc\DirectShow\DirectShowFrameSource.cs") || x.StartsWith(@"Uvc\Interop\KsControlProperty.cs")),
+				string.Join("; ",listKsSets));
+			Assert.AreEqual(0,FindMatches(@"\bWriteLightControl\b").Count,"Replaced by WriteControl.");
+			List<string> listWrites=FindMatches(@"\.\s*WriteControl\s*\(");
+			Assert.AreEqual(1,listWrites.Count,"WriteControl is called from CameraSettingWriter.Write only: "+string.Join("; ",listWrites));
+			StringAssert.StartsWith(listWrites[0],@"Video\CameraSettingWriter.cs");
 		}
 	}
 }

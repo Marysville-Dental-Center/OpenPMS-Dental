@@ -144,24 +144,34 @@ namespace ImagingCapture.Tests {
 			}
 			int value=fakeControl.FuncValue!=null ? fakeControl.FuncValue(fakeControl.CountReads) : fakeControl.Value;
 			fakeControl.CountReads++;
-			return new UvcControlValue(UvcControlStatus.Ok,value,2,0);
+			return new UvcControlValue(UvcControlStatus.Ok,value,fakeControl.IsAuto ? UvcControls.FlagsAuto : UvcControls.FlagsManual,0);
 		}
 
-		///<summary>FB-1: the light writes, as (property, value), in order.</summary>
-		public List<Tuple<int,int>> ListLightWrites { get; }=new List<Tuple<int,int>>();
+		///<summary>The control writes, in order.</summary>
+		public List<FakeWrite> ListWrites { get; }=new List<FakeWrite>();
 
-		public UvcControlValue WriteLightControl(int property,int value) {
+		///<summary>Writes that fail with this status (Ok: none), for a camera that refuses a value.</summary>
+		public Func<UvcControlInterface,int,int,UvcControlStatus> FuncWriteStatus;
+
+		public UvcControlValue WriteControl(UvcControlInterface controlInterface,int property,int value,bool isAuto) {
 			if(IsDisposed) {
 				return new UvcControlValue(UvcControlStatus.Closed,0,0,0);
 			}
-			FakeControl fakeControl=GetControl(UvcControlInterface.VideoProcAmp,property,false);
+			FakeControl fakeControl=GetControl(controlInterface,property,false);
 			if(fakeControl==null || fakeControl.Status!=UvcControlStatus.Ok) {
 				return new UvcControlValue(fakeControl?.Status??UvcControlStatus.Unsupported,0,0,unchecked((int)0x80070490));
 			}
-			ListLightWrites.Add(Tuple.Create(property,value));
-			fakeControl.Value=value;
+			UvcControlStatus statusScripted=FuncWriteStatus?.Invoke(controlInterface,property,value)??UvcControlStatus.Ok;
+			if(statusScripted!=UvcControlStatus.Ok) {
+				return new UvcControlValue(statusScripted,value,0,unchecked((int)0x80070057));
+			}
+			ListWrites.Add(new FakeWrite(controlInterface,property,value,isAuto));
+			if(!isAuto) {
+				fakeControl.Value=value;
+			}
+			fakeControl.IsAuto=isAuto;
 			fakeControl.FuncValue=null;
-			return new UvcControlValue(UvcControlStatus.Ok,value,2,0);
+			return new UvcControlValue(UvcControlStatus.Ok,value,isAuto ? UvcControls.FlagsAuto : UvcControls.FlagsManual,0);
 		}
 
 		public UvcControlRange ReadControlRange(UvcControlInterface controlInterface,int property) {
@@ -169,7 +179,7 @@ namespace ImagingCapture.Tests {
 			if(IsDisposed || fakeControl==null || fakeControl.Status!=UvcControlStatus.Ok) {
 				return new UvcControlRange(IsDisposed ? UvcControlStatus.Closed : UvcControlStatus.Unsupported,0,0,0,0,0,0);
 			}
-			return new UvcControlRange(UvcControlStatus.Ok,fakeControl.Min,fakeControl.Max,1,fakeControl.Default,2,0);
+			return new UvcControlRange(UvcControlStatus.Ok,fakeControl.Min,fakeControl.Max,fakeControl.Step,fakeControl.Default,fakeControl.CapsFlags,0);
 		}
 
 		public void Dispose() {
@@ -191,6 +201,17 @@ namespace ImagingCapture.Tests {
 			FakeControl fakeControl=GetControl(controlInterface,property,true);
 			fakeControl.Status=UvcControlStatus.Ok;
 			fakeControl.FuncValue=funcValue;
+		}
+
+		///<summary>The property's range; capsFlags 1 = automatic, 2 = manual (3 = both).</summary>
+		public void SetControlRange(UvcControlInterface controlInterface,int property,int min,int max,int step,int defaultValue,int capsFlags) {
+			FakeControl fakeControl=GetControl(controlInterface,property,true);
+			fakeControl.Status=UvcControlStatus.Ok;
+			fakeControl.Min=min;
+			fakeControl.Max=max;
+			fakeControl.Step=step;
+			fakeControl.Default=defaultValue;
+			fakeControl.CapsFlags=capsFlags;
 		}
 
 		public void SetControlStatus(UvcControlInterface controlInterface,int property,UvcControlStatus status) {
@@ -269,7 +290,29 @@ namespace ImagingCapture.Tests {
 			public int CountReads;
 			public int Min=0;
 			public int Max=255;
+			public int Step=1;
 			public int Default=0;
+			public int CapsFlags=UvcControls.FlagsManual;
+			public bool IsAuto;
+		}
+	}
+
+	///<summary>One FakeFrameSource.WriteControl call.</summary>
+	internal sealed class FakeWrite {
+		public UvcControlInterface Interface { get; }
+		public int Property { get; }
+		public int Value { get; }
+		public bool IsAuto { get; }
+
+		public FakeWrite(UvcControlInterface controlInterface,int property,int value,bool isAuto) {
+			Interface=controlInterface;
+			Property=property;
+			Value=value;
+			IsAuto=isAuto;
+		}
+
+		public override string ToString() {
+			return UvcControls.GetPropertyName(Interface,Property)+"="+(IsAuto ? "Auto" : Value.ToString());
 		}
 	}
 }

@@ -14,6 +14,8 @@ namespace ImagingCapture.Camera {
 		StillPin=0,
 		///<summary>An edge of a polled control value ([Trigger.ControlPoll]).</summary>
 		ControlPoll=1,
+		///<summary>A press of a camera button whose [Level.N] has Action=TakePhoto.</summary>
+		Button=2,
 	}
 
 	///<summary>The state of one trigger or level input.</summary>
@@ -79,8 +81,10 @@ namespace ImagingCapture.Camera {
 	///DebounceGate of DebounceMs, so one photo is taken per lockout window, whichever trigger fires first.
 	///
 	///Levels. Each configured [Level.N] property is read at the same PollMs (a property shared with the trigger is read once per
-	///poll). Its state is tracked from the first reading, and LevelChanged is raised when it changes. The only action is
-	///PausePreview, active while the level is active (IsPausePreviewActive).
+	///poll). Its state is tracked from the first reading, and LevelChanged is raised when it changes. PausePreview is active while its
+	///level is active (IsPausePreviewActive); the other actions are carried out by the session (LevelChanged). A button level (an action
+	///once per press) acts on a press only, and a press within the lockout of the one before is a bounce. A TakePhoto button goes through
+	///the same debounce gate as the triggers and is raised as Pressed (Source Button), so it takes photos exactly as the capture button does.
 	///
 	///Consumer. A press is first put through the debounce gate; one that passes is raised as Pressed when FuncIsConsumerEnabled
 	///returns true (or is null), otherwise as PressIgnored (design 8.4: presses are ignored while the window is disabled). An ignored
@@ -269,7 +273,7 @@ namespace ImagingCapture.Camera {
 		}
 
 		private bool GetIsPausePreviewActive() {
-			return _listInputLevels.Any(x => x.State==TriggerInputState.Armed && x.IsActive && x.Level.Action==LevelAction.PausePreview);
+			return _listInputLevels.Any(x => x.State==TriggerInputState.Armed && x.IsActive && x.Level.HasAction(LevelAction.PausePreview));
 		}
 		#endregion Levels
 
@@ -458,6 +462,14 @@ namespace ImagingCapture.Camera {
 						return;
 					}
 					input.TimeLastPressMs=nowMs;
+					if(input.Level.Action==LevelAction.TakePhoto) {
+						if(_debounceGate.TryAccept(nowMs)) {
+							TriggerPressEventArgs argsPress=new TriggerPressEventArgs(TriggerSource.Button,nowMs,null);
+							int generationPress=_generation;
+							listActions.Add(() => PostPress(generationPress,argsPress));
+						}
+						return;
+					}
 				}
 				LevelChangedEventArgs args=new LevelChangedEventArgs(input.Level.Number,isActive,input.Level.Action??LevelAction.PausePreview,GetIsPausePreviewActive());
 				int generation=_generation;

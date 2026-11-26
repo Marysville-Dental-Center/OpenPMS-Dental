@@ -137,7 +137,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsFalse(cameraConfig.ControlPoll.IsConfigured);
 			Assert.IsNull(cameraConfig.ControlPoll.GetBinding());
 			string problem=cameraConfig.ControlPoll.GetProblem();
-			StringAssert.Contains(problem,"Interface, Property, Mask, ActiveLevel are empty or invalid");
+			StringAssert.Contains(problem,"Control, Bits, ActiveLevel are empty or invalid");
 			Assert.IsNull(ReadText("[Trigger]\nDebounceMs=abc\n").DebounceMs);
 			Assert.IsNull(ReadText("[Trigger]\nDebounceMs=60001\n").DebounceMs);
 			Assert.AreEqual(60000,ReadText("[Trigger]\nDebounceMs=60000\n").DebounceMs);
@@ -148,7 +148,7 @@ namespace ImagingCapture.Tests {
 			CameraConfig cameraConfig=ReadText("[Trigger.ControlPoll]\nEnabled=1\nInterface=CameraControl\nProperty=7\nMask=0x1\nActiveLevel=High\n");
 			Assert.AreEqual(7,cameraConfig.ControlPoll.Property);
 			Assert.IsNull(cameraConfig.ControlPoll.GetBinding(),"CameraControl has properties 0-6.");
-			StringAssert.Contains(cameraConfig.ControlPoll.GetProblem(),"Property is empty or invalid");
+			StringAssert.Contains(cameraConfig.ControlPoll.GetProblem(),"Control is empty or invalid");
 			cameraConfig=ReadText("[Trigger.ControlPoll]\nEnabled=1\nInterface=VideoProcAmp\nProperty=9\nMask=0x1\nActiveLevel=High\n");
 			Assert.IsNotNull(cameraConfig.ControlPoll.GetBinding(),"VideoProcAmp has properties 0-9.");
 			cameraConfig=ReadText("[Trigger.ControlPoll]\nEnabled=1\nInterface=VideoProcAmp\nProperty=10\nMask=0x1\nActiveLevel=High\n");
@@ -179,16 +179,18 @@ namespace ImagingCapture.Tests {
 		}
 
 		[TestMethod]
-		public void Buttons_ActionsAndLightProperty_RoundTrip() {
-			//FB-1: Learn's buttons are [Level.N] sections with a press action; a light button's LightProperty is written.
+		public void Buttons_ActionsAndSetting_RoundTrip() {
+			//Learn's buttons are [Level.N] sections with a press action; a setting action has its Setting and options.
 			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
 			CameraConfig cameraConfig=CameraConfig.Read(config);
-			LevelAction[] arrayActions={ LevelAction.ToggleLight,LevelAction.NextSlot,LevelAction.PreviousSlot,LevelAction.LightUp,LevelAction.LightDown };
+			LevelAction[] arrayActions=LevelActions.ArrayButtonActions;
 			for(int i=0;i<arrayActions.Length;i++) {
 				LevelInputConfig level=new LevelInputConfig(i+1) { Enabled=true,Action=arrayActions[i] };
 				level.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),1<<(i+1),ControlLevel.Low));
-				if(LevelActions.IsLightAction(arrayActions[i])) {
-					level.LightProperty=9;
+				if(LevelActions.IsSettingAction(arrayActions[i])) {
+					level.Setting="Gain";
+					level.Highest=arrayActions[i]==LevelAction.SetValue ? "" : "20";
+					level.Value=arrayActions[i]==LevelAction.SetValue ? "Auto" : "";
 				}
 				cameraConfig.Levels.Add(level);
 			}
@@ -196,68 +198,133 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(cameraConfig.Write(config,out error),error);
 			Assert.IsTrue(config.Save(),config.LastError);
 			string text=File.ReadAllText(_path);
-			StringAssert.Contains(text,"Action=ToggleLight");
-			StringAssert.Contains(text,"LightProperty=9");
-			StringAssert.Contains(text,"Action=NextSlot");
-			StringAssert.Contains(text,"Action=PreviousSlot");
+			StringAssert.Contains(text,"Action=Toggle\r\n");
+			StringAssert.Contains(text,"Setting=Gain");
+			StringAssert.Contains(text,"Highest=20");
+			StringAssert.Contains(text,"Value=Auto");
+			StringAssert.Contains(text,"Action=TakePhoto");
+			StringAssert.Contains(text,"Action=EndSession");
+			Assert.IsFalse(text.Contains("0x"),"No hex in the file: "+text);
 			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
-			StringAssert.Contains(text,"Action=LightUp");
-			StringAssert.Contains(text,"Action=LightDown");
-			Assert.AreEqual(5,cameraConfigRead.Levels.Count);
-			Assert.AreEqual(9,cameraConfigRead.Levels[3].LightProperty);
-			Assert.IsTrue(LevelActions.IsButtonAction(LevelAction.LightDown));
-			LevelInputConfig levelNoProperty=new LevelInputConfig(9) { Enabled=true,Action=LevelAction.LightUp };
-			levelNoProperty.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x40,ControlLevel.Low));
-			Assert.IsFalse(levelNoProperty.IsLevelConfigured,"Brighter needs the light setting.");
-			StringAssert.Contains(levelNoProperty.GetProblem(),"Action=LightUp, but LightProperty");
-			Assert.IsTrue(cameraConfigRead.Levels.All(x => x.IsLevelConfigured));
-			Assert.AreEqual(9,cameraConfigRead.Levels[0].LightProperty);
-			Assert.AreEqual(LevelAction.PreviousSlot,cameraConfigRead.Levels[2].Action);
-			Assert.IsTrue(LevelActions.IsButtonAction(cameraConfigRead.Levels[1].Action));
+			Assert.AreEqual(arrayActions.Length,cameraConfigRead.Levels.Count);
+			Assert.IsTrue(cameraConfigRead.Levels.All(x => x.IsLevelConfigured),string.Join(" ",cameraConfigRead.Levels.Select(x => x.GetProblem())));
+			for(int i=0;i<arrayActions.Length;i++) {
+				Assert.AreEqual(arrayActions[i],cameraConfigRead.Levels[i].Action);
+				Assert.IsTrue(LevelActions.IsButtonAction(cameraConfigRead.Levels[i].Action));
+			}
+			Assert.AreEqual("Gain",cameraConfigRead.Levels[0].Setting);
+			Assert.AreEqual("20",cameraConfigRead.Levels[0].Highest);
+			Assert.AreEqual("Auto",cameraConfigRead.Levels[3].Value);
+			Assert.AreEqual(UvcControls.GetProperties(UvcControlInterface.VideoProcAmp)[9],cameraConfigRead.Levels[0].SettingDef.Property);
 			Assert.IsFalse(LevelActions.IsButtonAction(LevelAction.PausePreview));
+			Assert.IsFalse(LevelActions.IsButtonAction(LevelAction.TurnOff));
+			Assert.IsTrue(LevelActions.IsProgramAction(LevelAction.TakePhoto));
+			Assert.IsFalse(LevelActions.IsProgramAction(LevelAction.Raise));
 		}
 
 		[TestMethod]
-		public void Light_LightMaxAndLightOffWhileActive_RoundTrip() {
-			//FB-1: the light's limit and the rest level are written with their levels, and cleared when Learn drops them.
+		public void Buttons_SettingActionWithoutSetting_IsNotConfigured() {
+			LevelInputConfig level=new LevelInputConfig(9) { Enabled=true,Action=LevelAction.Raise };
+			level.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x40,ControlLevel.Low));
+			Assert.IsFalse(level.IsLevelConfigured,"Raise needs its setting.");
+			StringAssert.Contains(level.GetProblem(),"Action=Raise, but Setting");
+			level.Setting="Brightnes";
+			StringAssert.Contains(level.GetProblem(),"unknown: Brightnes");
+			level.Setting="white balance";
+			Assert.IsTrue(level.IsLevelConfigured,"A display name reads too.");
+			Assert.AreEqual("WhiteBalance",level.SettingDef.Id);
+			LevelInputConfig levelSet=new LevelInputConfig(10) { Enabled=true,Action=LevelAction.SetValue,Setting="Exposure" };
+			levelSet.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x80,ControlLevel.Low));
+			StringAssert.Contains(levelSet.GetProblem(),"Value is empty");
+		}
+
+		[TestMethod]
+		public void Levels_HeldActionsCombine_ButtonActionsDoNot() {
+			File.WriteAllText(_path,"[Level.1]\r\nEnabled=1\r\nControl=Roll\r\nBits=0\r\nActiveLevel=Low\r\nAction=PausePreview|TurnOff\r\nSetting=Gain\r\nHighest=20\r\n"
+				+"[Level.2]\r\nEnabled=1\r\nControl=Roll\r\nBits=1\r\nActiveLevel=Low\r\nAction=Toggle|NextSlot\r\nSetting=Gain\r\n"
+				+"[Level.3]\r\nEnabled=1\r\nControl=Roll\r\nBits=2\r\nActiveLevel=Low\r\nAction=pausepreview | turnoff\r\nSetting=Gain\r\n"
+				+"[Level.4]\r\nAction=ToggleLight\r\n");
+			CameraConfig cameraConfig=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			LevelInputConfig level1=cameraConfig.GetLevel(1);
+			CollectionAssert.AreEqual(new[] { LevelAction.PausePreview,LevelAction.TurnOff },level1.Actions.ToArray());
+			Assert.IsTrue(level1.IsLevelConfigured,level1.GetProblem());
+			Assert.IsTrue(level1.HasAction(LevelAction.TurnOff));
+			Assert.AreEqual("pause preview and turn Gain off while active",LevelActions.GetText(level1));
+			StringAssert.Contains(cameraConfig.GetLevel(2).GetProblem(),"only PausePreview and TurnOff combine");
+			Assert.IsTrue(cameraConfig.GetLevel(3).IsLevelConfigured,"Case and spaces are ignored.");
+			Assert.IsNull(cameraConfig.GetLevel(4).Action,"The light actions of before are gone: unknown means none.");
+			//Written back as one value.
+			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
+			CameraConfig cameraConfigWrite=CameraConfig.Read(config);
+			cameraConfigWrite.GetLevel(1).Actions=new List<LevelAction> { LevelAction.TurnOff,LevelAction.PausePreview };
+			string error;
+			Assert.IsTrue(cameraConfigWrite.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			StringAssert.Contains(File.ReadAllText(_path),"Action=TurnOff|PausePreview");
+		}
+
+		[TestMethod]
+		public void Binding_WrittenAsControlAndBits() {
 			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
 			CameraConfig cameraConfig=CameraConfig.Read(config);
-			LevelInputConfig levelRest=new LevelInputConfig(1) { Enabled=true,Action=LevelAction.PausePreview,LightOffWhileActive=true };
-			levelRest.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x1,ControlLevel.Low));
-			LevelInputConfig levelLight=new LevelInputConfig(2) { Enabled=true,Action=LevelAction.ToggleLight,LightProperty=9,LightMax=20 };
-			levelLight.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x4,ControlLevel.Low));
-			cameraConfig.Levels.Add(levelRest);
-			cameraConfig.Levels.Add(levelLight);
+			cameraConfig.ControlPoll=new ControlInputConfig { Enabled=true };
+			cameraConfig.ControlPoll.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.CameraControl,2),0x8,ControlLevel.Low));
+			LevelInputConfig level=new LevelInputConfig(1) { Enabled=true };
+			level.SetBinding(new ControlBinding(new ControlId(UvcControlInterface.VideoProcAmp,9),0x5,ControlLevel.High));
+			cameraConfig.Levels.Add(level);
 			string error;
 			Assert.IsTrue(cameraConfig.Write(config,out error),error);
 			Assert.IsTrue(config.Save(),config.LastError);
 			string text=File.ReadAllText(_path);
-			StringAssert.Contains(text,"LightOffWhileActive=1");
-			StringAssert.Contains(text,"LightMax=20");
+			StringAssert.Contains(text,"Control=Roll");
+			StringAssert.Contains(text,"Bits=3\r\n");
+			StringAssert.Contains(text,"Control=Gain");
+			StringAssert.Contains(text,"Bits=0,2");
+			Assert.IsFalse(text.Contains("Mask="),text);
+			Assert.IsFalse(text.Contains("Interface="),text);
 			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
-			Assert.IsTrue(cameraConfigRead.Levels[0].LightOffWhileActive);
-			Assert.IsNull(cameraConfigRead.Levels[0].LightMax);
-			Assert.AreEqual(20,cameraConfigRead.Levels[1].LightMax);
-			Assert.IsFalse(cameraConfigRead.Levels[1].LightOffWhileActive);
-			//Learn again without them.
-			config=LocalCaptureConfig.Load(_path);
-			cameraConfig=CameraConfig.Read(config);
-			cameraConfig.Levels[0].LightOffWhileActive=false;
-			cameraConfig.Levels[1].LightMax=null;
-			Assert.IsTrue(cameraConfig.Write(config,out error),error);
-			Assert.IsTrue(config.Save(),config.LastError);
-			cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
-			Assert.IsFalse(cameraConfigRead.Levels[0].LightOffWhileActive);
-			Assert.IsNull(cameraConfigRead.Levels[1].LightMax);
-			Assert.AreEqual(9,cameraConfigRead.Levels[1].LightProperty);
+			Assert.AreEqual(0x8,cameraConfigRead.ControlPoll.Mask);
+			Assert.AreEqual(UvcControlInterface.CameraControl,cameraConfigRead.ControlPoll.Interface);
+			Assert.AreEqual(2,cameraConfigRead.ControlPoll.Property);
+			Assert.AreEqual(0x5,cameraConfigRead.Levels[0].Mask);
+			Assert.AreEqual("Roll, bit 3, pressed reads 0",cameraConfigRead.ControlPoll.GetBinding().ToString());
+			Assert.AreEqual("Gain, bits 0 and 2, pressed reads 1",cameraConfigRead.Levels[0].GetBinding().ToString());
 		}
 
 		[TestMethod]
-		public void Light_NegativeOrInvalidLightMax_ReadsAsNone() {
-			File.WriteAllText(_path,"[Level.1]\r\nEnabled=1\r\nAction=ToggleLight\r\nLightProperty=9\r\nLightMax=-5\r\n[Level.2]\r\nLightMax=abc\r\n");
+		public void Binding_OldKeysStillRead_AndRewrittenWhenChanged() {
+			File.WriteAllText(_path,"[Trigger.ControlPoll]\r\nEnabled=1\r\nInterface=CameraControl\r\nProperty=2\r\nMask=0x8\r\nActiveLevel=Low\r\n");
+			LocalCaptureConfig config=LocalCaptureConfig.Load(_path);
+			CameraConfig cameraConfig=CameraConfig.Read(config);
+			Assert.IsTrue(cameraConfig.ControlPoll.IsConfigured,"A file written before Control and Bits stays valid.");
+			Assert.AreEqual(0x8,cameraConfig.ControlPoll.Mask);
+			//Unchanged: the file keeps its keys.
+			string error;
+			Assert.IsTrue(cameraConfig.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			StringAssert.Contains(File.ReadAllText(_path),"Mask=0x8");
+			//Changed: written in the new keys, the old ones emptied.
+			config=LocalCaptureConfig.Load(_path);
+			cameraConfig=CameraConfig.Read(config);
+			cameraConfig.ControlPoll.Mask=0x10;
+			Assert.IsTrue(cameraConfig.Write(config,out error),error);
+			Assert.IsTrue(config.Save(),config.LastError);
+			string text=File.ReadAllText(_path);
+			StringAssert.Contains(text,"Control=Roll");
+			StringAssert.Contains(text,"Bits=4");
+			Assert.IsFalse(text.Contains("0x"),text);
+			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
+			Assert.AreEqual(0x10,cameraConfigRead.ControlPoll.Mask);
+			Assert.IsTrue(cameraConfigRead.ControlPoll.IsConfigured);
+		}
+
+		[TestMethod]
+		public void Binding_UnknownControlOrBits_ReadAsMissing() {
+			File.WriteAllText(_path,"[Trigger.ControlPoll]\r\nEnabled=1\r\nControl=Rol\r\nBits=3,x\r\nActiveLevel=Low\r\n");
 			CameraConfig cameraConfig=CameraConfig.Read(LocalCaptureConfig.Load(_path));
-			Assert.IsNull(cameraConfig.Levels[0].LightMax);
-			Assert.IsNull(cameraConfig.Levels[1].LightMax);
+			Assert.IsNull(cameraConfig.ControlPoll.Interface);
+			Assert.IsNull(cameraConfig.ControlPoll.Mask);
+			StringAssert.Contains(cameraConfig.ControlPoll.GetProblem(),"Control, Bits are empty or invalid");
 		}
 
 		[TestMethod]
@@ -283,7 +350,9 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(cameraConfig.Write(config,out error),error);
 			Assert.IsTrue(config.Save(),config.LastError);
 			string text=File.ReadAllText(_path);
-			StringAssert.Contains(text,"Mask=0x80000000");
+			StringAssert.Contains(text,"Bits=31\r\n");
+			StringAssert.Contains(text,"Bits=8\r\n");
+			Assert.IsFalse(text.Contains("0x"),"No hex in the file.");
 			StringAssert.Contains(text,"Action=PausePreview");
 			CameraConfig cameraConfigRead=CameraConfig.Read(LocalCaptureConfig.Load(_path));
 			Assert.AreEqual("@device:test:7",cameraConfigRead.Moniker);
@@ -496,7 +565,7 @@ namespace ImagingCapture.Tests {
 			Assert.IsTrue(new ControlBinding(control,0x40,ControlLevel.High).IsSingleBit);
 			TestUtil.AssertThrows<ArgumentException>(() => new ControlBinding(control,0,ControlLevel.High));
 			TestUtil.AssertThrows<ArgumentException>(() => new ControlBinding(new ControlId(UvcControlInterface.CameraControl,7),1,ControlLevel.High));
-			Assert.AreEqual(17,ControlId.GetAll().Count);
+			Assert.AreEqual(19,ControlId.GetAll().Count,"CameraControl 0-6 and 19, VideoProcAmp 0-9 and 13.");
 		}
 	}
 }
