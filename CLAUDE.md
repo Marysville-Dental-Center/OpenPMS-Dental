@@ -40,6 +40,52 @@ Rules for every session in this repository. They override defaults. Owner decisi
 - **A new user-facing feature gets a how-to guide with screenshots** in [docs/how-to/](docs/how-to/README.md), linked from its index.
 - Record owner decisions in [docs/decisions/owner-questions.md](docs/decisions/owner-questions.md) with the date and the owner's words.
 
+## Fast iterations
+
+- **Inner loop: build only what you touched.** Restore once, then build the edited project or its test project with
+  `-restore:false -m` (its references come along); build the whole `OpenDental.Local.slnf` only at the gate. See
+  [docs/develop/building.md](docs/develop/building.md), "Fast inner loop".
+- **Test what the change affects:** `tools\run-tests.ps1 -Mode Targeted -Include <the suites that cover it>` while iterating; the gate is a
+  full build plus the main suites; run `-Mode Full` after any wide change (UI, layout, schema, formats) and before every release.
+- **One gate run per worktree at a time.** Parallel work goes in separate worktrees, with its own scratch-database prefix.
+- **Measure before tuning the build:** a binary log (`-bl`) and `-clp:PerformanceSummary`; never change a build default on a guess.
+- **Keep shared signatures stable while iterating:** CodeBase and OpenPmsDentalBusiness expose internals to other projects, so a changed
+  signature there rebuilds most of the solution; edits inside method bodies do not.
+- **Skipping analyzers is allowed in the inner loop** (`-p:RunAnalyzersDuringBuild=false`), never at the gate.
+- **Size the process to the change:** a small fix or follow-up is one person or agent, one build, one targeted run; only a new package gets
+  a separate review. No release builds or setup packages unless the owner asks.
+- **New test assemblies declare their parallelism:** `[assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]` when they use no
+  database or shared files, `[assembly: DoNotParallelize]` when they do.
+
+## UI
+
+- **Fonts and colours come from `UiTheme` and its tokens,** never literals (`element_inventory.py --check`, `colour_literals.py --check`).
+- **Every window is on the layout grid** ([docs/port-notes/UI-12.md](docs/port-notes/UI-12.md); `GridRulesTests`, `FinalSweepTests`): a
+  window never shrinks, nothing is cut at 100% or 150%, grid columns hold their values (`GridColumnFit`).
+- **User-visible text says "Open PMS" / "Open PMS - Dental",** never OD or Open Dental, except the GPL attribution and vendor identifiers (`BrandTests`).
+- **A visual change ships with a before/after gallery at 100% and 150%,** audited and fixed before the owner sees it; owner approvals go to
+  [tests/WindowChecksTests/UiApproved/approved.tsv](tests/WindowChecksTests/UiApproved/approved.tsv). A test that pins a size or picture
+  names the approved change that set it.
+
+## C# (new code; leave legacy Open Dental code in its style unless you are changing it anyway)
+
+- Never block on a task on the UI thread (`.Result`, `.Wait()`); `async void` only for event handlers, with a try/catch inside.
+- `ConfigureAwait(false)` in library code (CodeBase, Business, DataConnectionBase), not in UI code.
+- Touch controls only on their UI thread (`Control.BeginInvoke`/`InvokeAsync`, WPF `Dispatcher.InvokeAsync`).
+- `using` every Font, Brush, Pen, Bitmap, Graphics, stream, DbConnection, DbCommand and DataReader you create; never dispose shared
+  brushes or the theme's fonts.
+- No hard-coded pixel sizes: scale with the control's DPI and the program's layout scaling (PerMonitorV2).
+- Machine-readable text (files, SQL literals, HL7, XML, vendor bridges) is formatted and parsed invariantly, numbers through
+  `ToStringNetFx` (`FormatParityTests`); only what a person reads uses the current culture. Compare identifiers and paths ordinally.
+- SQL values go in as parameters in new code; in legacy SQL strings, every value goes through `POut`. Never concatenate raw input.
+- **Device, vendor, file and HL7 input is untrusted:** bound sizes and lengths, allow only known types and characters, read XML with
+  `DtdProcessing.Prohibit`, keep paths inside their base folder; refuse a bad input as a whole, with a reason in the log.
+- Catch specific exceptions, rethrow with `throw;`, never leave a catch empty, and log with context.
+- No new static mutable state; keep logic out of form code-behind so it is testable without a window or database; take time from a
+  `TimeProvider` where a test needs to control it.
+- `#nullable enable` in new files only (the project needs C# 8 or later); no project-wide switch in legacy projects.
+- No BinaryFormatter (removed in .NET 9).
+
 ## Docs and the project site
 
 - **Docs always reflect the current state.** A change that alters behaviour, setup, versions, paths or status updates every document that

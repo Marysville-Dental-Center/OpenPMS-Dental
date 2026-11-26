@@ -43,6 +43,30 @@ Open **`OpenDental.Local.slnf`** in Visual Studio, not `OpenDental.sln`, and bui
 
 `Initialize-BuildEnvironment` sets, for that PowerShell window only, what the build needs: with a per-user .NET SDK, `DOTNET_MSBUILD_SDK_RESOLVER_CLI_DIR` and `PATH`, so MSBuild finds that SDK; `OPMS_NUGET_OFFLINE` when it is not set; no .NET telemetry. The tool scripts under `tools/` call it themselves. With a per-user SDK, start Visual Studio from that window, so it finds the SDK too. With Visual Studio installed instead of Build Tools, replace `BuildTools` in the path with your edition, e.g. `Community`. A clean build produces many compiler warnings and no errors. The main program is `OpenPmsDental\bin\Debug\OpenPmsDental.exe` (`OpenPmsDental\bin\Release\` for a Release build). Every program there is its apphost (`.exe`) with its `.dll`, `.runtimeconfig.json` and `.deps.json`, beside the folder's own x64 .NET runtime. The build also copies UpdateFileCopier's four files, the native file the program loads at run time, `WebView2Loader.dll` (x64, from the WebView2 package), and `Direct2dWrapper.dll` (x64) next to it, and the 32-bit helper with its own x86 runtime into `Helper32\`.
 
+## Fast inner loop
+
+The command above builds and restores all of `OpenDental.Local.slnf`: use it after pulling, after a package change, and at the gate before
+a commit. While you iterate on one area:
+
+```powershell
+# once, and again only when a project's packages or lock file change
+& $msbuild OpenDental.Local.slnf -t:Restore -p:RestoreLockedMode=true -p:Configuration=Debug -p:Platform=x64
+# then only the project you edit, or the test project that covers it (its references build with it)
+& $msbuild tests\InventoryTests\InventoryTests.csproj -restore:false -p:Configuration=Debug -p:Platform=x64 -m
+```
+
+`$msbuild` is the MSBuild path of the command above.
+
+- Leave MSBuild's node reuse on in an interactive window (no `-nodeReuse:false`); scripts that delete build folders afterwards keep it off.
+- `-p:RunAnalyzersDuringBuild=false` skips the analyzers for a quicker compile; the gate build runs them.
+- A changed signature in CodeBase or OpenPmsDentalBusiness rebuilds most projects (both expose internals to others); a change inside a
+  method body does not.
+- Run only the suites that cover the change: `tools\run-tests.ps1 -Mode Targeted -Include <suites>` ([testing.md](testing.md)).
+- If a build is slow, find out why before changing anything: add `-bl` and open `msbuild.binlog` in the MSBuild Structured Log Viewer
+  (https://msbuildlog.com), or add `-clp:PerformanceSummary`.
+- A Dev Drive (ReFS, https://learn.microsoft.com/windows/dev-drive/) for the repository and the offline package folder makes the many
+  copy-local files cheap to copy; it is a machine setup, not a requirement.
+
 ## The solution and the solution filter
 
 - **`OpenDental.Local.slnf`** loads the program and its libraries, services and tools, the adoption and synthetic-data tools under `tools/`, and every test project under `tests/`. The older or standalone projects listed under [Repository layout](repository-layout.md) are not in it. `OpenDental.sln` lists the same projects, so either one builds the same set. The build scripts read the filter, so add a new project to both.

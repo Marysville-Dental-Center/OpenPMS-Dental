@@ -1217,3 +1217,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - REL-FILES 8 (build RdlEngine and RdlViewer from source before v0.0): done in RDL-SRC; the setup checks that both are the files built from this repository.
 - REN-PROOF 1 (`TempFolderName`) and 2 (window sizes from the pre-rename folder), REL-FILES 6 (Benco values), BIN-A 1 (the four bridges) and BIN-A 4 (the DirectX runtime): now items 1, 2, 6 and 7 of "Decided by default for v0.0".
 - M16-INTEGRATION has no questions of its own; the capture questions it points to are in `imaging-capture-owner-questions.md`.
+
+## Ground rules and C# practices (2026-11-26)
+
+- **Owner, 2026-11-26:** "look at what we've done and extract ground rules and get them captured in CLAUDE.MD. This is also a general c# windows app. We should also capture best practices for c#. We want to enable fast iterations. Builds were taking a long time." Done: CLAUDE.md sections "Fast iterations", "UI" and "C#", and [docs/develop/building.md](../develop/building.md) "Fast inner loop" (build only the edited project after one restore, targeted tests, a Full run after wide changes and before releases, measure with a binary log). Machine-level speedups (a Dev Drive, Defender performance mode) are recommendations, not rules.
