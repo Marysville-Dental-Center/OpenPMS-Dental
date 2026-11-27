@@ -17,4 +17,4 @@ using System.Reflection;
 //The release (product) version of the program: our own scheme, shown in About (Application.ProductVersion) and written to release manifests.
 //It is never compared with Open Dental version numbers; code that sends or compares a version uses ForkVersions.CompatVersion instead.
 //See docs/develop/release-process.md.
-[assembly: AssemblyInformationalVersion("0.1")]
+[assembly: AssemblyInformationalVersion("0.1.1")]

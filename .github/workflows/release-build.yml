@@ -1,6 +1,6 @@
 # The release build on GitHub's own Windows runner: tools/Build-Release.ps1 from source (Release x64, the checked staging folder,
 # SHA256SUMS.txt, the Inno Setup 6 installer and the source archive), uploaded UNSIGNED as an artifact for code signing to sign later.
-# Started by hand only (Actions > Release build > Run workflow, or: gh workflow run release-build.yml --ref <branch>). No secrets.
+# Started by hand only (Actions > Release build > Run workflow, or: gh workflow run release-build.yml --ref v<version>). No secrets.
 # Outbound: GitHub (checkout, the TWAIN DSM release, Inno Setup's release) and nuget.org for the packages the committed lock files
 # pin (restored in locked mode, so a package whose content hash differs from the lock file fails); Microsoft's Build Tools 2026
 # installer only on an image without MSBuild 18.

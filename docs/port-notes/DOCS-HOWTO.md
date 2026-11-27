@@ -36,8 +36,8 @@ schema, Git, Every change, Docs and the project site, Build and test):
 - `main` tracks the database schema of Open Dental's current stable release; fork schema changes compose with Open Dental's (fork-only
   tables, never a change to Open Dental's tables), so Open Dental's next schema applies on top.
 - Valid, well-structured documentation links and a current project site.
-- Work on `main`; a short-lived `feature/<name>` branch only for a multi-day feature, merged and deleted when done; `release/<version>` cut
-  at each release.
+- Work on `main`; a short-lived `feature/<name>` branch only for a multi-day feature, merged and deleted when done; each release a tag
+  `v<version>` on `main` (since 2026-11-26 no `release/<version>` branch unless an older release needs a fix).
 - A finished feature is committed and pushed.
 
 The branch rules are also in [repository-layout.md](../develop/repository-layout.md#branches) and [release-process.md](../develop/release-process.md).

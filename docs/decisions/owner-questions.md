@@ -1265,3 +1265,11 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - **Owner, 2026-11-26, on sensor driver settings per device:** "go with a "Shared" tick per row in Capture settings, defaulting to shared,
   with UsbDevice-style keys unticked." Asked whether the image keys `Bits`, `ByteOrder16` and `Polarity` should be shared too: "yes". Both
   are in [specs/sensor-settings-per-device.md](../specs/sensor-settings-per-device.md), "Owner decisions"; the design is ready to build.
+
+## Releases: a tag, no release branch (2026-11-26)
+
+- **Owner, 2026-11-26:** "do a 0.1.1 release of openpms via github action. [...] is cut release/<version> actually necessary if it's
+  tagged already? I don't want redundent things. If it's not necessary, change standing rules and documentations". It is not: the tag
+  `v<version>` names the released commit, and the workflow builds from it. A release is now the tag alone (CLAUDE.md, "Git";
+  [develop/release-process.md](../develop/release-process.md), "Tag, no branch"); `release/<version>` is made from the tag only when a fix
+  must ship for an older release after `main` has moved on. 0.1 had no release branch either. 0.1.1 is released this way.

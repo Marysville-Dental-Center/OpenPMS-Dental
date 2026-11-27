@@ -112,7 +112,7 @@ namespace ReleaseFlowTests {
 				Assert.IsTrue(File.Exists(path),"Missing from the output: "+fileName);
 				FileVersionInfo fileVersionInfo=FileVersionInfo.GetVersionInfo(path);
 				Assert.AreEqual("Open PMS - Dental",fileVersionInfo.ProductName,fileName);
-				Assert.AreEqual("0.1",fileVersionInfo.ProductVersion,fileName);
+				Assert.AreEqual("0.1.1",fileVersionInfo.ProductVersion,fileName);
 				StringAssert.Contains(fileVersionInfo.LegalCopyright,"Jordan Sparks",fileName);
 				StringAssert.Contains(fileVersionInfo.LegalCopyright,"Open PMS - Dental contributors",fileName);
 			}
@@ -127,7 +127,7 @@ namespace ReleaseFlowTests {
 			string rc=TestPaths.ReadSource("Direct2dWrapper","xDirect2dWrapper.rc");
 			StringAssert.Contains(rc,"VALUE \"CompanyName\", \"Open PMS - Dental contributors\"");
 			StringAssert.Contains(rc,"VALUE \"ProductName\", \"Open PMS - Dental\"");
-			StringAssert.Contains(rc,"VALUE \"ProductVersion\", \"0.1\"");
+			StringAssert.Contains(rc,"VALUE \"ProductVersion\", \"0.1.1\"");
 			StringAssert.Contains(rc,"VALUE \"FileVersion\", \"24.3.63.0\"");
 			StringAssert.Contains(rc," FILEVERSION 24,3,63,0");
 			Assert.IsFalse(rc.Contains("\"Open Dental Software\"") || rc.Contains("\"Open Dental\""),"The version resource still names Open Dental as the company or product.");
@@ -138,7 +138,7 @@ namespace ReleaseFlowTests {
 			FileVersionInfo fileVersionInfo=FileVersionInfo.GetVersionInfo(path);
 			Assert.AreEqual("Open PMS - Dental contributors",fileVersionInfo.CompanyName);
 			Assert.AreEqual("Open PMS - Dental",fileVersionInfo.ProductName);
-			Assert.AreEqual("0.1",fileVersionInfo.ProductVersion);
+			Assert.AreEqual("0.1.1",fileVersionInfo.ProductVersion);
 			Assert.AreEqual("24.3.63.0",fileVersionInfo.FileVersion);
 			StringAssert.Contains(fileVersionInfo.LegalCopyright,"Jordan Sparks");
 			StringAssert.Contains(fileVersionInfo.LegalCopyright,"Open PMS - Dental contributors");

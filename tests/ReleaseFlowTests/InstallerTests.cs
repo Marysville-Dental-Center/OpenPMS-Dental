@@ -393,7 +393,9 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(iss,"#define AppName \"Open PMS - Dental\"");
 			Assert.AreEqual("{#AppName}",SetupDirective(iss,"AppName"));
 			Assert.AreEqual("{#AppVersion}",SetupDirective(iss,"AppVersion"));
-			Assert.AreEqual(version+".0.0",SetupDirective(iss,"VersionInfoVersion"));
+			//VersionInfoVersion is the release version padded to four parts ("0.1" is 0.1.0.0, "0.1.1" is 0.1.1.0).
+			string versionFourParts=version+string.Concat(Enumerable.Repeat(".0",4-version.Split('.').Length));
+			Assert.AreEqual(versionFourParts,SetupDirective(iss,"VersionInfoVersion"));
 			//A 64-bit install into Program Files (decision 19, S3b-7).
 			Assert.AreEqual(@"{commonpf64}\Open PMS - Dental",SetupDirective(iss,"DefaultDirName"));
 			Assert.AreEqual(ProgramNames.DefaultInstallFolder,@"C:\Program Files\Open PMS - Dental");

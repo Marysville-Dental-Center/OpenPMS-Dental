@@ -348,7 +348,7 @@ namespace ReleaseFlowTests {
 			foreach(KeyValuePair<string,string> pair in dictRecord) {
 				string[] arrayParts=pair.Value.Split('|');
 				Assert.AreEqual(6,arrayParts.Length,pair.Value);
-				Assert.AreEqual("0.1",arrayParts[4],pair.Key+": the product version is the release version.");
+				Assert.AreEqual("0.1.1",arrayParts[4],pair.Key+": the product version is the release version.");
 				Assert.AreNotEqual("none",arrayParts[5],pair.Key+" has an icon.");
 				Assert.IsTrue(arrayParts[5].Split(',').All(x => x.Length==64),pair.Value);
 			}
@@ -365,7 +365,7 @@ namespace ReleaseFlowTests {
 			Assert.AreEqual("requireAdministrator",exeResources.ExecutionLevel);
 			Assert.AreEqual("false",exeResources.UiAccess);
 			Assert.AreEqual(1,exeResources.ListIconSha256.Count);
-			Assert.AreEqual("0.1",exeResources.ProductVersion);
+			Assert.AreEqual("0.1.1",exeResources.ProductVersion);
 		}
 
 		///<summary>A stale Release output (S3a-10f: one from before an exe was staged, or older than a commit to an exe's project) ends the record

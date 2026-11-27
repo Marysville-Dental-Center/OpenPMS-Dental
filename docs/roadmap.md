@@ -74,7 +74,11 @@ When Open Dental marks it stable: `main` moves to its schema and its features ar
 
 ## Done in the next version
 
-Built after 0.1 (tagged on 2026-11-25); the release notes collect them in [release-notes/next.md](release-notes/next.md).
+Built after 0.1.1 (tagged on 2026-11-26); the release notes collect them in [release-notes/next.md](release-notes/next.md). Nothing yet.
+
+## Released in 0.1.1
+
+Released on 2026-11-26; what each one changes is in [release-notes/v0.1.1.md](release-notes/v0.1.1.md).
 
 - **Adoption**: Open Dental databases whose version labels differ from their schema version (25.3.47.0 / 25.3.54.0 with the 25.3.48
   schema) ([ADOPT-LABELS](port-notes/ADOPT-LABELS.md)); Open Dental 26.2 databases, checked against the published 26.2 schema

@@ -15,10 +15,10 @@ Nothing here talks to Open Dental's servers or reads Open Dental's update files.
 
 | Version | Value now | Where it lives | Used for |
 |---|---|---|---|
-| Release (product) version | `0.1` | `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs` (repository root, linked into every shipped assembly) | About window (`Application.ProductVersion`), release manifests, the `ForkProgramVersion` marker. Our own scheme. It is never compared with Open Dental numbers. |
+| Release (product) version | `0.1.1` | `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs` (repository root, linked into every shipped assembly) | About window (`Application.ProductVersion`), release manifests, the `ForkProgramVersion` marker. Our own scheme. It is never compared with Open Dental numbers. |
 | Compatibility version | `24.3.63.0` | `AssemblyVersion` (file version), `ForkVersions.CompatVersion` | The frozen legacy conversion chain, and `DataBaseVersion`/`ProgramVersion` on databases the fork markers don't govern yet. |
 
-Raise the release version by editing `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs`, for example to `0.1`. Leave `AssemblyVersion` at `24.3.63.0`. Once the fork markers take over, the database checks no longer look at it.
+Raise the release version by editing `AssemblyInformationalVersion` in `SharedAssemblyInfo.cs`, for example to `0.1.1` (two or three numbers: `0.1`, `0.1.1`; `ForkVersions.CompareReleaseVersions` orders them by number). Leave `AssemblyVersion` at `24.3.63.0`. Once the fork markers take over, the database checks no longer look at it.
 
 A build is identified by its **build id**: a SHA-256 over the program's own assemblies (`ForkReleases.ListBuildIdFiles`: `OpenPmsDental.exe`, `OpenPmsDental.dll` (since stage 3b the `.exe` is the apphost and the program's code is in the `.dll`), `OpenPmsDentalBusiness.dll`, `CodeBase.dll` and the others). Every rebuild of a release (`0.1`) therefore counts as a different build, and third-party DLLs aren't hashed at every startup.
 
@@ -169,7 +169,7 @@ Dynamic mode, where Open Dental kept per-version program folders, isn't part of 
 
 ## Building the installer
 
-A release is `OpenPmsDental-<version>-Setup.exe`, made by `tools/Build-Release.ps1` with Inno Setup 6 (6.7.4 for 0.0 and 0.1):
+A release is `OpenPmsDental-<version>-Setup.exe`, made by `tools/Build-Release.ps1` with Inno Setup 6 (6.7.4 for 0.0, 0.1 and 0.1.1):
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\Build-Release.ps1 -BuildLane <path of odbuild.ps1> -CopyTo <release folder>
@@ -184,11 +184,11 @@ Without `-BuildLane` the script finds MSBuild with vswhere; `-SkipBuild` uses th
 5. Writes the source archive, `installer\bin\OpenPmsDental-<version>-source.zip`: the repository at the release commit (`git archive HEAD`) with every submodule at the commit that commit pins, under one top folder `OpenPmsDental-<version>-source`, the source of the setup's `TWAINDSM.dll` as `third-party-source/twain-dsm-2.5.1.zip` (byte for byte the TWAIN Working Group's `twain-dsm-2.5.1.zip` of release v2.5.1, the approved download beside `dsm_020501.zip`; `-TwainDsmSourceZip` names another copy of it), and `SOURCE-COMMITS.txt` naming the commits, that file with its SHA-256, and the upstream addresses. It is the Corresponding Source of everything the setup installs, PDFsharp, MigraDoc, WeCantSpell.Hunspell and `TWAINDSM.dll` (LGPL 2.1 section 4) included, and stays available with the release even if an upstream repository goes away. Before it builds, the script stops with exit 4 when that TWAIN DSM source download is missing and with exit 1 when its SHA-256 is not the one the script pins (`$TwainDsmSourceSha256`); the archive is written from the bytes it checked. Its SHA-256 is the second line of `SHA256SUMS.txt`. `-WriteSourceArchive <folder>` writes only the archive. A working tree with changes that are not committed gets a warning: the archive holds the commit, so build releases from a clean checkout.
 6. With `-CopyTo`, copies the setup, the source archive, `SHA256SUMS.txt` and `docs\release-notes\v<version>.md` there.
 
-**Branch and tag:** cut `release/<version>` from `main` at the release commit and tag it `v<version>` (`git switch -c release/<version>`, `git tag v<version>`, push both). Build the release from that branch; a fix to a released version is committed there and to `main`.
+**Tag, no branch:** a release is the tag `v<version>` on the release commit of `main` (`git tag -a v<version> -m "Open PMS - Dental <version>"`, `git push origin v<version>`), and it is built from the tag (`gh workflow run release-build.yml --ref v<version>`, below). The tag alone names the released source, so no `release/<version>` branch is made (owner decision of 2026-11-26). Only when a fix must ship for an older release after `main` has moved on is `release/<version>` made from that release's tag (`git switch -c release/<version> v<version>`); the fix is committed there and to `main`, and the fixed release gets its own tag on that branch.
 
 **Publishing:** attach the setup, the source archive `OpenPmsDental-<version>-source.zip`, `SHA256SUMS.txt` and the release notes to the GitHub release of the tag. The source archive is the release's Corresponding Source (GNU GPL 3.0 and AGPL 3.0 section 6, LGPL 2.1 section 6, and LGPL 2.1 section 4 for the setup's `TWAINDSM.dll`, whose source it carries): the setup's information page, its License Agreement page, NOTICE and Help > About > View Licenses tell the user it is there.
 
-The release version comes from `SharedAssemblyInfo.cs` and must equal `#define AppVersion` in `installer\OpenPmsDental.iss` (and its `VersionInfoVersion`, `0.1.0.0` for `0.1`); the script stops when they differ. A new third-party file goes on the allow-list and into `THIRD-PARTY-NOTICES.txt`; the script fails until it is in both.
+The release version comes from `SharedAssemblyInfo.cs` and must equal `#define AppVersion` in `installer\OpenPmsDental.iss` (and its `VersionInfoVersion`, the release version padded to four numbers: `0.1.1.0` for `0.1.1`); the script stops when they differ. A new third-party file goes on the allow-list and into `THIRD-PARTY-NOTICES.txt`; the script fails until it is in both.
 
 What the setup does, for the release channel:
 
@@ -207,11 +207,11 @@ What the setup does, for the release channel:
 
 ## Building on GitHub Actions
 
-`.github/workflows/release-build.yml` runs the same `tools/Build-Release.ps1` from source on GitHub's own Windows runner (`windows-2025-vs2026`: Visual Studio 2026 with MSBuild 18, MSVC 14.44 and the Windows 11 SDK; the Build Tools 2026 are installed only on an image without MSBuild 18). It is started by hand only: Actions > Release build > Run workflow, or `gh workflow run release-build.yml --ref <branch>` (the optional `label` input names the artifact; by default the commit's short SHA). It needs no secrets and has read access to the repository only.
+`.github/workflows/release-build.yml` runs the same `tools/Build-Release.ps1` from source on GitHub's own Windows runner (`windows-2025-vs2026`: Visual Studio 2026 with MSBuild 18, MSVC 14.44 and the Windows 11 SDK; the Build Tools 2026 are installed only on an image without MSBuild 18). It is started by hand only: Actions > Release build > Run workflow, or `gh workflow run release-build.yml --ref v<version>` (a release is built from its tag; any branch works for a trial build; the optional `label` input names the artifact; by default the commit's short SHA). It needs no secrets and has read access to the repository only.
 
 The runner has no offline package folder, so the workflow fills one (`OPMS_NUGET_OFFLINE`, laid out as a global packages folder) with a locked restore of `OpenDental.Local.slnf` from nuget.org: exactly the packages and content hashes the committed lock files pin. It downloads the TWAIN DSM release (`dsm_020501.zip`, `twain-dsm-2.5.1.zip`) from the TWAIN Working Group's GitHub release and Inno Setup 6.7.4 from its official release (into its own folder, whatever version the image has), each checked against a pinned SHA-256, and passes them to `Build-Release.ps1` (`-TwainDsmZip`, `-TwainDsmSourceZip`, `-Iscc`, `-MSBuildPath`, `-OutDir`; no `-BuildLane`). Every check of the script runs as on a local PC, and any failure fails the run.
 
-It uploads one artifact, `OpenPmsDental-unsigned-<label>`, kept 30 days: `OpenPmsDental-<version>-Setup.exe`, `OpenPmsDental-<version>-source.zip`, `SHA256SUMS.txt`, the `staging` folder and `setup-files` (the two `TWAINDSM.dll`). Everything in it is **unsigned**: it is the build that code signing (SignPath for open source, or Microsoft Artifact Signing) will sign once that is set up; until then a release is not published from it.
+It uploads one artifact, `OpenPmsDental-unsigned-<label>`, kept 30 days: `OpenPmsDental-<version>-Setup.exe`, `OpenPmsDental-<version>-source.zip`, `SHA256SUMS.txt`, the `staging` folder and `setup-files` (the two `TWAINDSM.dll`). Everything in it is **unsigned**: it is the build that code signing (SignPath for open source, or Microsoft Artifact Signing) will sign once that is set up. Until then a release is published unsigned from this artifact (0.1 and 0.1.1): run the workflow on the tag, check the artifact's `SHA256SUMS.txt` against its setup, and attach the setup, the source archive, `SHA256SUMS.txt` and the release notes to the GitHub release of the tag (`gh release create v<version> --title "Open PMS - Dental <version>" --notes-file docs/release-notes/v<version>.md ...`).
 
 ## Tests
 
@@ -235,6 +235,6 @@ vstest.console.exe tests/ReleaseFlowTests/bin/Debug/ReleaseFlowTests.dll /Platfo
 - The publish/pull decision for the named, blank and other update server cases, with and without build times; the restart rule of `IsDbConnectionSafe`; and the build time stamped into `OpenPmsDental.exe`.
 - An adopted copy with only `ForkSchemaLevel`, or `ForkSchemaLevel` and `OdSchemaCompat`, removed: refused (exit 173) and never adopted again.
 - The runtime part (S3b-7, `RuntimePartTests`, `RuntimePartDbTests`): a publish on an unchanged runtime writes no runtime row and its pull reads no runtime segment; a new runtime replaces the runtime part and its pull downloads and checks both parts; a runtime part that is not the release's is refused; a folder with a runtime file of another version gets no release manifest; the copier's temp folder holds its runtime and refuses another version; Build-Release's refusals (mixed, a different helper runtime, an older runtime); the layout, the one runtime version and the PE machines of the Release build.
-- Source checks: `OpenPmsDental.exe` reports the release version (`0.1`) and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.
+- Source checks: `OpenPmsDental.exe` reports the release version (`0.1.1`) and `24.3.63.0`; the legacy chain is frozen; the guard code has no Debug bypass; Open Dental's update file types are only ever deleted; no downgrade prompt; UpdateFileCopier checks the manifest before copying.
 
 Database tests use `127.0.0.1:3306` (root, blank password). They are inconclusive if no server answers, or if `RELEASEFLOW_TEST_DB=skip` is set.

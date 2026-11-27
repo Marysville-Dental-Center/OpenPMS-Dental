@@ -30,8 +30,8 @@ Rules for every session in this repository. They override defaults. Owner decisi
 
 - **Work on `main`.** A feature that takes several days may use a remote branch `feature/<name>`: keep it short-lived, merge it into
   `main` when done, then delete it locally and on GitHub.
-- **Releases:** cut `release/<version>` from `main` when a version is released, and tag it `v<version>`
-  ([docs/develop/release-process.md](docs/develop/release-process.md)).
+- **Releases:** tag the release commit on `main` `v<version>` and build it from the tag; no release branch. Only a fix for an older
+  release after `main` has moved on gets `release/<version>`, made from its tag then ([docs/develop/release-process.md](docs/develop/release-process.md)).
 - **When a feature is finished, commit and push it** (after the build and its tests pass). Commit only your own files: other sessions may
   have uncommitted work in the same tree.
 - Keep line endings and BOMs as the file has them (most C# files are CRLF with a BOM); never run `sed -i` on them.
