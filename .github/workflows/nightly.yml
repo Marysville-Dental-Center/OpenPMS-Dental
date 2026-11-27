@@ -1,6 +1,7 @@
 # The nightly build of main: release-build.yml's release build (Build-Release.ps1 from source: the checked staging folder, the Inno Setup
 # installer, the source archive, SHA256SUMS.txt), UNSIGNED, uploaded as the artifact OpenPmsDental-nightly-<yyyyMMdd>-<sha> and kept 7 days.
-# A test build, not a release: it carries main's release version, so its setup has the released version's file name.
+# A test build, not a release: it carries main's release version, so its setup has the released version's file name. Each nightly build
+# of main also replaces the "nightly" pre-release on the Releases page (job publish), so the newest setup has one fixed link.
 # Skipped when main has not changed since the last successful nightly build. Also started by hand (Actions > Nightly build > Run workflow,
 # or: gh workflow run nightly.yml). Free on GitHub's standard runners for a public repository. No secrets.
 name: Nightly build
@@ -52,3 +53,48 @@ jobs:
     with:
       label: ${{ needs.check.outputs.label }}
       nightly: true
+
+  # The "nightly" pre-release on the Releases page: replaced by each nightly build of main, so it always holds the newest setup under one
+  # link (releases/tag/nightly; the setup at releases/download/nightly/OpenPmsDental-nightly-Setup.exe). The tag "nightly" moves to the
+  # built commit. The source archive goes with the setup: it is the setup's Corresponding Source.
+  publish:
+    needs: [check, build]
+    if: needs.check.outputs.build == 'true' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Replace the nightly pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          LABEL: ${{ needs.check.outputs.label }}
+        run: |
+          set -euo pipefail
+          dir="$RUNNER_TEMP/nightly"
+          gh run download "$GITHUB_RUN_ID" -n "OpenPmsDental-nightly-$LABEL" -D "$dir"
+          cd "$dir"
+          setup=$(ls OpenPmsDental-*-Setup.exe)
+          source=$(ls OpenPmsDental-*-source.zip)
+          sha256sum -c --ignore-missing SHA256SUMS.txt
+          # Stable names for one fixed link; SHA256SUMS.txt names them the same way (the hashes are the files' own).
+          mv "$setup" OpenPmsDental-nightly-Setup.exe
+          mv "$source" OpenPmsDental-nightly-source.zip
+          sed -i -e "s|  $setup\$|  OpenPmsDental-nightly-Setup.exe|" -e "s|  $source\$|  OpenPmsDental-nightly-source.zip|" SHA256SUMS.txt
+          sha256sum -c --ignore-missing SHA256SUMS.txt
+          hash=$(sha256sum OpenPmsDental-nightly-Setup.exe | cut -d' ' -f1)
+          version=${setup#OpenPmsDental-}; version=${version%-Setup.exe}
+          cat > notes.md <<EOF
+          The nightly build of \`main\` at ${GITHUB_SHA:0:9} ($(date -u +%Y-%m-%d)), replaced by each nightly build. **A test build, not a release:** unsigned, untested beyond the build's own checks, for test computers and test databases only. Releases are on the [Releases page](https://github.com/$GITHUB_REPOSITORY/releases).
+
+          - \`OpenPmsDental-nightly-Setup.exe\`: the setup (64-bit, .NET 10 included), SHA-256 \`$hash\`. It carries \`main\`'s release version, $version, with a later build time: installed on an update server it would be published as a newer build of $version.
+          - \`OpenPmsDental-nightly-source.zip\`: the source of this build, with every submodule.
+          - \`SHA256SUMS.txt\`: checksums of the setup and of every file it installs.
+
+          Built by the workflow \`nightly.yml\` (run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID).
+          EOF
+          gh release delete nightly --cleanup-tag --yes || echo "No nightly pre-release yet."
+          gh release create nightly --prerelease --latest=false --target "$GITHUB_SHA" \
+            --title "Nightly build ($(date -u +%Y-%m-%d), ${GITHUB_SHA:0:9})" --notes-file notes.md \
+            OpenPmsDental-nightly-Setup.exe OpenPmsDental-nightly-source.zip SHA256SUMS.txt

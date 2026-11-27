@@ -1277,3 +1277,5 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   free (a public repository: the release builds bill 0 minutes). `.github/workflows/nightly.yml` builds `main` every night with the release
   build, setup included, and keeps it 7 days ([develop/release-process.md](../develop/release-process.md), "The nightly build"). This
   replaces, for the nightly build only, the earlier rule of no setup packages unless asked.
+- **Owner, 2026-11-26:** "make the nightly also update a "nightly" pre-release on the Releases page". Each nightly build of `main` replaces
+  the `nightly` pre-release, so the newest setup has one fixed link (release-process.md, "The nightly build").
