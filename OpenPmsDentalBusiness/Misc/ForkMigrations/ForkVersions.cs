@@ -33,7 +33,7 @@ namespace OpenPmsDentalBusiness {
 		///<summary>Written to DataBaseVersion and ProgramVersion at adoption. No Open Dental release will reach it, so an Open Dental client treats
 		///the database as newer than itself: it skips its conversion, finds no update files, and does not use the database.</summary>
 		public static readonly Version SentinelVersion=new Version(99,0,0,0);
-		///<summary>The only Open Dental versions an unadopted database may have to be adopted: our own 24.3.63 line and the office's 25.3.48. Any other
+		///<summary>The only Open Dental versions an unadopted database may have to be adopted: our own 24.3.63 line and 25.3.48. Any other
 		///version is refused until a schema diff proves it equal.</summary>
 		public static readonly List<Version> ListAdoptableVersions=new List<Version>() {
 			new Version(24,3,63,0),

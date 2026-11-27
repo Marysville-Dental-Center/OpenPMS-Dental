@@ -1,5 +1,7 @@
 # Port note: P262-REPORTS, Reports (Open Dental 26.2 items 31 to 34)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/reports-1`, cut from `p262/schema-1` (39be2b04b). One of the 26.2 feature packages the owner chose on 2026-11-07.
 
 ## Sources

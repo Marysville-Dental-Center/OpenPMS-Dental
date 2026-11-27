@@ -6,7 +6,7 @@
 
 Step 2026102403 (M2-01) turns `claimpayment.Note` from `varchar(255)` into `text NOT NULL` and makes NULL notes empty. `CHECKSUM TABLE`
 follows the column type, so the table checksum changes even when no value does. The synthetic data always had NULL notes, so the
-comparison listed `ColumnChanged claimpayment.Note`, which explained the table checksum. The office database has none: every column checksum
+comparison listed `ColumnChanged claimpayment.Note`, which explained the table checksum. A database with no NULL notes has none: every column checksum
 stayed the same, and `SyntheticData compare` reported `ChecksumTableChanged claimpayment` as the one unexpected difference, which the runbook
 treats as a stop. Adopt's row check had already shown that only NULL notes change (none here) and every other note is unchanged.
 

@@ -2,7 +2,7 @@
 
 # v0.0 release readiness for Open PMS - Dental (read-only review of main 1db2c6d86)
 
-Per your request, the office switch-over is out of scope. Adoption comes up below only where it touches the installer and the update mechanism. Nothing in the repository was changed.
+Per your request, adoption is out of scope. Adoption comes up below only where it touches the installer and the update mechanism. Nothing in the repository was changed.
 
 ## Verdict
 
@@ -215,7 +215,7 @@ Nothing is installed on the server by us.
 - **Adopting an Open Dental database:**
   - Only 24.3.63 and 25.3.48 are allowed (`release-process.md:66`).
   - Either through the in-app `FormAdoptDatabase`, or headless with `AdoptionValidation adopt` (`release-process.md:68`).
-  - Not part of the workstation installer. Switch-over deferred.
+  - Not part of the workstation installer. Adoption deferred.
 
 ## 3. Versioning
 

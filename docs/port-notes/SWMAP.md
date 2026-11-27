@@ -1,30 +1,30 @@
-# SWMAP: Open Dental's setting names at the switch-over
+# SWMAP: Open Dental's setting names at adoption
 
-Owner question Switch-over 1 ([../owner-questions.md](../decisions/owner-questions.md)), answered on 2026-11-07. Branch `next/swmap-1`. Tests:
+Owner question Adoption 1 ([../owner-questions.md](../decisions/owner-questions.md)), answered on 2026-11-07. Branch `next/swmap-1`. Tests:
 `tests/SWMAPTests`, plus the package test assemblies named below.
 
 **Decided as built (owner, 2026-11-07):** every open SWMAP question (the INFERRED readings below) is settled as built ("all as recommended").
 
 ## What the owner gave
 
-The owner exported the setting **names** of the office's Open Dental 25.3.48 database (`preference.PrefName`, names only) and the names of
+The owner exported the setting **names** of an Open Dental 25.3.48 database (`preference.PrefName`, names only) and the names of
 four of its program links. The export is not in the repository, and no value from it was read or used: every test and example below uses
 synthetic databases with made-up values.
 
-- 51 names in the office database are not in this program's `PrefName` enum. Each is listed below with what this program does with it.
-- These names are in the office database and in `PrefName` already, so they carry over unchanged: `InsBlueBookUcrFeePercent` (B-INSH 2),
-  `PayPlansVersion` (Switch-over 9, B-PAY 2), `ReportsIncompleteProcsNoNotes`, `ReportsIncompleteProcsUnsigned` and
+- 51 names in an Open Dental 25.3.48 database are not in this program's `PrefName` enum. Each is listed below with what this program does with it.
+- These names are in an Open Dental 25.3.48 database and in `PrefName` already, so they carry over unchanged: `InsBlueBookUcrFeePercent` (B-INSH 2),
+  `PayPlansVersion` (Adoption 9, B-PAY 2), `ReportsIncompleteProcsNoNotes`, `ReportsIncompleteProcsUnsigned` and
   `ReportsIncompleteProcsExcludeCodes` (B-SERVER 1).
-- The office's program table has links named exactly `Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP` (V-BRIDGE1 1).
+- Its program table has links named exactly `Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP` (V-BRIDGE1 1).
 
 ## The rule
 
-A setting this program already had under a name of its own now uses Open Dental's name, so the office's value is read as it is and a later
+A setting this program already had under a name of its own now uses Open Dental's name, so an adopted database's value is read as it is and a later
 Open Dental database maps one to one. Nothing else depended on our names: every one of them was a preference row outside `PrefName`, read and
 written by one class each. Where Open Dental's value means something else than ours, the code converts on reading and writing, never the
 stored value.
 
-- **On the office database** the switch-over changes no preference row: this program reads the office's rows under Open Dental's names.
+- **On an Open Dental database** adoption changes no preference row: this program reads its rows under Open Dental's names.
   `AdoptionValidation migration-preview` (runbook step 0.2) lists them with the value this program will show.
 - **On a database release v0.0 already used** (a new database, a database from 24.3, or one adopted by v0.0), the step
   `OdSettingNamesStep` (level 2026110731) moves each row v0.0 wrote under our name to Open Dental's name, converting the value, and deletes
@@ -62,7 +62,7 @@ and the bool settings are taken to store 1 for on, as every Open Dental bool pre
 
 ## Settings kept under this program's names
 
-The office database has no setting for these (none of the 51 names matches them), so there is nothing to carry over and the office cannot
+An Open Dental 25.3.48 database has no setting for these (none of the 51 names matches them), so there is nothing to carry over and an office cannot
 have set them in Open Dental. They keep their rows and their defaults:
 
 | Setting (package) | Row |
@@ -73,7 +73,7 @@ have set them in Open Dental. They keep their rows and their defaults:
 | Print inserter barcode on statements (B-PRINT) | `BillingStatementInserterBarcode` |
 
 Open Dental may keep the inserter barcode with the statement layout instead of in a preference (the 25.3 spec allowed for that), so the
-runbook still has the office look for it in Open Dental before the day (step 0.11).
+runbook still has the administrator look for it in Open Dental before the day (step 0.11).
 
 ## The 51 names, one by one
 
@@ -125,15 +125,15 @@ list had (and the two statement settings of the list above) were built by ODOPTS
 
 ## Program links (V-BRIDGE1 1)
 
-This program's names are Open Dental's: `ProgramName.Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP` match the office's rows exactly, so
-`BridgeLinkRows.EnsureProgram` finds each office row by name and adds no second link: the office's row keeps its settings and toolbar
+This program's names are Open Dental's: `ProgramName.Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP` match Open Dental's rows exactly, so
+`BridgeLinkRows.EnsureProgram` finds each row by name and adds no second link: the row keeps its settings and toolbar
 buttons, and only missing ClinicNum 0 properties are added. `SWMAPTests` checks this on an adopted synthetic 25.3.48 database.
 
 ## Item 9 and B-EF 4
 
-- **Payment plan version (Switch-over 9, B-PAY 2):** `PayPlansVersion` is in the office database under the name this program reads, so the
-  office's version carries over unchanged. Nothing converts it, on the office database or on a database from 24.3.
-- **Forms imported before the switch-over (B-EF 4):** setting names do not show audit entries, so the switch-over converts none. The audit
+- **Payment plan version (Adoption 9, B-PAY 2):** `PayPlansVersion` is in an Open Dental 25.3.48 database under the name this program reads, so the
+  database's version carries over unchanged. Nothing converts it, on an adopted database or on a database from 24.3.
+- **Forms imported before adoption (B-EF 4):** setting names do not show audit entries, so adoption converts none. The audit
   trail is copied unchanged. Patient Forms shows an eForm as Imported when an `EFormImport` audit entry carries its EFormNum in `FKey` and
   says "imported", the test it applies to its own entries; an entry Open Dental wrote that way counts, and one without the form's number
   shows the form's status instead.
@@ -148,7 +148,7 @@ buttons, and only missing ClinicNum 0 properties are added. `SWMAPTests` checks 
   keeps (`RehearsalIntegrationTests.MigrationPreview_...` checks the lines).
 - New test project `tests/SWMAPTests`; changed tests in RegistryTests, BAPPTTests, BCLAIMTests, BERATests, BPAYTests, BPERIOTests,
   BSERVERTests and BSHELLTests (the names).
-- Docs: owner questions Switch-over 1 and 9 and B-EF 4, the adoption runbook (what adoption does, step 0.2's preview lines, step 0.11 down to
+- Docs: owner questions Adoption 1 and 9 and B-EF 4, the adoption runbook (what adoption does, step 0.2's preview lines, step 0.11 down to
   the five settings Open Dental has no name for, step 7.1 and the checklist), the port notes of the packages above, the fork migration README
   and one line in `docs/release-notes/next.md`.
 

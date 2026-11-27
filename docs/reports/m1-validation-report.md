@@ -49,7 +49,7 @@ the go-live checks of steps 10.1 and 10.2, run as the runbook gives them through
 - Two runs end with identical adopted databases, apart from the time of adoption: every table but `preference`, `securitylog` and
   `securityloghash` by its report, and those three row by row, where only the value of `ForkAdoptedFrom`, `securitylog.LogDateTime` and the
   `securityloghash.LogHash` computed from it differ (X2).
-- The office runs what was rehearsed: the rehearsal copies with the code of `AdoptionValidation copy` (runbook step 3.2), adopts with
+- Adoption runs what was rehearsed: the rehearsal copies with the code of `AdoptionValidation copy` (runbook step 3.2), adopts with
   `HeadlessAdoption`, the code `AdoptionValidation adopt` runs in runbook steps 4 and 5, and compares the adopted copy with the copy's report,
   as runbook step 6.1 does, before anything else touches the copy. The commands that run on the database server itself (step 3.1's folder
   copy, the rollback) are not part of this (F11, "Not covered").
@@ -65,7 +65,7 @@ Everything above is the M1 evidence, for the M1 build, whose adoption target was
 `port/int-3` (main merged into the 26.1 integration `port/int-2`), adoption's fork migration goes on to **Open Dental 26.1.70**
 (`SchemaVerifier.ReferenceVersion`): the M2-01 schema steps and the M2-02 seed step run after the M1 steps. The source is unchanged: the
 office's Open Dental 25.3.48 database is still the only one the runbook adopts (the allowlist is 24.3.63 and 25.3.48). This addendum is no
-new sign-off: before the office switches to an M2 build, the gate (two medium runs, the runbook dry runs) is repeated on that build.
+new sign-off: before a database is adopted with an M2 build, the gate (two medium runs, the runbook dry runs) is repeated on that build.
 
 What adoption now also does to a 25.3.48 copy, and how each change is checked (every guard of M1 stays as it was; each new allowed
 difference is held to its values by `adopt`'s row check):
@@ -107,7 +107,7 @@ the four feature package steps have dated levels (owner decision of 2026-11-01):
 (was 2027002301), M2-EST's inactive back-fill 2026110102 (was 2027002701), M2-UDS's report row 2026110103 (was 2027003501) and M2-HIST's
 Insurance History step 2026110104 (was 2027004701), so an adopted copy now ends at fork schema level 2026110104. The startup guard decides
 from the applied levels (`ForkMigrationsApplied`), not from the highest one, and the rehearsal plans and checks the DXC step too (check M7,
-`program.Enabled` and `toolbutitem`). The gate is repeated on the build the office switches to, as said above.
+`program.Enabled` and `toolbutitem`). The gate is repeated on the build used for adoption, as said above.
 
 ## Scope and method
 
@@ -297,7 +297,7 @@ start-up and log-in tables (`activeinstance`, `alertitem`, `alertread`, `alertsu
 `loginattempt`, `registrationkey`, `replicationserver`, `scheduledprocess`, `sessiontoken`, `signalod`), and the rehearsal never started the
 program, so it could not see this. On the day, a correct adoption would have forced a rollback, or a judgement by hand during the outage.
 Fix: the adoption, the migration check, the verifier and the rehash run in one class, `HeadlessAdoption`; the rehearsal adopts with it, and
-the office runs it as `AdoptionValidation adopt` (runbook steps 4 and 5). The post-adoption report and comparison (6.1) come before the
+the runbook runs it as `AdoptionValidation adopt` (runbook steps 4 and 5). The post-adoption report and comparison (6.1) come before the
 program's first start (6.2), and the rehearsal compares with the copy's report exactly as 6.1 does. The allowed list is unchanged:
 nothing it does not cover runs before the comparison. The sequence was dry-run with the runbook's commands (above). Because the command is
 easier to mistype than the window was to misuse, `adopt` refuses, and changes nothing, when `--confirm` does not repeat the name, the original
@@ -771,7 +771,7 @@ The other fork migration steps change no row of an Open Dental 25.3.48 database:
 - ColumnChanged documentmisc.RawBase64 (9667482446 -> 1779909166)  [allowed: Adoption deletes Open Dental's UpdateFiles rows (checked row by row by adopt).]
 - ColumnChanged insverify.SecurityHash (1390900252556 -> 1392817533999)  [allowed: Adoption rehashes every row with the fork's HMAC (risk R2, item 6).]
 - ColumnChanged insverifyhist.SecurityHash (628167813450 -> 624122455924)  [allowed: Adoption rehashes every row with the fork's HMAC (risk R2, item 6).]
-- ColumnRemoved patient._portal_active_email  [allowed: Owner decision: adoption drops the office-specific generated column and its unique key.]
+- ColumnRemoved patient._portal_active_email  [allowed: Owner decision: adoption drops the patient portal's generated column and its unique key.]
 - ColumnChanged patient.SecurityHash (2927956709010 -> 2860196771227)  [allowed: Adoption rehashes every row with the fork's HMAC (risk R2, item 6).]
 - ColumnChanged payplan.SecurityHash (25963509457 -> 33942964343)  [allowed: Adoption rehashes every row with the fork's HMAC (risk R2, item 6).]
 - ColumnChanged paysplit.SecurityHash (14601550875872 -> 14607388579999)  [allowed: Adoption rehashes every row with the fork's HMAC (risk R2, item 6).]

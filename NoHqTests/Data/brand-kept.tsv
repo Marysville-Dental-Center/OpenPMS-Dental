@@ -196,7 +196,7 @@ OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Legacy table from ol
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Open Dental HQ-only table declared by	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	a schema-only dump of an Open Dental 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
-OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	Office-specific customization, not Open Dental schema (a generated column): the office's patient portal relies on it, so adoption 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
+OpenPmsDentalBusiness/Misc/ForkMigrations/SchemaVerifier.cs	A patient portal's customization, not Open Dental schema (a generated column): a patient portal relies on it, so adoption 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/Seed25_3Step.cs	Open Dental 25.3 seed rows for databases from 24.3	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/Seed26_1.cs	 Open Dental 25.3 PhoneExtension grant(s) from 272 to 	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Misc/ForkMigrations/Seed26_1Step.cs	Open Dental 25.4 and 26.1 seed rows	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
@@ -257,4 +257,4 @@ installer/OpenPmsDental.iss	; A new id of our own: this setup never upgrades or 
 installer/OpenPmsDental.iss	; Never Open Dental's folder. The release	Setup script comment, not shown
 installer/OpenPmsDental.iss	Jordan Sparks, D.M.D., Open Dental Software, Inc. and	GPL attribution and copyright notice (required)
 installer/OpenPmsDental.iss	contributors; a fork of Open Dental (c) Open Dental Software,	GPL attribution and copyright notice (required)
-installer/OpenPmsDental.iss	switch-over (adopting an Open Dental database) is not part of	Setup script comment, not shown
+installer/OpenPmsDental.iss	Adopting an Open Dental database is not part of	Setup script comment, not shown

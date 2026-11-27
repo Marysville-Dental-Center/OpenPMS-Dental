@@ -20,7 +20,7 @@ namespace BSERVERTests {
 
 		[TestMethod]
 		public void ReadDelay_IsOpenDentalsTwoRows_ReadByName() {
-			//Open Dental's names, from the setting names of the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
+			//Open Dental's names, from the setting names of an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
 			Assert.AreEqual("ReplicationWriteReadDelayEnabled",ReplicationDelay.PREF_READ_DELAY_ENABLED);
 			Assert.AreEqual("ReplicationWriteReadDelayMS",ReplicationDelay.PREF_READ_DELAY_MS);
 			Assert.IsFalse(Enum.IsDefined(typeof(PrefName),ReplicationDelay.PREF_READ_DELAY_ENABLED));

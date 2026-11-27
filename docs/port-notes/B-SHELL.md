@@ -143,7 +143,7 @@ Not tested automatically (needs the GUI, which is not launched in this run): the
 
 ## Owner questions
 
-1. Blur preference name: keep the fork's own `ForkModuleSwitchBlur` row until Open Dental's name is confirmed? If the office uses the setting in 25.3, its value doesn't carry over. **Answered (2026-11-07, owner question Switch-over 1):** Open Dental's name is `BlurModuleOnLoad`; the code reads it now, so the value carries over (see "Open Dental's name" below).
+1. Blur preference name: keep the fork's own `ForkModuleSwitchBlur` row until Open Dental's name is confirmed? If the office uses the setting in 25.3, its value doesn't carry over. **Answered (2026-11-07, owner question Adoption 1):** Open Dental's name is `BlurModuleOnLoad`; the code reads it now, so the value carries over (see "Open Dental's name" below).
 2. File Monitor: keep requiring the Setup permission (Open Dental leaves it open to all)?
 3. Ortho chart: release the edit lock after a period of inactivity? Open Dental's 25.3.48 behaviour is not public.
 4. Ortho chart: a forced or automatic log off saves open ortho charts without asking, as 24.3 did on automatic shutdown. Is that wanted, or should unsaved edits be discarded?
@@ -175,10 +175,10 @@ Not tested automatically (needs the GUI, which is not launched in this run): the
 
 ## Open Dental's name (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) give Open Dental's name of the 25.2 blur
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) give Open Dental's name of the 25.2 blur
   setting: `BlurModuleOnLoad` (1/0; 25.2 release notes, Miscellaneous, https://www.opendental.com/site/version25_2.html).
   `ModuleSwitchBlur.PREF_NAME` is now that name, read and written by name outside `PrefName`, so the office's value carries over at the
-  switch-over as it is; a missing row still means off. No migration step adds the row.
+  adoption as it is; a missing row still means off. No migration step adds the row.
 - The row release 0.0 wrote (`ForkModuleSwitchBlur`) moves to this name in the fork migration step 2026110731 (`OdSettingNamesStep`, which
   only moves an existing v0.0 row); runbook step 0.11 no longer lists the setting.
 - Open Dental 25.3.48 also has `DomainLoginForSigBoxes`: by its name a separate switch for domain login in signature boxes. **Built (ODOPTS,

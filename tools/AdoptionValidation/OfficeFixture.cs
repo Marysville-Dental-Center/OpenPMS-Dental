@@ -6,7 +6,7 @@ using System.Text;
 using SyntheticData.Infrastructure;
 
 namespace AdoptionValidation {
-	///<summary>Rows an office's Open Dental 25.3.48 database carries but SyntheticData leaves out, because they change how a client starts: Open
+	///<summary>Rows an Open Dental 25.3.48 database carries but SyntheticData leaves out, because they change how a client starts: Open
 	///Dental's update files in documentmisc, the addresses of Open Dental's servers in preferences, version history, and stored passwords that Open
 	///Dental encrypted with its own key, and report rows under internal names this program does not know, which the fork migration renames. Also the
 	///rows the Open Dental 25.4 and 26.1 steps convert: a PhoneExtension grant under its 25.3 number (272), which they move to 274, Blockouts grants
@@ -77,7 +77,7 @@ namespace AdoptionValidation {
 		///granted to two user groups each.</summary>
 		public const int CountPhoneExtensionGrants=1;
 		public const int CountBlockoutGroups=2;
-		///<summary>The ten InsHist*Codes preferences as an office's Open Dental 25.3.48 database holds them (the codes of Insurance History's fixed
+		///<summary>The ten InsHist*Codes preferences as an Open Dental 25.3.48 database holds them (the codes of Insurance History's fixed
 		///rows), with SyntheticData's codes. Adoption's Insurance History step (InsHistCodeGroupsStep, M2-HIST) adds a code group used only for Insurance
 		///History for each category, holding the preference's codes (the perio maintenance one INSHIST_CODE_ADDED too, which no generated group has),
 		///and the four perio quadrants (two codes) share one; the generated groups are not changed (owner decision of 2026-11-07). (preference name,
@@ -108,7 +108,7 @@ namespace AdoptionValidation {
 		public static int CountInsHistGroupsAdded {
 			get { return ArrayInsHistGroupsAdded.Length; }
 		}
-		///<summary>The DXC Patient Credit Score link as an office's Open Dental 25.3.48 database may still hold it (what Open Dental's own 25.2
+		///<summary>The DXC Patient Credit Score link as an Open Dental 25.3.48 database may still hold it (what Open Dental's own 25.2
 		///conversion did to the row is not public, INFERRED): enabled, with a button on these toolbars (EnumToolBar: Account module, main toolbar).
 		///Adoption's DXC step (DxcCreditScoreRemovedStep, B-SHELL) sets its Enabled to 0 and deletes both buttons; the XVWeb link and its button on the
 		///Imaging module toolbar are kept.</summary>

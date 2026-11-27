@@ -1,5 +1,7 @@
 # Port note: P262-BILLING, billing and statements overhaul (Open Dental 26.2 items 8, 9, 17 and 18)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/billing-1`, cut from `p262/schema-1` (39be2b04b), and its review fixes on `p262/billing-2` and `p262/billing-3`. One of the 26.2
 feature packages the owner chose on 2026-11-07.
 

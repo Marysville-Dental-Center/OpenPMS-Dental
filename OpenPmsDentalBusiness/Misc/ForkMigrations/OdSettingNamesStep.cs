@@ -1,4 +1,4 @@
-// SWMAP (owner question Switch-over 1, answered 2026-11-07): the settings that release v0.0 kept under names of its own and that this program now
+// SWMAP (owner question Adoption 1, answered 2026-11-07): the settings that release v0.0 kept under names of its own and that this program now
 // reads under Open Dental's names, and the fork migration step that moves the rows v0.0 wrote. See docs/port-notes/SWMAP.md.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

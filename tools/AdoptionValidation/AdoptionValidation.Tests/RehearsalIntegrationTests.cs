@@ -839,7 +839,7 @@ namespace AdoptionValidation.Tests {
 			Assert.IsTrue(indexCopy<listSteps.IndexOf("Preflight") && listSteps.IndexOf("Preflight")<indexAdopt
 				&& indexAdopt<listSteps.IndexOf("Fork migration (all steps again)") && listSteps.IndexOf("Schema verifier")<indexRehash && indexRehash<indexRowCheck
 				&& indexRowCheck<indexReport && indexReport<indexRoundTrip,string.Join(", ",listSteps));
-			foreach(string expected in new[] { "It can be adopted.","Kept column patient._portal_active_email and its unique key portal_active_email_uniq (the office's patient portal: one active patient per e-mail address).",
+			foreach(string expected in new[] { "It can be adopted.","Kept column patient._portal_active_email and its unique key portal_active_email_uniq (a patient portal's sign-in: one active patient per e-mail address).",
 				"DataBaseVersion and ProgramVersion set to 99.0.0.0.","Adoption finished.","0 changes.","The schema matches Open Dental "+SchemaVerifier.ReferenceVersion+" exactly","Rehash finished.",
 				"Row check against "+Source(1),"preference: 5 added (","documentmisc: 4 Open Dental update-file row(s) deleted, none left; 0 other row(s) deleted",
 				"securitylog: 2 entries added (1 adoption, 1 rehash)","updatehistory: identical row by row.",

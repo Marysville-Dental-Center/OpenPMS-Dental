@@ -25,8 +25,8 @@ tests for all of it. Open PMS - Dental is not affiliated with or endorsed by Ope
   ([third-party-binaries-audit.md](reports/third-party-binaries-audit.md)). Nothing was decompiled.
 - **Open Dental features through 26.2, re-implemented.** Open Dental's public source stops at 24.3.63. The features of 24.4 to 26.1 and the
   chosen 26.2 changes are written again from Open Dental's public manual, release notes and database documents, on the Open Dental 26.2.0
-  schema ([features-24.4.md](specs/features-24.4.md) to [features-26.1.md](specs/features-26.1.md),
-  [schema-changes-24.3-to-26.1.md](specs/schema-changes-24.3-to-26.1.md)).
+  schema ([features-24.4.md](specs/features-24.4.md) to [features-26.2.md](specs/features-26.2.md),
+  [schema-changes-24.3-to-26.1.md](specs/schema-changes-24.3-to-26.1.md), [schema-changes-26.1-to-26.2.md](specs/schema-changes-26.1-to-26.2.md)).
 - **.NET 10, 64-bit, self-contained.** The program, its libraries, tools and services moved from .NET Framework 4.8 (32-bit) to .NET 10
   x64, with the runtime in the program folder; the Middle Tier is an ASP.NET Core server ([net10-plan.md](specs/net10-plan.md)).
 - **A new look.** Segoe UI 9 pt everywhere, Fluent icons for every button picture, colour tokens, the program's own window frame, every

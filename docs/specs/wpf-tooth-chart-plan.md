@@ -1080,7 +1080,7 @@ sheets and the dashboard (TC-1's gallery G0, `timings.txt`). TC-3's fix round fo
   - **Recommended:** keep each caller's output as today, as options of the one painter, and align them later only on request.
 - **O-26. When SharpDX and Tao go, and when S3a-15 runs.** *Owner, 2026-11-15: "we can get rid of Directx after our switch", and
   decision 21 (no bridge release): TC-9a follows TC-8 directly and TC-9b follows it, all on `main` before `net10/switch` is cut; the
-  64-bit build ships no DirectX runtime. The office check below stays as a launch check before the office switches, not a gate for
+  64-bit build ships no DirectX runtime. The office check below stays as a launch check before a release, not a gate for
   TC-9a. The text below is the earlier recommendation, kept as history.* **Recommended:**
   - TC-8 (the switch) merges in 3a waves 1 and 2. Right after it, the lead makes the office check (section 11).
   - If the check passes, TC-9a merges. TC-9b merges after S3a-14: before the 3a gate if it fits, otherwise on `main` right after the

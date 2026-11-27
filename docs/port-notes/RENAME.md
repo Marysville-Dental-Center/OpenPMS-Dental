@@ -235,4 +235,4 @@ review kept), so on the branch they change only what still has the old names.
 - There is no in-place upgrade from a pre-rename install (the copier never deletes the old `OpenDental.exe` and DLLs); dev machines
   reinstall into a clean folder. No release has been published to an office database.
 - The office database checks the inventory defers (a read-only scan of the office database for stored type names, the plug-in rows) wait for
-  the switch-over.
+  adoption.

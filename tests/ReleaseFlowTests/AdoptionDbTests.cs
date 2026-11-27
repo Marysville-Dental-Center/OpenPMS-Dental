@@ -69,7 +69,7 @@ namespace ReleaseFlowTests {
 			Assert.IsTrue(adoptionPreflight.CanAdopt,adoptionPreflight.Message);
 			FakeRunner fakeRunner=new FakeRunner("3");
 			AdoptionResult adoptionResult=Adoption.Run(null,fakeRunner,_dateTimeUtc);
-			//The office-only column and key stay (owner decision of 2026-11-25): the patient portal keeps one active patient per e-mail.
+			//The patient portal column and key stay (owner decision of 2026-11-25): the patient portal keeps one active patient per e-mail.
 			Assert.IsTrue(adoptionResult.IsPortalEmailColumnKept);
 			Assert.IsTrue(adoptionResult.IsPortalEmailIndexKept);
 			Assert.AreEqual(0,adoptionResult.ListIndexesDropped.Count);
@@ -181,7 +181,7 @@ namespace ReleaseFlowTests {
 			CreateOpenDentalCopy("24.3.63.0",is253:false);
 			Assert.AreEqual(ForkGuardAction.ProceedCompat,ForkVersionGuard.Evaluate(ForkVersions.ReadState(),new BaselineForkMigrationRunner()).Action);
 			AdoptionResult adoptionResult=Adoption.Run(null,new BaselineForkMigrationRunner(),_dateTimeUtc);
-			Assert.IsFalse(adoptionResult.IsPortalEmailColumnKept,"A 24.3.63 database has no office-only column.");
+			Assert.IsFalse(adoptionResult.IsPortalEmailColumnKept,"A 24.3.63 database has no patient portal column.");
 			Assert.IsFalse(adoptionResult.IsPortalEmailIndexKept);
 			Assert.AreEqual("24.3.63",ScratchDb.GetPref(DB_NAME,"OdSchemaCompat"));
 			Assert.AreEqual("99.0.0.0",ScratchDb.GetPref(DB_NAME,"DataBaseVersion"));

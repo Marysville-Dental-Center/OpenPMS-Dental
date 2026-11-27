@@ -1,5 +1,5 @@
 // The rule that moves the ten InsHist*Codes preferences into code groups (InsHistCodeGroupsMigration.Plan), without a database. Synthetic data
-// only (made-up Z codes). Owner decision of 2026-11-07 (switch-over question 4): the existing code groups, the frequency and age limit groups
+// only (made-up Z codes). Owner decision of 2026-11-07 (adoption question 4): the existing code groups, the frequency and age limit groups
 // among them, are never changed; each history category gets a new code group used only for Insurance History.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

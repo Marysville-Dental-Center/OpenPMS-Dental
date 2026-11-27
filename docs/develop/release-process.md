@@ -65,12 +65,12 @@ The legacy `ConvertDatabases` chain is frozen at 24.3.63 (`ConvertDatabases.Froz
 
 Adoption is explicit and runs once, on a restored copy. Normal startup never adopts. For an adoptable database (`24.3.63.0` or `25.3.48.0`; the pair `25.3.47.0` / `25.3.54.0`; or any `26.2.x`, `ProgramVersion` on the same line and not below `DataBaseVersion`), the startup message offers to open **Adopt Database** (`FormAdoptDatabase`). The pair and the 26.2 line are adopted only when the schema equals the reference exactly (25.3.48, or 26.2.0: Open Dental's published 26.2 database documents, owner decision of 2026-11-26), and are recorded as that schema version with the real labels in `ForkAdoptedFrom`. The administrator must confirm three things: that this is a restored copy with a backup, the exact database name, and one final OK.
 
-For the office switch, the runbook does not use this window: `AdoptionValidation adopt` (runbook step 4) runs the same `Adoption.Run` on a copy that the database server made of the office database (runbook step 3.2), without starting the program, because starting it and logging in write to the database before the post-adoption validation (runbook step 6.1). The M1-Z rehearsal copies and adopts with the same code.
+For adoption, the runbook does not use this window: `AdoptionValidation adopt` (runbook step 4) runs the same `Adoption.Run` on a copy that the database server made of the Open Dental database (runbook step 3.2), without starting the program, because starting it and logging in write to the database before the post-adoption validation (runbook step 6.1). The M1-Z rehearsal copies and adopts with the same code.
 
 `Adoption.Run` performs these steps, in this order. Each step is idempotent. MyISAM has no transactions. A run interrupted before step 6 is finished by running it again. A run interrupted after step 6 is not: `ForkSchemaLevel` then marks the database as adopted while `ForkAdoptedFrom` has no finish time, `Adoption.Run` refuses it as already adopted, and `AdoptionValidation adopt` fails on it, closed (validation report, F13). The office runbook therefore never resumes an adoption: after any stop or failure it drops the copy and adopts a new one.
 
 1. Write `ForkAdoptedFrom` with the start time.
-2. Keep `patient._portal_active_email` and its unique index `portal_active_email_uniq` as they are (owner decision of 2026-11-25). This is an office-specific column, not Open Dental schema, that the office's patient portal relies on: two active patients cannot share an e-mail address. The schema check allows the column and key only with the office's definitions; any other key on the column is dropped.
+2. Keep `patient._portal_active_email` and its unique index `portal_active_email_uniq` as they are (owner decision of 2026-11-25). This is a patient portal column, not Open Dental schema, that a patient portal relies on: two active patients cannot share an e-mail address. The schema check allows the column and key only with the expected definitions; any other key on the column is dropped.
 3. Delete Open Dental's `UpdateFiles` and `UpdateFilesSegment` rows from `documentmisc` without reading them.
 4. Blank the preferences that point at Open Dental's servers. This covers a fixed list (`WebServiceHQServerURL`, `UpdateServerAddress`, `UpdateWebsitePath`, `WebHostSynchServerURL`, `MobileSyncServerURL`, `EmailHostingEndpoint`) plus any preference whose whole value is a web address on a blocked host (`CodeBase.VendorDirect.HqHosts`). Text that only mentions such a host is kept.
 5. Set `DataBaseVersion` and `ProgramVersion` to `99.0.0.0`.
@@ -224,7 +224,7 @@ vstest.console.exe tests/ReleaseFlowTests/bin/Debug/ReleaseFlowTests.dll /Platfo
 (.NET 10 x64 since S3b-7.)
 
 - Guard decisions for the full startup matrix: fresh 24.3.63, office copy 25.3.48, copies edited to 25.3.50 and 25.4.0, adopted, adopted with markers removed, adopted by a newer build, unfinished adoption.
-- Adoption on scratch databases with synthetic data. The 25.3.48 case uses the `od_253_schema` patient definition when it's loaded, otherwise the column and index as the office's schema-only dump has them.
+- Adoption on scratch databases with synthetic data. The 25.3.48 case uses the `od_253_schema` patient definition when it's loaded, otherwise the column and index as a 25.3.48 schema-only dump has them.
 - Publish and pull round trips, including tampered segments, a tampered manifest and a manifest for another product.
 - The release-channel guards (S3a-10): the `Runtime` and runtime part lines; an unreadable, a foreign and a .NET 10 manifest refused for
   every update server role and never downloaded; UpdateFileCopier's files copied and the copier started through ShellExecute; the

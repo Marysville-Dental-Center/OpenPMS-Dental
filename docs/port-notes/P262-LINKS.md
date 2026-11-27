@@ -1,5 +1,7 @@
 # Port note: P262-LINKS, the Open Dental 26.2 program links (items 44 to 47)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/links-1`, cut from `p262/schema-1` (39be2b04b); review fixes on `p262/links-2` (section "Review fixes" below). One of the 26.2 feature packages the owner chose on 2026-11-07 (release notes
 https://www.opendental.com/site/version26_2.html, "Program Links"). Fork migration level used: 2026110781 (range 2026110781 to 2026110789);
 the vendor follow-up (`next/vendorpub-1`, last section) uses 2026110801. Tests: `tests/P262LinksTests`.

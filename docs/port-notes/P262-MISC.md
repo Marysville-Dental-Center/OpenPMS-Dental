@@ -1,5 +1,7 @@
 # Port note: P262-MISC, Open Dental 26.2 items 37, 39 and 41
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/misc-1`, cut from `p262/schema-1` (39be2b04b). Three of the Open Dental 26.2 changes the owner chose on 2026-11-07: vital signs
 imported from eForms (item 37), the definition category for Referral Commlog Types (item 39) and the preference that switches a patient between
 the Prophy and Perio recall based on completed procedures (item 41). Everything is this program's own code.

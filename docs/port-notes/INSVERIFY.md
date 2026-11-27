@@ -282,7 +282,7 @@ After merging `main` (S2-1), `tests/INSVERIFYTests/packages.lock.json` was delet
 ### For the lead
 
 1. The window function needs MariaDB 10.2 or MySQL 8.0, while `PrefL.CheckMySqlVersion` lets the program start on MySQL 5.0 and later. The
-   office runs MariaDB 10.11, so nothing changes there; should the start-up check (or the release notes) name MariaDB 10.2 / MySQL 8.0 as
+   project's supported server is MariaDB 10.11, so nothing changes there; should the start-up check (or the release notes) name MariaDB 10.2 / MySQL 8.0 as
    the minimum? Without window functions the choice of appointment would need a join back to the appointment per row or a choice in C#.
    **Decided by the lead (INSV3): no window function; a bug fix must not raise the database requirement. The choice is made in C#; done in
    the next section.**

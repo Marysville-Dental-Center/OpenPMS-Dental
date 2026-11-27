@@ -522,7 +522,7 @@ Answered on 2026-11-02:
   `test\_%`, an exception to the scratch-database naming (answer of 2026-11-02). The second test of section 9.5 did that: every right of
   the three grants was shown to be needed by refusal, and every right they leave out was refused. The grants stay as they are. One claim
   of the guide was wrong and is corrected: MariaDB checks `CREATE` and `INSERT` for an `ALTER TABLE` only when it renames the table, not
-  for every `ALTER TABLE` (section 9.1). The test is kept as `tests/DbGrantsTests`, to run again before the switch-over.
+  for every `ALTER TABLE` (section 9.1). The test is kept as `tests/DbGrantsTests`, to run again before adoption.
 - The test found one program bug, fixed: Database Maintenance's `ProcedurelogTpAttachedToClaim` had an SQL syntax error since Open
   Dental 24.3.22 (a column line without a comma), so it failed in Check and Fix on every database, and the maintenance window, which stops
   at the first error, never ran the methods after it.
@@ -751,9 +751,9 @@ own code (`DataConnection` and the connection rule; a loopback server, so withou
   database; fixed (section 8).
 - **What neither test could show.** An office server: its MariaDB version, a `sql_mode` that is not blank (only `SET GLOBAL sql_mode`
   itself was shown refused), binary logging or replication (`BINLOG ADMIN`), TLS (the tests connected over loopback), and an office's
-  own data and preferences. Try the grants on a test copy before the switch-over.
+  own data and preferences. Try the grants on a test copy before adoption.
 
-**Running the second test again**, before the switch-over, on the local MariaDB of a development computer where `root` has a blank
+**Running the second test again**, before adoption, on the local MariaDB of a development computer where `root` has a blank
 password: build `DbGrantsTests`, set `DBGRANTS_ACCOUNT` and `DBGRANTS_DATABASE` to names that exist nowhere on that server (the test
 refuses to start otherwise, or when the `PUBLIC` role covers the database name), optionally `DBGRANTS_REPORT` (the report file; default
 `%TEMP%\dbgrants-report-<time>.txt`) and `DBGRANTS_SKIP_CHAIN=1` (without the update chain and the adoption), and run the test assembly

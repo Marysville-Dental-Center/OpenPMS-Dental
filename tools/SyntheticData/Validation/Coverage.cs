@@ -5,7 +5,7 @@ using SyntheticData.Infrastructure;
 
 namespace SyntheticData.Validation {
 	///<summary>The tables and columns that are new or changed between Open Dental 24.3 and 25.3.48 (docs/specs/schema-changes.json,
-	///range 24.3-25.3, plus the office-only patient._portal_active_email and the legacy deletedobject table the extractor missed).
+	///range 24.3-25.3, plus the patient portal column patient._portal_active_email and the legacy deletedobject table the extractor missed).
 	///"coverage" checks that every one of them holds at least one row with a non-default value, and that every widened column holds a
 	///value longer than its old width, so the adoption rehearsal exercises them. The tests keep these lists in step with schema-changes.json.</summary>
 	public static class Coverage {
@@ -34,7 +34,7 @@ namespace SyntheticData.Validation {
 			"emailmessage.FailReason","journalentry.Payee","journalentry.Notes","journalentry.NeedsReview","transaction.NeedsReview",
 			"reqneeded.SchoolCourseDefNum","reqstudent.ProcNum","schoolcourse.DateStart","schoolcourse.DateEnd","schoolcourse.SchoolClassNum",
 			"schoolcourse.GradingScaleNum","task.TriagePosition","taskhist.TriagePosition",
-			//Office-specific generated column (dropped by adoption).
+			//Patient portal generated column (dropped by adoption).
 			"patient._portal_active_email",
 		};
 
@@ -58,11 +58,11 @@ namespace SyntheticData.Validation {
 			["emailmessage.FailReason"]=255,
 		};
 
-		///<summary>Widened columns that the reference schema (the office's 25.3.48 database, from its schema-only dump) still has at the old width,
+		///<summary>Widened columns that the reference schema (an Open Dental 25.3.48 database, from its schema-only dump) still has at the old width,
 		///so no longer value can be stored before adoption. For these, coverage requires the longest value to fill the old width exactly,
 		///which still catches a step that redefines the column narrower.</summary>
 		public static readonly Dictionary<string,string> DictWideningNotInReference=new Dictionary<string,string> {
-			["claimpayment.Note"]="the office's 25.3.48 database still has varchar(255); Open Dental's 25.3 docs say text (DRIFT in schema-changes.json)",
+			["claimpayment.Note"]="an Open Dental 25.3.48 database still has varchar(255); Open Dental's 25.3 docs say text (DRIFT in schema-changes.json)",
 		};
 
 		///<summary>The shortest longest-value that proves a widened column's new width is in use.</summary>

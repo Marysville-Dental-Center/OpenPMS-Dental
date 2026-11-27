@@ -7,6 +7,8 @@ Rules for every session in this repository. They override defaults. Owner decisi
 
 - **Practice-neutral.** No practice, person, server, host or developer-path names in tracked files (a test checks). Office material goes
   to the private OpenPMS-Dental-Office repository.
+- **No office progress.** Tracked files never describe a particular office's status or plans (its switch-over, its Open Dental version, its
+  devices, what it uses or has tested); describe what the product does for any office. That material goes to OpenPMS-Dental-Office.
 - **Synthetic data only** in tests, screenshots and docs: fictional patients, 555-01xx phones, example.com addresses; scratch databases are dropped.
 - **Nothing phones home.** No calls to Open Dental's servers (`NoHqTests`); integrations stay off until the office turns them on.
 - **Nothing is cut.** Every feature and test is kept and ported unless the owner deliberately removes it.
@@ -36,6 +38,9 @@ Rules for every session in this repository. They override defaults. Owner decisi
 
 ## Every change
 
+- **Design before code.** Every new feature or package starts with a design document, written and reviewed before implementation, in its
+  folder: a feature or plan in [docs/specs/](docs/specs/) (Open Dental parity in `features-<version>.md`, schema in `schema-changes-*.md`),
+  listed in [docs/README.md](docs/README.md); its port note links it.
 - A package: a plan, a port note in [docs/port-notes/](docs/port-notes/), its own tests, a full build and the suites passing.
 - **A new user-facing feature gets a how-to guide with screenshots** in [docs/how-to/](docs/how-to/README.md), linked from its index.
 - Record owner decisions in [docs/decisions/owner-questions.md](docs/decisions/owner-questions.md) with the date and the owner's words.

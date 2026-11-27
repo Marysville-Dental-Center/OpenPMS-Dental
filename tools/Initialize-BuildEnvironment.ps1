@@ -101,7 +101,9 @@ function Initialize-BuildEnvironment {
 			Push-Location -LiteralPath $RepoRoot
 			try{
 				#All of git's output, not the first line of a pipeline: stopping the pipeline early ends git with exit code -1.
-				$gitOutput=@(& $git.Source rev-parse --path-format=absolute --git-common-dir 2>$null)
+				#safe.directory for this one call: git refuses a checkout another Windows account owns ("dubious ownership").
+				$safeDirectory='safe.directory='+(([System.IO.Path]::GetFullPath($RepoRoot)).TrimEnd('\') -replace '\\','/')
+				$gitOutput=@(& $git.Source -c $safeDirectory rev-parse --path-format=absolute --git-common-dir 2>$null)
 				if($LASTEXITCODE -eq 0 -and $gitOutput.Count -gt 0 -and $gitOutput[0]){
 					$offline=Join-Path (([string]$gitOutput[0]).Trim() -replace '/','\') 'od-tools\nuget-packages'
 					if(Test-Path -LiteralPath $offline -PathType Container){ $env:OPMS_NUGET_OFFLINE=$offline }

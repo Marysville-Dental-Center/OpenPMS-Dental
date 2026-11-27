@@ -10,14 +10,14 @@ using OpenPmsDentalBusiness.ForkMigrations;
 namespace RegistryTests {
 	///<summary>Preference names added by Open Dental 24.4 to 25.3. Only names that Open Dental's published 25.3 database documentation states are
 	///registered in PrefName. The names the feature specs only proposed are listed in ArrayUnconfirmedProposedNames and are never registered. The
-	///setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1, answered 2026-11-07; docs/port-notes/SWMAP.md) gave
+	///setting names of an Open Dental 25.3.48 database (owner question Adoption 1, answered 2026-11-07; docs/port-notes/SWMAP.md) gave
 	///Open Dental's own names for nine of those settings, which this program now reads by name (DictOpenDentalRowByProposedName).</summary>
 	[TestClass]
 	public class PrefNameTests {
 		///<summary>24.4 to 25.3 preference names that the published 25.3 database documentation states (in column descriptions).</summary>
 		public static readonly string[] ArrayConfirmedNames=new[] { "ApptMirrorSecondary","TaskCategoryShow" };
 
-		///<summary>Names the specs proposed for the 24.4 to 25.3 settings. Registering a guessed name would keep the office's real setting from
+		///<summary>Names the specs proposed for the 24.4 to 25.3 settings. Registering a guessed name would keep a database's real setting from
 		///carrying over, so none of them is in PrefName.</summary>
 		public static readonly string[] ArrayUnconfirmedProposedNames=new[] {
 			"SalesTaxProcCode","PerioUseRecessionTerm","ReportsIncompleteProcsAllNoNotes","ChartLetterDefaultCategory",//24.4
@@ -27,7 +27,7 @@ namespace RegistryTests {
 			"SecurityLockExcludesPayPlans","ApptTimeBarSecondaryColorNoProvTime","BillingStatementInserterBarcode",//25.3
 		};
 
-		///<summary>For each proposed name whose setting the office's Open Dental 25.3.48 database has under Open Dental's own name, the row this program
+		///<summary>For each proposed name whose setting an Open Dental 25.3.48 database has under Open Dental's own name, the row this program
 		///reads it from now: Open Dental's, so the office's value carries over as it is. Read by name, outside PrefName (a database from 24.3 has no
 		///such row, and a missing row reads as the default).</summary>
 		public static readonly Dictionary<string,string> DictOpenDentalRowByProposedName=new Dictionary<string,string> {
@@ -42,7 +42,7 @@ namespace RegistryTests {
 			{ "SecurityLockExcludesPayPlans",PayPlanGlobalLock.PREF_NAME },//B-PAY, inverted
 		};
 
-		///<summary>For each proposed name whose setting is built but which the office's Open Dental 25.3.48 database has no setting for, the row this
+		///<summary>For each proposed name whose setting is built but which an Open Dental 25.3.48 database has no setting for, the row this
 		///program keeps it in. It starts at its default after adoption, so docs/admin/adoption-runbook.md step 0.11 lists each row for the office to look for
 		///in Open Dental before the day and set again in step 7.1.</summary>
 		public static readonly Dictionary<string,string> DictRowReadByUnconfirmedName=new Dictionary<string,string> {

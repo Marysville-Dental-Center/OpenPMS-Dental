@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OpenPmsDentalBusiness.ForkMigrations {
 	///<summary>Seed rows that Open Dental's own 24.4 to 25.3 conversions would have written, for databases that come from 24.3 (a fresh install of
-	///this fork, or a 24.3.63 database upgraded by it). A database that Open Dental already converted to 25.3 (the office database) has these rows,
+	///this fork, or a 24.3.63 database upgraded by it). A database that Open Dental already converted to 25.3 (an adopted database) has these rows,
 	///or the office's own choices instead, so nothing here runs on it.
 	///<para>Package M1-02 (docs/specs/port-backlog.md). The fork migration runner (M1-01) calls Run() once, after the 25.3.48 schema steps. Every
 	///step is idempotent, so a second run changes nothing.</para>

@@ -1,9 +1,9 @@
-# ADOPT-LABELS: adoption accepts the office database's real version labels
+# ADOPT-LABELS: adoption accepts real version labels
 
-Package ADOPT-LABELS, on branch `adopt/od25347-1` from `main` (3220e2299, rebased onto 4241f2a8a). A read-only validation of the office's production database on
-2026-11-25 found `DataBaseVersion` 25.3.47.0 and `ProgramVersion` 25.3.54.0 (one `updatehistory` row, 25.3.54.0 on 2026-05-04), and its 422
-tables and 4,409 columns equal the schema-only dump of 2026-10-18 that `Reference/OdSchema-25.3.48.sql` was built from. Open Dental changes
-`DataBaseVersion` only when a convert step runs, so the database was never labelled 25.3.48 although it has that schema. Before this package
+Package ADOPT-LABELS, on branch `adopt/od25347-1` from `main` (3220e2299, rebased onto 4241f2a8a). A database that Open Dental
+25.3.54 updated from 25.3.47 carries `DataBaseVersion` 25.3.47.0 and `ProgramVersion` 25.3.54.0, and its 422 tables and 4,409 columns equal
+`Reference/OdSchema-25.3.48.sql`. Open Dental changes `DataBaseVersion` only when a convert step runs, so such a database is never labelled
+25.3.48 although it has that schema. Before this package
 only the version gate stopped its adoption: `ForkVersions.ListAdoptableVersions` allowed `DataBaseVersion` 24.3.63.0 or 25.3.48.0, and
 `Adoption.Preflight` also required `ProgramVersion` to equal it.
 
@@ -88,8 +88,8 @@ No fork migration step, schema, reference or seed changes: the pair is adopted a
   then hold without change, and the labels are extra fields every reader of the record ignores. The alternative, `source=25.3.47.0`, gives the
   same answers for those two decisions today but would make any future "is it 25.3.48" check wrong.
 - Only the exact pair is listed, not "any 25.3.x whose schema matches": the brief asked for that pair, and a wider rule would accept a database
-  the office has not validated. A later pair is one more `ListAdoptableLabels` entry with its tests.
-- The strict comparison ignores only the office column and key, not the other documented exceptions (section 1).
+  nobody has validated. A later pair is one more `ListAdoptableLabels` entry with its tests.
+- The strict comparison ignores only the portal column and key, not the other documented exceptions (section 1).
 
 ## Checks
 

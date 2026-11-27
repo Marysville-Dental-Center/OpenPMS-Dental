@@ -1,4 +1,4 @@
-// Package ADOPT-LABELS: the office database's real version labels (DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0, the 25.3.48 schema), as
+// Package ADOPT-LABELS: real version labels (DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0, the 25.3.48 schema), as
 // pure decisions over the version preferences and a schema comparison. The database tests are in AdoptionDbTests.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

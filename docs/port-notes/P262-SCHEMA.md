@@ -1,5 +1,7 @@
 # Port note: P262-SCHEMA, schema foundation Open Dental 26.1.70 to 26.2.0
 
+Design: [specs/schema-changes-26.1-to-26.2.md](../specs/schema-changes-26.1-to-26.2.md), and the items of [specs/features-26.2.md](../specs/features-26.2.md) it supports.
+
 Branch `p262/schema-1`, cut from `main` (2b92cfb3e). The first package of the Open Dental 26.2 port (owner decision of 2026-11-07); the nine
 feature packages build on it. Schema, enum values, table classes, CRUD and the migration step only: no feature is built here.
 
@@ -182,7 +184,7 @@ the hide under the owner's rule of 2026-11-14 ("same as OD latest"). Every other
 2. `TextBelow` (paint type 18) shows in the procedure code paint type lists but the tooth chart draws nothing for it: hide it from those lists
    until the tooth chart work ports it, or leave it?
 3. The inferred NOT NULL, defaults, keys and engine can only be confirmed against a real 26.2 schema. Do they stay inferred?
-4. The reference is labelled 26.2.0 (the documents' version). Should it name a 26.2.x patch release instead, once the office's target is
+4. The reference is labelled 26.2.0 (the documents' version). Should it name a 26.2.x patch release instead, once a target patch is
    known?
 5. The values the feature packages build on show in their lists before those packages land (Commlog Referral Types in the Definitions
    window, the Do Not Bill Insurance trigger and the Carriers Match condition in the automation windows). Acceptable while the 26.2 port is

@@ -119,7 +119,7 @@ namespace BAPPTTests {
 		#region Preference names
 		[TestMethod]
 		public void PrefNames_AreOpenDentalsNames_ReadByName() {
-			//Open Dental's names, from the setting names of the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md). They are read by name,
+			//Open Dental's names, from the setting names of an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md). They are read by name,
 			//outside PrefName, so a database without the row reads as off.
 			Assert.AreEqual("ApptProvbarShowOnOps",ApptTimeBars.PREF_PROV_TIME_ON_OP_BACKGROUND);
 			Assert.AreEqual("ApptUseSecProvTimeIfEmpty",ApptTimeBars.PREF_SECONDARY_COLOR_NO_PROV_TIME);

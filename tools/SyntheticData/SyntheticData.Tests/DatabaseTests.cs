@@ -253,7 +253,7 @@ namespace SyntheticData.Tests {
 					db.Execute("INSERT INTO `"+DbAdopted+"`.`"+table.Name+"` ("+columns+") SELECT "+columns+" FROM `"+DbA+"`.`"+table.Name+"` ORDER BY 1");
 				}
 				db.Use(DbAdopted);
-				//Adoption keeps the office's patient._portal_active_email and its key (owner decision of 2026-11-25), so the copy keeps them too.
+				//Adoption keeps the patient portal column patient._portal_active_email and its key (owner decision of 2026-11-25), so the copy keeps them too.
 				//A rehash that forgets the ON UPDATE timestamp changes SecDateTEdit on every row; the comparison must catch that.
 				db.Execute("UPDATE inssub SET SecurityHash=CONCAT('osd1$',SHA2(InsSubNum,256))");
 				List<Difference> listCareless=ReportComparer.Compare(_reportA,Validator.Run(db,DbAdopted,null,null),

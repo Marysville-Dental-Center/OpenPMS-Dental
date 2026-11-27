@@ -4,7 +4,7 @@ ORGANIZATION REVIEW: projects, dependencies, leftovers and target structure
 
 Baseline: `main` at 1db2c6d86 (clean apart from the untracked `aqtinstall.log`). I read the capture work from `cap/cap-4` at c7dd54cb8, whose merge base with main is ee44421eb. Nothing in the repository was changed and no database was touched.
 
-Per your note ("Skip office switch over for now"), the adoption and switch-over tools (`tools/AdoptionValidation`, `docs/admin/adoption-runbook.md`) are listed in the inventory only. Nothing below proposes switch-over work.
+Per your note, adoption is out of scope for this review: the adoption tools (`tools/AdoptionValidation`, `docs/admin/adoption-runbook.md`) are listed in the inventory only. Nothing below proposes adoption work.
 
 Abbreviations used in the tables: DCB = xDataConnectionBase, ODB = OpenDentBusiness, CB = xCodeBase. A `*` after a name means that project is not built by the solution filter.
 
@@ -71,7 +71,7 @@ All are old-style csproj targeting .NET Framework 4.8 unless noted. All are buil
 | 20 | UnitTests → "Unit Tests.exe" | UnitTests/ | WinExe test harness, MSTest v1, NuGet Mono.Cecil | xODCrypt, xCentralManager, CB, DCB, OpenDental, ODB, SparksToothChart, UnitTestsCore, WpfControlsOD, xCrudGenerator | xDocumentationBuilder* | no; tests never run | owner decision; holds the seed `Resources/dump.txt` |
 | 21 | UnitTestsCore | UnitTestsCore/ | Library (150 `*T` test-data factories) | CB, DCB, ODB | UnitTests and 24 tests/* | no | keep, becomes TestSupport |
 | 22 | SyntheticData | tools/SyntheticData/ | Exe | none (MySqlConnector, Newtonsoft only) | AdoptionValidation and 2 test projects | no | keep |
-| 23 | AdoptionValidation | tools/AdoptionValidation/ | Exe | SyntheticData, CB, DCB, ODB | AdoptionValidation.Tests | no | keep (switch-over tool; out of scope) |
+| 23 | AdoptionValidation | tools/AdoptionValidation/ | Exe | SyntheticData, CB, DCB, ODB | AdoptionValidation.Tests | no | keep (adoption tool; out of scope) |
 | 24 | xImagingDeviceManager | `..\ImagingDeviceManager` (missing) | — | — | OpenDental (swapped for `Required dlls/ImagingDeviceManager.dll` by `Directory.Build.targets:20-33`) | the prebuilt Open Dental DLL ships | `cap/cap-4` brings it in-repo |
 | 25-29 | xEHR, OpenDentalWebCore, OpenDentalSocket, OpenDentBusiness.ODXam, OpenDentBusiness.WebApis | outside the repo, missing | — | — | nothing | — | delete the entries |
 

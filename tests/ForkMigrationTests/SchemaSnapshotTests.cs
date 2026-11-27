@@ -120,8 +120,8 @@ CREATE TABLE `extra` (
 			Assert.AreEqual(13,result.ListDifferences.Count,report);
 		}
 
-		///<summary>Package ADOPT-PORTAL-EMAIL: adoption keeps the office's patient._portal_active_email and its key, and every reference allows them
-		///only with exactly the office's definitions. Any other definition, kind or table is a mismatch.</summary>
+		///<summary>Package ADOPT-PORTAL-EMAIL: adoption keeps the patient portal column patient._portal_active_email and its key, and every reference allows them
+		///only with exactly the expected definitions. Any other definition, kind or table is a mismatch.</summary>
 		[TestMethod]
 		public void Compare_PortalActiveEmail_AllowedOnlyWithTheOfficesDefinition() {
 			const string patientStart="CREATE TABLE `patient` (\n  `PatNum` bigint(20) NOT NULL,\n  `PatStatus` tinyint(3) unsigned NOT NULL DEFAULT 0,\n"
@@ -132,7 +132,7 @@ CREATE TABLE `extra` (
 			string indexOffice=",\n  UNIQUE KEY `portal_active_email_uniq` (`_portal_active_email`)";
 			SchemaSnapshot expected=SchemaSnapshot.Parse(patientStart+patientEnd+options);
 			SchemaSnapshot actualOffice=SchemaSnapshot.Parse(patientStart+columnOffice+patientEnd+indexOffice+options);
-			//The constants are what the parser (and SHOW CREATE TABLE) gives for the office's DDL.
+			//The constants are what the parser (and SHOW CREATE TABLE) gives for the expected DDL.
 			Assert.AreEqual(SchemaVerifier.PortalActiveEmailColumnDefinition,actualOffice.GetTable("patient").GetColumn("_portal_active_email").Definition);
 			Assert.AreEqual(SchemaVerifier.PortalActiveEmailIndexDefinition,actualOffice.GetTable("patient").GetIndex("portal_active_email_uniq").Definition);
 			foreach(List<SchemaException> listExceptions in new[] { SchemaVerifier.DocumentedExceptions,SchemaVerifier.DocumentedExceptions26_1_70,

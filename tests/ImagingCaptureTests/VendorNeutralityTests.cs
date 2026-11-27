@@ -26,7 +26,7 @@ namespace ImagingCapture.Tests {
 		///<summary>Vendor, product and project names from the design's background and provenance sections (design 2.4, 4, 8.4) and
 		///the vendors of the old sensor paths it mentions.</summary>
 		private static readonly string[] _arrayDenyHashes={
-			"5147a6de6c26ca2472e0b20e803a1ba7fe6643775294aa714b6263bf176c37d1",//the clinic's sensor and camera vendor, abbreviated
+			"5147a6de6c26ca2472e0b20e803a1ba7fe6643775294aa714b6263bf176c37d1",//a sensor and camera vendor, abbreviated
 			"221fe1744c5b7b3825b3349507228ef5d9fb8fcf308060be913d977e3219b7b9",//that vendor's imaging software
 			"5a2bb24dc707f2a69361994eed72ae17d218224abc13d487b9e89c3cd5873640",//the sensor's manufacturer
 			"62b0e738b893107d15cd31ff7ebf3c6a7f692a1f8e28742d5dada2a8c662d4c4",//the private TWAIN source project

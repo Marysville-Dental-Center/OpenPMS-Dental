@@ -22,7 +22,7 @@ Commits: `ec1c65fac` (the chart and the settings), `587f11a4b` (File > Graphics)
   switch, TC-9a follows TC-8 directly and the office check is a launch check. Nothing in TC-8 keeps the old engines alive for an office check:
   they stay in the build only until TC-9a deletes them, reached by no program path.
 - **Decision 21** (net10-plan section 11): there is no bridge release; wherever the chart plan says "bridge release" or "the 3a gate ships",
-  it is read as the 3a gate. **Decision 22**: there is no OpenPMS install to migrate; the office switches from Open Dental once at the end,
+  it is read as the 3a gate. **Decision 22**: there is no OpenPMS install to migrate; an office moves from Open Dental once,
   so the save rule's rollback is a return to Open Dental itself, which reads the stored 0, 1 and 2 as before. The save rule is kept as the
   row writes it.
 - **The parity rows ENG-1, ENG-2, ENG-3, ENG-5 and NEW-1** (section 10, "TC-8 ... the owner confirms") were not confirmed by the owner, so
@@ -259,7 +259,7 @@ scale and once at 150%, and take a screenshot of each host for the gallery.
    computer." Otherwise write "covered by the test".
 11. **Write down:** for each step, as expected or what differed, with a screenshot of anything that differed (synthetic data only).
 
-**The office check (O-26 as revised: a launch check before the office switches, not a gate for TC-9a):** one office workstation, or a PC
+**The office check (O-26 as revised: a launch check before a release, not a gate for TC-9a):** one workstation, or a PC
 with the office's graphics type, runs the chart's image tests (`ToothChartImageTests`) from a test build with no database and starts the
 program once on a scratch database to look at the Chart module's 3D chart and the "Draw in software" switch.
 

@@ -11,8 +11,8 @@ using CodeBase;
 
 namespace OpenPmsDentalBusiness {
 	///<summary>Rules and settings for the two preferences. The drawing is in ControlApptPanel.TimeBars.cs.
-	///<para>Each setting is Open Dental's own preference row (names confirmed by the setting names of the office's Open Dental 25.3.48 database,
-	///owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md), read and written by name outside PrefName, so the office's value carries
+	///<para>Each setting is Open Dental's own preference row (names confirmed by the setting names of an Open Dental 25.3.48 database,
+	///owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md), read and written by name outside PrefName, so the office's value carries
 	///over as it is. The row is created the first time the setting is turned on; a missing row (a database from 24.3, a new database) reads as off.
 	///Release v0.0 kept them in the rows ForkApptProvTimeBarsOnOpBackground and ForkApptTimeBarSecondaryColorNoProvTime; the fork migration step
 	///OdSettingNamesStep moves those.</para></summary>

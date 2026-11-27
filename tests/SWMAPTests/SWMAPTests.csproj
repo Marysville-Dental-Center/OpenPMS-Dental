@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Tests for SWMAP (owner question Switch-over 1): the settings Open Dental 24.4 to 25.3 added, read under Open Dental's own names, the step
+  <!-- Tests for SWMAP (owner question Adoption 1): the settings Open Dental 24.4 to 25.3 added, read under Open Dental's own names, the step
        that moves the rows of release v0.0, and the program links of V-BRIDGE1 on an adopted Open Dental 25.3.48 database. Database tests use
        scratch databases named test_swmap_* on the local MariaDB (127.0.0.1:3306, root, blank password), dropped afterwards, and are skipped
        (inconclusive) when it does not answer or when SWMAP_TEST_DB=skip. Synthetic data only. Every .cs file under this folder is compiled. -->

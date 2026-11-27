@@ -1,5 +1,7 @@
 # Port note: P262-GLIDEWELL, Glidewell lab cases (Open Dental 26.2 items 1 and 2)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/glidewell-1`, cut from `p262/schema-1` (the 26.2 schema foundation, `docs/port-notes/P262-SCHEMA.md`). Owner decision of
 2026-11-07: port 26.2 items 1 and 2; item 3 (the integration works with Open Dental Cloud) is skipped, as this program has no cloud edition.
 

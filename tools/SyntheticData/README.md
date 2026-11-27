@@ -140,7 +140,7 @@ value to exceed its old width, and prints the longest value of each:
 | `emailmessage.FailReason` | varchar(255), text since 25.3 | Full delivery reports on the showcase family's first bounce and about one bounce in four |
 | `claimpayment.Note` | varchar(255) | Remittance text on every fifth EFT, filled to exactly 255 characters (see below) |
 
-`claimpayment.Note` is the exception: Open Dental's 25.3 documentation makes it `text`, but the office's 25.3.48 database (the
+`claimpayment.Note` is the exception: Open Dental's 25.3 documentation makes it `text`, but an Open Dental 25.3.48 database (the
 reference schema) still has `varchar(255)` (the DRIFT entry in the JSON file), so nothing longer can be stored before adoption.
 Coverage requires the old width to be filled exactly, which still catches a step that narrows the column.
 

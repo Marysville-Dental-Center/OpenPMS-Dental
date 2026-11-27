@@ -195,7 +195,7 @@ assembly version and Update only the release version.
 
 ## NDde removed (owner answer of 2026-11-07, question 2)
 
-The owner answered question 2: NDde's licence does not fit the GPL, and the office uses none of the program links that needed it, so they go.
+The owner answered question 2: NDde's licence does not fit the GPL, so it goes, with the program links that needed it.
 Three program links sent the patient to another program over DDE through `NDde.dll`: DentX (ProImage, `ProgramName.DentX`), Dexis
 Integrator (`ProgramName.DexisIntegrator`) and Vipersoft (`ProgramName.Vipersoft`). Done the way the earlier removals were (BIN-A, the
 Bridges.dll removal, DXC Patient Credit Score in B-SHELL):

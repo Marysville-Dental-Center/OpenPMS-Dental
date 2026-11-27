@@ -1,5 +1,7 @@
 # Port note: P262-CLAIMS, Open Dental 26.2 claims and insurance (items 10, 20, 21, 22)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/claims-1`, cut from `p262/schema-1` (39be2b04b). One of the nine feature packages of the Open Dental 26.2 port (owner decision of
 2026-11-07). It builds on the schema foundation (`docs/port-notes/P262-SCHEMA.md`): `provider.ClaimFormNum`, `EnumAutomationTrigger` 11 and
 `AutoCondField` 15 were already there and are not changed.

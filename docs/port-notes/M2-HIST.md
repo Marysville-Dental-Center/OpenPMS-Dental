@@ -31,7 +31,7 @@ The rules are in the new `OpenDentBusiness/Data Interface/InsHistCategories.cs`,
 
 ### Data migration (`OpenDentBusiness/Misc/ForkMigrations/InsHistCodeGroupsStep.cs`, level 2026110104, renumbered from 2027004701 on 2026-11-01)
 
-**Changed on 2026-11-07** (owner decision, switch-over question 4): the step now changes no existing code group and adds a group used only
+**Changed on 2026-11-07** (owner decision, adoption question 4): the step now changes no existing code group and adds a group used only
 for Insurance History for each category; see "Owner decision of 2026-11-07" at the end. The rule below is the one before that change.
 
 Open Dental's own conversion is not public; this is the spec's rule, all **INFERRED**. The rule is in `InsHistCodeGroupsMigration.Plan` (pure, tested without a database); the step reads the rows with plain SQL and writes plain `UPDATE`/`INSERT` statements.
@@ -182,7 +182,7 @@ On `port/m2-hist-t1` after the `port/int-8` merge and the fixes (2026-10-31):
 
 - **Level.** Owner decision of 2026-11-01: levels are dated `yyyyMMddNN` only, every new step above every existing one, and the package ranges are retired. `InsHistCodeGroupsStep` is now 2026110104 (renumbered from 2027004701), still the last step, after B-SHELL (2026110101, from 2027002301), M2-EST (2026110102, from 2027002701, not active) and M2-UDS (2026110103, from 2027003501). `ForkMigrationRunner.IsReservedPackageLevel` is removed. The step, `InsHistCodeGroupPlan` and the rehearsal read the level from the step, so only the expected texts of the tests, the runbook and the READMEs changed ("Fork schema level 2026110104").
 
-## Owner decision of 2026-11-07: the existing code groups stay unchanged (switch-over question 4)
+## Owner decision of 2026-11-07: the existing code groups stay unchanged (adoption question 4)
 
 The combined review asked whether the codes of the old Insurance History boxes should be added to the matching frequency code group (which
 widens its frequency limitation in insurance estimates) or go into a group that only feeds Insurance History. The owner chose the second: the

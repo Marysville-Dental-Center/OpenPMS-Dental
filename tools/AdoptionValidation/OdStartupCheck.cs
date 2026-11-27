@@ -236,7 +236,7 @@ namespace AdoptionValidation {
 		///after it) and whose schema equals 25.3.48 (ForkVersions.ListAdoptableLabels).</summary>
 		public static readonly Version VersionOfficeProgram=new Version(25,3,54,0);
 
-		///<summary>The clients the rehearsal tries against each database: 25.3.48 and the office's own 25.3.54, the frozen 24.3.63 line, and later Open Dental
+		///<summary>The clients the rehearsal tries against each database: 25.3.48 and an Open Dental 25.3.54, the frozen 24.3.63 line, and later Open Dental
 		///releases an office might install by mistake, among them 26.1.70 and 26.2.0, whose schema an adopted database has; each as an ordinary
 		///workstation and as the update server; 25.3.48 and 26.2.0 also with the classic update view, and 25.3.48 as a Debug build.</summary>
 		public static List<(string name,OdClient client,bool isClassicView)> StandardScenarios() {

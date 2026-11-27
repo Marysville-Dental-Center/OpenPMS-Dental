@@ -151,8 +151,7 @@ Not changed: foundation registries (`PrefName`, `PrefInfos.xml`, permissions, se
 ## Questions for the owner
 
 1. What is Open Dental's preference key (and value format) for the 24.4 sales-tax procedure code? The census would show it; until then the fork
-   uses `SalesTaxProcCode` holding a ProcCode. **Answered (2026-11-07, owner question Switch-over 1):** the office's Open Dental 25.3.48
-   database has `SalesTaxProcCode`, so the key is the one this program uses and the office's code carries over as it is (see "Open Dental's
+   uses `SalesTaxProcCode` holding a ProcCode. **Answered (2026-11-07, owner question Adoption 1):** an Open Dental 25.3.48 database has `SalesTaxProcCode`, so the key is the one this program uses and the office's code carries over as it is (see "Open Dental's
    name" below). The value format is still not public; a CodeNum is read too.
 2. The level range given to this package (2027000201-2027000299) is rejected by the migration runner's level check (month 00). Should ranges use a
    valid date, or should the runner's check change?
@@ -179,8 +178,8 @@ Not changed: foundation registries (`PrefName`, `PrefInfos.xml`, permissions, se
 
 ## Open Dental's name (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) include `SalesTaxProcCode`: Open Dental's key
-  is the name this program already read and wrote, so the office's sales-tax procedure code carries over at the switch-over without any
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) include `SalesTaxProcCode`: Open Dental's key
+  is the name this program already read and wrote, so the office's sales-tax procedure code carries over at adoption without any
   change, and runbook step 0.11 no longer lists it; `migration-preview` shows the code (runbook step 0.2) and step 7.1 compares it.
   Its value format is still not public, so `SalesTaxProcs.GetCodeNumFromSetting` keeps reading a CodeNum as well as a ProcCode. The row stays
   outside `PrefName` (a database from 24.3 has none).

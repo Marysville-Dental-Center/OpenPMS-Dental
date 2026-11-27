@@ -1,4 +1,4 @@
-// Runs the fork migration on a database shaped like the office's Open Dental 25.3.48 database: the reference schema plus the office-specific
+// Runs the fork migration on a database shaped like an Open Dental 25.3.48 database: the reference schema plus the patient portal's
 // patient._portal_active_email column, filled with synthetic rows in 25.3 form. The 25.3 steps may change nothing, and no data migration may run
 // again; the Open Dental 25.4 and 26.1 steps (M2-01) then bring the schema to 26.1.70 without touching any other table.
 // No office data is used. Skipped (inconclusive) when the local MariaDB does not answer.

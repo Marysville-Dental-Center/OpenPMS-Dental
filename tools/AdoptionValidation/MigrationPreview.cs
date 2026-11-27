@@ -50,7 +50,7 @@ namespace AdoptionValidation {
 			///</summary>
 			public bool IsFrom24_3;
 			public int CountRows;
-			///<summary>The office's patient._portal_active_email and its unique key portal_active_email_uniq, as the database has them (null when it
+			///<summary>The patient portal column patient._portal_active_email and its unique key portal_active_email_uniq, as the database has them (null when it
 			///has none). Adoption keeps both (owner decision of 2026-11-25).</summary>
 			public string PortalEmailColumnDefinition;
 			public string PortalEmailIndexDefinition;
@@ -212,8 +212,8 @@ namespace AdoptionValidation {
 				}).ToList();
 		}
 
-		///<summary>The preview's line about the office's patient._portal_active_email and its key: adoption keeps them as they are (owner decision of
-		///2026-11-25); the schema check after adoption allows them only with the office's definitions.</summary>
+		///<summary>The preview's line about the patient portal column patient._portal_active_email and its key: adoption keeps them as they are (owner decision of
+		///2026-11-25); the schema check after adoption allows them only with the expected definitions.</summary>
 		public static string GetPortalEmailLine(string definitionColumn,string definitionIndex) {
 			if(definitionColumn==null && definitionIndex==null) {
 				return "patient."+SchemaVerifier.PortalActiveEmailColumn+": not present; adoption adds nothing.";
@@ -221,8 +221,8 @@ namespace AdoptionValidation {
 			bool isOffice=definitionColumn==SchemaVerifier.PortalActiveEmailColumnDefinition && definitionIndex==SchemaVerifier.PortalActiveEmailIndexDefinition;
 			return "patient."+SchemaVerifier.PortalActiveEmailColumn+" and its unique key "+SchemaVerifier.PortalActiveEmailIndex
 				+": adoption keeps them as they are (the patient portal's rule, one active patient per e-mail address). "
-				+(isOffice ? "They have the office's definitions, which the schema check after adoption allows."
-				: "They differ from the office's definitions (column "+(definitionColumn??"missing")+"; key "+(definitionIndex??"missing")
+				+(isOffice ? "They have the expected definitions, which the schema check after adoption allows."
+				: "They differ from the expected definitions (column "+(definitionColumn??"missing")+"; key "+(definitionIndex??"missing")
 				+"), so the schema check after adoption will fail. Stop and ask before adopting.");
 		}
 

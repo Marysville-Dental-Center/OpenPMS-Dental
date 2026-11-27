@@ -15,7 +15,7 @@ namespace AdoptionValidation {
 	///read-only. On a database from before 25.4 (judged as the 25.4 and 26.1 seed step judges it, Migration26_1Plan) whose code groups are not marked
 	///Show In History yet, the step adds, for each history category whose InsHist*Codes preference has a value, a code group used only for Insurance
 	///History (ShowInHistory, its History Proc Code, the preference's codes and, for the four perio quadrants, Perio Four Quadrants; no fixed type,
-	///in no benefit grid), and changes no existing code group (owner decision of 2026-11-07, switch-over question 4). The preferences are kept. The plan is the step's own
+	///in no benefit grid), and changes no existing code group (owner decision of 2026-11-07, adoption question 4). The preferences are kept. The plan is the step's own
 	///(InsHistCodeGroupsMigration.CreatePlan) on the rows read here with plain SQL. migration-preview prints it (runbook step 0.2), and adopt's row
 	///check (AdoptionRowCheck) holds the adopted copy's codegroup rows to the plan made from the original. Reads preference, codegroup and
 	///procedurecode.</summary>

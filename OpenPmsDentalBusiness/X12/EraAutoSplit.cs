@@ -58,7 +58,7 @@ namespace OpenPmsDentalBusiness {
 	///(Claims.InsertSplitClaimForEra), and the rest of the claim is processed if it passes every other automatic processing check on its own.</summary>
 	public static class EraAutoSplit {
 		///<summary>Open Dental's own preference row for this 25.1 setting, read and written by name outside the PrefName enum. Its name is confirmed
-		///by the setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md), so the
+		///by the setting names of an Open Dental 25.3.48 database (owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md), so the
 		///office's value carries over as it is. The row is written the first time the office saves the setting; a missing row reads as off. Release
 		///v0.0 kept the setting in the row ForkEraAutoSplitCarcDenials; the fork migration step OdSettingNamesStep moves it here.</summary>
 		public const string PREF_NAME="EraAutoProcessSplitByCarcCodes";

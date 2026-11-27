@@ -11,8 +11,8 @@ namespace OpenPmsDentalBusiness {
 	///covered for DurationMs by a blurred snapshot of itself, mouse clicks on it are discarded and keyboard input is not blocked. If the snapshot
 	///fails (for example over a remote desktop session without a drawing surface) a plain translucent cover is used instead. Only module bar clicks
 	///blur; module changes made by code ("Go to" actions, refreshes) do not.
-	///<para>The setting is Open Dental's own preference row PREF_NAME (its name confirmed by the setting names of the office's Open Dental 25.3.48
-	///database, owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md), read and written by name outside PrefName, so the office's value
+	///<para>The setting is Open Dental's own preference row PREF_NAME (its name confirmed by the setting names of an Open Dental 25.3.48
+	///database, owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md), read and written by name outside PrefName, so the office's value
 	///carries over as it is. No migration step adds the row: a missing row means off, and Save inserts it the first time the office turns the setting
 	///on. Release v0.0 kept the setting in the row ForkModuleSwitchBlur; the fork migration step OdSettingNamesStep moves it here.</para></summary>
 	public static class ModuleSwitchBlur {

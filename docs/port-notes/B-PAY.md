@@ -124,8 +124,8 @@ Other changes:
 - Any package that adds callers of `PayPlans.UpdateTreatmentCompletedAmt*` gets the audit automatically. Passing a trigger is optional.
 
 ## Questions for the owner
-1. What is Open Dental's real preference name for "payment plans are not affected by the global lock"? Check on the office database with `SELECT PrefName,ValueString FROM preference WHERE PrefName LIKE '%Lock%' OR PrefName LIKE '%PayPlan%'`. Until it is confirmed, the setting is stored under the proposed name, and an office that had it on in Open Dental must tick it again after adoption. **Answered (2026-11-07, owner question Switch-over 1):** `PayPlansIncludeInGlobalLock`, which says the opposite (1 = payment plans are included in the global lock date); the code reads it now, inverted (see "Open Dental's name" below).
-2. Which `PayPlansVersion` value does the office database hold? If Open Dental's 25.1 conversion forced Age Credits and Debits (value 2), should our 24.3 upgrade path do the same? Today nothing converts it. **Answered (2026-11-07, owner question Switch-over 9):** the office database has `PayPlansVersion`, so the office's version carries over unchanged; nothing converts it, on the office database or on a database from 24.3.
+1. What is Open Dental's real preference name for "payment plans are not affected by the global lock"? Check on an Open Dental database with `SELECT PrefName,ValueString FROM preference WHERE PrefName LIKE '%Lock%' OR PrefName LIKE '%PayPlan%'`. Until it is confirmed, the setting is stored under the proposed name, and an office that had it on in Open Dental must tick it again after adoption. **Answered (2026-11-07, owner question Adoption 1):** `PayPlansIncludeInGlobalLock`, which says the opposite (1 = payment plans are included in the global lock date); the code reads it now, inverted (see "Open Dental's name" below).
+2. Which `PayPlansVersion` value does an adopted database hold? If Open Dental's 25.1 conversion forced Age Credits and Debits (value 2), should our 24.3 upgrade path do the same? Today nothing converts it. **Answered (2026-11-07, owner question Adoption 9):** an Open Dental 25.3.48 database has `PayPlansVersion`, so its version carries over unchanged; nothing converts it, on an adopted database or on a database from 24.3.
 3. Please check the inferred 25.3 attach cases (table above) on 25.3.48: another-family splits, production-linked plans, and the closed-plan confirmation for all attaches.
 4. Should a Payment Plan Prepay split also attach to old-style (non-dynamic) patient plans? We allow dynamic plans only, because only those apply prepayments.
 
@@ -156,14 +156,14 @@ Other changes:
 
 ## Open Dental's name (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) give Open Dental's name of the 25.3 setting:
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) give Open Dental's name of the 25.3 setting:
   `PayPlansIncludeInGlobalLock`. The name says the opposite of this program's box: 1 means payment plans are **included** in the global lock
   date (blocked by it), 0 that they are not (Open Dental 25.3 release notes, https://www.opendental.com/site/version25_3.html, backported to
   25.2.44; the lock itself: https://www.opendental.com/manual243/securitylockdates.html). `PayPlanGlobalLock.PREF_NAME` is now that name and
   the value is converted on reading and writing, never stored our way: "Payment plans are not affected by the global lock" is ticked when the
   row holds 0 (`IsOnFromValue`) and saved as 0, and unticked when it holds 1 or is missing (saved as 1, `GetValueForSetting`). A missing row,
   a database from 24.3 or a new one, keeps payment plans locked, as before. The row is read and written by name, outside `PrefName`.
-- So the office's own choice carries over at the switch-over with its meaning: an office whose Open Dental includes payment plans in the global
+- So the office's own choice carries over at adoption with its meaning: an office whose Open Dental includes payment plans in the global
   lock keeps them locked (tested on an adopted synthetic database with the row at 1, and with 0).
 - The row release 0.0 wrote (`SecurityLockExcludesPayPlans`, not inverted) moves to Open Dental's name, inverted, in the fork migration step
   2026110731 (`OdSettingNamesStep`); runbook step 0.11 no longer lists the setting.

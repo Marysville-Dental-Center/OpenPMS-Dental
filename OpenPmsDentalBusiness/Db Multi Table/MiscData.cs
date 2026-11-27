@@ -223,7 +223,7 @@ namespace OpenPmsDentalBusiness {
 						command="ALTER TABLE `"+POut.String(newDb)+"`.`"+POut.String(tableName)+"` DISABLE KEYS";
 						dconBackupServerNoTimout.NonQ(command);
 					}
-					//Then copy the data into the new table. A generated column (the office's patient._portal_active_email, which adoption keeps) is left
+					//Then copy the data into the new table. A generated column (the patient portal column patient._portal_active_email, which adoption keeps) is left
 					//out: the backup table computes it again, and a value written to it is a warning, or an error under a strict sql_mode.
 					string columnsStored=GetBackupColumnList(dcon,oldDb,tableName);
 					if(useSameServer) {

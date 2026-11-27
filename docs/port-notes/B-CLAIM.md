@@ -148,7 +148,7 @@ Not tested by running code:
 
 ## Owner questions
 
-1. What is Open Dental's preference name for "Prompt for Medical EOB on primary claims"? Or approve the proposed `ClaimMedReceivedPromptForMedicalEob`, so the registry owner can register it. Until then the setting works from the fork-owned row `ForkClaimMedReceivedPromptForMedicalEob`. **Answered (2026-11-07, owner question Switch-over 1):** `ClaimCheckForMedicalEOB`; the code reads it now (see "Open Dental's name" below).
+1. What is Open Dental's preference name for "Prompt for Medical EOB on primary claims"? Or approve the proposed `ClaimMedReceivedPromptForMedicalEob`, so the registry owner can register it. Until then the setting works from the fork-owned row `ForkClaimMedReceivedPromptForMedicalEob`. **Answered (2026-11-07, owner question Adoption 1):** `ClaimCheckForMedicalEOB`; the code reads it now (see "Open Dental's name" below).
 2. Medical EOB trigger: is the fork's reading right (ask when a medical claim is received, about the unsent primary dental claims)? The spec lists two other readings.
 3. Should attaching the medical EOB set the EoB paperwork flag automatically (as built), or leave the flags to the user?
 4. Override audit entries for received claimprocs are filed under Claim Procedure Received Edit, which is not in the audit trail's permission filter (24.3 behaviour, M1-02's file). Should it be added, or should all override entries go under Proc Edit?
@@ -175,9 +175,9 @@ Not tested by running code:
 
 ## Open Dental's name (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) give Open Dental's name of "Prompt for
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) give Open Dental's name of "Prompt for
   Medical EOB on primary claims": `ClaimCheckForMedicalEOB` (1/0). `ClaimAttaches.PREF_NAME_MEDICAL_EOB_PROMPT` is now that name, and the
-  setting is read and written there, by name and outside `PrefName`, so the office's value carries over at the switch-over as it is. The
+  setting is read and written there, by name and outside `PrefName`, so the office's value carries over at adoption as it is. The
   fork-owned row and the hand-over through `PrefName` (`PREF_NAME_MEDICAL_EOB_PROMPT_FORK`, `TryGetMedicalEobPrefName`,
   `GetMedicalEobPrefNameInUse`) are gone; a missing row still reads as off and saving the default still writes nothing.
 - The row release 0.0 wrote (`ForkClaimMedReceivedPromptForMedicalEob`) moves to this name in the fork migration step 2026110731

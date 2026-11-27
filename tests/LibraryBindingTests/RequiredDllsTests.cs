@@ -332,7 +332,8 @@ namespace LibraryBindingTests {
 					listProblems.Add(fileName+": the program's restore copies "+packageFile+", the binding checks use "+pathLibrary+".");
 				}
 				if(isBuilt && NuGetFiles.Sha256(Path.Combine(folderBuilt,fileName))!=NuGetFiles.Sha256(pathLibrary)) {
-					listProblems.Add(fileName+": OpenPmsDental\\bin\\Debug holds another file than "+packageFile+".");
+					listProblems.Add(fileName+": OpenPmsDental\\bin\\Debug holds another file than "+packageFile+" (delete it and build again: MSBuild "
+						+"does not copy over a file of the same size and time, such as another target framework's build of the same version).");
 				}
 			}
 			Assert.AreEqual(0,listProblems.Count,string.Join("\r\n",listProblems));

@@ -2,7 +2,7 @@
 
 The stage 3b gate (`docs/specs/net10-plan.md`, the 3b full-test gate paragraph and section 6's "Stage 3b (net10)" item) has checks that
 no automatic test run can make: they need an elevated PowerShell, a clean Windows, the desktop, real hardware or a vendor's software. With
-`net10/switch` merged into `main` (decision 25), they are **launch checks**: each is done once before the office release, on a test PC,
+`net10/switch` merged into `main` (decision 25), they are **launch checks**: each is done once before a release, on a test PC,
 never at the office. This page lists every one of them, made as automatic as the owner's rules allow (the scripts here are run by the
 owner, never by an agent: they install a service, start Windows Sandbox or answer to a UAC prompt).
 
@@ -16,7 +16,7 @@ to send back.
 | 3 | [Clean install on a Windows without .NET](#3-clean-install-in-windows-sandbox-test-cleaninstallps1) | the owner (turns Windows Sandbox on once) | yes (`tools\Test-CleanInstall.ps1`) |
 | 4 | [Self-update from a standard user](#4-self-update-from-a-standard-user) | a person, with an administrator for the UAC prompt | no |
 | 5 | [A Direct message through the LDAP resolver](#5-a-direct-message-through-the-ldap-resolver) | a person, with the office's Direct provider | no |
-| 6 | [TWAIN capture with the clinic's real sensor](#6-twain-capture-with-the-clinics-real-sensor) | a person, at the sensor | no |
+| 6 | [TWAIN capture with a real sensor](#6-twain-capture-with-a-real-sensor) | a person, at the sensor | no |
 | 7 | [Each helper link with the vendor's software](#7-each-helper-link-with-the-vendors-software) | a person, on a test PC with the software | no |
 | 8 | [The screenshot pass's items for a person](#8-the-screenshot-passs-items-for-a-person) | a person, at a desktop | no |
 
@@ -201,14 +201,14 @@ provider confirms delivery (an MDN arrives in the inbox).
 
 **Send back.** Whether it was sent, the MDN (or the error message, word for word), and the program's log lines of the send.
 
-## 6. TWAIN capture with the clinic's real sensor
+## 6. TWAIN capture with a real sensor
 
 **What it proves.** The office release's entry condition for TWAIN (decision 19): capture from the x64 program through the 64-bit
-TWAINDSM with the driver project's 64-bit data sources and the clinic's real sensor, a document scan through a scanner's 64-bit driver,
+TWAINDSM with the driver project's 64-bit data sources and a real sensor, a document scan through a scanner's 64-bit driver,
 and, if one exists on the test PC, a TWAIN source with only a 32-bit driver through the 32-bit helper (S3b-8). The fake-mode and window
 checks (E1 to E4, ImagingCaptureTests) cover everything but the hardware.
 
-**Steps.** On the clinic's test PC with the sensor and the driver project's 64-bit sources installed: in the Images module of a synthetic
+**Steps.** On a test PC with the sensor and the driver project's 64-bit sources installed: in the Images module of a synthetic
 patient, select the sensor's source and take an image; then a page with the document scanner; then, if a 32-bit-only source is installed,
 take one through it (the program routes it through the helper). Check each image in the Images module (orientation, size, 16-bit depth for
 the sensor).

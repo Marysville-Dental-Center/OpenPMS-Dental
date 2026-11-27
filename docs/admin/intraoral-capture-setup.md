@@ -525,7 +525,7 @@ A 14-bit image whose values are not right-justified 14-bit values (some above 16
 ## 15. Sensor source 1.3: continuous mode, device events, device online (opt-in)
 
 A sensor source that implements twain-contract 1.3 offers three features the capture session can use. Each is off until set, and a source
-of an earlier version (the clinic runs 1.2 until the 1.3 build is packaged) refuses them: the session logs it and works as before. Set them
+of an earlier version (1.2, before the 1.3 build) refuses them: the session logs it and works as before. Set them
 in Capture settings (Setup permission), and only after the 1.3 build passed its acceptance steps on the test computer (section 5).
 
 | Key | Set it to | What it does |

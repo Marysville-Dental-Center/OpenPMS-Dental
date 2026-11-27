@@ -310,7 +310,7 @@ namespace SyntheticData.Tests {
 			List<Difference> list=ReportComparer.Compare(Report(),after,Adoption());
 			Assert.IsTrue(list.Count>=2);
 			Assert.IsTrue(list.All(x => x.IsAllowed),ReportComparer.Format(list));
-			//Adoption keeps the office's patient._portal_active_email (owner decision of 2026-11-25): its removal is no longer an allowed difference.
+			//Adoption keeps the patient portal column patient._portal_active_email (owner decision of 2026-11-25): its removal is no longer an allowed difference.
 			ValidationReport afterDropped=Report();
 			afterDropped.Tables[0].Columns.Remove("_portal_active_email");
 			afterDropped.Totals["patients.portal_active_email_nonnull"]="error: Unknown column";

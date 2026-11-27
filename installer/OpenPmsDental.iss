@@ -38,7 +38,7 @@
 ; it (and logs it). Setup never downloads it.
 ; Setup always runs as administrator and installs for all users (owner decision 7 of docs/specs/net10-plan.md): it has no per-user mode,
 ; so {autoprograms} and {autodesktop} are the common Start menu and desktop, and the connection settings tool can always run.
-; Setup never starts the program, silent or not. The office switch-over (adopting an Open Dental database) is not part of this setup.
+; Setup never starts the program, silent or not. Adopting an Open Dental database is not part of this setup.
 ; Windows 11 is the baseline (decision 8): below Windows 11 (build 22000) setup warns, with Microsoft's list of the Windows versions .NET 10
 ; supports, and goes on when the user agrees (a silent install goes on and logs it); MinVersion is the hard floor.
 ; Exit code: Inno Setup's own (0 done, 1 to 8 setup did not finish), and 10 for a silent install that finished but whose connection settings

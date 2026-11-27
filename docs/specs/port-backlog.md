@@ -1,12 +1,13 @@
-# Port backlog: Open Dental 24.4 to 26.1 for our 24.3.63 fork
+# Port backlog: Open Dental 24.4 to 26.2 for our 24.3.63 fork
 
-Status: draft, 2026-10-18. Inputs: the verified specs in this folder ([features-24.4.md](features-24.4.md), [features-25.1.md](features-25.1.md), [features-25.2.md](features-25.2.md), [features-25.3.md](features-25.3.md), [features-25.4.md](features-25.4.md), [features-26.1.md](features-26.1.md)), the schema spec [schema-changes-24.3-to-26.1.md](schema-changes-24.3-to-26.1.md) with its twin [schema-changes.json](schema-changes.json), and [../decoupling-plan.md](decoupling-plan.md). Every feature ID below links to its main public source; the spec files hold the full source lists and the behavior detail. This file adds only planning: grouping, file ownership, order, tests and risks.
+Status: draft, 2026-10-18. Inputs: the verified specs in this folder ([features-24.4.md](features-24.4.md), [features-25.1.md](features-25.1.md), [features-25.2.md](features-25.2.md), [features-25.3.md](features-25.3.md), [features-25.4.md](features-25.4.md), [features-26.1.md](features-26.1.md), [features-26.2.md](features-26.2.md)), the schema specs [schema-changes-24.3-to-26.1.md](schema-changes-24.3-to-26.1.md) and [schema-changes-26.1-to-26.2.md](schema-changes-26.1-to-26.2.md) with their twin [schema-changes.json](schema-changes.json), and [../decoupling-plan.md](decoupling-plan.md). Every feature ID below links to its main public source; the spec files hold the full source lists and the behavior detail. This file adds only planning: grouping, file ownership, order, tests and risks.
 
 ## At a glance
 
 - **241 spec items in scope**: 220 desktop and 21 vendor-direct. Of these, 3 are already in our 24.3.63 code (verified in B-ERA, B-SERVER and B-PROC) and 5 are 25.4 twins of 25.3 backports (verified in M2-VERIFY). **165 items are excluded** (summary near the end). Every one of the 241 IDs is assigned to exactly one package (index in Appendix A).
 - **M1, "Adopt the office database (OD 25.3 parity)"**: a census step, 3 foundation packages, 20 Tier A packages (data the office database already holds), a switch gate, and 20 Tier B packages. Roughly 255 dev-days up to the switch gate and 463 dev-days for all of M1, excluding vendor work.
 - **M2, "26.1 parity"**: 3 foundation packages, 30 feature packages (3 of them dental-school packages that are gated by the census), and a validation gate. Roughly 268 dev-days, of which 44 are dental school.
+- **M3, "26.2 parity"** (planned and built on 2026-11-07): 1 schema package and 9 feature packages for the 38 of the 67 Open Dental 26.2 items that are in scope ([features-26.2.md](features-26.2.md)); 36 of them are new IDs, 2 are 26.1 backports already built in M2.
 - **Vendor-direct integrations**: 10 packages, kept in their own list, roughly 104 dev-days. Each one has a slot in a wave so it never collides with desktop packages.
 - **Parallelism**: inside a wave, packages own disjoint files, so they can be built at the same time on separate branches. M1 Tier A has 2 waves (17 and 5 packages including vendor slots), Tier B has 3 waves.
 - **Biggest risks**: the version check that would pull Open Dental binaries out of the office database (R1), and proving the adopted data is intact (R2).
@@ -17,7 +18,7 @@ These override anything below that conflicts with them.
 
 - **Dental-school features: excluded.** Drop M2-SCH1–M2-SCH3, plus the dental-school parts of A-SCH and M1 Tier B. The tables stay for schema compatibility.
 - **Intra-office chat: excluded.** Drop A-CHAT and M2-CHAT. The chat tables stay; existing chat history isn't shown.
-- **`patient._portal_active_email`: kept by adoption** (owner decision of 2026-11-25, replacing the earlier "dropped during adoption"; docs/port-notes/ADOPT-PORTAL-EMAIL.md). It is an office-specific customization, not Open Dental schema, that the office's patient portal relies on (one active patient per e-mail address).
+- **`patient._portal_active_email`: kept by adoption** (owner decision of 2026-11-25, replacing the earlier "dropped during adoption"; docs/port-notes/ADOPT-PORTAL-EMAIL.md). It is a patient portal's customization, not Open Dental schema, that a patient portal relies on (one active patient per e-mail address).
 - **Public sources only.** No customer-only manual pages, and no observing the licensed Open Dental client. Inferred behaviors stay marked, and are settled by the owner's testing.
 - **No office data.** M1-00 (census) and the M1-Z rehearsal use a synthetic-data generator over the real 25.3.48 schema (`od_253_schema`), never a copy of the office database. Enum numbers and preference names come from Open Dental's published database docs and the schema, not from a census.
 - **Local REST API: dropped.** The 98 API items stay excluded.
@@ -30,7 +31,7 @@ These override anything below that conflicts with them.
 3. **Foundation-owned files.** The foundation packages (M1-01 to M1-03, M2-01, M2-02) own table classes (`OpenDentBusiness/TableTypes/`), generated CRUD (`OpenDentBusiness/Crud/`), migration steps, enum-only files, `Pref.cs`, `PrefInfos.xml`, `GroupPermission.cs`, `GroupPermissions.cs`, `UserControlSecurityTree.cs`, `DisplayFields.cs` (M2 only) and seed rows. Feature packages read them and do not edit them. If a feature finds a missing registry entry, the registry owner adds it in a small follow-up commit between waves.
 4. **New-file rule.** When a package needs a helper in a heavily shared file it does not own, it puts the helper in a new file instead. M1-02 makes the hot data classes `partial` so new methods can live in new partial files (for example `DatabaseMaintenances.ProcCodes.cs`). A data migration that belongs to a feature is a new step file under `OpenDentBusiness/Misc/ForkMigrations/`.
 5. **Sizes.** Spec item sizes are counted as S = 1.5, M = 4, L = 10 and XL = 20 dev-days and summed per package. Package size: S up to 3 days, M up to 8, L under 20, XL 20 or more. Estimates include unit tests, not QA on the office copy or review.
-6. **Tiers inside M1.** Tier A holds every 24.4 to 25.3 feature whose data can already be in a 25.3 database: it must work before the office switches. Tier B holds the rest. The census (M1-00) can move a few items between tiers; the rules are in the Tier A section.
+6. **Tiers inside M1.** Tier A holds every 24.4 to 25.3 feature whose data can already be in a 25.3 database: it must work before a database is adopted. Tier B holds the rest. The census (M1-00) can move a few items between tiers; the rules are in the Tier A section.
 7. **IDs.** `M1-0x`/`M2-0x` are foundation packages, `A-*` and `B-*` are M1 Tier A and Tier B, `M2-*` are M2 feature packages, `V-*` are vendor-direct. Waves: `F1`/`F2` foundation, `A1`–`A2`, `B1`–`B3`, `C1`–`C6`.
 
 ## Overview of waves
@@ -53,10 +54,13 @@ These override anything below that conflicts with them.
 | M2 | C5 | M2-SCH2 | C4 |
 | M2 | C6 | M2-SCH3 | C5 |
 | M2 | gate | M2-Z | all M2 packages |
+| M3 | F3 | P262-SCHEMA | M2 complete; the published 26.2 database documents |
+| M3 | D1 | P262-APPT, P262-BILLING, P262-CLAIMS, P262-PERIO, P262-TOOLS, P262-REPORTS, P262-MISC, P262-LINKS, *P262-GLIDEWELL* | F3 |
+| M3 | gate | the 26.2 integration | all M3 packages |
 
 ## Milestone M1: Adopt the office database (OD 25.3 parity)
 
-Goal: the fork opens a restored copy of the office database (Open Dental 25.3.48, 422 tables), migrates it, and every piece of data in it is read, shown and written correctly. Then the office switches. The order is: census, schema package and its two companions, Tier A, switch gate, Tier B.
+Goal: the fork opens a restored copy of the office database (Open Dental 25.3.48, 422 tables), migrates it, and every piece of data in it is read, shown and written correctly. Then an office can move. The order is: census, schema package and its two companions, Tier A, switch gate, Tier B.
 
 ### M1 step 0: office data census (M1-00)
 
@@ -91,7 +95,7 @@ M1-01 is the schema-migration package and comes first. M1-02 and M1-03 own diffe
   - OpenDentBusiness/Crud/*Crud.cs for every changed or new table (regenerated with xCrudGenerator, never hand-edited)
   - DocumentationBuilder/ (only if we keep publishing schema docs)
   - OpenDentBusiness/Misc/ForkMigrations/SchemaVerifier.cs (new) plus a reference DDL snapshot of the target Open Dental schema (new)
-- **Test approach:** (1) Upgrade an empty 24.3.63 database and diff it against the office schema dump (a schema-only dump of the office's 25.3.48 database, kept outside the repository) with the schema verifier: tables, columns, types, NULL/default, indexes, engine and charset must match, except the documented exceptions. (2) Run the migration twice: the second run changes nothing. (3) Run it on a restored copy of the office database: only the documented drift fixes may change anything, row counts stay equal, and the guardian renumbering and back-fills do not run. (4) CRUD round-trip unit tests (UnitTests/UnitTests) for every new table and column.
+- **Test approach:** (1) Upgrade an empty 24.3.63 database and diff it against a schema-only dump (a schema-only dump of an Open Dental 25.3.48 database, kept outside the repository) with the schema verifier: tables, columns, types, NULL/default, indexes, engine and charset must match, except the documented exceptions. (2) Run the migration twice: the second run changes nothing. (3) Run it on a restored copy of the office database: only the documented drift fixes may change anything, row counts stay equal, and the guardian renumbering and back-fills do not run. (4) CRUD round-trip unit tests (UnitTests/UnitTests) for every new table and column.
 - **Notes:** Scope, from schema-changes.json entries with range 24.3-25.3: 14 new tables (feeschednote, queryfilter, branding, inspending, chat, chatmsg, chatattach, chatreaction, chatuserattach, chatuserod, sequencecounter, schoolapproval, schoolcoursedef, schoolcoursesched); 44 new columns; 9 type changes; the task and taskhist TriageCategory to Category rename (same type and position, keep the old index name `TriageCategory`); the indexes the dump shows on new columns (for example `FeeSchedCodeClinicProvDate`, `ClaimNumPreAuth`, `UserSigned`).
   - `claimpayment.Note` stays `varchar(255) DEFAULT ''`, because that is what 25.3.48 has. It is widened to text in M2-01.
   - Close the documented index gap: compare the KEY lines of a 24.3.63-created database with the dump and fix any differences on existing columns here.
@@ -119,7 +123,7 @@ M1-01 is the schema-migration package and comes first. M1-02 and M1-03 own diffe
 - **Notes:** Adds, with the exact published numbers: `EnumPermType` 264 to 272 (268, 269 and 272 reserved and hidden), `AlertType` 41 to 45, `FormType` 19 and 20, `CommItemSource` 10, `EtransType` 36 and 37, `InvalidType` 116, `EnumEFormStatus` removals (load 3 and 4 as Filled), `SheetTypeEnum.Check=28`, `DisplayFieldCategory` 22 and 23, `InsBlueBookRuleType` 5 and `SchedStatus` 1 renames, `UserOdFkeyType` 28, `EnumPearlStatus` 5 to 7, `PerioSequenceType.AttGing=8`, and the reserve-only values for cut services (`ApptReminderType` 11, `SmsMessageSource` 29, `SessionTokenType` 5, the eService type, action and code numbers).
   - Preference names: one `PrefName` entry and one PrefInfos entry per 24.4 to 25.3 preference, using the real names from the census (M1-00), so the office settings carry over.
   - Permission display text for the 25.2 and 25.3 wording changes (items v25_2-security-permission-renames and v25_3-security-claimproc-billedtoins-desc), plus the descriptions used by the enforcement items in A-SIG, B-CLAIM and B-APPT.
-  - Seed rows for databases that come from 24.3: upgrade grants (PayPlanUnlock to PayPlanEdit holders, BlockoutsFlagged to every group, and the others the specs give), `displayreport` rows for the two new reports, `program` rows for new bridges, all with the office's real key names.
+  - Seed rows for databases that come from 24.3: upgrade grants (PayPlanUnlock to PayPlanEdit holders, BlockoutsFlagged to every group, and the others the specs give), `displayreport` rows for the two new reports, `program` rows for new bridges, all with Open Dental's real key names.
   - Makes the hot data classes `partial` (`DatabaseMaintenances`, `Procedures`, `ClaimProcs`, `Patients`, `Appointments`, `Statements`) so later packages can add new methods in new files. This is a one-line change per class and changes no behavior.
 
 #### M1-03: Version guard and adoption entry point
@@ -1208,6 +1212,48 @@ Before M2-01 starts, set up a 26.1 reference: a fresh Open Dental 26.1 trial ins
 - **Size:** M (~6 dev-days) · **Depends on:** every M2 package
 - **Work:** run the M2 migration on a fresh copy of the adopted office database; schema check against the 26.1 reference; regression run of the M1 validation suite; a short parallel run before releasing M2 to the office.
 
+## Milestone M3: 26.2 parity
+
+Goal: the fork reaches Open Dental 26.2.0 parity for the desktop and vendor-direct items chosen with the owner on 2026-11-07, on the 26.2.0
+schema. The specs are [features-26.2.md](features-26.2.md) and [schema-changes-26.1-to-26.2.md](schema-changes-26.1-to-26.2.md). Unlike
+M2, no reference install was used: the published 26.2 documents are the schema (owner decision of 2026-11-26). Status: every package is
+built and merged; the port notes record the checks.
+
+### M3 foundation (wave F3)
+
+#### P262-SCHEMA: Schema migration 26.1.70 to 26.2.0
+
+- **Size:** M · **Wave:** F3 · **Depends on:** M2-01
+- **Features:** the schema of every item below, including the enum value of [`v26_2-chart-paint-textbelow`](https://www.opendental.com/OpenDentalDiffDocumentation26-2.xml)
+- **Owns:** `OdParity26_2.cs` (new), `Reference/OdSchema-26.2.0.sql` (new), the table classes and generated CRUD of `GlidewellAcct`, `GlidewellMsg`, `LabCaseProduct`, `ApiSubscription`, `InsBlueBook` and `Provider`, the 26.2 enum values, `SchemaVerifier`, the adoption tools' 26.2 rules.
+- **Test approach:** `tests/P262SchemaTests` against the published documents (`P262_OD_DOCS_DIR`), the full migration chain to the 26.2.0 reference, idempotency, enum ranges.
+- **Notes:** level 2026110701 (schema); 2026110702 to 2026110709 kept for corrections. Port note: [P262-SCHEMA.md](../port-notes/P262-SCHEMA.md).
+
+### Wave D1
+
+Each package has its own migration level range (only P262-LINKS needed a step) and owns disjoint files; they were built in parallel, each on its own branch from the
+schema package, and integrated on one branch.
+
+| Package | Items | Size | Levels | Port note |
+|---|---|---|---|---|
+| P262-APPT | 4, 5, 6, 7 | M | 2026110711 to 19 (unused) | [P262-APPT.md](../port-notes/P262-APPT.md) |
+| P262-BILLING | 8, 9, 17, 18 | L | 2026110721 to 29 (unused) | [P262-BILLING.md](../port-notes/P262-BILLING.md) |
+| P262-CLAIMS | 10, 20, 21, 22 | M | 2026110731 to 39 (unused) | [P262-CLAIMS.md](../port-notes/P262-CLAIMS.md) |
+| P262-PERIO | 14, 15, 16 | M | 2026110741 to 49 (unused) | [P262-PERIO.md](../port-notes/P262-PERIO.md) |
+| P262-TOOLS | 23, 24, 25, 26, 30 | M | 2026110751 to 59 (unused) | [P262-TOOLS.md](../port-notes/P262-TOOLS.md) |
+| P262-REPORTS | 31, 32, 33, 34 | M | 2026110761 to 69 (unused) | [P262-REPORTS.md](../port-notes/P262-REPORTS.md) |
+| P262-MISC | 37, 39, 41 | M | 2026110771 to 79 (unused) | [P262-MISC.md](../port-notes/P262-MISC.md) |
+| P262-LINKS | 44, 45, 46, 47 (48 not ported) | M | 2026110781 to 89, 2026110801 | [P262-LINKS.md](../port-notes/P262-LINKS.md) |
+| *P262-GLIDEWELL* (vendor-direct) | 1, 2 | L | 2026110791 to 99 (unused) | [P262-GLIDEWELL.md](../port-notes/P262-GLIDEWELL.md) |
+
+Items 12 and 13 (the extraction graphic and the TextBelow drawing) went to the WPF tooth chart track (TC-5); items 11 and 19 were built in
+M2 (V-DXC2, M2-EMP) as 26.1 backports.
+
+### M3 gate: the 26.2 integration
+
+- **Work:** integrate the packages on one branch, regenerate `db/init/new-database.sql`, the full build and the suites, the adoption
+  rehearsal at the 26.2.0 reference, and the owner's answers to every package's questions (2026-11-07, "all as recommended").
+
 ## Vendor-direct integrations
 
 These talk to the vendor directly from the desktop, with the office's own account (decoupling plan, ground rules 6 and 7: off by default, no promotion, shown only after the office enables them). They are kept apart from the milestones because each needs a vendor contract, test credentials and the vendor's API documentation. Each has a wave slot so it never edits a file that a desktop package owns at the same time.
@@ -1348,7 +1394,7 @@ Related desktop items that are not vendor-direct: v25_2-bridges-dxc-credit-score
 
 ## Excluded
 
-165 items are out of scope. None needs feature work, but where the office data holds related columns, tables or enum values, the schema packages still create them so the data loads (listed at the end of this section). Full per-item reasons are in the Excluded section of each spec file.
+194 items are out of scope (165 of 24.4 to 26.1, 29 of 26.2). None needs feature work, but where the office data holds related columns, tables or enum values, the schema packages still create them so the data loads (listed at the end of this section). Full per-item reasons are in the Excluded section of each spec file.
 
 | Version | Excluded | Open Dental hosted services and HQ | Local REST API | Other | Source |
 |---|---|---|---|---|---|
@@ -1358,7 +1404,8 @@ Related desktop items that are not vendor-direct: v25_2-bridges-dxc-credit-score
 | 25.3 | 23 | 9 | 11 | 1 CareCredit, 2 HQ-only (triage position, HQ enums) | [25.3 release notes](https://www.opendental.com/site/version25_3.html) |
 | 25.4 | 34 | 8 | 24 | 1 HQ-granted clinic access, 1 HQ-only enums | [25.4 release notes](https://www.opendental.com/site/version25_4.html) |
 | 26.1 | 22 | 9 | 11 | 1 Topaz under Open Dental Cloud, 1 `deletedobj` writers | [26.1 release notes](https://www.opendental.com/site/version26_1.html) |
-| **Total** | **165** | **54** | **98** | **13** | |
+| 26.2 | 29 | 5 | 16 | 4 Open Dental Cloud, 2 chat, 2 MariaDB backup tools | [26.2 release notes](https://www.opendental.com/site/version26_2.html) |
+| **Total** | **194** | **59** | **114** | **21** | |
 
 **By reason:**
 
@@ -1406,7 +1453,7 @@ Other code that reads these preferences must follow the same rule: `FormOpenDent
 
 The office data must arrive complete, unchanged where it should be unchanged, and correctly interpreted. Checks, all on restored copies (never the live database) and all part of M1-Z:
 
-1. **Schema.** The verifier compares the migrated copy with the office schema dump: tables, columns, types, NULL and defaults, indexes, engine and charset. Known exceptions are listed explicitly. **Decision needed:** `patient._portal_active_email` is not Open Dental schema; its unique key rejects a second active patient with the same e-mail address, which is normal in families. Something outside Open Dental depends on it. Keep it, or drop the column and index during adoption, before M1-Z starts.
+1. **Schema.** The verifier compares the migrated copy with a schema-only dump: tables, columns, types, NULL and defaults, indexes, engine and charset. Known exceptions are listed explicitly. **Decision needed:** `patient._portal_active_email` is not Open Dental schema; its unique key rejects a second active patient with the same e-mail address, which is normal in families. Something outside Open Dental depends on it. Keep it, or drop the column and index during adoption, before M1-Z starts.
 2. **Drift.** `claimpayment.Note` is still `varchar(255)` in 25.3.48 although the docs say text. M1 keeps it as is for an exact match; M2-01 widens it.
 3. **Row and content checks.** Row counts per table before and after adoption. `CHECKSUM TABLE` for every table the migration should not touch. For touched tables, per-column checksums over the columns that should not change. Allowed differences are listed: removed Open Dental update files, preference rows, rehashed `SecurityHash` columns.
 4. **No double conversion.** Open Dental already converted the office data. Steps that move data must not run again: the guardian relationship renumbering, the `statement.ShowTransSinceBalZero` back-fill, and permission grants such as PayPlanUnlock and BlockoutsFlagged. Test this by running the migration on the office copy and asserting that those tables are byte-identical.
@@ -1431,7 +1478,7 @@ Other branches are cutting HQ calls, replacing the proprietary DLLs and removing
 
 ### R6. Patch-level timing
 
-The docs are per minor version. An item marked 25.3 may have shipped in any 25.3.x build, and some backports landed after the office's 25.3.48 (25.3.53, 25.3.54, 25.3.78). Those are in Tier B. The census confirms what the office data really contains.
+The docs are per minor version. An item marked 25.3 may have shipped in any 25.3.x build, and some backports landed after 25.3.48 (25.3.53, 25.3.54, 25.3.78). Those are in Tier B. The census confirms what the office data really contains.
 
 ### R7. Inferred 26.1 schema
 
@@ -1446,7 +1493,7 @@ Only types are published for 25.4 and 26.1. NOT NULL, defaults and indexes are i
 
 ## Appendix A: feature index
 
-All 241 items, in spec order. Size is the spec's item size. Source is the main public page for the item; every spec section lists the rest.
+All 241 items of 24.4 to 26.1, in spec order, then the 36 new IDs of 26.2 (M3). Size is the spec's item size. Source is the main public page for the item; every spec section lists the rest.
 
 | Feature ID | Title | Size | Package | Wave | Source |
 |---|---|---|---|---|---|
@@ -1691,6 +1738,42 @@ All 241 items, in spec order. Size is the spec's item size. Source is the main p
 | `v26_1-misc-audit-eform-delete` | Audit Trail: patient eForm deletions | S | M2-EF | C2 | https://www.opendental.com/site/version26_1.html |
 | `v26_1-misc-audit-billing-finance` | Audit Trail: opening and running Billing/Finance Charges | S | M2-SHELL | C4 | https://www.opendental.com/site/version26_1.html |
 | `v26_1-misc-task-attach-nonmodal` | Task Attachment windows are non-modal | S | M2-MISC | C1 | https://www.opendental.com/site/version26_1.html |
+| `v26_2-lab-glidewell-send` | Send lab cases to Glidewell from Edit Lab Case | L | P262-GLIDEWELL | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-lab-glidewell-scanners` | Glidewell cases with Medit or iTero scans | S | P262-GLIDEWELL | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-appt-search-multi-blockout` | Advanced Appointment Search over several blockout types | M | P262-APPT | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-appt-practice-notes` | Practice and clinic schedule notes in the Appointments module | S | P262-APPT | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-appt-search-slots-per-blockout` | Search lists a slot for every selected blockout type per day | S | P262-APPT | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-appt-estimates-on-plan-save` | Appointment estimates updated when a plan is saved | S | P262-APPT | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-account-statement-options-window` | Statement dropdown options in their own window | M | P262-BILLING | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-account-statement-window-redesign` | Statement window redesigned | M | P262-BILLING | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-account-claimedit-tabs` | Status History and Misc moved in Edit Claim | S | P262-CLAIMS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-chart-extraction-graphic` | Completed extractions drawn with an X | M | TC-5 | TC | https://www.opendental.com/site/version26_2.html |
+| `v26_2-chart-paint-textbelow` | Paint type TextBelow: text outside the tooth chart | M | TC-5 | TC | https://www.opendental.com/site/version26_2.html |
+| `v26_2-perio-flags-selected-teeth` | Flags on all selected teeth in the Perio Chart | S | P262-PERIO | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-perio-multi-cell-select` | Several cells in any editable Perio Chart row | M | P262-PERIO | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-perio-past-exam-values` | Settings to show past exams' values | S | P262-PERIO | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-manage-ebill-window` | Electronic Billing settings in their own window | M | P262-BILLING | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-manage-billing-defaults-clinic` | Billing Defaults reconfigured, some settings per clinic | L | P262-BILLING | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-ins-claimform-per-provider` | Default claim form per provider | M | P262-CLAIMS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-ins-combine-plans-mismatch` | Detailed mismatch warning when combining plans | M | P262-CLAIMS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-ins-donotbill-automation` | Automation trigger: procedure set to not bill insurance | M | P262-CLAIMS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-tools-dbm-income-transfer` | DBM: payments with income transfer issues | M | P262-TOOLS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-tools-dbm-conversion-pay-dates` | DBM tool: incorrectly dated conversion payments | M | P262-TOOLS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-tools-fee-copy-code` | Fee Tool: copy fees from one code to another | S | P262-TOOLS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-tools-latency-average` | Test Latency measures the average | S | P262-TOOLS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-tools-dbm-insverify-redundant` | DBM: move redundant InsVerify entries | S | P262-TOOLS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-reports-display-settings` | Report Display Settings layout | M | P262-REPORTS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-reports-security-permissions` | Report Security Permissions layout | M | P262-REPORTS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-reports-ppu-prior-balances` | Patient Portion Uncollected: prior balances | M | P262-REPORTS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-reports-ppu-payplan-column` | Patient Portion Uncollected: Pay Plan column | S | P262-REPORTS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-eforms-vital-signs` | Vital signs imported from eForms | M | P262-MISC | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-misc-commlog-referral-types` | Definition category Commlog Referral Types | S | P262-MISC | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-recall-prophy-perio-switch` | Automatic Prophy and Perio recall switch | M | P262-MISC | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-links-alliedstar-connect` | Bridge to Allied Star Connect | M | P262-LINKS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-links-orthocomposite` | Imaging bridge to OrthoComposite | S | P262-LINKS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-links-trojan-collect-retired` | Trojan Express Collect deprecated | S | P262-LINKS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-links-suni-removed` | Suni support removed | S | P262-LINKS | D1 | https://www.opendental.com/site/version26_2.html |
+| `v26_2-links-ez3di-removed` | Ez3D-i bridge removed (not ported: the link stays) | S | P262-LINKS | D1 | https://www.opendental.com/site/version26_2.html |
 
 ## Appendix B: ownership hand-offs for the most shared files
 

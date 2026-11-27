@@ -11,7 +11,7 @@ namespace OpenPmsDentalBusiness {
 	///permission), the plan's own Locked box and Pay Plan Unlock still apply, and payments, adjustments and procedures stay locked.
 	///
 	///The value is Open Dental's own preference row PREF_NAME, PayPlansIncludeInGlobalLock (its name confirmed by the setting names of the office's
-	///Open Dental 25.3.48 database, owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md). It says the opposite of this setting: 1
+	///Open Dental 25.3.48 database, owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md). It says the opposite of this setting: 1
 	///means payment plans are included in (blocked by) the global lock date. So this setting is on when the row holds 0, and off when it holds 1 or
 	///is missing (a database from 24.3 or a new database, where payment plans have always been locked). The row is read and written by name, outside
 	///PrefName; it is inserted the first time an office turns the setting on. Release v0.0 kept the setting, not inverted, in the row

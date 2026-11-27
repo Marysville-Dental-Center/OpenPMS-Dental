@@ -1,6 +1,6 @@
 // M2-HIST: moves the ten InsHist*Codes preferences (the fixed Insurance History rows of 24.3 and 25.3) into code groups marked Show In History
 // (Open Dental 26.1), each a new code group used only for Insurance History; the existing code groups are never changed (owner decision of
-// 2026-11-07, switch-over question 4). The preference rows are kept.
+// 2026-11-07, adoption question 4). The preference rows are kept.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace OpenPmsDentalBusiness.ForkMigrations.FeatureSteps {
 	///25.3.48 database: AdoptionValidation's migration-preview prints the same plan (InsHistCodeGroupsMigration.CreatePlan) and adopt's row check holds
 	///the adopted copy's codegroup rows to it.</para>
 	///Level 2026110104 (package M2-HIST; renumbered on 2026-11-01 from the retired package range level 2027004701). Its rule changed on 2026-11-07
-	///(owner decision, switch-over question 4): it now only adds code groups used for Insurance History and changes no existing one. No office
+	///(owner decision, adoption question 4): it now only adds code groups used for Insurance History and changes no existing one. No office
 	///database ran the earlier rule (v0.0 was never adopted; the owner reinstalls rather than upgrades it), so the level stays.</summary>
 	[ForkMigration(2026110104,"Insurance History rows from the InsHist preferences to code groups (26.1)")]
 	public class InsHistCodeGroupsStep:ForkMigrationStep {
@@ -43,7 +43,7 @@ namespace OpenPmsDentalBusiness.ForkMigrations.FeatureSteps {
 	}
 
 	///<summary>The fork's rule for moving the ten InsHist*Codes preferences into code groups (Open Dental 26.1; INFERRED, Open Dental's own
-	///conversion is not public), as the owner decided on 2026-11-07 (switch-over question 4): the existing code groups, the frequency and age limit
+	///conversion is not public), as the owner decided on 2026-11-07 (adoption question 4): the existing code groups, the frequency and age limit
 	///groups among them, stay exactly as they are, and the codes of the old Insurance History settings go into code groups used only for Insurance
 	///History. For each history category whose preference (or, for the perio quadrants, any of the four) has a value:
 	///1. A new code group named after the 24.3 row with " History" ("Bitewing History", "Exam History", ...; a number is added when a group of that

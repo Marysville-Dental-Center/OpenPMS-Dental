@@ -1,11 +1,11 @@
-# ADOPT-PORTAL-EMAIL: adoption keeps the office's patient portal column
+# ADOPT-PORTAL-EMAIL: adoption keeps a patient portal column
 
-Package ADOPT-PORTAL-EMAIL, on branch `adopt/keep-portal-email-1` from `main` (c15d1c6af). Owner decision of 2026-11-25: adoption **keeps** the
-office's `patient._portal_active_email` and its unique key `portal_active_email_uniq` instead of dropping them. The office's patient portal
+Package ADOPT-PORTAL-EMAIL, on branch `adopt/keep-portal-email-1` from `main` (c15d1c6af). Owner decision of 2026-11-25: adoption **keeps**
+`patient._portal_active_email` and its unique key `portal_active_email_uniq` instead of dropping them. A patient portal
 needs that rule (one active patient per e-mail address) for sign-in. It replaces the decision of 2026-10-18 (M1) to drop them. A proper
 product setting comes later (docs/roadmap.md, "Not scheduled yet").
 
-The office's definitions, as `SHOW CREATE TABLE` prints them (read from the local `od_253_schema`, which is built from the office's
+The expected definitions, as `SHOW CREATE TABLE` prints them (read from the local `od_253_schema`, which is built from a
 schema-only dump; the column is the last of patient's 85):
 
 - ``varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` else NULL end) VIRTUAL``
@@ -15,12 +15,12 @@ schema-only dump; the column is the last of patient's 85):
 
 ### 1. Adoption (`OpenPmsDentalBusiness/Misc/ForkMigrations/Adoption.cs`)
 
-- Step 2 no longer drops anything of the office's: `KeepPortalActiveEmail` leaves the column and `portal_active_email_uniq` as they are and
-  logs "Kept column patient._portal_active_email and its unique key portal_active_email_uniq (the office's patient portal: one active patient
-  per e-mail address)." Any *other* key on the column is still dropped and logged ("no other office addition is kept"); the office has none.
+- Step 2 no longer drops the portal column: `KeepPortalActiveEmail` leaves the column and `portal_active_email_uniq` as they are and
+  logs "Kept column patient._portal_active_email and its unique key portal_active_email_uniq (a patient portal's sign-in: one active patient
+  per e-mail address)." Any *other* key on the column is still dropped and logged ("no other office addition is kept").
 - `AdoptionResult.WasPortalEmailColumnDropped` is replaced by `IsPortalEmailColumnKept` and `IsPortalEmailIndexKept`;
   `ListIndexesDropped` now lists only those other keys.
-- The pre-adoption exact check of the 25.3.47 / 25.3.54 labels (ADOPT-LABELS) is unchanged, and now also requires the office's definitions.
+- The pre-adoption exact check of the 25.3.47 / 25.3.54 labels (ADOPT-LABELS) is unchanged, and now also requires the expected definitions.
 
 ### 2. The schema verifier (`SchemaVerifier.cs`)
 
@@ -50,10 +50,10 @@ schema-only dump; the column is the last of patient's 85):
 
 ### 4. Adoption tools
 
-- `migration-preview`: a line saying the column and key are kept, and whether they have the office's definitions (if not: "the schema check
+- `migration-preview`: a line saying the column and key are kept, and whether they have the expected definitions (if not: "the schema check
   after adoption will fail. Stop and ask before adopting.").
 - `adopt` / rehearsal M2 and I2 (`HeadlessAdoption.IsSchemaExactMatch`): the kept column and key count as allowed, and only as the verifier
-  allowed them (so only with the office's definitions); the log line names them.
+  allowed them (so only with the expected definitions); the log line names them.
 - Rehearsal: A4 reports what was kept; V5 is now "patient._portal_active_email and its unique key kept, exactly as the office has them"
   (definitions equal and one key on the column).
 - `tools/SyntheticData/allowed-differences.adoption.json`: the `ColumnRemoved patient._portal_active_email` and
@@ -64,16 +64,16 @@ schema-only dump; the column is the last of patient's 85):
 
 - Runbook: "What adoption does" item 2, the step 0.4 bullet on other programs' additions, step 0.2 (the preview line), step 4's expected
   lines, step 6.1's allowed list. `docs/develop/release-process.md` adoption step 2.
-- `docs/decisions/owner-questions.md` switch-over question 12 records the decision; `docs/roadmap.md` "Not scheduled yet" the setting; release notes.
+- `docs/decisions/owner-questions.md` adoption question 12 records the decision; `docs/roadmap.md` "Not scheduled yet" the setting; release notes.
 - Not changed: `docs/reports/m1-validation-report.md`, a dated record of the M1 rehearsal as it ran.
 
 ## Tests
 
 - `tests/ForkMigrationTests/SchemaSnapshotTests.cs` `Compare_PortalActiveEmail_AllowedOnlyWithTheOfficesDefinition`: the constants equal what
-  the parser gives for the office's DDL; allowed against all three exception lists; four other column definitions, three other key
+  the parser gives for the expected DDL; allowed against all three exception lists; four other column definitions, three other key
   definitions, an extra key on the column and the column on another table are mismatches.
-- `tests/ForkMigrationTests/PortalEmailKeptDbTests.cs` (new): a fresh development database with the office's column and key, adopted with
-  every fork step: both kept with the office's definitions, 26.2.0 verify matches with them as the only allowed patient differences,
+- `tests/ForkMigrationTests/PortalEmailKeptDbTests.cs` (new): a fresh development database with the portal column and key, adopted with
+  every fork step: both kept with the expected definitions, 26.2.0 verify matches with them as the only allowed patient differences,
   `OdSchemaCompat` 26.2.0 and the guard opens it, every step again changes nothing; patients insert, update, load and merge; a second active
   patient with the same address fails with MariaDB's 1062 on insert and on reactivation; inactive and blank addresses save; `MakeABackup`
   copies patients and computes the column again.
@@ -100,6 +100,6 @@ On the development PC, 2026-11-25, local MariaDB 10.11.
 - Rehearsal, default labels (medium, 2 runs): PASS, 32 of 32 checks in each run, X1 to X3 PASS.
 - Runbook dry run (`Invoke-RunbookDryRun.ps1`, on a source kept by a one-run office-label rehearsal, 30 of 30): Dry run PASS. Step 6.1:
   0 unexpected differences, and no `_portal_active_email` line. The adopt log lines equal the runbook's step 4 and 5 lines. The
-  schema-match line of step 5 now ends with "and the office's patient._portal_active_email and its key portal_active_email_uniq as the
+  schema-match line of step 5 now ends with "and the patient portal column patient._portal_active_email and its key portal_active_email_uniq as the
   office has them (kept)."; the runbook was corrected to say so. The step 0.2 preview line equals the runbook's.
 - The scratch databases of the dry run were dropped afterwards.

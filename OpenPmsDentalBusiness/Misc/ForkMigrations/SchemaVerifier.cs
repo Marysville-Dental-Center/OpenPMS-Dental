@@ -12,7 +12,7 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 	///  the file. This is the default (ReferenceVersion, GetReference, VerifyDatabase).
 	///- Open Dental 26.1.70 (Reference/OdSchema-26.1.70.sql): the 25.3.48 reference plus the changes of Open Dental's published 25.4 and 26.1
 	///  database documents; what the 25.4 and 26.1 steps (OdParity26_1.cs) produce. The 26.2 step (OdParity26_2.cs) starts from it.
-	///- Open Dental 25.3.48 (Reference/OdSchema-25.3.48.sql), built from the schema-only dump of the office database: what the 25.3 steps
+	///- Open Dental 25.3.48 (Reference/OdSchema-25.3.48.sql), built from a schema-only dump of an Open Dental 25.3.48 database: what the 25.3 steps
 	///  (OdParity25_3.cs) produce and what an office database must have before it is adopted.
 	///Tables, columns (type, NULL, default, extra, charset, position), keys, engine and charset must match, except for the documented exceptions,
 	///each of which says why it is allowed. This program's own tables (ForkTableSet, for example the routine maintenance tables) are extra tables
@@ -31,23 +31,23 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		public const string ReferenceVersion26_1_70="26.1.70";
 		///<summary>Name of the embedded 26.1.70 reference.</summary>
 		public const string ReferenceResourceName26_1_70="OdSchema-26.1.70.sql";
-		///<summary>Open Dental 25.3.48: the office database before adoption, and the schema after the 25.3 steps.</summary>
+		///<summary>Open Dental 25.3.48: an office database before adoption, and the schema after the 25.3 steps.</summary>
 		public const string ReferenceVersion25_3_48="25.3.48";
 		///<summary>Name of the embedded 25.3.48 reference.</summary>
 		public const string ReferenceResourceName25_3_48="OdSchema-25.3.48.sql";
 
-		///<summary>The office-specific generated column in patient that is not Open Dental schema. The office's patient portal relies on it and its
+		///<summary>The patient portal's generated column in patient that is not Open Dental schema. A patient portal relies on it and its
 		///unique key (one active patient per e-mail address), so adoption keeps both (owner decision of 2026-11-25), and the verifier allows them
-		///with exactly the office's definitions (PortalActiveEmailColumnDefinition, PortalActiveEmailIndexDefinition), against every reference.
+		///with exactly the expected definitions (PortalActiveEmailColumnDefinition, PortalActiveEmailIndexDefinition), against every reference.
 		///</summary>
 		public const string PortalActiveEmailColumn="_portal_active_email";
 		///<summary>The unique key on patient._portal_active_email.</summary>
 		public const string PortalActiveEmailIndex="portal_active_email_uniq";
-		///<summary>The office's definition of patient._portal_active_email, as SHOW CREATE TABLE prints it after the column name (SchemaColumn.Definition).
+		///<summary>The expected definition of patient._portal_active_email, as SHOW CREATE TABLE prints it after the column name (SchemaColumn.Definition).
 		///Any other definition of a column of that name is a mismatch.</summary>
 		public const string PortalActiveEmailColumnDefinition="varchar(100) GENERATED ALWAYS AS (case when `PatStatus` = 0 and `Email` <> '' then `Email` "
 			+"else NULL end) VIRTUAL";
-		///<summary>The office's definition of the key portal_active_email_uniq (SchemaIndex.Definition). Any other definition is a mismatch.</summary>
+		///<summary>The expected definition of the key portal_active_email_uniq (SchemaIndex.Definition). Any other definition is a mismatch.</summary>
 		public const string PortalActiveEmailIndexDefinition="UNIQUE KEY (`_portal_active_email`)";
 		///<summary>The column and key as DDL, for tests and the tools that add them to a scratch database.</summary>
 		public const string PortalActiveEmailAddDdl="ADD COLUMN `"+PortalActiveEmailColumn+"` "+PortalActiveEmailColumnDefinition+", ADD UNIQUE KEY `"
@@ -106,13 +106,13 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 		public static List<SchemaException> DocumentedExceptions25_3_48 {
 			get {
 				List<SchemaException> listExceptions=new List<SchemaException>();
-				//Only as an extra column and key, and only with the office's exact definitions.
+				//Only as an extra column and key, and only with the expected definitions.
 				listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraColumn,"patient",PortalActiveEmailColumn,
-					"Office-specific customization, not Open Dental schema (a generated column): the office's patient portal relies on it, so adoption "
-					+"keeps it (owner decision of 2026-11-25). Allowed with exactly the office's definition.") { ActualDefinition=PortalActiveEmailColumnDefinition });
+					"A patient portal's customization, not Open Dental schema (a generated column): a patient portal relies on it, so adoption "
+					+"keeps it (owner decision of 2026-11-25). Allowed with exactly the expected definition.") { ActualDefinition=PortalActiveEmailColumnDefinition });
 				listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraIndex,"patient",PortalActiveEmailIndex,
-					"Unique key on the office-specific patient._portal_active_email column (one active patient per e-mail address, for the office's "
-					+"patient portal); adoption keeps it with the column. Allowed with exactly the office's definition.")
+					"Unique key on the patient portal column patient._portal_active_email (one active patient per e-mail address, for a "
+					+"patient portal); adoption keeps it with the column. Allowed with exactly the expected definition.")
 					{ ActualDefinition=PortalActiveEmailIndexDefinition });
 				foreach(string table in ArrayHqOnlyTables) {
 					listExceptions.Add(new SchemaException(SchemaDifferenceKind.ExtraTable,table,null,
@@ -198,7 +198,7 @@ namespace OpenPmsDentalBusiness.ForkMigrations {
 			string header="Open Dental "+ReferenceVersion25_3_48+" database schema: the reference for SchemaVerifier (Open PMS - Dental fork).\n"
 				+"Generated by SchemaVerifier.BuildReferenceDdlFromDump from a schema-only dump of an Open Dental "+ReferenceVersion25_3_48+" database\n"
 				+"(no rows). Normalized: one CREATE TABLE per table, sorted by name, AUTO_INCREMENT values removed. Removed because it is not Open\n"
-				+"Dental schema: the office-specific column patient."+PortalActiveEmailColumn+" and its key "+PortalActiveEmailIndex+".\n"
+				+"Dental schema: the patient portal column patient."+PortalActiveEmailColumn+" and its key "+PortalActiveEmailIndex+".\n"
 				+"Do not edit by hand; regenerate it.";
 			return snapshot.ToDdl(header);
 		}

@@ -1,5 +1,5 @@
-// Package ADOPT-PORTAL-EMAIL: adoption keeps the office's patient._portal_active_email column and its unique key (owner decision of 2026-11-25),
-// the schema verifier allows them with exactly the office's definitions, and the program loads, saves, merges and backs up patients with them
+// Package ADOPT-PORTAL-EMAIL: adoption keeps the patient portal column patient._portal_active_email and its unique key (owner decision of 2026-11-25),
+// the schema verifier allows them with exactly the expected definitions, and the program loads, saves, merges and backs up patients with them
 // there. A duplicate active e-mail address on save is MariaDB's duplicate-key error for now (no friendly message yet; roadmap).
 // A fresh development database (the seed dump and the 24.3 convert chain), the office's column and key added, then adopted with every fork
 // migration step. Synthetic rows only. Skipped (inconclusive) when the local MariaDB does not answer.

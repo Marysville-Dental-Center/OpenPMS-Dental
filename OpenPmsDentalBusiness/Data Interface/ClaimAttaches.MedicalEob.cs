@@ -1,7 +1,7 @@
 // B-CLAIM, v25_2-account-medical-eob-prompt: attach a received medical claim's EOB to the patient's primary dental claims.
 // Open Dental 25.2 added a preference that prompts for a Medical EOB on primary claims; only the release-note line is public, so the flow here is
 // the fork's design (docs/specs/features-25.2.md). The setting is Open Dental's own preference row (PREF_NAME_MEDICAL_EOB_PROMPT), read by name
-// like ApptTimeBars and ModuleSwitchBlur; its name comes from the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
+// like ApptTimeBars and ModuleSwitchBlur; its name comes from an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using CodeBase;
 namespace OpenPmsDentalBusiness {
 	public partial class ClaimAttaches {
 		///<summary>Open Dental's preference row for "Prompt for Medical EOB on primary claims" (bool, off when missing). Its name is confirmed by the
-		///setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1, 2026-11-07), so the office's value carries over as
+		///setting names of an Open Dental 25.3.48 database (owner question Adoption 1, 2026-11-07), so the office's value carries over as
 		///it is. Read and written by name, outside PrefName: a database from 24.3 or a new database has no such row, and the row is written the first
 		///time the setting is turned on in Preferences. Release v0.0 kept the setting in the row ForkClaimMedReceivedPromptForMedicalEob; the fork
 		///migration step OdSettingNamesStep moves it here.</summary>

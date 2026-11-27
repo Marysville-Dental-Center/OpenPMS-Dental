@@ -1,180 +1,126 @@
 # Roadmap
 
-Planned work after v0.1, as agreed with the owner. Each item is discussed and scoped with the owner before work starts.
+Planned work, as agreed with the owner. Each item is scoped with the owner and starts with a design document in
+[specs/](specs/) before any code (CLAUDE.md, "Design before code"). The owner's decisions are in
+[decisions/owner-questions.md](decisions/owner-questions.md).
 
-## Next
+Status on 2026-11-26.
 
-Status on 2026-11-21. Of the list scheduled with the owner on 2026-11-07, the Open Dental 26.2 features, **.NET 10** (64-bit, merged on
-2026-11-17, `docs/specs/net10-plan.md`), **the tooth chart's 3D drawing** on WPF (TC-0 to TC-10, `docs/specs/wpf-tooth-chart-plan.md`)
-and **EHR again** (EHR-1 to EHR-7, `docs/specs/ehr-rebuild-plan.md`; the CQM reports wait for counsel's answer to E-10) are done. The
-compressed DICOM decoders stay parked until such files turn up.
+## Planned
 
-Now: **the UI refresh** (owner, 2026-11-17: "Modernize icons, buttons, styles. Keep it clean and professional."); the plan is
-`docs/specs/ui-refresh-plan.md`. Done: the tokens and design sheet, the window frame, the controls, the toolbars, every button picture as a
-Fluent icon (UI-9a, UI-9b-1 to UI-9b-4), text fit (UI-10) and Segoe UI 9 pt (UI-2b, merged 2026-11-21). After the owner's review of
-2026-11-21 ("UI lacking consistence. choice of spacing not symetrical") every window is laid out again on one spacing grid, with the
-checkbox on the left of its text (UI-12: a pilot, then every window in slices); this replaces "every window keeping its layout". Then UI-11
-(the last colours and the final sweep), the toolbar overflow button and keyboard focus on the WPF buttons.
+Not scheduled yet; the owner sets the order.
 
-Version 0.1 was released with all of this (below, "Released in 0.1"). Not scheduled yet: the next release, the office switch-over (after the 64-bit TWAIN drivers are tested on the clinic's sensor), the server
-components on Linux, and Open Dental 26.3. The GitHub repository was renamed to OpenPMS-Dental on 2026-11-21 (the old address redirects)
-and has a project site on GitHub Pages, built from `site/`.
+### CRM: leads, calls and texts
 
-The owner questions of each package are recorded with their answers in `docs/decisions/owner-questions.md`.
+Owner, 2026-11-26: "Add CRM functionality with lead tracking and in program VOIP calls (integrating with Unifi Talk) and text".
+
+- **Lead tracking.** Prospective patients before they have a chart: source (referral, web, phone, campaign), status through a pipeline
+  (new, contacted, scheduled, converted, lost), follow-up tasks and reminders, notes and the history of every contact. A lead becomes a
+  patient without typing the data again, and keeps its history. Reports on lead sources and conversion.
+- **Calls from the program.** Click to call a patient or lead, see who is calling (the caller's chart or lead on an incoming call), and
+  log each call as a communication item, through UniFi Talk. The design first settles what UniFi Talk's published interfaces allow (call
+  control, call events, call records) and where they run (the console on the practice's network, the workstation).
+- **Texts.** Send and receive texts with patients and leads from the program, threaded with the calls, through UniFi Talk where it
+  supports messaging or another provider the office chooses.
+- **Rules that apply.** Off until the office turns it on; the program talks to the office's own phone system or provider with the office's
+  own account, never through Open Dental's servers; consent and opt-out for texts are recorded; data goes in fork-only tables
+  (`ForkTableSet`).
+- Design: a new spec in `specs/` (data model, the UniFi Talk interface, consent, the windows), then packages.
+
+### Scribing with a local speech-to-text model
+
+Owner, 2026-11-26: "add some scribing features with OSS voice-to-text local model".
+
+- **Dictation and visit notes.** Speech to text for clinical notes, procedure notes and the perio chart, with the transcript reviewed and
+  edited before it is saved; nothing is filed without the user's OK.
+- **Local only.** An open-source speech-to-text model running on the workstation (candidates for the design: Whisper models through
+  whisper.cpp, both MIT-licensed), so no audio or text leaves the computer. Audio is not kept after the transcript is saved unless the
+  office chooses to keep it.
+- **To settle in the design:** the model and its size against workstation hardware (CPU and GPU), dental vocabulary (tooth numbers,
+  surfaces, CDT terms), the microphone and push-to-talk, how it relates to the existing voice perio charting, recording consent, and how
+  the model files are shipped with their licences.
+- Design: a new spec in `specs/`, then packages.
+
+### A Middle Tier in Rust, on Linux
+
+Owner, 2026-11-26: "This one should be Rust Middle Tier. Server component is just mariaDB." The only server component the program needs
+today is MariaDB. The Middle Tier (today an ASP.NET Core server on Windows, `OpenPmsDentalServer`, which the release leaves out) is
+planned as a Rust service that runs on Linux, carrying the same messages, so the workstations need no change. A plan first: which of the
+business methods it serves, how it shares their logic with the .NET business library, authentication and TLS, and the tests that prove
+both servers answer alike.
+
+### Open Dental 26.3
+
+When Open Dental marks it stable: `main` moves to its schema and its features are re-implemented from its public documents, as 24.4 to
+26.2 were ([specs/features-26.2.md](specs/features-26.2.md)).
+
+### Smaller items
+
+- **A setting "each active patient has a different e-mail address"** (owner, 2026-11-25). Off by default. When on, it is checked before
+  saving, with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient; saves from
+  elsewhere (HL7, X834, bridges) turn a duplicate-key error into the same message. Turning it on first lists the existing duplicates, then
+  creates the column and index. Adoption turns it on when the adopted database has a patient portal's unique e-mail key; until this
+  setting exists, adoption keeps such a column and key, and a duplicate shows MariaDB's error ([ADOPT-PORTAL-EMAIL](port-notes/ADOPT-PORTAL-EMAIL.md)).
+- **Remove tamper detection** (owner, 2026-11-24): Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing,
+  the warning triangles, the Security Hashes tool in Database Maintenance and their tests. The separate Database Integrity Check tool (table
+  check and repair) stays.
+- **A sensor's driver settings saved per device in the database** (owner, 2026-11-24). Today Capture settings keeps them in each computer's
+  capture.ini, so a USB sensor moved between computers needs the same `Source.*` values on each one. Stored with the imaging device, every
+  computer would use them after one save; only the driver install, the calibration files and the hardware binding stay per computer.
+  Needs moving the values already saved in capture.ini and keeping the gated-settings check and its log working across computers.
+- **Compressed DICOM decoders**, only if such files turn up: JPEG Extended and Lossless, JPEG 2000 and JPEG-LS, through a thin layer over
+  libjpeg-turbo, OpenJPEG and CharLS, plugged into the in-house reader's decoder hook. Today the reader opens uncompressed DICOM, RLE and
+  JPEG Baseline, and names the format of any other compressed file
+  ([reports/2026-11-02-dicom-codecs-research.md](reports/2026-11-02-dicom-codecs-research.md)).
+- **The next release**, when the owner asks for one ([develop/release-process.md](develop/release-process.md)).
 
 ## Done in the next version
 
-Built for the version after 0.1; what each one changes is in its release notes, `docs/release-notes/next.md`.
+Built after 0.1 (tagged on 2026-11-25); the release notes collect them in [release-notes/next.md](release-notes/next.md).
 
-Nothing yet.
+- **Adoption**: Open Dental databases whose version labels differ from their schema version (25.3.47.0 / 25.3.54.0 with the 25.3.48
+  schema) ([ADOPT-LABELS](port-notes/ADOPT-LABELS.md)); Open Dental 26.2 databases, checked against the published 26.2 schema
+  ([ADOPT-262](port-notes/ADOPT-262.md)); a patient portal's unique e-mail column kept as it is
+  ([ADOPT-PORTAL-EMAIL](port-notes/ADOPT-PORTAL-EMAIL.md)); `claimpayment`'s table checksum change
+  ([ADOPT-CLAIMPAYMENT-CHECKSUM](port-notes/ADOPT-CLAIMPAYMENT-CHECKSUM.md)); the runbook brought up to date with the code
+  ([RUNBOOK-R4](port-notes/RUNBOOK-R4.md)).
+- **Visuals in their own windows**: the camera, the X-ray preview and the graphical perio chart open in ordinary windows
+  ([specs/visuals-in-own-windows.md](specs/visuals-in-own-windows.md)).
+- **Camera and sensor settings**: every driver setting shown readably, flexible camera buttons, light and brightness
+  ([IMG-SRCSET](port-notes/IMG-SRCSET.md), [FB-1](port-notes/FB-1.md)).
+- **Feedback fixes** (FB-1): hover flicker, the tooltip crash, crash reports.
+- **The new database file**: no third-party copyrighted content, and program link passwords start blank
+  ([INITSQL-COPYRIGHT](port-notes/INITSQL-COPYRIGHT.md)).
+- **Documentation**: how-to guides with screenshots, the docs arranged by reader, the link check, the standing rules in CLAUDE.md, and the
+  Open Dental 26.2 design documents ([specs/features-26.2.md](specs/features-26.2.md),
+  [specs/schema-changes-26.1-to-26.2.md](specs/schema-changes-26.1-to-26.2.md)) ([DOCS-HOWTO](port-notes/DOCS-HOWTO.md)).
 
 ## Released in 0.1
 
-Built for 0.1, the first release after 0.0; what each one changes is in its release notes, `docs/release-notes/v0.1.md`. Besides
-the items below: .NET 10, 64-bit and self-contained, the tooth chart's 3D drawing on WPF, EHR rebuilt as open code (all three under "Next",
-above, and "Plans", below), the UI refresh (`docs/release-notes/ui-refresh.md`) and the imaging work of the owner's imaging design of
-2026-11-22 with the sensor driver's twain-contract 1.3 and 1.4.
+Released on 2026-11-25; what each one changes is in [release-notes/v0.1.md](release-notes/v0.1.md).
 
-1. **Library updates (security) and client-side database security**: the tier 1 library updates (SSH.NET, MailKit/MimeKit 4, Newtonsoft.Json
-   13, MSAL and the Google APIs) with remembered SSH host keys, and encrypted database connections with the program's own database account.
-2. **Library updates (maintenance)**: WebView2 in place of the Internet Explorer control, the managed WeCantSpell.Hunspell spell checker,
-   PDFsharp/MigraDoc 6.5 (the spell checker and PDFsharp/MigraDoc built from their source), and the in-house DICOM reader in place of
-   fo-dicom.
-3. **Routine maintenance around the practice**.
-4. **Inventory tracking**.
-5. **Storage rename**: `OpenPmsDentalCloud` becomes `OpenPmsDentalStorage`, since it holds only the SFTP storage option.
-6. **Fixes before the switch-over, from the owner's answers of 2026-11-07**: a declined PayConnect 2 charge is a decline, an edited X-ray
-   attached to a claim is saved, the Insurance History step leaves the frequency code groups unchanged, NDde.dll is removed (the DentX,
-   Dexis Integrator and Vipersoft links use an in-house DDE client since 2026-11-08), the capture session is on for new installs, and the
-   backup to another server works.
-7. **Open Dental 26.2 features**: the changes the owner chose on 2026-11-07, on Open Dental's 26.2.0 database schema (appointments, billing
-   and statements, claims and insurance, the perio chart, tools, reports, eForms and recalls, program links, and Glidewell lab cases without
-   a connection to Glidewell yet), with Open Dental 25.3's settings read under their own names and its eight options built. The extraction
-   graphic and the "text below the chart" paint type stay with the tooth chart.
-
-## Plans
-
-### .NET Framework 4.8 to .NET 10
-
-**Status (2026-11-16): the switch is done on the integration branch `net10/switch`, and reaches `main` with the stage 3b gate.** The
-program, its libraries, tools and services are `net10.0-windows` x64, self-contained on one x64 .NET runtime in the program folder, with the
-32-bit helper self-contained on its own x86 runtime in `Helper32\` (S3b-1 to S3b-4); the Middle Tier is an ASP.NET Core server (S3b-6); the
-release, the 64-bit setup and the self-update are built for it (S3b-7, `docs/port-notes/S3b-7.md`): Build-Release stages the x64 release with
-the runtime files read from the runtime packs' own lists and refuses mixed or old runtimes, the setup installs into `Program Files` in
-64-bit mode with no .NET runtime to install and the 64-bit TWAIN data source manager, and the release channel publishes the runtime as a
-part of its own, pulled only when it changes. Still open before the gate: the test projects' move (S3b-5), the number formatting of
-decision 24 (S3b-FMT), the full test run, the Release dry run with the owner's elevated `Test-Installer.ps1`, and the launch checks.
-
-Target: .NET 10, the long-term release, supported until November 14, 2028 (.NET 8 and .NET 9 support ends on November 10, 2026; .NET 12, the
-next long-term release, is expected in late 2027). Gains: faster start-up and memory handling, current C#, modern project files and NuGet,
-monthly security servicing, better high-DPI support in WinForms, and current libraries (Helix Toolkit 3.x for the tooth chart among them).
-Still Windows-only for WinForms and WPF, which fits: the desktop program stays a Windows program.
-
-Decided with the owner on 2026-11-07:
-
-- **Everything moves**, with no project left on .NET Framework and nothing built for both. That includes the Middle Tier: its classic
-  ASP.NET web service (one method that hands each request to the business code) becomes a small ASP.NET Core service over HTTPS on
-  Windows; the program reaches it with a plain HTTPS call instead of the generated SOAP proxy. The 4,458 business methods that can run
-  on the Middle Tier keep their messages unchanged. A Linux Middle Tier is deferred to the Linux server plan (the business library would
-  first need its Windows-only parts moved out: pictures, fonts and drawing, WinForms, WPF, the registry).
-- **Deployment**: self-contained (owner, 2026-11-08, replacing "framework-dependent"): the program and its 32-bit helper carry their
-  own .NET 10 runtime, so nothing is installed for .NET. The updates stored in the database stay small, because a release keeps the
-  runtime as a separate part, published and pulled only when the runtime version changes. The runtime's security fixes then come only
-  with this program's releases: a release follows each monthly .NET 10 patch.
-- **Libraries**: NuGet packages replace the DLL files in `Required dlls`, from a local package folder the build lane restores from offline,
-  with lock files; each batch of downloads is approved by the owner. The generated SOAP clients of services the fork removed are deleted and
-  the rest regenerated or replaced; any BinaryFormatter use is replaced; tests built on AppDomains are rewritten; COM interop stays.
-- **Stages**, in this order (owner, 2026-11-08), each ending with a full test run: a clean-up of dead code and unused references; SDK-style
-  project files, still on .NET Framework 4.8; NuGet packages; MSTest v1 to MSTest 4; the code changes that also work on
-  .NET Framework, the 64-bit preparation among them, ending with the last .NET Framework release (the "bridge release"); then the
-  program, the business library, the tests and the Middle Tier on .NET 10 and 64-bit in one step (owner, 2026-11-08: "no go directly to
-  64."), with no 32-bit .NET 10 version (see "32-bit to 64-bit").
-- **Switching the office**: the new 64-bit setup once on every workstation; it installs into `Program Files`, with the program's own
-  .NET 10 runtime (nothing is downloaded for .NET), and has no "install for me only" mode. Windows 11 is the baseline. Changed on
-  2026-11-15 (decisions 21 and 22 of the plan): no bridge release, and no OpenPMS install to migrate (nothing in production runs this
-  program; the office switches from Open Dental once every workstream is done), so the setup is built for new installs and the
-  self-update for updates from one .NET 10 release to the next.
-
-The stage plan, made from a read-only survey of every project, library, API and tool the move touches and an independent critique, is
-`docs/specs/net10-plan.md`. Its owner questions were answered on 2026-11-08 (`docs/decisions/owner-questions.md`, "The move to .NET 10"). The
-owner's standing rule: nothing is cut, tests included, except what the owner deliberately deleted. So every integration moves to .NET 10,
-QuickBooks Desktop, Schick, Topaz, the CallFire, Divvy and BCBS Georgia dial-up links, the report engine's SQL Server, ODBC and OLE DB
-data sources, Direct secure messaging, Change Healthcare (Emdeon) medical claims, voice perio charting and the plugin loader among them.
-
-### The tooth chart's 3D drawing
-
-Today the chart has three drawing engines in `SparksToothChart`: DirectX 9 through SharpDX (unmaintained since 2019; needs Microsoft's legacy
-DirectX End-User Runtime, which a clean Windows does not have), OpenGL through Tao (unmaintained since about 2008) and a flat 2D chart. Open
-Dental's newer Sparks3D engine was closed source and was removed, so free text and orthodontic hardware are not drawn.
-
-Plan (owner, 2026-11-07): a WPF 3D chart built with Helix Toolkit 3.x (MIT, the most widely used 3D toolkit for .NET desktop programs), on
-.NET 10, replacing the DirectX and OpenGL engines; the flat 2D chart stays as an option. WPF draws 3D through Windows' own DirectX and falls
-back to software drawing on any PC, so no extra runtime is needed. It reuses the existing tooth models (`.obj`) and the chart's selection and
-procedure-colour logic, matches today's 3D look, adds free text, orthodontic hardware, Open Dental 26.2's extraction graphic and its "text
-below the chart" paint type, and covers the Chart and Treatment Plan modules, the big chart window, the graphical perio chart and charts
-printed on sheets. A saved DirectX or OpenGL choice moves to the new chart. It retires SharpDX, Tao and the DirectX runtime requirement, and
-it does not depend on 32-bit. Tests render the chart to images and compare them, and the owner checks a gallery of rendered charts before it
-reaches main.
-
-### 32-bit to 64-bit
-
-The program is built as 32-bit today. Decided: go to full 64-bit, with no interim large-address-aware flag (owner, 2026-11-07), and
-directly, as part of the switch to .NET 10 (owner, 2026-11-08: "no go directly to 64."). 64-bit is no longer a later stage: there is no
-32-bit .NET 10 version. The office installs the last .NET Framework release, then the 64-bit .NET 10 setup once on every workstation.
-The 64-bit preparation that also works on .NET Framework is done before the switch, while the program is still 32-bit.
-
-- **TWAIN**: a 64-bit program uses the 64-bit TWAIN data source manager (TWAINDSM 64-bit, free) and needs 64-bit TWAIN data sources. The
-  clinic's sensor and camera drivers are a thin 32-bit data source (`.ds`) that starts a separate 32-bit helper program for the device work,
-  which uses the sensor vendor's 32-bit libraries. The TWAIN driver project builds 64-bit `.ds` files that start the same 32-bit helpers;
-  the helpers and the vendor libraries stay 32-bit, because processes of different bitness can talk to each other (the driver project
-  confirmed on 2026-11-07 that nothing in its design stops this). Installed side by side with the 32-bit ones. Decided (owner,
-  2026-11-07): this program's installer installs the 64-bit TWAINDSM; the driver package only checks that it is there. The 64-bit data
-  sources (version 1.2) are built; they are packaged and tested on the clinic's sensor before the office gets the 64-bit release.
-- **Other 32-bit-only components** (QuickBooks Desktop's SDK, the Schick CDR interface, Topaz, and Guru's interface DLL): kept (owner
-  correction, 2026-11-08), although the office uses none of them. Each gets a small 32-bit helper program that the 64-bit program talks
-  to, or a 64-bit replacement where the vendor has one (checked per vendor). The helper is built and tested before the switch, while the
-  program is still 32-bit.
-- **Other TWAIN devices** (document scanners, a second sensor) need 64-bit drivers; most current devices ship both. For a device with only a
-  32-bit driver, an optional 32-bit TWAIN bridge helper loads that driver and passes the images on.
-- **Native DLLs**: the library updates removed most of them (the spell checker is managed); `Direct2dWrapper` is built 64-bit from our
-  source; WebView2 has 64-bit versions. fo-dicom and its native codecs are gone: the DICOM reader is managed code of our own.
-- **Code**: P/Invoke signatures and structures (the TWAIN structures above all) are made pointer-size-safe, with tests that run in both
-  bitnesses, before the switch and still on .NET Framework; registry reads of 32-bit vendor keys name the 32-bit view instead of relying
-  on `WOW6432Node` redirection.
-- **Installer and updates**: 64-bit install folder and prerequisites, and a defined way for an office to move from a 32-bit install to a
-  64-bit one, including a mixed set of workstations during the switch: the new setup carries the settings file over and removes the old
-  32-bit install, and a workstation not switched yet stays on the last .NET Framework release, which refuses the 64-bit release and says
-  to run the new setup.
-
-Prerequisites of the switch: the 64-bit preparation before it; the 64-bit `.ds` files from the TWAIN driver project, tested on the
-clinic's sensor; and the owner's approval of the TWAINDSM download, asked when the switch starts. The old DirectX and OpenGL chart engines
-are managed code for any processor and stay in 64-bit until the WPF tooth chart replaces them; a mode that cannot start falls back, down
-to the 2D drawing, as today.
-
-### Compressed DICOM decoders
-
-Only if such files turn up: JPEG Extended and Lossless, JPEG 2000 and JPEG-LS, through our own thin layer over libjpeg-turbo, OpenJPEG and
-CharLS, plugged into the in-house reader's decoder hook. Today the reader opens uncompressed DICOM, RLE and JPEG Baseline, and names the
-format of any other compressed file. Background: docs/reports/2026-11-02-dicom-codecs-research.md.
-
-### Not scheduled yet
-
-- The next release and the office switch-over (`docs/admin/adoption-runbook.md`).
-- Server components on Linux, new ones in Rust: a plan first (image storage, backups on the server, publishing releases from the server,
-  scheduled jobs). The Middle Tier is the exception: it moves to .NET 10 on Windows now, and a Linux Middle Tier waits for this plan (owner,
-  2026-11-07: "Defer Linux middle tier").
-- Open Dental 26.3, once Open Dental marks it stable.
-- A setting "each active patient has a different e-mail address" (owner, 2026-11-25). Off by default. When on, it is checked before saving,
-  with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient. Patient saves from
-  elsewhere (HL7, X834, bridges) get a catch-all that turns a duplicate-key error into the same message. Turning it on first lists the
-  existing duplicates, then creates the column and index. Adoption turns it on when the office database has the patient portal's index.
-  Until then, adoption keeps the office's `patient._portal_active_email` and its unique key, and a duplicate shows MariaDB's error
-  (ADOPT-PORTAL-EMAIL).
-- Remove tamper detection (owner, 2026-11-24: Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing, the
-  warning triangles, the Security Hashes tool in Database Maintenance and their tests). The separate Database Integrity Check tool (table
-  check and repair) stays.
-- A sensor's driver settings saved per device in the database (owner, 2026-11-24). Today Capture settings keeps them in each computer's
-  capture.ini, so a USB sensor moved between computers needs the same `Source.*` values entered on each one. They belong to the sensor,
-  so storing them with the imaging device would let every computer use them after one save. Only what is truly local would stay per
-  computer: the driver install, the sensor's calibration files, and the hardware binding. Needs moving any values already saved in
-  capture.ini, and keeping the gated-settings check and its log working across computers.
+1. **.NET 10, 64-bit and self-contained**: the program, its libraries, tools and services on `net10.0-windows` x64 with their own runtime,
+   the 32-bit helper on its own x86 runtime, the Middle Tier as an ASP.NET Core server, the 64-bit setup and self-update
+   ([specs/net10-plan.md](specs/net10-plan.md), [specs/native64-survey.md](specs/native64-survey.md)). The 32-bit-only vendor components
+   (QuickBooks Desktop, Schick CDR, Topaz, Guru) work through 32-bit helpers.
+2. **The tooth chart on WPF 3D** with Helix Toolkit, replacing the DirectX 9 and OpenGL engines, with free text, orthodontic hardware, the
+   extraction graphic and TextBelow ([specs/wpf-tooth-chart-plan.md](specs/wpf-tooth-chart-plan.md)).
+3. **EHR rebuilt as open code**, on the 2027 quality measures ([specs/ehr-rebuild-plan.md](specs/ehr-rebuild-plan.md),
+   [specs/ehr-2027-measures-plan.md](specs/ehr-2027-measures-plan.md)).
+4. **The UI refresh**: tokens, the window frame, Fluent icons, Segoe UI 9 pt, every window on one layout grid, final review approved on
+   2026-11-24 ([specs/ui-refresh-plan.md](specs/ui-refresh-plan.md), [release-notes/ui-refresh.md](release-notes/ui-refresh.md)).
+5. **Native intraoral capture**, with the sensor driver's twain-contract 1.3 and 1.4
+   ([specs/imaging-capture-design.md](specs/imaging-capture-design.md)).
+6. **Open Dental 26.2 features** on its 26.2.0 schema: appointments, billing and statements, claims and insurance, the Perio Chart, tools,
+   reports, eForms and recalls, program links, and Glidewell lab cases without a connection to Glidewell yet
+   ([specs/features-26.2.md](specs/features-26.2.md)), with Open Dental 25.3's settings read under their own names and its eight options.
+7. **Library updates (security)** and client-side database security: SSH.NET, MailKit/MimeKit 4, Newtonsoft.Json 13, MSAL and the Google
+   APIs, remembered SSH host keys, and encrypted database connections with the program's own account.
+8. **Library updates (maintenance)**: WebView2 in place of Internet Explorer, WeCantSpell.Hunspell, PDFsharp/MigraDoc 6.5 built from
+   source, and the in-house DICOM reader in place of fo-dicom.
+9. **Routine maintenance** and **inventory tracking** ([specs/routine-maintenance.md](specs/routine-maintenance.md),
+   [specs/inventory-tracking.md](specs/inventory-tracking.md)).
+10. **Storage rename**: `OpenPmsDentalCloud` became `OpenPmsDentalStorage`.
+11. **Fixes from the owner's answers of 2026-11-07**: a declined PayConnect 2 charge is a decline, an edited X-ray attached to a claim is
+    saved, the Insurance History step leaves the frequency code groups unchanged, the DentX, Dexis Integrator and Vipersoft links work
+    without NDde.dll, capture is on for new installs, and the backup to another server works.

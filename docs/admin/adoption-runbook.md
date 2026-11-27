@@ -1,4 +1,4 @@
-# Adoption runbook: moving the office from Open Dental 25.3.48 to Open PMS - Dental
+# Adoption runbook: moving an office from Open Dental 25.3.48 to Open PMS - Dental
 
 Status: 2026-10-25, third revision after review (M1-Z r3), plus steps 0.11 and 7.1 (combined review, 2026-11-01), which since 2026-11-07
 list only the five settings Open Dental has no name for (the others carry over under Open Dental's names, SWMAP); milestone M1 switch
@@ -12,7 +12,7 @@ step 0.6 (with the owner's agreement) or in the optional check of step 0.7, othe
 Background: [release-process.md](../develop/release-process.md) (version guard and adoption tool), [decoupling-plan.md](../specs/decoupling-plan.md) (ground rules),
 risks R1 and R2 in the backlog.
 
-This is the procedure for the day the office switches. It is written for the office administrator, with a second person checking each
+This is the procedure for the day an office switches. It is written for the office administrator, with a second person checking each
 step. Every step says what to run, where, what to expect, and what to do when the result is different. Names in angle brackets, such as
 `<db-server>` (the office database server's host name) and `<admin>`, stand for the office's own values: fill them in before the day
 ("Names used below").
@@ -20,17 +20,17 @@ step. Every step says what to run, where, what to expect, and what to do when th
 ## What adoption does, and what it cannot undo
 
 Adoption converts a copy of the Open Dental 25.3.48 database into a database of this program, with the schema of Open Dental 26.2.0 (the
-version this program follows; the office's database stays at 25.3.48 until then). It is done once, by an administrator, on a
+version this program follows; Open Dental 24.3.63 and 26.2 databases are adopted the same way, and this runbook is written for 25.3.48). It is done once, by an administrator, on a
 **copy**; normal startup never adopts. `Adoption.Run` (run here by `AdoptionValidation adopt`; the program's Adopt Database window calls the
 same code):
 
 1. records the start in the `ForkAdoptedFrom` preference
-2. keeps the office-only column `patient._portal_active_email` and its unique index `portal_active_email_uniq` exactly as they are (owner
-   decision of 2026-11-25, which replaces the earlier decision to drop them): the office's patient portal relies on them for sign-in, so two
+2. keeps the patient portal column `patient._portal_active_email` and its unique index `portal_active_email_uniq` exactly as they are (owner
+   decision of 2026-11-25, which replaces the earlier decision to drop them): a patient portal relies on them for sign-in, so two
    active patients still cannot share an e-mail address. Saving a second active patient with an address already in use stops with a database
    error that names `portal_active_email_uniq` (MariaDB's duplicate-key error; a clear message comes with a later setting, see
    [docs/roadmap.md](../roadmap.md)): give that patient another address, or none. Any other key on that column is dropped, and the schema check
-   after adoption allows the column and key only with the office's definitions
+   after adoption allows the column and key only with the expected definitions
 3. deletes Open Dental's update files (`documentmisc` rows of types `UpdateFiles` and `UpdateFilesSegment`) without reading them
 4. blanks the preferences that point at Open Dental's servers
 5. sets `DataBaseVersion` and `ProgramVersion` to `99.0.0.0`, so Open Dental programs can no longer use the database
@@ -47,7 +47,7 @@ same code):
    BlockoutAdd, and every user group that may edit blockouts (Blockouts) also gets BlockoutAdd and BlockoutDelete with the same date limits,
    so nobody loses an ability. Then the DXC Patient Credit Score step disables that program link, which Open Dental 25.2 removed because
    DentalXChange discontinued the service (its `program` row's `Enabled` only; the row and its text stay), and deletes its toolbar buttons, if
-   the office database still has it enabled or on a toolbar (what Open Dental's own 25.2 update did to the row is not published; most likely
+   the database still has it enabled or on a toolbar (what Open Dental's own 25.2 update did to the row is not published; most likely
    nothing is left to change). The Trojan Express Collect step (2026110781) does the same for that link, which Open Dental 26.2 deprecated
    because the service is no longer offered. Open Dental's 2019 update (19.2.29) gave every database that link's row with one Account module
    button ("TrojanCollect"), whether or not the office used it, so on nearly every office database this step deletes that one button (the
@@ -80,10 +80,10 @@ original since the backup. The same holds the other way after a rollback, which 
 adopted database (Rollback, steps 1 and 2). Going back to Open Dental means going back to the original, and anything entered in this program
 after the switch must then be re-entered by hand. Decide the rollback deadline before the day (step 0.9).
 
-**The settings Open Dental added in 24.4 to 25.3 carry over** under Open Dental's own names, which the setting names of the office database
-gave (owner question Switch-over 1, answered 2026-11-07; [port-notes/SWMAP.md](../port-notes/SWMAP.md)): this program reads the office's rows as
+**The settings Open Dental added in 24.4 to 25.3 carry over** under Open Dental's own names, which the setting names of an Open Dental 25.3.48 database
+gave (owner question Adoption 1, answered 2026-11-07; [port-notes/SWMAP.md](../port-notes/SWMAP.md)): this program reads the database's rows as
 they are, and adoption does not change them. `migration-preview` lists them with the value this program will show (step 0.2); step 7.1
-compares them. Five settings of this program have no Open Dental setting in the office database; they start at their defaults.
+compares them. Five settings of this program have no Open Dental setting in a 25.3.48 database; they start at their defaults.
 
 **Adoption does not carry over two things**, and `adopt` does not list them: the stored passwords (step 7), and those five settings of this
 program (step 0.11), which Open Dental 25.3.48 has no preference for. The second person looks for them in Open Dental before the day (step
@@ -128,7 +128,7 @@ owner's decision (validation report, "For the owner", item 5).
 |---|---|
 | `<db-server>`, `<admin>` | The database server's host name, and an administrator account on it that can use `sudo` and log in by SSH. |
 | `<db-server-ip>` | The database server's network address, where the workstations' `FreeDentalConfig.xml` gives the server by address. |
-| `opendental` | The office database today (Open Dental 25.3.48). Use the real name from `FreeDentalConfig.xml` on any workstation. |
+| `opendental` | The Open Dental database to adopt (25.3.48 in this runbook). Use the real name from `FreeDentalConfig.xml` on any workstation. |
 | `opendental_pms` | The adopted copy. Any name works; it must not exist yet. |
 | `od_prep_pms` | The adopted copy of the preparation dry run (step 0.6, only with the owner's agreement). A name that must not exist yet. |
 | `adoption_admin` | The MariaDB account the tools use (step 0.0.2). |
@@ -186,7 +186,7 @@ checklist; `<datadir>` below is the data folder shown here. `SHOW DATABASES` lis
 (`information_schema`, `mysql`, `performance_schema`, `sys`): note any other one, because step 3.1 stops the MariaDB server for a few minutes
 and so stops it too.
 
-- **Not Linux** (for example `Win64`): the office database has moved to a Windows server. Stop: this runbook is written for a Linux server,
+- **Not Linux** (for example `Win64`): the database runs on a Windows server. Stop: this runbook is written for a Linux server,
   and the developers must revise it before the day.
 - **`@@bind_address`** must let a program on `<db-server>` itself reach MariaDB at `127.0.0.1`, where the forward of step 0.0.3 arrives: `0.0.0.0`,
   `::`, `*`, blank or `NULL` (every address), or a list that includes `127.0.0.1`. If it names only another address (for example only the
@@ -256,13 +256,13 @@ wrong.
 and the same build is installed on one test workstation (pointed at a synthetic or empty database, never at `opendental`).
 
 0.2. **Versions and FLOAT values.** [server] `sudo mariadb opendental -e "SELECT PrefName,ValueString FROM preference WHERE PrefName IN ('DataBaseVersion','ProgramVersion','CorruptedDatabase','UpdateInProgressOnComputerName')"`.
-Expect `25.3.47.0` (`DataBaseVersion`), `25.3.54.0` (`ProgramVersion`), `0` and blank: the office runs Open Dental 25.3.54, and Open Dental
-changes `DataBaseVersion` only when a convert step runs (25.3.47 had the last one). The schema is the 25.3.48 one, and adoption accepts this
-pair only when the schema equals the 25.3.48 reference exactly, the office's `patient._portal_active_email` aside; `migration-preview` below
-says so in its first line ("Versions: adoptable. ... Its schema equals the Open Dental 25.3.48 reference"). `25.3.48.0` twice is accepted too.
-Any other version or pair, or a "NOT adoptable" line naming schema differences: stop; the office must not update Open Dental before the switch.
+Expect `25.3.48.0` twice, or `25.3.47.0` (`DataBaseVersion`) with `25.3.54.0` (`ProgramVersion`), then `0` and blank: a database updated
+by Open Dental 25.3.54 has that pair, because Open Dental changes `DataBaseVersion` only when a convert step runs (25.3.47 had the last one). The schema is the 25.3.48 one, and adoption accepts this
+pair only when the schema equals the 25.3.48 reference exactly, the patient portal column `patient._portal_active_email` aside; `migration-preview` below
+says so in its first line ("Versions: adoptable. ... Its schema equals the Open Dental 25.3.48 reference").
+Any other version or pair, or a "NOT adoptable" line naming schema differences: stop; do not update Open Dental before adoption.
 `migration-preview` also prints "patient._portal_active_email and its unique key portal_active_email_uniq: adoption keeps them as they are
-... They have the office's definitions"; if it says they differ: stop and ask.
+... They have the expected definitions"; if it says they differ: stop and ask.
 
 Then, outside office hours (it reads every table that has FLOAT or DOUBLE columns, and MyISAM makes writers wait while a table is read),
 [admin PC] `& $av float-check --database opendental @db > C:\Adoption\float-check.txt`. Exit code 0 ("no value that a logical backup
@@ -339,7 +339,7 @@ The last lines are the Open Dental 25.4, 26.1 and 26.2 steps of item 6 and the f
 - `Settings read under Open Dental's names (adoption keeps these rows as they are; ...): Sales Tax procedure code (B-ACCT): <code or blank>
   [SalesTaxProcCode=...]; Prompt for Medical EOB on primary claims (B-CLAIM): ticked [ClaimCheckForMedicalEOB='1']; ...` with one part per
   setting of "Settings that carry over by Open Dental's name" (step 0.11): what this program will show (ticked, not ticked, a code or a
-  number of milliseconds) and the office's stored rows (`no row` for a setting the office never changed). Adoption changes none of these
+  number of milliseconds) and the database's stored rows (`no row` for a setting never changed). Adoption changes none of these
   rows. **Write the shown values on the checklist** (step 0.2): step 7.1 compares them with this program's windows.
 - `Step 2026110731 (settings under Open Dental's names) changes no preference row: the database has no setting row of release v0.0.` This
   step only moves rows that a database release 0.0 used wrote under this program's own names; an Open Dental database has none.
@@ -393,7 +393,7 @@ For each such program, also write down, from its configuration and its owner (ve
   or the server's `sql_mode` set blank, before the day. A program that must run on both databases (for a rollback) can check at its start
   whether the columns exist.
 - **What it added to the database**: columns, indexes, tables, triggers or views of its own. Adoption keeps only Open Dental's schema and
-  this program's tables, with one exception: it keeps the office's `patient._portal_active_email` and its index `portal_active_email_uniq`
+  this program's tables, with one exception: it keeps the patient portal column `patient._portal_active_email` and its index `portal_active_email_uniq`
   (see "What adoption does"), so a program that relies on them keeps working. Anything else is not kept, and step 0.0.1 stops at a trigger or
   view. A program that relies on such an addition must be changed, or the addition re-created on
   `opendental_pms` in step 9 with the developers' agreement.
@@ -496,7 +496,7 @@ after the switch). After the deadline the original database is archived (step 11
 
 0.10. **Open Dental installers.** Keep the Open Dental 25.3.48 installer and the office's registration details at hand; rollback needs them.
 
-0.11. **Settings that do not carry over** (see "What adoption does"). These five settings of this program have no preference in the office's
+0.11. **Settings that do not carry over** (see "What adoption does"). These five settings of this program have no preference in an
 Open Dental 25.3.48 database (its setting names show none; [port-notes/SWMAP.md](../port-notes/SWMAP.md)), so this program keeps each in the
 row of its own in the third column, and after adoption each shows its default. Open Dental may still offer a matching box somewhere (the
 inserter barcode, for example, may belong to its statement layout). In the week before the day, in Open Dental 25.3.48, the second person
@@ -514,7 +514,7 @@ no patient data; keep the filled table with the checklist. Step 7.1 sets each va
 
 The defaults after adoption: rows 2 and 3 not ticked, row 1 `0`, row 4 blank (no read-only copy), row 5 ticked.
 
-**Settings that carry over by Open Dental's name.** This program reads these from the office's own rows, under the names in the second
+**Settings that carry over by Open Dental's name.** This program reads these from the database's own rows, under the names in the second
 column, so nothing is recorded here: `migration-preview` (step 0.2) lists what each will show, and step 7.1 compares them.
 
 | Window and box (as this program names them) | Package: Open Dental's row | Note |
@@ -674,8 +674,8 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   (N tables). It can be adopted as Open Dental 25.3.48." and "Adoption from Open Dental 25.3.48.0 started. The database is labelled
   DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0; its schema equals the 25.3.48 reference." (a database labelled 25.3.48.0 twice says
   "Open Dental 25.3.48 database. It can be adopted." and "Adoption from Open Dental 25.3.48.0 started.")
-- "Kept column patient._portal_active_email and its unique key portal_active_email_uniq (the office's patient portal: one active patient per
-  e-mail address)." (no "Dropped index" line: the office has no other key on the column)
+- "Kept column patient._portal_active_email and its unique key portal_active_email_uniq (a patient portal's sign-in: one active patient per
+  e-mail address)." (a "Dropped index" line only when the column has another key)
 - "Deleted N Open Dental update file row(s)." and "Blanked N preference(s) that pointed at Open Dental's servers: ..." Check the names: they
   are preferences that held an address of Open Dental's servers (such as `UpdateServerAddress`, `WebServiceHQServerURL`, `UpdateWebsitePath`).
   The second person initials the list on the checklist.
@@ -716,7 +716,7 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   `programproperty` row step 0.2 listed (Open Dental's conversions wrote both rows into every database, so normally two); then
   "Fork migrations: 38 step(s) run, 0 already done. Fork schema level 2026112451.", "The schema matches Open Dental 26.2.0 (OdSchemaCompat)."
   and "Adoption finished."
-- "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations, and the office's patient._portal_active_email and its key portal_active_email_uniq as the office has them (kept)."
+- "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations, and the patient portal column patient._portal_active_email and its key portal_active_email_uniq as expected (kept)."
 - the rehash of step 5
 - "Row check against opendental ..." with one line for each table it checks and no line starting `FAIL`: `programproperty` (the Dental Studio
   and Podium rows step 0.2 listed, `PropertyDesc` only, to this program's text; no other row or column changed, none added or removed),
@@ -744,7 +744,7 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   in every row (insbluebook.DateTStamp: one time in every row, that of the ALTER TABLE)."), "Fork tables:" ("17 new table(s) of this program, all empty (documentadjust, ehrcode, imageadjustpreset, maintfield, maintitem, maintrecord, maintrecordvalue,
   maintstep, mountitemdefguide, mountitemguide, sshhostkey, supplycount, supplycountline, supplylot, supplyproccode, supplyprocpending, supplysetting).": the routine maintenance
   tables, the SSH host keys table (no server's key is stored yet: the first connection to each server stores it), the Imaging adjust tables
-  (no image has saved filters and the office has no preset yet), the Image camera session tables (no photo mount slot has a guide yet), the EHR
+  (no image has saved filters and there is no preset yet), the Image camera session tables (no photo mount slot has a guide yet), the EHR
   value sets table (empty until the office imports its own value sets) and the inventory tables
   but the stock ledger, so no stock count is open), "Stock ledger:" ("supplyledger added (inventory tracking), N of the N
   opening balance row(s) migration-preview lists and no other row.") and `updatehistory` ("identical row by row")

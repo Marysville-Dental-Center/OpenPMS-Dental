@@ -1,5 +1,5 @@
-// Package ADOPT-LABELS: adoption of a database with the office's real version labels (DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0) on the
-// 25.3.48 reference schema plus the office's patient._portal_active_email: accepted on an exact match, refused on a drifted schema or other labels.
+// Package ADOPT-LABELS: adoption of a database with real version labels (DataBaseVersion 25.3.47.0, ProgramVersion 25.3.54.0) on the
+// 25.3.48 reference schema plus the patient portal column patient._portal_active_email: accepted on an exact match, refused on a drifted schema or other labels.
 // No office data is used. Skipped (inconclusive) when the local MariaDB does not answer.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

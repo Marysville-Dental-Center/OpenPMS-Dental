@@ -1,5 +1,5 @@
 // ODOPTS (owner, 2026-11-07: "why not just build it?"): the eight Open Dental 25.3 options this program had built without, now built and read
-// under Open Dental's own setting names so the office's values carry over at the switch-over. See docs/port-notes/ODOPTS.md.
+// under Open Dental's own setting names so the office's values carry over at adoption. See docs/port-notes/ODOPTS.md.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;

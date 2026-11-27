@@ -53,7 +53,7 @@ namespace BPAYTests {
 
 		[TestMethod]
 		public void OpenDentalsName_ReadByName_NotInPrefName() {
-			//Open Dental's name, from the setting names of the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md). Its 1 means payment plans
+			//Open Dental's name, from the setting names of an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md). Its 1 means payment plans
 			//are included in the global lock date, the opposite of this setting.
 			Assert.AreEqual("PayPlansIncludeInGlobalLock",PayPlanGlobalLock.PREF_NAME);
 			Assert.IsFalse(Enum.IsDefined(typeof(PrefName),PayPlanGlobalLock.PREF_NAME),"Read by name, so a database without the row reads as off.");

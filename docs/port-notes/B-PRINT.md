@@ -264,9 +264,9 @@ real printer, scanning a printed barcode with an inserter, and the middle-tier p
 - Test: `RegistryTests.PrefNameTests.UnconfirmedNames_EachBuiltSettingIsRecordedAndSetAgainByTheAdoptionRunbook` (each unconfirmed name is either built, with the row it is read from, or listed as not built; step 0.11 has one table row for each row read; steps 0.11 and 7.1 are on the checklist). It fails on the runbook before this fix.
 - The naming rule itself (register Open Dental's real names once they are known, or keep these rows) is left to the owner; it is a question of the combined review.
 
-## The office's setting names (SWMAP, 2026-11-07, branch `next/swmap-1`)
+## Open Dental's setting names (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) include no preference for the inserter barcode,
-  so `BillingStatementInserterBarcode` stays this program's own row and starts off after the switch-over. Open Dental may keep the option with
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) include no preference for the inserter barcode,
+  so `BillingStatementInserterBarcode` stays this program's own row and starts off after adoption. Open Dental may keep the option with
   the statement layout instead (the 25.3 spec allowed for that), so runbook step 0.11 keeps the row (now row 3) for the office to look for in
   Open Dental. Nothing changed in the code. See [SWMAP.md](SWMAP.md).

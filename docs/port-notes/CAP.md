@@ -27,7 +27,7 @@ The capture track was built in a separate imaging session on branches cut from t
   - `RefreshAfterCaptureSession` only refreshes the module that is loaded now: no SelectTreeNode1, no ThumbnailRefresh, no Adj mode.
 
   Tests: `CaptureHookDbTests` region "The main window's patient changes while the session window is open". It has three tests: another patient, no patient, and unchanged. `CaptureHookMirror` now reads `_patient` before and after the session. It records the display calls, and pins `_patient.PatNum` to the one comparison.
-- **C2, vendor names in the design document.** The neutral edition names roles instead: the clinic's sensor vendor, the vendor's imaging software, the private TWAIN source project ("the DS project"). It drops:
+- **C2, vendor names in the design document.** The neutral edition names roles instead: a real sensor vendor, the vendor's imaging software, the private TWAIN source project ("the DS project"). It drops:
   - the local path;
   - the product, detector and DS names;
   - the FDA record numbers that identify them;

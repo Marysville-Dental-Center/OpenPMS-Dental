@@ -2,7 +2,7 @@
 
 # Rename inventory: internal code names to Open PMS Dental
 
-I only read the repository: main 1db2c6d86, plus cap/cap-4 c7dd54cb8 where noted. I changed nothing. You asked to skip the office switch-over for now, so every check below uses dev or synthetic databases. Checks that need the office database are marked as deferred.
+I only read the repository: main 1db2c6d86, plus cap/cap-4 c7dd54cb8 where noted. I changed nothing. You asked to skip adoption for now, so every check below uses dev or synthetic databases. Checks that need a production database are marked as deferred.
 
 ## 1. Bottom line
 
@@ -89,7 +89,7 @@ Registry keys the code touches today, none of them product-named:
   - Windows Credential Manager entries keyed `"OpenDental Middle Tier:"+uri` (PasswordVaultWrapper/WindowsPasswordVaultWrapper.cs:12-48).
 
   Renaming the IIS folder or the vault prefix loses saved logins.
-- **Whether the office runs a Middle Tier is still an open question** (docs/port-notes/B-SERVER.md:125).
+- **Whether a Middle Tier is used is still an open question** (docs/port-notes/B-SERVER.md:125).
 
 ### 3.2 Release channel and self-update (release binaries stored in MariaDB)
 
@@ -375,7 +375,7 @@ That is about 110 checks. Rewrite them to take the namespace from typeof(...) an
 4. **Release round trip on the dev database:** publish from folder A as the update server, then pull into folder B holding an older build. UpdateFileCopier must verify, copy, and relaunch OpenPmsDental.exe. The build id must change when only the exe changes, and FreeDentalConfig.xml must not be published.
 5. **Middle Tier:** the UnitTests MiddleTier tests, BSERVERTests, and an in-process DtoProcessor round trip that includes LogInWeb.
 6. **Adoption rehearsal on a synthetic copy of the 25.3.48 schema (od_253_schema).** Its report must match the baseline except for build ids, including "Every Open Dental release client refuses this database.", the AdoptionRowCheck results and the data-layer round trip.
-7. **Deferred, because the office switch-over is skipped for now:** with owner approval, a read-only scan of the office database's text columns for "OpenDentBusiness", "OpenDental." and ", OpenDental", and a count of program rows with a PluginDllName. The runbook updates also wait.
+7. **Deferred, because adoption is skipped for now:** with owner approval, a read-only scan of a production database's text columns for "OpenDentBusiness", "OpenDental." and ", OpenDental", and a count of program rows with a PluginDllName. The runbook updates also wait.
 
 ## 7. Size
 

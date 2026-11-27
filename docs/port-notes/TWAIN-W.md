@@ -54,7 +54,7 @@ Fact (b) from the imaging session holds: the writer's files (Explicit VR Little 
 
 ## 16-bit capture stays off
 
-Nothing here turns 16-bit capture on. `CaptureBitDepthDecision` is unchanged and still checks only `[Device.N] Bits=16`, `[Twain] Allow16Bit` (default 0), the gated settings check, the verification record and the target (fact (c)): it never waited for CAP-W, and it does not now. The owner has not chosen the 16-bit filing route (CAP-3 3), and design 7.8's other conditions are still open: the DS's 16-bit delivery verified on the clinic's sensor (W5, no hardware run), a Test capture verification record, claim attachment of a `.dcm` (FormImageSelectClaimAttach still refuses it; B-CLAIM or later), counsel's review (decision 18). Decision 7 is now settled by default (7a), and CAP-W1 and CAP-W2 are present.
+Nothing here turns 16-bit capture on. `CaptureBitDepthDecision` is unchanged and still checks only `[Device.N] Bits=16`, `[Twain] Allow16Bit` (default 0), the gated settings check, the verification record and the target (fact (c)): it never waited for CAP-W, and it does not now. The owner has not chosen the 16-bit filing route (CAP-3 3), and design 7.8's other conditions are still open: the DS's 16-bit delivery verified on a real sensor (W5, no hardware run), a Test capture verification record, claim attachment of a `.dcm` (FormImageSelectClaimAttach still refuses it; B-CLAIM or later), counsel's review (decision 18). Decision 7 is now settled by default (7a), and CAP-W1 and CAP-W2 are present.
 
 ## Decisions (INFERRED)
 

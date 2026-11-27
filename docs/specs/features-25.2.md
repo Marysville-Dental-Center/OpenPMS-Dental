@@ -2,7 +2,7 @@
 
 Status: draft, 2026-10-18. Scope: every change listed for Open Dental 25.2 that touches the Windows desktop program, plus 25.2 changes that appear only in the published database documentation or the 25.2 blog post.
 
-Baseline: our code is upstream Open Dental 24.3.63. Target: schema and behavior parity with 25.2, as one step toward adopting the office's 25.3.48 database. 25.1 items are specced separately; where a 25.2 item builds on 25.1, the dependency is listed as `v25_1-...`.
+Baseline: our code is upstream Open Dental 24.3.63. Target: schema and behavior parity with 25.2, as one step toward adopting an Open Dental 25.3.48 database. 25.1 items are specced separately; where a 25.2 item builds on 25.1, the dependency is listed as `v25_1-...`.
 
 ## Sources and method
 
@@ -106,7 +106,7 @@ Counts: 35 desktop, 4 vendor-direct, 32 excluded (12 Open Dental-service, 20 oth
 ### v25_2-core-schema-enum-sync: 25.2 schema, enum and type sync
 
 - **Category:** desktop · **Size:** M · **Confidence:** High
-- **Sources:** https://www.opendental.com/OpenDentalDiffDocumentation25-2.xml, https://www.opendental.com/OpenDentalDocumentation25-2.xml, the office schema dump, `docs/specs/schema-changes-24.3-to-26.1.md`.
+- **Sources:** https://www.opendental.com/OpenDentalDiffDocumentation25-2.xml, https://www.opendental.com/OpenDentalDocumentation25-2.xml, a schema-only dump, `docs/specs/schema-changes-24.3-to-26.1.md`.
 
 **Purpose.** This item does the plumbing that the feature items assume. Do it first, so that a migrated 25.3 database can open in our build even before every feature exists.
 
@@ -1279,7 +1279,7 @@ The rest of the 25.2 rename list is not public. Collect it from the office's 25.
 
 ## Changes in later 25.2 point releases (listed on the 25.3 page)
 
-The 25.3 release notes (https://www.opendental.com/site/version25_3.html) mark several items as also added to 25.2 point releases. They are not on the 25.2 page and are not in the counts above. The office runs 25.3.48, so the 25.3 spec owns them, except where noted. They are listed here so that nobody assumes "25.2 parity" means only the 66 items above.
+The 25.3 release notes (https://www.opendental.com/site/version25_3.html) mark several items as also added to 25.2 point releases. They are not on the 25.2 page and are not in the counts above. Adoption starts from 25.3.48, so the 25.3 spec owns them, except where noted. They are listed here so that nobody assumes "25.2 parity" means only the 66 items above.
 
 | 25.2 build | Item | Category | Owner |
 |---|---|---|---|

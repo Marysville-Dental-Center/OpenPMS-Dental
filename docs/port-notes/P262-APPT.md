@@ -1,5 +1,7 @@
 # Port note: P262-APPT, Appointments module (Open Dental 26.2 items 4 to 7)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/appt-1`, cut from `p262/schema-1` (39be2b04b). One of the nine feature packages of the Open Dental 26.2 port (owner decision of
 2026-11-07): the four items of the release notes' Appointments Module section.
 

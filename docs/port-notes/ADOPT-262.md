@@ -1,7 +1,7 @@
 # ADOPT-262: adoption accepts Open Dental 26.2 databases
 
 Package ADOPT-262, on `main`. Open Dental's current stable version is 26.2, and this program follows its schema (26.2.0), but adoption
-accepted only 24.3.63, 25.3.48 and the office's 25.3.47 / 25.3.54 pair. The 26.2.0 reference (`Reference/OdSchema-26.2.0.sql`) is built from
+accepted only 24.3.63, 25.3.48 and the 25.3.47 / 25.3.54 label pair. The 26.2.0 reference (`Reference/OdSchema-26.2.0.sql`) is built from
 Open Dental's published 26.2 database documents, with some NULL, default and key details inferred. The owner decided on 2026-11-26 that the
 published documents are the schema ("you can just treat it as the real dump"; docs/decisions/owner-questions.md, item 13).
 

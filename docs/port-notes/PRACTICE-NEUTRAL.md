@@ -76,7 +76,7 @@ name the practice only inside this repository's GitHub address (`docs/release-no
   address; the opening section says that names in angle brackets are the office's own values, and "Names used below" lists both. The
   platform reads "MariaDB 10.11 on Linux, installed from a Debian or Ubuntu package"; step 0.0.1 expects a Debian or Ubuntu release and a
   `10.11.x-MariaDB-` version with its package suffix, and the checklist row matches. Every command is unchanged apart from the placeholder.
-- **Specs, plan, validation report, reviews and port notes.** Only the names changed: "the office database", "the office schema dump (a
+- **Specs, plan, validation report, reviews and port notes.** Only the names changed: "the office database", "a schema-only dump (a
   schema-only dump of an Open Dental 25.3.48 office database, kept outside the repository)", "the HQ vendor table (kept outside the
   repository)", the diff by its file name only. `schema-changes.json` gives its source as "office 25.3.48 dump"; no code reads that field.
 - **README and owner questions.** The opening sentence calls this a fork "written for one dental practice and published for anyone to use";

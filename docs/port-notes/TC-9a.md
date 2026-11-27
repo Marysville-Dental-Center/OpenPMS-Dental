@@ -194,7 +194,7 @@ on a build of this branch, on a scratch database with synthetic patients only:
 6. **Write down** for each step: as expected, or what differed, with a screenshot (synthetic data only), the VM's Windows version and its
    graphics adapter (a VM's basic display adapter is the hard case: the chart draws in software there).
 
-The office check (O-26 as revised: a launch check before the office switches) stays as TC-8.md section 5 writes it.
+The office check (O-26 as revised: a launch check before a release) stays as TC-8.md section 5 writes it.
 
 ## 10. Open points and notes for the lead
 

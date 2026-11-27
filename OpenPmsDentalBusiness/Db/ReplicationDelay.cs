@@ -1,7 +1,7 @@
 // B-SERVER (v25_2-server-replication-delay): read and write delays for offices that use a read-only server or replication.
 // Open Dental 25.2's release notes say only that new preferences set a read/write delay when replication is used. The behavior is not public, so
 // everything below is our own design (docs/specs/features-25.2.md, docs/port-notes/B-SERVER.md); the names of Open Dental's two rows for the
-// delay come from the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
+// delay come from an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md).
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using CodeBase;
 namespace OpenPmsDentalBusiness {
 	///<summary>Two global settings, kept in preference rows that are not in the PrefName enum (a missing row reads as 0):
 	///<para>Read delay after write. Open Dental's own two rows hold it (names confirmed by the setting names of the office's Open Dental 25.3.48
-	///database, owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md): ReplicationWriteReadDelayEnabled (1/0) and
+	///database, owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md): ReplicationWriteReadDelayEnabled (1/0) and
 	///ReplicationWriteReadDelayMS (milliseconds). The delay is the milliseconds while Enabled is 1, otherwise 0. Release v0.0 kept it in the row
 	///ForkReplicationReadDelayMs; the fork migration step OdSettingNamesStep moves it. INFERRED: Open Dental names one write/read delay, taken here as
 	///this delay. With replication, data written on the main server reaches a replica after a lag. For this many milliseconds after this workstation

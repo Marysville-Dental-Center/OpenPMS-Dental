@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("SWMAPTests")]
-[assembly: AssemblyDescription("Tests for the settings read under Open Dental's own names at the switch-over and the step that moves the rows of release v0.0 (SWMAP). Synthetic data only.")]
+[assembly: AssemblyDescription("Tests for the settings read under Open Dental's own names at adoption and the step that moves the rows of release v0.0 (SWMAP). Synthetic data only.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("SWMAPTests")]
 [assembly: AssemblyCopyright("GPL v2")]

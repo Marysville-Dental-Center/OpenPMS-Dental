@@ -30,7 +30,7 @@ namespace AdoptionValidation.Tests {
 			Assert.AreEqual("26.2.0",SchemaVerifier.ReferenceVersion);
 			Assert.AreEqual(OdStartupCheck.VersionSchemaTarget.ToString(3),SchemaVerifier.ReferenceVersion,"The startup model tries the release whose schema the "
 				+"adopted database has.");
-			Assert.IsTrue(ForkVersions.IsAdoptable(new Version(25,3,48,0)),"The office's 25.3.48 database is still adoptable.");
+			Assert.IsTrue(ForkVersions.IsAdoptable(new Version(25,3,48,0)),"A 25.3.48 database is still adoptable.");
 			Assert.IsFalse(ForkVersions.IsAdoptable(new Version(26,1,70,0)),"An Open Dental 26.1 database is not on the allowlist.");
 			Assert.IsFalse(ForkVersions.IsAdoptable(new Version(26,2,0,0)),"26.2 is not on the fixed allowlist: it is adopted through ForkVersions.ListAdoptableLines, after the schema check.");
 		}

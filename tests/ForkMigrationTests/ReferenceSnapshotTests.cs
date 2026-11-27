@@ -13,7 +13,7 @@ using OpenPmsDentalBusiness.ForkMigrations;
 namespace ForkMigrationTests {
 	[TestClass]
 	public class ReferenceSnapshotTests {
-		///<summary>The schema-only dump of the office's Open Dental 25.3.48 database. It is not in the repository: the environment variable
+		///<summary>The schema-only dump of an Open Dental 25.3.48 database. It is not in the repository: the environment variable
 		///FORKMIGRATION_REFERENCE_DUMP gives its path, and the tests that need it are skipped where it is not set or the file is missing.</summary>
 		private static string DumpPath {
 			get {
@@ -27,7 +27,7 @@ namespace ForkMigrationTests {
 			Assert.AreEqual(422,reference.Tables.Count,"Open Dental 25.3.48 has 422 tables.");
 			SchemaTable patient=reference.GetTable("patient");
 			Assert.IsNotNull(patient);
-			Assert.IsNull(patient.GetColumn(SchemaVerifier.PortalActiveEmailColumn),"The office-specific column is not Open Dental schema.");
+			Assert.IsNull(patient.GetColumn(SchemaVerifier.PortalActiveEmailColumn),"The patient portal column is not Open Dental schema.");
 			Assert.IsNull(patient.GetIndex(SchemaVerifier.PortalActiveEmailIndex));
 			Assert.IsTrue(reference.Tables.All(x => x.Engine=="MyISAM"),"Every Open Dental table is MyISAM.");
 			string ddl=SchemaVerifier.ReadReferenceDdl(SchemaVerifier.ReferenceResourceName25_3_48);

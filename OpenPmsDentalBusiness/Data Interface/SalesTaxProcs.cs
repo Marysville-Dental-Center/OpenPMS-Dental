@@ -14,7 +14,7 @@ namespace OpenPmsDentalBusiness {
 	///<summary>The sales-tax procedure: its setting, the tax it carries and the rules that keep it from being taxed again. See docs/port-notes/B-ACCT.md.</summary>
 	public class SalesTaxProcs {
 		///<summary>The preference row that holds the sales-tax procedure code (a ProcCode). Open Dental 24.4 added this setting under this very name:
-		///the setting names of the office's Open Dental 25.3.48 database include it (owner question Switch-over 1, 2026-11-07;
+		///the setting names of an Open Dental 25.3.48 database include it (owner question Adoption 1, 2026-11-07;
 		///docs/port-notes/SWMAP.md), so the office's code carries over as it is. Its value format is not public, so a CodeNum is read too
 		///(GetCodeNumFromSetting). The row is read and written by name, outside the PrefName enum, like the fork's other non-enum rows. It is inserted
 		///the first time the office saves a code, so a database without it needs no migration and reads as "not set".</summary>

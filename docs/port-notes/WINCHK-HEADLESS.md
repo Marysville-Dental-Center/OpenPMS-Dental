@@ -406,7 +406,7 @@ answers no UAC prompt, prints nothing, sends nothing and changes no Windows sett
 | The setup on a clean VM without any .NET | S3b-7's Test-Installer (the owner's elevated run is due); `tools/Test-CleanInstall.ps1` in Windows Sandbox (LAUNCH-3b) | Yes: the owner runs Test-CleanInstall.ps1 (docs/admin/launch-checks-3b.md, check 3) |
 | The setup over the bridge release | Removed: no bridge release (decision 21) and no install to migrate (decision 22) | - |
 | On x64: Help > About and the diagnostics show a 64-bit process | A2 (`Process: 64-bit`, `.NET runtime: .NET 10.`) | - |
-| On x64: TWAIN capture with the clinic's sensor and a document scan through the 64-bit TWAINDSM | E1 to E4 (the capture windows); ImagingCapture's tests | Yes: the real sensor and scanner |
+| On x64: TWAIN capture with a real sensor and a document scan through the 64-bit TWAINDSM | E1 to E4 (the capture windows); ImagingCapture's tests | Yes: the real sensor and scanner |
 | On x64: each helper link where a test PC has the vendor software | Helper32Tests | Yes: the vendors' software |
 | On x64: the tooth chart in DirectX and OpenGL, and a mode that cannot start falling back | I7, I11; S3b-5W's tests | - |
 | On x64: the Snipping Tool start of the claim attachment windows and the on-screen keyboard | - | Yes: they start Windows' own programs on the person's desktop |

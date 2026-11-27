@@ -24,8 +24,8 @@ Windows; Linux deferred); no dual-targeting; self-contained (changed on 2026-11-
 (changed on 2026-11-08 from "x86 until stage 5": the switch goes straight to x64, with no 32-bit .NET 10 build, decision 19); the tests
 leave MSTest v1 (for MSTest 4, decision 3); NuGet from a local offline folder with lock files, replacing `Required dlls` where a package
 exists; SOAP clients of cut services are dropped and the rest replaced; BinaryFormatter is scanned for and replaced; AppDomain tests are
-rewritten; COM interop stays; the office does not use QuickBooks Desktop (QBFC), Schick CDR or Topaz (a fact only: since the owner
-correction of 2026-11-08 all three are kept and ported, through a 32-bit helper program or a 64-bit replacement, S3a-13 and S3a-14).
+rewritten; COM interop stays; QuickBooks Desktop (QBFC), Schick CDR and Topaz are kept (since the owner
+correction of 2026-11-08 all three are ported, through a 32-bit helper program or a 64-bit replacement, S3a-13 and S3a-14).
 
 ---
 
@@ -76,8 +76,8 @@ only; the Middle Tier figure (5-6.5 days) comes from the Middle Tier survey, the
    project-format change and avoids a second toolchain switch at 3b (section 2.4).
 5. **Stage 3b goes straight to x64; stage 5 is folded into 3a and 3b** (owner, 2026-11-08: "no go directly to 64.", decision 19). The
    plan kept x86 at the switch and left 64-bit to a later stage 5. The lead offered a 32-bit .NET 10 build as an internal checkpoint,
-   then the flip to 64-bit, with one office release; the owner chose to go directly. So there is no 32-bit .NET 10 build of the program,
-   and the office gets one rollout: the bridge release (x86, end of 3a), then the .NET 10 x64 setup once on every workstation. The
+   then the flip to 64-bit, with one release; the owner chose to go directly. So there is no 32-bit .NET 10 build of the program,
+   and there is one rollout: the bridge release (x86, end of 3a), then the .NET 10 x64 setup once on every workstation. The
    64-bit work that can be done and tested on .NET Framework moves into 3a as five packages (S3a-12 to S3a-16): pointer-size-safe native
    code and registry views, the 32-bit helper program for the kept 32-bit-only vendor components (two packages), the tooth chart engines
    on x64, and an x64 build of `Direct2dWrapper`. The rest is part of the switch (3b), and the 64-bit prerequisites, the TWAIN ones above
@@ -722,7 +722,7 @@ stays in S3a-4's golden fixture); an X12 source scan in BCLAIMTests; the net48 G
 | **S3a-3 Encodings and numbers** | `ProcCodeImports.cs:133`, `ProcCodesOther.cs:241`, `CodeBase/Utilities/ODZip.cs:43`, `EForms/EFormRichPaste.cs:82`, `FormPatienteBill.cs:100,811`, `Data Interface/EmailMessages.cs` (the charset sites left after S0-3; the whole file is owned here in 3a), `DataConnectionBase/SOut.cs`, `SIn.cs`, the money-formatting helpers, `X12/X837_5010.cs`, `X837_4010.cs`, `Eclaims/Ramq.cs`, `Data Interface/TreatPlans.cs:258-273`, `PayPlans.cs:910`, the statement money text (`SheetFramework/SheetFiller.cs` `totInsBalValsHelper`, the e-statement bridges `Bridges/EHG_statements.cs`, `ClaimX_Statements.cs`, `EDS_Statements.cs`, `POS_statements.cs`, `WpfControlsOD/Bridges/Tesia_statements.cs`); tests `tests/BPROCTests/ProcCodeImportTests.cs:120`, `tests/M2CANTests/OtherCodesTests.cs:237`, `tests/BINBTests/ODZipTests.cs:63` | Replace `Encoding.Default` (UTF-8 on .NET, https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.default) with the explicit ANSI page `Encoding.GetEncoding(GetACP())` (the system locale's page, kernel32 `GetACP`, which is what `Encoding.Default` is on .NET Framework whatever the thread culture); give machine-read numbers explicit formats and "G15" where text must match today: X12, claim files and exports with `InvariantCulture`; signature keys keep the current culture (G15 digits, no negative zero) so that stored signatures still match; normalise negative zero in money formatting; `SIn.Double/Float` treat infinity as invalid (.NET parses overflow to infinity, https://learn.microsoft.com/en-us/dotnet/core/compatibility/3.0#floating-point-formatting-and-parsing-behavior-changed). All no-ops on net48. Code-page provider registration waits for 3b (section 8). EHR-6b (`docs/specs/ehr-2027-measures-plan.md`) deletes the 2014 QRDA I zip writer (`QualityMeasures.cs:7860-7861`); the 2027 writer (EHR-5c1) stores UTF-8 entries itself. So once EHR-6b has merged `ODZip.GetDefaultEncodingBytes` has one caller fewer: `Eclaims/Ramq.cs` is then the only one in shipped code. | the three fixed tests (bytes built with the system page, 1252 pinned; no guard on the culture), BCLAIMTests, M2CLAIMFORMTests, BTPTests, PayPlanTests, StatementTests |
 | **S3a-4 Golden outputs and known answers** | new `tests/GoldenOutputTests` project (+ sln/slnf entry, lead merges), fixture files | From one fixture database built by the existing scratch-database helpers: an 837 batch, statement PDF text, treatment-plan and pay-plan signature keys, the main CSV exports, `SOut.Float` SQL text for computed values, crypto known answers (`MiscUtils.Decrypt`, `CentralConnections.Decrypt`, a stored signature, RDL data-source decryption), a `wikilisthist.ListContent` written by net48, and the output of a fixture RDL report whose expression calls a VB `<Code>` function (for S3b-2, decision 14). Recorded with the net48 build and committed; the same tests compare byte for byte in 3b. | the new assembly |
 | **S3a-5 PasswordVault to Credential Manager** | `PasswordVaultWrapper/*` (project file drops `Windows.winmd`), `Required dlls/Windows.winmd`, `tests/BINBTests` vault tests | Credential Manager P/Invoke (`CredWriteW`/`CredReadW`/`CredDeleteW`/`CredEnumerateW`), same public interface; on first use a one-time migration copies existing PasswordVault entries over (WinRT still works on net48), so nobody re-enters a password. .NET 5+ cannot consume `.winmd` (https://learn.microsoft.com/en-us/dotnet/core/compatibility/interop/5.0/built-in-support-for-winrt-removed). No TFM change, no download. | BINBTests; the migration test (an entry written through PasswordVault is readable through Credential Manager after first use, and the migration runs once) |
-| **S3a-6 SOAP clients without System.Web.Services** | `OpenPmsDentalBusiness.csproj` (owner in 3a), `Web References/Dentalxchange2016/*`, `DentalxchangePartnerService/*`, `com.dentalxchange.webservices/*` (DCI), `NewCropWebService/*`, `EmdeonITS/*`, new `WebServices/SoapCaller.cs`, `Eclaims/ClaimConnect.cs` (304, 817 `SoapException`), `ElectIDs.cs`, `Eclaims/EmdeonMedical.cs` (`PutFileExt` at 44, `GetFile` at 103), `WebBridges/Erx/NewCrop/NewCrop.cs`, `NewCropConfig.cs`, `OpenPmsDentalBusiness/Properties/Settings*`, its `app.config`; `OpenPmsDental/Forms/FormInsPlan.cs` (only the `EligibilityCheckDentalXchange` region, 2011-2420); the unused ITS URL setting of the program (`OpenPmsDental/Properties/Settings.Designer.cs:38-41`, `Settings.settings`, its `app.config` entry); tests `tests/VDXC2Tests/FakeDentalXChange.cs`, `DxcPdfAttachmentTests.cs`, `tests/VendorDirectTests/DentalXChange/DxcPartnerIdentityTests.cs`, `Erx/NewCropAndThrottleTests.cs`, `tests/CLAIMDCMTests/WiringTests.cs:134`, new ITS tests, new `tests/VendorDirectTests/DentalXChange/DciEligibilityTests.cs` with a recorded response file | Keep the generated `[XmlType]` data classes, delete the `SoapHttpClientProtocol` classes, and send the 14 used document/literal operations (DentalXChange DWS 4, DEA 6, NewCrop 2, Change Healthcare ITS 2) through one `HttpClient` + `XmlSerializer` SOAP caller that reproduces each method's `SoapDocumentMethod` wrapper. ITS is kept and must work on .NET 10 although the office does not use it today (decision 12). **DCI eligibility** (the Practice-Web path, kept: decision 12, open point O-6) has one used operation, `lookupEligibility` (`FormInsPlan.cs:2055`). Its proxy is rpc/encoded (`SoapRpcMethod`), so the same caller writes that body by hand: the `lookupEligibility` element in the namespace `http://www.dentalxchange.com/webservice`, with the parts `in0` (`Credentials`) and `in1` (`Request`) typed as the old proxy types them; it reads `content` from `lookupEligibilityReturn`. Its three `[SoapType]` data classes stay, the `WebServiceService` proxy goes, the `FormInsPlan` region calls the new caller, and the URL setting `OpenDentBusiness_com_dentalxchange_webservices_WebServiceService` stays. Before deleting the old proxies, a test captures the envelope each old proxy sends (through the existing `WebRequest.RegisterPrefix` fake) and asserts the new caller's envelope is equivalent, for every operation including ITS's two and DCI's one. The VDXC2 fake becomes an `HttpMessageHandler`; a new fake ITS endpoint checks the request the caller builds (login, message type, file name, zipped payload) and parses an `ItsReturn`. The new DCI test checks the rpc/encoded request body the caller builds (element, namespace, parts and their types) and parses a recorded `lookupEligibility` response into the `content` that `ProcessEligibilityResponseDentalXchange` reads. Removing these `WebReferenceUrl` items must keep `OpenPmsDentalBusiness.XmlSerializers.dll` (critique W1): the Middle Tier's web reference stays until 3b, so SGen still runs at `Auto`, and the Release dry run checks that both XmlSerializers files are still staged. This route differs from regenerating with `dotnet-svcutil`; see section 8. The Middle Tier's own proxy stays until 3b. | VDXC2Tests, VendorDirectTests, CLAIMDCMTests, BCLAIMTests, the envelope-equivalence tests, the ITS request test, the DCI request and response tests |
+| **S3a-6 SOAP clients without System.Web.Services** | `OpenPmsDentalBusiness.csproj` (owner in 3a), `Web References/Dentalxchange2016/*`, `DentalxchangePartnerService/*`, `com.dentalxchange.webservices/*` (DCI), `NewCropWebService/*`, `EmdeonITS/*`, new `WebServices/SoapCaller.cs`, `Eclaims/ClaimConnect.cs` (304, 817 `SoapException`), `ElectIDs.cs`, `Eclaims/EmdeonMedical.cs` (`PutFileExt` at 44, `GetFile` at 103), `WebBridges/Erx/NewCrop/NewCrop.cs`, `NewCropConfig.cs`, `OpenPmsDentalBusiness/Properties/Settings*`, its `app.config`; `OpenPmsDental/Forms/FormInsPlan.cs` (only the `EligibilityCheckDentalXchange` region, 2011-2420); the unused ITS URL setting of the program (`OpenPmsDental/Properties/Settings.Designer.cs:38-41`, `Settings.settings`, its `app.config` entry); tests `tests/VDXC2Tests/FakeDentalXChange.cs`, `DxcPdfAttachmentTests.cs`, `tests/VendorDirectTests/DentalXChange/DxcPartnerIdentityTests.cs`, `Erx/NewCropAndThrottleTests.cs`, `tests/CLAIMDCMTests/WiringTests.cs:134`, new ITS tests, new `tests/VendorDirectTests/DentalXChange/DciEligibilityTests.cs` with a recorded response file | Keep the generated `[XmlType]` data classes, delete the `SoapHttpClientProtocol` classes, and send the 14 used document/literal operations (DentalXChange DWS 4, DEA 6, NewCrop 2, Change Healthcare ITS 2) through one `HttpClient` + `XmlSerializer` SOAP caller that reproduces each method's `SoapDocumentMethod` wrapper. ITS is kept and must work on .NET 10 (decision 12). **DCI eligibility** (the Practice-Web path, kept: decision 12, open point O-6) has one used operation, `lookupEligibility` (`FormInsPlan.cs:2055`). Its proxy is rpc/encoded (`SoapRpcMethod`), so the same caller writes that body by hand: the `lookupEligibility` element in the namespace `http://www.dentalxchange.com/webservice`, with the parts `in0` (`Credentials`) and `in1` (`Request`) typed as the old proxy types them; it reads `content` from `lookupEligibilityReturn`. Its three `[SoapType]` data classes stay, the `WebServiceService` proxy goes, the `FormInsPlan` region calls the new caller, and the URL setting `OpenDentBusiness_com_dentalxchange_webservices_WebServiceService` stays. Before deleting the old proxies, a test captures the envelope each old proxy sends (through the existing `WebRequest.RegisterPrefix` fake) and asserts the new caller's envelope is equivalent, for every operation including ITS's two and DCI's one. The VDXC2 fake becomes an `HttpMessageHandler`; a new fake ITS endpoint checks the request the caller builds (login, message type, file name, zipped payload) and parses an `ItsReturn`. The new DCI test checks the rpc/encoded request body the caller builds (element, namespace, parts and their types) and parses a recorded `lookupEligibility` response into the `content` that `ProcessEligibilityResponseDentalXchange` reads. Removing these `WebReferenceUrl` items must keep `OpenPmsDentalBusiness.XmlSerializers.dll` (critique W1): the Middle Tier's web reference stays until 3b, so SGen still runs at `Auto`, and the Release dry run checks that both XmlSerializers files are still staged. This route differs from regenerating with `dotnet-svcutil`; see section 8. The Middle Tier's own proxy stays until 3b. | VDXC2Tests, VendorDirectTests, CLAIMDCMTests, BCLAIMTests, the envelope-equivalence tests, the ITS request test, the DCI request and response tests |
 | **S3a-7 Windows services without InstallUtil** | `CodeBase/Utilities/ServicesHelper.cs` (InstallUtil at 18-25, 68, 114; its `new Process()` at 30), `OpenPmsDentalHL7/ProjectInstaller.cs` (delete), `OpenPmsDentalHL7.csproj` (`System.Configuration.Install` reference), `ServiceManager/FormServiceManage.cs:115,154`; tests `tests/ReleaseFlowTests/ProgramNamesTests.cs` (183-196, and S3a-8's exe-loading fix at 191), `tests/BINBTests/RemovedBinariesTests.cs:139-143` | Install and remove services with `sc.exe` (or `CreateService`/`DeleteService` P/Invoke); `System.Configuration.Install` does not exist on .NET (https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable) and InstallUtil cannot load a .NET 10 assembly. The `ServicesHelper.Install`/`Uninstall` signatures stay, so the caller `OpenPmsDental/Logic/PrefL.cs:488` needs no edit (if it must change, the edit goes into S3a-10's brief). Elevation: ServiceManager runs elevated by its manifest; the program's call keeps today's "try running as admin" message. | ReleaseFlowTests, BINBTests; manual: install and remove the HL7 service from ServiceManager on a test PC |
 | **S3a-8 Tests that use .NET Framework-only APIs** | AppDomain probes (`NoHqTests/RemovedAssembliesTests.cs`, `tests/DicomReaderTests/DicomPixelReaderChainTests.cs`, `tests/LibSpellTests/TestSupport.cs` + `SpellCheckProbe.cs`, `tests/VendorDirectTests/BridgesRemoval/BridgesDllRemovedTests.cs`, `tests/PdfLibraryTests/IsolatedPdfRun.cs`), ReflectionOnly loads (`NoHqTests/RenameGuardTests.cs`, `tests/BINATests/RepoFiles.cs`, `tests/BINBTests/CompiledReferencesTests.cs`, `tests/LibraryUpdateTests/LibraryFilesTests.cs`, `VendorDirectTests/PayConnect/PayConnect1RemovedTests.cs`, `tests/VendorDirectTests/DdeBridges/DdeBridgesTests.cs`, which S0-R made of `DdeBridgesRemovedTests.cs`), `tests/LibraryBindingTests/RequiredDllsTests.cs:75` (GAC), `tests/AttributionTests/ReleaseIdentityTests.cs:96`, `AttributionTests.cs:52`, `tests/ImagingCaptureTests/InteropLayoutTests.cs:114,137`, the exe-loading tests `NoHqTests/CdtRetiredTests.cs:108` and `tests/ReleaseFlowTests/ReleaseManifestTests.cs:219-224` | Read assembly references with Mono.Cecil (already used by the tests; no new package) instead of `ReflectionOnlyLoad`; run the probes in-process or in a child process instead of a new AppDomain (AppDomain creation throws on .NET, https://learn.microsoft.com/en-us/dotnet/core/porting/net-framework-tech-unavailable); `AssemblyBuilder.DefineDynamicAssembly`; delete the GAC assertion; assert the COM method order from a list; load "the program's managed assembly" through a helper that takes `OpenPmsDental.dll` when present and the `.exe` otherwise (S3a-7 applies the same helper in `ProgramNamesTests.cs:191`). The binding-redirect tests stay until 3b (still meaningful on net48). | each touched assembly |
 | **S3a-9 Small API fixes** | `OpenPmsDentalDbSettings/OfficeCaFile.cs`, `DbSettingsRunner.cs`, `ClientCertificateStore.cs`, `tests/DbConnectionSecurityTests/ToolTests.cs`, `OwnerAnswersTests.cs`; `SheetFramework/SheetPrintingJob.cs:498`, `Imaging/DicomImageReader.cs:204`, `SheetFramework/SheetDrawingJob.cs:857`, `tests/ImagingDeviceManagerTests/CaptureSessionFilesTests.cs:121`; network guards `tools/DevDbTool/NetworkGuard.cs`, `tools/SyntheticData/Infrastructure/LocalOnly.cs`; `OpenPmsDentalBusiness/TableTypes/Pref.cs`, new `NoHqTests/ObsoletePrefNamesTests.cs`; `OpenPmsDentalBusiness/Email/SendEmails.cs` (142-150, 259-268), `CodeBase/Utilities/EmailUtils.cs:16-18`, `Data Interface/EmailAddresses.cs:221`, new `tests/LibraryUpdateTests/AddressRulesTests.cs` | (i) Static `File/Directory.Get/SetAccessControl` to the `FileInfo`/`DirectoryInfo` instance form, which compiles on both runtimes (https://learn.microsoft.com/en-us/dotnet/api/system.io.filesystemaclextensions). (ii) The `OutOfMemoryException` catches gain `catch(ExternalException)` (https://learn.microsoft.com/en-us/dotnet/core/compatibility/windows-forms/10.0/system-drawing-outofmemory-externalexception). (iii) The network guards also set `HttpClient.DefaultProxy`. (iv) **XmlSerializer and obsolete members:** on .NET 10 `XmlSerializer` serializes `[Obsolete]` members and throws while building a serializer for a member marked `IsError=true` (https://learn.microsoft.com/en-us/dotnet/core/compatibility/serialization/10/xmlserializer-obsolete-properties); enum constants count. `Pref.cs` has 25 `[Obsolete("…",true)]` members of `enum PrefName` (for example lines 93, 241, 728), and `PrefName` travels in 15 `Meth.*` calls in 4 files (`Prefs.cs` 12, `PrefC.cs:273`, `LanguagePats.cs:181`, and `ClinicPrefs.cs:267` with a `List<PrefName>`) and in `ClinicPref.PrefName`: every such Middle Tier call would throw. Change the 25 to `IsError=false`; on net48 nothing changes (`XmlSerializer` ignores obsolete members there). The new tests replace the lost compile error: a source scan that no code outside `Pref.cs` references any of the 25 as `PrefName.<name>` (strings in the convert scripts and comments are allowed); and a reflection test that no member of `PrefName` carries an `ObsoleteAttribute` with `IsError==true`, so a newly ported upstream preference marked that way fails on net48 and not only at 3b. The alternative, the AppContext switch that restores "ignore obsolete members", would have to be set in every process that serializes (program, server, tools, tests). (v) **Addresses with consecutive dots:** .NET 10's `MailAddress` rejects them (https://learn.microsoft.com/en-us/dotnet/core/compatibility/10, Networking); the sending and validation sites listed catch the `FormatException` and tell the user the address is not valid instead of failing; the new test pins today's result for `a..b@example.com` and is updated to the .NET 10 result in 3b. | DbConnectionSecurityTests, ImagingDeviceManagerTests, DevDbTool/SyntheticData guard tests, NoHqTests, LibraryUpdateTests, MiddleTierMockTests |
@@ -1122,8 +1122,8 @@ S3a-14 read vendor documentation only; no vendor file is downloaded.
 - Too much product change in one release: the bridge release ships 3a on the known runtime, so the office meets these changes one at a
   time, before the runtime changes.
 - Pointer-size faults that show only in a 64-bit process: the x64 test runs on net48 (S3a-12, S3a-15) catch layout and signature errors
-  before the switch; the TWAIN path is proven on x64 against the fake DSM here, and against the real 64-bit TWAINDSM and the clinic's
-  sensor before the office release (3b entry conditions).
+  before the switch; the TWAIN path is proven on x64 against the fake DSM here, and against the real 64-bit TWAINDSM and a real
+  sensor before a release (3b entry conditions).
 - The helper adds a process boundary to QuickBooks Desktop, Schick, Topaz and Guru: the protocol tests cover a crash, a timeout and a
   missing helper; the bridge release already runs the helper on the known runtime; no test PC has the vendor software today (O-14).
 
@@ -1154,7 +1154,7 @@ layout, the runtime that ships inside the program (published as its own part of 
 **Entry conditions.** 3a merged; the bridge release installed on every workstation and on the update server. The lane and the test runners
 have been on Build Tools 2026 since S1-0 (decision 1), and the x64 .NET 10 runtimes (10.0.14 on 2026-11-08, kept current by Visual Studio
 updates; the x86 ones are installed too) are on the build PC; the test runs use them, while the shipped exes carry their own
-(decision 20). Download batch D approved and in place, with the runtime packs. Batch C is not needed: the office runs no Middle Tier
+(decision 20). Download batch D approved and in place, with the runtime packs. Batch C is not needed: the release ships no Middle Tier
 server (open point O-7, answered 2026-11-08), and the Middle Tier server is self-contained too, so the gate's Middle Tier check on the
 build PC needs no runtime install. Branch `net10/switch` cut from `main`.
 
@@ -1170,11 +1170,11 @@ the 3b gate and the merge also wait for the last two.
   suite in both bitnesses; they are not yet packaged, and not yet tested through the 64-bit TWAINDSM. They install to the standard
   folder `C:\Windows\twain_64\<name>\`, beside the unchanged 32-bit sources; the 32-bit package must be installed too, because the
   64-bit source reads the `twain_32` INI file and starts the 32-bit helper.
-- **Before the office release:** the 64-bit data sources are packaged and tested through the 64-bit TWAINDSM on the clinic's real
+- **Before a release:** the 64-bit data sources are packaged and tested through the 64-bit TWAINDSM on a real
   sensor, from the x64 program. Two programs using the sensor at once: the owner decided on 2026-11-08 (driver project) that today's
-  behaviour stays, so nothing stops a second host; whether to add a lock is decided after the clinic run's two-program check. It is
+  behaviour stays, so nothing stops a second host; whether to add a lock is decided after the real-sensor run's two-program check. It is
   not an entry condition of the switch.
-- **Before the office release:** each workstation's TWAIN devices are listed, with a 64-bit data source for each, or that workstation
+- **Before a release:** each workstation's TWAIN devices are listed, with a 64-bit data source for each, or that workstation
   stays on the bridge release for now (section 10 step 3).
 
 **Packages (all on `net10/switch`).**
@@ -1371,10 +1371,10 @@ release; the new Middle Tier is checked for real on the build PC: started as a W
 certificate, with the host round-trip tests (S3b-6) and a client session run against it; two launch checks of references the shared
 framework does not answer (S3b-5, LibraryBindingTests' known gaps): a Direct message sent with a certificate found through the LDAP
 resolver (`Health.Direct.ResolverPlugins`, which references the .NET Framework's System.ServiceModel), and a WebView2 window (eForm or
-e-mail preview) opens (`Microsoft.Web.WebView2.Wpf`'s WinRT references). The office runs no Middle Tier server
-(B-SERVER 5 in `docs/decisions/owner-questions.md`, open point O-7), so there is no office hosting check. The 64-bit checks (decision 19): PE
+e-mail preview) opens (`Microsoft.Web.WebView2.Wpf`'s WinRT references). The release ships no Middle Tier server
+(B-SERVER 5 in `docs/decisions/owner-questions.md`, open point O-7), so there is no hosting check. The 64-bit checks (decision 19): PE
 machine 0x8664 for every staged exe and native DLL, the x64 runtime part's included, and 0x14C for the helper's folder; TWAIN capture
-from the x64 program with the clinic's real sensor through the 64-bit TWAINDSM and the driver project's 64-bit data sources (entry
+from the x64 program with a real sensor through the 64-bit TWAINDSM and the driver project's 64-bit data sources (entry
 condition); each helper link from the x64 program where a test PC has the vendor software; the setup's move from a 32-bit bridge
 install on a test PC (section 10 step 3). Then the branch merges into `main` in one merge commit.
 
@@ -1404,7 +1404,7 @@ The 64-bit TWAINDSM 2.5.1 is not a plan batch: its download is asked when 3b sta
 - Compatibility-mode binaries (SharpDX, Tao) might fail at run time: the tooth chart in DirectX, OpenGL and 2D modes on x64; a mode
   that cannot start falls back, down to 2D (S3a-15).
 - TWAIN on x64: the TWAIN code was made pointer-size-safe and tested in both bitnesses in 3a (S3a-12); the spike opens the 64-bit
-  TWAINDSM with the driver project's sources in fake mode; the office release waits for the test on the clinic's real sensor.
+  TWAINDSM with the driver project's sources in fake mode; a release waits for the test on a real sensor.
 - A 32-bit vendor component that no helper covers: the review of S3a-12 lists every native and COM component the program loads; the
   source scan keeps the vendor references in the helper.
 - Mixed workstations during the switch: the bridge release refuses the x64 release and says to run the new setup; no schema change, so
@@ -1429,12 +1429,12 @@ install about 2-3; the runtime part of the release channel and the self-containe
 
 ### Stage 5 - x64: folded into 3a and 3b (owner, 2026-11-08, decision 19)
 
-There is no separate x64 stage any more: the switch goes straight to x64, and the office gets one rollout. Where each item of the former
+There is no separate x64 stage any more: the switch goes straight to x64, with one rollout. Where each item of the former
 stage 5 is now:
 
 - 64-bit TWAIN: the TWAIN code made pointer-size-safe and tested in both bitnesses (S3a-12); the 64-bit TWAINDSM shipped by this
-  program's setup (S3b-7; its download asked when 3b starts, O-16); the TWAIN driver project's 64-bit data sources and their test on the
-  clinic's real sensor (3b entry conditions, with the driver project's state on 2026-11-08).
+  program's setup (S3b-7; its download asked when 3b starts, O-16); the TWAIN driver project's 64-bit data sources and their test on a
+  real sensor (3b entry conditions, with the driver project's state on 2026-11-08).
 - The tooth chart's SharpDX and Tao engines: kept on x64, with today's fallback down to 2D (S3a-15); the WPF 3D chart still replaces
   them later (`docs/roadmap.md`), but it is no longer a prerequisite of 64-bit.
 - `Direct2dWrapper` x64 with its own copy destination and a corrected sln `Any CPU` mapping: S3a-16, then S3b-4. `WebView2Loader.dll`
@@ -1517,9 +1517,9 @@ Same database, same monitor, before and after; one PC at 100%, one at 150% (4K),
   clear message; the self-update end to end between two .NET 10
   builds from a standard user (publish on a test update server, pull on a second test PC, UpdateFileCopier runs elevated from its temp
   folder with its runtime, program restarts), with an unchanged runtime (only the program part pulled), and the first release with a new
-  runtime patch the same way before the office gets it (both parts pulled, decision 20); the setup on a clean VM without any .NET
+  runtime patch the same way before it is published (both parts pulled, decision 20); the setup on a clean VM without any .NET
   (nothing installed for .NET; the program, ServiceManager and the DbSettings tool start) and over the bridge release.
-  On x64 (decision 19): Help > About and the diagnostics show a 64-bit process; TWAIN capture with the clinic's real sensor through the
+  On x64 (decision 19): Help > About and the diagnostics show a 64-bit process; TWAIN capture with a real sensor through the
   64-bit TWAINDSM and the driver project's 64-bit data sources, and a document scan with a scanner's 64-bit driver; each helper link from
   the x64 program where a test PC has the vendor software; the tooth chart in DirectX and OpenGL modes on x64, and a mode that cannot
   start falling back; the Snipping Tool start of the claim attachment windows and the on-screen keyboard (the system-folder fixes of
@@ -1587,8 +1587,8 @@ Same database, same monitor, before and after; one PC at 100%, one at 150% (4K),
 4. **Number of ProgressWin sites.** The surveys counted about 180-190 with wider patterns. Grep `new ProgressWin\(` gives 127 in 54 files,
    including `ProgressWin.cs` itself (4) and the legacy UnitTests project (9). The conclusion (every progress window fails at its end) is
    the same.
-5. **QBFC, Schick, Topaz.** Two surveys: remove; one: removal optional for .NET 10. Resolved first as remove (S0-2a): the office uses
-   none of them, QBFC's interop DLL is a CLR 1.1 binary that would stay in `Required dlls`, and `TopazWrapperTests` compiles code with
+5. **QBFC, Schick, Topaz.** Two surveys: remove; one: removal optional for .NET 10. Resolved first as remove (S0-2a): they were thought
+   unused, QBFC's interop DLL is a CLR 1.1 binary that would stay in `Required dlls`, and `TopazWrapperTests` compiles code with
    CodeDom, which throws on .NET. Changed by the owner correction of 2026-11-08: all three are kept and ported; these facts go into
    the planning of their ports (open point O-10).
 6. **SOAP clients: dotnet-svcutil or hand-written.** The Middle Tier survey recommends regenerating DWS/DEA/NewCrop with `dotnet-svcutil`
@@ -1798,7 +1798,7 @@ Added for decision 20 (self-contained), read-only on the build PC on 2026-11-08:
 
 ## 10. The update path for an office (from the .NET Framework build to the .NET 10 build)
 
-1. **Bridge release first (end of 3a). Skipped by decision 21 (2026-11-15):** no .NET Framework release follows 0.0; the office installs
+1. **Bridge release first (end of 3a). Skipped by decision 21 (2026-11-15):** no .NET Framework release follows 0.0; an office installs
    the .NET 10 setup after uninstalling 0.0. The text below is kept as the design the guards were built for. The last .NET Framework release, x86, published through the normal self-update and installed on
    every workstation. It carries all 3a changes, the one-time PasswordVault to Credential Manager migration (S3a-5), the 32-bit helper
    program for QuickBooks Desktop, Schick CDR, Topaz and Guru (S3a-13, S3a-14), and the two release-channel guards (S3a-10): an
@@ -1813,8 +1813,8 @@ Added for decision 20 (self-contained), read-only on the build PC on 2026-11-08:
    header `AAEAAAD/////` and `PublicKeyToken=`; expected result zero rows.
 3. **Switch by setup on every workstation** (decision 5), as for the rename. The office's workstations run Windows 11, the baseline
    (decision 8). **TWAIN devices first** (decision 19): the .NET 10 program is 64-bit, so it uses the 64-bit TWAINDSM and 64-bit TWAIN
-   data sources. Before a workstation switches, list its TWAIN devices: the clinic's sensor needs the TWAIN driver project's 64-bit data
-   sources (version 1.2, tested on that sensor before the office release, 3b entry conditions); a document scanner or a second device
+   data sources. Before a workstation switches, list its TWAIN devices: a sensor needs the TWAIN driver project's 64-bit data
+   sources (version 1.2, tested on that sensor before a release, 3b entry conditions); a document scanner or a second device
    needs its vendor's 64-bit driver. A workstation with a device that has only a 32-bit driver stays on the bridge release until a 64-bit
    driver or the optional 32-bit TWAIN bridge helper (`docs/roadmap.md`) exists. **The setup.** The .NET 10 setup is 64-bit: it installs
    into `Program Files\Open PMS - Dental` instead of `Program Files (x86)\Open PMS - Dental`. It installs no .NET runtime, because the
@@ -1864,7 +1864,7 @@ Added for decision 20 (self-contained), read-only on the build PC on 2026-11-08:
   (about 400 MB), and .NET security fixes come with this program's monthly releases (decision 20). It needs 64-bit TWAIN drivers (the
   setup installs the 64-bit TWAIN data source manager); Windows 11 is the baseline; on older Windows the setup
   warns. With Windows "Make text bigger" above 100%, 72 older windows show slightly larger text; plugins built for .NET Framework no
-  longer load and must be rebuilt for .NET 10 (the office uses none); RDL reports with VB `<Code>` blocks keep working (compiled with
+  longer load and must be rebuilt for .NET 10; RDL reports with VB `<Code>` blocks keep working (compiled with
   Roslyn);
   Change Healthcare ITS claims work on .NET 10 (the bridge release's SOAP caller; still not tested against the live service).
 
@@ -1884,8 +1884,8 @@ The owner answered the plan's questions "as recommended", with the corrections b
     RdlEngine's SQL Server, ODBC and OLE DB data providers, (8) Direct secure messaging (HISP). Also, if feasible, the DentX, Dexis
     Integrator and Vipersoft program links and `NDde.dll`, removed earlier (REL-FILES, 2026-11-07). S0-2a is withdrawn and its merge
     reverted; Direct comes back on top of S0-3's MimeKit e-mail code in a new package of the lead. The lead plans each port in stages
-    3a or 3b (open point O-10; stage 5 is folded in, decision 19). That the office does not use QuickBooks Desktop, Schick, Topaz or
-    Direct stays recorded as a fact; it no longer justifies a removal.
+    3a or 3b (open point O-10; stage 5 is folded in, decision 19). Whether an office uses QuickBooks Desktop, Schick, Topaz or
+    Direct no longer justifies a removal.
   - **Deliberately removed (stays removed; their tests go).** The old 2020 Imaging module (`ControlImagesOld` and its "Use old Imaging
     module interface, pre 2020" option), after its EOB and amendment window was rebuilt (S0-6); the earlier fork removals tied to Open
     Dental HQ services and eServices, and the closed-source parts with no published interface (Sparks3D, Suni, the "not available"
@@ -1926,10 +1926,10 @@ The owner answered the plan's questions "as recommended", with the corrections b
 10. **Charts.** The community port `WinForms.DataVisualization` 1.10.2 (MIT), checked by screenshots.
 11. **Kept; port to be planned (owner, 2026-11-08).** CallFire SMS, Divvy postcards, the BCBS Georgia dial-up terminal, RdlEngine's SQL
     Server, ODBC and OLE DB data providers, and with them QuickBooks Desktop, Schick CDR and Topaz. Changed by the owner correction of
-    2026-11-08; was: cut (S0-2a), and QBFC, Schick and Topaz removed because the office does not use them. The revert of S0-2a's merge
+    2026-11-08; was: cut (S0-2a), and QBFC, Schick and Topaz removed as unused. The revert of S0-2a's merge
     brings them back (open point O-10). QuickBooks Desktop, Schick CDR and Topaz, with Guru, stay 32-bit in the helper program or get a
     64-bit replacement (S3a-13, S3a-14, O-14; decision 19).
-12. **Kept: Change Healthcare (Emdeon) ITS medical claims.** The office does not use it, but it must keep working on .NET 10: its
+12. **Kept: Change Healthcare (Emdeon) ITS medical claims.** It must keep working on .NET 10: its
     generated proxy is replaced by the hand-written SOAP caller, with tests of the requests it builds (S3a-6). **Kept too: the
     Practice-Web DentalXChange eligibility path** (owner, 2026-11-08: "don't cut"; open point O-6). The DCI rpc/encoded proxy behind
     `CustomizedForPracticeWeb` is kept and made to work on .NET 10: S3a-6 replaces it with the same hand-written caller, with a test of
@@ -1939,23 +1939,23 @@ The owner answered the plan's questions "as recommended", with the corrections b
     clear message. S3b-2 moves the runtime compile from CodeDom to Roslyn (`Microsoft.CodeAnalysis.VisualBasic`, batch D, version chosen
     at download), with a test that compiles and runs a report's `<Code>` function against an output recorded on net48 (S3a-4).
 15. **Direct secure messaging kept; port to be planned (owner, 2026-11-08).** Changed by the owner correction of 2026-11-08; was:
-    removed in stage 0 (S0-3 step 3, the references and Health.Direct DLLs in S0-2b) because the office does not use it. Received-mail
+    removed in stage 0 (S0-3 step 3, the references and Health.Direct DLLs in S0-2b) as unused. Received-mail
     parsing stays on MimeKit (S0-3); Direct comes back on top of it in a new package of the lead (open point O-10).
 16. **Plugins.** Keep the plugin loader, rebuild PluginExample for .NET 10 (S3b-4); .NET Framework plugin DLLs become unsupported
-    (release notes). The office uses no plugins.
+    (release notes).
 17. **Unshipped projects kept; the old 2020 Imaging module removed.** The legacy UnitTests project, RdlDesign, DocumentationBuilder and
     CentralManager are kept and moved to .NET 10 with the other projects. Changed by the standing rule on 2026-11-08; was: UnitTests,
     RdlDesign and DocumentationBuilder deleted and CentralManager retired (S0-5). UnitTests becomes a running suite in stage 0 (S0-5),
     without the four classes S0-T moved into `tests/`; its `UI Testing` developer windows stay (open point O-9). RdlDesign and
     DocumentationBuilder join the solution in stage 1 (S1-1, S1-5); none of the four ships. The old 2020 Imaging module is retired
     completely after its EOB and amendment window is rebuilt on the new Imaging code (S0-6; open point O-2).
-18. **Middle Tier.** The office runs no Middle Tier server (owner, 2026-11-08: "no, but port middle tier to .net 10"; open point O-7).
+18. **Middle Tier.** The release ships no Middle Tier server (owner, 2026-11-08: "no, but port middle tier to .net 10"; open point O-7).
     The Middle Tier is still moved to .NET 10 (S3b-6). The 3b gate checks it on the build PC; batch C and section 10 step 4 are only for
     an office that later runs a Middle Tier server, which is self-contained too (decision 20).
 19. **Directly to 64-bit (owner, 2026-11-08).** The lead offered "32-bit .NET 10 as an internal checkpoint, then flip to 64-bit, one
     office release"; the owner answered "no go directly to 64." So there is no 32-bit .NET 10 build of the program: stage 3b retargets
     everything straight to `net10.0-windows` x64 (`PlatformTarget` x64, `RuntimeIdentifier` win-x64; `SelfContained` false, changed to
-    true by decision 20), and stage 5 as a separate later stage goes away. The office gets one rollout: the .NET Framework 4.8 bridge
+    true by decision 20), and stage 5 as a separate later stage goes away. There is one rollout: the .NET Framework 4.8 bridge
     release (x86, end of 3a), then the .NET 10 x64 setup once on every workstation (section 10). The 64-bit work that can be done and
     tested on .NET Framework moves into 3a (S3a-12 to S3a-16), and the 64-bit prerequisites become entry conditions of 3b. Changed with
     it: the ground rule "x86 until stage 5", the stage order (decision 2) and the runtime the setup downloads (decision 6; since decision
@@ -1989,8 +1989,8 @@ The owner answered the plan's questions "as recommended", with the corrections b
     - **S3a-10's bridge-side code stays**, under the no-cut rule. It guards any .NET Framework build that might still run (a developer's
       Debug build, or a later decision to publish one), and its tests stay.
 22. **No install to migrate (owner, 2026-11-15: "nothing in prod has openpms install. Don't worry about migration. The office will only
-    migrate once all workstreams are done").** No workstation runs OpenPMS - Dental. The office switches from Open Dental only once every
-    workstream is done, and that switch is the "Switch-over and data conversions" part of `docs/decisions/owner-questions.md`. So:
+    migrate once all workstreams are done").** There is no OpenPMS - Dental install to migrate. Moving from Open Dental is adoption, the "Adoption and data conversions"
+    part of `docs/decisions/owner-questions.md`. So:
     - **No upgrade path from an OpenPMS install.** From 0.0, from a .NET Framework build, from a 32-bit install, or over a mixed set of
       workstations: none of these is designed, built or tested from now on. Section 10's steps 1 and 3 (the bridge, moving the install
       out of `Program Files (x86)`, mixed workstations) and decision 21's 0.0 consequences no longer bind anything. S3b-7 builds the
@@ -2050,16 +2050,16 @@ The owner answered the plan's questions "as recommended", with the corrections b
 
 25. **The 3b merge after the automated gate (owner, 2026-11-16: "B").** `net10/switch` merges into `main` once the main merge (S3b-MAIN)
     and a Full x64 run on the final tree are green, without waiting for the gate's person checks. Nothing in production runs the program
-    (decision 22), so a defect a person check finds is fixed on `main` like any other. The person checks become launch checks before the
-    office release (`docs/admin/launch-checks-3b.md`, package LAUNCH-3b): the clean install without .NET (Windows Sandbox), the self-update from a
-    standard user, the Middle Tier as a Windows service, a Direct message through the LDAP resolver, a WebView2 window, the clinic's sensor
+    (decision 22), so a defect a person check finds is fixed on `main` like any other. The person checks become launch checks before a
+    release (`docs/admin/launch-checks-3b.md`, package LAUNCH-3b): the clean install without .NET (Windows Sandbox), the self-update from a
+    standard user, the Middle Tier as a Windows service, a Direct message through the LDAP resolver, a WebView2 window, a real sensor
     through the 64-bit TWAINDSM, each helper link where a test PC has the vendor software, and the screenshot pass's PARTLY items; the WPF
     picture suites run again at the next connected session (the final Full run ran disconnected).
 
 Also recorded for the update path: the Middle Tier client and server switch together (it has never shipped to an office); saved
 passwords get a one-time migration from PasswordVault to the Credential Manager (S3a-5). Also answered on 2026-11-08: signed e-mail
 sending is kept and moves to MimeKit (open point O-1, S0-3 step 4), the old module's EOB and amendment window is rebuilt (open
-point O-2, S0-6, decision 17), the Practice-Web DCI eligibility path is kept (open point O-6, S3a-6, decision 12), and the office runs
+point O-2, S0-6, decision 17), the Practice-Web DCI eligibility path is kept (open point O-6, S3a-6, decision 12), and the release ships
 no Middle Tier server while the Middle Tier is still ported (open point O-7, S3b-6, decision 18), and the helper and the program are
 self-contained (open point O-15, decision 20).
 
@@ -2206,7 +2206,7 @@ self-contained (open point O-15, decision 20).
   https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/download-and-install-the-sdk,
   https://developer.intuit.com/app/developer/qbdesktop/docs/get-started/older-versions-of-the-desktop-sdk); 32-bit applications keep working
   with QuickBooks Desktop 2022. So a 64-bit QBFC exists, but not for the QBFC 10 this program uses: the 64-bit way needs Intuit's 64-bit SDK
-  (a download behind the owner's Intuit sign-in), the code moved to QBFC 15 or later, QuickBooks Desktop 2022 or later at the office and the
+  (a download behind the owner's Intuit sign-in), the code moved to QBFC 15 or later, QuickBooks Desktop 2022 or later in the office and the
   64-bit QBFC runtime installed on each workstation. The helper module needs nothing new and is built (S3a-13); it stays the recommendation,
   with the 64-bit QBFC as the owner's later choice if the office moves to QuickBooks Desktop 2022 or later. No test PC has QuickBooks Desktop
   (launch check: the port note, section 9).

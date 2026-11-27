@@ -241,7 +241,7 @@ namespace VendorDirectTests.DentalXChange {
 			ForkMigrationContext context=new ForkMigrationContext(DB_NAME);
 			new XConnectEnableStep().Apply(context);
 			Assert.AreEqual(0,context.ListChanges.Count);
-			Assert.AreEqual("0",GetEnabled(1),"The office's own 25.3 setting stays.");
+			Assert.AreEqual("0",GetEnabled(1),"A 25.3 database's own setting stays.");
 		}
 
 		[TestMethod]

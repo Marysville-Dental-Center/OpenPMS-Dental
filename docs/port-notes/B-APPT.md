@@ -113,11 +113,11 @@ Checks run on the branch (2026-10-25): `OpenDental.Local.slnf` Debug x86 full re
 
 - Anything visual or interactive: the tint and secondary color on screen and in print preview, the Copy View button flow, the Wait Rm window (single instance, refresh while in another module, double-click jump, remembered position, closing on log off), and the preference checkboxes in the Preferences window. Covered only by rule tests and source checks.
 - Middle-tier (ClientMT) paths of `ApptViews.CopyView`, `ApptTasks.GetApptNumsWithOpenTask` and `ApptTimeBars.UpsertPrefRaw`.
-- Behaviour on a real Open Dental 25.3.48 office database (the office's own settings for the two time bar preferences cannot be read until their names are known).
+- Behaviour on a real Open Dental 25.3.48 office database (an office's own settings for the two time bar preferences cannot be read until their names are known).
 
 ## Owner questions
 
-1. What are Open Dental's real preference names for "provider time bars on operatory background" (25.2) and "secondary color in the time bar when no provider time is set" (25.3)? Once confirmed, the registry owner registers them and the code switches to them (see "Preference names"). **Answered (2026-11-07, owner question Switch-over 1):** `ApptProvbarShowOnOps` and `ApptUseSecProvTimeIfEmpty`; the code reads them now (see "Open Dental's names" below).
+1. What are Open Dental's real preference names for "provider time bars on operatory background" (25.2) and "secondary color in the time bar when no provider time is set" (25.3)? Once confirmed, the registry owner registers them and the code switches to them (see "Preference names"). **Answered (2026-11-07, owner question Adoption 1):** `ApptProvbarShowOnOps` and `ApptUseSecProvTimeIfEmpty`; the code reads them now (see "Open Dental's names" below).
 2. Is the chosen reading of the 25.2 item right (scheduled provider time tinted on the operatory column), or should the far-left provider bar time be drawn on the operatory background instead?
 3. Reopening a completed task while the appointment already has an open task: keep it silent (current), or add a warning in Task Edit (M2-MISC's file)?
 4. Should the far-left provider columns (`ProvBarShading`) also follow the secondary color preference?
@@ -135,10 +135,10 @@ Checks run on the branch (2026-10-25): `OpenDental.Local.slnf` Debug x86 full re
 
 ## Open Dental's names (SWMAP, 2026-11-07, branch `next/swmap-1`)
 
-- The setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1) give Open Dental's names of the two time bar
+- the setting names of an Open Dental 25.3.48 database (owner question Adoption 1) give Open Dental's names of the two time bar
   settings: `ApptProvbarShowOnOps` (provider time on the operatory background, 25.2) and `ApptUseSecProvTimeIfEmpty` (the secondary provider
   color when no provider time is set, 25.3), both 1/0. `ApptTimeBars.PREF_PROV_TIME_ON_OP_BACKGROUND` and `PREF_SECONDARY_COLOR_NO_PROV_TIME`
-  are now these names, so the office's values carry over at the switch-over as they are. The hand-over through `PrefName`
+  are now these names, so the office's values carry over at adoption as they are. The hand-over through `PrefName`
   (`GetPrefNameInUse`, `PREF_NAME_PROPOSED_*`) is gone: the rows are read and written by name, outside `PrefName`, as before, and a missing
   row still reads as off. `UpsertPrefRaw` accepts only the two names.
 - The rows release 0.0 wrote (`ForkApptProvTimeBarsOnOpBackground`, `ForkApptTimeBarSecondaryColorNoProvTime`) move to these names in the

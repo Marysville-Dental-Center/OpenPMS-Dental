@@ -1,4 +1,4 @@
-// SWMAP without a database: which names of the office's Open Dental 25.3.48 database this program reads, the moves of the release v0.0 rows
+// SWMAP without a database: which names of an Open Dental 25.3.48 database this program reads, the moves of the release v0.0 rows
 // (OdSettingNames.Plan) on made-up values, the inverted payment plan lock, the two read delay rows, the step's level and the documents.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
@@ -12,8 +12,8 @@ using OpenPmsDentalBusiness.ForkMigrations.FeatureSteps;
 namespace SWMAPTests {
 	[TestClass]
 	public class OdSettingNamesTests {
-		///<summary>The 51 setting names of the office's Open Dental 25.3.48 database that are not this program's PrefName members (owner question
-		///Switch-over 1, 2026-11-07; names only, no value). Each is in exactly one of the four lists of OdNames.</summary>
+		///<summary>The 51 setting names of an Open Dental 25.3.48 database that are not this program's PrefName members (owner question
+		///Adoption 1, 2026-11-07; names only, no value). Each is in exactly one of the four lists of OdNames.</summary>
 		public static readonly string[] ArrayNamesFromTheOffice={
 			"ApptProvbarShowOnOps","ApptUseSecProvTimeIfEmpty","B11013Status","BetterDiagnosticsEnabled","BlurModuleOnLoad","BrandingUseDefaults",
 			"ChatServerCompName","ChatServerDbName","ChatServerMySqlPassHash","ChatServerMySqlUser","ClaimCheckForMedicalEOB","ClaimUpdateFeeForSecondary",

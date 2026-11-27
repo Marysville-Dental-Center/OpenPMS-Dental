@@ -434,7 +434,7 @@ Plus elapsed time waiting for PaySimple's sandbox and answers.
 5. The code sends `Issuer` as integers (12 to 15), but the docs list strings (`Visa`, `Master`, `Amex`, `Discover`). Verify in the sandbox, and switch to strings if the integers are rejected.
 6. ACH `PaymentSubType`: the code always sends `PPD`. Phone-authorized debits arguably need `Tel`, and PaySimple's default is `Web`. This is a compliance choice for the office. A per-transaction option would be a later UI change.
 7. Rate limits are unpublished. Ask PaySimple, and set the poller pace to match.
-8. Did the office's Open Dental 25.3 database store the PaySimple key encrypted by Open Dental? Ground rule 3 says the owner reports no encrypted data, and 24.3 stores this key in plain text. If 25.3 did encrypt it, though, `TryDecrypt` passes the ciphertext through, auth fails, and the key must be re-entered after migration (`CDT/README.md`). Add a check to the Phase 5 re-entry checklist.
+8. Does an Open Dental 25.3 database store the PaySimple key encrypted by Open Dental? Ground rule 3 says the owner reports no encrypted data, and 24.3 stores this key in plain text. If 25.3 did encrypt it, though, `TryDecrypt` passes the ciphertext through, auth fails, and the key must be re-entered after migration (`CDT/README.md`). Add a check to the Phase 5 re-entry checklist.
 9. Can the sandbox simulate ACH returns (Returned or ReverseNSF on a settled payment)? Only MarkPaymentStatus Settled is documented.
 10. Later, to reduce PCI scope: should card and bank entry move to PaySimpleJS?
     - The flow: a checkout token from `POST /v4/checkouttoken`, then PaySimple's iframe inside a WebView2 page ([PaySimpleJS guide](https://documentation.paysimple.com/docs/paysimplejs-getting-started)).

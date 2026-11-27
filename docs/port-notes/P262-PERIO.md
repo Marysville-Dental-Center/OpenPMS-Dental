@@ -1,5 +1,7 @@
 # Port note: P262-PERIO, Perio Chart (Open Dental 26.2 items 14 to 16)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/perio-1`, cut from `p262/schema-1` (39be2b04b). One of the nine feature packages of the Open Dental 26.2 port (owner decision of
 2026-11-07): the Perio Chart items of the release notes' Chart Module section. Item 12 of the same section (the extraction graphic) belongs
 to the WPF tooth chart work and is not here; nothing in the 3D/2D tooth chart drawing is changed, and the paint type TextBelow (18) is not

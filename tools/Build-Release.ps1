@@ -739,7 +739,7 @@ function Test-PeFile([string]$path,[string]$relative){
 function Get-GitCommonFolder {
 	$git=Find-Git
 	if(-not $git){ return $null }
-	$output=@(& $git -C $RepoRoot rev-parse --git-common-dir 2>$null)
+	$output=@(& $git -C $RepoRoot -c (Get-SafeDirectoryArgument $RepoRoot) rev-parse --git-common-dir 2>$null)
 	if($LASTEXITCODE -ne 0 -or $output.Count -eq 0){ return $null }
 	$path=$output[0].Trim()
 	if(-not [System.IO.Path]::IsPathRooted($path)){ $path=Join-Path $RepoRoot $path }
@@ -1177,6 +1177,13 @@ function Find-MSBuild {
 	return Get-BuildToolPath -Tool MSBuild
 }
 
+#safe.directory=<folder> for git's -c, so that git works in this checkout (and its submodules) when another Windows account owns the folder
+#("detected dubious ownership"). It trusts only the folder the script builds from, for that one git call; the global git configuration is
+#not changed.
+function Get-SafeDirectoryArgument([string]$folder){
+	return 'safe.directory='+(([System.IO.Path]::GetFullPath($folder)).TrimEnd('\') -replace '\\','/')
+}
+
 #git from the PATH, or $null.
 function Find-Git {
 	$command=Get-Command 'git.exe' -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -1189,7 +1196,7 @@ function Invoke-Git([string]$folder,[string[]]$arguments){
 	$saved=$ErrorActionPreference
 	$ErrorActionPreference='Continue'
 	try{
-		$output=@(& $script:GitPath -C $folder @arguments 2>&1 | ForEach-Object { "$_" })
+		$output=@(& $script:GitPath -C $folder -c (Get-SafeDirectoryArgument $folder) @arguments 2>&1 | ForEach-Object { "$_" })
 		$exitCode=$LASTEXITCODE
 	}
 	finally{ $ErrorActionPreference=$saved }

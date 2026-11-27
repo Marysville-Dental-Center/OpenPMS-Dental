@@ -182,7 +182,7 @@ namespace OpenPmsDentalBusiness{
 
 		#region Perio Chart rules (Open Dental 24.4 and 25.2)
 		///<summary>The preference row that holds the Perio Setup option "Use the term Recession" (Open Dental 24.4): Open Dental's own name, confirmed
-		///by the setting names of the office's Open Dental 25.3.48 database (owner question Switch-over 1, 2026-11-07; docs/port-notes/SWMAP.md), so
+		///by the setting names of an Open Dental 25.3.48 database (owner question Adoption 1, 2026-11-07; docs/port-notes/SWMAP.md), so
 		///the office's value carries over as it is. It is read and written by name, outside PrefName. A database without the row reads as off, the 24.3
 		///behavior, and the row is only written once someone turns the option on. Release v0.0 kept the option in the row PerioUseRecessionTerm; the
 		///fork migration step OdSettingNamesStep moves it here.</summary>

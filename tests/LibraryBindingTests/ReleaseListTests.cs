@@ -27,7 +27,7 @@ namespace LibraryBindingTests {
 			{ "SRTM","HelixToolkit.Wpf uses it only in its terrain models (HgtTerrainModel and the TerrainVisual3D that loads one); the tooth chart "
 				+"never shows terrain (HelixReferenceTests)" },
 			//S3b-5: the two references .NET 10's shared framework does not answer, which the .NET Framework did (its System.ServiceModel) or which
-			//the .NET builds brought. Recorded for the lead (docs/port-notes/S3b-5.md): each needs a launch check before the office release.
+			//the .NET builds brought. Recorded for the lead (docs/port-notes/S3b-5.md): each needs a launch check before a release.
 			{ "System.ServiceModel","Health.Direct.ResolverPlugins (a .NET Framework file of Required dlls) references the .NET Framework's WCF for the "
 				+"Direct configuration service's client, as Health.Direct.Config.Client above; the program uses only its LdapCertResolver" },
 			{ "Microsoft.Windows.SDK.NET","Microsoft.Web.WebView2.Wpf of lib_manual/net5.0-windows10.0.17763.0 (the WebView2 package's build files) "

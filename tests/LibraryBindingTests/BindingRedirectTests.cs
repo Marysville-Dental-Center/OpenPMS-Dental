@@ -146,7 +146,8 @@ namespace LibraryBindingTests {
 				}
 				listProblems.AddRange(BindingRules.FindReferencesAboveTheVersionThere(MetadataReader.ReadFolder(folder),labelFolder+" (built)"));
 			}
-			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" problem(s); a rebuild of the project may be needed:\r\n"
+			Assert.AreEqual(0,listProblems.Count,listProblems.Count+" problem(s); a rebuild of the project may be needed (delete a wrong library file first: MSBuild does not copy "
+				+"over a file of the same size and time, such as another target framework's build of the same package version):\r\n"
 				+string.Join("\r\n",listProblems.Distinct())
 				+(listNotBuilt.Count==0 ? "" : "\r\nNot built, so not checked: "+string.Join(", ",listNotBuilt)));
 			if(listNotBuilt.Count>0) {

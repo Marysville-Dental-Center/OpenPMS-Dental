@@ -1,5 +1,5 @@
 // The M2-HIST migration as the fork migration runner runs it on a fresh 24.3.63 database: the ten InsHist*Codes preferences of the seed become
-// Insurance History rows from code groups used only for Insurance History (owner decision of 2026-11-07, switch-over question 4), every code group
+// Insurance History rows from code groups used only for Insurance History (owner decision of 2026-11-07, adoption question 4), every code group
 // the seed had is unchanged, the preferences are kept, and running the steps again changes nothing.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;

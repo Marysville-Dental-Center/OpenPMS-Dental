@@ -139,7 +139,7 @@ namespace BCLAIMTests {
 		#region Medical EOB (25.2)
 		[TestMethod]
 		public void MedicalEob_PreferenceIsOpenDentalsRow() {
-			//Open Dental's name, from the setting names of the office's Open Dental 25.3.48 database (docs/port-notes/SWMAP.md), read by name outside
+			//Open Dental's name, from the setting names of an Open Dental 25.3.48 database (docs/port-notes/SWMAP.md), read by name outside
 			//PrefName, so the office's value carries over as it is.
 			Assert.AreEqual("ClaimCheckForMedicalEOB",ClaimAttaches.PREF_NAME_MEDICAL_EOB_PROMPT);
 			Assert.IsFalse(Enum.IsDefined(typeof(PrefName),ClaimAttaches.PREF_NAME_MEDICAL_EOB_PROMPT));

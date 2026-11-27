@@ -261,7 +261,7 @@ namespace ODOPTSTests {
 			StringAssert.Contains(rowRunbook,"Message-to-Pay");
 			StringAssert.Contains(rowRunbook,"Kept as built (owner, 2026-11-07, ODOPTS 6)");
 			StringAssert.Contains(rowRunbook,"asks before e-mailing until Statement Send Setup is saved");
-			Assert.IsFalse(rowRunbook.Contains("settle owner question ODOPTS 6"),"The runbook does not hold the switch-over for a question the owner answered.");
+			Assert.IsFalse(rowRunbook.Contains("settle owner question ODOPTS 6"),"The runbook does not hold adoption for a question the owner answered.");
 			StringAssert.Contains(Line(ScratchDb.ReadRepoFile("docs","release-notes","v0.1.md"),"`StatementAutoSendEmail`"),"Message-to-Pay");
 		}
 

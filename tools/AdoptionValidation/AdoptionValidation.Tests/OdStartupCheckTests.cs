@@ -125,7 +125,7 @@ namespace AdoptionValidation.Tests {
 
 		[TestMethod]
 		public void OfficeLabels_TheOfficeClientUsesTheCopy_UntilAdopted() {
-			//DataBaseVersion 25.3.47.0 (the last convert step), ProgramVersion 25.3.54.0: the office's 25.3.54 update server opens it; the model counts
+			//DataBaseVersion 25.3.47.0 (the last convert step), ProgramVersion 25.3.54.0: an Open Dental 25.3.54 update server opens it; the model counts
 			//the older DataBaseVersion as a conversion.
 			OdDatabaseState state=OfficeCopy();
 			state.DataBaseVersion="25.3.47.0";

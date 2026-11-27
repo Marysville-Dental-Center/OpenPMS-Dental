@@ -1,5 +1,7 @@
 # Port note: P262-TOOLS, the tools of Open Dental 26.2 (items 23 to 26 and 30)
 
+Design: [specs/features-26.2.md](../specs/features-26.2.md) (its items below; milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md)).
+
 Branch `p262/tools-1`, cut from `p262/schema-1` (39be2b04b). Five items of the Tools section of the Open Dental 26.2 release notes, chosen by
 the owner on 2026-11-07:
 

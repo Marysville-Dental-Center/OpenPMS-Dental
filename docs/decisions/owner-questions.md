@@ -4,7 +4,7 @@
 
 This list holds every question the 55 package notes on `port/integration` still leave open for you, plus the extra questions in the phase B results. Questions that a later note or integration section already settled are left out; they are listed at the end. Each question names its package and the question number in that package's note (for example "B-ERA 2"), and says what the program does today if you change nothing.
 
-**[SWITCH-OVER]** marks a question that changes the office's data during the switch-over, or that you should settle before it: one-time conversions, steps that change the office's existing data, and defaults that change billing or claims.
+**[ADOPTION]** marks a question that changes a database's data during adoption, or that you should settle before it: one-time conversions, steps that change the office's existing data, and defaults that change billing or claims.
 
 The v0.0 release work added the open questions of its package notes (ORG-CLEANUP, INIT-SQL, BIN-A, BIN-B, TWAIN-W, REL-FILES, REN-PROOF, CLAIM-DCM, RDL-SRC, M16-INTEGRATION and RENAME), each under its area, and the section below: the decisions that were taken by default for v0.0.
 
@@ -38,7 +38,7 @@ These are in v0.0 as described. Each one is a default, not a final answer: **cha
 ## Release v0.0: licences, packaging and the first start
 
 - (REL-FILES 1, TWAIN-W 1) **fo-dicom** (`Dicom.Core.dll`, `Dicom.Native.dll`) is MS-PL, which is not compatible with the GNU GPL. Keep it, replace it, or drop DICOM? The in-house reader (TWAIN-W) already opens the simple files the capture writes; it could take more (signed grayscale with an offset, the first frame of multi-frame files) so that fewer files need fo-dicom, or some files could stop being read so fo-dicom can go. **Today:** decided on 2026-11-02 (option C): fo-dicom is removed, and the program's own full reader reads the other DICOM files (`docs/specs/dicom-reader.md`). JPEG Extended (12-bit JPEG), JPEG Lossless, JPEG-LS and JPEG 2000 images do not open: decoders for compressed DICOM are deferred (docs/roadmap.md, Later), to be built only if such files turn up.
-- (REL-FILES 2) **NDde** (`NDde.dll`) has its own shared source licence in the style of MS-PL. Acceptable next to the GPL? **Answered (2026-11-07):** no; NDde is removed, with the three program links that used it (DentX, Dexis Integrator and Vipersoft, which the office does not use). Their rows stay in the database and show as "(removed)" in Program Links; setup deletes `NDde.dll` on an upgrade (`docs/port-notes/REL-FILES.md`, "NDde removed"). **Revisited (2026-11-08):** "Don't make the assumption that if the office doesn't use, we'd cut it. ... DentX, Dexis Integrator and Vipersoft links, and NDde.dll we should keep if we can." The three links are back (S0-R). NDde itself still cannot ship: its licence (clauses 2, 5 and 7: source only under its own licence, a patent termination, export rules) puts restrictions on recipients that GPL v2 section 6 and GPL v3 sections 7 and 10 do not allow, the structure of the MS-PL, which the FSF lists as incompatible with the GPL. So the links send their DDE commands through a small in-house client on Windows' DDEML (`CodeBase/Utilities/ODDdeClient.cs`) that sends what NDde sent; `NDde.dll` stays out of the program, and setup still deletes an old copy (`docs/port-notes/S0-R.md`). **Open:** if counsel ever finds NDde acceptable, it could come back; nothing needs it now.
+- (REL-FILES 2) **NDde** (`NDde.dll`) has its own shared source licence in the style of MS-PL. Acceptable next to the GPL? **Answered (2026-11-07):** no; NDde is removed, with the three program links that used it (DentX, Dexis Integrator and Vipersoft). Their rows stay in the database and show as "(removed)" in Program Links; setup deletes `NDde.dll` on an upgrade (`docs/port-notes/REL-FILES.md`, "NDde removed"). **Revisited (2026-11-08):** "Don't make the assumption that if the office doesn't use, we'd cut it. ... DentX, Dexis Integrator and Vipersoft links, and NDde.dll we should keep if we can." The three links are back (S0-R). NDde itself still cannot ship: its licence (clauses 2, 5 and 7: source only under its own licence, a patent termination, export rules) puts restrictions on recipients that GPL v2 section 6 and GPL v3 sections 7 and 10 do not allow, the structure of the MS-PL, which the FSF lists as incompatible with the GPL. So the links send their DDE commands through a small in-house client on Windows' DDEML (`CodeBase/Utilities/ODDdeClient.cs`) that sends what NDde sent; `NDde.dll` stays out of the program, and setup still deletes an old copy (`docs/port-notes/S0-R.md`). **Open:** if counsel ever finds NDde acceptable, it could come back; nothing needs it now.
 - (REL-FILES 3) The **Google APIs** client libraries are Apache 2.0: compatible with GPL v3, not v2. The program is "v2 or later", so it can be distributed under v3. Is that the intended reading, or should the Gmail integration go? **Today:** ships.
 - (LIB-PDF, your decision of 2026-11-02 to use PDFsharp/MigraDoc 6.5; route B, chosen on 2026-11-02, builds them from empira's source, see the next item) **What the AGPL changes.** PDFsharp and MigraDoc 6.5 are under the GNU AGPL version 3 (the NuGet packages say AGPL-3.0-only; the source's LICENSE says "version 3 or any later version"); 6.2.4 was the last MIT release. The AGPL can be combined only with GPL version 3 (section 13 of each), not with version 2. The program's code is "GPL v2 or later", so the program as distributed with PDFsharp is conveyed under GPL v3, and PDFsharp and MigraDoc keep the AGPL. In practice: (1) whoever distributes the program must offer its complete source under GPL v3 (as today, but v3's terms, including its patent and installation-information clauses, now apply to the whole); (2) the program's own source files keep "v2 or later", so they can still be taken out and used under v2 apart from PDFsharp; (3) the network clause covers the whole program: GPL v3 section 13 says the AGPL's section 13 requirements "concerning interaction through a network will apply to the combination as such". Those requirements apply to a modified version, and since route B the program as this project distributes it already is one: the PDFsharp built here replaces empira's `PdfSharpLicense.cs` with `third-party/build/PdfSharp-gdi/PdfSharpLicense.cs` (AGPL section 5a, see the next item). So whoever lets users interact with **any version** of the program remotely through a network, not only a version someone else has modified, must prominently offer those users the Corresponding Source of the whole program they use (from a network server, at no charge), not only that of PDFsharp and MigraDoc; for a version with further changes, that is the source of the whole modified program. The question open before route B, whether a change to the GPL part alone (say, to a sheet or a report) triggers it, is not settled, but it no longer decides anything for a build of this repository, which always holds the modified PDFsharp. The case is in this repository: the Middle Tier (`OpenPmsDentalServer`; its `DtoProcessor` now calls `PdfSharpSetup.Init`) is left out of the release only by a default (decision 13 above), and an office or vendor that hosted the Middle Tier would be in it, **even with no local changes**: before the Middle Tier is ever shipped or hosted, it must prominently offer its remote users the Corresponding Source, such as a link to the release's `OpenPmsDental-<version>-source.zip`. The workstation program, which each office runs on its own computers, is not offered to users over a network and is not affected; (4) every PDF's Producer and Creator properties say "(AGPL license)"; nothing is drawn on the pages, no key is needed and, by test (`tests/PdfLibraryTests`), no network connection is opened; (5) GPL v3 settles REL-FILES 3: the Apache 2.0 Google APIs libraries are compatible with v3. fo-dicom (MS-PL) and NDde (MS-PL style) stay incompatible under v3 as under v2; the MIT, BSD, public-domain and LGPL 2.1 components are fine with v3 and with the AGPL; no shipped component is GPL-v2-only (the RDL engine's files are LGPL 2.1 or later, and eight of them say GPL v2 or later, which v3 also covers). The release ships `LICENSE-GPL-3.0.txt` and `LICENSE-AGPL-3.0.txt`; README, NOTICE, THIRD-PARTY-NOTICES.txt, the setup's information page and Help > About > View Licenses say so, and the setup's License Agreement page shows the GPL v3 text, after a header that names the AGPL parts and the "v2 or later" of the program's own source files. **empira reads its licence differently.** Its pricing page (https://pdfsharp.com/Pricing) says the AGPL option "Requires your project to be licensed with AGPL, too" and lists "Use in closed-source projects prohibited". This project instead keeps the program under GPL v3 and combines it with the AGPL parts under section 13 of both licences. The licence texts permit that combination, and the program is not closed-source, but empira's own statement does not describe it; if empira ever disputed it, the program could not simply be relicensed under the AGPL (its code is GPL "v2 or later", and the AGPL is not a later version of the GPL), so the ways out would be the commercial licence or 6.2.4. Please weigh that risk before relying on this route. **Answered (2026-11-07): counsel reviewed it; PDFsharp and MigraDoc 6.5 are kept; closed.** (Before that answer:) **This stays open as a dispute risk for counsel** after route B: building PDFsharp from its AGPL source does not change empira's statement, which is about how the program that uses PDFsharp must be licensed, not about where PDFsharp comes from. Route B adds one point for counsel: the program as distributed now contains a modified version of PDFsharp, so the AGPL's network clause applies to any copy of the program that users reach over a network, a hosted Middle Tier without local changes included (point 3); counsel should confirm that the source offer the Middle Tier must carry before it is ever shipped or hosted (decision 13; you decided on 2026-11-02 that it is built when the Middle Tier is first shipped) meets section 13. The alternatives: empira's commercial licence (EUR 750 excluding VAT, for business customers only (B2B), perpetual, no subscription, with all updates of the 6.5.x and 7.0.x lines, and no AGPL terms), or PDFsharp/MigraDoc 6.2.4 under MIT (the code of this package works with it unchanged except for the licence call). **Today:** 6.5 under the AGPL, distributed under GPL v3.
 - (LIB-PDF; **resolved on 2026-11-02 by building from source**) **`PdfSharp.License.dll` had no published source.** You chose route B on 2026-11-02, and the question is resolved: PDFsharp and MigraDoc 6.5.0 are built from empira's source, the git submodule `third-party/PDFsharp` at tag v6.5.0 (commit `96d5ef81d304`), by this project's own project files (`third-party/build`), and the one upstream file that needs the closed library, the wrapper `src/foundation/src/PDFsharp/src/PdfSharp/root/PdfSharpLicense.cs`, is replaced by an open file of ours (`third-party/build/PdfSharp-gdi/PdfSharpLicense.cs`, a modified version of empira's wrapper under AGPL section 5a, with empira's copyright and a dated notice). It behaves as the AGPL path did: no key, no network connection, no message, `SetAgplLicense()` allows use and the PDFs' Producer and Creator still say "(AGPL license)"; it never enables anything of the commercial licence. No `PdfSharp.License.dll` is referenced, kept in `Required dlls` or shipped (`tools/Build-Release.ps1` denies it), so the release blocker and `-PdfSharpLicenceResolved` are gone, and every release publishes its Corresponding Source, the submodules included, as `OpenPmsDental-<version>-source.zip` ([third-party-source-builds.md](../develop/third-party-source-builds.md)). The question as it stood: PdfSharp-gdi 6.5 calls it before it creates, reads or writes any PDF (`PdfSharpLicense.CheckLicense`), and refuses to work without it; the program's own code calls it too (`PdfSharpSetup.Init` calls `PdfSharpLicense.SetAgplLicense`). Its source is not in empira's public repository: tag v6.5.0 holds only the wrapper `src/foundation/src/PDFsharp/src/PdfSharp/root/PdfSharpLicense.cs`, which passes every call to a `PdfSharpLicenseImpl` that the repository does not contain, and the build downloads the DLL ready-made (https://assets.pdfsharp.net/license/license.zip, from `dev/download-assets.ps1`). Its product version, 7.0.0-dev-7.0.0-preview-2-review-for-release-285, differs from the rest of the package, and the package has no `.pdb` or `.xml` for it. GPL v3 and AGPL v3 sections 1 and 6 ask whoever conveys the program in object form for the Corresponding Source of the whole, which includes a library the work is specifically designed to require, so this project cannot give its recipients the source of this one file (NOTICE says so). empira, as its copyright holder, is not bound by that, but we are. This is a new licence problem of the PDFsharp 6.5 update, not one inherited from Open Dental like fo-dicom or NDde. Ask empira for its source under the AGPL (or a written permission to convey it as it is), ask counsel, buy the commercial licence, or go back to 6.2.4 (MIT, no licence file)? Nothing in its documentation or behaviour shows a key, a watermark, a message or a network call (the tests check the last three). No release was made with it.
@@ -53,77 +53,77 @@ These are in v0.0 as described. Each one is a default, not a final answer: **cha
 
 ---
 
-## Switch-over and data conversions
+## Adoption and data conversions
 
-**1. [SWITCH-OVER] Settings that will not carry over from Open Dental** (B-ACCT 1, B-APPT 1, B-CLAIM 1, B-ERA 1, B-INSH 2, B-PAY 1, B-PERIO 1, B-SERVER 1, B-SHELL 1, B-WIKI 5, V-BRIDGE1 1). **Answered (2026-11-07):** you gave the setting names (names only) of the office's Open Dental 25.3.48 database and the names of its four program links. Built as [port-notes/SWMAP.md](../port-notes/SWMAP.md) says; no office value was read or used.
+**1. [ADOPTION] Settings that will not carry over from Open Dental** (B-ACCT 1, B-APPT 1, B-CLAIM 1, B-ERA 1, B-INSH 2, B-PAY 1, B-PERIO 1, B-SERVER 1, B-SHELL 1, B-WIKI 5, V-BRIDGE1 1). **Answered (2026-11-07):** you gave the setting names (names only) of an Open Dental 25.3.48 database and the names of its four program links. Built as [port-notes/SWMAP.md](../port-notes/SWMAP.md) says; no office value was read or used.
 
-Open Dental does not publish the internal names of these settings, so release 0.0 stored each one under a name of its own, and after the switch-over each was at its default. **Now:** this program reads each setting the office database has under Open Dental's own name, so the switch-over carries the office's value over as it is, without changing the row; `migration-preview` lists them, with what this program will show, before the day (runbook step 0.2):
+Open Dental does not publish the internal names of these settings, so release 0.0 stored each one under a name of its own, and after adoption each was at its default. **Now:** this program reads each setting an adopted database has under Open Dental's own name, so adoption carries its value over as it is, without changing the row; `migration-preview` lists them, with what this program will show, before the day (runbook step 0.2):
 
-| Setting in Open Dental | Package | After the switch-over now |
+| Setting in Open Dental | Package | After adoption now |
 |---|---|---|
 | Sales-tax procedure code (24.4) | B-ACCT 1 | Carried over: Open Dental's name is `SalesTaxProcCode`, the name this program already used |
 | Provider time bars on the operatory background (25.2), and the secondary time-bar color when no provider time is set (25.3) | B-APPT 1 | Carried over: `ApptProvbarShowOnOps`, `ApptUseSecProvTimeIfEmpty` |
 | "Prompt for Medical EOB on primary claims" (25.2) | B-CLAIM 1 | Carried over: `ClaimCheckForMedicalEOB` |
 | "Auto split ERAs with CARC denial codes listed above" | B-ERA 1 | Carried over: `EraAutoProcessSplitByCarcCodes` |
-| Blue Book percentage of the provider fee | B-INSH 2 | Carried over: the office database still has `InsBlueBookUcrFeePercent`, the 24.3 name this program reads |
+| Blue Book percentage of the provider fee | B-INSH 2 | Carried over: an Open Dental 25.3.48 database still has `InsBlueBookUcrFeePercent`, the 24.3 name this program reads |
 | "Payment plans are not affected by the global lock date" | B-PAY 1 | Carried over, **converted**: Open Dental's `PayPlansIncludeInGlobalLock` says the opposite (1 = payment plans are included in the global lock date), so this program's box is ticked only when it is 0 |
 | Perio "Recession" wording (24.4) | B-PERIO 1 | Carried over: `PerioRecessionInsteadOfGM` |
-| Incomplete Procedure Notes report "include all procedures with no notes" default, and the two replication delay settings | B-SERVER 1 | The read delay after a write carries over from `ReplicationWriteReadDelayEnabled` and `ReplicationWriteReadDelayMS`. The office database has no setting for the report default or for this program's look-back for signals (only `ReportsIncompleteProcsNoNotes`, `...Unsigned` and `...ExcludeCodes`, which carry over as before), so those two start at their defaults, as before |
+| Incomplete Procedure Notes report "include all procedures with no notes" default, and the two replication delay settings | B-SERVER 1 | The read delay after a write carries over from `ReplicationWriteReadDelayEnabled` and `ReplicationWriteReadDelayMS`. An Open Dental 25.3.48 database has no setting for the report default or for this program's look-back for signals (only `ReportsIncompleteProcsNoNotes`, `...Unsigned` and `...ExcludeCodes`, which carry over as before), so those two start at their defaults, as before |
 | Blur the screen when switching modules | B-SHELL 1 | Carried over: `BlurModuleOnLoad` |
 | Read-only wiki copy (if Open Dental 25.2 had a setting for it) | B-WIKI 5 | Open Dental 25.3.48 has no setting for it; the program's own setting starts off |
-| Program links for Overjet, DTX Studio, DTX Studio Acquire and IAP | V-BRIDGE1 1 | The office's rows are named `Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP`, the names this program uses, so it reuses them with their settings and adds no second link |
+| Program links for Overjet, DTX Studio, DTX Studio Acquire and IAP | V-BRIDGE1 1 | Open Dental 25.3.48's rows are named `Overjet`, `DTXStudio`, `DTXStudioAcquire` and `IAP`, the names this program uses, so it reuses them with their settings and adds no second link |
 
-The settings saved in release 0.0 under its own names move to Open Dental's names in the update (fork migration step 2026110731); an Open Dental database has none of them. Names of the office database for features this program left out (chat, Canadian RAMQ, Open Dental's hosted services, cloud, mass e-mail, Message-to-Pay, the Pearl timestamp and the like) are left alone; SWMAP lists each with the reason. The five settings of this program that Open Dental has no name for stay in runbook step 0.11.
+The settings saved in release 0.0 under its own names move to Open Dental's names in the update (fork migration step 2026110731); an Open Dental database has none of them. Open Dental names for features this program left out (chat, Canadian RAMQ, Open Dental's hosted services, cloud, mass e-mail, Message-to-Pay, the Pearl timestamp and the like) are left alone; SWMAP lists each with the reason. The five settings of this program that Open Dental has no name for stay in runbook step 0.11.
 
-**Answered (2026-11-07):** the owner exports the settings list from the office database himself: the setting names, plus the values of a few of them. The file stays out of the repository.
+**Answered (2026-11-07):** the owner provides a settings list (setting names, plus a few values) from an Open Dental database. The file stays out of the repository.
 
-**2. [SWITCH-OVER] Which Open Dental version the office switches from** (M2-02 1, M2-EF 1, V-BRIDGE2 5)
-The switch-over is built and rehearsed for an Open Dental **25.3.48** database. Will the office stay on 25.3.48 until the switch? If Open Dental gets updated to 25.4 or later first, three things would not map without extra conversion work: settings added in 25.4/26.1, eForm links to patient fields, and the Clerri and Clever One program links. **Today:** only 25.3.48 is supported. **Answered (2026-11-07):** the office is held at Open Dental 25.3.48 until switch-over day.
+**2. [ADOPTION] Which Open Dental versions adoption accepts** (M2-02 1, M2-EF 1, V-BRIDGE2 5)
+Adoption was first built and rehearsed for an Open Dental **25.3.48** database. For a database on 25.4 or later, three things would not map without extra conversion work: settings added in 25.4/26.1, eForm links to patient fields, and the Clerri and Clever One program links. **Answered (2026-11-07):** 25.3.48 is the version supported then. Since then 26.2 databases are adopted too (item 13).
 
-**3. [SWITCH-OVER] Blockout permissions** (M2-02 2)
-26.1 splits "edit blockouts" into Add, Delete and Edit. **Today:** at the switch-over, every user group that can edit blockouts also gets Blockout Add and Blockout Delete, so nobody loses access. An administrator can narrow this afterwards. Please confirm.
+**3. [ADOPTION] Blockout permissions** (M2-02 2)
+26.1 splits "edit blockouts" into Add, Delete and Edit. **Today:** at adoption, every user group that can edit blockouts also gets Blockout Add and Blockout Delete, so nobody loses access. An administrator can narrow this afterwards. Please confirm.
 
-**4. [SWITCH-OVER] The Insurance History setup moves into code groups** (M2-HIST 3, 5)
-**Today:** at the switch-over, the ten Insurance History code boxes in Preferences are moved into code groups. Each matching code group is marked "Show In History" and gets the codes from those boxes. Where no matching group exists, a new one is created. The old settings are kept, not deleted.
+**4. [ADOPTION] The Insurance History setup moves into code groups** (M2-HIST 3, 5)
+**Today:** at adoption, the ten Insurance History code boxes in Preferences are moved into code groups. Each matching code group is marked "Show In History" and gets the codes from those boxes. Where no matching group exists, a new one is created. The old settings are kept, not deleted.
 - (M2-HIST 3) Each new group is given the standard category it stands for (for example Exam), so sheet fields such as "date of last exam" start finding it. Confirm, or create the groups without a category?
 - (Combined review) The codes from the old boxes are added to the matching **frequency** code group, which also widens that group's frequency limitation in insurance estimates (for example, more codes count toward "2 exams per year"). Keep that, or put them in a separate group that only feeds Insurance History? **Today:** added to the frequency group; the step's log lists the added codes but does not mention the estimate effect.
-- (M2-HIST 5) A box that was blank used to show a "Not Set" row. After the switch-over that category has no row until a group is marked "Show In History". Acceptable?
+- (M2-HIST 5) A box that was blank used to show a "Not Set" row. After adoption that category has no row until a group is marked "Show In History". Acceptable?
 
 **Answered (2026-11-07):** the existing frequency-limit code groups stay **unchanged**; the codes of the old Insurance History settings go into a code group used only for Insurance History (Show In History; not in frequency or age limits). Built in the step itself (level 2026110104, which no office database ran): one new group per category with codes ("Bitewing History", "Exam History", ...), with no fixed category and in no benefit grid; no existing group changes; the step's log, the adoption preview and the rehearsal say so (`docs/port-notes/M2-HIST.md`, "Owner decision of 2026-11-07"). That also settles M2-HIST 3 (the new groups carry no category); M2-HIST 5 stays as built.
 
-**5. [SWITCH-OVER] One-time "Do Not Bill to Insurance" fill** (M2-EST, rule 4 and question 5)
+**5. [ADOPTION] One-time "Do Not Bill to Insurance" fill** (M2-EST, rule 4 and question 5)
 **Today:** this step is written and tested but switched off, so it does nothing. If turned on, it would find procedures where staff unchecked "bill insurance" on every estimate (treatment-planned or completed, not yet on a claim) and mark the procedure itself "Do Not Bill to Ins". Without it, if one of those estimates is rebuilt later (for example after a plan change), it goes back to billing insurance.
-- Should it run at the switch-over? Turning it on also needs work in the switch-over checking tools.
+- Should it run at adoption? Turning it on also needs work in the adoption checking tools.
 - (M2-EST 5) If yes: with the setting "exclusions mark Do Not Bill" on, the step skips estimates of plans that have exclusions, because the program already marks those automatically and they cannot be told apart from a staff choice. Acceptable?
 
-**6. [SWITCH-OVER] The DentalXChange Patient Credit Score link** (B-SHELL 5)
-This vendor service was discontinued. **Today:** the switch-over turns the link off and removes its toolbar buttons, even on the office's Open Dental database (in case Open Dental's own update left them). Acceptable?
+**6. [ADOPTION] The DentalXChange Patient Credit Score link** (B-SHELL 5)
+This vendor service was discontinued. **Today:** adoption turns the link off and removes its toolbar buttons, even on an adopted Open Dental database (in case Open Dental's own update left them). Acceptable?
 
-**7. [SWITCH-OVER] The new UDS+ report** (M2-UDS 4)
-**Today:** the switch-over adds the UDS+ report to the report list right after "FQHC Dental Sealant Measure". It is visible unless that report is hidden, and the groups that can run the sealant report also get permission for it. Should an office that is not an FQHC see it at all?
+**7. [ADOPTION] The new UDS+ report** (M2-UDS 4)
+**Today:** adoption adds the UDS+ report to the report list right after "FQHC Dental Sealant Measure". It is visible unless that report is hidden, and the groups that can run the sealant report also get permission for it. Should an office that is not an FQHC see it at all?
 
-**8. [SWITCH-OVER] The Denti-Cal DC217_2019 claim form** (M2-CLAIMFORM 1)
-**Today:** the form is not added automatically. Staff can add it from Setup, Claim Forms (internal list, Copy). Should the switch-over add it to the office's claim forms? This only matters if the office bills Medi-Cal.
+**8. [ADOPTION] The Denti-Cal DC217_2019 claim form** (M2-CLAIMFORM 1)
+**Today:** the form is not added automatically. Staff can add it from Setup, Claim Forms (internal list, Copy). Should adoption add it to the office's claim forms? This only matters if the office bills Medi-Cal.
 
-**9. [SWITCH-OVER] Payment plan version** (B-PAY 2)
-Which payment plan version does the office database hold? If Open Dental's 25.1 update forced the newer "Age Credits and Debits" mode, should the program do the same for databases that never had that update? **Answered (2026-11-07, with item 1):** the office database has `PayPlansVersion`, the name this program reads, so the office's payment plan version carries over unchanged. Nothing converts it, on the office database or on a database from 24.3.
+**9. [ADOPTION] Payment plan version** (B-PAY 2)
+Which payment plan version does an adopted database hold? If Open Dental's 25.1 update forced the newer "Age Credits and Debits" mode, should the program do the same for databases that never had that update? **Answered (2026-11-07, with item 1):** an Open Dental 25.3.48 database has `PayPlansVersion`, the name this program reads, so its payment plan version carries over unchanged. Nothing converts it, on an adopted database or on a database from 24.3.
 
-**10. [SWITCH-OVER] Automatic recurring and repeating charges** (M2-RECUR 5)
-The program has no automatic runner for recurring card charges or repeating charges, because the Open Dental background service was removed. The "automated" settings are still shown, but nothing runs them. **Today:** staff must run the charges by hand. With backdating off, the Repeating Charges tool must be run on each billing date (with backdating on, the default, a late run posts the missed dates). Does the office rely on automatic charges today, and do you want a scheduled runner on an office computer? **Answered (2026-11-07):** the office runs no automatic recurring charges today: nothing to build.
+**10. [ADOPTION] Automatic recurring and repeating charges** (M2-RECUR 5)
+The program has no automatic runner for recurring card charges or repeating charges, because the Open Dental background service was removed. The "automated" settings are still shown, but nothing runs them. **Today:** staff must run the charges by hand. With backdating off, the Repeating Charges tool must be run on each billing date (with backdating on, the default, a late run posts the missed dates). Do you want a scheduled runner on an office computer? **Answered (2026-11-07):** not now: nothing to build.
 
-**11. [SWITCH-OVER] Checks of the new database structure** (M2-01 1, 2, 6)
+**11. [ADOPTION] Checks of the new database structure** (M2-01 1, 2, 6)
 - (M2-01 1) Parts of the 26.1 structure (required fields, defaults, indexes) are worked out from Open Dental's published documents. Is a structure-only copy (no data) of any real Open Dental 26.1 database available to confirm them? **Today:** they stay worked out from the documents.
 - (M2-01 2) The claim payment note becomes a long text field. Empty (blank database) notes become blank text, and the field can never be empty in the database sense. Fine, or should empty be allowed? **Today:** never empty.
-- (M2-01 6) Fixes Open Dental made after 26.1.0 (26.1.x) have no published document. Should someone check the 26.2 change document for them before the switch? **Today:** not checked.
+- (M2-01 6) Fixes Open Dental made after 26.1.0 (26.1.x) have no published document. Should someone check the 26.2 change document for them before adoption? **Today:** not checked.
 
-**12. [SWITCH-OVER] The office's patient portal column** (ADOPT-PORTAL-EMAIL, 2026-11-25). **Decided (2026-11-25):** adoption **keeps** the office's
+**12. [ADOPTION] A patient portal column** (ADOPT-PORTAL-EMAIL, 2026-11-25). **Decided (2026-11-25):** adoption **keeps**
 `patient._portal_active_email` and its unique key `portal_active_email_uniq` as they are. This replaces the earlier decision (M1, 2026-10-18) to
-drop them. The office's patient portal relies on them for sign-in: one active patient per e-mail address. The schema check allows them only
-with the office's exact definitions. Until a proper setting exists, saving a second active patient with an address already in use stops
+drop them. A patient portal relies on them for sign-in: one active patient per e-mail address. The schema check allows them only
+with the exact expected definitions. Until a proper setting exists, saving a second active patient with an address already in use stops
 with MariaDB's duplicate-key error. The setting, "each active patient has a different e-mail address", is on the roadmap ("Not scheduled
 yet").
 
-**13. [SWITCH-OVER] Adopting an Open Dental 26.2 database** (ADOPT-262, 2026-11-26). **Decided (2026-11-26):** "you can treat Open Dental's
+**13. [ADOPTION] Adopting an Open Dental 26.2 database** (ADOPT-262, 2026-11-26). **Decided (2026-11-26):** "you can treat Open Dental's
 published documents as the schema. You can just treat it as the real dump". The 26.2.0 reference built from Open Dental's published 26.2
 database documents is the schema an Open Dental 26.2 database has; no dump of a real one is needed. Adoption accepts any 26.2.x database
 whose schema equals it exactly.
@@ -187,8 +187,8 @@ codes". "make the password blank": every program link password property starts e
 - (B-ERA 4) Are the three extra ERA columns (Subscriber ID, Allowed, Matched Claim) useful, or should only the 24.3 set be offered? **Today:** offered.
 - (B-ERA 5) Should the manual Split Claim button also write the audit entry? **Today:** only the automatic split does.
 - (M2-ERA 2) When a claim payment is deleted, the link between its claim procedures and the ERA claim is kept (the spec says to clear it). Confirm.
-- **[SWITCH-OVER]** (M2-ERA 3) Automatic ERA processing now holds back a claim whose payment came from another ERA with the same trace number and payer (a duplicate import). Keep this, or post such claims as before? **Today:** held back.
-- **[SWITCH-OVER]** (M2-CLAIMRCV 1 and the phase B extra) After a claim is received, the prompt offers the claim of "the next insurance that has a claim, not yet received, for those procedures", not strictly the next plan in order. When all plans are still on the patient, plan order decides. For example, with medical first, then dental primary, then secondary: receiving the medical claim (with the medical-to-primary prompt off) now offers the dental primary claim, where 24.3 offered the secondary. Confirm.
+- **[ADOPTION]** (M2-ERA 3) Automatic ERA processing now holds back a claim whose payment came from another ERA with the same trace number and payer (a duplicate import). Keep this, or post such claims as before? **Today:** held back.
+- **[ADOPTION]** (M2-CLAIMRCV 1 and the phase B extra) After a claim is received, the prompt offers the claim of "the next insurance that has a claim, not yet received, for those procedures", not strictly the next plan in order. When all plans are still on the patient, plan order decides. For example, with medical first, then dental primary, then secondary: receiving the medical claim (with the medical-to-primary prompt off) now offers the dental primary claim, where 24.3 offered the secondary. Confirm.
 - (M2-CLAIMRCV 2) Claims on Hold or In Process are recalculated, but the prompt never changes, sends or prints them. Confirm.
 - (M2-CLAIMRCV 3) If a claim the prompt sent is then received automatically, should another prompt follow for the insurance after it? **Today:** no, as in 24.3.
 - (M2-CLAIMFORM 2) Please print a test claim on DC-217 (10/19) stock and report any shift. If you can supply the handbook's section 6 PDF (it is public), the positions can be checked against it.
@@ -308,7 +308,7 @@ codes". "make the password blank": every program link password property starts e
 - (B-EF 1) Forms that eClipboard and Web Forms left in the office data show as "Waiting for patient" and "Submitted online" (not the spec's "In eClipboard" and "Web form", since those services are gone). Acceptable?
 - (B-EF 2) Should scanned form documents show under the Sheets filter, or only under Both? **Today:** Sheets.
 - (B-EF 3) An eForm with no status: show "None", or a blank cell? **Today:** "None".
-- (B-EF 4) Forms imported before the switch-over (including by Open Dental 25.3) don't show as Imported. If the office database shows that Open Dental's import audit entries carry the form's number, they can be counted too (the same database look as Switch-over item 1). **Answered (2026-11-07, with Switch-over item 1):** setting names do not show audit entries, so the switch-over converts none: the audit trail is copied as it is. Patient Forms shows an eForm as Imported when an `EFormImport` audit entry carries its number and says "imported", the test it applies to its own entries; an Open Dental entry written that way counts, and an eForm without such an entry shows its status.
+- (B-EF 4) Forms imported before adoption (including by Open Dental 25.3) don't show as Imported. If an Open Dental database shows that its import audit entries carry the form's number, they can be counted too (the same database look as Adoption item 1). **Answered (2026-11-07, with Adoption item 1):** setting names do not show audit entries, so adoption converts none: the audit trail is copied as it is. Patient Forms shows an eForm as Imported when an `EFormImport` audit entry carries its number and says "imported", the test it applies to its own entries; an Open Dental entry written that way counts, and an eForm without such an entry shows its status.
 - (B-EF 6) When radio button items are renamed, should the conditional fields that depend on them be updated too (the Ins Pick editor already does this)? **Today:** no.
 - (M2-EF 2) In the import window, should a blank answer clear a stored patient field by default? **Today:** unchecked (not cleared).
 - (M2-EF 3) Should patient fields be allowed as Auto Import fields? **Today:** no.
@@ -345,7 +345,7 @@ codes". "make the password blank": every program link password property starts e
 The questions about the new capture work (the capture session, unassigned captures, 16-bit X-rays, the camera, mount templates) are in their own list, [imaging-capture-owner-questions.md](imaging-capture-owner-questions.md). The ones marked [BEFORE PATIENT USE] must be settled before the capture session is turned on for patients. Settled since that list was written: 16-bit is the default once a computer's sensor passes Test capture (until then that computer captures 8-bit), and a 16-bit X-ray that cannot go back into its own slot is filed as an 8-bit copy with the 16-bit original kept. Answered on 2026-11-07 (that list, "Answered on 2026-11-07"): counsel reviewed the capture's regulatory position with no changes; the capture session is on by default for new installs; 16 bits stay the default; patient use waits for the phantom comparison; the sensor is a Twain Radiograph device only.
 
 **First clinic run (OP1, 2026-11-22; test build 1f46c8deâ¦bf31 from main 127cc2bdf, local MariaDB, made-up patient).** The 64-bit route works with the real k-Sensor: KPTwain 1.2 64-bit opened through the setup's TWAINDSM.dll 2.5.1.0, and Test capture passed (16-bit, polarity and byte order right, metadata through). Launch check 6 is not passed yet: no verification record was written, because the run sheet (W:\OpenPMS\INSTRUCTIONS.md) did not say to click **Write verification record**, so Acquire saved 8-bit ("no Test capture record"). The run sheet is corrected; the next visit repeats Test capture with the record, then Acquire, which should save 16-bit. Follow-ups:
-  - **Code signing (needs the owner).** Windows 11 Smart App Control, on by default on new PCs, blocks the unsigned build (DataConnectionBase.dll; the connection tool exited -532462766), and turning it off cannot be undone without a reset. Office PCs with it on cannot run an unsigned release. **Question:** get a code-signing certificate or a signing service for the setup and the program's files before the office release? Recommended: yes.
+  - **Code signing (needs the owner).** Windows 11 Smart App Control, on by default on new PCs, blocks the unsigned build (DataConnectionBase.dll; the connection tool exited -532462766), and turning it off cannot be undone without a reset. Office PCs with it on cannot run an unsigned release. **Question:** get a code-signing certificate or a signing service for the setup and the program's files before a release? Recommended: yes.
   - The Test capture window makes the record step easy to miss: it should say plainly after a passed test that no record is written until the button is clicked. Small fix, next imaging package.
   - MariaDB 13.0.2 was used (the run sheet said 10.11): the schema loaded and the program ran, but 10.11 stays the supported server; the run sheet now says so.
   - Main is still version 0.0, so a dry run carries v0.0's release notes (.NET Framework 4.8, 32-bit). The next test or release build gets version 0.1 and its own notes; the stale notes are off the share.
@@ -491,7 +491,7 @@ These came out of the review of all 55 packages together. Items 4, 5, 8 and 10 a
 
 From `docs/specs/inventory-tracking.md`. Each item says what the program does today. You answered them on 2026-11-02 ("all as recommended"): every item below is decided except INV 16, which is settled when the packages are merged. Only INV 11 changed the program.
 
-- (INV 1) **[SWITCH-OVER]** Inventory tracking is off on every database, new databases too, until the office turns it on (Supply Inventory, Inventory, Setup). Should a new database start with it on? **Today:** off everywhere. **Decided (2026-11-02):** kept as built.
+- (INV 1) **[ADOPTION]** Inventory tracking is off on every database, new databases too, until the office turns it on (Supply Inventory, Inventory, Setup). Should a new database start with it on? **Today:** off everywhere. **Decided (2026-11-02):** kept as built.
 - (INV 2) The Materials used window opens by itself only when at least one of the completed procedures has default materials. Open it for every completed procedure instead? **Today:** a procedure without default materials gets materials only from the procedure edit window (Materials). **Decided (2026-11-02):** kept as built.
 - (INV 3) Completions without a user (another thread of the program, an interface, the Middle Tier server's own work) and a cancelled Materials used window deduct nothing; the procedures wait on Supply Inventory, Inventory, Awaiting Materials. **Today:** as described; no default materials are ever deducted without a user confirming them. **Decided (2026-11-02):** kept as built.
 - (INV 4) A use is never blocked: stock can go below zero, and a use with no lot in stock is recorded without a lot. **Today:** allowed. **Decided (2026-11-02):** kept as built.
@@ -576,7 +576,7 @@ The questions of the library updates and of the in-house DICOM reader, with your
 Your answer of 2026-11-07 ("why not just build it?") to the options this program had built without ([port-notes/SWMAP.md](../port-notes/SWMAP.md)).
 All eight are built and read under Open Dental's own setting names, so the office's values carry over with no conversion
 ([port-notes/ODOPTS.md](../port-notes/ODOPTS.md)). Open Dental does not publish what most of them mean, so this program does what each name says;
-please confirm each by trying the setting in the office's Open Dental 25.3 (on a copy, or on a test patient) before the switch-over, and say
+please confirm each by trying the setting in Open Dental 25.3 (on a copy, or on a test patient) before adoption, and say
 where Open Dental behaves differently.
 
 **Decided as built (owner, 2026-11-07, "all as recommended"):** every ODOPTS question below is settled as built. ODOPTS 6 and 7
@@ -598,7 +598,7 @@ where Open Dental behaves differently.
   list is imported as "Other" with the patient's text (as before); off means it is not imported: auto import records each such entry in the
   form's Audit Trail entry ("Allergy not imported ...", "Problem not imported ...") and tells the user who saved the form, and the manual import
   lists it unticked. Missing rows: on. **Confirm:** what Open Dental does with such an entry when the setting is off (skip it, or add a new list
-  entry with the patient's text). **Settle before the switch-over** if the office's rows are 0: from that day a typed allergy or problem that
+  entry with the patient's text). **Settle before adoption** if a database's rows are 0: from that day a typed allergy or problem that
   matches no list entry is not auto-imported (it stays on the form and in the Audit Trail). **Today:** skipped and recorded.
 - (ODOPTS 5) `InsHistPerioScalingCode`: a procedure code that the perio scaling rows of Insurance History use to record dates (and count as
   history); blank keeps each perio scaling code group's own History Proc Code. **Confirm:** that this is the code Open Dental uses when a perio
@@ -608,9 +608,9 @@ where Open Dental behaves differently.
   **Message-to-Pay** links automatically when statements are created, a hosted Open Dental service this program does not have. So in Open
   Dental this row most likely turns on automatic Message-to-Pay messages; it probably never e-mailed the statement PDF itself. This program
   uses the row for something else (**INFERRED**): the new statements whose mode is E-mail are e-mailed as soon as billing creates them
-  (Billing Options, Create List), without the Send click. **Decide first, before the switch-over:** (a) does the office use this setting in
+  (Billing Options, Create List), without the Send click. **Decide first, before adoption:** (a) does the office use this setting in
   Open Dental for Message-to-Pay, and (b) do you want it to mean "e-mail the statement when billing creates it" in this program? Only then:
-  (c) which value the office's Open Dental shows for which choice in its Statement Send Setup window (read here as 0 never, 1 ask, 2 always;
+  (c) which value Open Dental shows for which choice in its Statement Send Setup window (read here as 0 never, 1 ask, 2 always;
   any other value never sends). **Until you decide:** a stored "always" asks before e-mailing, and says why, until someone saves Statement
   Send Setup in this program (Billing Defaults, Send Setup), so nothing is e-mailed on the strength of Open Dental's Message-to-Pay setting
   alone. **Today:** as described.
@@ -651,8 +651,7 @@ recommended". Built on the integration branch `next/int262-1`.
 ## The move to .NET 10 (answered on 2026-11-08)
 
 The questions of the .NET 10 stage plan, [specs/net10-plan.md](../specs/net10-plan.md), made from a read-only survey of every project and an
-independent critique. You answered on 2026-11-08 in several messages: "As recommended"; then the facts (the office runs Windows 11, uses
-no plugins and does not use Direct secure messaging) and one change (Change Healthcare (Emdeon) medical claims are kept and made to work:
+independent critique. You answered on 2026-11-08 in several messages: "As recommended"; then facts about the deployment and one change (Change Healthcare (Emdeon) medical claims are kept and made to work:
 "no, but make it work"); "Keep signed email"; "Have them rebuilt"; "don't cut" (the DentalXChange eligibility path); the Middle Tier
 answer; the standing rule below, with its correction; "Don't need 'Install for me only'"; "no go directly to 64."; and "c self-contained
 for 64bit as well".
@@ -690,7 +689,7 @@ for 64bit as well".
 - **Direct certificates.** The Register certificate button, which registered with Open Dental's servers, is replaced by a local import
   ("Yes, load Direct provider's certificate from a file"): the certificate your Direct provider issued is loaded from a file, with its
   password, into the Direct certificate store.
-- **QuickBooks Desktop, Schick CDR and Topaz signature pads.** The office does not use them. They were to be removed in the clean-up stage
+- **QuickBooks Desktop, Schick CDR and Topaz signature pads.** They were to be removed in the clean-up stage
   (owner, 2026-11-07); now kept and ported (owner correction, 2026-11-08).
 - **Order of the stages.** A clean-up stage first; then SDK-style project files, NuGet packages and the test framework, all still on .NET
   Framework 4.8; then the code changes that also work on .NET Framework, ending with a last .NET Framework release (the "bridge release");
@@ -720,16 +719,16 @@ for 64bit as well".
 - **Dashboard graphs.** The community port of Microsoft's chart control (`WinForms.DataVisualization`, MIT licence).
 - **The CallFire SMS link, the Divvy postcards link, the BCBS Georgia dial-up terminal, and the report engine's SQL Server, ODBC and OLE DB
   data sources.** First cut instead of ported; now kept and ported (owner correction, 2026-11-08).
-- **Kept.** Voice perio charting. Change Healthcare (Emdeon) medical claims: the office does not use them, but they are kept and made to
-  work on .NET 10. The plugin loader stays, although the office uses no plugins; plugins must be rebuilt for .NET 10, and .NET Framework
+- **Kept.** Voice perio charting. Change Healthcare (Emdeon) medical claims: they are kept and made to
+  work on .NET 10. The plugin loader stays; plugins must be rebuilt for .NET 10, and .NET Framework
   plugins stop working.
 - **DentalXChange eligibility, Practice-Web path.** Kept ("don't cut") and made to work on .NET 10 with the other web-service calls.
-- **Middle Tier.** The office runs no Middle Tier server, but the Middle Tier is still moved to .NET 10
+- **Middle Tier.** The release ships no Middle Tier server, but the Middle Tier is still moved to .NET 10
   ("no, but port middle tier to .net 10").
 - **Reports with custom VB code.** They keep working: on .NET 10 the program compiles their code with Microsoft's current compiler
   (Roslyn). Changed by the standing rule; before, they were to show a clear error instead of running the code. The reports that ship
   have none.
-- **Direct secure messaging (HISP).** The office does not use it. It was to be removed in the clean-up stage; now kept and ported (owner
+- **Direct secure messaging (HISP).** It was to be removed in the clean-up stage; now kept and ported (owner
   correction, 2026-11-08). It comes back on top of the new e-mail code: received e-mail stays read by MimeKit, which the program already
   ships, instead of the old Direct libraries.
 - **Signed e-mail.** Kept (owner, 2026-11-08: "Keep signed email"): sending signed e-mail moves to MimeKit with the rest of e-mail in the
@@ -1073,9 +1072,8 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   consequences: no newer .NET Framework rollback installer, the x64 release is never published while a 0.0 install remains, and the
   bridge-only launch checks move to 3b.
 
-- **No OpenPMS install to migrate:** your statement (2026-11-15): "nothing in prod has openpms install. Don't worry about migration.
-  The office will only migrate once all workstreams are done". From now on no upgrade path from an OpenPMS install (0.0, .NET Framework,
-  32-bit, mixed workstations) is designed or tested. The office's switch from Open Dental comes at the end, with the switch-over questions
+- **No OpenPMS install to migrate:** your statement (2026-11-15): "nothing in prod has openpms install. Don't worry about migration.". From now on no upgrade path from an OpenPMS install (0.0, .NET Framework,
+  32-bit, mixed workstations) is designed or tested. Moving from Open Dental is adoption, with the adoption questions
   above. Migration code already built stays (net10-plan decision 22).
 
 - **Gallery G4, its TC-3c part: the plain "W", the centre line in the Text colour, half-transparent unerupted teeth beneath the
@@ -1098,7 +1096,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   chained. DirectX was only for the old DirectX tooth chart and the graphical perio gate: TC-8 moves both to the WPF chart (drawn in
   software on every PC), TC-9a and TC-9b then delete the old engines with SharpDX and Tao, and with no bridge release all three land on
   `main` before the 64-bit build, which never carries DirectX. TC-9a follows TC-8 directly; the office check (the chart's image tests
-  on one PC of the office's graphics type, no database) stays as a launch check before the office switches.
+  on one PC of each graphics type, no database) stays as a launch check before a release.
 
 - **Approved on 2026-11-19 (2)**: UI-3, the window frame, checked live by the owner ("frame OK"): rounded corners by default ("corners yes", 2026-11-18; OPENPMS_UI3_DWM_CORNERS=off turns them off), the caption hover fix (the close button's red fills to the top and into the corner) and its follow-ups; the frame gallery g-ui2-frame-ui3-2 (commit e6c1e2b45) rows in approved.tsv. Still to check on the desktop: the frame at 125% and 150%.
 
@@ -1171,7 +1169,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 
 - **The launch checks' two scripts** (LAUNCH-3b, [launch-checks-3b.md](../admin/launch-checks-3b.md)). Answered on 2026-11-17: Windows Sandbox is not turned on, and will not be ("Don't want to turn on sandboxing"): the clean-install check is done by a person on a spare PC or VM without .NET ([launch-checks-3b.md](../admin/launch-checks-3b.md) section 3); `Test-CleanInstall.ps1` stays unused. `Test-MiddleTierService.ps1`'s client session stays manual (run without `-ClientSession`, the default), so no test certificate ever enters Trusted Root; the program's login through the service is checked by hand at a test PC.
 
-- **When the .NET 10 branch merges into main** (net10-plan decision 25). Answered on 2026-11-16: "B": merge once the main merge and a Full x64 run are green; the gate's person checks become launch checks before the office release (`docs/admin/launch-checks-3b.md`). Asked next: can the person checks be automated? Answered "yes" to the three that can (a WebView2 window check, `tools/Test-MiddleTierService.ps1` run elevated by the owner, `tools/Test-CleanInstall.ps1` in Windows Sandbox once the owner turns it on).
+- **When the .NET 10 branch merges into main** (net10-plan decision 25). Answered on 2026-11-16: "B": merge once the main merge and a Full x64 run are green; the gate's person checks become launch checks before a release (`docs/admin/launch-checks-3b.md`). Asked next: can the person checks be automated? Answered "yes" to the three that can (a WebView2 window check, `tools/Test-MiddleTierService.ps1` run elevated by the owner, `tools/Test-CleanInstall.ps1` in Windows Sandbox once the owner turns it on).
 
 - **The elevated installer test on .NET 10** (S3b-7, [port-notes/S3b-7.md](../port-notes/S3b-7.md) section 6). `tools/Test-Installer.ps1` starts the installed connection settings tool briefly, with no arguments (it connects to nothing), to read which runtime it loaded, then closes it; it removes the `TWAINDSM.dll` the test installs only when the PC had none before, and an older one stays replaced by 2.5.1. **Answered on 2026-11-16: yes.** The same handling applies to the 32-bit TWAIN manager that S3b-8 adds.
 
@@ -1231,3 +1229,22 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 ## Ground rules and C# practices (2026-11-26)
 
 - **Owner, 2026-11-26:** "look at what we've done and extract ground rules and get them captured in CLAUDE.MD. This is also a general c# windows app. We should also capture best practices for c#. We want to enable fast iterations. Builds were taking a long time." Done: CLAUDE.md sections "Fast iterations", "UI" and "C#", and [docs/develop/building.md](../develop/building.md) "Fast inner loop" (build only the edited project after one restore, targeted tests, a Full run after wide changes and before releases, measure with a binary log). Machine-level speedups (a Dev Drive, Defender performance mode) are recommendations, not rules.
+
+## Design documents, office progress and the roadmap (2026-11-26)
+
+- **Owner, 2026-11-26:** "Add standing rule: Always add design document before implementation and add them into the right dir." Done:
+  CLAUDE.md, "Every change", "Design before code" (a design in `docs/specs/`, listed in the docs index, before any code; the port note
+  links it).
+- **Owner, 2026-11-26:** "26.2 porting work documentation is light and a lot of places don't mention it. Fix it and make it onpar with prior
+  porting work." Done: [specs/features-26.2.md](../specs/features-26.2.md) (all 67 release-note items classified, as for 24.4 to 26.1),
+  [specs/schema-changes-26.1-to-26.2.md](../specs/schema-changes-26.1-to-26.2.md), the 26.2 entries of
+  [specs/schema-changes.json](../specs/schema-changes.json), milestone M3 in [specs/port-backlog.md](../specs/port-backlog.md), and the
+  indexes.
+- **Owner, 2026-11-26:** "don't mention office progress in the OSS repo. such as office switch-over. Make that true everywhere". Done:
+  CLAUDE.md, "Product", "No office progress"; tracked files describe what the product does for any office, and a particular office's
+  status and plans are kept in the private office repository.
+- **Owner, 2026-11-26, on the roadmap's Linux item:** "This one should be Rust Middle Tier. Server component is just mariaDB." The roadmap
+  now plans a Middle Tier written in Rust, on Linux; the only server component the program needs today is MariaDB.
+- **Owner, 2026-11-26, new roadmap items:** "1. Add CRM functionality with lead tracking and in program VOIP calls (integrating with Unifi
+  Talk) and text 2. add some scribing features with OSS voice-to-text local model." Both are on the roadmap, each to start with a design in
+  `docs/specs/`.

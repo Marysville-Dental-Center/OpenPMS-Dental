@@ -38,7 +38,7 @@ Prerequisites:
 
 When the Visual C++ runtime is missing, the setup offers to download Microsoft's installer from Microsoft and run it, or to skip it (`/PREREQS=ask|download|skip`). The setup only checks for the WebView2 Runtime: when it is missing, the setup says so and how to install it (Microsoft's Evergreen Bootstrapper or Standalone Installer, Windows Update or device management), and it never downloads it.
 
-Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](../release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; no office runs 0.0, so nothing moves from it.
+Version 0.0, the .NET Framework 4.8 build, needed the **.NET Framework 4.8**, the **Microsoft Visual C++ 2015-2022 Redistributable, x86** (`vc_redist.x86.exe`) and the **Microsoft Edge WebView2 Runtime, x86**, and installed into `C:\Program Files (x86)\Open PMS - Dental\` ([docs/release-notes/v0.0.md](../release-notes/v0.0.md)). The .NET 10 setup is a separate 64-bit installation; nothing moves from 0.0.
 
 Steps:
 

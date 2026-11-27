@@ -21,7 +21,7 @@ namespace OpenPmsDentalBusiness {
 		public Version VersionSource;
 		///<summary>Set when the database's DataBaseVersion and ProgramVersion are a pair on ForkVersions.ListAdoptableLabels (25.3.47.0 with 25.3.54.0)
 		///rather than VersionSource itself. Such a database is adopted as VersionSource only when its schema equals that version's reference exactly,
-		///the office's patient._portal_active_email column and key aside.</summary>
+		///the patient portal column patient._portal_active_email and key aside.</summary>
 		public AdoptableVersionLabels Labels;
 		///<summary>True when Labels is set and the schema has not been verified yet (Preflight(ForkDbState) without a schema result). CanAdopt is false
 		///then; Preflight() verifies the connected database and decides.</summary>
@@ -40,7 +40,7 @@ namespace OpenPmsDentalBusiness {
 		public bool IsPortalEmailColumnKept;
 		///<summary>True when its unique key portal_active_email_uniq was there and was kept, as it was.</summary>
 		public bool IsPortalEmailIndexKept;
-		///<summary>Keys on patient._portal_active_email other than portal_active_email_uniq, which adoption drops (none on the office's database).
+		///<summary>Keys on patient._portal_active_email other than portal_active_email_uniq, which adoption drops (none in the databases seen so far).
 		///</summary>
 		public List<string> ListIndexesDropped=new List<string>();
 		public long CountUpdateFileRowsDeleted;
@@ -50,19 +50,19 @@ namespace OpenPmsDentalBusiness {
 
 	///<summary>Adopts an Open Dental database whose DataBaseVersion is on the allowlist (24.3.63.0 or 25.3.48.0, ProgramVersion equal to it), or whose
 	///DataBaseVersion and ProgramVersion are a pair on ForkVersions.ListAdoptableLabels (25.3.47.0 with 25.3.54.0) and whose schema then equals the
-	///25.3.48 reference exactly (the office's patient._portal_active_email aside). Such a pair is adopted as 25.3.48: ForkAdoptedFrom says
+	///25.3.48 reference exactly (the patient portal column patient._portal_active_email aside). Such a pair is adopted as 25.3.48: ForkAdoptedFrom says
 	///source=25.3.48.0, so every fork migration step treats it as a 25.3.48 database, and records the real labels in odDataBaseVersion= and
 	///odProgramVersion=. Every step is idempotent, and the
 	///order is chosen so an interrupted adoption (MyISAM has no transactions) can be run again to finish:
-	///1. ForkAdoptedFrom records the start. 2. The office-only patient._portal_active_email column and its unique key portal_active_email_uniq are
-	///kept as they are, for the office's patient portal (owner decision of 2026-11-25; SchemaVerifier allows them with exactly the office's
+	///1. ForkAdoptedFrom records the start. 2. The patient portal column patient._portal_active_email and its unique key portal_active_email_uniq are
+	///kept as they are, for a patient portal (owner decision of 2026-11-25; SchemaVerifier allows them with exactly the expected
 	///definitions); any other key on the column is dropped. 3. Open Dental's
 	///UpdateFiles and UpdateFilesSegment rows are deleted unread. 4. Preferences that point at Open Dental's servers are blanked. 5. DataBaseVersion and
 	///ProgramVersion get the sentinel, so Open Dental clients can no longer use the copy. 6. OdSchemaCompat, then ForkSchemaLevel are written: from
 	///here the fork markers govern the database. 7. The fork migration runner runs its pending steps. 8. ForkAdoptedFrom records the finish.</summary>
 	public class Adoption {
 		public const string PATIENT_PORTAL_EMAIL_COLUMN="_portal_active_email";
-		///<summary>The unique key the office copy has on the column (as in the office's schema-only dump). Adoption keeps it; any other key on the column
+		///<summary>The unique key a patient portal puts on the column (as in a 25.3.48 schema-only dump). Adoption keeps it; any other key on the column
 		///is dropped.</summary>
 		public const string PATIENT_PORTAL_EMAIL_INDEX="portal_active_email_uniq";
 		///<summary>Preferences that only ever held addresses of Open Dental's servers. They are blanked whatever they hold. Any other preference whose
@@ -164,7 +164,7 @@ namespace OpenPmsDentalBusiness {
 		}
 
 		///<summary>A labels pair is adoptable only when the schema equals the reference of its schema version exactly: no mismatch, and no allowed
-		///difference other than the office's patient._portal_active_email column and its key (adoption keeps them). The HQ-only, legacy and fork
+		///difference other than the patient portal column patient._portal_active_email and its key (adoption keeps them). The HQ-only, legacy and fork
 		///tables that SchemaVerifier otherwise allows are not in an Open Dental database with these labels, so here they count as differences.</summary>
 		private static AdoptionPreflight PreflightLabels(AdoptionPreflight adoptionPreflight,AdoptableVersionLabels labels,
 			SchemaVerifyResult schemaVerifyResult)
@@ -254,7 +254,7 @@ namespace OpenPmsDentalBusiness {
 					+versionSource.ToString(3)+" reference."));
 			}
 			adoptionResult.Labels=labels;
-			//2. The office-only generated column and its unique key: kept.
+			//2. The patient portal's generated column and its unique key: kept.
 			KeepPortalActiveEmail(adoptionResult,Log);
 			//3. Open Dental's update files: deleted without being read.
 			adoptionResult.CountUpdateFileRowsDeleted=DocumentMiscs.DeleteOpenDentalUpdateFiles();
@@ -304,9 +304,9 @@ namespace OpenPmsDentalBusiness {
 			return adoptionResult;
 		}
 
-		///<summary>Keeps patient._portal_active_email and its key portal_active_email_uniq exactly as they are: the office's patient portal relies on
+		///<summary>Keeps patient._portal_active_email and its key portal_active_email_uniq exactly as they are: a patient portal relies on
 		///them (one active patient per e-mail address; owner decision of 2026-11-25). Any other key on the column is not the office's and is dropped,
-		///as before. The schema verifier allows the column and key only with the office's definitions, so a different definition fails the check
+		///as before. The schema verifier allows the column and key only with the expected definitions, so a different definition fails the check
 		///after adoption.</summary>
 		private static void KeepPortalActiveEmail(AdoptionResult adoptionResult,Action<string> actionLog) {
 			string command="SELECT DISTINCT INDEX_NAME FROM information_schema.STATISTICS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='patient' "
@@ -330,7 +330,7 @@ namespace OpenPmsDentalBusiness {
 			adoptionResult.IsPortalEmailColumnKept=PIn.Long(Db.GetScalar(command))>0;
 			if(adoptionResult.IsPortalEmailColumnKept) {
 				actionLog("Kept column patient."+PATIENT_PORTAL_EMAIL_COLUMN+(adoptionResult.IsPortalEmailIndexKept ? " and its unique key "+PATIENT_PORTAL_EMAIL_INDEX : "")
-					+" (the office's patient portal: one active patient per e-mail address).");
+					+" (a patient portal's sign-in: one active patient per e-mail address).");
 			}
 			else {
 				actionLog("patient."+PATIENT_PORTAL_EMAIL_COLUMN+" is not present.");

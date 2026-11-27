@@ -107,13 +107,13 @@ Limits:
   -- run on a RESTORED copy of the office database, then diff against PrefName in OpenDentBusiness/TableTypes/Pref.cs
   SELECT PrefName, ValueString FROM preference ORDER BY PrefName;
   ```
-- Office version: the office runs 25.3.48. Backports that landed in 25.3.49 or later are included for completeness and marked; they are also part of 25.4, so implement each only once. The 26.1 spec refers to the tooth-exclusion item as `v25_4-family-benefit-tooth-exclusions`; it is the same work as `v25_3-family-exclusions-tooth` here.
+- Version adopted: 25.3.48. Backports that landed in 25.3.49 or later are included for completeness and marked; they are also part of 25.4, so implement each only once. The 26.1 spec refers to the tooth-exclusion item as `v25_4-family-benefit-tooth-exclusions`; it is the same work as `v25_3-family-exclusions-tooth` here.
 
 Fact-check (2026-10-18, second pass):
 
 - Coverage: every bullet on the 25.3 release-note page maps to an item below: the 3 Major Changes features (with their sub-bullets), then Account 6, Appointments 5, eServices 5, Family 3, Manage 6, Miscellaneous 16 and API 11. The 25.4 page lists nine items backported into 25.3.x; all nine are covered here (two of them as exclusions). The 26.1 page lists no 25.3.x backports.
 - Codebase paths: every existing path cited below was checked against this checkout. Paths that don't exist are files this spec asks us to create (marked "new").
-- Schema: every column and table below was checked against the office schema dump and the measured diff. All 15 of the 25.3 columns and all 10 of the 25.3 tables in the measured diff are accounted for. The 25.2 mirroring columns are covered in the mirroring item.
+- Schema: every column and table below was checked against a schema-only dump and the measured diff. All 15 of the 25.3 columns and all 10 of the 25.3 tables in the measured diff are accounted for. The 25.2 mirroring columns are covered in the mirroring item.
 
 Shared touchpoints that almost every item with schema uses (not repeated in each section):
 
@@ -225,7 +225,7 @@ Shared touchpoints that almost every item with schema uses (not repeated in each
 ### v25_3-procs-cdt-2026: 2026 CDT codes
 
 - **Category:** desktop. **Size:** S (plus the import design owned by the decoupling plan). **Depends on:** decoupling Phase 2, the CDT replacement (`docs/specs/decoupling-plan.md`).
-- **Sources:** https://www.opendental.com/site/version25_3.html (Major Changes; also backported to 25.2.62), https://opendental.blog/version-25-3/ (available from 25.3.35; the blog gives 25.2.64 for the 25.2 line, which differs from the release-note page's 25.2.62). Either way, the office's 25.3.48 has them.
+- **Sources:** https://www.opendental.com/site/version25_3.html (Major Changes; also backported to 25.2.62), https://opendental.blog/version-25-3/ (available from 25.3.35; the blog gives 25.2.64 for the 25.2 line, which differs from the release-note page's 25.2.62). Either way, 25.3.48 has them.
 
 **Behavior.** In Open Dental, Procedure Code Tools adds any 2026 D-codes that are missing and updates descriptions. The text comes from the proprietary CDT library. Our project rule 4 forbids shipping ADA code text. So:
 
@@ -247,7 +247,7 @@ Shared touchpoints that almost every item with schema uses (not repeated in each
 - **Category:** desktop. **Size:** S. **Depends on:** none.
 - **Source:** https://www.opendental.com/site/version25_3.html (also backported to 25.2.38). Baseline window: https://www.opendental.com/manual243/orthocase.html.
 
-**Behavior.** Cosmetic. Redundant instruction text is removed from the Ortho Case window. Likely candidates in our window are the static labels, such as the note that banding/visit/debond codes are set in preferences (`label3`) and the stand-alone "or" label (`label1`). **VERIFY** exactly which labels Open Dental removed by opening an ortho case on the office's 25.3.48. Move any helpful text to a tooltip instead of dropping it.
+**Behavior.** Cosmetic. Redundant instruction text is removed from the Ortho Case window. Likely candidates in our window are the static labels, such as the note that banding/visit/debond codes are set in preferences (`label3`) and the stand-alone "or" label (`label1`). **VERIFY** exactly which labels Open Dental removed by opening an ortho case on 25.3.48. Move any helpful text to a tooltip instead of dropping it.
 **UI:** `OpenDental/Forms/FormOrthoCase.cs` and `FormOrthoCase.designer.cs`.
 **Rules / permissions / preferences / schema:** none.
 
@@ -566,7 +566,7 @@ Implement exactly the cases 25.3.48 allows. Keep rule 2 and rule 4 unless the te
 - **Category:** desktop. **Size:** M. **Depends on:** none.
 - **Sources:**
   - https://www.opendental.com/site/version25_3.html and https://opendental.blog/version-25-3/
-  - https://www.opendental.com/site/version25_4.html (the teeth entry for exclusions was backported to 25.3.39, so it's in the office's 25.3.48). The 26.1 spec calls this work `v25_4-family-benefit-tooth-exclusions`; implement it once, here.
+  - https://www.opendental.com/site/version25_4.html (the teeth entry for exclusions was backported to 25.3.39, so it's in 25.3.48). The 26.1 spec calls this work `v25_4-family-benefit-tooth-exclusions`; implement it once, here.
   - https://www.opendental.com/OpenDentalDocumentation25-3.xml (`benefit.ToothRange`) and https://www.opendental.com/site/apibenefits.html
   - follow-up https://www.opendental.com/site/version26_1.html (age limits by tooth arrive in 26.1)
 
@@ -1099,7 +1099,7 @@ These come from the versions page summary ("Dental School enhancements"), the 25
 ### v25_3-schema-compat-columns: Schema and enum values needed only for data compatibility
 
 - **Category:** desktop. **Size:** S. **Depends on:** none.
-- **Sources:** https://www.opendental.com/OpenDentalDiffDocumentation25-3.xml, https://www.opendental.com/OpenDentalDocumentation25-3.xml, the office schema dump (a schema-only dump of an Open Dental 25.3.48 office database, kept outside the repository).
+- **Sources:** https://www.opendental.com/OpenDentalDiffDocumentation25-3.xml, https://www.opendental.com/OpenDentalDocumentation25-3.xml, a schema-only dump (a schema-only dump of an Open Dental 25.3.48 office database, kept outside the repository).
 
 **Why.** Some 25.3 schema serves features we cut, or only changes types. The office data still uses it, so the conversion must create it and the code must not break on it.
 
@@ -1163,7 +1163,7 @@ These come from the versions page summary ("Dental School enhancements"), the 25
 **Touchpoints:** `OpenDental/Forms/FormProcTools.cs` (the CDA text at line 60), `OpenDentBusiness/Data Interface/ProcedureCodes.cs`.
 **Schema:** none.
 
-### v25_3-misc-pem-path-label: PEM path field label (backported to 25.3.53, after the office's 25.3.48)
+### v25_3-misc-pem-path-label: PEM path field label (backported to 25.3.53, after 25.3.48)
 
 - **Category:** desktop. **Size:** S. **Depends on:** none.
 - **Source:** https://www.opendental.com/site/version25_4.html (Miscellaneous; also backported to 25.3.53).
@@ -1177,7 +1177,7 @@ These come from the versions page summary ("Dental School enhancements"), the 25
 **Touchpoints:** `OpenDental/Forms/FormChooseDatabase.cs` (and its designer), `OpenDental/Forms/FormReportSetup.cs`, `OpenDental/User Controls/Preferences/UserControlServerConnections.cs`.
 **Schema:** none. This is also in 25.4; implement once.
 
-### v25_3-procs-codegroup-reset-tool: Reset Code Groups tool (backported to 25.3.54, after the office's 25.3.48)
+### v25_3-procs-codegroup-reset-tool: Reset Code Groups tool (backported to 25.3.54, after 25.3.48)
 
 - **Category:** desktop. **Size:** S. **Depends on:** none.
 - **Source:** https://www.opendental.com/site/version25_4.html (Miscellaneous; also backported to 25.3.54).
