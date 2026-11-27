@@ -28,6 +28,7 @@ TestResults/
 # Logs
 *.binlog
 msbuild*.log
+aqtinstall.log
 
 # Claude Code worktrees
 .claude/
