@@ -1262,3 +1262,6 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   the patient._portal_active_email column out of the tables from OD schema. Let's defer this feature, but don't lose any work you've already
   done and capture your findings in doc". The setting is deferred; its design and the review's findings are kept in
   [specs/unique-patient-email.md](../specs/unique-patient-email.md).
+- **Owner, 2026-11-26, on sensor driver settings per device:** "go with a "Shared" tick per row in Capture settings, defaulting to shared,
+  with UsbDevice-style keys unticked." Asked whether the image keys `Bits`, `ByteOrder16` and `Polarity` should be shared too: "yes". Both
+  are in [specs/sensor-settings-per-device.md](../specs/sensor-settings-per-device.md), "Owner decisions"; the design is ready to build.
