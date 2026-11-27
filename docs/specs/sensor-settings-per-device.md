@@ -4,6 +4,10 @@ Owner decision of 2026-11-24 (roadmap, "A sensor's driver settings saved per dev
 section 9.3 of [imaging-capture-design.md](imaging-capture-design.md) and builds on IMG-SRCSET
 ([port-notes/IMG-SRCSET.md](../port-notes/IMG-SRCSET.md)).
 
+> **Status (2026-11-26): designed and reviewed, not built.** The review's findings are applied (see "Review" below). One choice waits for
+> the owner before the build starts: only the `Source.*` values are shared, and the driver's capability numbers and settings description
+> stay on each computer (the default proposed here, because driver versions can differ between computers).
+
 ## Why
 
 Capture settings keeps a sensor driver's settings (`[Device.N] Source.<Section>.<Key>`, sent to the driver through `SettingsCap`) in each

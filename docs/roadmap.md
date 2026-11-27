@@ -65,6 +65,7 @@ When Open Dental marks it stable: `main` moves to its schema and its features ar
   capture.ini, so a USB sensor moved between computers needs the same `Source.*` values on each one. Stored with the imaging device, every
   computer would use them after one save; only the driver install, the calibration files and the hardware binding stay per computer.
   Needs moving the values already saved in capture.ini and keeping the gated-settings check and its log working across computers.
+  Designed and reviewed, not built yet: [specs/sensor-settings-per-device.md](specs/sensor-settings-per-device.md).
 - **Compressed DICOM decoders**, only if such files turn up: JPEG Extended and Lossless, JPEG 2000 and JPEG-LS, through a thin layer over
   libjpeg-turbo, OpenJPEG and CharLS, plugged into the in-house reader's decoder hook. Today the reader opens uncompressed DICOM, RLE and
   JPEG Baseline, and names the format of any other compressed file
