@@ -1,0 +1,54 @@
+# The nightly build of main: release-build.yml's release build (Build-Release.ps1 from source: the checked staging folder, the Inno Setup
+# installer, the source archive, SHA256SUMS.txt), UNSIGNED, uploaded as the artifact OpenPmsDental-nightly-<yyyyMMdd>-<sha> and kept 7 days.
+# A test build, not a release: it carries main's release version, so its setup has the released version's file name.
+# Skipped when main has not changed since the last successful nightly build. Also started by hand (Actions > Nightly build > Run workflow,
+# or: gh workflow run nightly.yml). Free on GitHub's standard runners for a public repository. No secrets.
+name: Nightly build
+
+on:
+  schedule:
+    # 10:17 UTC: 02:17 in the Pacific winter, 03:17 in summer; off the full hour, when GitHub delays scheduled runs most.
+    - cron: "17 10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly-build
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      build: ${{ steps.check.outputs.build }}
+      label: ${{ steps.check.outputs.label }}
+    steps:
+      - name: Is main new since the last successful nightly build?
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          label="$(date -u +%Y%m%d)-${GITHUB_SHA:0:9}"
+          echo "label=$label" >> "$GITHUB_OUTPUT"
+          last=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/nightly.yml/runs?branch=main&status=success&per_page=1" --jq '.workflow_runs[0].head_sha // ""')
+          if [ "$EVENT" = "schedule" ] && [ "$last" = "$GITHUB_SHA" ]; then
+            echo "main ($GITHUB_SHA) was built by the last successful nightly build: skipped."
+            echo "build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Building main at $GITHUB_SHA as nightly-$label (last successful nightly: ${last:-none})."
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    needs: check
+    if: needs.check.outputs.build == 'true'
+    uses: ./.github/workflows/release-build.yml
+    with:
+      label: ${{ needs.check.outputs.label }}
+      nightly: true

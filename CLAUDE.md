@@ -58,7 +58,7 @@ Rules for every session in this repository. They override defaults. Owner decisi
   signature there rebuilds most of the solution; edits inside method bodies do not.
 - **Skipping analyzers is allowed in the inner loop** (`-p:RunAnalyzersDuringBuild=false`), never at the gate.
 - **Size the process to the change:** a small fix or follow-up is one person or agent, one build, one targeted run; only a new package gets
-  a separate review. No release builds or setup packages unless the owner asks.
+  a separate review. No release builds or setup packages unless the owner asks (the owner asked for the nightly build, `nightly.yml`).
 - **New test assemblies declare their parallelism:** `[assembly: Parallelize(Scope = ExecutionScope.ClassLevel)]` when they use no
   database or shared files, `[assembly: DoNotParallelize]` when they do.
 

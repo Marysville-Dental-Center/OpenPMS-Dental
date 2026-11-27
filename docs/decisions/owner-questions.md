@@ -1273,3 +1273,7 @@ and E-10b), where each is set out in full with its recommendation. You first ans
   `v<version>` names the released commit, and the workflow builds from it. A release is now the tag alone (CLAUDE.md, "Git";
   [develop/release-process.md](../develop/release-process.md), "Tag, no branch"); `release/<version>` is made from the tag only when a fix
   must ship for an older release after `main` has moved on. 0.1 had no release branch either. 0.1.1 is released this way.
+- **Owner, 2026-11-26:** "is this repo's gh build free? If yes, setup a nightly build on main? Can nightly also make a setup file?" It is
+  free (a public repository: the release builds bill 0 minutes). `.github/workflows/nightly.yml` builds `main` every night with the release
+  build, setup included, and keeps it 7 days ([develop/release-process.md](../develop/release-process.md), "The nightly build"). This
+  replaces, for the nightly build only, the earlier rule of no setup packages unless asked.

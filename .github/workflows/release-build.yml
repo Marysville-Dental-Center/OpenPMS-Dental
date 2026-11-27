@@ -1,6 +1,7 @@
 # The release build on GitHub's own Windows runner: tools/Build-Release.ps1 from source (Release x64, the checked staging folder,
 # SHA256SUMS.txt, the Inno Setup 6 installer and the source archive), uploaded UNSIGNED as an artifact for code signing to sign later.
-# Started by hand only (Actions > Release build > Run workflow, or: gh workflow run release-build.yml --ref v<version>). No secrets.
+# Started by hand (Actions > Release build > Run workflow, or: gh workflow run release-build.yml --ref v<version>), or called by
+# nightly.yml for the nightly build of main (nightly: true uploads only the setup, the source archive and SHA256SUMS.txt). No secrets.
 # Outbound: GitHub (checkout, the TWAIN DSM release, Inno Setup's release) and nuget.org for the packages the committed lock files
 # pin (restored in locked mode, so a package whose content hash differs from the lock file fails); Microsoft's Build Tools 2026
 # installer only on an image without MSBuild 18.
@@ -13,6 +14,17 @@ on:
         description: "Label for the artifact name (default: the commit's short SHA)"
         required: false
         default: ""
+  workflow_call:
+    inputs:
+      label:
+        description: "Label for the artifact name"
+        type: string
+        required: true
+      nightly:
+        description: "A nightly build: artifact OpenPmsDental-nightly-<label>, without the staging folder, kept 7 days"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -138,11 +150,25 @@ jobs:
         id: name
         env:
           LABEL: ${{ inputs.label }}
+          KIND: ${{ inputs.nightly && 'nightly' || 'unsigned' }}
         run: |
           $label = if ($env:LABEL) { $env:LABEL -replace '[^A-Za-z0-9._-]', '-' } else { $env:GITHUB_SHA.Substring(0, 9) }
-          "name=OpenPmsDental-unsigned-$label" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          "name=OpenPmsDental-$env:KIND-$label" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      # A nightly build: the setup and what goes with it only (a full artifact with the staging folder is about 500 MB).
+      - if: ${{ inputs.nightly }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.name.outputs.name }}
+          path: |
+            ${{ runner.temp }}/release/OpenPmsDental-*-Setup.exe
+            ${{ runner.temp }}/release/OpenPmsDental-*-source.zip
+            ${{ runner.temp }}/release/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 7
+
+      - if: ${{ !inputs.nightly }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ steps.name.outputs.name }}
           path: |
