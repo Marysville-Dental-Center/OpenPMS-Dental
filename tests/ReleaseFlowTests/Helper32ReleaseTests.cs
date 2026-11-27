@@ -64,7 +64,7 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(text,@"$X86OnlyFiles=@('Helper32\OpenPmsDentalHelper32.exe','Helper32\OpenPmsDentalHelper32.dll')");
 			//The Win32 resources of every staged exe are recorded (ApphostResourceTests); the helper's line is there too.
 			StringAssert.Contains(TestPaths.ReadSource("tests","ReleaseFlowTests","Fixtures","ApphostResources.net48.txt"),
-				HELPER+"|asInvoker|false|1.0.0.0|0.1|");
+				HELPER+"|asInvoker|false|1.0.0.0|0.1.1|");
 		}
 
 		///<summary>The build puts the helper's whole output (the apphost, its assembly, its two host files and its x86 runtime) into Helper32\ of the

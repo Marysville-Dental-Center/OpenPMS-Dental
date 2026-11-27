@@ -170,12 +170,13 @@ namespace ToothChartImageTests {
 			Assert.AreEqual(410,size.Width);
 			Assert.IsTrue(File.Exists(path));
 			using Bitmap bitmap=WpfImageTests.LoadBitmap(path);
-			//The strip's text is black on white, below the chart and the slider.
+			//The strip's text is dark on white, below the chart and the slider. Counted inside the strip's border (its top line and two left
+			//columns are grey, about 105), by luminance: Segoe UI 9 pt in the Text token is anti-aliased, so few of its pixels are near black.
 			int countDark=0;
-			for(int y=TextBelowStripPicture.TopStrip;y<bitmap.Height;y++) {
-				for(int x=0;x<bitmap.Width;x++) {
+			for(int y=TextBelowStripPicture.TopStrip+2;y<bitmap.Height;y++) {
+				for(int x=2;x<bitmap.Width-2;x++) {
 					Color color=bitmap.GetPixel(x,y);
-					if(color.R<80 && color.G<80 && color.B<80) {
+					if(0.299*color.R+0.587*color.G+0.114*color.B<128) {
 						countDark++;
 					}
 				}

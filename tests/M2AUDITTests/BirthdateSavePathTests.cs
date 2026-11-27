@@ -94,7 +94,8 @@ namespace M2AUDITTests {
 		public void HooksSitInInsertAndUpdate() {
 			//Right after the row is written, on the server side of the Middle Tier check.
 			string text=ReadRepoFile("OpenPmsDentalBusiness","Data Interface","Patients.cs");
-			Assert.IsTrue(Regex.IsMatch(text,@"Crud\.PatientCrud\.Update\(pat\);\s*InsertBirthdateChangeSecurityLogEntry\(null,pat\);"),"Patients.Insert");
+			//Since NOHASH the insert is the only write (no second Update to store the row hash).
+			Assert.IsTrue(Regex.IsMatch(text,@"pat\.PatNum=Crud\.PatientCrud\.Insert\(pat,useExistingPK\);\s*InsertBirthdateChangeSecurityLogEntry\(null,pat\);"),"Patients.Insert");
 			Assert.IsTrue(Regex.IsMatch(text,@"bool retval=Crud\.PatientCrud\.Update\(patient,oldPatient\);\s*InsertBirthdateChangeSecurityLogEntry\(oldPatient,patient\);"),
 				"Patients.Update");
 		}

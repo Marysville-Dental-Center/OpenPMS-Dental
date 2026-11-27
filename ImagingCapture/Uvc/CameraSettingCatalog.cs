@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using CodeBase;
 
 namespace ImagingCapture.Uvc {
 	///<summary>How a camera setting's value reads (CameraSettingCatalog).</summary>
@@ -160,7 +161,7 @@ namespace ImagingCapture.Uvc {
 				case CameraSettingUnit.Log2Seconds:
 					return FormatSeconds(value);
 				case CameraSettingUnit.FStopTimes10:
-					return "f/"+(value/10.0).ToString("0.#",CultureInfo.InvariantCulture);
+					return "f/"+(value/10.0).ToStringNetFx("0.#",CultureInfo.InvariantCulture);
 			}
 			return value.ToString(CultureInfo.InvariantCulture);
 		}

@@ -20,7 +20,7 @@ namespace S3aM1Tests {
 	public class M2ModuleMenuTests {
 		#region Helpers
 		///<summary>Compares each designer menu of the file with the expected list of M2DesignerMenuTests, on the live control.</summary>
-		private static void AssertDesignerMenus(Control control,string designerFile) {
+		private static void AssertDesignerMenus(Control control,string designerFile,params string[] arrayOpeningInCode) {
 			foreach(M2DesignerMenuTests.ExpectedMenu expectedMenu in M2DesignerMenuTests.DictExpected[designerFile]) {
 				object menu=Priv.Get(control,expectedMenu.Name);
 				Assert.IsInstanceOfType(menu,typeof(ContextMenuStrip),expectedMenu.Name);
@@ -31,7 +31,11 @@ namespace S3aM1Tests {
 				//subscribes them, as the grid's Popup did on the WinForms ContextMenu.
 				List<string> listOpening=M2Support.GetOpeningHandlerNames(contextMenuStrip);
 				CollectionAssert.AreEqual(expectedMenu.Opening==null ? new List<string>() : new List<string> { expectedMenu.Opening },
-					listOpening.Where(x => x!="ContextMenuStrip_Opening").ToList(),expectedMenu.Name+": its Opening ("+string.Join(", ",listOpening)+").");
+					listOpening.Where(x => x!="ContextMenuStrip_Opening" && !arrayOpeningInCode.Contains(x)).ToList(),
+					expectedMenu.Name+": its Opening ("+string.Join(", ",listOpening)+").");
+				foreach(string opening in arrayOpeningInCode) {
+					Assert.IsTrue(listOpening.Contains(opening),expectedMenu.Name+": the Opening added in code, "+opening+".");
+				}
 			}
 		}
 
@@ -142,8 +146,13 @@ namespace S3aM1Tests {
 					Assert.AreEqual(contextMenuStrip.Items.IndexOf((ToolStripItem)Priv.Get(controlImageDisplay,"menuItemInfo"))+1,
 						contextMenuStrip.Items.IndexOf(menuItemTeeth),"Teeth follows Info.");
 					Assert.AreEqual("Teeth...",menuItemTeeth.Text);
+					//FB-1: Retake X-ray... is added in code after Teeth, the same way.
+					ToolStripMenuItem menuItemRetake=(ToolStripMenuItem)Priv.Get(controlImageDisplay,"_menuItemRetake");
+					Assert.AreEqual(contextMenuStrip.Items.IndexOf(menuItemTeeth)+1,contextMenuStrip.Items.IndexOf(menuItemRetake),"Retake follows Teeth.");
+					Assert.AreEqual("Retake X-ray...",menuItemRetake.Text);
 					contextMenuStrip.Items.Remove(menuItemTeeth);
-					AssertDesignerMenus(controlImageDisplay,@"User Controls\ControlImageDisplay.Designer.cs");
+					contextMenuStrip.Items.Remove(menuItemRetake);
+					AssertDesignerMenus(controlImageDisplay,@"User Controls\ControlImageDisplay.Designer.cs","menuPanelMain_OpeningRetake");
 					Control panelMain=(Control)Priv.Get(controlImageDisplay,"panelMain");
 					Assert.AreSame(Priv.Get(controlImageDisplay,"menuPanelMain"),panelMain.ContextMenuStrip);
 #pragma warning disable WFDEV006 //the .NET Framework menu types, kept by .NET 10 for binary compatibility only: checked for absence (S3b-5)

@@ -245,7 +245,7 @@ namespace CodeBase {
 		}
 
 		private static string ToMB(long bytes) {
-			return (bytes/(1024.0*1024.0)).ToString("0.0",CultureInfo.InvariantCulture)+" MB";
+			return (bytes/(1024.0*1024.0)).ToStringNetFx("0.0",CultureInfo.InvariantCulture)+" MB";
 		}
 
 		private static void PruneOldReports(string folder) {

@@ -56,7 +56,7 @@ namespace ReleaseFlowTests {
 		public void SharedAssemblyInfo_NamesTheProductTheReleaseAndBothCopyrights() {
 			string text=StripComments(TestPaths.ReadSource("SharedAssemblyInfo.cs"));
 			StringAssert.Contains(text,"[assembly: AssemblyProduct(\"Open PMS - Dental\")]");
-			StringAssert.Contains(text,"[assembly: AssemblyInformationalVersion(\"0.1\")]");
+			StringAssert.Contains(text,"[assembly: AssemblyInformationalVersion(\"0.1.1\")]");
 			Match matchCopyright=Regex.Match(text,@"\[assembly: AssemblyCopyright\((.*?)\)\]",RegexOptions.Singleline);
 			Assert.IsTrue(matchCopyright.Success,"AssemblyCopyright");
 			string copyright=string.Concat(Regex.Matches(matchCopyright.Groups[1].Value,"\"((?:[^\"\\\\]|\\\\.)*)\"").Cast<Match>().Select(x => x.Groups[1].Value));

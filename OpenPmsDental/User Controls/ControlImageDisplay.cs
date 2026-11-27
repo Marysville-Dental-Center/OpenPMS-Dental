@@ -202,12 +202,7 @@ Here is the desired behavior:
 			_menuItemRetake.Name="menuItemRetake";
 			_menuItemRetake.Click+=menuPanelMain_Click;
 			menuPanelMain.Items.Insert(menuPanelMain.Items.IndexOf(_menuItemTeeth)+1,_menuItemRetake);
-			menuPanelMain.Opening+=(sender,e) => {
-				//Only on a mount slot with an image, and not from the Chart module's image window.
-				_menuItemRetake.Visible=!DidLaunchFromChartModule && IsMountShowing() && _idxSelectedInMount>-1
-					&& _idxSelectedInMount<_listMountItems.Count && _listMountItems[_idxSelectedInMount].ItemOrder>0
-					&& _documentArrayShowing[_idxSelectedInMount]!=null;
-			};
+			menuPanelMain.Opening+=menuPanelMain_OpeningRetake;
 			_odWebView2=new ODWebView2();//Include a WebView2 object for loading .pdf files.
 			_odWebView2.Visible=false;
 			_odWebView2.Dock=DockStyle.Fill;
@@ -3144,6 +3139,13 @@ Here is the desired behavior:
 				MouseEventArgs mouseEventArgs=new MouseEventArgs(MouseButtons.Left,1,pointInPanel.X,pointInPanel.Y,0);
 				panelMain_MouseMove(this,mouseEventArgs);//to trigger the minus sign to go away
 			}
+		}
+
+		///<summary>FB-1: Retake X-ray... shows only on a mount slot with an image, and not from the Chart module's image window.</summary>
+		private void menuPanelMain_OpeningRetake(object sender,CancelEventArgs e) {
+			_menuItemRetake.Visible=!DidLaunchFromChartModule && IsMountShowing() && _idxSelectedInMount>-1
+				&& _idxSelectedInMount<_listMountItems.Count && _listMountItems[_idxSelectedInMount].ItemOrder>0
+				&& _documentArrayShowing[_idxSelectedInMount]!=null;
 		}
 
 		private void menuPanelMain_Click(object sender,System.EventArgs e) {

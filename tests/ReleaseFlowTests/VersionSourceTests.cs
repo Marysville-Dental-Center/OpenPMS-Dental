@@ -15,7 +15,7 @@ namespace ReleaseFlowTests {
 	[TestClass]
 	public class VersionSourceTests {
 		[TestMethod]
-		public void OpenDentalExe_ReleaseVersionIs_0_1_AndCompatVersionStaysOn_24_3_63() {
+		public void OpenDentalExe_ReleaseVersionIs_0_1_1_AndCompatVersionStaysOn_24_3_63() {
 			string pathExe=Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","bin","Debug","OpenPmsDental.exe");
 			if(!File.Exists(pathExe)) {
 				BuildOutput.NotBuilt(@"OpenPmsDental\bin\Debug is not built. Build OpenDental.Local.slnf (Debug|x86) first.");
@@ -27,7 +27,7 @@ namespace ReleaseFlowTests {
 			StringAssert.Contains(assemblyInfo,"[assembly: AssemblyVersion(\"24.3.63.0\")]");
 			//The release version lives in the shared assembly info (package REL-FILES), which OpenPmsDental.csproj links.
 			string sharedAssemblyInfo=TestPaths.ReadSource("SharedAssemblyInfo.cs");
-			StringAssert.Contains(sharedAssemblyInfo,"[assembly: AssemblyInformationalVersion(\"0.1\")]");
+			StringAssert.Contains(sharedAssemblyInfo,"[assembly: AssemblyInformationalVersion(\"0.1.1\")]");
 			ProjectFile.Load(Path.Combine(TestPaths.RepoRoot,"OpenPmsDental","OpenPmsDental.csproj")).AssertCompiles(@"..\SharedAssemblyInfo.cs");
 		}
 
