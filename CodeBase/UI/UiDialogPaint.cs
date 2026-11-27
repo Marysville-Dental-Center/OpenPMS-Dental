@@ -76,12 +76,5 @@ namespace CodeBase {
 		}
 		#endregion Swatch
 
-		#region Warning
-		///<summary>The fill and outline token of the database integrity warning triangle: Warning (the notify colour of section 3.2), or Danger for the
-		///red triangle (EnumIntegrityBehavior.TriangleRed). The mark inside is TextOnAccent (white: 5.3:1 on Warning, 5.7:1 on Danger).</summary>
-		public static EnumUiColor GetWarningFill(bool isRed) {
-			return isRed ? EnumUiColor.Danger : EnumUiColor.Warning;
-		}
-		#endregion Warning
 	}
 }

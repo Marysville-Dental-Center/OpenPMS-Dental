@@ -2752,9 +2752,6 @@
     <Compile Update="UI\ControlDoubleBuffered.Designer.cs">
       <DependentUpon>ControlDoubleBuffered.cs</DependentUpon>
     </Compile>
-    <Compile Update="UI\DatabaseIntegrity\WarningIntegrity.Designer.cs">
-      <DependentUpon>WarningIntegrity.cs</DependentUpon>
-    </Compile>
     <Compile Update="UI\FormPrintPreview.designer.cs">
       <DependentUpon>FormPrintPreview.cs</DependentUpon>
     </Compile>

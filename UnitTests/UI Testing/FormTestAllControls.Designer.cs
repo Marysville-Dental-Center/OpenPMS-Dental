@@ -119,7 +119,6 @@
 			this.textTime = new OpenPmsDental.ValidTime();
 			this.label16 = new System.Windows.Forms.Label();
 			this.butNow = new OpenPmsDental.UI.Button();
-			this.warningIntegrity1 = new OpenPmsDental.UI.WarningIntegrity();
 			this.button5 = new OpenPmsDental.UI.Button();
 			this.butGetPW = new OpenPmsDental.UI.Button();
 			this.label17 = new System.Windows.Forms.Label();
@@ -1029,13 +1028,6 @@
 			this.butNow.UseVisualStyleBackColor = false;
 			this.butNow.Click += new System.EventHandler(this.butNow_Click);
 			// 
-			// warningIntegrity1
-			// 
-			this.warningIntegrity1.Location = new System.Drawing.Point(1023, 227);
-			this.warningIntegrity1.Name = "warningIntegrity1";
-			this.warningIntegrity1.Size = new System.Drawing.Size(100, 100);
-			this.warningIntegrity1.TabIndex = 348;
-			// 
 			// button5
 			// 
 			this.button5.Icon = OpenPmsDental.UI.EnumIcons.ArrowLeft;
@@ -1138,7 +1130,6 @@
 			this.Controls.Add(this.butGetPW);
 			this.Controls.Add(this.label17);
 			this.Controls.Add(this.button5);
-			this.Controls.Add(this.warningIntegrity1);
 			this.Controls.Add(this.butNow);
 			this.Controls.Add(this.label16);
 			this.Controls.Add(this.textTime);
@@ -1310,7 +1301,6 @@
 		private OpenPmsDental.ValidTime textTime;
 		private System.Windows.Forms.Label label16;
 		private OpenPmsDental.UI.Button butNow;
-		private OpenPmsDental.UI.WarningIntegrity warningIntegrity1;
 		private OpenPmsDental.UI.Button button5;
 		private OpenPmsDental.UI.Button butGetPW;
 		private System.Windows.Forms.Label label17;

@@ -91,7 +91,6 @@ namespace OpenPmsDental{
 			else {
 				textPeriodPayment.Text=_payPlan.PayAmt.ToStringNetFx("f");
 			}
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.PayPlan,PayPlans.IsPayPlanHashValid(_payPlan));
 			textDownPayment.Text=_payPlan.DownPayment.ToStringNetFx("f");
 			textDate.Text=_payPlan.PayPlanDate.ToShortDateString();
 			if(IsNew) {

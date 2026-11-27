@@ -125,7 +125,7 @@ namespace AdoptionValidation.Tests {
 			foreach(RunResult run in _result.ListRuns) {
 				List<string> listNames=run.ListSteps.Select(x => x.Name).ToList();
 				foreach(string prefix in new[] { "Generate","Record baseline","FLOAT values","Copy on the server (AdoptionValidation copy)","Validate the copy",
-					"Adopt (","Fork migration","Schema verifier","Rehash","Row check against the original","Record post-adoption","Data-layer round trip","Second pass" })
+					"Adopt (","Fork migration","Schema verifier","Row check against the original","Record post-adoption","Data-layer round trip","Second pass" })
 				{
 					Assert.IsTrue(listNames.Any(x => x.StartsWith(prefix)),"Run "+run.RunNumber+" has no step "+prefix);
 				}
@@ -731,10 +731,9 @@ namespace AdoptionValidation.Tests {
 			}
 		}
 
-		///<summary>Adoption and the rehash write SecurityHash only. The rows' ON UPDATE audit timestamps (DateTStamp, SecDateTEdit) must not move; before
-		///the M1-Z fix, SecurityHash's UPDATE statements stamped every rehashed row with the adoption time.</summary>
+		///<summary>Adoption changes neither SecurityHash nor the rows' ON UPDATE audit timestamps (DateTStamp, SecDateTEdit).</summary>
 		[TestMethod]
-		public void AdoptionAndRehash_KeepEveryAuditTimestamp() {
+		public void Adoption_KeepsEveryHashAndAuditTimestamp() {
 			SkipIfNeeded();
 			RunResult run=_result.ListRuns[0];
 			//A timestamp column the fork migration adds (insbluebook.DateTStamp, Open Dental 26.2) is new, not moved: adopt's row check holds it to the
@@ -745,7 +744,7 @@ namespace AdoptionValidation.Tests {
 				.Any(x => x.Contains(".DateTStamp") || x.Contains(".SecDateTEdit")),
 				string.Join("\r\n",run.ListAllowedDifferences));
 			using(Db db=Db.Open(_server)) {
-				//The hashed tables with an ON UPDATE timestamp in 25.3.48 (payplan has none).
+				//The tables with a SecurityHash and an ON UPDATE timestamp in 25.3.48 (payplan has none).
 				foreach(string table in new[] { "patient","appointment","claim","claimproc","paysplit","inssub","insverify","insverifyhist" }) {
 					string column=table=="patient" || table=="appointment" ? "DateTStamp" : "SecDateTEdit";
 					string key=Convert.ToString(db.Scalar("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='"+Adopted(1)+"' AND TABLE_NAME='"
@@ -754,10 +753,8 @@ namespace AdoptionValidation.Tests {
 						+"WHERE NOT (a.SecurityHash<=>b.SecurityHash)");
 					long countMoved=db.ScalarLong("SELECT COUNT(*) FROM `"+Adopted(1)+"`.`"+table+"` b INNER JOIN `"+Source(1)+"`.`"+table+"` a USING(`"+key+"`) "
 						+"WHERE NOT (a.`"+column+"`<=>b.`"+column+"`)");
-					Assert.AreEqual(0,countMoved,table+"."+column+" moved on "+countMoved+" rows ("+countHashed+" rows rehashed)");
-					if(table=="patient") {
-						Assert.IsTrue(countHashed>0,"Every patient is rehashed.");
-					}
+					Assert.AreEqual(0,countMoved,table+"."+column+" moved on "+countMoved+" rows");
+					Assert.AreEqual(0,countHashed,table+".SecurityHash changed on "+countHashed+" rows");
 				}
 			}
 		}
@@ -824,25 +821,24 @@ namespace AdoptionValidation.Tests {
 		}
 
 		///<summary>The rehearsal adopts with HeadlessAdoption, the code "AdoptionValidation adopt" runs in runbook steps 4 and 5, and compares the adopted
-		///copy with the restored copy's report, as runbook step 6 does. Its log ends the way the runbook says it does, and the rehash is logged.</summary>
+		///copy with the restored copy's report, as runbook step 6 does. Its log ends the way the runbook says it does.</summary>
 		[TestMethod]
 		public void Rehearsal_AdoptsWithTheRunbookSequence() {
 			SkipIfNeeded();
 			RunResult run=_result.ListRuns[0];
 			List<string> listSteps=run.ListSteps.Select(x => x.Name).ToList();
 			int indexAdopt=listSteps.FindIndex(x => x.StartsWith("Adopt ("));
-			int indexRehash=listSteps.FindIndex(x => x.StartsWith("Rehash"));
 			int indexReport=listSteps.FindIndex(x => x.StartsWith("Record post-adoption"));
 			int indexRoundTrip=listSteps.FindIndex(x => x.StartsWith("Data-layer round trip"));
 			int indexCopy=listSteps.FindIndex(x => x.StartsWith("Copy on the server"));
 			int indexRowCheck=listSteps.IndexOf("Row check against the original");
 			Assert.IsTrue(indexCopy<listSteps.IndexOf("Preflight") && listSteps.IndexOf("Preflight")<indexAdopt
-				&& indexAdopt<listSteps.IndexOf("Fork migration (all steps again)") && listSteps.IndexOf("Schema verifier")<indexRehash && indexRehash<indexRowCheck
+				&& indexAdopt<listSteps.IndexOf("Fork migration (all steps again)") && listSteps.IndexOf("Schema verifier")<indexRowCheck
 				&& indexRowCheck<indexReport && indexReport<indexRoundTrip,string.Join(", ",listSteps));
 			foreach(string expected in new[] { "It can be adopted.","Kept column patient._portal_active_email and its unique key portal_active_email_uniq (a patient portal's sign-in: one active patient per e-mail address).",
-				"DataBaseVersion and ProgramVersion set to 99.0.0.0.","Adoption finished.","0 changes.","The schema matches Open Dental "+SchemaVerifier.ReferenceVersion+" exactly","Rehash finished.",
+				"DataBaseVersion and ProgramVersion set to 99.0.0.0.","Adoption finished.","0 changes.","The schema matches Open Dental "+SchemaVerifier.ReferenceVersion+" exactly","SecurityHash values (kept as they are",
 				"Row check against "+Source(1),"preference: 5 added (","documentmisc: 4 Open Dental update-file row(s) deleted, none left; 0 other row(s) deleted",
-				"securitylog: 2 entries added (1 adoption, 1 rehash)","updatehistory: identical row by row.",
+				"securitylog: 1 entry added (1 adoption)","updatehistory: identical row by row.",
 				"Fork migration step 2026101971 Report rows for Procedures, Production by Procedure and Insurance Pending Supplementals changed the database:",
 				"  Renamed displayreport ODSyntheticProdByProc to ODProductionByProcedure (same description)",
 				"  Renamed displayreport ODSyntheticProcsItemized to ODProceduresIndividual (same description)",
@@ -883,8 +879,8 @@ namespace AdoptionValidation.Tests {
 			}
 			Assert.IsFalse(run.ListAdoptionLog.Any(x => x.Contains("FAIL")),string.Join("\r\n",run.ListAdoptionLog));
 			using(Db db=Db.Open(_server,Adopted(1))) {
-				Assert.AreEqual(2,db.ScalarLong("SELECT COUNT(*) FROM securitylog WHERE LogText LIKE '"+HeadlessAdoption.REHASH_LOG_TEXT+"%'"),
-					"The rehash is logged once by the adoption and once by the second pass.");
+				Assert.AreEqual(0,db.ScalarLong("SELECT COUNT(*) FROM securitylog WHERE LogText LIKE 'Security hashes recalculated%'"),
+					"Nothing recalculates security hashes.");
 			}
 		}
 
@@ -1008,7 +1004,7 @@ namespace AdoptionValidation.Tests {
 				Assert.AreEqual(0,exitCode,output);
 				//Twelve tool runs, each with at least one connection, and adopt's business layer with its own: all of them through the relay.
 				Assert.IsTrue(relay.CountAccepted>=13,relay.CountAccepted+" connections through the relay\r\n"+output);
-				//Step 4 again, in process and through the relay: it repeats the finished adoption and changes nothing but its own security log entry.
+				//Step 4 again, in process and through the relay: it repeats the finished adoption and changes nothing.
 				List<string> listLog=new List<string>();
 				ValidationReport before;
 				using(Db db=Db.Open(_server)) {
@@ -1019,7 +1015,7 @@ namespace AdoptionValidation.Tests {
 					relay.Port.ToString(CultureInfo.InvariantCulture) },listLog.Add),string.Join("\r\n",listLog));
 				Assert.IsTrue(relay.CountAccepted>countBefore,"adopt connected through the relay");
 				Assert.IsTrue(listLog.Any(x => x.Contains("already has an adoption record")) && listLog.Any(x => x.Contains("Adoption is skipped")));
-				Assert.IsTrue(listLog.Any(x => x.Contains("securitylog: 3 entries added (1 adoption, 2 rehash)")),string.Join("\r\n",listLog));
+				Assert.IsTrue(listLog.Any(x => x.Contains("securitylog: 1 entry added (1 adoption)")),string.Join("\r\n",listLog));
 				Assert.IsTrue(listLog.Any(x => x.StartsWith("Adopt: PASS.") && x.Contains(LinePassTrojan)),string.Join("\r\n",listLog));
 				using(Db db=Db.Open(_server)) {
 					List<Difference> listDiffs=ReportComparer.Compare(before,Validator.Run(db,copy,null,null),null);
@@ -1027,7 +1023,7 @@ namespace AdoptionValidation.Tests {
 				}
 			}
 			StringAssert.Contains(output,"Dry run: PASS");
-			foreach(string step in new[] { "== 0.2 FLOAT","== 0.2 What the fork migration","== 1.1 ","== 3.2 ","== 3.3 ","== 4-5 ","== 6.1 ","== 10.1 ","== 10.2 " }) {
+			foreach(string step in new[] { "== 0.2 FLOAT","== 0.2 What the fork migration","== 1.1 ","== 3.2 ","== 3.3 ","== 4 ","== 6.1 ","== 10.1 ","== 10.2 " }) {
 				StringAssert.Contains(output,step);
 			}
 			StringAssert.Contains(File.ReadAllText(Path.Combine(folder,"float-check.txt")),"no value that a logical backup (mariadb-dump) would round");

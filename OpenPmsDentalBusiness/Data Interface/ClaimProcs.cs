@@ -990,7 +990,6 @@ namespace OpenPmsDentalBusiness{
 			else {//In case someone tried to programmatically set the DateSuppReceived when they shouldn't have
 				claimProc.DateSuppReceived=DateTime.MinValue;
 			}
-			claimProc.SecurityHash=HashFields(claimProc);
 			return Crud.ClaimProcCrud.Insert(claimProc);
 		}
 
@@ -1008,16 +1007,9 @@ namespace OpenPmsDentalBusiness{
 			}
 			ClearEtrans835AttachNumIfNotReceived(claimProc);//M2-ERA (26.1): an un-received claimproc forgets the ERA claim (ClaimProcs.Era.cs).
 			if(claimProcOld==null) {
-				ClaimProc claimProcDb=ClaimProcs.GetOneClaimProc(claimProc.ClaimProcNum);
-				if(IsClaimProcHashValid(claimProcDb)) { //Only rehash claimprocs that are already valid.
-					claimProc.SecurityHash=HashFields(claimProc);
-				}
 				Crud.ClaimProcCrud.Update(claimProc);
 			}
 			else {
-				if(IsClaimProcHashValid(claimProcOld)) { //Only rehash claimprocs that are already valid.
-					claimProc.SecurityHash=HashFields(claimProc);
-				}
 				Crud.ClaimProcCrud.Update(claimProc,claimProcOld);
 			}
 		}
@@ -3383,35 +3375,6 @@ namespace OpenPmsDentalBusiness{
 			}
 			string command="DELETE FROM claimproc WHERE ClaimProcNum IN("+string.Join(",",listClaimProcNums)+")";
 			Db.NonQ(command);
-		}
-
-		///<summary>Returns the salted hash for the claimproc. Computed by CodeBase.TamperHash. </summary>
-		public static string HashFields(ClaimProc claimProc) {
-			Meth.NoCheckMiddleTierRole();
-			string unhashedText=claimProc.ClaimNum.ToString()+((int)claimProc.Status).ToString()+claimProc.InsPayEst.ToStringNetFx("F2")+claimProc.InsPayAmt.ToStringNetFx("F2");
-			try {
-				return TamperHash.Compute(unhashedText);
-			}
-			catch(Exception ex)  {
-				ex.DoNothing();
-				return ex.GetType().Name;
-			}
-		}
-
-		///<summary>Validates the hash string in claimproc.SecurityHash. Returns true if it matches the expected hash, otherwise false.</summary>
-		public static bool IsClaimProcHashValid(ClaimProc claimProc) {
-			Meth.NoCheckMiddleTierRole();
-			if(claimProc==null) {
-				return true;
-			}
-			DateTime dateHashStart=Misc.SecurityHash.GetHashingDate();
-			if(claimProc.SecDateEntry < dateHashStart) { //Too old, isn't hashed.
-				return true;
-			}
-			if(Misc.SecurityHash.IsHashValid(claimProc.SecurityHash,HashFields(claimProc))) {
-				return true;
-			}
-			return false; 
 		}
 
 	}

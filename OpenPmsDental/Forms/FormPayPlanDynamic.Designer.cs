@@ -119,7 +119,6 @@ namespace OpenPmsDental {
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.checkProductionLock = new OpenPmsDental.UI.CheckBox();
 			this.labelOverchargedWarning = new System.Windows.Forms.Label();
-			this.warningIntegrity1 = new OpenPmsDental.UI.WarningIntegrity();
 			this.textNote = new OpenPmsDental.ODtextBox();
 			this.groupTerms.SuspendLayout();
 			this.groupTreatmentPlanned.SuspendLayout();
@@ -1095,13 +1094,6 @@ namespace OpenPmsDental {
 			this.labelOverchargedWarning.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelOverchargedWarning.Visible = false;
 			// 
-			// warningIntegrity1
-			// 
-			this.warningIntegrity1.Location = new System.Drawing.Point(8, 10);
-			this.warningIntegrity1.Name = "warningIntegrity1";
-			this.warningIntegrity1.Size = new System.Drawing.Size(18, 18);
-			this.warningIntegrity1.TabIndex = 203;
-			// 
 			// textNote
 			// 
 			this.textNote.AcceptsTab = true;
@@ -1122,7 +1114,6 @@ namespace OpenPmsDental {
 			// FormPayPlanDynamic
 			// 
 			this.ClientSize = new System.Drawing.Size(1087, 901);
-			this.Controls.Add(this.warningIntegrity1);
 			this.Controls.Add(this.labelSheetDef);
 			this.Controls.Add(this.comboSheetDef);
 			this.Controls.Add(this.butSave);
@@ -1269,7 +1260,6 @@ namespace OpenPmsDental {
 		private OpenPmsDental.UI.GroupBox groupTreatmentPlanned;
 		private System.Windows.Forms.RadioButton radioTpTreatAsComplete;
 		private System.Windows.Forms.RadioButton radioTpAwaitComplete;
-		private UI.WarningIntegrity warningIntegrity1;
 		private UI.CheckBox checkUngrouped;
 		private UI.CheckBox checkShowAttachedPnI;
 		private UI.Button butTemplates;

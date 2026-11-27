@@ -254,14 +254,13 @@ namespace SyntheticData.Tests {
 				}
 				db.Use(DbAdopted);
 				//Adoption keeps the patient portal column patient._portal_active_email and its key (owner decision of 2026-11-25), so the copy keeps them too.
-				//A rehash that forgets the ON UPDATE timestamp changes SecDateTEdit on every row; the comparison must catch that.
+				//Adoption keeps every SecurityHash value (NOHASH): a changed one, or a moved ON UPDATE timestamp, is caught.
 				db.Execute("UPDATE inssub SET SecurityHash=CONCAT('osd1$',SHA2(InsSubNum,256))");
 				List<Difference> listCareless=ReportComparer.Compare(_reportA,Validator.Run(db,DbAdopted,null,null),
 					AllowedDifferences.Load(Path.Combine(Path.GetDirectoryName(Validator.ReadTotalsSqlPath()),"..","allowed-differences.adoption.json")));
+				Assert.IsTrue(listCareless.Any(x => !x.IsAllowed && x.Table=="inssub" && x.Column=="SecurityHash"),ReportComparer.Format(listCareless));
 				Assert.IsTrue(listCareless.Any(x => !x.IsAllowed && x.Table=="inssub" && x.Column=="SecDateTEdit"),ReportComparer.Format(listCareless));
-				//The correct rehash keeps the audit timestamp.
-				db.Execute("UPDATE inssub SET SecurityHash=CONCAT('osd1$',SHA2(InsSubNum+1,256)),SecDateTEdit=SecDateTEdit");
-				db.Execute("UPDATE inssub a INNER JOIN `"+DbA+"`.inssub b ON a.InsSubNum=b.InsSubNum SET a.SecDateTEdit=b.SecDateTEdit");
+				db.Execute("UPDATE inssub a INNER JOIN `"+DbA+"`.inssub b ON a.InsSubNum=b.InsSubNum SET a.SecurityHash=b.SecurityHash,a.SecDateTEdit=b.SecDateTEdit");
 				db.Execute("UPDATE preference SET ValueString='99.0.0.0' WHERE PrefName IN ('DataBaseVersion','ProgramVersion')");
 				string allowedPath=Path.Combine(Path.GetDirectoryName(Validator.ReadTotalsSqlPath()),"..","allowed-differences.adoption.json");
 				AllowedDifferences allowed=AllowedDifferences.Load(allowedPath);

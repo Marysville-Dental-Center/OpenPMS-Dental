@@ -80,7 +80,7 @@ namespace PayPlanTests {
 			Assert.IsFalse(moduleData.PayPlan.IsLocked);
 			PayPlan payPlanDb=PayPlans.GetOne(payPlan.PayPlanNum);
 			Assert.IsFalse(payPlanDb.IsLocked,"Saved unlocked.");
-			Assert.IsTrue(PayPlans.IsPayPlanHashValid(payPlanDb),"The row hash covers IsLocked and is recomputed.");
+			Assert.AreEqual(payPlan.SecurityHash,payPlanDb.SecurityHash,"SecurityHash is kept as it is (NOHASH).");
 			Assert.AreEqual(1,CountUnlockLogs(payPlan));
 			DataTable table=DataCore.GetTable("SELECT PatNum,UserNum,LogText FROM securitylog WHERE PermType="+POut.Int((int)EnumPermType.PayPlanUnlock)
 				+" AND FKey="+POut.Long(payPlan.PayPlanNum));

@@ -1,4 +1,4 @@
-// Tests for CodeBase's Secrets and TamperHash and the ODCrypt library.
+// Tests for CodeBase's Secrets and the ODCrypt library.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 using System.Collections.Generic;

@@ -1248,3 +1248,17 @@ and E-10b), where each is set out in full with its recommendation. You first ans
 - **Owner, 2026-11-26, new roadmap items:** "1. Add CRM functionality with lead tracking and in program VOIP calls (integrating with Unifi
   Talk) and text 2. add some scribing features with OSS voice-to-text local model." Both are on the roadmap, each to start with a design in
   `docs/specs/`.
+
+## The roadmap's smaller items (2026-11-26)
+
+- **Owner, 2026-11-26:** "fix the code or test even if it's not your change". Failing tests are fixed where they fail, whoever made the
+  change that broke them.
+- **Owner, 2026-11-26:** "do the small items on the roadmap". Asked which, the owner chose "Only the three": the unique e-mail setting,
+  removing tamper detection and sensor driver settings per device; the compressed DICOM decoders and the next release stay on the roadmap.
+  Asked how to review the designs, the owner chose "A review agent, then build": each design is checked by a separate review agent, its
+  findings are applied, then it is built.
+- **Owner, 2026-11-26, on the unique e-mail setting** (the review found that it would add and drop a column and key of Open Dental's
+  `patient` table): "This feature needs to be coordinated with [the patient portal's] project, so it doesn't break. Likely we'll need to move
+  the patient._portal_active_email column out of the tables from OD schema. Let's defer this feature, but don't lose any work you've already
+  done and capture your findings in doc". The setting is deferred; its design and the review's findings are kept in
+  [specs/unique-patient-email.md](../specs/unique-patient-email.md).

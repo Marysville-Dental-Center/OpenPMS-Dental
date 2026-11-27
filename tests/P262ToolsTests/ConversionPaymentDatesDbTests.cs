@@ -128,55 +128,28 @@ namespace P262ToolsTests {
 			Assert.IsNull(GetRow(converted.DateConversion,paymentConv.PayNum),"Once dated, the transfer is no longer listed.");
 		}
 
-		///<summary>The tool run soon after go-live: the conversion date and the transfers are inside the paysplit hashing window
-		///(SecurityHash.GetHashingDate), where the split hash, which covers DatePay, is checked. A split whose hash was valid is rehashed with the
-		///new date, so the account shows no false tampering warning; a split whose hash was already wrong keeps its warning; a split dated before
-		///the window (no date) is hashed once it is moved into it.</summary>
+		///<summary>The tool run soon after go-live: every split moves to the conversion date and keeps its SecurityHash value as it was (the program
+		///neither computes nor checks it, NOHASH).</summary>
 		[TestMethod]
-		public void Fix_InsideTheHashingWindow_RehashesTheSplitsWhoseHashWasValid() {
+		public void Fix_SoonAfterGoLive_KeepsEverySplitHash() {
 			DateTime dateConversion=DateTime.Today.AddDays(-7);
-			Assert.IsTrue(dateConversion>=OpenPmsDentalBusiness.Misc.SecurityHash.GetHashingDate(),"The conversion date must be inside the window.");
 			Converted converted=new Converted(dateConversion);
 			DateTime dateTransfer=DateTime.Today.AddDays(-2);
 			Payment paymentHashed=ToolsDb.InsertPayment(converted.Patient.PatNum,0,0,dateTransfer);
 			ToolsDb.InsertSplit(paymentHashed,-100,fSplitNum:converted.SplitUnearned.SplitNum,isHashed:true);
 			ToolsDb.InsertSplit(paymentHashed,100,procNum:converted.ProcBefore.ProcNum,isHashed:true);
-			Payment paymentTampered=ToolsDb.InsertPayment(converted.Patient.PatNum,0,0,dateTransfer);
-			ToolsDb.InsertSplit(paymentTampered,-40,fSplitNum:converted.SplitUnearned.SplitNum,isHashed:true);
-			PaySplit splitTampered=ToolsDb.InsertSplit(paymentTampered,40,procNum:converted.ProcBefore.ProcNum,isHashed:true);
-			//A hash that does not match the row, as if the row had been changed outside the program.
-			PaySplit splitOther=splitTampered.Copy();
-			splitOther.SplitAmt=999;
-			splitTampered.SecurityHash=PaySplits.HashFields(splitOther);
-			OpenPmsDentalBusiness.Crud.PaySplitCrud.Update(splitTampered);
 			Payment paymentNoDate=converted.NewTransfer(DateTime.MinValue,converted.ProcBefore);
-			foreach(PaySplit paySplit in ToolsDb.GetSplits(paymentHashed.PayNum)) {
-				Assert.AreEqual(PaySplits.HashFields(paySplit),paySplit.SecurityHash,"Inserted with a real hash.");
-				Assert.IsTrue(PaySplits.IsPaySplitHashValid(paySplit));
-			}
-			Assert.IsFalse(Payments.ArePaySplitHashesValid(paymentTampered.PayNum,ToolsDb.GetSplits(paymentTampered.PayNum)));
-			Assert.IsTrue(Payments.ArePaySplitHashesValid(paymentNoDate.PayNum,ToolsDb.GetSplits(paymentNoDate.PayNum)),"Before the window: not checked.");
-			string log=DatabaseMaintenances.FixConversionPaymentDates(
-				new List<long> { paymentHashed.PayNum,paymentTampered.PayNum,paymentNoDate.PayNum },dateConversion);
-			StringAssert.Contains(log,"Income transfers dated on the conversion date "+dateConversion.ToShortDateString()+": 3");
-			List<PaySplit> listSplitsHashed=ToolsDb.GetSplits(paymentHashed.PayNum);
-			Assert.AreEqual(2,listSplitsHashed.Count);
-			foreach(PaySplit paySplit in listSplitsHashed) {
+			Dictionary<long,string> dictHashes=ToolsDb.GetSplits(paymentHashed.PayNum).Concat(ToolsDb.GetSplits(paymentNoDate.PayNum))
+				.ToDictionary(x => x.SplitNum,x => x.SecurityHash);
+			Assert.IsTrue(dictHashes.Values.Any(x => x!=""),"Some splits carry a value.");
+			string log=DatabaseMaintenances.FixConversionPaymentDates(new List<long> { paymentHashed.PayNum,paymentNoDate.PayNum },dateConversion);
+			StringAssert.Contains(log,"Income transfers dated on the conversion date "+dateConversion.ToShortDateString()+": 2");
+			List<PaySplit> listSplits=ToolsDb.GetSplits(paymentHashed.PayNum).Concat(ToolsDb.GetSplits(paymentNoDate.PayNum)).ToList();
+			Assert.AreEqual(dictHashes.Count,listSplits.Count);
+			foreach(PaySplit paySplit in listSplits) {
 				Assert.AreEqual(dateConversion,paySplit.DatePay);
-				Assert.AreEqual(PaySplits.HashFields(paySplit),paySplit.SecurityHash,"Rehashed with the conversion date.");
-				Assert.IsTrue(PaySplits.IsPaySplitHashValid(paySplit));
+				Assert.AreEqual(dictHashes[paySplit.SplitNum],paySplit.SecurityHash,"SecurityHash is kept as it is.");
 			}
-			Assert.IsTrue(Payments.ArePaySplitHashesValid(paymentHashed.PayNum,listSplitsHashed),"No false tampering warning.");
-			List<PaySplit> listSplitsTampered=ToolsDb.GetSplits(paymentTampered.PayNum);
-			Assert.IsTrue(listSplitsTampered.All(x => x.DatePay==dateConversion));
-			Assert.IsTrue(PaySplits.IsPaySplitHashValid(listSplitsTampered.Single(x => x.SplitNum!=splitTampered.SplitNum)));
-			Assert.IsFalse(PaySplits.IsPaySplitHashValid(listSplitsTampered.Single(x => x.SplitNum==splitTampered.SplitNum)),
-				"A split whose hash was already wrong keeps its warning.");
-			Assert.IsFalse(Payments.ArePaySplitHashesValid(paymentTampered.PayNum,listSplitsTampered));
-			List<PaySplit> listSplitsNoDate=ToolsDb.GetSplits(paymentNoDate.PayNum);
-			Assert.IsTrue(listSplitsNoDate.All(x => x.DatePay==dateConversion));
-			Assert.IsTrue(listSplitsNoDate.All(x => PaySplits.IsPaySplitHashValid(x)),"Moved into the window from before it: hashed.");
-			Assert.IsTrue(Payments.ArePaySplitHashesValid(paymentNoDate.PayNum,listSplitsNoDate));
 			StringAssert.Contains(ToolsDb.GetDbmLogs("ConversionPaymentDates",paymentHashed.PayNum).Single().LogText,"its 2 split(s)");
 		}
 

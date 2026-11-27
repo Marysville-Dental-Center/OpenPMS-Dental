@@ -3117,7 +3117,6 @@ namespace OpenPmsDentalBusiness{
 				appointment.AppointmentTypeNum=appointmentType.AppointmentTypeNum;
 				appointment.ColorOverride=appointmentType.AppointmentTypeColor;
 			}
-			appointment.SecurityHash=HashFields(appointment);
 			Appointments.Insert(appointment);//Handles inserting signal
 			return appointment;
 		}
@@ -3153,7 +3152,6 @@ namespace OpenPmsDentalBusiness{
 			InsSub insSub2=InsSubs.GetSub(PatPlans.GetInsSubNum(listPatPlans,PatPlans.GetOrdinal(PriSecMed.Secondary,listPatPlans,listInsPlans,listInsSubs)),listInsSubs);
 			appointment.InsPlan1=insSub1.PlanNum;
 			appointment.InsPlan2=insSub2.PlanNum;
-			appointment.SecurityHash=HashFields(appointment);
 			Appointments.Insert(appointment);
 			Procedure procedure;
 			List<Procedure> listProcedures=new List<Procedure>();
@@ -3233,7 +3231,6 @@ namespace OpenPmsDentalBusiness{
 			if(appointment.ProvNum==0){
 				appointment.ProvNum=Providers.GetFirst(true).ProvNum;
 			}
-			appointment.SecurityHash=HashFields(appointment);
 			double dayInterval=PrefC.GetDouble(PrefName.ApptReminderDayInterval);
 			double hourInterval=PrefC.GetDouble(PrefName.ApptReminderHourInterval);
 			DateTime dateTAutomationBeginPref=PrefC.GetDateT(PrefName.AutomaticCommunicationTimeStart);
@@ -3255,9 +3252,7 @@ namespace OpenPmsDentalBusiness{
 				return;
 			}
 			appointment.AptStatus=apptStatusNew;
-			appointment.SecurityHash=HashFields(appointment);			
 			string command="UPDATE appointment SET AptStatus="+POut.Long((int)apptStatusNew);
-			command+=",SecurityHash='"+POut.String(appointment.SecurityHash)+"'";
 			if(apptStatusNew==ApptStatus.UnschedList) {
 				command+=",Op=0";//We do this so that this appointment does not stop an operatory from being hidden.
 			}
@@ -3284,12 +3279,10 @@ namespace OpenPmsDentalBusiness{
 				return;
 			}
 			appointment.AptStatus=ApptStatus.Complete;
-			appointment.SecurityHash=HashFields(appointment);
 			string command="UPDATE appointment SET "
 				+"AptStatus="+POut.Long((int)ApptStatus.Complete)+", "
 				+"InsPlan1="+POut.Long(planNum1)+", "
-				+"InsPlan2="+POut.Long(planNum2)+", "
-				+"SecurityHash='"+POut.String(appointment.SecurityHash)+"' "
+				+"InsPlan2="+POut.Long(planNum2)+" "
 				+"WHERE AptNum="+POut.Long(appointment.AptNum);
 			Db.NonQ(command);
 			AlertItems.DeleteFor(AlertType.CallbackRequested,new List<long> { appointment.AptNum });
@@ -3327,9 +3320,7 @@ namespace OpenPmsDentalBusiness{
 				return;
 			}
 			appointment.Confirmed=defNumApptConfirmed;
-			appointment.SecurityHash=HashFields(appointment);
 			string command="UPDATE appointment SET Confirmed="+POut.Long(defNumApptConfirmed);
-			command+=",SecurityHash='"+POut.String(appointment.SecurityHash)+"'";
 			if(PrefC.GetLong(PrefName.AppointmentTimeArrivedTrigger)==defNumApptConfirmed) {
 				command+=",DateTimeArrived="+POut.DateT(DateTime.Now);
 			}
@@ -3369,9 +3360,6 @@ namespace OpenPmsDentalBusiness{
 			}
 			bool isSuccess=false;
 			//ApptComms.UpdateForAppt(appointment);
-			if(IsAppointmentHashValid(appointmentOld)) { //Only rehash appointments that are already valid
-				appointment.SecurityHash=HashFields(appointment);
-			}
 			isSuccess=Crud.AppointmentCrud.Update(appointment,appointmentOld);
 			if(isSuccess) {
 				Signalods.SetInvalidAppt(appointment,appointmentOld);
@@ -3880,19 +3868,6 @@ namespace OpenPmsDentalBusiness{
 			}
 			//Security.CurUser.UserNum gets set on MT by the DtoProcessor so it matches the user from the client WS.
 			userNum=Security.CurUser.UserNum;
-			bool isHashNeeded=true;
-			for(int i = 0;i<listAppointmentsNew.Count;i++) {
-				isHashNeeded=true;
-				//Only rehash existing appointments that are already valid
-				Appointment appointmentOld=listAppointmentsOld.FirstOrDefault(x => listAppointmentsNew[i].AptNum==x.AptNum);
-				if(appointmentOld!=null) {
-					isHashNeeded=IsAppointmentHashValid(appointmentOld);
-				}
-				//Hash appointments that are either new, or rehash existing appointments that are valid
-				if(isHashNeeded) {
-					listAppointmentsNew[i].SecurityHash=HashFields(listAppointmentsNew[i]);
-				}
-			}
 			bool isChanged=Crud.AppointmentCrud.Sync(listAppointmentsNew,listAppointmentsOld,userNum);
 			if(isChanged) {
 				if(isOpMerge) { //If this is operatory merge the list could be very long.  Just send a generalized, invalid appt signal, this shouldn't happen often anyway.
@@ -3907,35 +3882,6 @@ namespace OpenPmsDentalBusiness{
 			return isChanged;
 		}
 
-		///<summary>Returns the salted hash for the appointment. Computed by CodeBase.TamperHash. </summary>
-		private static string HashFields(Appointment appointment) {
-			Meth.NoCheckMiddleTierRole();//Private method.
-			string unhashedText=(int)appointment.AptStatus+appointment.Confirmed.ToString()+appointment.AptDateTime.ToString("yyyy-MM-dd HH:mm:ss");
-			try {
-				return TamperHash.Compute(unhashedText);
-			}
-			catch(Exception ex)  {
-				ex.DoNothing();
-				return ex.GetType().Name;
-			}
-		}
-
-		///<summary>Validates the hash string in appointment.SecurityHash. Returns true if it matches the expected hash, otherwise false. </summary>
-		public static bool IsAppointmentHashValid(Appointment appointment) {
-			Meth.NoCheckMiddleTierRole();
-			if(appointment==null) {
-				return true;
-			}
-			DateTime dateHashStart=Misc.SecurityHash.GetHashingDate();
-			if(appointment.AptDateTime < dateHashStart) { //old
-				//Rows dated before the hashing start date are not verified.
-				return true;
-			}
-			if(Misc.SecurityHash.IsHashValid(appointment.SecurityHash,HashFields(appointment))) {
-				return true;
-			}
-			return false; 
-		}
 		#endregion Sync Methods
 
 		#region Misc Methods
@@ -4756,7 +4702,6 @@ namespace OpenPmsDentalBusiness{
 			appointment.TimeLocked=PrefC.GetBool(PrefName.AppointmentTimeIsLocked);
 			appointment.ColorOverride=System.Drawing.Color.FromArgb(0);
 			appointment.Pattern="/X/";
-			appointment.SecurityHash=HashFields(appointment);
 			return appointment;
 		}
 

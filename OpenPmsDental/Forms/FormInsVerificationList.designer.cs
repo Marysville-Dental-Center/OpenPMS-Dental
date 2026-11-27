@@ -39,7 +39,6 @@ namespace OpenPmsDental{
 			this.textInsVerifyReadOnlyNote = new System.Windows.Forms.TextBox();
 			this.labelStatusNote = new System.Windows.Forms.Label();
 			this.groupSubscriber = new OpenPmsDental.UI.GroupBox();
-			this.warningIntegrity1 = new OpenPmsDental.UI.WarningIntegrity();
 			this.textSubscriberID = new System.Windows.Forms.TextBox();
 			this.textSubscriberSSN = new System.Windows.Forms.TextBox();
 			this.textSubscriberBirthdate = new System.Windows.Forms.TextBox();
@@ -146,7 +145,6 @@ namespace OpenPmsDental{
 			this.tabVerify.Controls.Add(this.textInsVerifyReadOnlyNote);
 			this.tabVerify.Controls.Add(this.labelStatusNote);
 			this.tabVerify.Controls.Add(this.groupSubscriber);
-			this.tabVerify.Controls.Add(this.warningIntegrity1);
 			this.tabVerify.Controls.Add(this.groupInsurancePlan);
 			this.tabVerify.Location = new System.Drawing.Point(2, 21);
 			this.tabVerify.Name = "tabVerify";
@@ -298,14 +296,6 @@ namespace OpenPmsDental{
 			this.groupSubscriber.Size = new System.Drawing.Size(232, 162);
 			this.groupSubscriber.TabIndex = 91;
 			this.groupSubscriber.Text = "Subscriber";
-			//
-			// warningIntegrity1
-			//
-			this.warningIntegrity1.Location = new System.Drawing.Point(734, 395);
-			this.warningIntegrity1.Name = "warningIntegrity1";
-			this.warningIntegrity1.Size = new System.Drawing.Size(18, 18);
-			this.warningIntegrity1.TabIndex = 220;
-			this.warningIntegrity1.Visible = false;
 			//
 			// textSubscriberID
 			// 
@@ -1029,7 +1019,6 @@ namespace OpenPmsDental{
 		private ValidNum textPatientEnrollmentDaysStandard;
 		private OpenPmsDental.UI.GroupBox groupVerificationFilters;
 		private OpenPmsDental.UI.GroupBox groupSubscriber;
-		private OpenPmsDental.UI.WarningIntegrity warningIntegrity1;
 		private System.Windows.Forms.Label labelSubscriberID;
 		private System.Windows.Forms.Label labelSSN;
 		private System.Windows.Forms.Label labelBirthdate;

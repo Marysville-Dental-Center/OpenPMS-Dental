@@ -23,8 +23,8 @@ at least one row for every table and column that is new or changed between 24.3 
 - **No proprietary content.** Procedure codes are invented `Z` codes (`Z0120`, `Z2392`, ...) with plain descriptions written for
   this tool; no ADA CDT code or text is used. Enum numbers and preference names come from Open Dental's published database
   documentation (via [docs/specs](../../docs/specs)); nothing was decompiled.
-- `SecurityHash` columns hold placeholder values (a SHA-256 of a fixed text), not Open Dental hashes. Adoption rehashes every row
-  anyway (risk R2, item 6), so only their presence matters.
+- `SecurityHash` columns hold placeholder values (a SHA-256 of a fixed text), not Open Dental hashes. The program keeps them as they
+  are and never checks them (tamper detection is removed), so only their presence matters.
 
 ## Quick start
 
@@ -234,7 +234,7 @@ non-zero; they describe the synthetic data.
 ## The adoption rehearsal (M1-Z)
 
 [tools/AdoptionValidation](../AdoptionValidation/README.md) runs all of this, with the real adoption tool, the fork migration, the schema
-verifier, the rehash and further checks, twice, and times every step. The steps by hand:
+verifier and further checks, twice, and times every step. The steps by hand:
 
 1. `generate` into `synth_253` and keep the report (`--out before.json`). Optionally `--config-from` a fresh 24.3.63 dev database
    (from `tools\New-DevDatabase.ps1`) first, which copies its preference, definition, user, permission, program, report and claim
@@ -245,9 +245,9 @@ verifier, the rehash and further checks, twice, and times every step. The steps 
 2. Copy the database (for example to `synth_253_adopted`) and run the adoption tool on the copy.
 3. `validate --database synth_253_adopted --out after.json`.
 4. `compare before.json after.json --allowed allowed-differences.adoption.json`. The allowed differences are the ones adoption is
-   meant to make (`patient._portal_active_email` and its unique key are kept since 2026-11-25, so not among them): `SecurityHash` rehashed, preference
-   rows (fork markers, version sentinel, the 25.4 and 26.1 preferences), Open Dental update files, the security-log rows of adoption and
-   the rehash, and what the Open Dental 25.4 and 26.1 steps change on the way to the 26.1.70 schema (M2-01: the new tables and columns,
+   meant to make (`patient._portal_active_email` and its unique key are kept since 2026-11-25, so not among them): preference
+   rows (fork markers, version sentinel, the 25.4 and 26.1 preferences), Open Dental update files, the security-log row of adoption,
+   and what the Open Dental 25.4 and 26.1 steps change on the way to the 26.1.70 schema (M2-01: the new tables and columns,
    `claimpayment.Note` NULLs becoming empty, `DateLastAssigned` read back as datetime; M2-02: the blockout permission split in
    `grouppermission`; M2-HIST: the Insurance History code groups in `codegroup`; B-SHELL: the discontinued DXC Patient Credit Score program
    link disabled, `program.Enabled`, and its buttons deleted from `toolbutitem`, if the copied program rows have it enabled or on a toolbar).
@@ -258,9 +258,9 @@ verifier, the rehash and further checks, twice, and times every step. The steps 
    adopt` checks all of them row by row against the original.
 
 Note for the adoption tool: many tables have a `timestamp ... ON UPDATE current_timestamp()` column (`SecDateTEdit`,
-`DateTStamp`). An `UPDATE` that rehashes `SecurityHash` without also writing `SecDateTEdit=SecDateTEdit` moves those audit
-timestamps to the adoption time, and `compare` reports it (the database tests show both cases). The allowed list deliberately
-does not excuse it. The M1-Z rehearsal found that `SecurityHash.RehashNow` did exactly that; it now keeps every ON UPDATE timestamp.
+`DateTStamp`). An `UPDATE` that does not also write `SecDateTEdit=SecDateTEdit` moves those audit timestamps to the adoption time,
+and `compare` reports it, as it reports any changed `SecurityHash` value (the database tests show both). The allowed list
+deliberately excuses neither.
 
 `--fill-remaining N` adds N schema-valid filler rows to every table that is still empty (except tables whose rows would change
 start-up behaviour, such as `documentmisc`, `updatehistory` and `preference`), so the checksums cover all 422 tables. Filler rows

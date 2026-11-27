@@ -2686,8 +2686,6 @@ namespace OpenPmsDentalBusiness {
 			DataTable table;
 			command="UPDATE patient SET SecurityHash=''";
 			Db.NonQ(command);
-			Misc.SecurityHash.ResetPatientHashing();
-			//Misc.SecurityHash.UpdateHashing();
 			command="INSERT INTO preference(PrefName,ValueString) VALUES('WebSchedRecallApptSearchMaximumMonths','12')";//Default to 12 months
 			Db.NonQ(command);
 		}//End of 21_4_20() method

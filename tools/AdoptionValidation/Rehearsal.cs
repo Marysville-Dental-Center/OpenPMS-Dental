@@ -45,7 +45,7 @@ namespace AdoptionValidation {
 	}
 
 	///<summary>The M1-Z switch-gate rehearsal on synthetic data (docs/specs/port-backlog.md, M1-Z; docs/admin/adoption-runbook.md). Each run generates a
-	///fresh database, records its baseline, copies it as the runbook does, adopts the copy, migrates, verifies, rehashes and validates, then does it
+	///fresh database, records its baseline, copies it as the runbook does, adopts the copy, migrates, verifies and validates, then does it
 	///all a second time on the adopted copy to prove idempotence. Several runs prove the whole thing repeats exactly. Every step is timed.
 	///</summary>
 	public class Rehearsal {
@@ -226,8 +226,8 @@ namespace AdoptionValidation {
 					control.Outcome==OdStartupOutcome.Proceeds || (_options.Labels!=VersionLabels.Reference && control.Outcome==OdStartupOutcome.ConvertsAndProceeds),
 					control.Summary+"; a 25.4.30 update server: "+listBefore.First(x => x.Scenario.StartsWith("Open Dental 25.4.30, update server")).Summary);
 				//5. to 7. Preflight, adoption (Adoption.Run, what FormAdoptDatabase calls), the fork migration with every step again, the schema verifier,
-				//the rehash (SecurityHash.RehashNow, what Database Maintenance's Security Hashes tool calls) and the row check against the source:
-				//HeadlessAdoption, the code that runbook steps 4 and 5 run as "AdoptionValidation adopt". The office runs this exact sequence, and takes its
+				//the SecurityHash check and the row check against the source:
+				//HeadlessAdoption, the code that runbook step 4 run as "AdoptionValidation adopt". The office runs this exact sequence, and takes its
 				//post-adoption report (step 6.1) before anyone starts the program, as below.
 				HeadlessAdoption.Result adoption=HeadlessAdoption.Run(adopted,x => { _run.ListAdoptionLog.Add(x); _log("  "+x); },(name,action) => Time(name,action),
 					server,source);
@@ -266,14 +266,11 @@ namespace AdoptionValidation {
 				CheckInsHistCodeGroups(preview,adoption,adoptionResult);
 				CheckDxcCreditScore(preview,adoption,adoptionResult,fixture);
 				CheckTrojanExpressCollect(preview,adoption,adoptionResult,fixture);
-				//7. Rehash (Database Maintenance, Tools, Security Hashes), done by HeadlessAdoption above.
+				//7. SecurityHash values: adoption keeps them as they are (NOHASH), checked by HeadlessAdoption above.
 				_run.ListHashesBefore=adoption.ListHashesStart;
 				_run.ListHashesAfter=adoption.ListHashesAfter;
-				HashCount patientAfter=_run.ListHashesAfter.FirstOrDefault(x => x.Table=="patient");
-				bool isRehashed=adoption.IsRehashComplete && patientAfter!=null && _run.ListHashesAfter.Sum(x => x.InWindow)>patientAfter.Rows;
-				Check("H1","Rehash gives every patient, and every row in the verified window, a fork hash",isRehashed,
-					"rehash window from "+adoption.DateRehashWindow.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture)+"; "
-					+string.Join("; ",_run.ListHashesAfter.Select(x => x.ToString()))+(adoption.IsRehashLogged ? "; rehash recorded in the security log" : ""));
+				Check("H1","Adoption leaves every SecurityHash value as it was",adoption.AreHashesUnchanged && _run.ListHashesAfter.Count>0,
+					string.Join("; ",_run.ListHashesAfter.Select(x => x.ToString())));
 				//8. Validate: the runbook's step 6, before anything else touches the copy. The adopted copy is compared with the restored copy's report
 				//(baseline-copy.json), which G2 showed equals the source's.
 				afterAdoption=Time("Record post-adoption report and compare",() => Validator.Run(db,adopted,null,null));
@@ -292,7 +289,7 @@ namespace AdoptionValidation {
 					listRelease.Count(x => x.IsRefused)+" of "+listRelease.Count+" release-client scenarios exit without converting, writing, installing services or "
 					+"copying binaries; "+string.Join("; ",listRelease.Where(x => !x.IsRefused).Select(x => x.Scenario+": "+x.Summary))
 					+" (a Debug build of Open Dental skips its version check: "+listAfter.First(x => !x.IsReleaseClient).Outcome+"; Open Dental ships Release builds only)");
-				//The tables the allowed list can only allow whole, row by row against the source (what adopt prints in runbook steps 4 and 5).
+				//The tables the allowed list can only allow whole, row by row against the source (what adopt prints in runbook step 4).
 				AdoptionRowCheck.Result rowCheck=adoption.RowCheck;
 				Check("V11","Row by row, adoption changed only its own rows of preference, documentmisc, securitylog, securityloghash, displayreport, grouppermission, "
 					+"codegroup, program, toolbutitem and updatehistory, only the values the 25.4 and 26.1 steps change, and nothing in the tables and columns they add",
@@ -758,15 +755,15 @@ namespace AdoptionValidation {
 				: "failed: "+string.Join(" ",again.RowCheck?.ListFailures??new List<string>())));
 			ValidationReport afterRerun=Validator.Run(db,adopted,null,null);
 			List<Difference> listDiffs=ReportComparer.Compare(afterFirstPass,afterRerun,null);
-			//Every table but securitylog and securityloghash by its report; those two gain the rerun's own entry, so they are compared row by row with the
-			//snapshot taken right after adoption, and so is preference.
+			//Every table but securitylog and securityloghash by its report; those two are compared row by row with the snapshot taken right after
+			//adoption, and so is preference.
 			List<Difference> listUnexpected=listDiffs.Where(x => x.Table!="securitylog" && x.Table!="securityloghash").ToList();
 			List<Difference> listHashDiffs=listDiffs.Where(x => x.Column=="SecurityHash").ToList();
-			bool isSameHashes=again.ListHashesStart.Select(x => x.ToString()).SequenceEqual(again.ListHashesAfter.Select(x => x.ToString()));
-			Check("I3","A second rehash changes nothing",listHashDiffs.Count==0 && isSameHashes && again.IsRehashComplete,
-				listHashDiffs.Count==0 && isSameHashes ? "every hash already current: "+string.Join(", ",again.ListHashesStart.Select(x => x.Table+" "+x.Current))
+			bool isSameHashes=again.AreHashesUnchanged;
+			Check("I3","A second pass leaves every SecurityHash value as it was",listHashDiffs.Count==0 && isSameHashes,
+				listHashDiffs.Count==0 && isSameHashes ? string.Join(", ",again.ListHashesStart.Select(x => x.Table+" "+(x.Rows-x.Blank)))+" values unchanged"
 				: ReportComparer.Format(listHashDiffs));
-			long expectedAdded=again.IsRehashLogged ? 1 : 0;
+			long expectedAdded=0;
 			RowComparer.TableDiff diffPreference=RowComparer.Compare(db,snapshot,adopted,"preference");
 			RowComparer.TableDiff diffLog=RowComparer.Compare(db,snapshot,adopted,"securitylog");
 			RowComparer.TableDiff diffLogHash=RowComparer.Compare(db,snapshot,adopted,"securityloghash");
@@ -779,13 +776,13 @@ namespace AdoptionValidation {
 					listRowProblems.Add(diff.Describe()+" (expected only "+expectedAdded+" added row)");
 				}
 			}
-			Check("I4","The second pass changes nothing except adding its own security log entry",listUnexpected.Count==0 && listRowProblems.Count==0,
+			Check("I4","The second pass changes nothing",listUnexpected.Count==0 && listRowProblems.Count==0,
 				listUnexpected.Count==0 && listRowProblems.Count==0
 					? "every table except securitylog and securityloghash has the row counts and checksums of the first pass; row by row against the snapshot "
-						+"taken after adoption, preference is identical, and securitylog and securityloghash only gained the rerun's own entry ("
-						+diffLog.CountOnlySecond+" and "+diffLogHash.CountOnlySecond+" row), with no existing row changed or removed"
+						+"taken after adoption, preference, securitylog and securityloghash are identical ("
+						+diffLog.CountOnlySecond+" and "+diffLogHash.CountOnlySecond+" rows added)"
 					: ReportComparer.Format(listUnexpected)+" "+string.Join("; ",listRowProblems));
-			_run.ListSteps.Add(new StepTiming { Name="Second pass (adoption, migration, verifier, rehash, row check, report)",Seconds=stopwatch.Elapsed.TotalSeconds });
+			_run.ListSteps.Add(new StepTiming { Name="Second pass (adoption, migration, verifier, row check, report)",Seconds=stopwatch.Elapsed.TotalSeconds });
 		}
 
 		///<summary>Copies the tables that hold the time of adoption (ArraySnapshotTables) into the scratch database snapshot, for the row-by-row

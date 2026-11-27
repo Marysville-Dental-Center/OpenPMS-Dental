@@ -3100,20 +3100,6 @@ namespace OpenPmsDental {
 			}
 			//We have to go to the db because we need to get the most recent patient info, mainly the AskedToArriveEarly time.
 			_patient=Patients.GetPat(patNum);
-			if(_patient!=null && DatabaseIntegrities.DoShowPopup(_patient.PatNum,EnumModuleType.Appointments)) {
-				List<Appointment> listAppointments=Appointments.GetAppointmentsForPat(_patient.PatNum);
-				List<Claim> listClaims=Claims.GetForPat(_patient.PatNum);
-				List<ClaimProc> listClaimProcs=ClaimProcs.Refresh(new List<long>(){_patient.PatNum});
-				bool areHashesValid=Patients.AreAllHashesValid(_patient,listAppointments,new List<PayPlan>(),new List<PaySplit>(),listClaims,listClaimProcs);
-				if(!areHashesValid) {
-					DatabaseIntegrities.AddPatientModuleToCache(_patient.PatNum,EnumModuleType.Appointments); //Add to cached list for next time
-					//show popup
-					DatabaseIntegrity databaseIntegrity=DatabaseIntegrities.GetModule();
-					FrmDatabaseIntegrity frmDatabaseIntegrity=new FrmDatabaseIntegrity();
-					frmDatabaseIntegrity.MessageToShow=databaseIntegrity.Message;
-					frmDatabaseIntegrity.ShowDialog();
-				}
-			}
 			Plugins.HookAddCode(this, "ContrAppt.RefreshModuleDataPatient_end");
 		}
 

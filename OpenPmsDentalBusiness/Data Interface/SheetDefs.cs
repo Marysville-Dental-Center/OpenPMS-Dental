@@ -292,7 +292,7 @@ namespace OpenPmsDentalBusiness{
 		}
 
 		///<summary>Payment plans and payment plan templates that chose this sheet def go back to the default payment plan sheet (SheetDefNum 0), so
-		///they never point at a deleted sheet. Called when a sheet def is deleted. payplan.SecurityHash does not cover SheetDefNum.</summary>
+		///they never point at a deleted sheet. Called when a sheet def is deleted.</summary>
 		public static void ClearPayPlanSheetDefNum(long sheetDefNum) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),sheetDefNum);

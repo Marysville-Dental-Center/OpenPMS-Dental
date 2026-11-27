@@ -4759,20 +4759,6 @@ namespace OpenPmsDental {
 			if(patNumPrevious!=patNum && gridProg.VScrollVisible) {
 				gridProg.ScrollToEnd();
 			}
-			if(Pd.Patient!=null && DatabaseIntegrities.DoShowPopup(Pd.PatNum,EnumModuleType.Chart)) {
-				List<Appointment> listAppointments=Appointments.GetAppointmentsForPat(Pd.PatNum);
-				List<Claim> listClaims=Claims.GetForPat(Pd.PatNum);
-				List<ClaimProc> listClaimProcs=new List<ClaimProc>(Pd.ListClaimProcs); //Pd.ListClaimProcs gets refreshed whenever the chart module is refreshed.
-				bool areHashesValid=Patients.AreAllHashesValid(Pd.Patient,listAppointments,new List<PayPlan>(),new List<PaySplit>(),listClaims,listClaimProcs);
-				if(!areHashesValid) {
-					DatabaseIntegrities.AddPatientModuleToCache(Pd.PatNum,EnumModuleType.Chart); //Add to cached list for next time
-					//show popup
-					DatabaseIntegrity databaseIntegrity=DatabaseIntegrities.GetModule();
-					FrmDatabaseIntegrity frmDatabaseIntegrity=new FrmDatabaseIntegrity();
-					frmDatabaseIntegrity.MessageToShow=databaseIntegrity.Message;
-					frmDatabaseIntegrity.ShowDialog();
-				}
-			}
 			ChartLetters_CheckOrphanedEdits();
 			Plugins.HookAddCode(this,"ContrChart.ModuleSelected_end",patNum);
 		}

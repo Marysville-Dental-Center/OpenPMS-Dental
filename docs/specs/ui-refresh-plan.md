@@ -1335,7 +1335,8 @@ so it is cut into two slices that share no files and may run side by side).
     the unmounted images' marks. Tests in `tests/UiRefreshTests` (`ImagingApptStateTests`, `ImagingApptGallery`); gallery G-UI1 part 2e in
     `.git/od-tools/test-results/ui4c1-G-UI1-part2e/`.
 - **UI-4c-2: dialogs, progress and the rest** (25 files). WinForms `ODColorPicker`, `ODCodeRangeFilter`, `ODPictureBox`,
-  `OdProgressBar`, `BufferedTreeView`, `MsgBoxCopyPaste`, `DatabaseIntegrity/WarningIntegrity`, `FormPrintPreview` and
+  `OdProgressBar`, `BufferedTreeView`, `MsgBoxCopyPaste`, `DatabaseIntegrity/WarningIntegrity` (removed since with tamper detection,
+  NOHASH), `FormPrintPreview` and
   `ODPrintPreviewControl` (chrome only); WPF `SignatureBoxWrapper`, `DatabaseIntegrity/WarningIntegrity`, `Dialogs/FrmColorDialog`,
   `Progress/*`, `ToothChart/ToothChartTextBelowStrip` (UQ-6). `TextBelowStripTests` follows UQ-6 (section 9).
   - **Status (2026-11-18).** Done on `ui/ui4c2-1` (`docs/port-notes/UI-4c.md`, section UI-4c-2), not merged yet: `CodeBase/UI/UiDialogPaint.cs`

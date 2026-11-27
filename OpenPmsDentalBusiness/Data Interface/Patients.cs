@@ -1726,8 +1726,6 @@ namespace OpenPmsDentalBusiness {
 			//Security.CurUser.UserNum gets set on MT by the DtoProcessor so it matches the user from the client WS.
 			pat.SecUserNumEntry=Security.CurUser.UserNum;
 			pat.PatNum=Crud.PatientCrud.Insert(pat,useExistingPK);
-			pat.SecurityHash=HashFields(pat);
-			Crud.PatientCrud.Update(pat);
 			InsertBirthdateChangeSecurityLogEntry(null,pat);//Open Dental 26.1: a birthdate the patient is created with is audited as added.
 			if(PrefC.GetBool(PrefName.PatientPhoneUsePhonenumberTable)) {
 				PhoneNumbers.SyncPat(pat);
@@ -1739,9 +1737,6 @@ namespace OpenPmsDentalBusiness {
 		public static bool Update(Patient patient,Patient oldPatient) {
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetBool(MethodBase.GetCurrentMethod(),patient,oldPatient);
-			}
-			if(IsPatientHashValid(oldPatient)) {
-				patient.SecurityHash=HashFields(patient);
 			}
 			bool retval=Crud.PatientCrud.Update(patient,oldPatient);
 			InsertBirthdateChangeSecurityLogEntry(oldPatient,patient);//Open Dental 26.1: birthdate additions and changes are audited, from every save path.
@@ -2418,7 +2413,7 @@ namespace OpenPmsDentalBusiness {
 			for(int i=0;i<listPatients.Count;i++) {
 				patient=listPatients[i].Copy();
 				listPatients[i].Guarantor=patientOld.PatNum;
-				Patients.Update(listPatients[i],patient);//Guarantor is used in SecurityHash, Update will handle rehashing
+				Patients.Update(listPatients[i],patient);
 			}
 		}
 		
@@ -3962,7 +3957,6 @@ namespace OpenPmsDentalBusiness {
 			}
 			//At this point, the 'patFrom' is a regular patient and is absoloutely not a guarantor.
 			//inssub.Subscriber is a hashed field and changes below, so remember patFrom's subscriber rows to rehash them afterwards.
-			List<InsSub> listInsSubsFrom=InsSubs.GetListForSubscriber(patFrom);
 			//Now modify all PatNum foreign keys from 'patFrom' to 'patTo' to complete the majority of the
 			//merge of the records between the two accounts.			
 			for(int i=0;i<StringArrayPatNumForeignKeys.Length;i++) {
@@ -3980,17 +3974,8 @@ namespace OpenPmsDentalBusiness {
 					+" WHERE "+tableAndKeyName[1]+"="+POut.Long(patFrom);
 				Db.NonQ(command);
 			}
-			InsSubs.RehashAfterDirectUpdate(listInsSubsFrom);
 			//inspending rows moved with the loop above. A row whose patient is now also its subscriber must be Self.
 			InsPendings.FixRelationshipAfterMerge(patTo);
-			//We have changed the PatNum in the paysplit table.
-			//The PatNum field is included in the generation of the PaySplit.SecurityHash field.
-			//Rehash all their paysplits to match the new PatNum.
-			List<PaySplit> listPaySplits=PaySplits.GetForPats(new List<long> {patTo});
-			for(int i=0;i<listPaySplits.Count; i++) {
-				listPaySplits[i].SecurityHash=PaySplits.HashFields(listPaySplits[i]);
-				PaySplits.Update(listPaySplits[i]);
-			}
 			//Update the 'HasIns' column, and handle discount plans.
 			//If the combined patient has insurance, we want to make sure we update 'HasIns' and 
 			//remove any discount plan. If the combined patient has no insurance, only merge in 
@@ -5081,101 +5066,6 @@ namespace OpenPmsDentalBusiness {
 				throw new ODException("Unable to find a random patient.");
 			}
 			return pat;
-		}
-
-		///<summary>Returns the salted hash for the patient. Computed by CodeBase.TamperHash. </summary>
-		public static string HashFields(Patient patient) {
-			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
-				return Meth.GetString(MethodBase.GetCurrentMethod(),patient);
-			}
-			string unhashedText=patient.PatNum.ToString();
-			try {
-				return TamperHash.Compute(unhashedText,isPatientTable:true);
-			}
-			catch(Exception ex) {
-				ex.DoNothing();
-				return ex.GetType().Name;
-			}
-		}
-
-		///<summary>Validates the hash string in patient.SecurityHash. Returns true if it matches the expected hash, otherwise false. </summary>
-		public static bool IsPatientHashValid(Patient patient) {
-			Meth.NoCheckMiddleTierRole();
-			if(patient==null) {
-				return true;
-			}
-			if(patient.SecurityHash==null) {//When a patient is first created through middle tier and not yet refreshed from db, this can be null and should not show a warning triangle.
-				return true;
-			}
-			//We are not checking the date. All patient get hashed.
-			if(Misc.SecurityHash.IsHashValid(patient.SecurityHash,HashFields(patient))) {
-				return true;
-			}
-			return false;
-		}
-
-		///<summary>Checks all passed lists protected by SecurityHash columns. Returns false if a single row in any table is invalidly hashed. Limited to only 20 rows per table to reduce this process's impact on performance. Ignores rows occuring before SecurityHash.DateStart.</summary>
-		public static bool AreAllHashesValid(Patient patient,List<Appointment> listAppointments,List<PayPlan> listPayPlans,List<PaySplit> listPaySplits,List<Claim> listClaims,List<ClaimProc> listClaimProcs) {
-			Meth.NoCheckMiddleTierRole();
-			if(patient!=null && !IsPatientHashValid(patient)) {
-				return false;
-			}
-			#region PayPlans
-			listPayPlans.RemoveAll(x => x.PayPlanDate < Misc.SecurityHash.GetHashingDate());
-			for(int i=0;i<listPayPlans.Count;i++) {
-				if(i==20) { //indicitive enough of third party usage
-					break;
-				}
-				if(!PayPlans.IsPayPlanHashValid(listPayPlans[i])) {
-					return false;
-				}
-			}
-			#endregion PayPlans
-			#region Appointments
-			listAppointments.RemoveAll(x => x.AptDateTime < Misc.SecurityHash.GetHashingDate());
-			for(int i=0;i<listAppointments.Count;i++) {
-				if(i==20) {
-					break;
-				}
-				if(!Appointments.IsAppointmentHashValid(listAppointments[i])) {
-					return false;
-				}
-			}
-			#endregion Appointments
-			#region PaySplits
-			listPaySplits.RemoveAll(x => x.DatePay < Misc.SecurityHash.GetHashingDate());
-			for(int i=0;i<listPaySplits.Count;i++) {
-				if(i==20) {
-					break;
-				}
-				if(!PaySplits.IsPaySplitHashValid(listPaySplits[i])) {
-					return false;
-				}
-			}
-			#endregion PaySplits
-			#region Claims
-			listClaims.RemoveAll(x => x.DateService < Misc.SecurityHash.GetHashingDate());
-			for(int i=0;i<listClaims.Count;i++) {
-				if(i==20) {
-					break;
-				}
-				if(!Claims.IsClaimHashValid(listClaims[i])) {
-					return false;
-				}
-			}
-			#endregion
-			#region ClaimProcs
-			listClaimProcs.RemoveAll(x => x.SecDateEntry < Misc.SecurityHash.GetHashingDate());
-			for(int i=0;i<listClaimProcs.Count;i++) {
-				if(i==20) {
-					break;
-				}
-				if(!ClaimProcs.IsClaimProcHashValid(listClaimProcs[i])) {
-					return false;
-				}
-			}
-			#endregion ClaimProcs
-			return true;
 		}
 
 		public static bool IsMinor(DateTime birthdate,DateTime dateCompare,int minorAge) {

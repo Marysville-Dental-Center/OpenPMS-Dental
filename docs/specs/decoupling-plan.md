@@ -115,7 +115,7 @@ New name, branding, and an installer (Open Dental's installer isn't in the repo,
 ### Phase 5: Office migration path. Size: L.
 
 - Port the 24.3 → 25.3 schema changes above, with the matching features, at least where the office already has data in them.
-- Migrate a **restored copy** of the office database, never the live database: re-enter masked passwords, rehash `SecurityHash`, verify.
+- Migrate a **restored copy** of the office database, never the live database: re-enter masked passwords, verify (`SecurityHash` is kept as it is since tamper detection was removed).
 - Pilot one workstation, with rollback to Open Dental 25.3.48.
 
 ### Phase 6: Feature parity with 26.1.70.

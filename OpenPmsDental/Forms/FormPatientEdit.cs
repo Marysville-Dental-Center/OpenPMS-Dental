@@ -225,7 +225,6 @@ End of Checklist================================================================
 			tabPublicHealth.Show();
 			tabPublicHealth.Select();
 			checkSuperBilling.Enabled=(Security.IsAuthorized(EnumPermType.PatientBillingEdit,true));
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.Patient,Patients.IsPatientHashValid(Patient));
 			#region SameForFamily
 			PatientEditSameForFamily patientEditSameForFamily=new PatientEditSameForFamily(Patient,Family);
 			checkAddressSame.Checked=patientEditSameForFamily.AddressSameForFamily;

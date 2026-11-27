@@ -127,8 +127,8 @@ namespace P262ToolsTests {
 			return payment;
 		}
 
-		///<summary>A paysplit row exactly as given (DatePay is the payment's date unless given), written with the CRUD (blank SecurityHash), or
-		///with PaySplits.Insert when isHashed, which stores the split's SecurityHash like the program does.</summary>
+		///<summary>A paysplit row exactly as given (DatePay is the payment's date unless given), written with the CRUD, or with PaySplits.Insert
+		///when isHashed, with a SecurityHash value as Open Dental would have left it, which the program keeps as it is.</summary>
 		public static PaySplit InsertSplit(Payment payment,double amount,long procNum=0,long adjNum=0,long fSplitNum=0,long payPlanNum=0,
 			long unearnedType=0,DateTime datePay=default(DateTime),bool isHashed=false)
 		{
@@ -144,6 +144,7 @@ namespace P262ToolsTests {
 			paySplit.UnearnedType=unearnedType;
 			paySplit.ProvNum=1;
 			if(isHashed) {
+				paySplit.SecurityHash="od-hash-"+amount.ToString(System.Globalization.CultureInfo.InvariantCulture);
 				PaySplits.Insert(paySplit);
 			}
 			else {

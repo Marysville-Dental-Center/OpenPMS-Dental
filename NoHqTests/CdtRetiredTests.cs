@@ -116,8 +116,8 @@ namespace NoHqTests {
 			AssertNoMembers(FindType(assembly,"OpenPmsDental.FormProcTools"),"checkDcodes","checkTreatAreas","_listProcedureCodes");
 			AssertNoMembers(FindType(assembly,"OpenPmsDental.FormRegistrationKey"),"ValidateKey");
 			Type typeFormDatabaseMaintenance=FindType(assembly,"OpenPmsDental.FormDatabaseMaintenance");
-			Assert.AreEqual(1,typeFormDatabaseMaintenance.GetMember("SecurityHashesFix",ALL_DECLARED).Length,
-				"Database Maintenance should have the Security Hashes tool.");
+			Assert.AreEqual(0,typeFormDatabaseMaintenance.GetMember("SecurityHashesFix",ALL_DECLARED).Length,
+				"Tamper detection is removed (NOHASH): Database Maintenance has no Security Hashes tool.");
 		}
 
 		[TestMethod]

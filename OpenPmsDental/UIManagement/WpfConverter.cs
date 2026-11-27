@@ -323,9 +323,6 @@ namespace OpenPmsDental {";
 			else if(control is System.Windows.Forms.TreeView treeView){
 				return ConvertTreeView(control,indentLevel);
 			}
-			else if(control is OpenPmsDental.UI.WarningIntegrity){
-				return ConvertWarningIntegrity(control,indentLevel);
-			}
 			else if(control is CodeBase.Controls.ODWebView2){
 				return ConvertWebView2(control,indentLevel);
 			}
@@ -1575,17 +1572,6 @@ if(dateFrom.Year > 1880 && dateTo.Year>1880) {//if both dates are valid
 		private string ConvertTreeView(System.Windows.Forms.Control control,int indentLevel){
 			System.Windows.Forms.TreeView treeView = (System.Windows.Forms.TreeView)control;
 			string wName = "ui:TreeView";
-			string s = GetIndents(indentLevel)+"<"+wName+" ";
-			s+="x:Name=\""+control.Name+"\" ";
-			s+=SetBoundsAndAnchoring(control);
-			s+=AddCommonEvents(control);
-			s+="/>\r\n";
-			return s;
-		}
-
-		private string ConvertWarningIntegrity(System.Windows.Forms.Control control,int indentLevel){
-			OpenPmsDental.UI.WarningIntegrity warningIntegrity = (OpenPmsDental.UI.WarningIntegrity)control;
-			string wName = "ui:WarningIntegrity";
 			string s = GetIndents(indentLevel)+"<"+wName+" ";
 			s+="x:Name=\""+control.Name+"\" ";
 			s+=SetBoundsAndAnchoring(control);

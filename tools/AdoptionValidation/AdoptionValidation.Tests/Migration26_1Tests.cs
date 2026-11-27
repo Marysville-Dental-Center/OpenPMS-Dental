@@ -58,7 +58,7 @@ namespace AdoptionValidation.Tests {
 			//that table, whose rows AdoptionRowCheck checks against ProgramPropertyDescPlan.
 			List<AllowedRule> listRulesPropertyDesc=allowed.Rules.Where(x => x.Table==ProgramPropertyDescPlan.TABLE_PROGRAMPROPERTY).ToList();
 			Assert.AreEqual("ColumnChanged PropertyDesc",string.Join(", ",listRulesPropertyDesc.Select(x => x.Kind+" "+x.Column)),"UI-BRAND-2's rule.");
-			List<string> listColumnsChanged=allowed.Rules.Where(x => x.Kind=="ColumnChanged" && x.Column!="SecurityHash" && x.Table!="displayreport"
+			List<string> listColumnsChanged=allowed.Rules.Where(x => x.Kind=="ColumnChanged" && x.Table!="displayreport"
 				&& x.Table!=DxcCreditScorePlan.TABLE_PROGRAM && x.Table!=ProgramPropertyDescPlan.TABLE_PROGRAMPROPERTY).Select(x => x.Table+"."+x.Column).ToList();
 			CollectionAssert.AreEqual(Sorted(Migration26_1Plan.ArrayValueChangingColumns),Sorted(listColumnsChanged));
 			foreach(string item in Migration26_1Plan.ArrayValueChangingColumns) {
@@ -66,8 +66,8 @@ namespace AdoptionValidation.Tests {
 			}
 			//Every whole-table rule names a table adopt's row check compares row by row; and no rule names updatehistory.
 			CollectionAssert.AreEqual(Sorted(AdoptionRowCheck.ArrayWholeTables),Sorted(allowed.Rules.Where(x => x.Kind=="*").Select(x => x.Table)));
-			Assert.IsFalse(allowed.Rules.Any(x => x.Table=="updatehistory" || x.Table=="*" && x.Column!="SecurityHash"),"No other wildcard rule.");
-			Assert.IsTrue(allowed.Rules.All(x => x.Kind=="ColumnRemoved" || x.Kind=="TotalChanged" || x.Column=="SecurityHash" || x.Reason.Contains("adopt")),
+			Assert.IsFalse(allowed.Rules.Any(x => x.Table=="updatehistory" || x.Table=="*"),"No wildcard rule.");
+			Assert.IsTrue(allowed.Rules.All(x => x.Kind=="ColumnRemoved" || x.Kind=="TotalChanged" || x.Reason.Contains("adopt")),
 				"Every 25.4, 26.1 and whole-table rule says how adopt checks it.");
 		}
 

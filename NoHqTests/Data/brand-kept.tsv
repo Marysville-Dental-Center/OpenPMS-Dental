@@ -27,8 +27,6 @@ OpenPmsDental/Forms/FormAdoptDatabase.cs	its unique index, deletes Open Dental's
 OpenPmsDental/Forms/FormAdoptDatabase.cs	program use a database that Open Dental created. It is done once, on	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormAdoptDatabase.cs	so Open Dental programs can no longer use	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormChooseDatabase.Designer.cs	Database: usually opendental unless you changed the name.	Database name: the default database is still called opendental
-OpenPmsDental/Forms/FormDatabaseMaintenance.cs	every patient whose hash is blank or was written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
-OpenPmsDental/Forms/FormDatabaseMaintenance.cs	moving a database over from Open Dental, before anyone edits data	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDental/Forms/FormEmailInbox.cs	No instance of Open Dental Service is running.	Names Open Dental's own Windows service (OpenDentalService), which this program does not ship; not a self-reference
 OpenPmsDental/Forms/FormInfobutton.cs	OD	HL7 Infobutton request field sent to the knowledge provider, not shown in the program; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDental/Forms/FormInfobutton.cs	Open Dental Software, version	HL7 Infobutton request field sent to the knowledge provider, not shown in the program; kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
@@ -88,7 +86,6 @@ OpenPmsDentalBusiness/Data Interface/AlertItems.cs	No instance of Open Dental Se
 OpenPmsDentalBusiness/Data Interface/AlertItems.cs	SELECT ValueString,NOW() FROM preference WHERE PrefName='OpenDentalServiceHeartbeat'	Preference name in the database
 OpenPmsDentalBusiness/Data Interface/CentralConnections.cs	opendental	Database name: the default database is still called opendental
 OpenPmsDentalBusiness/Data Interface/Commlogs.cs	Open Dental HQ-Generated	Open Dental HQ-only code path or text; never reached or shown in an office
-OpenPmsDentalBusiness/Data Interface/DatabaseMaintenances.cs	written by Open Dental	Origin note: the office needs to know that this concerns Open Dental (adoption, schema parity, data written by Open Dental)
 OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	                  <td>Open Dental PatNum</td>	Sample message of the EHR certification test; test data
 OpenPmsDentalBusiness/Data Interface/EmailMessages.cs	OpenDental 	Direct messaging MDN reporting-agent field (protocol); kept until the vendor confirms another name (the owner's answer, docs/port-notes/UI-BRAND.md section 10)
 OpenPmsDentalBusiness/Data Interface/OrthoCases.cs	is heavily used throughout OD.	Developer-only text (log, exception for developers, designer property description, development path)

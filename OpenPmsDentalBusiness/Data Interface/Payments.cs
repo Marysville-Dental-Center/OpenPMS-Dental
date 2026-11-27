@@ -1132,20 +1132,6 @@ namespace OpenPmsDentalBusiness{
 			return ret;
 		}
 
-		///<summary>Determines if all the paysplits in the payment have valid hashes. Uses passed list, not database. Returns false if a single paysplit is invalid, otherwise true. </summary>
-		public static bool ArePaySplitHashesValid(long payNum,List<PaySplit> listPaySplits) {
-			Meth.NoCheckMiddleTierRole();
-			if(listPaySplits.Count==0) {
-				return true;
-			}
-			List<PaySplit> listPaySplitsForPayment=listPaySplits.FindAll(x => x.PayNum==payNum);
-			for(int i=0;i<listPaySplitsForPayment.Count;i++) {
-				if(!PaySplits.IsPaySplitHashValid(listPaySplitsForPayment[i])) {
-					return false;
-				}
-			}
-			return true;
-		}
 		#endregion
 
 	}

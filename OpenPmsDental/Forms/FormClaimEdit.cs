@@ -165,7 +165,6 @@ namespace OpenPmsDental{
 			if(IsFromBatchWindow) {
 				groupFinalizePayment.Visible=false;
 			}
-			warningIntegrity.SetTypeAndVisibility(EnumWarningIntegrityType.Claim,Claims.IsClaimHashValid(_claim));
 			if(CultureInfo.CurrentCulture.Name.EndsWith("CA")) {//Canadian. en-CA or fr-CA
 				labelPredeterm.Text=Lan.g(this,"Predeterm Num");
 				labelPriorAuth.Visible=false;

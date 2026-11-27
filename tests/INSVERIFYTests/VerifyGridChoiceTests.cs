@@ -268,8 +268,7 @@ namespace INSVERIFYTests {
 			return insVerifyNumLatest;
 		}
 
-		///<summary>A row of the key as the program inserts one (InsertForPatPlanNum or InsertForPlanNum), then verified on the date (Update rehashes it).
-		///</summary>
+		///<summary>A row of the key as the program inserts one (InsertForPatPlanNum or InsertForPlanNum), then verified on the date.</summary>
 		private static long InsertVerification(VerifyTypes verifyType,long fKey,DateTime dateLastVerified) {
 			long insVerifyNum=(verifyType==VerifyTypes.PatientEnrollment ? InsVerifies.InsertForPatPlanNum(fKey) : InsVerifies.InsertForPlanNum(fKey));
 			InsVerify insVerify=InsVerifies.GetOne(insVerifyNum);

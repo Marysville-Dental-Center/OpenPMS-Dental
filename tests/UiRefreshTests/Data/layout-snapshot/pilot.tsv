@@ -27,7 +27,6 @@ OpenPmsDental/Forms/FormApptEdit.designer.cs	label8	12,347	112,23
 OpenPmsDental/Forms/FormApptEdit.designer.cs	listQuickAdd	641,55	150,355	
 OpenPmsDental/Forms/FormApptEdit.designer.cs	labelQuickAdd	641,6	150,47	
 OpenPmsDental/Forms/FormApptEdit.designer.cs	panel1	301,2	336,632	
-OpenPmsDental/Forms/FormApptEdit.designer.cs	warningIntegrity1	8,10	18,18	
 OpenPmsDental/Forms/FormApptEdit.designer.cs	checkASAP	130,35	52,20	
 OpenPmsDental/Forms/FormApptEdit.designer.cs	comboApptType	130,320	198,23	
 OpenPmsDental/Forms/FormApptEdit.designer.cs	label10	12,320	112,23	
@@ -497,7 +496,6 @@ OpenPmsDental/Forms/FormClaimEdit.designer.cs	textPatResp	752,390	63,23
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	groupBoxPendingPayment	1030,8	130,108	
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	butInsuranceOverpaid	8,23	114,23	
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	butInsuranceUnderpaid	8,50	114,23	
-OpenPmsDental/Forms/FormClaimEdit.designer.cs	warningIntegrity	8,10	18,18	
 OpenPmsDental/Forms/FormClaimEdit.designer.cs	.			1168,956
 OpenPmsDental/Forms/FormEmailInbox.designer.cs	gridInbox	0,0	1126,262	
 OpenPmsDental/Forms/FormEmailInbox.designer.cs	emailPreviewControlInbox	0,0	1126,262	
@@ -1111,7 +1109,6 @@ OpenPmsDental/Forms/FormPatientEdit.Designer.cs	comboExcludeECR	186,673	228,23
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelExcludeECR	32,673	148,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	butViewBirthdate	311,339	62,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	odDatePickerBirthDate	123,339	182,24	
-OpenPmsDental/Forms/FormPatientEdit.Designer.cs	warningIntegrity1	8,9	18,18	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	comboPreferredPronouns	186,194	112,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	labelPreferredPronouns	72,194	108,23	
 OpenPmsDental/Forms/FormPatientEdit.Designer.cs	textBirthdateMask	186,339	102,20	
@@ -1218,7 +1215,6 @@ OpenPmsDental/Forms/FormPayment.designer.cs	comboClinicsPaySplitsFilter	188,45	1
 OpenPmsDental/Forms/FormPayment.designer.cs	labelPatPaySplitsFilter	8,23	67,18	
 OpenPmsDental/Forms/FormPayment.designer.cs	labelProvPaySplitsFilter	92,23	67,18	
 OpenPmsDental/Forms/FormPayment.designer.cs	labelRecurringChargeWarning	780,92	280,13	
-OpenPmsDental/Forms/FormPayment.designer.cs	warningIntegrity1	1,-1	18,18	
 OpenPmsDental/Forms/FormPayment.designer.cs	labelTransactionCompleted	272,94	190,57	
 OpenPmsDental/Forms/FormPayment.designer.cs	labelSurchargeFee	259,62	100,16	
 OpenPmsDental/Forms/FormPayment.designer.cs	textSurcharge	362,59	100,20	

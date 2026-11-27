@@ -56,7 +56,6 @@ OpenPmsDental.UI.TabControl	own control	51	1	yes	UI.TabControl (UI-4b)	OpenPmsDe
 OpenPmsDental.UI.TabPage	own control	160	6	yes	UI.TabPage (UI-4b)	OpenPmsDental/UI/TabControl/*	
 OpenPmsDental.UI.ToggleDayWeek	own control	1	0	yes	ToggleDayWeek (UI-4c)	OpenPmsDental/UI/Appt/ToggleDayWeek	
 OpenPmsDental.UI.ToolBarOD	own control	27	0	yes	ToolBarOD (UI-6)	OpenPmsDental/UI/ToolBarOD	
-OpenPmsDental.UI.WarningIntegrity	own control	8	0	yes	WarningIntegrity (UI-4c)	OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity	
 OpenPmsDental.UI.WindowingSlider	own control	1	0	yes	WindowingSlider (UI-4c)	OpenPmsDental/UI/ImagesModule/WindowingSlider	
 OpenPmsDental.UserControlScreenTooth	own control	20	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
 OpenPmsDental.UserControlSecurityTree	own control	4	0	n/a		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	draws nothing of its own: a user control whose children are rows of this list
@@ -100,7 +99,7 @@ System.Windows.Forms.LinkLabel	stock	2	4	yes	UiLooks.SetLinkLabelLook (UI-13)	Co
 System.Windows.Forms.ListBox	stock	11	1	yes	UiScrollLook (UI-13) scroll bars; UiBorderLook-free (Windows' flat list border)	CodeBase/UI/UiScrollLook	its scroll bars in the Fluent look; the items keep Windows' list (the program's own list is UI.ListBox)
 System.Windows.Forms.ListView	stock	5	0	yes	UiLooks.AttachExplorerTheme and UiScrollLook (UI-13)	CodeBase/UI/UiLooks	Windows 11's Explorer theme; scroll bars in the Fluent look
 System.Windows.Forms.MenuStrip	stock	2	0	yes	UiToolStripRenderer (UI-6)	(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	the token renderer
-System.Windows.Forms.MessageBox	stock	0	1880	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
+System.Windows.Forms.MessageBox	stock	0	1879	keeps		OpenPmsDental/UI/MessageBox	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
 System.Windows.Forms.NumericUpDown	stock	11	0	yes	UiInputFrame and UiUpDownLook (UI-12)	CodeBase/UI/UiUpDownLook	framed; its arrows as the combo box's chevrons
 System.Windows.Forms.OpenFileDialog	stock	4	41	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
 System.Windows.Forms.PageSetupDialog	stock	1	0	keeps		(outside coverage.tsv: it lists OpenPmsDental/UI, CodeBase/UI, WpfControlsOD/UI and WpfControlsOD/Themes)	keeps Windows' own look (docs/specs/ui-refresh-plan.md section 1: the Windows dialogs and message boxes)
@@ -156,7 +155,7 @@ WPF ui:ComboClinic	wpf	10	0	yes	WpfControlsOD's ComboClinic (UI-4b)	WpfControlsO
 WPF ui:DatePicker	wpf	3	0	yes	WpfControlsOD's DatePicker (UI-4b)	WpfControlsOD/UI/Controls/DatePicker	
 WPF ui:Grid	wpf	40	0	yes	WpfControlsOD's Grid (UI-5)	WpfControlsOD/UI/Controls/Grid	
 WPF ui:GroupBox	wpf	69	0	yes	WpfControlsOD's GroupBox (UI-4a)	WpfControlsOD/UI/Controls/GroupBox	
-WPF ui:Label	wpf	739	0	yes	WpfControlsOD's Label (UI-4a)	WpfControlsOD/UI/Controls/Label	
+WPF ui:Label	wpf	738	0	yes	WpfControlsOD's Label (UI-4a)	WpfControlsOD/UI/Controls/Label	
 WPF ui:LinkLabel	wpf	2	0	yes	WpfControlsOD's LinkLabel (UI-4a)	WpfControlsOD/UI/Controls/LinkLabel	
 WPF ui:ListBox	wpf	60	0	yes	WpfControlsOD's ListBox (UI-4b)	WpfControlsOD/UI/Controls/ListBox	
 WPF ui:ListView	wpf	1	0	yes	WpfControlsOD's ListView (UI-4b)	WpfControlsOD/UI/Controls/ListView	
@@ -180,5 +179,4 @@ WPF ui:TextVInt	wpf	45	0	yes	WpfControlsOD's TextVInt (UI-4b)	WpfControlsOD/UI/C
 WPF ui:TextVTime	wpf	2	0	yes	WpfControlsOD's TextVTime (UI-4b)	WpfControlsOD/UI/Controls/TextVTime	
 WPF ui:ToolBar	wpf	2	0	yes	WpfControlsOD's ToolBar (UI-6)	WpfControlsOD/UI/Controls/ToolBar	
 WPF ui:TreeView	wpf	3	0	yes	WpfControlsOD's TreeView (UI-4b)	WpfControlsOD/UI/Controls/TreeView	
-WPF ui:WarningIntegrity	wpf	1	0	yes	WpfControlsOD's WarningIntegrity (UI-4c)	WpfControlsOD/UI/DatabaseIntegrity/WarningIntegrity	
 WPF ui:WebView2	wpf	2	0	keeps		WpfControlsOD/UI/Controls/WebView2	its coverage row: keeps

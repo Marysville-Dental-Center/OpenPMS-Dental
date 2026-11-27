@@ -57,7 +57,6 @@ Line2\par
 			//bool worked=textBox12.Focus();
 			//textBox12.SelectionLength=0;
 			FillImageSelector(keepSelection:false);
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.Patient,false);
 		}
 
 		///<summary>Refreshes list from db, then fills the treeview.  Set keepSelection to true in order to keep the current selection active.</summary>

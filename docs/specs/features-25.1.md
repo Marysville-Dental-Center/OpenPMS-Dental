@@ -69,8 +69,8 @@ Size scale: **S** up to 2 dev-days, **M** 3 to 7 days, **L** 1 to 3 weeks, **XL*
 | v25_1-misc-medication-hide | Hide medications in the master list | desktop | S | `medication.IsHidden` | none |
 | v25_1-setup-overjet-bridge | Overjet program link | vendor-direct | S | `program` row | HQ program gating removed |
 | v25_1-misc-wiki-draft-compare | Compare a wiki draft with the live page | desktop | S | none | none |
-| v25_1-misc-dbm-securityhash-rehash-patient | DBM: rehash the whole patient table | desktop | S | none | in-repo SecurityHash |
-| v25_1-security-insverify-securityhash † | Integrity hash on insurance verification rows | desktop | S | `insverify.SecurityHash`, `insverifyhist.SecurityHash` | in-repo SecurityHash |
+| v25_1-misc-dbm-securityhash-rehash-patient | DBM: rehash the whole patient table (**removed**, NOHASH) | desktop | S | none | in-repo SecurityHash |
+| v25_1-security-insverify-securityhash † | Integrity hash on insurance verification rows (**hash removed**, NOHASH; the columns stay) | desktop | S | `insverify.SecurityHash`, `insverifyhist.SecurityHash` | in-repo SecurityHash |
 | v25_1-setup-proccode-morefees-filters | Provider and clinic filters in More Fees | desktop | S | none | none |
 | v25_1-setup-feetools-tabs | Fee Tools window reorganized into tabs | desktop | M | none | 24.4 fee effective dates |
 | v25_1-canada-etrans-counters-uncapped † | Canadian transaction counters no longer cap out | desktop | S | none | none |
@@ -1017,6 +1017,8 @@ The Group Note window already does this in 24.3 (a "..." button next to User).
 
 ### v25_1-misc-dbm-securityhash-rehash-patient: DBM: rehash the whole patient table
 
+> **Removed (owner, 2026-11-24; package NOHASH, [remove-tamper-detection.md](remove-tamper-detection.md)).** Tamper detection is removed, so there is no rehash method. The text below is the design as it was.
+
 - **Category:** desktop. **Size:** S.
 - **Depends on:** the decoupling plan's in-repo SecurityHash (HMAC-SHA256 instead of the proprietary CDT hash).
 - **Sources:** https://www.opendental.com/site/version25_1.html (method `SecurityHashRehashPatientTable`, also backported to 24.4.48); 25.1 DB docs (`patient.SecurityHash`); `docs/specs/decoupling-plan.md`.
@@ -1037,6 +1039,8 @@ The Group Note window already does this in 24.3 (a "..." button next to User).
 **Touchpoints.** `OpenDentBusiness/Misc/SecurityHash.cs` (`UpdateHashing` line 26, `ResetPatientHashing` line 40, `RunPatient` line 161 and its `PatientWorker`, `GetHashingDate`), `OpenDentBusiness/Data Interface/DatabaseMaintenances.cs`, `OpenDentBusiness/Data Interface/Patients.cs`.
 
 ### v25_1-security-insverify-securityhash †: Integrity hash on insurance verification rows
+
+> **Hash removed (owner, 2026-11-24; package NOHASH, [remove-tamper-detection.md](remove-tamper-detection.md)).** The two `SecurityHash` columns stay, as Open Dental's schema; the program keeps their values and neither computes nor checks them. The text below is the design as it was.
 
 - **Category:** desktop. **Size:** S.
 - **Depends on:** the in-repo SecurityHash (as above).

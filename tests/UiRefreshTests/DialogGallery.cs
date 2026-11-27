@@ -37,11 +37,6 @@ namespace UiRefreshTests {
 					List<Bitmap> listPickers=DialogControls.ArraySwatchStates.Select(x => DialogControls.RenderWinFormsColorPicker(x,scale,out Rectangle _)).ToList();
 					ControlStateGallery.SaveStrip(Path.Combine(folderScale,"colorpicker.png"),listPickers,new List<Bitmap>(),scale);
 					countStrips++;
-					//The database integrity warning: the triangle and the red one, WinForms above WPF.
-					List<Bitmap> listWarningsWinForms=new[] { false,true }.Select(x => DialogControls.RenderWinFormsWarning(x,scale)).ToList();
-					List<Bitmap> listWarningsWpf=rendersWpf ? new[] { false,true }.Select(x => DialogControls.RenderWpfWarning(x,scale)).ToList() : new List<Bitmap>();
-					ControlStateGallery.SaveStrip(Path.Combine(folderScale,"warning.png"),listWarningsWinForms,listWarningsWpf,scale);
-					countStrips++;
 					if(scale!=1f) {
 						continue;//the picture box and the signature box draw at the screen's DPI, not LayoutManager's scale: once at 100%
 					}

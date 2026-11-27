@@ -288,7 +288,6 @@ namespace OpenPmsDental {
 			for(int i = 0;i<_listPaySplits.Count;i++) {
 				_listPaySplitsOld.Add(_listPaySplits[i].Copy());
 			}
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.Payment,Payments.ArePaySplitHashesValid(_payment.PayNum,_listPaySplits));
 			if(IsNew && CompareDecimal.IsGreaterThanZero(UnearnedAmt)) {
 				_loadData.ListSplits=PaymentEdit.AllocateUnearned(_payment.PayNum,UnearnedAmt,ListAccountEntriesPayFirst,_family);
 				_listPaySplits=_loadData.ListSplits;

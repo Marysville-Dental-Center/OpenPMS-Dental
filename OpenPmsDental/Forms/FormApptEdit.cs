@@ -145,7 +145,6 @@ namespace OpenPmsDental{
 					appointmentTypeNum=formApptTypes.AppointmentTypeSelected.AppointmentTypeNum;
 				}
 			}
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.Appointment,Appointments.IsAppointmentHashValid(_appointment));
 			_isOnLoad=true;
 			_timerLockDelay=new Timer();
 			_timerLockDelay.Tick+=timerLockDelay_Tick;

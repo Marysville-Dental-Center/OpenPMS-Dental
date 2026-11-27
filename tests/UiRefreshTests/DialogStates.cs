@@ -160,20 +160,6 @@ namespace UiRefreshTests {
 			}
 		}
 
-		///<summary>The WinForms database integrity warning (18 x 18 at 96 DPI; it scales from its size) as the triangle or the red one.</summary>
-		public static Bitmap RenderWinFormsWarning(bool isRed,float scale) {
-			System.Windows.Forms.Panel panel;
-			using(Form form=MakeHost(out panel)) {
-				OpenPmsDental.UI.WarningIntegrity warningIntegrity=new OpenPmsDental.UI.WarningIntegrity();
-				panel.Controls.Add(warningIntegrity);
-				int size=UiTheme.ScaleI(18,scale);
-				warningIntegrity.Bounds=new Rectangle(10,10,size,size);
-				ListStateControls.CallPrivate(warningIntegrity,"SetColor",isRed);
-				IntPtr handle=warningIntegrity.Handle;
-				return Draw(warningIntegrity);
-			}
-		}
-
 		///<summary>ODPictureBox (120 x 80) without a picture, showing its hint (withText) or an empty hint, with or without its border. host: where it
 		///sits (screen chrome, or office content: inside the patient dashboard, inside a panel marked with MarkContent, or the dashboard's own picture
 		///widget DashPatPicture).</summary>
@@ -288,18 +274,6 @@ namespace UiRefreshTests {
 			return ControlPictures.RenderWpf(MakeWpfProgress(state),WIDTH_PROGRESS,HEIGHT_PROGRESS,scale);
 		}
 
-		///<summary>The WPF database integrity warning (18 x 18) as the triangle or the red one.</summary>
-		public static WpfControls.UI.WarningIntegrity MakeWpfWarning(bool isRed) {
-			WpfControls.UI.WarningIntegrity warningIntegrity=new WpfControls.UI.WarningIntegrity();
-			warningIntegrity.Width=18;
-			warningIntegrity.Height=18;
-			ListStateControls.CallPrivate(warningIntegrity,"SetColor",isRed);
-			return warningIntegrity;
-		}
-
-		public static Bitmap RenderWpfWarning(bool isRed,float scale) {
-			return ControlPictures.RenderWpf(MakeWpfWarning(isRed),18,18,scale);
-		}
 		#endregion WPF
 	}
 

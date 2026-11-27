@@ -21,7 +21,7 @@ namespace AdoptionValidation {
 	///  migration-preview lists), set DataBaseVersion and ProgramVersion to the sentinel, and blank preferences that held an address of Open Dental's
 	///  servers; no other row may change, and no row may go;
 	///- documentmisc: delete Open Dental's UpdateFiles and UpdateFilesSegment rows, and nothing else;
-	///- securitylog and securityloghash: add adoption's and the rehash's entries; no existing row may change or go;
+	///- securitylog and securityloghash: add adoption's entry; no existing row may change or go;
 	///- displayreport: rename the rows that the fork migration's report rows step renames (ReportRows25_3.PlanRenames on the original's rows, what
 	///  migration-preview lists), InternalName only and only to this program's name for that report; and what the UDS+ report row step plans
 	///  (UdsPlusRowPlan): add the UDS+ row with the planned values and move the later Public Health rows down one place (ItemOrder only), or rename
@@ -57,8 +57,8 @@ namespace AdoptionValidation {
 		///<summary>The tables allowed-differences.adoption.json may allow whole ("Kind": "*"): this check compares each row by row.</summary>
 		public static readonly string[] ArrayWholeTables={ "preference","documentmisc","securitylog","securityloghash","displayreport","grouppermission",
 			"codegroup",DxcCreditScorePlan.TABLE_TOOLBUTITEM };
-		///<summary>The start of the security log entries adoption and the rehash write.</summary>
-		public static readonly string[] ArrayLogTexts={ "Database adopted from Open Dental ",HeadlessAdoption.REHASH_LOG_TEXT };
+		///<summary>The start of the security log entry adoption writes.</summary>
+		public static readonly string[] ArrayLogTexts={ "Database adopted from Open Dental " };
 
 		public class Result {
 			public List<string> ListLines=new List<string>();
@@ -288,18 +288,17 @@ namespace AdoptionValidation {
 			}
 			result.CountLogEntriesAdded=diff.CountOnlySecond;
 			if(diff.CountOnlySecond>RowComparer.MaxListed) {
-				result.ListFailures.Add(diff.CountOnlySecond+" securitylog rows were added; adoption and the rehash add one each per run.");
+				result.ListFailures.Add(diff.CountOnlySecond+" securitylog rows were added; adoption adds one.");
 				return diff.ListOnlySecond;
 			}
 			List<string> listKinds=new List<string>();
 			foreach(long securityLogNum in diff.ListOnlySecond) {
 				string logText=Convert.ToString(db.Scalar("SELECT LogText FROM `"+adopted+"`.securitylog WHERE SecurityLogNum="
 					+securityLogNum.ToString(CultureInfo.InvariantCulture)))??"";
-				string kind=logText.StartsWith(ArrayLogTexts[0],StringComparison.Ordinal) ? "adoption"
-					: logText.StartsWith(ArrayLogTexts[1],StringComparison.Ordinal) ? "rehash" : null;
+				string kind=logText.StartsWith(ArrayLogTexts[0],StringComparison.Ordinal) ? "adoption" : null;
 				if(kind==null) {
 					//The text is not printed: it could name a patient.
-					result.ListFailures.Add("securitylog row "+securityLogNum+" was added and is neither adoption's nor the rehash's entry.");
+					result.ListFailures.Add("securitylog row "+securityLogNum+" was added and is not adoption's entry.");
 					continue;
 				}
 				listKinds.Add(kind);

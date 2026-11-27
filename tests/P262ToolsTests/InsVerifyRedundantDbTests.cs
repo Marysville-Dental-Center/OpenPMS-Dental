@@ -28,7 +28,7 @@ namespace P262ToolsTests {
 			insVerify.Note=note;
 			insVerify.UserNum=userNum;
 			insVerify.DefNum=defNum;
-			insVerify.SecurityHash=InsVerifies.HashFields(insVerify);
+			insVerify.SecurityHash="od-hash-"+fKey.ToString(System.Globalization.CultureInfo.InvariantCulture);//as Open Dental left it
 			Crud.InsVerifyCrud.Insert(insVerify);//DateTimeEntry is set by the database
 			return Crud.InsVerifyCrud.SelectOne(insVerify.InsVerifyNum);
 		}
@@ -64,8 +64,7 @@ namespace P262ToolsTests {
 			Assert.AreEqual(3,insVerifyHist.UserNum);
 			Assert.AreEqual(7,insVerifyHist.DefNum);
 			Assert.AreEqual(insVerifyOld.DateTimeEntry,insVerifyHist.DateTimeEntry);
-			Assert.AreEqual(insVerifyOld.SecurityHash,insVerifyHist.SecurityHash,"The hash is copied unchanged and stays valid.");
-			Assert.AreEqual(InsVerifyHists.HashFields(insVerifyHist),insVerifyHist.SecurityHash);
+			Assert.AreEqual(insVerifyOld.SecurityHash,insVerifyHist.SecurityHash,"SecurityHash is copied unchanged (NOHASH).");
 			Assert.AreEqual(Security.CurUser.UserNum,insVerifyHist.VerifyUserNum);
 			List<DbmLog> listDbmLogs=ToolsDb.GetDbmLogs(nameof(DatabaseMaintenances.InsVerifyRedundantEntries),fKey);
 			Assert.AreEqual(1,listDbmLogs.Count);

@@ -159,11 +159,10 @@ namespace M2INSVTests {
 			InsVerifies.Update(insVerify);
 			InsVerify insVerifyDb=InsVerifies.GetOne(insVerify.InsVerifyNum);
 			Assert.AreEqual(dateTimeAssigned,insVerifyDb.DateLastAssigned);
-			Assert.IsTrue(InsVerifies.IsInsVerifyHashValid(insVerifyDb),"the hash covers the date part, so the time does not break it");
 			InsVerifyHists.InsertFromInsVerify(insVerifyDb);
 			InsVerifyHist insVerifyHist=InsVerifyHists.GetForFKeyByType(planNum,VerifyTypes.InsuranceBenefit).Single();
 			Assert.AreEqual(dateTimeAssigned,insVerifyHist.DateLastAssigned,"history keeps the time");
-			Assert.IsTrue(InsVerifyHists.IsInsVerifyHistHashValid(insVerifyHist));
+			Assert.AreEqual(insVerifyDb.SecurityHash,insVerifyHist.SecurityHash,"history copies SecurityHash unchanged");
 			Assert.AreEqual(DateTime.MinValue,InsVerifies.GetOne(insVerify.InsVerifyNum).DateLastAssigned,"verifying still resets the assignment");
 		}
 
@@ -180,7 +179,7 @@ namespace M2INSVTests {
 			InsVerify insVerifyOldDb=InsVerifies.GetOne(insVerifyOld.InsVerifyNum);
 			Assert.AreEqual(0,insVerifyOldDb.UserNum,"more than 30 whole days old: cleared");
 			Assert.AreEqual(DateTime.MinValue,insVerifyOldDb.DateLastAssigned);
-			Assert.IsTrue(InsVerifies.IsInsVerifyHashValid(insVerifyOldDb));
+			Assert.AreEqual(insVerifyOld.SecurityHash,insVerifyOldDb.SecurityHash,"SecurityHash is kept as it is (NOHASH)");
 			Assert.AreEqual(dateCutoff,InsVerifies.GetOne(insVerifyMidnight.InsVerifyNum).DateLastAssigned,"30 days ago: kept");
 			Assert.AreEqual(dateCutoff.AddHours(8),InsVerifies.GetOne(insVerifyMorning.InsVerifyNum).DateLastAssigned,"30 days ago, any time: kept");
 			Assert.AreEqual(_userod.UserNum,InsVerifies.GetOne(insVerifyOldWithAppt.InsVerifyNum).UserNum,"the patient has an appointment in the list: kept");

@@ -1,4 +1,4 @@
-// Secret obfuscation and SecurityHash tamper hashes, built on .NET's own crypto providers.
+// Secret obfuscation, built on .NET's own crypto providers.
 // Licensed under the GNU General Public License, version 2 or later. See LICENSE in the repository root.
 using System;
 

@@ -107,7 +107,7 @@ namespace PayPlanTests {
 			SheetDefs.RefreshCache();
 			PayPlan payPlanDeletedDb=PayPlans.GetOne(payPlanDeleted.PayPlanNum);
 			Assert.AreEqual(0,payPlanDeletedDb.SheetDefNum,"The plan goes back to the default sheet.");
-			Assert.AreEqual(hashBefore,payPlanDeletedDb.SecurityHash,"SheetDefNum is not part of the row hash.");
+			Assert.AreEqual(hashBefore,payPlanDeletedDb.SecurityHash,"SecurityHash is kept as it is (NOHASH).");
 			Assert.AreEqual(sheetDefKept.SheetDefNum,PayPlans.GetOne(payPlanKept.PayPlanNum).SheetDefNum,"Other plans keep their sheet.");
 			PayPlanTemplate payPlanTemplateDb=PayPlanTemplates.GetAll().First(x => x.PayPlanTemplateNum==payPlanTemplate.PayPlanTemplateNum);
 			Assert.AreEqual(0,payPlanTemplateDb.SheetDefNum,"The template goes back to the default sheet.");

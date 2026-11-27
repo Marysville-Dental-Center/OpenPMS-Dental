@@ -518,7 +518,6 @@ namespace OpenPmsDentalBusiness{
 				payPlan.PayPlanNum=Meth.GetLong(MethodBase.GetCurrentMethod(),payPlan);
 				return payPlan.PayPlanNum;
 			}
-			payPlan.SecurityHash=HashFields(payPlan);
 			return Crud.PayPlanCrud.Insert(payPlan);
 		}
 
@@ -529,9 +528,6 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),listPayPlans);
 				return;
-			}
-			for(int i=0;i<listPayPlans.Count;i++) {
-				listPayPlans[i].SecurityHash=HashFields(listPayPlans[i]);
 			}
 			Crud.PayPlanCrud.InsertMany(listPayPlans);
 		}
@@ -599,10 +595,6 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),payPlan);
 				return;
-			}
-			PayPlan payPlanOld=PayPlans.GetOne(payPlan.PayPlanNum);
-			if(PayPlans.IsPayPlanHashValid(payPlanOld)) {
-				payPlan.SecurityHash=HashFields(payPlan);
 			}
 			Crud.PayPlanCrud.Update(payPlan);
 		}
@@ -838,37 +830,6 @@ namespace OpenPmsDentalBusiness{
 				}
 			}
 			return count;
-		}
-
-		///<summary>Returns the salted hash for the payplan. Computed by CodeBase.TamperHash. </summary>
-		public static string HashFields(PayPlan payPlan) {
-			string unhashedText=payPlan.Guarantor.ToString()+payPlan.PayAmt.ToStringNetFx("f2")+payPlan.IsClosed.ToString()+payPlan.IsLocked.ToString();
-			try {
-				return TamperHash.Compute(unhashedText);
-			}
-			catch(Exception ex)  {
-				ex.DoNothing();
-				return ex.GetType().Name;
-			}
-		}
-
-		///<summary>Validates the hash string in payplan.SecurityHash. Returns true if it matches the expected hash, otherwise false. </summary>
-		public static bool IsPayPlanHashValid(PayPlan payPlan) {
-			Meth.NoCheckMiddleTierRole();
-			if(payPlan==null) {
-				return true;
-			}
-			if(payPlan.SecurityHash==null) {//When a payplan is first created through middle tier and not yet refreshed from db, this can be null and should not show a warning triangle.
-				return true;
-			}
-			DateTime dateHashStart=Misc.SecurityHash.GetHashingDate();
-			if(payPlan.PayPlanDate < dateHashStart) { //old
-				return true;
-			}
-			if(Misc.SecurityHash.IsHashValid(payPlan.SecurityHash,HashFields(payPlan))) { //Hash is not what it should be
-				return true;
-			}
-			return false; 
 		}
 
 		/// <summary>Returns true if there is a PayPlan attached to the payPlanNum and it is open, false otherwise</summary>

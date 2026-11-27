@@ -1062,7 +1062,6 @@ OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVer
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	groupInsurancePlan	Size	480,131	482,162	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	groupSubscriber	Location	483,349	498,367	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	groupSubscriber	Size	232,107	232,162	by hand (layout script): on the grid
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	warningIntegrity1	Location	713,459	734,395	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	labelPatBirthdate	Location	494,458	760,482	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	labelPatBirthdate	Size	99,20	80,23	by hand (layout script): on the grid
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	OpenPmsDental.FormInsVerificationList	textPatBirthdate	Location	594,458	846,482	by hand (layout script): on the grid

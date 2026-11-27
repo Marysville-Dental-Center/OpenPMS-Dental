@@ -136,7 +136,6 @@ namespace OpenPmsDentalBusiness{
 			Meth.NoCheckMiddleTierRole();
 			foreach(PaySplit split in listSplits) {
 				split.PayNum=payNum;
-				split.SecurityHash=HashFields(split);
 			}
 			InsertMany(listSplits);
 		}
@@ -152,7 +151,6 @@ namespace OpenPmsDentalBusiness{
 			foreach(PaySplit split in listSplits) {
 				//Security.CurUser.UserNum gets set on MT by the DtoProcessor so it matches the user from the client WS.
 				split.SecUserNumEntry=Security.CurUser.UserNum;
-				split.SecurityHash=HashFields(split);
 			}
 			Crud.PaySplitCrud.InsertMany(listSplits);
 		}
@@ -404,7 +402,6 @@ namespace OpenPmsDentalBusiness{
 			}
 			//Security.CurUser.UserNum gets set on MT by the DtoProcessor so it matches the user from the client WS.
 			split.SecUserNumEntry=Security.CurUser.UserNum;
-			split.SecurityHash=HashFields(split);
 			return Crud.PaySplitCrud.Insert(split);
 		}
 		#endregion
@@ -416,9 +413,6 @@ namespace OpenPmsDentalBusiness{
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),split);
 				return;
 			}
-			if(IsPaySplitHashValid(split)) { //Only rehash splits that are already valid
-				split.SecurityHash=HashFields(split);
-			}
 			Crud.PaySplitCrud.Update(split);
 		}
 
@@ -427,9 +421,6 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				Meth.GetVoid(MethodBase.GetCurrentMethod(),paySplit,oldPaySplit);
 				return;
-			}
-			if(IsPaySplitHashValid(oldPaySplit)) { //Only rehash splits that are already valid
-				paySplit.SecurityHash=HashFields(paySplit);
 			}
 			Crud.PaySplitCrud.Update(paySplit,oldPaySplit);
 		}
@@ -476,20 +467,7 @@ namespace OpenPmsDentalBusiness{
 			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
 				return Meth.GetBool(MethodBase.GetCurrentMethod(),listNew,payNum);
 			}
-			bool isHashNeeded=true;
 			List<PaySplit> listOld=GetForPayment(payNum);
-			for(int i=0;i<listNew.Count;i++) {
-				isHashNeeded=true;
-				//Only rehash existing splits that are already valid
-				PaySplit paySplitOld=listOld.FirstOrDefault(x => listNew[i].SplitNum==x.SplitNum);
-				if(paySplitOld!=null) {
-					isHashNeeded=IsPaySplitHashValid(paySplitOld);
-				}
-				//Hash splits that are either new, or rehash existing splits that are valid
-				if(isHashNeeded) {
-					listNew[i].SecurityHash=HashFields(listNew[i]);
-				}
-			}
 			//Security.CurUser.UserNum gets set on MT by the DtoProcessor so it matches the user from the client WS.
 			return Crud.PaySplitCrud.Sync(listNew,listOld,Security.CurUser.UserNum);
 		}
@@ -549,36 +527,6 @@ namespace OpenPmsDentalBusiness{
 				+$"'{Payments.GetPaymentTypeDesc(payment??Payments.GetPayment(paySplit.PayNum))}'";
 		}
 
-		///<summary>Returns the salted hash for the paysplit. Computed by CodeBase.TamperHash. </summary>
-		public static string HashFields(PaySplit split) {
-			if(RemotingClient.MiddleTierRole==MiddleTierRole.ClientMT) {
-				return Meth.GetString(MethodBase.GetCurrentMethod(),split);
-			}
-			string unhashedText=split.PatNum.ToString()+split.SplitAmt.ToStringNetFx("F2")+split.DatePay.ToString("yyyy-MM-dd");
-			try {
-				return TamperHash.Compute(unhashedText);
-			}
-			catch(Exception ex)  {
-				ex.DoNothing();
-				return ex.GetType().Name;
-			}
-		}
-
-		///<summary>Validates the hash string in paysplit.SecurityHash. Returns true if it matches the expected hash, otherwise false. </summary>
-		public static bool IsPaySplitHashValid(PaySplit paySplit) {
-			Meth.NoCheckMiddleTierRole();
-			if(paySplit==null) {
-				return true;
-			}
-			DateTime dateHashStart=Misc.SecurityHash.GetHashingDate();
-			if(paySplit.DatePay < dateHashStart) { //old
-				return true;
-			}
-			if(Misc.SecurityHash.IsHashValid(paySplit.SecurityHash,HashFields(paySplit))) {
-				return true;
-			}
-			return false; 
-		}
 		#endregion
 	}
 }

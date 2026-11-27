@@ -11,28 +11,26 @@ using Db=SyntheticData.Infrastructure.Db;
 namespace AdoptionValidation {
 	///<summary>Adopts a copy of the office database without starting the program: Adoption.Preflight and Adoption.Run (what the Adopt Database window calls,
 	///which brings an Open Dental 25.3.48 database to the 26.1.70 schema with the fork migration), the fork migration with every step again, the schema
-	///verifier (SchemaVerifier.ReferenceVersion, 26.1.70), and SecurityHash.RehashNow (what Database Maintenance, Tools, Security Hashes calls), in that
-	///order. The rehearsal adopts its copy with this class, and runbook steps 4 and 5 run it through "AdoptionValidation adopt", so the office
+	///verifier (SchemaVerifier.ReferenceVersion, 26.1.70), in that order, and checks that every SecurityHash value is as it was (this program keeps
+	///them and neither computes nor checks them, NOHASH). The rehearsal adopts its copy with this class, and runbook step 4 run it through "AdoptionValidation adopt", so the office
 	///runs exactly the sequence that was rehearsed.
 	///
 	///Why not the program itself: starting it and logging in writes to the database (the computer row and its heartbeat, the Database Maintenance
 	///list, signals, login records). The post-adoption report (runbook step 6) must see only what adoption wrote, so it is taken before anyone starts
 	///the program, as in the rehearsal.
 	///
-	///Running it again on a finished adoption is safe: adoption is skipped, and the migration, the verifier and the rehash change nothing the second
+	///Running it again on a finished adoption is safe: adoption is skipped, and the migration and the verifier change nothing the second
 	///time (rehearsal checks I1 to I4). An adoption interrupted before Adoption.Run writes ForkSchemaLevel (its step 6) is finished by running it
 	///again. One interrupted later is not: the copy then counts as adopted while its adoption record is unfinished, and the run fails, closed (exit
 	///code 6, or 1 when a fork migration step was cut off). So the runbook never relies on resuming: after any stop it drops the copy and makes a
 	///new one from the untouched original (runbook step 4).</summary>
 	public static class HeadlessAdoption {
-		public const string REHASH_LOG_TEXT="Security hashes recalculated after adoption by AdoptionValidation adopt (runbook step 5)";
-
 		public class Result {
 			public string Database;
 			///<summary>Hash formats per table before anything ran.</summary>
 			public List<HashCount> ListHashesStart=new List<HashCount>();
 			public AdoptionPreflight Preflight;
-			///<summary>True when the database was adopted before this run. Adoption is skipped; the migration, the verifier and the rehash run again.
+			///<summary>True when the database was adopted before this run. Adoption is skipped; the migration and the verifier run again.
 			///</summary>
 			public bool WasAlreadyAdopted;
 			///<summary>Null when adoption was skipped.</summary>
@@ -46,9 +44,7 @@ namespace AdoptionValidation {
 			public bool IsSchemaExactMatch;
 			///<summary>This program's own tables (ForkTables) the database has, which Verify lists as allowed extra tables.</summary>
 			public int CountForkTables;
-			public DateTime DateRehashWindow;
 			public List<HashCount> ListHashesAfter=new List<HashCount>();
-			public bool IsRehashLogged;
 			///<summary>The row-by-row check against the original (AdoptionRowCheck); null when no original was given.</summary>
 			public AdoptionRowCheck.Result RowCheck;
 			public List<string> ListFailures=new List<string>();
@@ -57,12 +53,9 @@ namespace AdoptionValidation {
 				get { return ListFailures.Count==0; }
 			}
 
-			///<summary>Every patient, and every row in the rehash window, carries a fork hash.</summary>
-			public bool IsRehashComplete {
-				get {
-					HashCount patient=ListHashesAfter.FirstOrDefault(x => x.Table=="patient");
-					return patient!=null && patient.Current==patient.Rows && ListHashesAfter.All(x => x.InWindowNotCurrent==0);
-				}
+			///<summary>Every SecurityHash value is as it was before the run.</summary>
+			public bool AreHashesUnchanged {
+				get { return ListHashesStart.Select(x => x.ToString()).SequenceEqual(ListHashesAfter.Select(x => x.ToString())); }
 			}
 		}
 
@@ -85,7 +78,7 @@ namespace AdoptionValidation {
 			log(result.Preflight.Message);
 			if(result.Preflight.IsAlreadyAdopted) {
 				result.WasAlreadyAdopted=true;
-				log("Adoption is skipped. The fork migration, the schema verifier and the rehash run again; they change nothing on a finished adoption.");
+				log("Adoption is skipped. The fork migration and the schema verifier run again; they change nothing on a finished adoption.");
 			}
 			else if(!result.Preflight.CanAdopt) {
 				throw new ApplicationException(result.Preflight.Message);
@@ -139,27 +132,14 @@ namespace AdoptionValidation {
 			if(!isSchemaMatch) {
 				result.ListFailures.Add("The schema differs from Open Dental "+SchemaVerifier.ReferenceVersion+".");
 			}
-			result.DateRehashWindow=OpenPmsDentalBusiness.Misc.SecurityHash.GetHashingDate();
-			log("Rehash: every patient, and the other tables' rows dated on or after "
-				+result.DateRehashWindow.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture)+".");
-			step("Rehash (SecurityHash.RehashNow)",() => OpenPmsDentalBusiness.Misc.SecurityHash.RehashNow());
 			result.ListHashesAfter=BusinessLayer.CountHashes();
+			log("SecurityHash values (kept as they are; this program neither computes nor checks them):");
 			foreach(HashCount hashCount in result.ListHashesAfter) {
 				log("  "+hashCount);
 			}
-			if(!result.IsRehashComplete) {
-				result.ListFailures.Add("The rehash left a patient, or a row in the rehash window, without a fork hash.");
+			if(!result.AreHashesUnchanged) {
+				result.ListFailures.Add("Adoption changed SecurityHash values: before "+string.Join("; ",result.ListHashesStart.Select(x => x.ToString()))+".");
 			}
-			//Database Maintenance's Security Hashes tool logs the rehash too; this is the same entry for the headless run.
-			try {
-				SecurityLogs.MakeLogEntry(EnumPermType.SecurityAdmin,0,REHASH_LOG_TEXT+": "
-					+string.Join(", ",result.ListHashesAfter.Select(x => x.Table+" "+x.Current))+" rows with a fork hash.");
-				result.IsRehashLogged=true;
-			}
-			catch(Exception ex) {
-				log("Warning: the security log entry for the rehash could not be written: "+ex.Message);
-			}
-			log("Rehash finished.");
 			if(original!=null) {
 				step("Row check against the original",() => {
 					using(Db db=Db.Open(server)) {

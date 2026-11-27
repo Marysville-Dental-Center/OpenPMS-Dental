@@ -69,8 +69,8 @@ Commands:
                  AUTO_INCREMENT counters and INSERT ... SELECT, so the copy is exact (FLOAT values included) and no row leaves the
                  server. Refuses a name that exists, a missing original, the same name twice, any connection to either, and
                  views, triggers, routines or events it would not carry; then checks every table's row count and AUTO_INCREMENT.
-  adopt          Adopts the copy without starting the program (runbook steps 4 and 5): Adoption.Preflight and Adoption.Run,
-                 the fork migration with every step again, the schema verifier (Open Dental 26.1.70) and SecurityHash.RehashNow,
+  adopt          Adopts the copy without starting the program (runbook step 4): Adoption.Preflight and Adoption.Run,
+                 the fork migration with every step again and the schema verifier (Open Dental 26.1.70),
                  exactly as the rehearsal does, then checks row by row against --original what adoption changed in preference,
                  documentmisc, securitylog, securityloghash, displayreport (only the renames, the UDS+ row and the moves
                  migration-preview lists), grouppermission (only the permission split, the UDS+ report grants and the routine
@@ -345,7 +345,7 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 			return ExitPass;
 		}
 
-		///<summary>Runbook steps 4 and 5: the headless adoption of the copy (HeadlessAdoption, the code the rehearsal adopts with).</summary>
+		///<summary>Runbook step 4: the headless adoption of the copy (HeadlessAdoption, the code the rehearsal adopts with).</summary>
 		private static int RunAdopt(ServerSettings server,string database,string original,string pathLog,Action<string> logConsole) {
 			void Log(string text) {
 				logConsole(text);
@@ -385,7 +385,7 @@ database server (runbook step 0.0). Exit codes: 0 pass, 1 error, 2 usage or refu
 			if(result.Passed) {
 				List<string> listRenames=result.RowCheck?.ListReportRenames??new List<string>();
 				Log("Adopt: PASS. "+database+" is adopted, matches Open Dental "+OpenPmsDentalBusiness.ForkMigrations.SchemaVerifier.ReferenceVersion
-					+", is rehashed, and changed only the rows adoption changes (row check above"
+					+", kept every SecurityHash value, and changed only the rows adoption changes (row check above"
 					+(listRenames.Count==0 ? "; the fork migration renamed no report row" : "; the fork migration renamed "+listRenames.Count+" report row(s), as "
 						+"migration-preview lists: "+string.Join("; ",listRenames))
 					+(result.RowCheck==null || result.RowCheck.DisplayReportNumAdded==0 ? "" : "; it added the UDS+ report row (DisplayReportNum "

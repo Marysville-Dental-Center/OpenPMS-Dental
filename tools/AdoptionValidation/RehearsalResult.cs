@@ -187,7 +187,7 @@ namespace AdoptionValidation {
 					}
 				}
 				sb.AppendLine();
-				sb.AppendLine("### Adoption log (what AdoptionValidation adopt prints in runbook steps 4 and 5)");
+				sb.AppendLine("### Adoption log (what AdoptionValidation adopt prints in runbook step 4)");
 				sb.AppendLine();
 				sb.AppendLine("```");
 				foreach(string line in first.ListAdoptionLog) {
@@ -195,14 +195,14 @@ namespace AdoptionValidation {
 				}
 				sb.AppendLine("```");
 				sb.AppendLine();
-				sb.AppendLine("### Rehash record");
+				sb.AppendLine("### SecurityHash values (kept as they are)");
 				sb.AppendLine();
-				sb.AppendLine("| Table | Rows | In rehash window | Before: fork / other / blank | After: fork / other / blank | Window rows without a fork hash after |");
-				sb.AppendLine("|---|---:|---:|---|---|---:|");
+				sb.AppendLine("| Table | Rows | Before: with a value / blank | After: with a value / blank | Unchanged |");
+				sb.AppendLine("|---|---:|---|---|---|");
 				foreach(HashCount before in first.ListHashesBefore) {
 					HashCount after=first.ListHashesAfter.FirstOrDefault(x => x.Table==before.Table)??new HashCount();
-					sb.AppendLine("| "+before.Table+" | "+before.Rows+" | "+after.InWindow+" | "+before.Current+" / "+before.Other+" / "+before.Blank+" | "+after.Current+" / "
-						+after.Other+" / "+after.Blank+" | "+after.InWindowNotCurrent+" |");
+					sb.AppendLine("| "+before.Table+" | "+before.Rows+" | "+(before.Rows-before.Blank)+" / "+before.Blank+" | "+(after.Rows-after.Blank)+" / "+after.Blank
+						+" | "+(before.ToString()==after.ToString() ? "yes" : "no")+" |");
 				}
 				sb.AppendLine();
 				sb.AppendLine("### Open Dental-style startup check");

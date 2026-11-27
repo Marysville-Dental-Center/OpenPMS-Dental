@@ -89,7 +89,7 @@ The preflight refuses these databases:
 - an adopted database whose markers were removed (`ForkAdoptedFrom` says `adopted=`)
 - a middle-tier connection
 
-Re-entering bridge passwords and rehashing `SecurityHash` columns are separate steps of the M1-Z rehearsal and of the office procedure in [adoption-runbook.md](../admin/adoption-runbook.md). `Adoption.Run` doesn't do them; `AdoptionValidation adopt` runs the rehash right after it (runbook step 5).
+Re-entering bridge passwords is a separate step of the M1-Z rehearsal and of the office procedure in [adoption-runbook.md](../admin/adoption-runbook.md); `Adoption.Run` doesn't do it. `SecurityHash` columns are kept as they are: tamper detection is removed ([remove-tamper-detection.md](../specs/remove-tamper-detection.md)).
 
 Before adopting the office copy, stop and uninstall the Open Dental services and clients (M1-Z). All workstations switch together. Rollback means going back to the untouched original (or, if something wrote to it, to the folder copy taken before the copy was made) after this program has been removed from every workstation and the adopted database has been dumped and dropped ([adoption-runbook.md](../admin/adoption-runbook.md), Rollback).
 

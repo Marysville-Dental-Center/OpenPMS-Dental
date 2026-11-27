@@ -132,7 +132,6 @@ LOOKS = {
     "OpenPmsDental.UI.ODCodeRangeFilter": ("yes", "ODCodeRangeFilter (UI-4c)", "OpenPmsDental/UI/ODCodeRangeFilter", ""),
     "OpenPmsDental.UI.ODPictureBox": ("yes", "ODPictureBox (UI-4c)", "OpenPmsDental/UI/ODPictureBox", "border only; the picture is content"),
     "OpenPmsDental.UI.ODPrintPreviewControl": ("yes", "ODPrintPreviewControl (UI-4c)", "OpenPmsDental/UI/ODPrintPreviewControl", ""),
-    "OpenPmsDental.UI.WarningIntegrity": ("yes", "WarningIntegrity (UI-4c)", "OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity", ""),
     "OpenPmsDental.UI.ControlDoubleBuffered": ("n/a", "", "OpenPmsDental/UI/ControlDoubleBuffered", "a double-buffered base control: its owner draws on it"),
     "OpenPmsDental.UI.WindowingSlider": ("yes", "WindowingSlider (UI-4c)", "OpenPmsDental/UI/ImagesModule/WindowingSlider", ""),
     "OpenPmsDental.UI.ToggleDayWeek": ("yes", "ToggleDayWeek (UI-4c)", "OpenPmsDental/UI/Appt/ToggleDayWeek", ""),
@@ -210,7 +209,6 @@ WPF_LOOKS = {
 # WPF controls whose files are not in WpfControlsOD/UI/Controls.
 WPF_PATHS = {
     "ProgressBarFlat": "WpfControlsOD/UI/Progress/ProgressBarFlat",
-    "WarningIntegrity": "WpfControlsOD/UI/DatabaseIntegrity/WarningIntegrity",
 }
 
 

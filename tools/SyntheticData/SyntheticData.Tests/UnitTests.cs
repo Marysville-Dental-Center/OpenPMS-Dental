@@ -286,6 +286,9 @@ namespace SyntheticData.Tests {
 			TableReport guardian=new TableReport { Name="guardian",Rows=2,ChecksumTable="222" };
 			guardian.Columns["Relationship"]="50";
 			report.Tables.Add(guardian);
+			TableReport preference=new TableReport { Name="preference",Rows=5,ChecksumTable="333" };
+			preference.Columns["ValueString"]="60";
+			report.Tables.Add(preference);
 			report.Totals["patients.portal_active_email_nonnull"]="2";
 			report.Totals["production.gross"]="100.00";
 			return report;
@@ -304,12 +307,18 @@ namespace SyntheticData.Tests {
 		[TestMethod]
 		public void AdoptionChanges_AreAllowed_OtherChangesAreNot() {
 			ValidationReport after=Report();
-			TableReport patient=after.Tables[0];
-			patient.Columns["SecurityHash"]="31";
-			patient.ChecksumTable="112";
+			TableReport preference=after.Tables.Single(x => x.Name=="preference");
+			preference.Columns["ValueString"]="61";
+			preference.ChecksumTable="334";
 			List<Difference> list=ReportComparer.Compare(Report(),after,Adoption());
 			Assert.IsTrue(list.Count>=2);
 			Assert.IsTrue(list.All(x => x.IsAllowed),ReportComparer.Format(list));
+			//Adoption keeps every SecurityHash value (tamper detection removed, NOHASH): a changed one is not allowed.
+			ValidationReport afterHash=Report();
+			afterHash.Tables[0].Columns["SecurityHash"]="31";
+			afterHash.Tables[0].ChecksumTable="112";
+			List<Difference> listHash=ReportComparer.Compare(Report(),afterHash,Adoption());
+			Assert.IsTrue(listHash.Any(x => !x.IsAllowed && x.Column=="SecurityHash"),ReportComparer.Format(listHash));
 			//Adoption keeps the patient portal column patient._portal_active_email (owner decision of 2026-11-25): its removal is no longer an allowed difference.
 			ValidationReport afterDropped=Report();
 			afterDropped.Tables[0].Columns.Remove("_portal_active_email");

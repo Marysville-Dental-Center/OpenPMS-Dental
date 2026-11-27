@@ -8,7 +8,7 @@ What each folder of the repository holds, the branches, and Open Dental's own re
 | `OpenPmsDental/` | The WinForms desktop application (`OpenPmsDental.exe`): forms, modules, UI |
 | `OpenPmsDentalBusiness/` | Business logic and data access: table types, `Crud/` (generated), `Db*/`, eClaims, X12, HL7, bridges, sheets, web services, the fork migrations and the release channel (`Misc/ForkMigrations`, `Misc/ForkRelease`) |
 | `WpfControlsOD/` | WPF controls and newer UI hosted in the WinForms app |
-| `CodeBase/` | Shared utilities with no database dependency, including stored-secret obfuscation and the `SecurityHash` tamper hashes (`CodeBase/Crypto/`, see its README) |
+| `CodeBase/` | Shared utilities with no database dependency, including stored-secret obfuscation (`CodeBase/Crypto/`, see its README) |
 | `DataConnectionBase/` | Low-level MySQL/MariaDB connection layer |
 | `ImagingDeviceManager/`, `ImagingCapture/` | Open source TWAIN scanning and native image capture for the Imaging module ([docs/specs/imaging-capture-design.md](../specs/imaging-capture-design.md)) |
 | `ODCrypt/` | Standard hash, random and compression helpers |

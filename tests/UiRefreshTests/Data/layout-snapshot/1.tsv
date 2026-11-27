@@ -829,7 +829,6 @@ OpenPmsDental/Forms/FormClaimProc.designer.cs	textProcDate	172,197	84,23
 OpenPmsDental/Forms/FormClaimProc.designer.cs	textDateCP	172,170	84,23	
 OpenPmsDental/Forms/FormClaimProc.designer.cs	butDelete	8,788	80,24	
 OpenPmsDental/Forms/FormClaimProc.designer.cs	butSave	863,788	75,24	
-OpenPmsDental/Forms/FormClaimProc.designer.cs	warningIntegrity	8,10	18,18	
 OpenPmsDental/Forms/FormClaimProc.designer.cs	.			946,820
 OpenPmsDental/Forms/FormClearinghouseEdit.designer.cs	checkAllowAttachSend	251,613	170,20	
 OpenPmsDental/Forms/FormClearinghouseEdit.designer.cs	listBoxEraBehavior	573,532	216,43	
@@ -1553,7 +1552,6 @@ OpenPmsDental/Forms/FormInsVerificationList.designer.cs	labelVerifyStatusSet	764
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	textInsVerifyReadOnlyNote	846,394	152,84	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	labelStatusNote	768,394	72,23	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	groupSubscriber	498,367	232,162	
-OpenPmsDental/Forms/FormInsVerificationList.designer.cs	warningIntegrity1	734,395	18,18	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	textSubscriberID	111,104	113,23	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	textSubscriberSSN	111,77	113,23	
 OpenPmsDental/Forms/FormInsVerificationList.designer.cs	textSubscriberBirthdate	111,50	113,23	
@@ -1834,7 +1832,6 @@ OpenPmsDental/Forms/FormPayPlan.designer.cs	comboSheetDef	311,209	108,23
 OpenPmsDental/Forms/FormPayPlan.designer.cs	labelSheetDef	265,209	40,23	
 OpenPmsDental/Forms/FormPayPlan.designer.cs	butAdj	367,844	116,24	
 OpenPmsDental/Forms/FormPayPlan.designer.cs	textAdjustment	904,519	71,23	
-OpenPmsDental/Forms/FormPayPlan.designer.cs	warningIntegrity1	8,10	18,18	
 OpenPmsDental/Forms/FormPayPlan.designer.cs	labelSignature	8,710	362,18	
 OpenPmsDental/Forms/FormPayPlan.designer.cs	signatureBoxWrapper	8,730	362,81	
 OpenPmsDental/Forms/FormPayPlan.designer.cs	gridCharges	427,20	640,495	
@@ -1929,7 +1926,6 @@ OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	contextMenuLinkedProduction		
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	toolStripMenuItem1		117,22	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	checkProductionLock	158,90	61,20	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	labelOverchargedWarning	396,654	662,14	
-OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	warningIntegrity1	8,10	18,18	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	textNote	396,556	683,94	
 OpenPmsDental/Forms/FormPayPlanDynamic.Designer.cs	.			1087,901
 OpenPmsDental/Forms/FormPayPlanTemplateEdit.Designer.cs	butSave	420,411	75,24	

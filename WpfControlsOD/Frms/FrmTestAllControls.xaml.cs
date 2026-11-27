@@ -31,7 +31,6 @@ namespace OpenPmsDental {
 			PreviewKeyDown+=FrmTestAllControls_PreviewKeyDown;
 			KeyDown+=FrmTestAllControls_KeyDown;
 			//monthCalendar.AllowClickingTopText=false;
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.Patient,false);
 			FormClosing+=FrmODBase_FormClosing_1;
 		}
 

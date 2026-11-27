@@ -105,7 +105,6 @@ namespace OpenPmsDental {
 			this.labelSheetDef = new System.Windows.Forms.Label();
 			this.butAdj = new OpenPmsDental.UI.Button();
 			this.textAdjustment = new OpenPmsDental.ValidDouble();
-			this.warningIntegrity1 = new OpenPmsDental.UI.WarningIntegrity();
 			this.labelSignature = new System.Windows.Forms.Label();
 			this.signatureBoxWrapper = new OpenPmsDental.UI.SignatureBoxWrapper();
 			this.gridCharges = new OpenPmsDental.UI.GridOD();
@@ -872,13 +871,6 @@ namespace OpenPmsDental {
 			this.textAdjustment.TabIndex = 190;
 			this.textAdjustment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
-			// warningIntegrity1
-			// 
-			this.warningIntegrity1.Location = new System.Drawing.Point(8, 10);
-			this.warningIntegrity1.Name = "warningIntegrity1";
-			this.warningIntegrity1.Size = new System.Drawing.Size(18, 18);
-			this.warningIntegrity1.TabIndex = 192;
-			// 
 			// labelSignature
 			// 
 			this.labelSignature.Location = new System.Drawing.Point(8, 710);
@@ -935,7 +927,6 @@ namespace OpenPmsDental {
 			this.ClientSize = new System.Drawing.Size(1075, 876);
 			this.Controls.Add(this.labelSignature);
 			this.Controls.Add(this.signatureBoxWrapper);
-			this.Controls.Add(this.warningIntegrity1);
 			this.Controls.Add(this.butSave);
 			this.Controls.Add(this.labelTxAmtInfo);
 			this.Controls.Add(this.textAdjustment);
@@ -1084,7 +1075,6 @@ namespace OpenPmsDental {
 		private Label labelInterestDelay2;
 		private Label labelDateInterestStart;
 		private ValidDate textDateInterestStart;
-		private UI.WarningIntegrity warningIntegrity1;
 		private Label labelSignature;
 	}
 }

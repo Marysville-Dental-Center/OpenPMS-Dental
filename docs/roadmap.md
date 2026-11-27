@@ -56,14 +56,11 @@ When Open Dental marks it stable: `main` moves to its schema and its features ar
 
 ### Smaller items
 
-- **A setting "each active patient has a different e-mail address"** (owner, 2026-11-25). Off by default. When on, it is checked before
-  saving, with a clear message, in Edit Patient, Add Family, the recall list, sheet and eForm import, and reactivating a patient; saves from
-  elsewhere (HL7, X834, bridges) turn a duplicate-key error into the same message. Turning it on first lists the existing duplicates, then
-  creates the column and index. Adoption turns it on when the adopted database has a patient portal's unique e-mail key; until this
-  setting exists, adoption keeps such a column and key, and a duplicate shows MariaDB's error ([ADOPT-PORTAL-EMAIL](port-notes/ADOPT-PORTAL-EMAIL.md)).
-- **Remove tamper detection** (owner, 2026-11-24): Open Dental's "Database Integrity" row hashes, the `SecurityHash` columns' computing,
-  the warning triangles, the Security Hashes tool in Database Maintenance and their tests. The separate Database Integrity Check tool (table
-  check and repair) stays.
+- **A setting "each active patient has a different e-mail address"** (owner, 2026-11-25; **deferred**, owner, 2026-11-26). Off by
+  default; when on, checked before saving, with a clear message, wherever a patient's e-mail or status changes. It must be coordinated with
+  the patient portal that uses `patient._portal_active_email`, and will likely move that column out of Open Dental's tables. The design and
+  its review's findings: [specs/unique-patient-email.md](specs/unique-patient-email.md). Until then adoption keeps such a column and key,
+  and a duplicate shows MariaDB's error ([ADOPT-PORTAL-EMAIL](port-notes/ADOPT-PORTAL-EMAIL.md)).
 - **A sensor's driver settings saved per device in the database** (owner, 2026-11-24). Today Capture settings keeps them in each computer's
   capture.ini, so a USB sensor moved between computers needs the same `Source.*` values on each one. Stored with the imaging device, every
   computer would use them after one save; only the driver install, the calibration files and the hardware binding stay per computer.
@@ -91,6 +88,9 @@ Built after 0.1 (tagged on 2026-11-25); the release notes collect them in [relea
 - **Feedback fixes** (FB-1): hover flicker, the tooltip crash, crash reports.
 - **The new database file**: no third-party copyrighted content, and program link passwords start blank
   ([INITSQL-COPYRIGHT](port-notes/INITSQL-COPYRIGHT.md)).
+- **Tamper detection removed**: the program neither computes nor checks the `SecurityHash` columns (kept, with their values); no warning
+  triangles, no Security Hashes tool, no rehash after adoption ([specs/remove-tamper-detection.md](specs/remove-tamper-detection.md),
+  [NOHASH](port-notes/NOHASH.md)).
 - **Documentation**: how-to guides with screenshots, the docs arranged by reader, the link check, the standing rules in CLAUDE.md, and the
   Open Dental 26.2 design documents ([specs/features-26.2.md](specs/features-26.2.md),
   [specs/schema-changes-26.1-to-26.2.md](specs/schema-changes-26.1-to-26.2.md)) ([DOCS-HOWTO](port-notes/DOCS-HOWTO.md)).

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!--
-    CryptoTests: unit tests for CodeBase.Secrets, CodeBase.TamperHash and ODCrypt. No database needed. Every .cs file under this folder is
+    CryptoTests: unit tests for CodeBase.Secrets and ODCrypt. No database needed. Every .cs file under this folder is
     compiled.
   -->
   <PropertyGroup>
     <LangVersion>7.3</LangVersion>
     <!-- The solution also builds this project as Any CPU; it compiles for x64 all the same (PlatformTarget, Directory.Build.Net.props), like
-         CodeBase, which holds the Secrets and TamperHash code under test. -->
+         CodeBase, which holds the Secrets code under test. -->
     <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
   <ItemGroup>

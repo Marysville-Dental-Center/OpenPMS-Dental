@@ -69,6 +69,10 @@ Software's own services and internal tools: the eServices and web service client
 registration keys and resellers, the update servers, bug submission, the job manager and the company's internal tools. A file rewritten
 so far that less than half of it is left also counts here, with its new version counted as new.
 
+Open Dental's tamper detection ("Database Integrity") is removed too: the program neither computes nor checks the `SecurityHash` columns,
+which stay in the schema with their values, and there is no warning triangle or Security Hashes tool
+([remove-tamper-detection.md](specs/remove-tamper-detection.md)).
+
 ## The numbers
 
 Measured at commit `1616a3683` (November 24, 2026) against the fork point `d804c1954` (Open Dental 24.3.63.0) with

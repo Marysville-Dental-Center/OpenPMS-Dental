@@ -104,7 +104,7 @@ $descriptions=@{
 		'  ')
 	'CryptoTests'=@(
 		'',
-		'    CryptoTests: unit tests for CodeBase.Secrets, CodeBase.TamperHash and ODCrypt. No database needed. Every .cs file under this folder is',
+		'    CryptoTests: unit tests for CodeBase.Secrets and ODCrypt. No database needed. Every .cs file under this folder is',
 		'    compiled.',
 		'  ')
 }

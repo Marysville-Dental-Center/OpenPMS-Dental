@@ -21,8 +21,7 @@ def layout(h):
         h.set(name, None, yg)
     h.set("groupInsurancePlan", None, None, None, yg + h.H + 8)
     dx = gi.nx + gi.nw + 8 - gs.nx
-    for name in ("groupSubscriber", "warningIntegrity1"):
-        h.set(name, h.n(name).nx + dx, None)
+    h.set("groupSubscriber", h.n("groupSubscriber").nx + dx, None)
     # Fix round 9: the two groups one height (Subscriber as tall as Insurance Plan: they stand side by side on one top). The Pat Birthdate
     # row is the patient's, not the subscriber's, and is no child of the group: it stands in the right column, on the row under Status Note
     # (label right-aligned on the column's labels, its box on the column's fields).

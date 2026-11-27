@@ -18,7 +18,7 @@ Counts are `[TestMethod]`/`[DataTestMethod]` attributes in the repository on 202
 | Vendor links (bridges) | `VendorDirectTests`, `VBRIDGE*`, `VDXC2`, `VEDS`, `VGP`, `VPEARL*` | 1,350 |
 | The tooth chart | `ToothChartImageTests` (pictures compared with approved ones), `ToothChartHostTests` | 300 |
 | Independence from Open Dental Software, Inc. | `NoHqTests`: nothing calls Open Dental's servers, no registration keys, the brand texts | 140 |
-| Security | `DbConnectionSecurityTests`, `DbGrantsTests`, `CryptoTests`, `SshHostKeyTests`, `RowHashTests`, `PrintGuardTests` | 380 |
+| Security | `DbConnectionSecurityTests`, `DbGrantsTests`, `CryptoTests`, `SshHostKeyTests`, `PrintGuardTests` | 380 |
 | The database | `ForkMigrationTests`, `InitSqlTests`, `P262SchemaTests`, `MaintenanceTests`, `InventoryTests` | 300 |
 | The look and the layout | `UiRefreshTests` (every window on the layout grid, fonts and colours from the theme, calendars), `WindowChecksTests` (the program started and its windows checked) | 500 |
 | Build, libraries and release | `ReleaseFlowTests`, `ProjectFileTests`, `LibraryUpdateTests`, `LibraryBindingTests`, `NativeFirstTests`, `AttributionTests` | 700 |

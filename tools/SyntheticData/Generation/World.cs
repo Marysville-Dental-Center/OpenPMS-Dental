@@ -203,8 +203,8 @@ namespace SyntheticData.Generation {
 			return deposit;
 		}
 
-		///<summary>Placeholder for Open Dental's proprietary row hash. These are random-looking values, not valid hashes: adoption
-		///rehashes every row with the fork's own HMAC, so only their presence matters.</summary>
+		///<summary>Placeholder for Open Dental's proprietary row hash. These are random-looking values, not valid hashes: this
+		///program keeps them as they are and never checks them, so only their presence matters.</summary>
 		public static string PseudoHash(string seedText) {
 			using(SHA256 sha=SHA256.Create()) {
 				return Convert.ToBase64String(sha.ComputeHash(Encoding.UTF8.GetBytes("synthetic:"+seedText)));

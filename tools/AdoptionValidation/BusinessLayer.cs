@@ -9,10 +9,11 @@ using OpenPmsDentalBusiness;
 using SyntheticData.Infrastructure;
 
 namespace AdoptionValidation {
-	///<summary>Points OpenPmsDentalBusiness at one database and runs the program's own adoption, migration, verifier and rehash code against it, exactly
+	///<summary>Points OpenPmsDentalBusiness at one database and runs the program's own adoption, migration and verifier code against it, exactly
 	///as the program does (Adoption.Run is what FormAdoptDatabase calls). Nothing here re-implements those steps.</summary>
 	public static class BusinessLayer {
-		///<summary>Tables with a SecurityHash column that the rehash (SecurityHash.RehashNow) writes.</summary>
+		///<summary>Open Dental's tables with a SecurityHash column. This program keeps the values as they are and neither computes nor checks them
+		///(NOHASH); adoption must leave them unchanged.</summary>
 		public static readonly string[] ArrayHashedTables={ "appointment","claim","claimproc","inssub","insverify","insverifyhist","patient","payplan","paysplit" };
 
 		///<summary>Connects the business layer (DataCore, Db, the caches) directly to the database. Local server only, on the port the command line
@@ -72,48 +73,23 @@ namespace AdoptionValidation {
 			return dataTable.Rows.Cast<DataRow>().Select(x => x[0].ToString()).ToList();
 		}
 
-		///<summary>The rows of each hashed table that the rehash covers (SecurityHash.UpdateHashing): every patient, and the other tables' rows on or
-		///after SecurityHash.GetHashingDate(), by the date column the rehash uses.</summary>
-		public static string GetHashWindow(string table) {
-			string date=POut.Date(OpenPmsDentalBusiness.Misc.SecurityHash.GetHashingDate());
-			switch(table) {
-				case "patient": return "1";
-				case "appointment": return "AptDateTime>="+date;
-				case "claim": return "DateService>="+date;
-				case "claimproc": return "SecDateEntry>="+date;
-				case "payplan": return "PayPlanDate>="+date;
-				case "paysplit": return "DatePay>="+date;
-				default: return "SecDateTEdit>="+date;//inssub, insverify, insverifyhist
-			}
-		}
-
-		///<summary>For each hashed table: rows, and how many SecurityHash values are blank, in the fork's format (osh1$) or something else (Open
-		///Dental's, or the synthetic placeholder); and how many rows in the rehash window lack a fork hash.</summary>
+		///<summary>For each table with a SecurityHash column: its rows, how many values are blank, and a checksum of the values, so a run can
+		///show that adoption left every value as it was.</summary>
 		public static List<HashCount> CountHashes() {
 			List<HashCount> listCounts=new List<HashCount>();
-			string prefix="'"+POut.String(TamperHash.Prefix)+"%'";
 			foreach(string table in ArrayHashedTables) {
 				if(!ColumnExists(table,"SecurityHash")) {
 					continue;
 				}
-				string window="("+GetHashWindow(table)+")";
-				DataTable dataTable=DataCore.GetTable("SELECT COUNT(*),"
-					+"IFNULL(SUM(SecurityHash=''),0),"
-					+"IFNULL(SUM(SecurityHash LIKE "+prefix+"),0),"
-					+"IFNULL(SUM("+window+"),0),"
-					+"IFNULL(SUM("+window+" AND SecurityHash NOT LIKE "+prefix+"),0) "
-					+"FROM `"+table+"`");
+				DataTable dataTable=DataCore.GetTable("SELECT COUNT(*),IFNULL(SUM(SecurityHash=''),0),"
+					+"IFNULL(SUM(CAST(CONV(SUBSTRING(MD5(SecurityHash),1,8),16,10) AS UNSIGNED)),0) FROM `"+table+"`");
 				DataRow row=dataTable.Rows[0];
-				HashCount hashCount=new HashCount {
+				listCounts.Add(new HashCount {
 					Table=table,
 					Rows=PIn.Long(row[0].ToString()),
 					Blank=PIn.Long(row[1].ToString()),
-					Current=PIn.Long(row[2].ToString()),
-					InWindow=PIn.Long(row[3].ToString()),
-					InWindowNotCurrent=PIn.Long(row[4].ToString()),
-				};
-				hashCount.Other=hashCount.Rows-hashCount.Blank-hashCount.Current;
-				listCounts.Add(hashCount);
+					Checksum=row[2].ToString(),
+				});
 			}
 			return listCounts;
 		}
@@ -123,18 +99,11 @@ namespace AdoptionValidation {
 		public string Table;
 		public long Rows;
 		public long Blank;
-		///<summary>Hashes in the fork's TamperHash format.</summary>
-		public long Current;
-		///<summary>Hashes in any other format: Open Dental's (or the synthetic placeholder standing in for them).</summary>
-		public long Other;
-		///<summary>Rows the rehash covers (BusinessLayer.GetHashWindow).</summary>
-		public long InWindow;
-		///<summary>Rows the rehash covers that do not carry a fork hash.</summary>
-		public long InWindowNotCurrent;
+		///<summary>The sum of the first 32 bits of each value's MD5: equal before and after when no value changed.</summary>
+		public string Checksum="";
 
 		public override string ToString() {
-			return Table+": "+Rows+" rows, "+InWindow+" in the rehash window ("+InWindowNotCurrent+" without a fork hash); "+Current+" fork hashes, "+Other
-				+" other, "+Blank+" blank";
+			return Table+": "+Rows+" rows, "+(Rows-Blank)+" with a SecurityHash value, "+Blank+" blank, checksum "+Checksum;
 		}
 	}
 }

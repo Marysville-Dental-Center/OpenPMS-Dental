@@ -94,7 +94,7 @@ namespace M2CLAIMRCVTests {
 			string source=Read(Path.Combine("OpenPmsDentalBusiness","Data Interface","Claims.cs"));
 			string lookup=Between(source,"public static List<Claim> GetPrimaryOrSecondaryClaimsNotReceived(","public static List<ClaimPaySplit> GetInsPayNotAttachedForFixTool(");
 			AssertBefore(lookup,"if(isSecondaryClaim) {","return GetNextOrdinalClaimsNotReceived(listClaimProcsForClaims);");
-			string receiveNoPay=Between(source,"public static bool ReceiveAsNoPaymentIfNeeded(long claimNum) {","public static string HashFields(Claim claim) {");
+			string receiveNoPay=Between(source,"public static bool ReceiveAsNoPaymentIfNeeded(long claimNum) {","public class X12TransactionItem {");
 			StringAssert.Contains(receiveNoPay,"if(PrefC.GetBool(PrefName.ClaimPrimaryReceivedRecalcSecondary)) {");
 			Assert.IsFalse(receiveNoPay.Contains("claim.ClaimType==\"P\""),"Recalculates after a claim of any ordinal.");
 			string fromPrimaries=Between(source,"public static void CalculateAndUpdateSecondariesFromPrimaries(","public static void CalculateAndUpdateSecondaries(");

@@ -93,10 +93,10 @@ program (step 0.11), which Open Dental 25.3.48 has no preference for. The second
 
 Starting this program and logging in writes to the database: this computer's row and its heartbeat, the Database Maintenance list, signals,
 login records, security log entries. Step 6.1 compares the adopted copy with its report from before adoption and accepts only the kinds of
-change adoption and the rehash make; eight tables, `preference`, `documentmisc`, `securitylog`, `securityloghash`, `displayreport`,
+change adoption makes; eight tables, `preference`, `documentmisc`, `securitylog`, `securityloghash`, `displayreport`,
 `grouppermission`, `codegroup` and `toolbutitem`, and the column `program.Enabled`, it can only accept as a whole, and step 4 has checked
-those row by row. So the copy, the adoption,
-the rehash and that comparison are done with the
+those row by row. So the copy, the adoption
+and that comparison are done with the
 command-line tools, exactly as rehearsed, and **nobody starts this program on `opendental_pms` until step 6.1 has passed**. From step 6.2 on,
 the program's own writes are normal use.
 
@@ -116,8 +116,8 @@ forward is the one, visible, way from there to `<db-server>`.
 
 **No copy of the office database is made off `<db-server>` in this procedure.** The copy that is adopted is made by the server itself (step
 3.2), and the rollback point is a folder copy on the server (step 3.1). The tools on the admin PC read through the forward (encrypted by
-SSH) only what they work on, and keep none of it: `adopt` reads the preferences it changes and, for the rehash, the keys, dates, amounts and
-statuses of the rows it hashes; `credentials` reads the rows that hold stored passwords to tell their format, and prints only where they are.
+SSH) only what they work on, and keep none of it: `adopt` reads the preferences it changes and the rows of the tables its row check
+compares; `credentials` reads the rows that hold stored passwords to tell their format, and prints only where they are.
 What they write to the admin PC's disk is reports and logs: row counts, checksums, business totals, and names of tables, columns,
 preferences, program links and computers. Keeping a second copy of the rollback point off the server, on the office's backup disk, is the
 owner's decision (validation report, "For the owner", item 5).
@@ -152,14 +152,14 @@ database's size takes on `<db-server>`, plus a minute to stop and start MariaDB.
 | 0.2 and 1.1 FLOAT check, fork migration preview, no connection to the original | 1.4 s | 2.5 s |
 | 3.2 Copy on the server (`AdoptionValidation copy`) | 17.1 s | 70.7 s |
 | 3.3 Two reports and their comparison | 5.6 s | 29.9 s |
-| 4 and 5 Adoption, fork migration again, verifier, rehash, row check (`AdoptionValidation adopt`) | 6.6 s | 12.0 s |
+| 4 Adoption, fork migration again, verifier, row check (`AdoptionValidation adopt`) | 6.6 s | 12.0 s |
 | 6.1 Post-adoption report, comparison, startup check | 3.6 s | 16.6 s |
 | 10.1 and 10.2 Go-live checks of the original | 3.8 s | 16.1 s |
 | **Total** | **38.1 s** | **147.8 s** |
 
-The copy and the reports grow with the data; adoption is dominated by one `ALTER TABLE patient` and the rehash by the number of patients.
+The copy and the reports grow with the data; adoption is dominated by one `ALTER TABLE patient`.
 The office database also holds documents, logs and history the synthetic data does not, and the server is not this PC, and the forward adds
-the network between the admin PC and `<db-server>` (the reports and the rows the rehash reads cross it; the copy does not). Plan the outage window from the office's own dry run (step
+the network between the admin PC and `<db-server>` (the reports and the rows the row check reads cross it; the copy does not). Plan the outage window from the office's own dry run (step
 0.6) when the owner allows it, or else from these figures (step 0.7): the steps above + step 3.1 + password and setting re-entry (step 7) +
 workstations + smoke test, plus a margin of 50% (dry run) or 200% (no dry run).
 
@@ -717,13 +717,14 @@ prints each step with its time; `adoption-log.txt` keeps everything. Expect, in 
   "Fork migrations: 38 step(s) run, 0 already done. Fork schema level 2026112451.", "The schema matches Open Dental 26.2.0 (OdSchemaCompat)."
   and "Adoption finished."
 - "Fork migration, every step again: 38 steps run, 0 changes." and "The schema matches Open Dental 26.2.0 exactly (430 of 430 tables), plus 18 table(s) of this program that match their declarations, and the patient portal column patient._portal_active_email and its key portal_active_email_uniq as expected (kept)."
-- the rehash of step 5
+- "SecurityHash values (kept as they are; this program neither computes nor checks them):", one line per table, and no line saying adoption
+  changed them
 - "Row check against opendental ..." with one line for each table it checks and no line starting `FAIL`: `programproperty` (the Dental Studio
   and Podium rows step 0.2 listed, `PropertyDesc` only, to this program's text; no other row or column changed, none added or removed),
   `preference` (the markers added, "N of the N 25.4 and 26.1
   preference(s) migration-preview lists added with their defaults", `DataBaseVersion` and `ProgramVersion` set to 99.0.0.0, the preferences of
   the "Blanked" line blanked, "no other row changed or removed"), `documentmisc` (the update-file rows deleted, "0 other row(s) deleted; 0
-  added; 0 changed"), `securitylog` ("2 entries added (1 adoption, 1 rehash); no existing row changed or removed"), `securityloghash`,
+  added; 0 changed"), `securitylog` ("1 entry added (1 adoption); no existing row changed or removed"), `securityloghash`,
   `displayreport` ("N of the N rename(s) migration-preview lists, InternalName only (...); the UDS+ report row added as migration-preview
   lists (ODUdsPlus, DisplayReportNum N, ItemOrder N), N of the N later Public Health row(s) moved down one place, ItemOrder only; no other row
   or column changed, no other row added, none removed"), `grouppermission` ("N of the N Open Dental 25.3 PhoneExtension grant(s) moved from
@@ -765,14 +766,11 @@ a new copy (`opendental` is unchanged). A second failure: Rollback. (An adoption
 is right in both cases and takes minutes; validation report, F13.) "Refused" (exit code 2) changed nothing: correct what it says and run it
 again.
 
-## 5. Rehash the security hashes
+## 5. (No longer needed)
 
-Done by the command of step 4, after the schema verifier: `SecurityHash.RehashNow`, the same code as Database Maintenance, Tools, Security
-Hashes. Open Dental's `SecurityHash` values cannot be checked by this program. The rehash gives every patient, and every appointment, claim,
-claim procedure, payment split, payment plan, insurance subscriber and verification row in the checked date range, a hash of this program. It
-does not change any data you see, keeps every row's last-changed time, and adds a security log entry. Check in `adoption-log.txt`: "Rehash:
-every patient, and the other tables' rows dated on or after ...", one line per table ending in "(0 without a fork hash)" where it shows the
-window, and "Rehash finished.".
+This step rehashed Open Dental's `SecurityHash` columns. Tamper detection is removed
+([remove-tamper-detection.md](../specs/remove-tamper-detection.md)): the program keeps those values as they are and neither computes nor
+checks them, so there is nothing to do. The step number is kept so that the steps after it keep theirs.
 
 ## 6. Validate the adopted copy, then start the program
 
@@ -787,8 +785,6 @@ window, and "Rehash finished.".
 Expect in `compare.txt`: `Unexpected differences: 0` (exit code 0), and in its "Allowed differences" only lines of these kinds (the second
 person reads them all):
 
-- `ColumnChanged <table>.SecurityHash` for the rehashed tables (appointment, claim, claimproc, inssub, insverify, insverifyhist, patient,
-  payplan, paysplit);
 - lines for the tables `preference`, `documentmisc`, `securitylog`, `securityloghash`, `displayreport`, `grouppermission`, `codegroup` and
   `toolbutitem`. A report can only allow these eight tables as a whole; step 4's row check compared them with `opendental` row by row and
   printed exactly what changed in them. For `displayreport` that is the renames of step 0.2 and the UDS+ report row with the moved Public Health rows (`RowsChanged
@@ -1041,7 +1037,7 @@ Sign each line with time and initials.
 | 3.1 | Nobody connected; folder copy, start time noted | `connections` exit 0; `IDENTICAL`, `active`; off-server copy if the owner agreed | |
 | 3.2 | `copy` into `opendental_pms` | `Copy: PASS` | |
 | 3.3 | Reports compared | 0 unexpected differences | |
-| 4, 5 | `adopt` (adoption, migration check, verifier, rehash, row check) | `Adopt: PASS`, exit 0, log saved; "Blanked" list initialled; report row renames, the DXC Patient Credit Score and Trojan Express Collect rows and buttons, the UDS+ row and its grants, and the Insurance History code groups equal the 0.2 list | |
+| 4 | `adopt` (adoption, migration check, verifier, row check) | `Adopt: PASS`, exit 0, log saved; "Blanked" list initialled; report row renames, the DXC Patient Credit Score and Trojan Express Collect rows and buttons, the UDS+ row and its grants, and the Insurance History code groups equal the 0.2 list | |
 | 6.1 | Validation before the first start | 0 unexpected differences, Allowed section read (`displayreport`, `grouppermission`, `codegroup` and `toolbutitem` as whole tables, `program.Enabled` as a whole column); startup check exit 0 | |
 | 6.2 | First start, smoke test, aging report | OK | |
 | 7 | Passwords re-entered | `credentials` list empty or explained | |

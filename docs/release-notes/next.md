@@ -5,6 +5,15 @@ Open PMS - Dental is a fork of Open Dental (c) Open Dental Software, Inc. and co
 This file collects the notes of the version after 0.1 until it is released; the release renames it to `v<version>.md`. The notes of 0.1
 are [v0.1.md](v0.1.md).
 
+## Tamper detection removed
+
+- **Open Dental's "Database Integrity" row hashes are gone.** The program no longer computes or checks the `SecurityHash` columns of
+  appointments, claims, claim procedures, insurance subscribers and verifications, patients, payment plans and payment splits. The columns
+  stay in the database with their values, so the schema still matches Open Dental's. The warning triangles in the edit windows, the
+  integrity popups of the modules and Database Maintenance's Security Hashes tool are removed. Saving a patient no longer writes the row
+  twice. Adoption no longer rehashes (runbook step 5 is no longer needed) and instead checks that every value is left as it was
+  ([specs/remove-tamper-detection.md](../specs/remove-tamper-detection.md)).
+
 ## Adoption
 
 - **An Open Dental database labelled 25.3.47.0 / 25.3.54.0 can be adopted.** Open Dental changes `DataBaseVersion` only when a convert step

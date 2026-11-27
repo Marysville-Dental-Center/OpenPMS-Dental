@@ -121,7 +121,7 @@ Counts: 35 desktop, 4 vendor-direct, 32 excluded (12 Open Dental-service, 20 oth
 | add `statement.ShowTransSinceBalZero` | `tinyint(4) NOT NULL` | statement item |
 | add `eformfield.ValueLabelEnglish`, `eformfield.PickListVisEnglish` | both `text NOT NULL` (25.2 made the second one `varchar(255)` and 25.3 widened it; use `text`) | eForm translation (below) |
 | add `eclipboardsheetdef.SheetDefNumsConsidered` | `varchar(255) NOT NULL` | column only; the feature is cut |
-| add `inssub.SecurityHash` | `varchar(255) NOT NULL` | decoupling plan: HMAC-SHA256 like the other `SecurityHash` columns |
+| add `inssub.SecurityHash` | `varchar(255) NOT NULL` | the column is added; since NOHASH ([remove-tamper-detection.md](remove-tamper-detection.md)) the program keeps its value and never computes it |
 | add table `inspending` | see the Ins Pick item | Ins Pick item |
 | add table `branding` | `BrandingNum bigint(20) AUTO_INCREMENT PK, BrandingType tinyint(4), ClinicNum bigint(20) KEY, ValueString text, DateTimeUpdated datetime DEFAULT '0001-01-01 00:00:00'` | table only (eClipboard branding is cut) |
 | widen `insplan.GroupNum` | `varchar(25)` → `varchar(50)` | also raise the `MaxLength` of the group number textbox in `FormInsPlan` |

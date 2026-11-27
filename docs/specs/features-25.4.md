@@ -970,7 +970,7 @@ In 24.3 the code list is downloaded from Open Dental's website (`FormProcTools.C
 
 **Preferences:** none new (fork; see above).
 
-**Schema:** `insverify.DateLastAssigned` and `insverifyhist.DateLastAssigned` to `datetime NOT NULL DEFAULT '0001-01-01 00:00:00'` (MODIFY keeps data: midnight times). This column is in the `SecurityHash` input for insverify rows (25.1 integrity hash). Recompute the hash format so it uses the date part only, or rehash. Coordinate with v25_1-security-insverify-securityhash.
+**Schema:** `insverify.DateLastAssigned` and `insverifyhist.DateLastAssigned` to `datetime NOT NULL DEFAULT '0001-01-01 00:00:00'` (MODIFY keeps data: midnight times). This column was in the `SecurityHash` input for insverify rows (25.1 integrity hash, removed since: [remove-tamper-detection.md](remove-tamper-detection.md)). Recompute the hash format so it uses the date part only, or rehash. Coordinate with v25_1-security-insverify-securityhash.
 
 **Touchpoints:**
 

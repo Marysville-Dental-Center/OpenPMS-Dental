@@ -134,7 +134,6 @@
       "tests\\RegistryTests\\RegistryTests.csproj",
       "tests\\ReleaseFlowTests\\ReleaseFlowTests.csproj",
       "tests\\ReportTests\\ReportTests.csproj",
-      "tests\\RowHashTests\\RowHashTests.csproj",
       "tests\\S0FTests\\S0FTests.csproj",
       "tests\\S3aM1Tests\\S3aM1Tests.csproj",
       "tests\\SheetTests\\SheetTests.csproj",

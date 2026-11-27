@@ -63,7 +63,7 @@ namespace BPAYTests {
 			Assert.AreEqual(0,paySplitDb.PayPlanChargeNum);
 			Assert.AreEqual(_defNumPrepay,paySplitDb.UnearnedType);
 			Assert.AreEqual(60,paySplitDb.SplitAmt,0.001);
-			Assert.IsTrue(PaySplits.IsPaySplitHashValid(paySplitDb),"PayPlanNum is not part of the row hash.");
+			Assert.AreEqual(paySplit.SecurityHash??"",paySplitDb.SecurityHash,"SecurityHash is kept as it is (NOHASH).");
 			List<string> listLogs=BPayDb.GetPayPlanEditLogTexts(payPlan.PayPlanNum);
 			Assert.AreEqual(1,listLogs.Count);
 			StringAssert.Contains(listLogs[0],"1 payment plan prepayment split(s) totaling 60.00 detached from deleted payment plan #"+payPlan.PayPlanNum);

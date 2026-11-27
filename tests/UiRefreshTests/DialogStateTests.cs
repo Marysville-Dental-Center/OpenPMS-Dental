@@ -70,24 +70,6 @@ namespace UiRefreshTests {
 		}
 
 		[TestMethod]
-		public void WinForms_WarningIntegrity_WarningAndDanger_WithTheWhiteMark() {
-			List<string> listFailures=new List<string>();
-			IconRendererTests.RunSta(() => {
-				foreach(bool isRed in new[] { false,true }) {
-					string name="WinForms WarningIntegrity "+(isRed ? "red" : "triangle");
-					Color colorFill=SheetPainter.Light(isRed ? EnumUiColor.Danger : EnumUiColor.Warning);
-					using(Bitmap bitmap=DialogControls.RenderWinFormsWarning(isRed,1f)) {
-						CheckPixel(listFailures,name+" background",bitmap,0,0,SheetPainter.Light(EnumUiColor.Surface));
-						CheckPixel(listFailures,name+" fill",bitmap,4,14,colorFill);
-						CheckPixel(listFailures,name+" fill",bitmap,13,14,colorFill);
-						CheckPixel(listFailures,name+" mark",bitmap,9,8,SheetPainter.Light(EnumUiColor.TextOnAccent));
-					}
-				}
-			});
-			ControlStateTests.AssertNoFailures(listFailures);
-		}
-
-		[TestMethod]
 		public void WinForms_PictureBox_StrokeBorder_TextSecondaryHint_ThePictureInside() {
 			List<string> listFailures=new List<string>();
 			IconRendererTests.RunSta(() => {
@@ -298,36 +280,6 @@ namespace UiRefreshTests {
 				WpfControls.UI.Label labelError=ListStateControls.GetPrivate<WpfControls.UI.Label>(frmProgressAuto,"labelError");
 				Assert.AreEqual(UiTheme.GetColorWpf(EnumUiColor.Danger),labelError.ColorText);
 			});
-		}
-
-		[TestMethod]
-		public void Wpf_WarningIntegrity_WarningAndDanger_WithTheWhiteMark() {
-			IconRendererTests.RunSta(() => {
-				foreach(bool isRed in new[] { false,true }) {
-					WpfControls.UI.WarningIntegrity warningIntegrity=DialogControls.MakeWpfWarning(isRed);
-					System.Windows.Shapes.Path path=ListStateControls.GetPrivate<System.Windows.Shapes.Path>(warningIntegrity,"path");
-					System.Windows.Controls.TextBlock textMark=ListStateControls.GetPrivate<System.Windows.Controls.TextBlock>(warningIntegrity,"textMark");
-					EnumUiColor uiColor=isRed ? EnumUiColor.Danger : EnumUiColor.Warning;
-					AssertBrush(uiColor,path.Fill,"fill");
-					AssertBrush(uiColor,path.Stroke,"outline");
-					AssertBrush(EnumUiColor.TextOnAccent,textMark.Foreground,"mark");
-				}
-			});
-		}
-
-		[TestMethod]
-		public void Wpf_WarningIntegrity_Picture() {
-			List<string> listFailures=new List<string>();
-			ControlStateTests.RunWpf(() => {
-				foreach(bool isRed in new[] { false,true }) {
-					using(Bitmap bitmap=DialogControls.RenderWpfWarning(isRed,1f)) {
-						string name="WPF WarningIntegrity "+(isRed ? "red" : "triangle");
-						CheckPixel(listFailures,name+" fill",bitmap,4,15,SheetPainter.Light(isRed ? EnumUiColor.Danger : EnumUiColor.Warning));
-						CheckPixel(listFailures,name+" background",bitmap,0,0,Color.White);
-					}
-				}
-			});
-			ControlStateTests.AssertNoFailures(listFailures);
 		}
 
 		[TestMethod]

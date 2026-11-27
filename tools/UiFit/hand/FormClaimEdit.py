@@ -13,7 +13,6 @@ def layout(h):
     right = WW - 8
     root = h.box(".", None, None, None, None)
     # ---- Band 1: status, type and the dates --------------------------------------------------------------------------------------------
-    h.set("warningIntegrity", 8, 8 + (H - 18) // 2)
     F1 = 116  # on the UB04 tab's date groups' field column (window coordinates)
     root.y = 8
     root.field("label2", "comboClaimStatus", F1, 150)

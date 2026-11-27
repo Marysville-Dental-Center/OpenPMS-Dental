@@ -40,8 +40,8 @@ Also here: the [roadmap](roadmap.md) and [how Open PMS - Dental differs from Ope
 
 | Area | Documents |
 |---|---|
-| Features of this program | [inventory tracking](specs/inventory-tracking.md), [routine maintenance](specs/routine-maintenance.md), [visuals in their own windows](specs/visuals-in-own-windows.md), [remembered SSH host keys](specs/ssh-host-keys.md), [database connection security](specs/db-connection-security.md) |
-| Imaging | [capture design](specs/imaging-capture-design.md), [capture metadata](specs/capture-metadata-v1.md), [the DICOM reader](specs/dicom-reader.md) |
+| Features of this program | [inventory tracking](specs/inventory-tracking.md), [routine maintenance](specs/routine-maintenance.md), [visuals in their own windows](specs/visuals-in-own-windows.md), [remembered SSH host keys](specs/ssh-host-keys.md), [database connection security](specs/db-connection-security.md), [tamper detection removed](specs/remove-tamper-detection.md), [unique patient e-mail](specs/unique-patient-email.md) |
+| Imaging | [capture design](specs/imaging-capture-design.md), [sensor driver settings per device](specs/sensor-settings-per-device.md), [capture metadata](specs/capture-metadata-v1.md), [the DICOM reader](specs/dicom-reader.md) |
 | Open Dental's features, re-implemented | [24.4](specs/features-24.4.md), [25.1](specs/features-25.1.md), [25.2](specs/features-25.2.md), [25.3](specs/features-25.3.md), [25.4](specs/features-25.4.md), [26.1](specs/features-26.1.md), [26.2](specs/features-26.2.md), [port backlog](specs/port-backlog.md), schema changes [24.3 to 26.1](specs/schema-changes-24.3-to-26.1.md) and [26.1 to 26.2](specs/schema-changes-26.1-to-26.2.md), [vendor-direct integrations](specs/vendor-direct/README.md) |
 | Big moves | [decoupling from Open Dental](specs/decoupling-plan.md), [.NET 10](specs/net10-plan.md), [native 64-bit survey](specs/native64-survey.md), [UI refresh](specs/ui-refresh-plan.md), [WPF tooth chart](specs/wpf-tooth-chart-plan.md), [EHR rebuild](specs/ehr-rebuild-plan.md), [EHR 2027 measures](specs/ehr-2027-measures-plan.md) |
 

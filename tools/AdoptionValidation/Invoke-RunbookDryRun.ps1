@@ -12,7 +12,7 @@ Plays the day of the switch, in order, on the admin PC, with -Original standing 
   1.1   no connection uses -Original (AdoptionValidation connections)
   3.2   copy -Original into the new database -Copy on the server (AdoptionValidation copy)
   3.3   reports of both, compared: 0 differences
-  4-5   adopt and rehash -Copy without starting the program, with the row check against -Original (AdoptionValidation adopt); its log
+  4     adopt -Copy without starting the program, with the row check against -Original (AdoptionValidation adopt); its log
         names exactly the report row renames migration-preview listed
   6.1   post-adoption report compared with the copy's report under allowed-differences.adoption.json: 0 unexpected differences;
         the Open Dental startup check: every release client refuses the copy
@@ -24,8 +24,8 @@ the database server itself (bash) and is not part of this script; neither is any
 
 It stops at the first unexpected result. Every report and log, and the time of each step, go to -Folder (dry-run-timings.txt). The script
 never writes to -Original and never drops a database: drop -Copy afterwards (runbook step 0.6). No copy of -Original is made off the
-database server: the copy is made by the server. The tools read through the connection only what they work on (adopt's rehash, for
-example, reads the keys, dates, amounts and statuses it hashes) and write to -Folder only reports and logs: row counts, checksums, totals,
+database server: the copy is made by the server. The tools read through the connection only what they work on (adopt's row check, for
+example, compares the rows of the tables adoption may change) and write to -Folder only reports and logs: row counts, checksums, totals,
 and names of tables, columns, preferences and computers.
 
 The tools connect to 127.0.0.1 only, on -Port: on the office's admin PC the local end of the SSH forward to the database server (runbook step
@@ -158,7 +158,7 @@ try {
 		$lines | Out-File -FilePath (Join-Path $Folder 'compare-baselines.txt') -Encoding utf8
 		Assert-ExitCode 'SyntheticData compare (baselines)' 'Unexpected differences: 0, the copy equals the original'
 	}
-	Invoke-Step '4-5 Adopt and rehash the copy (AdoptionValidation adopt)' {
+	Invoke-Step '4 Adopt the copy (AdoptionValidation adopt)' {
 		$all=@('adopt','--database',$Copy,'--original',$Original,'--confirm',$Copy,'--log',(Join-Path $Folder 'adoption-log.txt'))+$connection
 		& $adoptionValidation @all
 		Assert-ExitCode 'AdoptionValidation adopt' 'Adopt: PASS'

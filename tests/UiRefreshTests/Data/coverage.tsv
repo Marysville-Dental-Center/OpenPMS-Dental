@@ -55,7 +55,6 @@ OpenPmsDental/UI/ODPictureBox	UI-4c	border only
 OpenPmsDental/UI/OdProgressBar	UI-4c	the progress bar
 OpenPmsDental/UI/BufferedTreeView	UI-4c	stock look, font and icons only
 OpenPmsDental/UI/MsgBoxCopyPaste	UI-4c	the copyable message window
-OpenPmsDental/UI/DatabaseIntegrity/WarningIntegrity	UI-4c	the database integrity warning
 OpenPmsDental/UI/FormPrintPreview	UI-4c	frame, toolbar and the area around the pages; the pages are documents
 OpenPmsDental/UI/ODPrintPreviewControl	UI-4c	the area around the pages; the pages are documents
 OpenPmsDental/UI/ToolBarOD	UI-6	the toolbar
@@ -120,7 +119,6 @@ WpfControlsOD/Themes/TabControlDict	UI-4b	the tab control's shared dictionary
 WpfControlsOD/UI/Controls/ImagingModule/*	UI-4c	the Imaging module's controls
 WpfControlsOD/UI/Controls/SignatureBoxWrapper	UI-4c	border only; the signature is content
 WpfControlsOD/UI/Progress/*	UI-4c	the progress windows
-WpfControlsOD/UI/DatabaseIntegrity/WarningIntegrity	UI-4c	the database integrity warning
 WpfControlsOD/UI/Dialogs/FrmColorDialog	UI-4c	the colour dialog
 WpfControlsOD/UI/ToothChart/ToothChartTextBelowStrip	UI-4c	the strip under the tooth chart (UQ-6)
 WpfControlsOD/UI/Controls/Grid	UI-5	the grid
@@ -140,5 +138,4 @@ WpfControlsOD/UI/Controls/WebView2	keeps	the HTML is out of scope (section 1); o
 WpfControlsOD/UI/Dialogs/MsgBox	no-drawing	the Windows message box
 WpfControlsOD/UI/ToothChart/ToothChartRelay	no-drawing	the tooth chart's relay
 WpfControlsOD/UI/ToothChart/ToothChartDashboardWait	no-drawing	a wait helper
-WpfControlsOD/UI/DatabaseIntegrity/DatabaseIntegrit*	no-drawing	the integrity checks' logic
 WpfControlsOD/UI/Controls/TestContr	no-drawing	a test control

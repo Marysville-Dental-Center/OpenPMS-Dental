@@ -72,7 +72,6 @@ namespace OpenPmsDental {
 			}
 			#endregion
 			#region Fill and Set UI Fields
-			warningIntegrity1.SetTypeAndVisibility(EnumWarningIntegrityType.PayPlan,PayPlans.IsPayPlanHashValid(_dynamicPaymentPlanData.PayPlan));
 			comboCategory.Items.AddDefNone();
 			comboCategory.Items.AddDefs(Defs.GetDefsForCategory(DefCat.PayPlanCategories,true));
 			comboCategory.SetSelectedDefNum(_dynamicPaymentPlanData.PayPlan.PlanCategory); 
